@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1703.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bovis.API", "Bovis.API.csproj", "{40EAF425-2887-412D-95DE-25A5E9232833}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40EAF425-2887-412D-95DE-25A5E9232833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40EAF425-2887-412D-95DE-25A5E9232833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40EAF425-2887-412D-95DE-25A5E9232833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40EAF425-2887-412D-95DE-25A5E9232833}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB5D3494-3BE6-446E-9657-7E71C533DFF1}
+	EndGlobalSection
+EndGlobal

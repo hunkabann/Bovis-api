@@ -1,0 +1,45 @@
+2023-01-02 22:29:00.598 -06:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2023-01-02 22:29:01.701 -06:00 [DBG] Hosting starting
+2023-01-02 22:29:01.755 -06:00 [INF] User profile is available. Using 'D:\Users\Ajperezco\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-01-02 22:29:01.759 -06:00 [DBG] Reading data from file 'D:\Users\Ajperezco\AppData\Local\ASP.NET\DataProtection-Keys\key-08ed7009-82fb-442a-86f4-de098f319eed.xml'.
+2023-01-02 22:29:01.777 -06:00 [DBG] Found key {08ed7009-82fb-442a-86f4-de098f319eed}.
+2023-01-02 22:29:01.811 -06:00 [DBG] Considering key {08ed7009-82fb-442a-86f4-de098f319eed} with expiration date 2023-03-29 01:27:08Z as default key.
+2023-01-02 22:29:01.855 -06:00 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor, Microsoft.AspNetCore.DataProtection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2023-01-02 22:29:01.871 -06:00 [DBG] Decrypting secret element using Windows DPAPI.
+2023-01-02 22:29:01.877 -06:00 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2023-01-02 22:29:01.884 -06:00 [DBG] Opening CNG algorithm 'AES' from provider 'null' with chaining mode CBC.
+2023-01-02 22:29:01.889 -06:00 [DBG] Opening CNG algorithm 'SHA256' from provider 'null' with HMAC.
+2023-01-02 22:29:01.896 -06:00 [DBG] Using key {08ed7009-82fb-442a-86f4-de098f319eed} as the default key.
+2023-01-02 22:29:01.898 -06:00 [DBG] Key ring with default key {08ed7009-82fb-442a-86f4-de098f319eed} was loaded during application startup.
+2023-01-02 22:29:02.130 -06:00 [INF] Now listening on: http://localhost:46729
+2023-01-02 22:29:02.132 -06:00 [DBG] Loaded hosting startup assembly Bovis.API
+2023-01-02 22:29:02.133 -06:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2023-01-02 22:29:02.134 -06:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2023-01-02 22:29:02.136 -06:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-01-02 22:29:02.137 -06:00 [INF] Hosting environment: Development
+2023-01-02 22:29:02.138 -06:00 [INF] Content root path: D:\Andres\Projects\Bovis\Hkk_Bovis\Hkk_Bovis\Bovis.API\
+2023-01-02 22:29:02.139 -06:00 [DBG] Hosting started
+2023-01-02 22:29:02.778 -06:00 [DBG] Connection id "0HMND8C5EC0J7" received FIN.
+2023-01-02 22:29:02.778 -06:00 [DBG] Connection id "0HMND8C5EC0J8" received FIN.
+2023-01-02 22:29:02.797 -06:00 [DBG] Connection id "0HMND8C5EC0J7" accepted.
+2023-01-02 22:29:02.797 -06:00 [DBG] Connection id "0HMND8C5EC0J8" accepted.
+2023-01-02 22:29:02.803 -06:00 [DBG] Connection id "0HMND8C5EC0J7" started.
+2023-01-02 22:29:02.803 -06:00 [DBG] Connection id "0HMND8C5EC0J8" started.
+2023-01-02 22:29:02.830 -06:00 [DBG] Connection id "0HMND8C5EC0J7" sending FIN because: "The client closed the connection."
+2023-01-02 22:29:02.831 -06:00 [DBG] Connection id "0HMND8C5EC0J8" sending FIN because: "The client closed the connection."
+2023-01-02 22:29:02.839 -06:00 [DBG] Connection id "0HMND8C5EC0J7" disconnecting.
+2023-01-02 22:29:02.839 -06:00 [DBG] Connection id "0HMND8C5EC0J8" disconnecting.
+2023-01-02 22:29:02.853 -06:00 [DBG] Connection id "0HMND8C5EC0J8" stopped.
+2023-01-02 22:29:02.853 -06:00 [DBG] Connection id "0HMND8C5EC0J7" stopped.
+2023-01-02 22:29:02.960 -06:00 [DBG] Connection id "0HMND8C5EC0J9" accepted.
+2023-01-02 22:29:02.968 -06:00 [DBG] Connection id "0HMND8C5EC0J9" started.
+2023-01-02 22:29:03.042 -06:00 [INF] Request starting HTTP/1.1 GET http://localhost:46729/ - -
+2023-01-02 22:29:03.127 -06:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2023-01-02 22:29:03.164 -06:00 [DBG] No candidates found for the request path '/'
+2023-01-02 22:29:03.166 -06:00 [DBG] Request did not match any endpoints
+2023-01-02 22:29:03.228 -06:00 [DBG] The request path  does not match the path filter
+2023-01-02 22:29:03.229 -06:00 [DBG] The request path  does not match the path filter
+2023-01-02 22:29:03.235 -06:00 [WRN] Failed to determine the https port for redirect.
+2023-01-02 22:29:04.047 -06:00 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2023-01-02 22:29:04.067 -06:00 [DBG] Connection id "0HMND8C5EC0J9" completed keep alive response.
+2023-01-02 22:29:04.071 -06:00 [INF] Request finished HTTP/1.1 GET http://localhost:46729/ - - - 404 0 - 1035.0105ms
