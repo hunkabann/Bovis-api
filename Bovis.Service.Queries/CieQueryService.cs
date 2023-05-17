@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
@@ -23,8 +24,7 @@ namespace Bovis.Service.Queries
         {
             this._map = _map;
             this._cieBusiness = _cieBusiness;
-        }
-
+        }        
 
         public void Dispose()
         {
@@ -49,11 +49,16 @@ namespace Bovis.Service.Queries
 
             return new Response<Cie> { Data = _map.Map<Cie>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontro información del registro." : default };
         }
-
         public async Task<Response<List<Cie>>> GetRegistros(byte? Estatus)
         {
             var response = await _cieBusiness.GetRegistros(Estatus);
             return new Response<List<Cie>> { Data = _map.Map<List<Cie>>(response), Success = true };
+        }
+
+        public async Task<Response<bool>> AddRegistros(List<TB_Cie> registros)
+        {
+            var response = await _cieBusiness.AddRegistros(registros);
+            return new Response<bool> { Data = _map.Map<bool>(response), Success = true };
         }
         #endregion Registros
     }

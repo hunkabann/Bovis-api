@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries.Dto.Commands
 {
-    public class AddCieCommand : IRequest<Response<List<CieRegistro>>>
+    public class AddCieCommand : IRequest<Response<bool>>
     {
         [Required(ErrorMessage = "El campo NumProyecto es requerido")]
         public int NumProyecto { get; set; }

@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Bovis.Common.Model.Tables;
 
 namespace Bovis.API.Controllers
 {
@@ -34,15 +35,15 @@ namespace Bovis.API.Controllers
         }
         #endregion Empresas
 
-        #region Registros
-        [HttpPut("Agregar"), Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AgregarRegistro(AddCieCommand objetivo)
-        {
-            if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
-            var business = await _mediator.Send(objetivo);
-            return Ok(business);
-        }
 
+
+        #region Registros        
+        [HttpGet, Route("Registros/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetRegitros(byte? Estatus)
+        {
+            var query = await _cieQueryService.GetRegistros(Estatus);
+            return Ok(query);
+        }
         [HttpGet("InfoRegistro/{idRegistro}"), Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> ObtenerInfoRegistro(int idRegistro)
         {
@@ -50,11 +51,19 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet, Route("Registros/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetRegitros(byte? Estatus)
+
+        [HttpPut("AddRegistro"), Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarRegistro(AddCieCommand objetivo)
         {
-            var query = await _cieQueryService.GetRegistros(Estatus);
-            return Ok(query);
+            if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+            var business = await _mediator.Send(objetivo);
+            return Ok(business);
+        }
+        [HttpPut("AddRegistros"), Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarRegistros(List<TB_Cie> registros)
+        {
+            var business = await _cieQueryService.AddRegistros(registros);
+            return Ok(business);
         }
         #endregion Registros
     }

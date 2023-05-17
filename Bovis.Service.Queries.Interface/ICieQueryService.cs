@@ -1,4 +1,5 @@
 ﻿using Bovis.Common;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Empresa>>> GetEmpresas(bool? Activo);
         Task<Response<Cie>> GetInfoRegistro(int? idRegistro);
         Task<Response<List<Cie>>> GetRegistros(byte? Activo);
+        Task<Response<bool>> AddRegistros(List<TB_Cie> registros);
     }
 }
 

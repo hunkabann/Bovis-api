@@ -2,6 +2,7 @@
 using Bovis.Common.Model.Tables;
 using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
+using Microsoft.Win32;
 
 namespace Bovis.Business
 {
@@ -28,6 +29,21 @@ namespace Bovis.Business
         #region Registros
         public Task<CieRegistro> GetInfoRegistro(int? idRegistro) => _cieData.GetInfoRegistro(idRegistro);
         public Task<List<TB_Cie>> GetRegistros(byte? Estatus) => _cieData.GetRegistros(Estatus);
+
+        public async Task<(bool Success, string Message)> AddRegistro(TB_Cie registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _cieData.AddRegistro(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro Cie a la base de datos"; return resp; }
+            return resp;
+        }
+        public async Task<(bool Success, string Message)> AddRegistros(List<TB_Cie> registros)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _cieData.AddRegistros(registros);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudieron agregar los registros Cie a la base de datos"; return resp; }
+            return resp;
+        }
         #endregion Registros
     }
 }

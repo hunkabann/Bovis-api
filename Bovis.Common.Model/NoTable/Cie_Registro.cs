@@ -23,6 +23,5 @@ namespace Bovis.Common.Model.NoTable
         public byte? Mes { get; set; }
         public int? IdCentroCostos { get; set; }
         public int? IdTipoCtaContable { get; set; }
-
     }
 }
