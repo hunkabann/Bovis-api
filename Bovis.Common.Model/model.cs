@@ -6,7 +6,6 @@ namespace Bovis.Common.Model
 {
 	public partial class ConnectionDB : DataConnection
 	{
-
 		public ITable<DOR_Empleados> dOR_Empleados { get { return this.GetTable<DOR_Empleados>(); } }
         public ITable<DOR_Gpm_Proyecto> dOR_Gpm_Proyecto { get { return this.GetTable<DOR_Gpm_Proyecto>(); } }
         public ITable<DOR_Metas_Proyecto> dOR_Meta_Proyecto { get { return this.GetTable<DOR_Metas_Proyecto>(); } }

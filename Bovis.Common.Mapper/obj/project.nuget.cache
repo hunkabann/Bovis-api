@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "rJNDJnIgr7CrxGPuokWlhO5XZ036HDu9o6LvFNqCq0SbqjsquPfaPlweg8eC+2aGOPEPOh7O1H8dv2dDto6S1Q==",
+  "success": true,
+  "projectFilePath": "F:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Live Productions\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\Live Productions\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
+    "C:\\Users\\Live Productions\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\Live Productions\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\Live Productions\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

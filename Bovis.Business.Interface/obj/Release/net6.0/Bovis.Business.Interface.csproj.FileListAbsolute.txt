@@ -1,0 +1,17 @@
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Business.Interface.deps.json
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Business.Interface.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Business.Interface.pdb
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Common.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Common.Model.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Common.pdb
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\bin\Release\net6.0\Bovis.Common.Model.pdb
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.csproj.AssemblyReference.cache
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.GeneratedMSBuildEditorConfig.editorconfig
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.AssemblyInfoInputs.cache
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.AssemblyInfo.cs
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.csproj.CoreCompileInputs.cache
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.csproj.CopyComplete
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\refint\Bovis.Business.Interface.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\Bovis.Business.Interface.pdb
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Release\net6.0\ref\Bovis.Business.Interface.dll

@@ -25,6 +25,37 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
+        #region Empresas
+        [HttpGet, Route("Empresas/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetEmpresas(bool? Activo)
+        {
+            var query = await _cieQueryService.GetEmpresas(Activo);
+            return Ok(query);
+        }
+        #endregion Empresas
 
+        #region Registros
+        [HttpPut("Agregar"), Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarRegistro(AddCieCommand objetivo)
+        {
+            if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+            var business = await _mediator.Send(objetivo);
+            return Ok(business);
+        }
+
+        [HttpGet("InfoRegistro/{idRegistro}"), Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> ObtenerInfoRegistro(int idRegistro)
+        {
+            var business = await _cieQueryService.GetInfoRegistro(idRegistro);
+            return Ok(business);
+        }
+
+        [HttpGet, Route("Registros/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetRegitros(byte? Estatus)
+        {
+            var query = await _cieQueryService.GetRegistros(Estatus);
+            return Ok(query);
+        }
+        #endregion Registros
     }
 }

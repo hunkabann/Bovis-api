@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "cjoX+7bqHphfMt8dXbDlwfyI8sqevEpI0pfLZacNE6TsIGXqISQFeiDssImRhA3K/Dwfkgx6TA4cV19o64KuUg==",
+  "success": true,
+  "projectFilePath": "F:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Live Productions\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
+    "C:\\Users\\Live Productions\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\Live Productions\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

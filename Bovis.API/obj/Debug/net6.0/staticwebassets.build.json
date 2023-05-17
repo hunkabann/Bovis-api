@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "1AzmEJYCgs0kRkQ4N9pgF3JmkDdhus3C99z1TjQAH1s=",
+  "Source": "Bovis.API",
+  "BasePath": "_content/Bovis.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

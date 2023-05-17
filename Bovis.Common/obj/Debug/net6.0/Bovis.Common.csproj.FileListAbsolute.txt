@@ -1,0 +1,12 @@
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.deps.json
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.pdb
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.csproj.AssemblyReference.cache
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.GeneratedMSBuildEditorConfig.editorconfig
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.AssemblyInfoInputs.cache
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.AssemblyInfo.cs
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.csproj.CoreCompileInputs.cache
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\refint\Bovis.Common.dll
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.pdb
+F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Debug\net6.0\ref\Bovis.Common.dll

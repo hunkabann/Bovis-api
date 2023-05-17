@@ -21,5 +21,13 @@ namespace Bovis.Business
         }
         #endregion
 
+        #region Empresas
+        public Task<List<TB_Empresa>> GetEmpresas(bool? Activo) => _cieData.GetEmpresas(Activo);
+        #endregion Empresas
+
+        #region Registros
+        public Task<CieRegistro> GetInfoRegistro(int? idRegistro) => _cieData.GetInfoRegistro(idRegistro);
+        public Task<List<TB_Cie>> GetRegistros(byte? Estatus) => _cieData.GetRegistros(Estatus);
+        #endregion Registros
     }
 }

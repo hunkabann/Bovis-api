@@ -67,6 +67,10 @@ builder.Services.AddScoped<IPcsQueryService, PcsQueryService>();
 builder.Services.AddScoped<IPcsBusiness, PcsBusiness>();
 builder.Services.AddScoped<IPcsData, PcsData>();
 
+builder.Services.AddScoped<ICieQueryService, CieQueryService>();
+builder.Services.AddScoped<ICieBusiness, CieBusiness>();
+builder.Services.AddScoped<ICieData, CieData>();
+
 builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 
 var app = builder.Build();

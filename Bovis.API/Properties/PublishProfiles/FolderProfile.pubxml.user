@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2023-05-17T00:09:14.2638273Z;True|2023-05-16T17:49:31.5063843-06:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DBConnection">
+      <Value>Data Source=hunkabann.com.mx%3bDatabase=BovisFinal%3bUser Id=sa%3bPassword=12121212Qw.%3bTrustServerCertificate=true%3bConnection Timeout=30%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

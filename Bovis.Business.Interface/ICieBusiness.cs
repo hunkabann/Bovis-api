@@ -10,7 +10,14 @@ namespace Bovis.Business.Interface
 {
     public interface ICieBusiness : IDisposable
     {
+        #region Empresas
+        Task<List<TB_Empresa>> GetEmpresas(bool? activo);
+        #endregion Empresas
 
+        #region Registros
+        Task<CieRegistro> GetInfoRegistro(int? numProyecto);
+        Task<List<TB_Cie>> GetRegistros(byte? estatus);
+        #endregion Registros
     }
 
 }

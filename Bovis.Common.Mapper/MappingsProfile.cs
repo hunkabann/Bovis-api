@@ -11,6 +11,34 @@ public class MappingsProfile : Profile
 {
     public MappingsProfile()
     {
+        #region Cie
+        CreateMap<TB_Empresa, Empresa>()
+            .ForMember(c => c.nukidempresa, dto => dto.MapFrom(src => src.IdEmpresa))
+            .ForMember(c => c.chempresa, dto => dto.MapFrom(src => src.Empresa))
+            .ForMember(c => c.rfc, dto => dto.MapFrom(src => src.Rfc))
+            .ForMember(c => c.nucoi, dto => dto.MapFrom(src => src.Coi))
+            .ForMember(c => c.nunoi, dto => dto.MapFrom(src => src.Noi))
+            .ForMember(c => c.nusae, dto => dto.MapFrom(src => src.Sae))
+            .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
+
+        CreateMap<TB_Cie, Cie>()
+            .ForMember(c => c.nukidcie, dto => dto.MapFrom(src => src.IdCie))
+            .ForMember(c => c.nunum_proyecto, dto => dto.MapFrom(src => src.NumProyecto))
+            .ForMember(c => c.nukidtipo_cie, dto => dto.MapFrom(src => src.IdTipoCie))
+            .ForMember(c => c.nukidtipo_poliza, dto => dto.MapFrom(src => src.IdTipoPoliza))
+            .ForMember(c => c.dtfecha, dto => dto.MapFrom(src => src.Fecha))
+            .ForMember(c => c.chconcepto, dto => dto.MapFrom(src => src.Concepto))
+            .ForMember(c => c.nusaldo_ini, dto => dto.MapFrom(src => src.SaldoIni))
+            .ForMember(c => c.nudebe, dto => dto.MapFrom(src => src.Debe))
+            .ForMember(c => c.nuhaber, dto => dto.MapFrom(src => src.Haber))
+            .ForMember(c => c.numovimiento, dto => dto.MapFrom(src => src.Movimiento))
+            .ForMember(c => c.chedo_resultados, dto => dto.MapFrom(src => src.EdoResultados))
+            .ForMember(c => c.numes, dto => dto.MapFrom(src => src.Mes))
+            .ForMember(c => c.nukidcentro_costos, dto => dto.MapFrom(src => src.IdCentroCostos))
+            .ForMember(c => c.nukidtipo_cta_contable, dto => dto.MapFrom(src => src.IdTipoCtaContable))
+            .ForMember(c => c.nuestatus, dto => dto.MapFrom(src => src.Estatus));
+        #endregion Cie
+
         #region Catalogos
 
         CreateMap<TB_Cat_Beneficio, Catalogo>()
