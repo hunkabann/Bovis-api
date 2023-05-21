@@ -512,6 +512,9 @@ public class ActualizaEstatusProyectoEventHandler : IRequestHandler<ActualizarEs
 
 #endregion
 
+#region Experiencia
+#endregion Experiencia
+
 #region Forma Pago
 
 public class AgregaFormaPagoEventHandler : IRequestHandler<AgregarFormaPagoCommand, Response<bool>>
@@ -637,6 +640,9 @@ public class ActualizaGastoEventHandler : IRequestHandler<ActualizarGastoCommand
 }
 
 #endregion
+
+#region Habilidad
+#endregion Habilidad
 
 #region Ingreso
 
@@ -1078,6 +1084,9 @@ public class ActualizaPrestacionEventHandler : IRequestHandler<ActualizarPrestac
 }
 
 #endregion
+
+#region Profesion
+#endregion Profesion
 
 #region Puesto
 

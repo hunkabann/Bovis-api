@@ -21,11 +21,15 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetEstatusProyecto(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetFormaPago(bool? Activo);
+    Task<Response<List<Catalogo>>> GetExperiencia(bool? Activo);
+
+    Task<Response<List<Catalogo>>> GetFormaPago(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetGasto(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetIngreso(bool? Activo);
+    Task<Response<List<Catalogo>>> GetHabilidad(bool? Activo);
+
+    Task<Response<List<Catalogo>>> GetIngreso(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetJornada(bool? Activo);
 
@@ -39,7 +43,9 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetPrestacion(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetPuesto(bool? Activo);
+    Task<Response<List<Catalogo>>> GetProfesion(bool? Activo);
+
+    Task<Response<List<Catalogo>>> GetPuesto(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo);
 

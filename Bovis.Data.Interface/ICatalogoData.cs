@@ -74,11 +74,15 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateEstatusProyecto(TB_Cat_EstatusProyecto estatusProyecto);
 		Task<bool> DeleteEstatusProyecto(TB_Cat_EstatusProyecto estatusProyecto);
 
-		#endregion
+        #endregion
 
-		#region Forma Pago
+        #region Experiencia
+        Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? activo);
+        #endregion Experiencia
 
-		Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? activo);
+        #region Forma Pago
+
+        Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? activo);
 		Task<bool> AddFormaPago(TB_Cat_FormaPago formaPago);
 		Task<bool> UpdateFormaPago(TB_Cat_FormaPago formaPago);
 		Task<bool> DeleteFormaPago(TB_Cat_FormaPago formaPago);
@@ -92,11 +96,15 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateGasto(TB_Cat_Gasto gasto);
 		Task<bool> DeleteGasto(TB_Cat_Gasto gasto);
 
-		#endregion
+        #endregion
 
-		#region Ingreso
+        #region Habilidad
+        Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? activo);
+        #endregion Habilidad
 
-		Task<List<TB_Cat_Ingreso>> GetIngreso(bool? activo);
+        #region Ingreso
+
+        Task<List<TB_Cat_Ingreso>> GetIngreso(bool? activo);
 		Task<bool> AddIngreso(TB_Cat_Ingreso ingreso);
 		Task<bool> UpdateIngreso(TB_Cat_Ingreso ingreso);
 		Task<bool> DeleteIngreso(TB_Cat_Ingreso ingreso);
@@ -155,11 +163,15 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdatePrestacion(TB_Cat_Prestacion prestacion);
 		Task<bool> DeletePrestacion(TB_Cat_Prestacion prestacion);
 
-		#endregion
+        #endregion
 
-		#region Puesto
+        #region Profesion
+        Task<List<TB_Cat_Profesion>> GetProfesion(bool? activo);
+        #endregion Profesion
 
-		Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo);
+        #region Puesto
+
+        Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo);
 		Task<bool> AddPuesto(TB_Cat_Puesto puesto);
 		Task<bool> UpdatePuesto(TB_Cat_Puesto puesto);
 		Task<bool> DeletePuesto(TB_Cat_Puesto puesto);

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Bovis.Common.Model.Tables;
+using Bovis.API.Helper;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Bovis.API.Controllers
 {
@@ -44,7 +47,7 @@ namespace Bovis.API.Controllers
             var query = await _cieQueryService.GetRegistros(Estatus);
             return Ok(query);
         }
-        [HttpGet("InfoRegistro/{idRegistro}"), Authorize(Roles = "it.full, dev.full")]
+        [HttpGet("Registro/{idRegistro}"), Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> ObtenerInfoRegistro(int idRegistro)
         {
             var business = await _cieQueryService.GetInfoRegistro(idRegistro);
@@ -52,14 +55,18 @@ namespace Bovis.API.Controllers
         }
 
 
-        [HttpPut("AddRegistro"), Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AgregarRegistro(AddCieCommand objetivo)
+        [HttpPut("Registro/Agregar"), Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarRegistro(AddCieCommand registro)
         {
-            if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
-            var business = await _mediator.Send(objetivo);
-            return Ok(business);
+            var response = await _mediator.Send(registro);
+            if (!response.Success)
+            {
+                var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+                _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+            }
+            return Ok(response);
         }
-        [HttpPut("AddRegistros"), Authorize(Roles = "it.full, dev.full")]
+        [HttpPut("Registros/Agregar"), Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AgregarRegistros(List<TB_Cie> registros)
         {
             var business = await _cieQueryService.AddRegistros(registros);

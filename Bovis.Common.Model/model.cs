@@ -23,17 +23,20 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cat_Documento> tB_Cat_Documentos { get { return this.GetTable<TB_Cat_Documento>(); } }
         public ITable<TB_Cat_Dor_PuestoNivel> tB_Cat_Dor_PuestoNivel { get { return this.GetTable<TB_Cat_Dor_PuestoNivel>(); } }
         public ITable<TB_Cat_EdoCivil> tB_Cat_EdoCivils { get { return this.GetTable<TB_Cat_EdoCivil>(); } }
-		public ITable<TB_Cat_EstatusProyecto> tB_Cat_EstatusProyectos { get { return this.GetTable<TB_Cat_EstatusProyecto>(); } }
+        public ITable<TB_Cat_Experiencia> tB_Cat_Experiencias { get { return this.GetTable<TB_Cat_Experiencia>(); } }
+        public ITable<TB_Cat_EstatusProyecto> tB_Cat_EstatusProyectos { get { return this.GetTable<TB_Cat_EstatusProyecto>(); } }
 		public ITable<TB_Cat_FormaPago> tB_Cat_FormaPagos { get { return this.GetTable<TB_Cat_FormaPago>(); } }
 		public ITable<TB_Cat_Gasto> tB_Cat_Gastos { get { return this.GetTable<TB_Cat_Gasto>(); } }
-		public ITable<TB_Cat_Ingreso> tB_Cat_Ingresos { get { return this.GetTable<TB_Cat_Ingreso>(); } }
+        public ITable<TB_Cat_Habilidad> tB_Cat_Habilidades { get { return this.GetTable<TB_Cat_Habilidad>(); } }
+        public ITable<TB_Cat_Ingreso> tB_Cat_Ingresos { get { return this.GetTable<TB_Cat_Ingreso>(); } }
 		public ITable<TB_Cat_Jornada> tB_Cat_Jornadas { get { return this.GetTable<TB_Cat_Jornada>(); } }
 		public ITable<TB_Cat_Modena> tB_Cat_Modenas { get { return this.GetTable<TB_Cat_Modena>(); } }
 		public ITable<TB_Cat_NivelEstudios> tB_Cat_NivelEstudios { get { return this.GetTable<TB_Cat_NivelEstudios>(); } }
 		public ITable<TB_Cat_NivelPuesto> tB_Cat_NivelPuestos { get { return this.GetTable<TB_Cat_NivelPuesto>(); } }
 		public ITable<TB_Cat_Pcs> tB_Cat_Pcs { get { return this.GetTable<TB_Cat_Pcs>(); } }
 		public ITable<TB_Cat_Prestacion> tB_Cat_Prestacions { get { return this.GetTable<TB_Cat_Prestacion>(); } }
-		public ITable<TB_Cat_Puesto> tB_Cat_Puestos { get { return this.GetTable<TB_Cat_Puesto>(); } }
+        public ITable<TB_Cat_Profesion> tB_Cat_Profesiones { get { return this.GetTable<TB_Cat_Profesion>(); } }
+        public ITable<TB_Cat_Puesto> tB_Cat_Puestos { get { return this.GetTable<TB_Cat_Puesto>(); } }
 		public ITable<TB_Cat_RubroIngresoReembolsable> tB_Cat_RubroIngresoReembolsables { get { return this.GetTable<TB_Cat_RubroIngresoReembolsable>(); } }
 		public ITable<TB_Cat_Sector> tB_Cat_Sectors { get { return this.GetTable<TB_Cat_Sector>(); } }
 		public ITable<TB_Cat_TipoCie> tB_Cat_TipoCies { get { return this.GetTable<TB_Cat_TipoCie>(); } }

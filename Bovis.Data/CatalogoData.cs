@@ -252,11 +252,24 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Forma Pago
+        #region Experiencia
+        public async Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Experiencias
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Cat_Experiencia>();
+        }
+        #endregion Experiencia
 
-		public async Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? activo)
+        #region Forma Pago
+
+        public async Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? activo)
 		{
 			if (activo.HasValue)
 			{
@@ -312,12 +325,24 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
+        #region Habilidad
+        public async Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Habilidades
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Cat_Habilidad>();
+        }
+        #endregion Habilidad
 
-		#region Ingreso
+        #region Ingreso
 
-		public async Task<List<TB_Cat_Ingreso>> GetIngreso(bool? activo)
+        public async Task<List<TB_Cat_Ingreso>> GetIngreso(bool? activo)
 		{
 			if (activo.HasValue)
 			{
@@ -523,11 +548,24 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Puesto
+        #region Profesion
+        public async Task<List<TB_Cat_Profesion>> GetProfesion(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Profesiones
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Cat_Profesion>();
+        }
+        #endregion Profesion
 
-		public async Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo)
+        #region Puesto
+
+        public async Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo)
 		{
 			if (activo.HasValue)
 			{

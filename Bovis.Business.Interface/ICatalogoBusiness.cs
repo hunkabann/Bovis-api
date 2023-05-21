@@ -75,11 +75,15 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateEstatusProyecto(InsertMovApi MovAPI, TB_Cat_EstatusProyecto estatusProyecto);
 		Task<(bool Success, string Message)> DeleteEstatusProyecto(TB_Cat_EstatusProyecto estatusProyecto);
 
-		#endregion
+        #endregion
 
-		#region Forma Pago
+        #region Experiencia
+        Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? activo);
+        #endregion Experiencia
 
-		Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? activo);
+        #region Forma Pago
+
+        Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? activo);
 		Task<(bool Success, string Message)> AddFormaPago(TB_Cat_FormaPago formaPago);
 		Task<(bool Success, string Message)> UpdateFormaPago(InsertMovApi MovAPI, TB_Cat_FormaPago formaPago);
 		Task<(bool Success, string Message)> DeleteFormaPago(TB_Cat_FormaPago formaPago);
@@ -93,12 +97,15 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateGasto(InsertMovApi MovAPI, TB_Cat_Gasto gasto);
 		Task<(bool Success, string Message)> DeleteGasto(TB_Cat_Gasto gasto);
 
-		#endregion
+        #endregion
 
+        #region Habilidad
+        Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? activo);
+        #endregion Habilidad
 
-		#region Ingreso
+        #region Ingreso
 
-		Task<List<TB_Cat_Ingreso>> GetIngreso(bool? activo);
+        Task<List<TB_Cat_Ingreso>> GetIngreso(bool? activo);
 		Task<(bool Success, string Message)> AddIngreso(TB_Cat_Ingreso ingreso);
 		Task<(bool Success, string Message)> UpdateIngreso(InsertMovApi MovAPI, TB_Cat_Ingreso ingreso);
 		Task<(bool Success, string Message)> DeleteIngreso(TB_Cat_Ingreso ingreso);
@@ -157,11 +164,15 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdatePrestacion(InsertMovApi MovAPI, TB_Cat_Prestacion prestacion);
 		Task<(bool Success, string Message)> DeletePrestacion(TB_Cat_Prestacion prestacion);
 
-		#endregion
+        #endregion
 
-		#region Puesto
+        #region Profesion
+        Task<List<TB_Cat_Profesion>> GetProfesion(bool? activo);
+        #endregion Profesion
 
-		Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo);
+        #region Puesto
+
+        Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo);
 		Task<(bool Success, string Message)> AddPuesto(TB_Cat_Puesto puesto);
 		Task<(bool Success, string Message)> UpdatePuesto(InsertMovApi MovAPI, TB_Cat_Puesto puesto);
 		Task<(bool Success, string Message)> DeletePuesto(TB_Cat_Puesto puesto);

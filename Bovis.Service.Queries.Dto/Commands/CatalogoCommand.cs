@@ -207,11 +207,14 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
 
-	#region Forma Pago
+    #region Experiencia
+    #endregion Experiencia
 
-	public class AgregarFormaPagoCommand : IRequest<Response<bool>>
+    #region Forma Pago
+
+    public class AgregarFormaPagoCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
 		public string? descripcion { get; set; }
@@ -255,11 +258,14 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
 
-	#region Ingreso
+    #region Habilidad
+    #endregion Habilidad
 
-	public class AgregarIngresoCommand : IRequest<Response<bool>>
+    #region Ingreso
+
+    public class AgregarIngresoCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
 		public string? descripcion { get; set; }
@@ -423,11 +429,14 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
 
-	#region Puesto
+    #region Profesion
+    #endregion Profesion
 
-	public class AgregarPuestoCommand : IRequest<Response<bool>>
+    #region Puesto
+
+    public class AgregarPuestoCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
 		public string? descripcion { get; set; }

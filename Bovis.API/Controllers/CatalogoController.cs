@@ -439,11 +439,20 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Forma Pago
+    #region Experiencia
+    [HttpGet, Route("Experiencia/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Experiencia(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetExperiencia(Activo);
+        return Ok(query);
+    }
+    #endregion Experiencia
 
-	[HttpGet, Route("FormaPago/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    #region Forma Pago
+
+    [HttpGet, Route("FormaPago/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> FormaPago(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetFormaPago(Activo);
@@ -543,11 +552,20 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Ingreso
+    #region Habilidades
+    [HttpGet, Route("Habilidad/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Habilidad(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetHabilidad(Activo);
+        return Ok(query);
+    }
+    #endregion Habilidades
 
-	[HttpGet, Route("Ingreso/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    #region Ingreso
+
+    [HttpGet, Route("Ingreso/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Ingreso(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetIngreso(Activo);
@@ -907,11 +925,20 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Puesto
+    #region Profesion
+    [HttpGet, Route("Profesion/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Profesion(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetProfesion(Activo);
+        return Ok(query);
+    }
+    #endregion
 
-	[HttpGet, Route("Puesto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    #region Puesto
+
+    [HttpGet, Route("Puesto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Puesto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetPuesto(Activo);

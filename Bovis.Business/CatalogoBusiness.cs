@@ -255,11 +255,15 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Forma Pago
+        #region Experiencia
+        public Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? Actio) => _catalogoData.GetExperiencia(Actio);
+        #endregion Experiencia
 
-		public Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? Actio) => _catalogoData.GetFormaPago(Actio);
+        #region Forma Pago
+
+        public Task<List<TB_Cat_FormaPago>> GetFormaPago(bool? Actio) => _catalogoData.GetFormaPago(Actio);
 		public async Task<(bool Success, string Message)> AddFormaPago(TB_Cat_FormaPago formaPago)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
@@ -315,11 +319,15 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Ingreso
+        #region Habilidad
+        public Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? Actio) => _catalogoData.GetHabilidad(Actio);
+        #endregion Habilidad
 
-		public Task<List<TB_Cat_Ingreso>> GetIngreso(bool? Actio) => _catalogoData.GetIngreso(Actio);
+        #region Ingreso
+
+        public Task<List<TB_Cat_Ingreso>> GetIngreso(bool? Actio) => _catalogoData.GetIngreso(Actio);
 		public async Task<(bool Success, string Message)> AddIngreso(TB_Cat_Ingreso ingreso)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
@@ -525,11 +533,15 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Puesto
+        #region Profesion
+        public Task<List<TB_Cat_Profesion>> GetProfesion(bool? Actio) => _catalogoData.GetProfesion(Actio);
+        #endregion Profesion
 
-		public Task<List<TB_Cat_Puesto>> GetPuesto(bool? Actio) => _catalogoData.GetPuesto(Actio);
+        #region Puesto
+
+        public Task<List<TB_Cat_Puesto>> GetPuesto(bool? Actio) => _catalogoData.GetPuesto(Actio);
 		public async Task<(bool Success, string Message)> AddPuesto(TB_Cat_Puesto puesto)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);

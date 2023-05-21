@@ -67,7 +67,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetFormaPago(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetExperiencia(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetExperiencia(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetFormaPago(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetFormaPago(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
@@ -79,7 +85,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetIngreso(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetHabilidad(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetHabilidad(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetIngreso(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetIngreso(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
@@ -121,7 +133,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetPuesto(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetProfesion(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetProfesion(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetPuesto(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetPuesto(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
