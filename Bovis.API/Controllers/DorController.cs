@@ -24,6 +24,12 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
+        [HttpPost("Prueba"), Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerPrueba()
+        {
+            return Ok("Prueba");
+        }
+
         [HttpPost("DatosEjecutivo"), Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerDatosEjecutivo(DorEmpCorreoRequest request)
         {
