@@ -24,10 +24,13 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
-        [HttpPost("Prueba"), Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerPrueba()
+        // Agregado por sebastian.flores
+        [HttpPost("DatosPrueba"), Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerDatosPrueba(DorEmpCorreoRequest request)
         {
-            return Ok("Prueba");
+            if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+            var business = await _dorQueryService.GetDorEjecutivoCorreo(request.email);
+            return Ok(business);
         }
 
         [HttpPost("DatosEjecutivo"), Authorize(Roles = "eje.full, dev.full")]
