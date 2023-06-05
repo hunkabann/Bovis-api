@@ -67,7 +67,7 @@ namespace Bovis.API.Controllers
             return Ok(response);
         }
         [HttpPut("Registros/Agregar"), Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AgregarRegistros(List<TB_Cie> registros)
+        public async Task<IActionResult> AgregarRegistros([FromBody] List<TB_Cie> registros)
         {
             var business = await _cieQueryService.AddRegistros(registros);
             return Ok(business);
