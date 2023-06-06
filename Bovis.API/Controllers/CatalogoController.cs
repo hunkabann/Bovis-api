@@ -78,7 +78,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Categoria
-
 	[HttpGet, Route("Categoria/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Categoria(bool? Activo)
 	{
