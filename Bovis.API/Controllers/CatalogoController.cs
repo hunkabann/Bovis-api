@@ -79,7 +79,7 @@ public class CatalogoController : ControllerBase
 
 	#region Categoria
 
-	[HttpGet, Route("Categoria/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+	[HttpGet, Route("Categoria/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Categoria(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetCategoria(Activo);
@@ -616,8 +616,7 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Jornada
-
-	[HttpGet, Route("Jornada/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+	[HttpGet, Route("Jornada/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Jornada(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetJornada(Activo);
@@ -720,8 +719,7 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Nivel Estudios
-
-	[HttpGet, Route("NivelEstudios/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+	[HttpGet, Route("NivelEstudios/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> NivelEstudios(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetNivelEstudios(Activo);
@@ -928,7 +926,7 @@ public class CatalogoController : ControllerBase
     #endregion
 
     #region Profesion
-    [HttpGet, Route("Profesion/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Profesion/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Profesion(bool? Activo)
     {
         var query = await _catalogoQueryService.GetProfesion(Activo);
@@ -937,8 +935,7 @@ public class CatalogoController : ControllerBase
     #endregion
 
     #region Puesto
-
-    [HttpGet, Route("Puesto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Puesto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Puesto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetPuesto(Activo);
