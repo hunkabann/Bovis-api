@@ -33,6 +33,7 @@ public class RequerimientoController : ControllerBase
         var query = await _requerimientoQueryService.GetRequerimientos(Activo);
         return Ok(query);
     }
+
     [HttpPut("Registro/Agregar"), Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> AgregarRegistro(AddRequerimientoCommand registro)
     {
