@@ -20,7 +20,7 @@ namespace Bovis.Business
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
         #region Empresas
         public Task<List<TB_Empresa>> GetEmpresas(bool? Activo) => _cieData.GetEmpresas(Activo);

@@ -38,8 +38,6 @@ namespace Bovis.API.Controllers
         }
         #endregion Empresas
 
-
-
         #region Registros        
         [HttpGet, Route("Registros/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetRegitros(byte? Estatus)
@@ -53,8 +51,6 @@ namespace Bovis.API.Controllers
             var business = await _cieQueryService.GetInfoRegistro(idRegistro);
             return Ok(business);
         }
-
-
         [HttpPut("Registro/Agregar"), Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AgregarRegistro(AddCieCommand registro)
         {

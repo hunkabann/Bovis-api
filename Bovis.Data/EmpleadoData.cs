@@ -89,8 +89,8 @@ namespace Bovis.Data
                 .Value(x => x.ValorDescuento, registro.ValorDescuento)
                 .Value(x => x.NoEmpleadoNoi, registro.NoEmpleadoNoi)
                 .Value(x => x.Rol, registro.Rol)
-
                 .InsertAsync() > 0;
+
                 resp.Success = insert;
                 resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
             }

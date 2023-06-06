@@ -11,6 +11,21 @@ public class MappingsProfile : Profile
 {
     public MappingsProfile()
     {
+        #region Requerimientos
+        CreateMap<TB_Requerimiento, Requerimiento>()
+            .ForMember(c => c.nukidrequerimiento, dto => dto.MapFrom(src => src.IdRequerimiento))
+            .ForMember(c => c.nukidcategoria, dto => dto.MapFrom(src => src.IdCategoria))
+            .ForMember(c => c.nukidpuesto, dto => dto.MapFrom(src => src.IdPuesto))
+            .ForMember(c => c.nukidnivel_estudios, dto => dto.MapFrom(src => src.IdNivelEstudios))
+            .ForMember(c => c.nukidprofesion, dto => dto.MapFrom(src => src.IdProfesion))
+            .ForMember(c => c.nukidjornada, dto => dto.MapFrom(src => src.IdJornada))
+            .ForMember(c => c.nusueldo_min, dto => dto.MapFrom(src => src.SueldoMin))
+            .ForMember(c => c.nusueldo_max, dto => dto.MapFrom(src => src.SueldoMax))
+            .ForMember(c => c.chhabilidades, dto => dto.MapFrom(src => src.Habilidades))
+            .ForMember(c => c.chexperiencias, dto => dto.MapFrom(src => src.Experiencias))
+            .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
+        #endregion Requerimientos
+
         #region Empleados
         CreateMap<TB_Empleado, Empleado>()
             .ForMember(c => c.nunum_empleado_rr_hh, dto => dto.MapFrom(src => src.NumEmpleadoRrHh))

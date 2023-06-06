@@ -29,7 +29,7 @@ namespace Bovis.Data
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
         #region Empresas
         public async Task<List<TB_Empresa>> GetEmpresas(bool? activo)
@@ -110,6 +110,7 @@ namespace Bovis.Data
                 .Value(x => x.IdTipoCtaContable, registro.IdTipoCtaContable)
                 .Value(x => x.Estatus, registro.Estatus)
                 .InsertAsync() > 0;
+
                 resp.Success = insert;
                 resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
             }

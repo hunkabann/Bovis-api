@@ -75,6 +75,10 @@ builder.Services.AddScoped<IEmpleadoQueryService, EmpleadoQueryService>();
 builder.Services.AddScoped<IEmpleadoBusiness, EmpleadoBusiness>();
 builder.Services.AddScoped<IEmpleadoData, EmpleadoData>();
 
+builder.Services.AddScoped<IRequerimientoQueryService, RequerimientoQueryService>();
+builder.Services.AddScoped<IRequerimientoBusiness, RequerimientoBusiness>();
+builder.Services.AddScoped<IRequerimientoData, RequerimientoData>();
+
 builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 
 var app = builder.Build();
