@@ -189,7 +189,7 @@ public class MappingsProfile : Profile
 
         /****/
         CreateMap<TB_Cat_Puesto, Catalogo>()
-            .ForMember(c => c.id, dto => dto.MapFrom(src => src.CvePuesto))
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPuesto))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 

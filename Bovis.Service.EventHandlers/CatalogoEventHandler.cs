@@ -1123,7 +1123,7 @@ public class EliminaPuestoEventHandler : IRequestHandler<EliminarPuestoCommand, 
 	public async Task<Response<bool>> Handle(EliminarPuestoCommand request, CancellationToken cancellationToken)
 	{
 		var resp = new Response<bool>();
-		(bool Success, string Message) tmpResp = await _business.DeletePuesto(new TB_Cat_Puesto { CvePuesto = request.id.ToString() });
+		(bool Success, string Message) tmpResp = await _business.DeletePuesto(new TB_Cat_Puesto { IdPuesto = request.id.ToString() });
 		if (!tmpResp.Success) resp.AddError(tmpResp.Message);
 		else resp.Data = tmpResp.Success;
 		return resp;
@@ -1142,7 +1142,7 @@ public class ActualizaPuestoEventHandler : IRequestHandler<ActualizarPuestoComma
 	public async Task<Response<bool>> Handle(ActualizarPuestoCommand request, CancellationToken cancellationToken)
 	{
 		var resp = new Response<bool>();
-		(bool Success, string Message) tmpResp = await _business.UpdatePuesto(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Puesto { Puesto = request.descripcion, CvePuesto = request.id.ToString(), Activo = true });
+		(bool Success, string Message) tmpResp = await _business.UpdatePuesto(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Puesto { Puesto = request.descripcion, IdPuesto = request.id.ToString(), Activo = true });
 		if (!tmpResp.Success) resp.AddError(tmpResp.Message);
 		else resp.Data = tmpResp.Success;
 		return resp;
