@@ -9,7 +9,7 @@ namespace Bovis.Service.Queries.Dto.Responses
         public int nukidcategoria { get; set; }
         public int nukidpuesto { get; set; }
         public int nukidnivel_estudios { get; set; }
-        public int nukidprofesion { get; set; }
+        public string chprofesion { get; set; }
         public int nukidjornada { get; set; }
         public decimal nusueldo_min { get; set; }
         public decimal nusueldo_max { get; set; }

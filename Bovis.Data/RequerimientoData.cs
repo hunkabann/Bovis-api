@@ -51,7 +51,7 @@ namespace Bovis.Data
                 .Value(x => x.IdCategoria, registro.IdCategoria)
                 .Value(x => x.IdPuesto, registro.IdPuesto)
                 .Value(x => x.IdNivelEstudios, registro.IdNivelEstudios)
-                .Value(x => x.IdProfesion, registro.IdProfesion)
+                .Value(x => x.Profesion, registro.Profesion)
                 .Value(x => x.IdJornada, registro.IdJornada)
                 .Value(x => x.SueldoMin, registro.SueldoMin)
                 .Value(x => x.SueldoMax, registro.SueldoMax)
