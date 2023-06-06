@@ -69,7 +69,6 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var insert = await db.tB_Requerimientos
-                .Value(x => x.IdRequerimiento, registro.IdRequerimiento)
                 .Value(x => x.IdCategoria, registro.IdCategoria)
                 .Value(x => x.IdPuesto, registro.IdPuesto)
                 .Value(x => x.IdNivelEstudios, registro.IdNivelEstudios)
@@ -80,7 +79,7 @@ namespace Bovis.Data
                 .Value(x => x.Habilidades, registro.Habilidades)
                 .Value(x => x.Experiencias, registro.Experiencias)
                 .InsertAsync() > 0;
-
+                
                 resp.Success = insert;
                 resp.Message = insert == default ? "Ocurrio un error al agregar registro del requerimiento." : string.Empty;
             }

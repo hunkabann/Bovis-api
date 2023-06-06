@@ -93,7 +93,6 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var insert = await db.tB_Cies
-                .Value(x => x.IdCie, registro.IdCie)
                 .Value(x => x.NumProyecto, registro.NumProyecto)
                 .Value(x => x.IdTipoCie, registro.IdTipoCie)
                 .Value(x => x.IdTipoPoliza, registro.IdTipoPoliza)
@@ -126,7 +125,6 @@ namespace Bovis.Data
                 foreach (var registro in registros)
                 {
                     insert = await db.tB_Cies
-                    .Value(x => x.IdCie, registro.IdCie)
                     .Value(x => x.NumProyecto, registro.NumProyecto)
                     .Value(x => x.IdTipoCie, registro.IdTipoCie)
                     .Value(x => x.IdTipoPoliza, registro.IdTipoPoliza)
