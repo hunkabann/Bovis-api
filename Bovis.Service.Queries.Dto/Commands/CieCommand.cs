@@ -13,6 +13,6 @@ namespace Bovis.Service.Queries.Dto.Commands
     public class AddCieCommand : IRequest<Response<bool>>
     {
         [Required(ErrorMessage = "El campo NumProyecto es requerido")]
-        public int NumProyecto { get; set; }
+        public int nunum_proyecto { get; set; }
     }
 }

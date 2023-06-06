@@ -20,6 +20,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidclasificacion"), Nullable] public int? IdClasificacion { get; set; }
 		[Column("NukidjefeDirecto"), Nullable] public int? IdJefeDirecto { get; set; }
 		[Column("NukidunidadNegocio"), Nullable] public int? IdUnidadNegocio { get; set; }
+		[Column("NukidtipoContratoSat"), Nullable] public int? IdTipoContrato_sat { get; set; }
 		[Column("NunumEmpleado"), Nullable] public int? NumEmpleado { get; set; }
 		[Column("DtfechaIngreso"), NotNull] public DateTime FechaIngreso { get; set; }
 		[Column("DtfechaSalida"), Nullable] public DateTime? FechaSalida { get; set; }
@@ -34,10 +35,17 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nuantiguedad"), NotNull] public short Antiguedad { get; set; }
 		[Column("Chturno"), NotNull] public string Turno { get; set; }
 		[Column("NuunidadMedica"), Nullable] public byte? UnidadMedica { get; set; }
-		[Column("BodescuentoPension"), NotNull] public bool DescuentoPension { get; set; }
 		[Column("ChregistroPatronal"), Nullable] public string? RegistroPatronal { get; set; }
 		[Column("Chcotizacion"), Nullable] public string? Cotizacion { get; set; }
 		[Column("Nuduracion"), NotNull] public short Duracion { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
+		[Column("BodescuentoPension"), NotNull] public bool DescuentoPension { get; set; }
+		[Column("NuporcentajePension"), Nullable] public decimal? PorcentajePension { get; set; }
+		[Column("NufondoFijo"), Nullable] public decimal? FondoFijo { get; set; }
+		[Column("NucreditoInfonavit"), Nullable] public int? CreditoInfonavit { get; set; }
+		[Column("Chtipo_descuento"), Nullable] public string? TipoDescuento { get; set; }
+		[Column("NuvalorDescuento"), Nullable] public decimal? ValorDescuento { get; set; }
+		[Column("NunoEmpleadoNoi"), Nullable] public int? NoEmpleadoNoi { get; set; }
+		[Column("Chrol"), Nullable] public string? Rol { get; set; }
 	}
 }

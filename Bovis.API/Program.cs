@@ -71,6 +71,10 @@ builder.Services.AddScoped<ICieQueryService, CieQueryService>();
 builder.Services.AddScoped<ICieBusiness, CieBusiness>();
 builder.Services.AddScoped<ICieData, CieData>();
 
+builder.Services.AddScoped<IEmpleadoQueryService, EmpleadoQueryService>();
+builder.Services.AddScoped<IEmpleadoBusiness, EmpleadoBusiness>();
+builder.Services.AddScoped<IEmpleadoData, EmpleadoData>();
+
 builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 
 var app = builder.Build();

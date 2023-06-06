@@ -2,6 +2,7 @@
 using Bovis.Business.Interface;
 using Bovis.Common;
 using Bovis.Service.Queries.Dto.Both;
+using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,14 @@ namespace Bovis.Service.Queries
             GC.Collect();
         }
         #endregion
+
+        #region Empleados
+        public async Task<Response<List<Empleado>>> GetEmpleados(bool? Activo)
+        {
+            var response = await _empleadoBusiness.GetEmpleados(Activo);
+            return new Response<List<Empleado>> { Data = _map.Map<List<Empleado>>(response), Success = true };
+        }
+        #endregion Empleados
     }
 }
 

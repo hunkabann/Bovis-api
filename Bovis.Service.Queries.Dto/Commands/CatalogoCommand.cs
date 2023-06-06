@@ -7,13 +7,9 @@ namespace Bovis.Service.Queries.Dto.Commands
 	public class UpdateBaseCommand
 	{
 		public string Usuario { get; set; }
-
 		public string Nombre { get; set; }
-
 		public string Roles { get; set; }
-
 		public int Rel { get; set; }
-
 		public string TransactionId { get; set; }
 	}
 

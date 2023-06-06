@@ -4,6 +4,9 @@ namespace Bovis.Data.Interface
 {
     public interface IEmpleadoData : IDisposable
     {
-
+        #region Empleados
+        Task<List<TB_Empleado>> GetEmpleados(bool? activo);
+        Task<(bool existe, string mensaje)> AddRegistro(TB_Empleado registro);
+        #endregion Empleados
     }
 }
