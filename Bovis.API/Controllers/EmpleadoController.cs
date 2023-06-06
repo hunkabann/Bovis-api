@@ -29,7 +29,7 @@ namespace Bovis.API.Controllers
         }
 
         #region Empleados
-        [HttpGet, Route("Empleados/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Empleados/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetEmpleados(bool? Activo)
         {
             var query = await _empleadoQueryService.GetEmpleados(Activo);
