@@ -7,6 +7,6 @@ namespace Bovis.Common.Model.Tables
     {
         [Column("Nukidexperiencia"), NotNull, PrimaryKey, Identity] public int IdExperiencia { get; set; }
         [Column("Chvexperiencia"), NotNull] public string Experiencia { get; set; }
-        [Column("Boactivo"), NotNull] public bool Activo { get; set; }
+        [Column("Activo"), NotNull] public bool Activo { get; set; }
     }
 }

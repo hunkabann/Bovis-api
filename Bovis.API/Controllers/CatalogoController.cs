@@ -442,7 +442,7 @@ public class CatalogoController : ControllerBase
     #endregion
 
     #region Experiencia
-    [HttpGet, Route("Experiencia/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Experiencia/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Experiencia(bool? Activo)
     {
         var query = await _catalogoQueryService.GetExperiencia(Activo);
@@ -555,7 +555,7 @@ public class CatalogoController : ControllerBase
     #endregion
 
     #region Habilidades
-    [HttpGet, Route("Habilidad/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Habilidad/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Habilidad(bool? Activo)
     {
         var query = await _catalogoQueryService.GetHabilidad(Activo);
