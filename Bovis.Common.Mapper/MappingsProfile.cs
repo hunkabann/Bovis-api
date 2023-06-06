@@ -86,194 +86,203 @@ public class MappingsProfile : Profile
         #endregion Cie
 
         #region Catalogos
+        CreateMap<TB_Cat_Experiencia, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdExperiencia))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Experiencia))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
+        CreateMap<TB_Cat_Habilidad, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdHabilidad))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Habilidad))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Beneficio, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Beneficio))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdBeneficio))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Beneficio))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Categoria, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Categoria))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdCategoria))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Categoria))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Clasificacion, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Clasificacion))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdClasificacion))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Clasificacion))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_CostoIndirectoSalarios, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.CostoIndirecto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdCostoIndirecto))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.CostoIndirecto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_Departamento, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Departamento))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdDepartamento))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Departamento))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_Documento, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Documento))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdDocumento))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Documento))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_EdoCivil, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.EdoCivil))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdEdoCivil))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.EdoCivil))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_EstatusProyecto, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Estatus))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdEstatus))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Estatus))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_FormaPago, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoDocumento))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdFormaPago))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoDocumento))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_Gasto, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Gasto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoGasto))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Gasto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Ingreso, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Ingreso))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdIngreso))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Ingreso))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_Jornada, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Descripcion))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdJornada))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Descripcion))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Modena, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Moneda))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdMoneda))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Moneda))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_NivelEstudios, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.NivelEstudios))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdNivelEstudios))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.NivelEstudios))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_NivelPuesto, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.NivelPuesto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdNivelPuesto))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.NivelPuesto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_Pcs, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Pcs))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPcs))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Pcs))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Prestacion, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPrestacion))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_Puesto, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.CvePuesto))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_RubroIngresoReembolsable, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Rubro))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdRubroIngreso))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Rubro))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Sector, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Sector))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdSector))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Sector))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoCie, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoCie))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoCie))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoCie))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_TipoContrato, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Contrato))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoContrato))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Contrato))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         /****/
         CreateMap<TB_Cat_TipoCtaContable, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Concepto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoCuenta))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Concepto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoCuenta, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoCuenta))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoCuenta))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoCuenta))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoDocumento, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoDocumento))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoDocumento))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoDocumento))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoEmpleado, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoEmpleado))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoEmpleado))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoEmpleado))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoFactura, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoFactura))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoFactura))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoFactura))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoGasto, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoGasto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoGasto))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoGasto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoIngreso, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoIngreso))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoIngreso))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoIngreso))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoPcs, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPcs))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoPcs))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPcs))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoPoliza, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPoliza))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoPoliza))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPoliza))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoProyecto, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoProyecto))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoProyecto))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoProyecto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoResultado, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoResultado))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoResultado))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoResultado))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoSangre, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoSangre))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoSangre))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoSangre))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_UnidadNegocio, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.UnidadNegocio))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdUnidadNegocio))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.UnidadNegocio))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Viatico, Catalogo>()
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdViatico))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         #endregion
