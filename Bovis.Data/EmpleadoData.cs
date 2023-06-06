@@ -1,4 +1,5 @@
 ﻿using Bovis.Common.Model;
+using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
@@ -21,13 +22,12 @@ namespace Bovis.Data
             this.ConfigurationDB = dbConfig;
         }
 
-
         public void Dispose()
         {
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
         #region Empleados
         public async Task<List<TB_Empleado>> GetEmpleados(bool? activo)
@@ -39,6 +39,19 @@ namespace Bovis.Data
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Empleado>();
+        }
+
+        public async Task<TB_Empleado> GetEmpleado(int idEmpleado)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = from cat in db.tB_Empleados
+                          where cat.NumEmpleadoRrHh == idEmpleado
+                          select cat;
+
+                return await res.FirstOrDefaultAsync();
+
+            }
         }
 
         public async Task<(bool existe, string mensaje)> AddRegistro(TB_Empleado registro)

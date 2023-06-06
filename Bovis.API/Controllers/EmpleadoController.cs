@@ -36,7 +36,14 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpPut("Empleados/Agregar"), Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Registro/{idEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetEmpleado(int idEmpleado)
+        {
+            var query = await _empleadoQueryService.GetEmpleado(idEmpleado);
+            return Ok(query);
+        }
+
+        [HttpPut("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AgregarRegistro(AddEmpleadoCommand registro)
         {
             var response = await _mediator.Send(registro);

@@ -52,7 +52,14 @@ public class RequerimientoController : ControllerBase
         return Ok(query);
     }
 
-    [HttpPut("Registro/Agregar"), Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Registro/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetRequerimiento(int idRequerimiento)
+    {
+        var query = await _requerimientoQueryService.GetRequerimiento(idRequerimiento);
+        return Ok(query);
+    }
+
+    [HttpPut("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> AgregarRegistro(AddRequerimientoCommand registro)
     {
         var response = await _mediator.Send(registro);

@@ -19,11 +19,13 @@ namespace Bovis.Business
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
 
         #region Empleados
         public Task<List<TB_Empleado>> GetEmpleados(bool? Activo) => _empleadoData.GetEmpleados(Activo);
+
+        public Task<TB_Empleado> GetEmpleado(int idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
 
         public async Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro)
         {

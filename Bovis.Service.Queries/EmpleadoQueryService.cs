@@ -25,19 +25,24 @@ namespace Bovis.Service.Queries
             this._empleadoBusiness = _empleadoBusiness;
         }
 
-
         public void Dispose()
         {
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
         #region Empleados
         public async Task<Response<List<Empleado>>> GetEmpleados(bool? Activo)
         {
             var response = await _empleadoBusiness.GetEmpleados(Activo);
             return new Response<List<Empleado>> { Data = _map.Map<List<Empleado>>(response), Success = true };
+        }
+
+        public async Task<Response<Empleado>> GetEmpleado(int idEmpleado)
+        {
+            var response = await _empleadoBusiness.GetEmpleado(idEmpleado);
+            return new Response<Empleado> { Data = _map.Map<Empleado>(response), Success = true };
         }
         #endregion Empleados
     }

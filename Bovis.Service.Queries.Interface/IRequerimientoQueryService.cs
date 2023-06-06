@@ -11,9 +11,10 @@ namespace Bovis.Service.Queries.Interface
 {
     public interface IRequerimientoQueryService : IDisposable
     {
-        Task<Response<List<Requerimiento>>> GetRequerimientos(bool? Activo);
-        Task<Response<bool>> AddRegistro(TB_Requerimiento registro);
         Task<Response<List<Habilidad>>> GetHabilidades(int idRequerimiento);
         Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento);
+        Task<Response<List<Requerimiento>>> GetRequerimientos(bool? Activo);
+        Task<Response<Requerimiento>> GetRequerimiento(int idRequerimiento);
+        Task<Response<bool>> AddRegistro(TB_Requerimiento registro);
     }
 }

@@ -63,6 +63,19 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TB_Requerimiento>();
         }
 
+        public async Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = from cat in db.tB_Requerimientos
+                          where cat.IdRequerimiento == idRequerimiento
+                          select cat;
+
+                return await res.FirstOrDefaultAsync();
+
+            }
+        }
+
         public async Task<(bool existe, string mensaje)> AddRegistro(TB_Requerimiento registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

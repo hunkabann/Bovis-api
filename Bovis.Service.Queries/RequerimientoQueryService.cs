@@ -55,6 +55,12 @@ namespace Bovis.Service.Queries
             return new Response<List<Requerimiento>> { Data = _map.Map<List<Requerimiento>>(response), Success = true };
         }
 
+        public async Task<Response<Requerimiento>> GetRequerimiento(int idRequerimiento)
+        {
+            var response = await _requerimientoBussines.GetRequerimiento(idRequerimiento);
+            return new Response<Requerimiento> { Data = _map.Map<Requerimiento>(response), Success = true };
+        }
+
         public async Task<Response<bool>> AddRegistro(TB_Requerimiento registro)
         {
             var response = await _requerimientoBussines.AddRegistro(registro);
