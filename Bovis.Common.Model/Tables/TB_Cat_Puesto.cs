@@ -5,7 +5,7 @@ namespace Bovis.Common.Model.Tables
 	[Table(Schema = "dbo", Name = "tb_cat_puesto")]
 	public class TB_Cat_Puesto
 	{
-		[Column("chcid_puesto"), NotNull, PrimaryKey, Identity] public string CvePuesto { get; set; }
+		[Column("Nukid_puesto"), NotNull, PrimaryKey, Identity] public string CvePuesto { get; set; }
 		[Column("Nukidnivel"), NotNull] public int IdNivel { get; set; }
 		[Column("Chpuesto"), NotNull] public string Puesto { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
