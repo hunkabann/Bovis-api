@@ -3,6 +3,7 @@ using Bovis.Common.Model.Tables;
 using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
 using Microsoft.Win32;
+using Bovis.Service.Queries.Dto.Responses;
 
 namespace Bovis.Business
 {
@@ -22,8 +23,17 @@ namespace Bovis.Business
         }
         #endregion base
 
+        #region Habilidades
+        public Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento) => _RequerimientoData.GetHabilidades(idRequerimiento);
+        #endregion Habilidades
+
+        #region Experiencias
+        public Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento) => _RequerimientoData.GetExperiencias(idRequerimiento);
+        #endregion Experiencias
+
         #region Registros
         public Task<List<TB_Requerimiento>> GetRequerimientos(bool? Activo) => _RequerimientoData.GetRequerimientos(Activo);
+
         public async Task<(bool Success, string Message)> AddRegistro(TB_Requerimiento registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

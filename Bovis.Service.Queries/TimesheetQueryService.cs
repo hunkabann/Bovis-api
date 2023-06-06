@@ -30,7 +30,7 @@ namespace Bovis.Service.Queries
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
     }
 }
 

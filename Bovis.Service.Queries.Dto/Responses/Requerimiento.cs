@@ -17,4 +17,18 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string chexperiencias { get;set; }
         public bool boactivo { get; set; }
     }
+
+    public class Habilidad
+    {
+        public int nukidrequerimiento { get; set; }
+        public int nukidhabilidad { get; set; }
+        public string chhabilidad { get; set; }
+    }
+
+    public class Experiencia
+    {
+        public int nukidrequerimiento { get; set; }
+        public int nukidexperiencia { get; set; }
+        public string chexperiencia { get; set; }
+    }
 }

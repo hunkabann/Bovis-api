@@ -30,7 +30,23 @@ namespace Bovis.Service.Queries
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
+
+        #region Habilidades
+        public async Task<Response<List<Habilidad>>> GetHabilidades(int idRequerimiento)
+        {
+            var response = await _requerimientoBussines.GetHabilidades(idRequerimiento);
+            return new Response<List<Habilidad>> { Data = _map.Map<List<Habilidad>>(response), Success = true };
+        }
+        #endregion Habilidades
+
+        #region Experiencias
+        public async Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento)
+        {
+            var response = await _requerimientoBussines.GetExperiencias(idRequerimiento);
+            return new Response<List<Experiencia>> { Data = _map.Map<List<Experiencia>>(response), Success = true };
+        }
+        #endregion Experiencias
 
         #region Registros
         public async Task<Response<List<Requerimiento>>> GetRequerimientos(bool? Activo)
@@ -38,6 +54,7 @@ namespace Bovis.Service.Queries
             var response = await _requerimientoBussines.GetRequerimientos(Activo);
             return new Response<List<Requerimiento>> { Data = _map.Map<List<Requerimiento>>(response), Success = true };
         }
+
         public async Task<Response<bool>> AddRegistro(TB_Requerimiento registro)
         {
             var response = await _requerimientoBussines.AddRegistro(registro);

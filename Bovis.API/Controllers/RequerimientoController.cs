@@ -26,6 +26,24 @@ public class RequerimientoController : ControllerBase
         this._mediator = _mediator;        
     }
 
+    #region Habilidades
+    [HttpGet, Route("Habilidades/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetHabilidades(int idRequerimiento)
+    {
+        var query = await _requerimientoQueryService.GetHabilidades(idRequerimiento);
+        return Ok(query);
+    }
+    #endregion Habilidades
+
+    #region Experiencias
+    [HttpGet, Route("Experiencias/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetExperiencias(int idRequerimiento)
+    {
+        var query = await _requerimientoQueryService.GetExperiencias(idRequerimiento);
+        return Ok(query);
+    }
+    #endregion Experiencias
+
     #region Registros
     [HttpGet, Route("Requerimientos/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")
     public async Task<IActionResult> GetRequerimientos(bool? Activo)

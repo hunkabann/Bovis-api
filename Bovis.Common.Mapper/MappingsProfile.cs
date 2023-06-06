@@ -24,6 +24,16 @@ public class MappingsProfile : Profile
             .ForMember(c => c.chhabilidades, dto => dto.MapFrom(src => src.Habilidades))
             .ForMember(c => c.chexperiencias, dto => dto.MapFrom(src => src.Experiencias))
             .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
+
+        CreateMap<TB_Requerimiento_Habilidad, Habilidad>()
+            .ForMember(c => c.nukidrequerimiento, dto => dto.MapFrom(src => src.IdRequerimiento))
+            .ForMember(c => c.nukidhabilidad, dto => dto.MapFrom(src => src.IdHabilidad))
+            .ForMember(c => c.chhabilidad, dto => dto.MapFrom(src => src.Habilidad));
+
+        CreateMap<TB_Requerimiento_Experiencia, Experiencia>()
+            .ForMember(c => c.nukidrequerimiento, dto => dto.MapFrom(src => src.IdRequerimiento))
+            .ForMember(c => c.nukidexperiencia, dto => dto.MapFrom(src => src.IdExperiencia))
+            .ForMember(c => c.chexperiencia, dto => dto.MapFrom(src => src.Experiencia));
         #endregion Requerimientos
 
         #region Empleados

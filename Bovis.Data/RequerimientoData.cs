@@ -30,6 +30,27 @@ namespace Bovis.Data
             GC.Collect();
         }
         #endregion base
+        public async Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento)
+        {
+            if (idRequerimiento > 0)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Requerimiento_Habilidades
+                                                                          where cat.IdRequerimiento == idRequerimiento
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Requerimiento_Habilidad>();
+        }
+
+        public async Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento)
+        {
+            if (idRequerimiento > 0)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Requerimiento_Experiencias
+                                                                          where cat.IdRequerimiento == idRequerimiento
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Requerimiento_Experiencia>();
+        }
 
         public async Task<List<TB_Requerimiento>> GetRequerimientos(bool? activo)
         {
@@ -41,6 +62,7 @@ namespace Bovis.Data
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento>();
         }
+
         public async Task<(bool existe, string mensaje)> AddRegistro(TB_Requerimiento registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

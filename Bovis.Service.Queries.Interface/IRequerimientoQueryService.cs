@@ -13,5 +13,7 @@ namespace Bovis.Service.Queries.Interface
     {
         Task<Response<List<Requerimiento>>> GetRequerimientos(bool? Activo);
         Task<Response<bool>> AddRegistro(TB_Requerimiento registro);
+        Task<Response<List<Habilidad>>> GetHabilidades(int idRequerimiento);
+        Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento);
     }
 }

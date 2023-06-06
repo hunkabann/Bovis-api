@@ -10,6 +10,8 @@ namespace Bovis.Business.Interface
 {
     public interface IRequerimientoBusiness : IDisposable
     {
+        Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento);
+        Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento);
         Task<List<TB_Requerimiento>> GetRequerimientos(bool? activo);
         Task<(bool Success, string Message)> AddRegistro(TB_Requerimiento registro);
     }
