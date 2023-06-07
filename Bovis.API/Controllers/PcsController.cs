@@ -25,27 +25,27 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
-        [HttpGet("Proyectos"), Authorize(Roles = "dev.full")]
+        [HttpGet("Proyectos")]//, Authorize(Roles = "dev.full")]
         public async Task<IActionResult> ObtenerProyectos()
         {
             var business = await _pcsQueryService.GetProyectos();
             return Ok(business);
         }
 
-        [HttpGet("Proyecto/{numProyecto}"), Authorize(Roles = "dev.full")]
+        [HttpGet("Proyecto/{numProyecto}")]//, Authorize(Roles = "dev.full")]
         public async Task<IActionResult> ObtenerProyecto(int numProyecto)
         {
             var business = await _pcsQueryService.GetProyecto(numProyecto);
             return Ok(business);
         }
 
-        [HttpGet("Clientes"), Authorize(Roles = "dev.full")]
+        [HttpGet("Clientes")]//, Authorize(Roles = "dev.full")]
         public async Task<IActionResult> ObtenerClientes()
         {
             var business = await _pcsQueryService.GetClientes();
             return Ok(business);
         }
-        [HttpGet("Empresas"), Authorize(Roles = "dev.full")]
+        [HttpGet("Empresas")]//, Authorize(Roles = "dev.full")]
         public async Task<IActionResult> ObtenerEmpresas()
         {
             var business = await _pcsQueryService.GetEmpresas();

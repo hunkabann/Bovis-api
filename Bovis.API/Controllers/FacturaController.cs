@@ -28,8 +28,8 @@ namespace Bovis.API.Controllers
 		}
 
 
-		[HttpPost("Enviar"), Authorize(Roles = "it.full, dev.full")]
-		public async Task<IActionResult> ExtraerInfoFactura(EnviarFactura request)
+		[HttpPost("Enviar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> ExtraerInfoFactura(EnviarFactura request)
 		{
 			var business = await _facturaQueryService.ExtraerInfoFactura(request.B64Xml);
 			return Ok(business);
@@ -37,23 +37,23 @@ namespace Bovis.API.Controllers
 
 
 
-		[HttpPut("Agregar"), Authorize(Roles = "it.full, dev.full")]
-		public async Task<IActionResult> AgregarFactura(AddFacturasCommand objetivo)
+		[HttpPut("Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarFactura(AddFacturasCommand objetivo)
 		{
 			if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 			var business = await _mediator.Send(objetivo);
 			return Ok(business);
 		}
 
-		[HttpGet("InfoProyecto/{numProyecto}"), Authorize(Roles = "it.full, dev.full")]
-		public async Task<IActionResult> ObtenerInfoProyecto(int numProyecto)
+		[HttpGet("InfoProyecto/{numProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> ObtenerInfoProyecto(int numProyecto)
 		{
 			var business = await _facturaQueryService.GetInfoProyecto(numProyecto);
 			return Ok(business);
 
 		}
 
-        [HttpPut("AgregarNC"), Authorize(Roles = "it.full, dev.full")]
+        [HttpPut("AgregarNC")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AgregarNotaCredito(AddNotaCreditoCommand objetivo)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -61,7 +61,7 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpPut("AgregarCRP"), Authorize(Roles = "it.full, dev.full")]
+        [HttpPut("AgregarCRP")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AgregarCRP(AddPagosCommand objetivo)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -69,7 +69,7 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpPost, Route("Cancelar"), Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Cancelar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> CancelFactura(CancelFacturaCommand factura)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -84,7 +84,7 @@ namespace Bovis.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost("Consultar"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpPost("Consultar")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> Search(ConsultarFactura request)
         {
             var business = await _facturaQueryService.Search(request);

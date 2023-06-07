@@ -27,15 +27,15 @@ public class CatalogoController : ControllerBase
 
 	#region Beneficio
 
-	[HttpGet, Route("Beneficio/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
+	[HttpGet, Route("Beneficio/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
 	public async Task<IActionResult> Beneficio(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetBeneficio(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Beneficio/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddBeneficio(AgregarBeneficioCommand Beneficio)
+	[HttpPut, Route("Beneficio/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddBeneficio(AgregarBeneficioCommand Beneficio)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Beneficio);
@@ -47,8 +47,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Beneficio/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteBeneficio(EliminarBeneficioCommand Beneficio)
+	[HttpDelete, Route("Beneficio/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteBeneficio(EliminarBeneficioCommand Beneficio)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Beneficio);
@@ -60,8 +60,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Beneficio/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateBeneficio(ActualizarBeneficioCommand Beneficio)
+	[HttpPost, Route("Beneficio/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateBeneficio(ActualizarBeneficioCommand Beneficio)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -85,8 +85,8 @@ public class CatalogoController : ControllerBase
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Categoria/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddCategoria(AgregarCategoriaCommand Categoria)
+	[HttpPut, Route("Categoria/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddCategoria(AgregarCategoriaCommand Categoria)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Categoria);
@@ -98,8 +98,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Categoria/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteCategoria(EliminarCategoriaCommand Categoria)
+	[HttpDelete, Route("Categoria/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteCategoria(EliminarCategoriaCommand Categoria)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Categoria);
@@ -111,8 +111,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Categoria/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateCategoria(ActualizarCategoriaCommand Categoria)
+	[HttpPost, Route("Categoria/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateCategoria(ActualizarCategoriaCommand Categoria)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -130,15 +130,15 @@ public class CatalogoController : ControllerBase
 
 	#region Clasificacion
 
-	[HttpGet, Route("Clasificacion/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Clasificacion(bool? Activo)
+	[HttpGet, Route("Clasificacion/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Clasificacion(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetClasificacion(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Clasificacion/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddClasificacion(AgregarClasificacionCommand Clasificacion)
+	[HttpPut, Route("Clasificacion/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddClasificacion(AgregarClasificacionCommand Clasificacion)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Clasificacion);
@@ -150,8 +150,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Clasificacion/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteClasificacion(EliminarClasificacionCommand Clasificacion)
+	[HttpDelete, Route("Clasificacion/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteClasificacion(EliminarClasificacionCommand Clasificacion)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Clasificacion);
@@ -163,8 +163,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Clasificacion/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateClasificacion(ActualizarClasificacionCommand Clasificacion)
+	[HttpPost, Route("Clasificacion/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateClasificacion(ActualizarClasificacionCommand Clasificacion)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -182,15 +182,15 @@ public class CatalogoController : ControllerBase
 
 	#region Costo Indirecto Salarios
 
-	[HttpGet, Route("CostoIndirectoSalarios/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> CostoIndirectoSalarios(bool? Activo)
+	[HttpGet, Route("CostoIndirectoSalarios/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> CostoIndirectoSalarios(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetCostoIndirectoSalarios(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("CostoIndirectoSalarios/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddCostoIndirectoSalarios(AgregarCostoIndirectoSalariosCommand CostoIndirectoSalarios)
+	[HttpPut, Route("CostoIndirectoSalarios/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddCostoIndirectoSalarios(AgregarCostoIndirectoSalariosCommand CostoIndirectoSalarios)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(CostoIndirectoSalarios);
@@ -202,8 +202,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("CostoIndirectoSalarios/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteCostoIndirectoSalarios(EliminarCostoIndirectoSalariosCommand CostoIndirectoSalarios)
+	[HttpDelete, Route("CostoIndirectoSalarios/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteCostoIndirectoSalarios(EliminarCostoIndirectoSalariosCommand CostoIndirectoSalarios)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(CostoIndirectoSalarios);
@@ -215,8 +215,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("CostoIndirectoSalarios/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateCostoIndirectoSalarios(ActualizarCostoIndirectoSalariosCommand CostoIndirectoSalarios)
+	[HttpPost, Route("CostoIndirectoSalarios/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateCostoIndirectoSalarios(ActualizarCostoIndirectoSalariosCommand CostoIndirectoSalarios)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -234,15 +234,15 @@ public class CatalogoController : ControllerBase
 
 	#region Departamento
 
-	[HttpGet, Route("Departamento/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Departamento(bool? Activo)
+	[HttpGet, Route("Departamento/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Departamento(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetDepartamento(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Departamento/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddDepartamento(AgregarDepartamentoCommand Departamento)
+	[HttpPut, Route("Departamento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddDepartamento(AgregarDepartamentoCommand Departamento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Departamento);
@@ -254,8 +254,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Departamento/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteDepartamento(EliminarDepartamentoCommand Departamento)
+	[HttpDelete, Route("Departamento/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteDepartamento(EliminarDepartamentoCommand Departamento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Departamento);
@@ -267,8 +267,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Departamento/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateDepartamento(ActualizarDepartamentoCommand Departamento)
+	[HttpPost, Route("Departamento/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateDepartamento(ActualizarDepartamentoCommand Departamento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -286,15 +286,15 @@ public class CatalogoController : ControllerBase
 
 	#region Documento
 
-	[HttpGet, Route("Documento/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Documento(bool? Activo)
+	[HttpGet, Route("Documento/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Documento(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetDocumento(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Documento/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddDocumento(AgregarDocumentoCommand Documento)
+	[HttpPut, Route("Documento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddDocumento(AgregarDocumentoCommand Documento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Documento);
@@ -306,8 +306,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Documento/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteDocumento(EliminarDocumentoCommand Documento)
+	[HttpDelete, Route("Documento/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteDocumento(EliminarDocumentoCommand Documento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Documento);
@@ -319,8 +319,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Documento/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateDocumento(ActualizarDocumentoCommand Documento)
+	[HttpPost, Route("Documento/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateDocumento(ActualizarDocumentoCommand Documento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -338,15 +338,15 @@ public class CatalogoController : ControllerBase
 
 	#region Estado Civil
 
-	[HttpGet, Route("EstadoCivil/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> EdoCivil(bool? Activo)
+	[HttpGet, Route("EstadoCivil/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> EdoCivil(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetEdoCivil(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("EstadoCivil/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddEdoCivil(AgregarEdoCivilCommand EdoCivil)
+	[HttpPut, Route("EstadoCivil/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddEdoCivil(AgregarEdoCivilCommand EdoCivil)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(EdoCivil);
@@ -358,8 +358,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("EstadoCivil/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteEdoCivil(EliminarEdoCivilCommand EdoCivil)
+	[HttpDelete, Route("EstadoCivil/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteEdoCivil(EliminarEdoCivilCommand EdoCivil)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(EdoCivil);
@@ -371,8 +371,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("EstadoCivil/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateEdoCivil(ActualizarEdoCivilCommand EdoCivil)
+	[HttpPost, Route("EstadoCivil/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateEdoCivil(ActualizarEdoCivilCommand EdoCivil)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -390,15 +390,15 @@ public class CatalogoController : ControllerBase
 
 	#region Estatus Proyecto
 
-	[HttpGet, Route("Estatus/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Estatus(bool? Activo)
+	[HttpGet, Route("Estatus/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Estatus(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetEstatusProyecto(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Estatus/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddEstatusProyecto(AgregarEstatusProyectoCommand EstatusProyecto)
+	[HttpPut, Route("Estatus/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddEstatusProyecto(AgregarEstatusProyectoCommand EstatusProyecto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(EstatusProyecto);
@@ -410,8 +410,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Estatus/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteEstatusProyecto(EliminarEstatusProyectoCommand EstatusProyecto)
+	[HttpDelete, Route("Estatus/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteEstatusProyecto(EliminarEstatusProyectoCommand EstatusProyecto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(EstatusProyecto);
@@ -423,8 +423,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Estatus/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateEstatusProyecto(ActualizarEstatusProyectoCommand EstatusProyecto)
+	[HttpPost, Route("Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateEstatusProyecto(ActualizarEstatusProyectoCommand EstatusProyecto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -451,15 +451,15 @@ public class CatalogoController : ControllerBase
 
     #region Forma Pago
 
-    [HttpGet, Route("FormaPago/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> FormaPago(bool? Activo)
+    [HttpGet, Route("FormaPago/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> FormaPago(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetFormaPago(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("FormaPago/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddFormaPago(AgregarFormaPagoCommand FormaPago)
+	[HttpPut, Route("FormaPago/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddFormaPago(AgregarFormaPagoCommand FormaPago)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(FormaPago);
@@ -471,8 +471,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("FormaPago/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteFormaPago(EliminarFormaPagoCommand FormaPago)
+	[HttpDelete, Route("FormaPago/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteFormaPago(EliminarFormaPagoCommand FormaPago)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(FormaPago);
@@ -484,8 +484,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("FormaPago/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateFormaPago(ActualizarFormaPagoCommand FormaPago)
+	[HttpPost, Route("FormaPago/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateFormaPago(ActualizarFormaPagoCommand FormaPago)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -503,15 +503,15 @@ public class CatalogoController : ControllerBase
 
 	#region Gasto
 
-	[HttpGet, Route("Gasto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Gasto(bool? Activo)
+	[HttpGet, Route("Gasto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Gasto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetGasto(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Gasto/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddGasto(AgregarGastoCommand Gasto)
+	[HttpPut, Route("Gasto/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddGasto(AgregarGastoCommand Gasto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Gasto);
@@ -523,8 +523,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Gasto/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteGasto(EliminarGastoCommand Gasto)
+	[HttpDelete, Route("Gasto/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteGasto(EliminarGastoCommand Gasto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Gasto);
@@ -536,8 +536,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Gasto/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateGasto(ActualizarGastoCommand Gasto)
+	[HttpPost, Route("Gasto/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateGasto(ActualizarGastoCommand Gasto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -564,15 +564,15 @@ public class CatalogoController : ControllerBase
 
     #region Ingreso
 
-    [HttpGet, Route("Ingreso/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Ingreso(bool? Activo)
+    [HttpGet, Route("Ingreso/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Ingreso(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetIngreso(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Ingreso/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddIngreso(AgregarIngresoCommand Ingreso)
+	[HttpPut, Route("Ingreso/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddIngreso(AgregarIngresoCommand Ingreso)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Ingreso);
@@ -584,8 +584,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Ingreso/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteIngreso(EliminarIngresoCommand Ingreso)
+	[HttpDelete, Route("Ingreso/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteIngreso(EliminarIngresoCommand Ingreso)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Ingreso);
@@ -597,8 +597,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Ingreso/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateIngreso(ActualizarIngresoCommand Ingreso)
+	[HttpPost, Route("Ingreso/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateIngreso(ActualizarIngresoCommand Ingreso)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -622,8 +622,8 @@ public class CatalogoController : ControllerBase
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Jornada/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddJornada(AgregarJornadaCommand Jornada)
+	[HttpPut, Route("Jornada/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddJornada(AgregarJornadaCommand Jornada)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Jornada);
@@ -635,8 +635,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Jornada/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteJornada(EliminarJornadaCommand Jornada)
+	[HttpDelete, Route("Jornada/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteJornada(EliminarJornadaCommand Jornada)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Jornada);
@@ -648,8 +648,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Jornada/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateJornada(ActualizarJornadaCommand Jornada)
+	[HttpPost, Route("Jornada/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateJornada(ActualizarJornadaCommand Jornada)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -667,15 +667,15 @@ public class CatalogoController : ControllerBase
 
 	#region Moneda
 
-	[HttpGet, Route("Moneda/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Modena(bool? Activo)
+	[HttpGet, Route("Moneda/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Modena(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetModena(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Moneda/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddModena(AgregarModenaCommand Modena)
+	[HttpPut, Route("Moneda/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddModena(AgregarModenaCommand Modena)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Modena);
@@ -687,8 +687,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Moneda/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteModena(EliminarModenaCommand Modena)
+	[HttpDelete, Route("Moneda/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteModena(EliminarModenaCommand Modena)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Modena);
@@ -700,8 +700,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Moneda/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateModena(ActualizarModenaCommand Modena)
+	[HttpPost, Route("Moneda/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateModena(ActualizarModenaCommand Modena)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -725,8 +725,8 @@ public class CatalogoController : ControllerBase
 		return Ok(query);
 	}
 
-	[HttpPut, Route("NivelEstudios/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddNivelEstudios(AgregarNivelEstudiosCommand NivelEstudios)
+	[HttpPut, Route("NivelEstudios/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddNivelEstudios(AgregarNivelEstudiosCommand NivelEstudios)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(NivelEstudios);
@@ -738,8 +738,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("NivelEstudios/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteNivelEstudios(EliminarNivelEstudiosCommand NivelEstudios)
+	[HttpDelete, Route("NivelEstudios/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteNivelEstudios(EliminarNivelEstudiosCommand NivelEstudios)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(NivelEstudios);
@@ -751,8 +751,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("NivelEstudios/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateNivelEstudios(ActualizarNivelEstudiosCommand NivelEstudios)
+	[HttpPost, Route("NivelEstudios/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateNivelEstudios(ActualizarNivelEstudiosCommand NivelEstudios)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -770,15 +770,15 @@ public class CatalogoController : ControllerBase
 
 	#region Nivel Puesto
 
-	[HttpGet, Route("NivelPuesto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> NivelPuesto(bool? Activo)
+	[HttpGet, Route("NivelPuesto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> NivelPuesto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetNivelPuesto(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("NivelPuesto/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddNivelPuesto(AgregarNivelPuestoCommand NivelPuesto)
+	[HttpPut, Route("NivelPuesto/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddNivelPuesto(AgregarNivelPuestoCommand NivelPuesto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(NivelPuesto);
@@ -790,8 +790,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("NivelPuesto/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteNivelPuesto(EliminarNivelPuestoCommand NivelPuesto)
+	[HttpDelete, Route("NivelPuesto/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteNivelPuesto(EliminarNivelPuestoCommand NivelPuesto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(NivelPuesto);
@@ -803,8 +803,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("NivelPuesto/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateNivelPuesto(ActualizarNivelPuestoCommand NivelPuesto)
+	[HttpPost, Route("NivelPuesto/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateNivelPuesto(ActualizarNivelPuestoCommand NivelPuesto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -822,15 +822,15 @@ public class CatalogoController : ControllerBase
 
 	#region Pcs
 
-	[HttpGet, Route("Pcs/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Pcs(bool? Activo)
+	[HttpGet, Route("Pcs/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Pcs(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetPcs(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Pcs/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddPcs(AgregarPcsCommand Pcs)
+	[HttpPut, Route("Pcs/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddPcs(AgregarPcsCommand Pcs)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Pcs);
@@ -842,8 +842,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Pcs/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeletePcs(EliminarPcsCommand Pcs)
+	[HttpDelete, Route("Pcs/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeletePcs(EliminarPcsCommand Pcs)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Pcs);
@@ -855,8 +855,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Pcs/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdatePcs(ActualizarPcsCommand Pcs)
+	[HttpPost, Route("Pcs/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdatePcs(ActualizarPcsCommand Pcs)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -874,15 +874,15 @@ public class CatalogoController : ControllerBase
 
 	#region Prestacion
 
-	[HttpGet, Route("Prestacion/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Prestacion(bool? Activo)
+	[HttpGet, Route("Prestacion/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Prestacion(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetPrestacion(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Prestacion/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddPrestacion(AgregarPrestacionCommand Prestacion)
+	[HttpPut, Route("Prestacion/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddPrestacion(AgregarPrestacionCommand Prestacion)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Prestacion);
@@ -894,8 +894,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Prestacion/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeletePrestacion(EliminarPrestacionCommand Prestacion)
+	[HttpDelete, Route("Prestacion/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeletePrestacion(EliminarPrestacionCommand Prestacion)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Prestacion);
@@ -907,8 +907,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Prestacion/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdatePrestacion(ActualizarPrestacionCommand Prestacion)
+	[HttpPost, Route("Prestacion/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdatePrestacion(ActualizarPrestacionCommand Prestacion)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -941,8 +941,8 @@ public class CatalogoController : ControllerBase
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Puesto/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddPuesto(AgregarPuestoCommand Puesto)
+	[HttpPut, Route("Puesto/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddPuesto(AgregarPuestoCommand Puesto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Puesto);
@@ -954,8 +954,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Puesto/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeletePuesto(EliminarPuestoCommand Puesto)
+	[HttpDelete, Route("Puesto/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeletePuesto(EliminarPuestoCommand Puesto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Puesto);
@@ -967,8 +967,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Puesto/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdatePuesto(ActualizarPuestoCommand Puesto)
+	[HttpPost, Route("Puesto/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdatePuesto(ActualizarPuestoCommand Puesto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -986,15 +986,15 @@ public class CatalogoController : ControllerBase
 
 	#region Rubro Ingreso Reembolsable
 
-	[HttpGet, Route("RubroIngresoReembolsable/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> RubroIngresoReembolsable(bool? Activo)
+	[HttpGet, Route("RubroIngresoReembolsable/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> RubroIngresoReembolsable(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetRubroIngresoReembolsable(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("RubroIngresoReembolsable/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddRubroIngresoReembolsable(AgregarRubroIngresoReembolsableCommand RubroIngresoReembolsable)
+	[HttpPut, Route("RubroIngresoReembolsable/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddRubroIngresoReembolsable(AgregarRubroIngresoReembolsableCommand RubroIngresoReembolsable)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(RubroIngresoReembolsable);
@@ -1006,8 +1006,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("RubroIngresoReembolsable/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteRubroIngresoReembolsable(EliminarRubroIngresoReembolsableCommand RubroIngresoReembolsable)
+	[HttpDelete, Route("RubroIngresoReembolsable/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteRubroIngresoReembolsable(EliminarRubroIngresoReembolsableCommand RubroIngresoReembolsable)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(RubroIngresoReembolsable);
@@ -1019,8 +1019,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("RubroIngresoReembolsable/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateRubroIngresoReembolsable(ActualizarRubroIngresoReembolsableCommand RubroIngresoReembolsable)
+	[HttpPost, Route("RubroIngresoReembolsable/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateRubroIngresoReembolsable(ActualizarRubroIngresoReembolsableCommand RubroIngresoReembolsable)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1038,15 +1038,15 @@ public class CatalogoController : ControllerBase
 
 	#region Sector
 
-	[HttpGet, Route("Sector/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Sector(bool? Activo)
+	[HttpGet, Route("Sector/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Sector(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetSector(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Sector/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddSector(AgregarSectorCommand Sector)
+	[HttpPut, Route("Sector/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddSector(AgregarSectorCommand Sector)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Sector);
@@ -1058,8 +1058,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Sector/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteSector(EliminarSectorCommand Sector)
+	[HttpDelete, Route("Sector/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteSector(EliminarSectorCommand Sector)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(Sector);
@@ -1071,8 +1071,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Sector/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateSector(ActualizarSectorCommand Sector)
+	[HttpPost, Route("Sector/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateSector(ActualizarSectorCommand Sector)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1090,15 +1090,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Cie
 
-	[HttpGet, Route("TipoCie/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoCie(bool? Activo)
+	[HttpGet, Route("TipoCie/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoCie(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoCie(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoCie/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoCie(AgregarTipoCieCommand TipoCie)
+	[HttpPut, Route("TipoCie/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoCie(AgregarTipoCieCommand TipoCie)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoCie);
@@ -1110,8 +1110,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoCie/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoCie(EliminarTipoCieCommand TipoCie)
+	[HttpDelete, Route("TipoCie/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoCie(EliminarTipoCieCommand TipoCie)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoCie);
@@ -1123,8 +1123,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoCie/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoCie(ActualizarTipoCieCommand TipoCie)
+	[HttpPost, Route("TipoCie/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoCie(ActualizarTipoCieCommand TipoCie)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1142,15 +1142,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Contrato
 
-	[HttpGet, Route("TipoContrato/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoContrato(bool? Activo)
+	[HttpGet, Route("TipoContrato/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoContrato(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoContrato(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoContrato/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoContrato(AgregarTipoContratoCommand TipoContrato)
+	[HttpPut, Route("TipoContrato/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoContrato(AgregarTipoContratoCommand TipoContrato)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoContrato);
@@ -1162,8 +1162,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoContrato/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoContrato(EliminarTipoContratoCommand TipoContrato)
+	[HttpDelete, Route("TipoContrato/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoContrato(EliminarTipoContratoCommand TipoContrato)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoContrato);
@@ -1175,8 +1175,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoContrato/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoContrato(ActualizarTipoContratoCommand TipoContrato)
+	[HttpPost, Route("TipoContrato/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoContrato(ActualizarTipoContratoCommand TipoContrato)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1194,15 +1194,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Cta Contable
 
-	[HttpGet, Route("TipoCtaContable/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoCtaContable(bool? Activo)
+	[HttpGet, Route("TipoCtaContable/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoCtaContable(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoCtaContable(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoCtaContable/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoCtaContable(AgregarTipoCtaContableCommand TipoCtaContable)
+	[HttpPut, Route("TipoCtaContable/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoCtaContable(AgregarTipoCtaContableCommand TipoCtaContable)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoCtaContable);
@@ -1214,8 +1214,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoCtaContable/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoCtaContable(EliminarTipoCtaContableCommand TipoCtaContable)
+	[HttpDelete, Route("TipoCtaContable/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoCtaContable(EliminarTipoCtaContableCommand TipoCtaContable)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoCtaContable);
@@ -1227,8 +1227,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoCtaContable/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoCtaContable(ActualizarTipoCtaContableCommand TipoCtaContable)
+	[HttpPost, Route("TipoCtaContable/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoCtaContable(ActualizarTipoCtaContableCommand TipoCtaContable)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1246,15 +1246,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Cuenta
 
-	[HttpGet, Route("TipoCuenta/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoCuenta(bool? Activo)
+	[HttpGet, Route("TipoCuenta/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoCuenta(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoCuenta(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoCuenta/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoCuenta(AgregarTipoCuentaCommand TipoCuenta)
+	[HttpPut, Route("TipoCuenta/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoCuenta(AgregarTipoCuentaCommand TipoCuenta)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoCuenta);
@@ -1266,8 +1266,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoCuenta/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoCuenta(EliminarTipoCuentaCommand TipoCuenta)
+	[HttpDelete, Route("TipoCuenta/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoCuenta(EliminarTipoCuentaCommand TipoCuenta)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoCuenta);
@@ -1279,8 +1279,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoCuenta/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoCuenta(ActualizarTipoCuentaCommand TipoCuenta)
+	[HttpPost, Route("TipoCuenta/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoCuenta(ActualizarTipoCuentaCommand TipoCuenta)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1298,15 +1298,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Documento
 
-	[HttpGet, Route("TipoDocumento/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoDocumento(bool? Activo)
+	[HttpGet, Route("TipoDocumento/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoDocumento(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoDocumento(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoDocumento/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoDocumento(AgregarTipoDocumentoCommand TipoDocumento)
+	[HttpPut, Route("TipoDocumento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoDocumento(AgregarTipoDocumentoCommand TipoDocumento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoDocumento);
@@ -1318,8 +1318,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoDocumento/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoDocumento(EliminarTipoDocumentoCommand TipoDocumento)
+	[HttpDelete, Route("TipoDocumento/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoDocumento(EliminarTipoDocumentoCommand TipoDocumento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoDocumento);
@@ -1331,8 +1331,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoDocumento/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoDocumento(ActualizarTipoDocumentoCommand TipoDocumento)
+	[HttpPost, Route("TipoDocumento/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoDocumento(ActualizarTipoDocumentoCommand TipoDocumento)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1350,15 +1350,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Empleado
 
-	[HttpGet, Route("TipoEmpleado/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoEmpleado(bool? Activo)
+	[HttpGet, Route("TipoEmpleado/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoEmpleado(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoEmpleado(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoEmpleado/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoEmpleado(AgregarTipoEmpleadoCommand TipoEmpleado)
+	[HttpPut, Route("TipoEmpleado/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoEmpleado(AgregarTipoEmpleadoCommand TipoEmpleado)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoEmpleado);
@@ -1370,8 +1370,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoEmpleado/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoEmpleado(EliminarTipoEmpleadoCommand TipoEmpleado)
+	[HttpDelete, Route("TipoEmpleado/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoEmpleado(EliminarTipoEmpleadoCommand TipoEmpleado)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoEmpleado);
@@ -1383,8 +1383,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoEmpleado/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoEmpleado(ActualizarTipoEmpleadoCommand TipoEmpleado)
+	[HttpPost, Route("TipoEmpleado/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoEmpleado(ActualizarTipoEmpleadoCommand TipoEmpleado)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1402,15 +1402,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Factura
 
-	[HttpGet, Route("TipoFactura/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoFactura(bool? Activo)
+	[HttpGet, Route("TipoFactura/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoFactura(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoFactura(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoFactura/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoFactura(AgregarTipoFacturaCommand TipoFactura)
+	[HttpPut, Route("TipoFactura/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoFactura(AgregarTipoFacturaCommand TipoFactura)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoFactura);
@@ -1422,8 +1422,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoFactura/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoFactura(EliminarTipoFacturaCommand TipoFactura)
+	[HttpDelete, Route("TipoFactura/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoFactura(EliminarTipoFacturaCommand TipoFactura)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoFactura);
@@ -1435,8 +1435,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoFactura/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoFactura(ActualizarTipoFacturaCommand TipoFactura)
+	[HttpPost, Route("TipoFactura/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoFactura(ActualizarTipoFacturaCommand TipoFactura)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1454,15 +1454,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Gasto
 
-	[HttpGet, Route("TipoGasto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoGasto(bool? Activo)
+	[HttpGet, Route("TipoGasto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoGasto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoGasto(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoGasto/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoGasto(AgregarTipoGastoCommand TipoGasto)
+	[HttpPut, Route("TipoGasto/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoGasto(AgregarTipoGastoCommand TipoGasto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoGasto);
@@ -1474,8 +1474,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoGasto/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoGasto(EliminarTipoGastoCommand TipoGasto)
+	[HttpDelete, Route("TipoGasto/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoGasto(EliminarTipoGastoCommand TipoGasto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoGasto);
@@ -1487,8 +1487,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoGasto/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoGasto(ActualizarTipoGastoCommand TipoGasto)
+	[HttpPost, Route("TipoGasto/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoGasto(ActualizarTipoGastoCommand TipoGasto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1506,15 +1506,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Ingreso
 
-	[HttpGet, Route("TipoIngreso/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoIngreso(bool? Activo)
+	[HttpGet, Route("TipoIngreso/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoIngreso(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoIngreso(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoIngreso/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoIngreso(AgregarTipoIngresoCommand TipoIngreso)
+	[HttpPut, Route("TipoIngreso/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoIngreso(AgregarTipoIngresoCommand TipoIngreso)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoIngreso);
@@ -1526,8 +1526,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoIngreso/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoIngreso(EliminarTipoIngresoCommand TipoIngreso)
+	[HttpDelete, Route("TipoIngreso/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoIngreso(EliminarTipoIngresoCommand TipoIngreso)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoIngreso);
@@ -1539,8 +1539,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoIngreso/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoIngreso(ActualizarTipoIngresoCommand TipoIngreso)
+	[HttpPost, Route("TipoIngreso/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoIngreso(ActualizarTipoIngresoCommand TipoIngreso)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1558,15 +1558,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Pcs
 
-	[HttpGet, Route("TipoPcs/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoPcs(bool? Activo)
+	[HttpGet, Route("TipoPcs/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoPcs(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoPcs(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoPcs/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoPcs(AgregarTipoPcsCommand TipoPcs)
+	[HttpPut, Route("TipoPcs/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoPcs(AgregarTipoPcsCommand TipoPcs)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoPcs);
@@ -1578,8 +1578,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoPcs/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoPcs(EliminarTipoPcsCommand TipoPcs)
+	[HttpDelete, Route("TipoPcs/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoPcs(EliminarTipoPcsCommand TipoPcs)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoPcs);
@@ -1591,8 +1591,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoPcs/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoPcs(ActualizarTipoPcsCommand TipoPcs)
+	[HttpPost, Route("TipoPcs/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoPcs(ActualizarTipoPcsCommand TipoPcs)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1610,15 +1610,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Poliza
 
-	[HttpGet, Route("TipoPoliza/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoPoliza(bool? Activo)
+	[HttpGet, Route("TipoPoliza/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoPoliza(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoPoliza(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoPoliza/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoPoliza(AgregarTipoPolizaCommand TipoPoliza)
+	[HttpPut, Route("TipoPoliza/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoPoliza(AgregarTipoPolizaCommand TipoPoliza)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoPoliza);
@@ -1630,8 +1630,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoPoliza/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoPoliza(EliminarTipoPolizaCommand TipoPoliza)
+	[HttpDelete, Route("TipoPoliza/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoPoliza(EliminarTipoPolizaCommand TipoPoliza)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoPoliza);
@@ -1643,8 +1643,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoPoliza/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoPoliza(ActualizarTipoPolizaCommand TipoPoliza)
+	[HttpPost, Route("TipoPoliza/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoPoliza(ActualizarTipoPolizaCommand TipoPoliza)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1662,15 +1662,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Proyecto
 
-	[HttpGet, Route("TipoProyecto/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoProyecto(bool? Activo)
+	[HttpGet, Route("TipoProyecto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoProyecto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoProyecto(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoProyecto/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoProyecto(AgregarTipoProyectoCommand TipoProyecto)
+	[HttpPut, Route("TipoProyecto/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoProyecto(AgregarTipoProyectoCommand TipoProyecto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoProyecto);
@@ -1682,8 +1682,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoProyecto/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoProyecto(EliminarTipoProyectoCommand TipoProyecto)
+	[HttpDelete, Route("TipoProyecto/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoProyecto(EliminarTipoProyectoCommand TipoProyecto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoProyecto);
@@ -1695,8 +1695,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoProyecto/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoProyecto(ActualizarTipoProyectoCommand TipoProyecto)
+	[HttpPost, Route("TipoProyecto/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoProyecto(ActualizarTipoProyectoCommand TipoProyecto)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1714,15 +1714,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Resultado
 
-	[HttpGet, Route("TipoResultado/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoResultado(bool? Activo)
+	[HttpGet, Route("TipoResultado/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoResultado(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoResultado(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoResultado/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoResultado(AgregarTipoResultadoCommand TipoResultado)
+	[HttpPut, Route("TipoResultado/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoResultado(AgregarTipoResultadoCommand TipoResultado)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoResultado);
@@ -1734,8 +1734,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoResultado/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoResultado(EliminarTipoResultadoCommand TipoResultado)
+	[HttpDelete, Route("TipoResultado/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoResultado(EliminarTipoResultadoCommand TipoResultado)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoResultado);
@@ -1747,8 +1747,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoResultado/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoResultado(ActualizarTipoResultadoCommand TipoResultado)
+	[HttpPost, Route("TipoResultado/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoResultado(ActualizarTipoResultadoCommand TipoResultado)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1766,15 +1766,15 @@ public class CatalogoController : ControllerBase
 
 	#region Tipo Sangre
 
-	[HttpGet, Route("TipoSangre/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> TipoSangre(bool? Activo)
+	[HttpGet, Route("TipoSangre/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoSangre(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoSangre(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("TipoSangre/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddTipoSangre(AgregarTipoSangreCommand TipoSangre)
+	[HttpPut, Route("TipoSangre/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoSangre(AgregarTipoSangreCommand TipoSangre)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoSangre);
@@ -1786,8 +1786,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("TipoSangre/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteTipoSangre(EliminarTipoSangreCommand TipoSangre)
+	[HttpDelete, Route("TipoSangre/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoSangre(EliminarTipoSangreCommand TipoSangre)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(TipoSangre);
@@ -1799,8 +1799,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("TipoSangre/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateTipoSangre(ActualizarTipoSangreCommand TipoSangre)
+	[HttpPost, Route("TipoSangre/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoSangre(ActualizarTipoSangreCommand TipoSangre)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1818,15 +1818,15 @@ public class CatalogoController : ControllerBase
 
 	#region UnidadNegocio
 
-	[HttpGet, Route("UnidadNegocio/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UnidadNegocio(bool? Activo)
+	[HttpGet, Route("UnidadNegocio/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UnidadNegocio(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetUnidadNegocio(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("UnidadNegocio/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddUnidadNegocio(AgregarUnidadNegocioCommand UnidadNegocio)
+	[HttpPut, Route("UnidadNegocio/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddUnidadNegocio(AgregarUnidadNegocioCommand UnidadNegocio)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(UnidadNegocio);
@@ -1838,8 +1838,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("UnidadNegocio/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteUnidadNegocio(EliminarUnidadNegocioCommand UnidadNegocio)
+	[HttpDelete, Route("UnidadNegocio/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteUnidadNegocio(EliminarUnidadNegocioCommand UnidadNegocio)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(UnidadNegocio);
@@ -1851,8 +1851,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("UnidadNegocio/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateUnidadNegocio(ActualizarUnidadNegocioCommand UnidadNegocio)
+	[HttpPost, Route("UnidadNegocio/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateUnidadNegocio(ActualizarUnidadNegocioCommand UnidadNegocio)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
@@ -1870,15 +1870,15 @@ public class CatalogoController : ControllerBase
 
 	#region Viatico
 
-	[HttpGet, Route("Viatico/{Activo?}"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> Viatico(bool? Activo)
+	[HttpGet, Route("Viatico/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Viatico(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetViatico(Activo);
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Viatico/Agregar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> AddViatico(AgregarViaticoCommand viatico)
+	[HttpPut, Route("Viatico/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddViatico(AgregarViaticoCommand viatico)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(viatico);
@@ -1890,8 +1890,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpDelete, Route("Viatico/Borrar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> DeleteViatico(EliminarViaticoCommand viatico)
+	[HttpDelete, Route("Viatico/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteViatico(EliminarViaticoCommand viatico)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var response = await _mediator.Send(viatico);
@@ -1903,8 +1903,8 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	[HttpPost, Route("Viatico/Actualizar"), Authorize(Roles = "it.full, dev.full")]
-	public async Task<IActionResult> UpdateViatico(ActualizarViaticoCommand viatico)
+	[HttpPost, Route("Viatico/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateViatico(ActualizarViaticoCommand viatico)
 	{
 		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
 		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);

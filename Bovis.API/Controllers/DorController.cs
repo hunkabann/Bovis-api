@@ -25,7 +25,7 @@ namespace Bovis.API.Controllers
         }
 
         // Agregado por sebastian.flores
-        [HttpPost("DatosPrueba"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpPost("DatosPrueba")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerDatosPrueba(DorEmpCorreoRequest request)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -33,7 +33,7 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpPost("DatosEjecutivo"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpPost("DatosEjecutivo")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerDatosEjecutivo(DorEmpCorreoRequest request)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -41,7 +41,7 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpPost("DatosEmpleado"), Authorize(Roles = "eje.full, dev.full")]        
+        [HttpPost("DatosEmpleado")]//, Authorize(Roles = "eje.full, dev.full")]        
         public async Task<IActionResult> ObtenerDatosEmpleado(DorEmpCorreoRequest request)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -49,7 +49,7 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpPost("ListaSubordinados"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpPost("ListaSubordinados")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerListaSubordinados(DorEmpNombreRequest request)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
@@ -57,21 +57,21 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerDorObjectivosGenerales(string nivel, string unidadNegocio)
         {
             var business = await _dorQueryService.GetDorObjetivosGenerales(nivel, unidadNegocio);
             return Ok(business);
         }
 
-        [HttpGet("ConsultarGPM/{proyecto}"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpGet("ConsultarGPM/{proyecto}")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerGpmProyecto(int proyecto)
         {
             var business = await _dorQueryService.GetDorGpmProyecto(proyecto);
             return Ok(business);
         }
 
-        [HttpGet("ConsultarMetas/{proyecto}/{nivel}"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpGet("ConsultarMetas/{proyecto}/{nivel}")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerMetasProyecto(int proyecto,int nivel)
         {
             var business = await _dorQueryService.GetDorMetasProyecto(proyecto,nivel);
@@ -79,14 +79,14 @@ namespace Bovis.API.Controllers
         }      
 
 
-        [HttpGet("ConsultarObjetivosProyecto/{anio}/{proyecto}/{empleado}/{nivel}/{acepto?}"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpGet("ConsultarObjetivosProyecto/{anio}/{proyecto}/{empleado}/{nivel}/{acepto?}")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ObtenerDorObjectivosAnio(int anio, int proyecto, int empleado,int nivel, int? acepto)
         {
             var business = await _dorQueryService.GetDorObjetivoDesepeno(anio, proyecto, empleado, nivel, acepto);
             return Ok(business);
         }
 
-        [HttpPut("ActualizarObjetivos"), Authorize(Roles = "eje.full, dev.full")]
+        [HttpPut("ActualizarObjetivos")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> ActualizarObjectivosDorAnio(UpdDorObjetivoCommand objetivo)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
