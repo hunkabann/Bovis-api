@@ -10,7 +10,7 @@ namespace Bovis.Business.Interface
 {
     public interface ITimesheetBusiness : IDisposable
     {
-
+        Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados);
     }
 
 }

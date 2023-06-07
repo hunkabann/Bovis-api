@@ -7,6 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Newtonsoft.Json.Linq;
+using Bovis.Service.Queries.Dto.Responses;
 
 namespace Bovis.API.Controllers
 {
@@ -26,5 +28,12 @@ namespace Bovis.API.Controllers
         }
 
 
+        [HttpGet, Route("DiasHabiles/{mes}/{anio}/{sabados}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetDiasHabiles(int mes, int anio, bool sabados)
+        {
+            var query = await _timesheetQueryService.GetDiasHabiles(mes, anio, sabados);
+            
+            return Ok(query);
+        }
     }
 }

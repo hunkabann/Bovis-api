@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Both;
+using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 using System;
 using System.Collections.Generic;
@@ -31,6 +34,13 @@ namespace Bovis.Service.Queries
             GC.Collect();
         }
         #endregion base
+
+        public async Task<Response<Dias_Timesheet_Detalle>> GetDiasHabiles(int mes, int anio, bool sabados)
+        {
+            var response = await _timesheetBusiness.GetDiasHabiles(mes, anio, sabados);
+            return new Response<Dias_Timesheet_Detalle> { Data = _map.Map<Dias_Timesheet_Detalle>(response), Success = true };
+        }
+
     }
 }
 

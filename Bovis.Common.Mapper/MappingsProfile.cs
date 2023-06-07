@@ -11,6 +11,17 @@ public class MappingsProfile : Profile
 {
     public MappingsProfile()
     {
+        #region TimeSheet
+        CreateMap<Dias_Timesheet_Detalle, Detalle_Dias_Timesheet>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.id))
+            .ForMember(c => c.mes, dto => dto.MapFrom(src => src.mes))
+            .ForMember(c => c.dias, dto => dto.MapFrom(src => src.dias))
+            .ForMember(c => c.feriados, dto => dto.MapFrom(src => src.feriados))
+            .ForMember(c => c.sabados, dto => dto.MapFrom(src => src.sabados))
+            .ForMember(c => c.anio, dto => dto.MapFrom(src => src.anio))
+            .ForMember(c => c.dias_habiles, dto => dto.MapFrom(src => src.dias_habiles));
+        #endregion TimeSheet
+
         #region Requerimientos
         CreateMap<TB_Requerimiento, Requerimiento>()
             .ForMember(c => c.nukidrequerimiento, dto => dto.MapFrom(src => src.IdRequerimiento))

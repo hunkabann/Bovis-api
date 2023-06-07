@@ -79,6 +79,10 @@ builder.Services.AddScoped<IRequerimientoQueryService, RequerimientoQueryService
 builder.Services.AddScoped<IRequerimientoBusiness, RequerimientoBusiness>();
 builder.Services.AddScoped<IRequerimientoData, RequerimientoData>();
 
+builder.Services.AddScoped<ITimesheetQueryService, TimesheetQueryService>();
+builder.Services.AddScoped<ITimesheetBusiness, TimesheetBusiness>();
+builder.Services.AddScoped<ITimesheetData, TimesheetData>();
+
 builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 
 var app = builder.Build();

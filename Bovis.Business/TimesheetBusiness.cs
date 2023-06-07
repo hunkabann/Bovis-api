@@ -19,7 +19,9 @@ namespace Bovis.Business
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
+
+        public Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados) => _timesheetData.GetDiasHabiles(mes, anio, sabados);
 
     }
 }
