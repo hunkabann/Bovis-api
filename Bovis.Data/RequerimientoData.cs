@@ -34,9 +34,9 @@ namespace Bovis.Data
         {
             if (idRequerimiento > 0)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Requerimiento_Habilidades
-                                                                          where cat.IdRequerimiento == idRequerimiento
-                                                                          select cat).ToListAsync();
+                using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimiento_Habilidades
+                                                                          where req.IdRequerimiento == idRequerimiento
+                                                                          select req).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento_Habilidad>();
         }
@@ -45,9 +45,9 @@ namespace Bovis.Data
         {
             if (idRequerimiento > 0)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Requerimiento_Experiencias
-                                                                          where cat.IdRequerimiento == idRequerimiento
-                                                                          select cat).ToListAsync();
+                using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimiento_Experiencias
+                                                                          where req.IdRequerimiento == idRequerimiento
+                                                                          select req).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento_Experiencia>();
         }
@@ -56,9 +56,9 @@ namespace Bovis.Data
         {
             if (activo.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Requerimientos
-                                                                          where cat.Activo == activo
-                                                                          select cat).ToListAsync();
+                using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimientos
+                                                                          where req.Activo == activo
+                                                                          select req).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento>();
         }
@@ -67,9 +67,9 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from cat in db.tB_Requerimientos
-                          where cat.IdRequerimiento == idRequerimiento
-                          select cat;
+                var res = from req in db.tB_Requerimientos
+                          where req.IdRequerimiento == idRequerimiento
+                          select req;
 
                 return await res.FirstOrDefaultAsync();
 

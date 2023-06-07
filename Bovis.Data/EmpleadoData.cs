@@ -34,20 +34,66 @@ namespace Bovis.Data
         {
             if (activo.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Empleados
-                                                                          where cat.Activo == activo
-                                                                          select cat).ToListAsync();
+                using (var db = new ConnectionDB(dbConfig)) return await (from emp in db.tB_Empleados
+                                                                          where emp.Activo == activo
+                                                                          select emp).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Empleado>();
         }
 
-        public async Task<TB_Empleado> GetEmpleado(int idEmpleado)
+        public async Task<Empleado_Detalle> GetEmpleado(int idEmpleado)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from cat in db.tB_Empleados
-                          where cat.NumEmpleadoRrHh == idEmpleado
-                          select cat;
+                var res = from emp in db.tB_Empleados
+                          join per in db.tB_Personas on emp.IdPersona equals per.IdPersona
+                          where emp.NumEmpleadoRrHh == idEmpleado
+                          select new Empleado_Detalle
+                          {
+                              nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
+                              nukidpersona = emp.IdPersona,
+                              nombre_persona = per.Nombre + " " + per.ApPaterno + " " + per.ApPaterno,
+                              nukidtipo_empleado = emp.IdTipoEmpleado,
+                              nukidcategoria = emp.IdCategoria,
+                              nukidtipo_contrato = emp.IdTipoContrato,
+                              chcve_puesto = emp.CvePuesto,
+                              nukidempresa = emp.IdEmpresa,
+                              nukidciudad = emp.IdCiudad,
+                              nukidnivel_estudios = emp.IdNivelEstudios,
+                              nukidforma_pago = emp.IdFormaPago,
+                              nukidjornada = emp.IdJornada,
+                              nukiddepartamento = emp.IdDepartamento,
+                              nukidclasificacion = emp.IdClasificacion,
+                              nukidjefe_directo = emp.IdJefeDirecto,
+                              nukidunidad_negocio = emp.IdUnidadNegocio,
+                              nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
+                              nunum_empleado = emp.NumEmpleado,
+                              dtfecha_ingreso = emp.FechaIngreso,
+                              dtfecha_salida = emp.FechaSalida,
+                              dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso,
+                              chnss = emp.Nss,
+                              chemail_bovis = emp.EmailBovis,
+                              chexperiencias = emp.Experiencias,
+                              chhabilidades = emp.Habilidades,
+                              churl_repositorio = emp.UrlRepositorio,
+                              nusalario = emp.Salario,
+                              chprofesion = emp.Profesion,
+                              nuantiguedad = emp.Antiguedad,
+                              chturno = emp.Turno,
+                              nuunidad_medica = emp.UnidadMedica,
+                              chregistro_patronal = emp.RegistroPatronal,
+                              chcotizacion = emp.Cotizacion,
+                              nuduracion = emp.Duracion,
+                              boactivo = emp.Activo,
+                              bodescuento_pension = emp.DescuentoPension,
+                              nuporcentaje_pension = emp.PorcentajePension,
+                              nufondo_fijo = emp.FondoFijo,
+                              nucredito_infonavit = emp.CreditoInfonavit,
+                              chtipo_descuento = emp.TipoDescuento,
+                              nuvalor_descuento = emp.ValorDescuento,
+                              nuno_empleado_noi = emp.NoEmpleadoNoi,
+                              chrol = emp.Rol
+                          };
 
                 return await res.FirstOrDefaultAsync();
 

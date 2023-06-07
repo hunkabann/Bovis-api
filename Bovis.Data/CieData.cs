@@ -36,9 +36,9 @@ namespace Bovis.Data
         {
             if (activo.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Empresas
-                                                                          where cat.Activo == activo
-                                                                          select cat).ToListAsync();
+                using (var db = new ConnectionDB(dbConfig)) return await (from emp in db.tB_Empresas
+                                                                          where emp.Activo == activo
+                                                                          select emp).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Empresa>();
         }

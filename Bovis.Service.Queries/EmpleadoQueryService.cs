@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
@@ -39,10 +40,10 @@ namespace Bovis.Service.Queries
             return new Response<List<Empleado>> { Data = _map.Map<List<Empleado>>(response), Success = true };
         }
 
-        public async Task<Response<Empleado>> GetEmpleado(int idEmpleado)
+        public async Task<Response<Empleado_Detalle>> GetEmpleado(int idEmpleado)
         {
             var response = await _empleadoBusiness.GetEmpleado(idEmpleado);
-            return new Response<Empleado> { Data = _map.Map<Empleado>(response), Success = true };
+            return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = true };
         }
         #endregion Empleados
     }

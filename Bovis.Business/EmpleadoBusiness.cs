@@ -25,7 +25,7 @@ namespace Bovis.Business
         #region Empleados
         public Task<List<TB_Empleado>> GetEmpleados(bool? Activo) => _empleadoData.GetEmpleados(Activo);
 
-        public Task<TB_Empleado> GetEmpleado(int idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
+        public Task<Empleado_Detalle> GetEmpleado(int idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
 
         public async Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro)
         {
