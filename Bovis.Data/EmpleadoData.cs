@@ -30,15 +30,61 @@ namespace Bovis.Data
         #endregion base
 
         #region Empleados
-        public async Task<List<TB_Empleado>> GetEmpleados(bool? activo)
+        public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo)
         {
             if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from emp in db.tB_Empleados
+                                                                          join per in db.tB_Personas on emp.IdPersona equals per.IdPersona
                                                                           where emp.Activo == activo
-                                                                          select emp).ToListAsync();
+                                                                          select new Empleado_Detalle
+                                                                          {
+                                                                              nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
+                                                                              nukidpersona = emp.IdPersona,
+                                                                              nombre_persona = per.Nombre + " " + per.ApPaterno + " " + per.ApPaterno,
+                                                                              nukidtipo_empleado = emp.IdTipoEmpleado,
+                                                                              nukidcategoria = emp.IdCategoria,
+                                                                              nukidtipo_contrato = emp.IdTipoContrato,
+                                                                              chcve_puesto = emp.CvePuesto,
+                                                                              nukidempresa = emp.IdEmpresa,
+                                                                              nukidciudad = emp.IdCiudad,
+                                                                              nukidnivel_estudios = emp.IdNivelEstudios,
+                                                                              nukidforma_pago = emp.IdFormaPago,
+                                                                              nukidjornada = emp.IdJornada,
+                                                                              nukiddepartamento = emp.IdDepartamento,
+                                                                              nukidclasificacion = emp.IdClasificacion,
+                                                                              nukidjefe_directo = emp.IdJefeDirecto,
+                                                                              nukidunidad_negocio = emp.IdUnidadNegocio,
+                                                                              nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
+                                                                              nunum_empleado = emp.NumEmpleado,
+                                                                              dtfecha_ingreso = emp.FechaIngreso,
+                                                                              dtfecha_salida = emp.FechaSalida,
+                                                                              dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso,
+                                                                              chnss = emp.Nss,
+                                                                              chemail_bovis = emp.EmailBovis,
+                                                                              chexperiencias = emp.Experiencias,
+                                                                              chhabilidades = emp.Habilidades,
+                                                                              churl_repositorio = emp.UrlRepositorio,
+                                                                              nusalario = emp.Salario,
+                                                                              chprofesion = emp.Profesion,
+                                                                              nuantiguedad = emp.Antiguedad,
+                                                                              chturno = emp.Turno,
+                                                                              nuunidad_medica = emp.UnidadMedica,
+                                                                              chregistro_patronal = emp.RegistroPatronal,
+                                                                              chcotizacion = emp.Cotizacion,
+                                                                              nuduracion = emp.Duracion,
+                                                                              boactivo = emp.Activo,
+                                                                              bodescuento_pension = emp.DescuentoPension,
+                                                                              nuporcentaje_pension = emp.PorcentajePension,
+                                                                              nufondo_fijo = emp.FondoFijo,
+                                                                              nucredito_infonavit = emp.CreditoInfonavit,
+                                                                              chtipo_descuento = emp.TipoDescuento,
+                                                                              nuvalor_descuento = emp.ValorDescuento,
+                                                                              nuno_empleado_noi = emp.NoEmpleadoNoi,
+                                                                              chrol = emp.Rol
+                                                                          }).ToListAsync();
             }
-            else return await GetAllFromEntityAsync<TB_Empleado>();
+            else return await GetAllFromEntityAsync<Empleado_Detalle>();
         }
 
         public async Task<Empleado_Detalle> GetEmpleado(int idEmpleado)

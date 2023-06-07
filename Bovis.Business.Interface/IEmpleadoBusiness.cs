@@ -11,7 +11,7 @@ namespace Bovis.Business.Interface
     public interface IEmpleadoBusiness : IDisposable
     {
         #region Empleados
-        Task<List<TB_Empleado>> GetEmpleados(bool? activo);
+        Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
         Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
         Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro);
         #endregion Empleados

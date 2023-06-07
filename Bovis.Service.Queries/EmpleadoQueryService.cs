@@ -34,10 +34,10 @@ namespace Bovis.Service.Queries
         #endregion base
 
         #region Empleados
-        public async Task<Response<List<Empleado>>> GetEmpleados(bool? Activo)
+        public async Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo)
         {
             var response = await _empleadoBusiness.GetEmpleados(Activo);
-            return new Response<List<Empleado>> { Data = _map.Map<List<Empleado>>(response), Success = true };
+            return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = true };
         }
 
         public async Task<Response<Empleado_Detalle>> GetEmpleado(int idEmpleado)
