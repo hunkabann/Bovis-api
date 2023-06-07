@@ -15,6 +15,10 @@ namespace Bovis.Business.Interface
         Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
         Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro);
         #endregion Empleados
+
+        #region Proyectos
+        Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado);
+        #endregion Proyectos
     }
 
 }

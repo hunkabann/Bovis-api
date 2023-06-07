@@ -35,5 +35,9 @@ namespace Bovis.Business
             return resp;
         }
         #endregion Empleados
+
+        #region Proyectos
+        public Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado) => _empleadoData.GetProyectos(idEmpleado);
+        #endregion Proyectos
     }
 }

@@ -156,5 +156,44 @@ namespace Bovis.Data
             return resp;
         }
         #endregion Empleados
+
+        #region Proyectos
+        public async Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado)
+        {
+            if (idEmpleado > 0)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from emp_proj in db.tB_EmpleadoProyectos
+                                                                          join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto
+                                                                          where emp_proj.NumEmpleadoRrHh == idEmpleado
+                                                                          select new Proyecto_Detalle
+                                                                          {
+                                                                              nunum_proyecto = proj.NumProyecto,
+                                                                              chproyecto = proj.Proyecto,
+                                                                              chalcance = proj.Alcance,
+                                                                              chcp = proj.Cp,
+                                                                              chciudad = proj.Ciudad,
+                                                                              nukidestatus = proj.IdEstatus,
+                                                                              nukidsector = proj.IdSector,
+                                                                              nukidtipo_proyecto = proj.IdTipoProyecto,
+                                                                              nukidresponsable_preconstruccion = proj.IdResponsablePreconstruccion,
+                                                                              nukidresponsable_construiccion = proj.IdResponsableConstruccion,
+                                                                              nukidresponsable_ehs = proj.IdResponsableEhs,
+                                                                              nukidresponsable_supervisor = proj.IdResponsableSupervisor,
+                                                                              nukidcliente = proj.IdCliente,
+                                                                              nukidempresa = proj.IdEmpresa,
+                                                                              nukidpais = proj.IdPais,
+                                                                              nukiddirector_ejecutivo = proj.IdDirectorEjecutivo,
+                                                                              nucosto_promedio_m2 = proj.CostoPromedioM2,
+                                                                              dtfecha_ini = proj.FechaIni,
+                                                                              dtfecha_fin = proj.FechaFin,
+                                                                              nunum_empleado_rr_hh = emp_proj.NumEmpleadoRrHh,
+                                                                              nuporcantaje_participacion = emp_proj.PorcentajeParticipacion,
+                                                                              chalias_puesto = emp_proj.AliasPuesto,
+                                                                              chgrupo_proyecto = emp_proj.GrupoProyecto
+                                                                          }).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<Proyecto_Detalle>();
+        }
+        #endregion Proyectos
     }
 }

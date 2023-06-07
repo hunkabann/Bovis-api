@@ -46,6 +46,14 @@ namespace Bovis.Service.Queries
             return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = true };
         }
         #endregion Empleados
+
+        #region Proyectos
+        public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(int idEmpleado)
+        {
+            var response = await _empleadoBusiness.GetProyectos(idEmpleado);
+            return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = true };
+        }
+        #endregion Proyectos
     }
 }
 

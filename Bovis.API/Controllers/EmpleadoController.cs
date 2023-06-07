@@ -56,6 +56,13 @@ namespace Bovis.API.Controllers
         }
         #endregion Empleados
 
-
+        #region Proyectos
+        [HttpGet, Route("Proyectos/{idEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetProyectos(int idEmpleado)
+        {
+            var query = await _empleadoQueryService.GetProyectos(idEmpleado);
+            return Ok(query);
+        }
+        #endregion Proyectos
     }
 }
