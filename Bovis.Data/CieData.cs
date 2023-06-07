@@ -23,7 +23,6 @@ namespace Bovis.Data
             this.ConfigurationDB = dbConfig;
         }
 
-
         public void Dispose()
         {
             GC.SuppressFinalize(this);
