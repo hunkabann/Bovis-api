@@ -1,5 +1,6 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data.Interface
 {
@@ -9,7 +10,7 @@ namespace Bovis.Data.Interface
         Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
         Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
         Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
-        Task<(bool existe, string mensaje)> AddRegistro(TB_Empleado registro);
+        Task<(bool existe, string mensaje)> AgregarRegistro(JsonObject registro);
         #endregion Empleados
 
         #region Proyectos

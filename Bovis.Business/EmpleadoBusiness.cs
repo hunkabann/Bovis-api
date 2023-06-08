@@ -2,6 +2,7 @@
 using Bovis.Common.Model.Tables;
 using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Business
 {
@@ -29,10 +30,10 @@ namespace Bovis.Business
 
         public Task<Empleado_BasicData> GetEmpleadoByEmail(string email) => _empleadoData.GetEmpleadoByEmail(email);
 
-        public async Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro)
+        public async Task<(bool Success, string Message)> AgregarRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _empleadoData.AddRegistro(registro);
+            var respData = await _empleadoData.AgregarRegistro(registro);
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro del Empleado a la base de datos"; return resp; }
             return resp;
         }

@@ -10,7 +10,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidtipo_empleado"), NotNull] public int IdTipoEmpleado { get; set; }
 		[Column("Nukidcategoria"), NotNull] public int IdCategoria { get; set; }
 		[Column("Nukidtipo_contrato"), NotNull] public int IdTipoContrato { get; set; }
-		[Column("Chcve_puesto"), NotNull] public string CvePuesto { get; set; }
+		[Column("Chcve_puesto"), NotNull] public int CvePuesto { get; set; }
 		[Column("Nukidempresa"), NotNull] public int IdEmpresa { get; set; }
 		[Column("Nukidciudad"), NotNull] public int IdCiudad { get; set; }
 		[Column("Nukidnivel_estudios"), NotNull] public int IdNivelEstudios { get; set; }

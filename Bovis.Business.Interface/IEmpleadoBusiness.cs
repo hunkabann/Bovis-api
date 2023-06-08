@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Business.Interface
@@ -14,7 +15,7 @@ namespace Bovis.Business.Interface
         Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
         Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
         Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
-        Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro);
+        Task<(bool Success, string Message)> AgregarRegistro(JsonObject registro);
         #endregion Empleados
 
         #region Proyectos

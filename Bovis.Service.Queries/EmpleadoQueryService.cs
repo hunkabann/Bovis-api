@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries
@@ -50,6 +51,12 @@ namespace Bovis.Service.Queries
         {
             var response = await _empleadoBusiness.GetEmpleadoByEmail(email);
             return new Response<Empleado_BasicData> { Data = _map.Map<Empleado_BasicData>(response), Success = true };
+        }
+
+        public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)
+        {
+            var response = await _empleadoBusiness.AgregarRegistro(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = true };
         }
         #endregion Empleados
 

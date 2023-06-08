@@ -14,7 +14,7 @@ namespace Bovis.Common.Model.NoTable
         public int nukidtipo_empleado { get; set; }
         public int nukidcategoria { get; set; }
         public int nukidtipo_contrato { get; set; }
-        public string chcve_puesto { get; set; }
+        public int chcve_puesto { get; set; }
         public int nukidempresa { get; set; }
         public int nukidciudad { get; set; }
         public int nukidnivel_estudios { get; set; }

@@ -1,7 +1,7 @@
 ﻿using Bovis.Common;
 using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Responses;
-
+using System.Text.Json.Nodes;
 
 namespace Bovis.Service.Queries.Interface
 {
@@ -11,6 +11,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo);
         Task<Response<Empleado_Detalle>> GetEmpleado(int idEmpleado);
         Task<Response<Empleado_BasicData>> GetEmpleadoByEmail(string email);
+        Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro);
         #endregion Empleados
 
         #region Proyectos

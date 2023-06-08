@@ -26,10 +26,6 @@ public class AddEmpleadoEventHandler : IRequestHandler<AddEmpleadoCommand, Respo
 
     public async Task<Response<bool>> Handle(AddEmpleadoCommand request, CancellationToken cancellationToken)
     {
-        var resp = new Response<bool>();
-        (bool Success, string Message) tmpResp = await _business.AddRegistro(new TB_Empleado { });
-        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
-        else resp.Data = tmpResp.Success;
-        return resp;
+        throw new NotImplementedException();
     }
 }

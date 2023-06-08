@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Data
@@ -167,58 +168,129 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddRegistro(TB_Empleado registro)
+        public async Task<(bool existe, string mensaje)> AgregarRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_persona = Convert.ToInt32(registro["persona"].ToString());
+            int id_tipo_empleado = Convert.ToInt32(registro["tipo_empleado"].ToString());
+            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
+            int id_tipo_contrato = Convert.ToInt32(registro["tipo_contrato"].ToString());
+            int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
+            int id_empresa = Convert.ToInt32(registro["empresa"].ToString());
+            int id_ciudad = Convert.ToInt32(registro["ciudad"].ToString());
+            int id_nivel_estudios = Convert.ToInt32(registro["nivel_estudios"].ToString());
+            int id_forma_pago = Convert.ToInt32(registro["forma_pago"].ToString());
+            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
+            int id_departamento = Convert.ToInt32(registro["departamento"].ToString());
+            int id_clasificacion = Convert.ToInt32(registro["clasificacion"].ToString());
+            int id_jefe_directo = Convert.ToInt32(registro["jefe_directo"].ToString());
+            int id_unidad_negocio = Convert.ToInt32(registro["unidad_negocio"].ToString());
+            int id_tipo_contrato_sat = Convert.ToInt32(registro["tipo_contrato_sat"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
+            DateTime fecha_salida = Convert.ToDateTime(registro["fecha_salida"].ToString());
+            DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
+            int nss = Convert.ToInt32(registro["nss"].ToString());
+            string email_bovis = registro["email_bovis"].ToString();
+            string url_repo = registro["url_repo"].ToString();
+            decimal salario = Convert.ToDecimal(registro["salario"].ToString());
+            string profesion = registro["profesion"].ToString();
+            int antiguedad = Convert.ToInt32(registro["antiguedad"].ToString());
+            string turno = registro["turno"].ToString();
+            int unidad_medica = Convert.ToInt32(registro["unidad_medica"].ToString());
+            string registro_patronal = registro["registro_patronal"].ToString();
+            string cotizacion = registro["cotizacion"].ToString();
+            int duracion = Convert.ToInt32(registro["duracion"].ToString());
+            bool descuento_pension = Convert.ToBoolean(registro["decuento_pension"].ToString());
+            decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
+            decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
+            int credito_infonavit = Convert.ToInt32(registro["credito_infonavit"].ToString());
+            string tipo_descuento = registro["tipo_descuento"].ToString();
+            decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
+            int no_empleado_noi = Convert.ToInt32(registro["no_empleado_noi"].ToString());
+            string rol = registro["rol"].ToString();
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                var insert = await db.tB_Empleados
-                .Value(x => x.NumEmpleadoRrHh, registro.NumEmpleadoRrHh)
-                .Value(x => x.IdPersona, registro.IdPersona)
-                .Value(x => x.IdTipoEmpleado, registro.IdTipoEmpleado)
-                .Value(x => x.IdCategoria, registro.IdCategoria)
-                .Value(x => x.IdTipoContrato, registro.IdTipoContrato)
-                .Value(x => x.CvePuesto, registro.CvePuesto)
-                .Value(x => x.IdEmpresa, registro.IdEmpresa)
-                .Value(x => x.IdCiudad, registro.IdCiudad)
-                .Value(x => x.IdNivelEstudios, registro.IdNivelEstudios)
-                .Value(x => x.IdFormaPago, registro.IdFormaPago)
-                .Value(x => x.IdJornada, registro.IdJornada)
-                .Value(x => x.IdDepartamento, registro.IdDepartamento)
-                .Value(x => x.IdClasificacion, registro.IdClasificacion)
-                .Value(x => x.IdJefeDirecto, registro.IdJefeDirecto)
-                .Value(x => x.IdUnidadNegocio, registro.IdUnidadNegocio)
-                .Value(x => x.IdTipoContrato_sat, registro.IdTipoContrato_sat)
-                .Value(x => x.NumEmpleado, registro.NumEmpleado)
-                .Value(x => x.FechaIngreso, registro.FechaIngreso)
-                .Value(x => x.FechaSalida, registro.FechaSalida)
-                .Value(x => x.FechaUltimoReingreso, registro.FechaUltimoReingreso)
-                .Value(x => x.Nss, registro.Nss)
-                .Value(x => x.EmailBovis, registro.EmailBovis)
-                .Value(x => x.Experiencias, registro.Experiencias)
-                .Value(x => x.Habilidades, registro.Habilidades)
-                .Value(x => x.UrlRepositorio, registro.UrlRepositorio)
-                .Value(x => x.Salario, registro.Salario)
-                .Value(x => x.Profesion, registro.Profesion)
-                .Value(x => x.Antiguedad, registro.Antiguedad)
-                .Value(x => x.Turno, registro.Turno)
-                .Value(x => x.UnidadMedica, registro.UnidadMedica)
-                .Value(x => x.RegistroPatronal, registro.RegistroPatronal)
-                .Value(x => x.Cotizacion, registro.Cotizacion)
-                .Value(x => x.Duracion, registro.Duracion)
-                .Value(x => x.Activo, registro.Activo)
-                .Value(x => x.DescuentoPension, registro.DescuentoPension)
-                .Value(x => x.PorcentajePension, registro.PorcentajePension)
-                .Value(x => x.FondoFijo, registro.FondoFijo)
-                .Value(x => x.CreditoInfonavit, registro.CreditoInfonavit)
-                .Value(x => x.TipoDescuento, registro.TipoDescuento)
-                .Value(x => x.ValorDescuento, registro.ValorDescuento)
-                .Value(x => x.NoEmpleadoNoi, registro.NoEmpleadoNoi)
-                .Value(x => x.Rol, registro.Rol)
+                int last_inserted_id = 0;
+
+                var insert_empleado = await db.tB_Empleados
+                .Value(x => x.IdPersona, id_persona)
+                .Value(x => x.IdTipoEmpleado, id_tipo_empleado)
+                .Value(x => x.IdCategoria, id_categoria)
+                .Value(x => x.IdTipoContrato, id_tipo_contrato)
+                .Value(x => x.CvePuesto, cve_puesto)
+                .Value(x => x.IdEmpresa, id_empresa)
+                .Value(x => x.IdCiudad, id_ciudad)
+                .Value(x => x.IdNivelEstudios, id_nivel_estudios)
+                .Value(x => x.IdFormaPago, id_forma_pago)
+                .Value(x => x.IdJornada, id_jornada)
+                .Value(x => x.IdDepartamento, id_departamento)
+                .Value(x => x.IdClasificacion, id_clasificacion)
+                .Value(x => x.IdJefeDirecto, id_jefe_directo)
+                .Value(x => x.IdUnidadNegocio, id_unidad_negocio)
+                .Value(x => x.IdTipoContrato_sat, id_tipo_contrato_sat)
+                .Value(x => x.NumEmpleado, num_empleado)
+                .Value(x => x.FechaIngreso, fecha_ingreso)
+                .Value(x => x.FechaSalida, fecha_salida)
+                .Value(x => x.FechaUltimoReingreso, fecha_ultimo_reingreso)
+                .Value(x => x.Nss, nss)
+                .Value(x => x.EmailBovis, email_bovis)
+                .Value(x => x.UrlRepositorio, url_repo)
+                .Value(x => x.Salario, salario)
+                .Value(x => x.Profesion, profesion)
+                .Value(x => x.Antiguedad, antiguedad)
+                .Value(x => x.Turno, turno)
+                .Value(x => x.UnidadMedica, unidad_medica)
+                .Value(x => x.RegistroPatronal, registro_patronal)
+                .Value(x => x.Cotizacion, cotizacion)
+                .Value(x => x.Duracion, duracion)
+                .Value(x => x.Activo, true)
+                .Value(x => x.DescuentoPension, descuento_pension)
+                .Value(x => x.PorcentajePension, porcentaje_pension)
+                .Value(x => x.FondoFijo, fondo_fijo)
+                .Value(x => x.CreditoInfonavit, credito_infonavit)
+                .Value(x => x.TipoDescuento, tipo_descuento)
+                .Value(x => x.ValorDescuento, valor_descuento)
+                .Value(x => x.NoEmpleadoNoi, no_empleado_noi)
+                .Value(x => x.Rol, rol)
                 .InsertAsync() > 0;
 
-                resp.Success = insert;
-                resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                resp.Success = insert_empleado;
+                resp.Message = insert_empleado == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+
+                if (insert_empleado != null)
+                {
+                    var lastInsertedRecord = db.tB_Empleados.OrderByDescending(x => x.NumEmpleadoRrHh).FirstOrDefault();
+                    last_inserted_id = lastInsertedRecord.NumEmpleadoRrHh;
+                }
+
+                foreach (var habilidad in registro["habilidades"].AsArray())
+                {
+                    int id_habilidad = Convert.ToInt32(habilidad.ToString());
+
+                    var insert_habilidad = await db.tB_Empleado_Habilidades
+                    .Value(x => x.IdEmpleado, last_inserted_id)
+                    .Value(x => x.IdHabilidad, id_habilidad)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_habilidad;
+                    resp.Message = insert_habilidad == default ? "Ocurrio un error al agregar registro de la habilidad." : string.Empty;
+                }
+
+                foreach (var experiencia in registro["experiencias"].AsArray())
+                {
+                    int id_experiencia = Convert.ToInt32(experiencia.ToString());
+
+                    var insert_experiencia = await db.tB_Empleado_Experiencias
+                    .Value(x => x.IdEmpleado, last_inserted_id)
+                    .Value(x => x.IdExperiencia, id_experiencia)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_experiencia;
+                    resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+                }
             }
             return resp;
         }

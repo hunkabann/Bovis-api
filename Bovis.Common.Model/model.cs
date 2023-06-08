@@ -73,7 +73,9 @@ namespace Bovis.Common.Model
 		public ITable<TB_EmpleadoCorreos> tB_EmpleadoCorreos { get { return this.GetTable<TB_EmpleadoCorreos>(); } }
 		public ITable<TB_EmpleadoCuenta> tB_EmpleadoCuentas { get { return this.GetTable<TB_EmpleadoCuenta>(); } }
 		public ITable<TB_EmpleadoDocumento> tB_EmpleadoDocumentos { get { return this.GetTable<TB_EmpleadoDocumento>(); } }
-		public ITable<TB_EmpleadoProyecto> tB_EmpleadoProyectos { get { return this.GetTable<TB_EmpleadoProyecto>(); } }
+        public ITable<TB_Empleado_Experiencia> tB_Empleado_Experiencias { get { return this.GetTable<TB_Empleado_Experiencia>(); } }
+        public ITable<TB_Empleado_Habilidad> tB_Empleado_Habilidades { get { return this.GetTable<TB_Empleado_Habilidad>(); } }
+        public ITable<TB_EmpleadoProyecto> tB_EmpleadoProyectos { get { return this.GetTable<TB_EmpleadoProyecto>(); } }
 		public ITable<TB_EmpleadoProyectoBeneficio> tB_EmpleadoProyectoBeneficios { get { return this.GetTable<TB_EmpleadoProyectoBeneficio>(); } }
 		public ITable<TB_Empresa> tB_Empresas { get { return this.GetTable<TB_Empresa>(); } }
 		public ITable<TB_EmpresaCuenta> tB_EmpresaCuentas { get { return this.GetTable<TB_EmpresaCuenta>(); } }
