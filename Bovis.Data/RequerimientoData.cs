@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using static LinqToDB.Reflection.Methods.LinqToDB;
 
@@ -76,25 +77,67 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddRegistro(TB_Requerimiento registro)
+        public async Task<(bool existe, string mensaje)> AgregarRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
+            int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
+            int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
+            string profesion = registro["profesion"].ToString();
+            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
+            int sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
+            int sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                var insert = await db.tB_Requerimientos
-                .Value(x => x.IdCategoria, registro.IdCategoria)
-                .Value(x => x.IdPuesto, registro.IdPuesto)
-                .Value(x => x.IdNivelEstudios, registro.IdNivelEstudios)
-                .Value(x => x.Profesion, registro.Profesion)
-                .Value(x => x.IdJornada, registro.IdJornada)
-                .Value(x => x.SueldoMin, registro.SueldoMin)
-                .Value(x => x.SueldoMax, registro.SueldoMax)
-                .Value(x => x.Habilidades, registro.Habilidades)
-                .Value(x => x.Experiencias, registro.Experiencias)
+                int last_inserted_id = 0;
+
+                var insert_requerimiento = await db.tB_Requerimientos
+                .Value(x => x.IdCategoria, id_categoria)
+                .Value(x => x.IdPuesto, id_puesto)
+                .Value(x => x.IdNivelEstudios, id_nivel_estudios)
+                .Value(x => x.Profesion, profesion)
+                .Value(x => x.IdJornada, id_jornada)
+                .Value(x => x.SueldoMin, sueldo_min)
+                .Value(x => x.SueldoMax, sueldo_max)
+                .Value(x => x.Activo, true)
                 .InsertAsync() > 0;
                 
-                resp.Success = insert;
-                resp.Message = insert == default ? "Ocurrio un error al agregar registro del requerimiento." : string.Empty;
+                resp.Success = insert_requerimiento;
+                resp.Message = insert_requerimiento == default ? "Ocurrio un error al agregar registro del requerimiento." : string.Empty;
+
+                if (insert_requerimiento != null)
+                {
+                    var lastInsertedRecord = db.tB_Requerimientos.OrderByDescending(x => x.IdRequerimiento).FirstOrDefault();
+                    last_inserted_id = lastInsertedRecord.IdRequerimiento;
+                }
+
+                foreach (var habilidad in registro["habilidades"].AsArray())
+                {
+                    int id_habilidad = Convert.ToInt32(habilidad.ToString());
+
+                    var insert_habilidad = await db.tB_Requerimiento_Habilidades
+                    .Value(x => x.IdRequerimiento, last_inserted_id)
+                    .Value(x => x.IdHabilidad, id_habilidad)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_habilidad;
+                    resp.Message = insert_habilidad == default ? "Ocurrio un error al agregar registro de la habilidad." : string.Empty;
+                }
+
+                foreach (var experiencia in registro["experiencias"].AsArray())
+                {
+                    int id_experiencia = Convert.ToInt32(experiencia.ToString());
+
+                    var insert_experiencia = await db.tB_Requerimiento_Experiencias
+                    .Value(x => x.IdRequerimiento, last_inserted_id)
+                    .Value(x => x.IdExperiencia, id_experiencia)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_experiencia;
+                    resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+                }
             }
             return resp;
         }

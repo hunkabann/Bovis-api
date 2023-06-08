@@ -23,12 +23,8 @@ public class AddRequerimientoEventHandler : IRequestHandler<AddRequerimientoComm
         this._mapper = _mapper;
     }
 
-    public async Task<Response<bool>> Handle(AddRequerimientoCommand request, CancellationToken cancellationToken)
+    public Task<Response<bool>> Handle(AddRequerimientoCommand request, CancellationToken cancellationToken)
     {
-        var resp = new Response<bool>();
-        (bool Success, string Message) tmpResp = await _business.AddRegistro(new TB_Requerimiento { });
-        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
-        else resp.Data = tmpResp.Success;
-        return resp;
+        throw new NotImplementedException();
     }
 }

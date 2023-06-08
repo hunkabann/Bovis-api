@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries.Interface
@@ -15,6 +16,6 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento);
         Task<Response<List<Requerimiento>>> GetRequerimientos(bool? Activo);
         Task<Response<Requerimiento>> GetRequerimiento(int idRequerimiento);
-        Task<Response<bool>> AddRegistro(TB_Requerimiento registro);
+        Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro);
     }
 }

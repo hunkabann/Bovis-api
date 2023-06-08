@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers;
 
@@ -59,16 +60,11 @@ public class RequerimientoController : ControllerBase
         return Ok(query);
     }
 
-    [HttpPut("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-    public async Task<IActionResult> AgregarRegistro(AddRequerimientoCommand registro)
+    [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AgregarRegistro([FromBody] JsonObject registro)
     {
-        var response = await _mediator.Send(registro);
-        if (!response.Success)
-        {
-            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
-        }
-        return Ok(response);
+        var query = await _requerimientoQueryService.AgregarRegistro(registro);
+        return Ok(query);
     }
     #endregion Registros
 }

@@ -69,6 +69,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 int last_inserted_id = 0;
+
                 var insert_timesheet = await db.tB_Timesheets
                     .Value(x => x.IdEmpleado, id_empleado)
                     .Value(x => x.Mes, mes)
@@ -107,6 +108,7 @@ namespace Bovis.Data
                     resp.Success = insert_timesheet_proyecto;
                     resp.Message = insert_timesheet_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
                 }
+
                 foreach (var otro in registro["otros"].AsArray())
                 {
                     string id_otro = otro["id"].ToString();

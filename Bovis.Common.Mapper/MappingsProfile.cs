@@ -32,8 +32,6 @@ public class MappingsProfile : Profile
             .ForMember(c => c.nukidjornada, dto => dto.MapFrom(src => src.IdJornada))
             .ForMember(c => c.nusueldo_min, dto => dto.MapFrom(src => src.SueldoMin))
             .ForMember(c => c.nusueldo_max, dto => dto.MapFrom(src => src.SueldoMax))
-            .ForMember(c => c.chhabilidades, dto => dto.MapFrom(src => src.Habilidades))
-            .ForMember(c => c.chexperiencias, dto => dto.MapFrom(src => src.Experiencias))
             .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Requerimiento_Habilidad, Habilidad>()

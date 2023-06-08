@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries
@@ -61,10 +62,10 @@ namespace Bovis.Service.Queries
             return new Response<Requerimiento> { Data = _map.Map<Requerimiento>(response), Success = true };
         }
 
-        public async Task<Response<bool>> AddRegistro(TB_Requerimiento registro)
+        public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)
         {
-            var response = await _requerimientoBussines.AddRegistro(registro);
-            return new Response<bool> { Data = _map.Map<bool>(response), Success = true };
+            var response = await _requerimientoBussines.AgregarRegistro(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = true };
         }
         #endregion Registros
     }
