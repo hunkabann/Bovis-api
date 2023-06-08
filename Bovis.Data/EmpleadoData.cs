@@ -6,6 +6,7 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -139,6 +140,26 @@ namespace Bovis.Data
                               nuvalor_descuento = emp.ValorDescuento,
                               nuno_empleado_noi = emp.NoEmpleadoNoi,
                               chrol = emp.Rol
+                          };
+
+                return await res.FirstOrDefaultAsync();
+
+            }
+        }
+
+        public async Task<Empleado_BasicData> GetEmpleadoByEmail(string email)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = from emp in db.tB_Empleados
+                          join per in db.tB_Personas on emp.IdPersona equals per.IdPersona
+                          where emp.EmailBovis == email
+                          select new Empleado_BasicData
+                          {
+                              nukid_empleado = emp.NumEmpleadoRrHh,
+                              chnombre = per.Nombre,
+                              chap_paterno = per.ApPaterno,
+                              chap_materno = per.ApMaterno
                           };
 
                 return await res.FirstOrDefaultAsync();

@@ -105,6 +105,9 @@ namespace Bovis.Common.Model
 		public ITable<TB_Requerimiento> tB_Requerimientos { get { return this.GetTable<TB_Requerimiento>(); } }
         public ITable<TB_Requerimiento_Experiencia> tB_Requerimiento_Experiencias { get { return this.GetTable<TB_Requerimiento_Experiencia>(); } }
         public ITable<TB_Requerimiento_Habilidad> tB_Requerimiento_Habilidades { get { return this.GetTable<TB_Requerimiento_Habilidad>(); } }
+        public ITable<TB_Timesheet> tB_Timesheets { get { return this.GetTable<TB_Timesheet>(); } }
+        public ITable<TB_Timesheet_Otro> tB_Timesheet_Otros { get { return this.GetTable<TB_Timesheet_Otro>(); } }
+        public ITable<TB_Timesheet_Proyecto> tB_Timesheet_Proyectos { get { return this.GetTable<TB_Timesheet_Proyecto>(); } }
         public ITable<TB_Usuario> tB_Usuarios { get { return this.GetTable<TB_Usuario>(); } }
 
 		public ConnectionDB()

@@ -52,4 +52,12 @@ namespace Bovis.Common.Model.NoTable
         public int nuno_empleado_noi { get; set; }
         public string chrol { get; set; }
     }
+
+    public class Empleado_BasicData
+    {
+        public int nukid_empleado { get; set; }
+        public string chnombre { get; set; }
+        public string chap_paterno { get; set; }
+        public string chap_materno { get; set; }
+    }
 }

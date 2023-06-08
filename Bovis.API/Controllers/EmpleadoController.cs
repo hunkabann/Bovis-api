@@ -43,6 +43,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("Registro/Email/{email}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetEmpleadoByEmail(string email)
+        {
+            var query = await _empleadoQueryService.GetEmpleadoByEmail(email);
+            return Ok(query);
+        }
+
         [HttpPut("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AgregarRegistro(AddEmpleadoCommand registro)
         {

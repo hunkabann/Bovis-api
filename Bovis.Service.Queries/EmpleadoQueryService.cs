@@ -45,6 +45,12 @@ namespace Bovis.Service.Queries
             var response = await _empleadoBusiness.GetEmpleado(idEmpleado);
             return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = true };
         }
+
+        public async Task<Response<Empleado_BasicData>> GetEmpleadoByEmail(string email)
+        {
+            var response = await _empleadoBusiness.GetEmpleadoByEmail(email);
+            return new Response<Empleado_BasicData> { Data = _map.Map<Empleado_BasicData>(response), Success = true };
+        }
         #endregion Empleados
 
         #region Proyectos

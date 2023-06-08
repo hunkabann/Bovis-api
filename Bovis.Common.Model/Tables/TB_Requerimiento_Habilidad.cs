@@ -7,6 +7,5 @@ namespace Bovis.Common.Model.Tables
     {
         [Column("Nukidrequerimiento"), Nullable] public int IdRequerimiento { get; set; }
         [Column("Nukidhabilidad"), Nullable] public int? IdHabilidad { get; set; }
-        [Column("Chhabilidad"), Nullable] public string? Habilidad { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries
@@ -39,6 +40,12 @@ namespace Bovis.Service.Queries
         {
             var response = await _timesheetBusiness.GetDiasHabiles(mes, anio, sabados);
             return new Response<Dias_Timesheet_Detalle> { Data = _map.Map<Dias_Timesheet_Detalle>(response), Success = true };
+        }
+
+        public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.AgregarRegistro(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = true };
         }
 
     }

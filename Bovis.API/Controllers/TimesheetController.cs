@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json.Linq;
 using Bovis.Service.Queries.Dto.Responses;
+using Bovis.Common.Model.Tables;
+using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
@@ -32,7 +34,14 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> GetDiasHabiles(int mes, int anio, bool sabados)
         {
             var query = await _timesheetQueryService.GetDiasHabiles(mes, anio, sabados);
-            
+            return Ok(query);
+        }
+
+        [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarRegistro([FromBody] JsonObject registro)
+        {
+            //string nombre_empleado = registro["empleado"]["name"].ToString();
+            var query = await _timesheetQueryService.AgregarRegistro(registro);
             return Ok(query);
         }
     }

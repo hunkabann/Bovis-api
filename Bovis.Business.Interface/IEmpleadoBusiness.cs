@@ -13,6 +13,7 @@ namespace Bovis.Business.Interface
         #region Empleados
         Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
         Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
+        Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
         Task<(bool Success, string Message)> AddRegistro(TB_Empleado registro);
         #endregion Empleados
 
