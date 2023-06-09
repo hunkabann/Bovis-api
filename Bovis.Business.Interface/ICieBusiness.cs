@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Business.Interface
@@ -15,10 +16,9 @@ namespace Bovis.Business.Interface
         #endregion Empresas
 
         #region Registros
-        Task<CieRegistro> GetInfoRegistro(int? numProyecto);
-        Task<List<TB_Cie>> GetRegistros(byte? estatus);
-        Task<(bool Success, string Message)> AddRegistro(TB_Cie registro);
-        Task<(bool Success, string Message)> AddRegistros(List<TB_Cie> registros);
+        Task<TB_Cie_Data> GetRegistro(int? numProyecto);
+        Task<List<TB_Cie_Data>> GetRegistros(byte? estatus);
+        Task<(bool Success, string Message)> AgregarRegistros(JsonObject registros);
         #endregion Registros
     }
 

@@ -38,19 +38,19 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo)
         {
             var response = await _empleadoBusiness.GetEmpleados(Activo);
-            return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 
         public async Task<Response<Empleado_Detalle>> GetEmpleado(int idEmpleado)
         {
             var response = await _empleadoBusiness.GetEmpleado(idEmpleado);
-            return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : "Consulta exitosa" };
+            return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<Empleado_BasicData>> GetEmpleadoByEmail(string email)
         {
             var response = await _empleadoBusiness.GetEmpleadoByEmail(email);
-            return new Response<Empleado_BasicData> { Data = _map.Map<Empleado_BasicData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : "Consulta exitosa" };
+            return new Response<Empleado_BasicData> { Data = _map.Map<Empleado_BasicData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)
@@ -64,7 +64,7 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(int idEmpleado)
         {
             var response = await _empleadoBusiness.GetProyectos(idEmpleado);
-            return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Proyectos
     }

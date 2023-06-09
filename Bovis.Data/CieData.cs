@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using static LinqToDB.Reflection.Methods.LinqToDB;
 
@@ -44,105 +45,85 @@ namespace Bovis.Data
         #endregion Empresas
 
         #region Registros
-        public async Task<CieRegistro> GetInfoRegistro(int? idRegistro)
+        public async Task<TB_Cie_Data> GetRegistro(int? idRegistro)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
 
-                var res = from a in db.tB_Cies
-                          where a.IdCie == idRegistro
-                          select new CieRegistro
-                          {
-                              IdCie = a.IdCie,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoCie = a.IdTipoCie,
-                              IdTipoPoliza = a.IdTipoPoliza,
-                              Fecha = a.Fecha,
-                              FechaCaptura = a.FechaCaptura,
-                              Concepto = a.Concepto,
-                              SaldoIni = a.SaldoIni,
-                              Debe = a.Debe,
-                              Haber = a.Haber,
-                              Movimiento = a.Movimiento,
-                              EdoResultados = a.EdoResultados,
-                              Mes = a.Mes,
-                              IdCentroCostos = a.IdCentroCostos,
-                              IdTipoCtaContable = a.IdTipoCtaContable
-                          };
+                var res = from a in db.tB_Cie_Datas
+                          where a.IdCieData == idRegistro
+                          select a;
 
                 return await res.FirstOrDefaultAsync();
 
             }
         }
-        public async Task<List<TB_Cie>> GetRegistros(byte? estatus)
+        public async Task<List<TB_Cie_Data>> GetRegistros(byte? estatus)
         {
             if (estatus.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cie in db.tB_Cies
-                                                                          where cie.Estatus == estatus
+                using (var db = new ConnectionDB(dbConfig)) return await (from cie in db.tB_Cie_Datas
                                                                           select cie).ToListAsync();
             }
-            else return await GetAllFromEntityAsync<TB_Cie>();
+            else return await GetAllFromEntityAsync<TB_Cie_Data>();
         }
 
-
-        public async Task<(bool existe, string mensaje)> AddRegistro(TB_Cie registro)
+        public async Task<(bool existe, string mensaje)> AgregarRegistros(JsonObject registros)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var insert = await db.tB_Cies
-                .Value(x => x.NumProyecto, registro.NumProyecto)
-                .Value(x => x.IdTipoCie, registro.IdTipoCie)
-                .Value(x => x.IdTipoPoliza, registro.IdTipoPoliza)
-                .Value(x => x.Fecha, registro.Fecha)
-                .Value(x => x.FechaCaptura, registro.FechaCaptura)
-                .Value(x => x.Concepto, registro.Concepto)
-                .Value(x => x.SaldoIni, registro.SaldoIni)
-                .Value(x => x.Debe, registro.Debe)
-                .Value(x => x.Haber, registro.Haber)
-                .Value(x => x.Movimiento, registro.Movimiento)
-                .Value(x => x.EdoResultados, registro.EdoResultados)
-                .Value(x => x.Mes, registro.Mes)
-                .Value(x => x.IdCentroCostos, registro.IdCentroCostos)
-                .Value(x => x.IdTipoCtaContable, registro.IdTipoCtaContable)
-                .Value(x => x.Estatus, registro.Estatus)
-                .InsertAsync() > 0;
 
-                resp.Success = insert;
-                resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
-            }
-            return resp;
-        }
-
-        public async Task<(bool existe, string mensaje)> AddRegistros(List<TB_Cie> registros)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
             {
                 bool insert = false;
-                foreach (var registro in registros)
+                foreach (var registro in registros["data"].AsArray())
                 {
-                    insert = await db.tB_Cies
-                    .Value(x => x.NumProyecto, registro.NumProyecto)
-                    .Value(x => x.IdTipoCie, registro.IdTipoCie)
-                    .Value(x => x.IdTipoPoliza, registro.IdTipoPoliza)
-                    .Value(x => x.Fecha, registro.Fecha)
-                    .Value(x => x.FechaCaptura, registro.FechaCaptura)
-                    .Value(x => x.Concepto, registro.Concepto)
-                    .Value(x => x.SaldoIni, registro.SaldoIni)
-                    .Value(x => x.Debe, registro.Debe)
-                    .Value(x => x.Haber, registro.Haber)
-                    .Value(x => x.Movimiento, registro.Movimiento)
-                    .Value(x => x.EdoResultados, registro.EdoResultados)
-                    .Value(x => x.Mes, registro.Mes)
-                    .Value(x => x.IdCentroCostos, registro.IdCentroCostos)
-                    .Value(x => x.IdTipoCtaContable, registro.IdTipoCtaContable)
-                    .Value(x => x.Estatus, registro.Estatus)
-                    .InsertAsync() > 0;
+                    string nombre_cuenta = registro["nombre_cuenta"].ToString();
+                    string cuenta = registro["cuenta"].ToString();
+                    string tipo_poliza = registro["tipo_poliza"].ToString();
+                    int numero = Convert.ToInt32(registro["numero"].ToString());
+                    DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
+                    int mes = Convert.ToInt32(registro["mes"].ToString());
+                    string concepto = registro["concepto"].ToString();
+                    string centro_costos = registro["centro_costos"].ToString();
+                    string proyectos = registro["proyectos"].ToString();
+                    decimal saldo_inicial = Convert.ToDecimal(registro["saldo_inicial"].ToString());
+                    decimal debe = Convert.ToDecimal(registro["debe"].ToString());
+                    decimal haber = Convert.ToDecimal(registro["haber"].ToString());
+                    decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
+                    string empresa = registro["empresa"].ToString();
+                    int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+                    string edo_resultados = registro["edo_resultados"].ToString();
+                    string responsable = registro["responsable"].ToString();
+                    string tipo_responsable = registro["tipo_responsable"].ToString();
+                    string tipo_py = registro["tipo_py"].ToString();
+                    string clasificacion_py = registro["clasificacion_py"].ToString();
+
+                    insert = await db.tB_Cie_Datas
+                        .Value(x => x.NombreCuenta, nombre_cuenta)
+                        .Value(x => x.Cuenta, cuenta)
+                        .Value(x => x.TipoPoliza, tipo_poliza)
+                        .Value(x => x.Numero, numero)
+                        .Value(x => x.Fecha, fecha)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Concepto, concepto)
+                        .Value(x => x.CentroCostos, centro_costos)
+                        .Value(x => x.Proyectos, proyectos)
+                        .Value(x => x.SaldoInicial, saldo_inicial)
+                        .Value(x => x.Debe, debe)
+                        .Value(x => x.Haber, haber)
+                        .Value(x => x.Movimiento, movimiento)
+                        .Value(x => x.Empresa, empresa)
+                        .Value(x => x.NumProyecto, num_proyecto)
+                        .Value(x => x.EdoResultados, edo_resultados)
+                        .Value(x => x.Responsable, responsable)
+                        .Value(x => x.TipoResponsable, tipo_responsable)
+                        .Value(x => x.TipoPY, tipo_py)
+                        .Value(x => x.ClasificacionPY, clasificacion_py)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert;
+                    resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
                 }
-                resp.Success = insert;
-                resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
             }
             return resp;
         }

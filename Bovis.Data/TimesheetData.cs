@@ -97,13 +97,13 @@ namespace Bovis.Data
                     int costo = Convert.ToInt32(proyecto["costo"].ToString());
 
                     var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
-                    .Value(x => x.IdTimesheet, last_inserted_id)
-                    .Value(x => x.IdProyecto, id_proyecto)
-                    .Value(x => x.Descripcion, nombre_proyecto)
-                    .Value(x => x.Dias, dias)
-                    .Value(x => x.TDedicacion, dedicacion)
-                    .Value(x => x.Costo, costo)
-                    .InsertAsync() > 0;
+                        .Value(x => x.IdTimesheet, last_inserted_id)
+                        .Value(x => x.IdProyecto, id_proyecto)
+                        .Value(x => x.Descripcion, nombre_proyecto)
+                        .Value(x => x.Dias, dias)
+                        .Value(x => x.TDedicacion, dedicacion)
+                        .Value(x => x.Costo, costo)
+                        .InsertAsync() > 0;
 
                     resp.Success = insert_timesheet_proyecto;
                     resp.Message = insert_timesheet_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
@@ -116,11 +116,11 @@ namespace Bovis.Data
                     int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
 
                     var insert_timesheet_otro = await db.tB_Timesheet_Otros
-                    .Value(x => x.IdTimeSheet, last_inserted_id)
-                    .Value(x => x.Descripcion, id_otro)
-                    .Value(x => x.Dias, dias)
-                    .Value(x => x.TDedicacion, dedicacion)
-                    .InsertAsync() > 0;
+                        .Value(x => x.IdTimeSheet, last_inserted_id)
+                        .Value(x => x.Descripcion, id_otro)
+                        .Value(x => x.Dias, dias)
+                        .Value(x => x.TDedicacion, dedicacion)
+                        .InsertAsync() > 0;
 
                     resp.Success = insert_timesheet_otro;
                     resp.Message = insert_timesheet_otro == default ? "Ocurrio un error al agregar registro." : string.Empty;

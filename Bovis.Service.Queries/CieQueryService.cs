@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries
@@ -38,27 +39,29 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Empresa>>> GetEmpresas(bool? Activo)
         {
             var response = await _cieBusiness.GetEmpresas(Activo);
-            return new Response<List<Empresa>> { Data = _map.Map<List<Empresa>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<Empresa>> { Data = _map.Map<List<Empresa>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Empresas
 
         #region Registros
-        public async Task<Response<Cie>> GetInfoRegistro(int? idRegistro)
+        public async Task<Response<TB_Cie_Data>> GetRegistro(int? idRegistro)
         {
-            var response = await _cieBusiness.GetInfoRegistro(idRegistro);
-            return new Response<Cie> { Data = _map.Map<Cie>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : "Consulta exitosa" };
+            var response = await _cieBusiness.GetRegistro(idRegistro);
+            return new Response<TB_Cie_Data> { Data = _map.Map<TB_Cie_Data>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<List<Cie>>> GetRegistros(byte? Estatus)
+        public async Task<Response<List<TB_Cie_Data>>> GetRegistros(byte? Estatus)
         {
             var response = await _cieBusiness.GetRegistros(Estatus);
-            return new Response<List<Cie>> { Data = _map.Map<List<Cie>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<TB_Cie_Data>> { Data = _map.Map<List<TB_Cie_Data>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 
-        public async Task<Response<bool>> AddRegistros(List<TB_Cie> registros)
+        public async Task<Response<(bool existe, string mensaje)>> AgregarRegistros(JsonObject registros)
         {
-            var response = await _cieBusiness.AddRegistros(registros);
-            return new Response<bool> { Data = _map.Map<bool>(response), Success = true };
+            var response = await _cieBusiness.AgregarRegistros(registros);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = true };
         }
+
+        
         #endregion Registros
     }
 }

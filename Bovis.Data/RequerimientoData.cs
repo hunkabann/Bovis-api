@@ -94,15 +94,15 @@ namespace Bovis.Data
                 int last_inserted_id = 0;
 
                 var insert_requerimiento = await db.tB_Requerimientos
-                .Value(x => x.IdCategoria, id_categoria)
-                .Value(x => x.IdPuesto, id_puesto)
-                .Value(x => x.IdNivelEstudios, id_nivel_estudios)
-                .Value(x => x.Profesion, profesion)
-                .Value(x => x.IdJornada, id_jornada)
-                .Value(x => x.SueldoMin, sueldo_min)
-                .Value(x => x.SueldoMax, sueldo_max)
-                .Value(x => x.Activo, true)
-                .InsertAsync() > 0;
+                    .Value(x => x.IdCategoria, id_categoria)
+                    .Value(x => x.IdPuesto, id_puesto)
+                    .Value(x => x.IdNivelEstudios, id_nivel_estudios)
+                    .Value(x => x.Profesion, profesion)
+                    .Value(x => x.IdJornada, id_jornada)
+                    .Value(x => x.SueldoMin, sueldo_min)
+                    .Value(x => x.SueldoMax, sueldo_max)
+                    .Value(x => x.Activo, true)
+                    .InsertAsync() > 0;
                 
                 resp.Success = insert_requerimiento;
                 resp.Message = insert_requerimiento == default ? "Ocurrio un error al agregar registro del requerimiento." : string.Empty;
@@ -118,9 +118,9 @@ namespace Bovis.Data
                     int id_habilidad = Convert.ToInt32(habilidad.ToString());
 
                     var insert_habilidad = await db.tB_Requerimiento_Habilidades
-                    .Value(x => x.IdRequerimiento, last_inserted_id)
-                    .Value(x => x.IdHabilidad, id_habilidad)
-                    .InsertAsync() > 0;
+                        .Value(x => x.IdRequerimiento, last_inserted_id)
+                        .Value(x => x.IdHabilidad, id_habilidad)
+                        .InsertAsync() > 0;
 
                     resp.Success = insert_habilidad;
                     resp.Message = insert_habilidad == default ? "Ocurrio un error al agregar registro de la habilidad." : string.Empty;
@@ -131,9 +131,9 @@ namespace Bovis.Data
                     int id_experiencia = Convert.ToInt32(experiencia.ToString());
 
                     var insert_experiencia = await db.tB_Requerimiento_Experiencias
-                    .Value(x => x.IdRequerimiento, last_inserted_id)
-                    .Value(x => x.IdExperiencia, id_experiencia)
-                    .InsertAsync() > 0;
+                        .Value(x => x.IdRequerimiento, last_inserted_id)
+                        .Value(x => x.IdExperiencia, id_experiencia)
+                        .InsertAsync() > 0;
 
                     resp.Success = insert_experiencia;
                     resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;

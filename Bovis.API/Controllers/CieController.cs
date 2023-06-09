@@ -11,6 +11,8 @@ using Bovis.Common.Model.Tables;
 using Bovis.API.Helper;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
+using Microsoft.Win32;
 
 namespace Bovis.API.Controllers
 {
@@ -39,34 +41,23 @@ namespace Bovis.API.Controllers
         #endregion Empresas
 
         #region Registros        
-        [HttpGet, Route("Cies/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Registros/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetRegitros(byte? Estatus)
         {
             var query = await _cieQueryService.GetRegistros(Estatus);
             return Ok(query);
         }
         [HttpGet("Registro/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> ObtenerInfoRegistro(int idRegistro)
+        public async Task<IActionResult> GetRegistro(int idRegistro)
         {
-            var business = await _cieQueryService.GetInfoRegistro(idRegistro);
-            return Ok(business);
+            var query = await _cieQueryService.GetRegistro(idRegistro);
+            return Ok(query);
         }
-        [HttpPut("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AgregarRegistro(AddCieCommand registro)
+        [HttpPost("Registros/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AgregarRegistros([FromBody] JsonObject registros)
         {
-            var response = await _mediator.Send(registro);
-            if (!response.Success)
-            {
-                var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-                _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
-            }
-            return Ok(response);
-        }
-        [HttpPut("Registros/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AgregarRegistros([FromBody] List<TB_Cie> registros)
-        {
-            var business = await _cieQueryService.AddRegistros(registros);
-            return Ok(business);
+            var query = await _cieQueryService.AgregarRegistros(registros);
+            return Ok(query);
         }
         #endregion Registros
     }

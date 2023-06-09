@@ -216,46 +216,46 @@ namespace Bovis.Data
                 int last_inserted_id = 0;
 
                 var insert_empleado = await db.tB_Empleados
-                .Value(x => x.IdPersona, id_persona)
-                .Value(x => x.IdTipoEmpleado, id_tipo_empleado)
-                .Value(x => x.IdCategoria, id_categoria)
-                .Value(x => x.IdTipoContrato, id_tipo_contrato)
-                .Value(x => x.CvePuesto, cve_puesto)
-                .Value(x => x.IdEmpresa, id_empresa)
-                .Value(x => x.IdCiudad, id_ciudad)
-                .Value(x => x.IdNivelEstudios, id_nivel_estudios)
-                .Value(x => x.IdFormaPago, id_forma_pago)
-                .Value(x => x.IdJornada, id_jornada)
-                .Value(x => x.IdDepartamento, id_departamento)
-                .Value(x => x.IdClasificacion, id_clasificacion)
-                .Value(x => x.IdJefeDirecto, id_jefe_directo)
-                .Value(x => x.IdUnidadNegocio, id_unidad_negocio)
-                .Value(x => x.IdTipoContrato_sat, id_tipo_contrato_sat)
-                .Value(x => x.NumEmpleado, num_empleado)
-                .Value(x => x.FechaIngreso, fecha_ingreso)
-                .Value(x => x.FechaSalida, fecha_salida)
-                .Value(x => x.FechaUltimoReingreso, fecha_ultimo_reingreso)
-                .Value(x => x.Nss, nss)
-                .Value(x => x.EmailBovis, email_bovis)
-                .Value(x => x.UrlRepositorio, url_repo)
-                .Value(x => x.Salario, salario)
-                .Value(x => x.Profesion, profesion)
-                .Value(x => x.Antiguedad, antiguedad)
-                .Value(x => x.Turno, turno)
-                .Value(x => x.UnidadMedica, unidad_medica)
-                .Value(x => x.RegistroPatronal, registro_patronal)
-                .Value(x => x.Cotizacion, cotizacion)
-                .Value(x => x.Duracion, duracion)
-                .Value(x => x.Activo, true)
-                .Value(x => x.DescuentoPension, descuento_pension)
-                .Value(x => x.PorcentajePension, porcentaje_pension)
-                .Value(x => x.FondoFijo, fondo_fijo)
-                .Value(x => x.CreditoInfonavit, credito_infonavit)
-                .Value(x => x.TipoDescuento, tipo_descuento)
-                .Value(x => x.ValorDescuento, valor_descuento)
-                .Value(x => x.NoEmpleadoNoi, no_empleado_noi)
-                .Value(x => x.Rol, rol)
-                .InsertAsync() > 0;
+                    .Value(x => x.IdPersona, id_persona)
+                    .Value(x => x.IdTipoEmpleado, id_tipo_empleado)
+                    .Value(x => x.IdCategoria, id_categoria)
+                    .Value(x => x.IdTipoContrato, id_tipo_contrato)
+                    .Value(x => x.CvePuesto, cve_puesto)
+                    .Value(x => x.IdEmpresa, id_empresa)
+                    .Value(x => x.IdCiudad, id_ciudad)
+                    .Value(x => x.IdNivelEstudios, id_nivel_estudios)
+                    .Value(x => x.IdFormaPago, id_forma_pago)
+                    .Value(x => x.IdJornada, id_jornada)
+                    .Value(x => x.IdDepartamento, id_departamento)
+                    .Value(x => x.IdClasificacion, id_clasificacion)
+                    .Value(x => x.IdJefeDirecto, id_jefe_directo)
+                    .Value(x => x.IdUnidadNegocio, id_unidad_negocio)
+                    .Value(x => x.IdTipoContrato_sat, id_tipo_contrato_sat)
+                    .Value(x => x.NumEmpleado, num_empleado)
+                    .Value(x => x.FechaIngreso, fecha_ingreso)
+                    .Value(x => x.FechaSalida, fecha_salida)
+                    .Value(x => x.FechaUltimoReingreso, fecha_ultimo_reingreso)
+                    .Value(x => x.Nss, nss)
+                    .Value(x => x.EmailBovis, email_bovis)
+                    .Value(x => x.UrlRepositorio, url_repo)
+                    .Value(x => x.Salario, salario)
+                    .Value(x => x.Profesion, profesion)
+                    .Value(x => x.Antiguedad, antiguedad)
+                    .Value(x => x.Turno, turno)
+                    .Value(x => x.UnidadMedica, unidad_medica)
+                    .Value(x => x.RegistroPatronal, registro_patronal)
+                    .Value(x => x.Cotizacion, cotizacion)
+                    .Value(x => x.Duracion, duracion)
+                    .Value(x => x.Activo, true)
+                    .Value(x => x.DescuentoPension, descuento_pension)
+                    .Value(x => x.PorcentajePension, porcentaje_pension)
+                    .Value(x => x.FondoFijo, fondo_fijo)
+                    .Value(x => x.CreditoInfonavit, credito_infonavit)
+                    .Value(x => x.TipoDescuento, tipo_descuento)
+                    .Value(x => x.ValorDescuento, valor_descuento)
+                    .Value(x => x.NoEmpleadoNoi, no_empleado_noi)
+                    .Value(x => x.Rol, rol)
+                    .InsertAsync() > 0;
 
                 resp.Success = insert_empleado;
                 resp.Message = insert_empleado == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
@@ -271,9 +271,9 @@ namespace Bovis.Data
                     int id_habilidad = Convert.ToInt32(habilidad.ToString());
 
                     var insert_habilidad = await db.tB_Empleado_Habilidades
-                    .Value(x => x.IdEmpleado, last_inserted_id)
-                    .Value(x => x.IdHabilidad, id_habilidad)
-                    .InsertAsync() > 0;
+                        .Value(x => x.IdEmpleado, last_inserted_id)
+                        .Value(x => x.IdHabilidad, id_habilidad)
+                        .InsertAsync() > 0;
 
                     resp.Success = insert_habilidad;
                     resp.Message = insert_habilidad == default ? "Ocurrio un error al agregar registro de la habilidad." : string.Empty;
@@ -284,9 +284,9 @@ namespace Bovis.Data
                     int id_experiencia = Convert.ToInt32(experiencia.ToString());
 
                     var insert_experiencia = await db.tB_Empleado_Experiencias
-                    .Value(x => x.IdEmpleado, last_inserted_id)
-                    .Value(x => x.IdExperiencia, id_experiencia)
-                    .InsertAsync() > 0;
+                        .Value(x => x.IdEmpleado, last_inserted_id)
+                        .Value(x => x.IdExperiencia, id_experiencia)
+                        .InsertAsync() > 0;
 
                     resp.Success = insert_experiencia;
                     resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;

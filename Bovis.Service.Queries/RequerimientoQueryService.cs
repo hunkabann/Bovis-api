@@ -37,7 +37,7 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Habilidad>>> GetHabilidades(int idRequerimiento)
         {
             var response = await _requerimientoBussines.GetHabilidades(idRequerimiento);
-            return new Response<List<Habilidad>> { Data = _map.Map<List<Habilidad>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<Habilidad>> { Data = _map.Map<List<Habilidad>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Habilidades
 
@@ -45,7 +45,7 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento)
         {
             var response = await _requerimientoBussines.GetExperiencias(idRequerimiento);
-            return new Response<List<Experiencia>> { Data = _map.Map<List<Experiencia>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<Experiencia>> { Data = _map.Map<List<Experiencia>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Experiencias
 
@@ -53,14 +53,14 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Requerimiento>>> GetRequerimientos(bool? Activo)
         {
             var response = await _requerimientoBussines.GetRequerimientos(Activo);
-            return new Response<List<Requerimiento>> { Data = _map.Map<List<Requerimiento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
+            return new Response<List<Requerimiento>> { Data = _map.Map<List<Requerimiento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
 
         public async Task<Response<Requerimiento>> GetRequerimiento(int idRequerimiento)
         {
             var response = await _requerimientoBussines.GetRequerimiento(idRequerimiento);
-            return new Response<Requerimiento> { Data = _map.Map<Requerimiento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : "Consulta exitosa" };
+            return new Response<Requerimiento> { Data = _map.Map<Requerimiento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)

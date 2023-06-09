@@ -1,5 +1,6 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data.Interface
 {
@@ -10,10 +11,9 @@ namespace Bovis.Data.Interface
         #endregion Empresas
 
         #region Registros
-        Task<CieRegistro> GetInfoRegistro(int? idRegistro);
-        Task<List<TB_Cie>> GetRegistros(byte? estatus);
-        Task<(bool existe, string mensaje)> AddRegistro(TB_Cie registro);
-        Task<(bool existe, string mensaje)> AddRegistros(List<TB_Cie> registros);
+        Task<TB_Cie_Data> GetRegistro(int? idRegistro);
+        Task<List<TB_Cie_Data>> GetRegistros(byte? estatus);
+        Task<(bool existe, string mensaje)> AgregarRegistros(JsonObject registros);
         #endregion Registros
     }
 }

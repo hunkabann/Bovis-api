@@ -23,13 +23,9 @@ public class AddCieEventHandler : IRequestHandler<AddCieCommand, Response<bool>>
         this._mapper = _mapper;
     }
 
-    public async Task<Response<bool>> Handle(AddCieCommand request, CancellationToken cancellationToken)
+    public Task<Response<bool>> Handle(AddCieCommand request, CancellationToken cancellationToken)
     {
-        var resp = new Response<bool>();
-        (bool Success, string Message) tmpResp = await _business.AddRegistro(new TB_Cie { Estatus = 1 });
-        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
-        else resp.Data = tmpResp.Success;
-        return resp;
+        throw new NotImplementedException();
     }
 }
 
