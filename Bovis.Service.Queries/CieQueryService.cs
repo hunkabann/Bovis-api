@@ -38,7 +38,7 @@ namespace Bovis.Service.Queries
         public async Task<Response<List<Empresa>>> GetEmpresas(bool? Activo)
         {
             var response = await _cieBusiness.GetEmpresas(Activo);
-            return new Response<List<Empresa>> { Data = _map.Map<List<Empresa>>(response), Success = true };
+            return new Response<List<Empresa>> { Data = _map.Map<List<Empresa>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
         }
         #endregion Empresas
 
@@ -46,13 +46,12 @@ namespace Bovis.Service.Queries
         public async Task<Response<Cie>> GetInfoRegistro(int? idRegistro)
         {
             var response = await _cieBusiness.GetInfoRegistro(idRegistro);
-
-            return new Response<Cie> { Data = _map.Map<Cie>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontro información del registro." : default };
+            return new Response<Cie> { Data = _map.Map<Cie>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : "Consulta exitosa" };
         }
         public async Task<Response<List<Cie>>> GetRegistros(byte? Estatus)
         {
             var response = await _cieBusiness.GetRegistros(Estatus);
-            return new Response<List<Cie>> { Data = _map.Map<List<Cie>>(response), Success = true };
+            return new Response<List<Cie>> { Data = _map.Map<List<Cie>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : "Consulta exitosa" };
         }
 
         public async Task<Response<bool>> AddRegistros(List<TB_Cie> registros)

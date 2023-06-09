@@ -39,7 +39,7 @@ namespace Bovis.Service.Queries
         public async Task<Response<Dias_Timesheet_Detalle>> GetDiasHabiles(int mes, int anio, bool sabados)
         {
             var response = await _timesheetBusiness.GetDiasHabiles(mes, anio, sabados);
-            return new Response<Dias_Timesheet_Detalle> { Data = _map.Map<Dias_Timesheet_Detalle>(response), Success = true };
+            return new Response<Dias_Timesheet_Detalle> { Data = _map.Map<Dias_Timesheet_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : "Consulta exitosa" };
         }
 
         public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)
