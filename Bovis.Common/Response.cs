@@ -9,7 +9,7 @@ public class Response<T>
 
     public Response()
     {
-        Success = true;
+        Success = false;
         Message = default;
         TransactionId = default;
         Data = Activator.CreateInstance<T>();

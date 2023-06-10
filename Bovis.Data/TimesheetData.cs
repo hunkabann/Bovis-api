@@ -78,7 +78,7 @@ namespace Bovis.Data
                 
                 if(timeS_record != null)
                 {
-                    resp.Success = false;
+                    resp.Success = true;
                     resp.Message = String.Format("Ya existe un registro de {0}, de la fecha {1}/{2}", nombre_empleado, mes, anio);
                     return resp;
                 }

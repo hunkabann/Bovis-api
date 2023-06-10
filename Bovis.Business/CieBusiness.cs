@@ -35,6 +35,7 @@ namespace Bovis.Business
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _cieData.AgregarRegistros(registros);
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudieron agregar los registros Cie a la base de datos"; return resp; }
+            else resp = respData;
             return resp;
         }
         #endregion Registros
