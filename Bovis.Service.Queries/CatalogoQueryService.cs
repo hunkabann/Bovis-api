@@ -18,7 +18,6 @@ public class CatalogoQueryService : ICatalogoQueryService
 	}
 
 	#region Catalogos
-
 	public async Task<Response<List<Catalogo>>> GetBeneficio(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetBeneficio(Activo);

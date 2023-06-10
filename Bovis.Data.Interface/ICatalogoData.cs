@@ -78,6 +78,9 @@ namespace Bovis.Data.Interface
 
         #region Experiencia
         Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? activo);
+        Task<bool> AddExperiencia(TB_Cat_Experiencia experiencia);
+        Task<bool> UpdateExperiencia(TB_Cat_Experiencia experiencia);
+        Task<bool> DeleteExperiencia(TB_Cat_Experiencia experiencia);
         #endregion Experiencia
 
         #region Forma Pago
@@ -100,6 +103,9 @@ namespace Bovis.Data.Interface
 
         #region Habilidad
         Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? activo);
+        Task<bool> AddHabilidad(TB_Cat_Habilidad habilidad);
+        Task<bool> UpdateHabilidad(TB_Cat_Habilidad habilidad);
+        Task<bool> DeleteHabilidad(TB_Cat_Habilidad habilidad);
         #endregion Habilidad
 
         #region Ingreso
@@ -167,6 +173,9 @@ namespace Bovis.Data.Interface
 
         #region Profesion
         Task<List<TB_Cat_Profesion>> GetProfesion(bool? activo);
+        Task<bool> AddProfesion(TB_Cat_Profesion profesion);
+        Task<bool> UpdateProfesion(TB_Cat_Profesion profesion);
+        Task<bool> DeleteProfesion(TB_Cat_Profesion profesion);
         #endregion Profesion
 
         #region Puesto

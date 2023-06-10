@@ -228,7 +228,6 @@ namespace Bovis.Business
 		#endregion
 
 		#region Estatus Proyecto
-
 		public Task<List<TB_Cat_EstatusProyecto>> GetEstatusProyecto(bool? Actio) => _catalogoData.GetEstatusProyecto(Actio);
 		public async Task<(bool Success, string Message)> AddEstatusProyecto(TB_Cat_EstatusProyecto estatusProyecto)
 		{
@@ -259,6 +258,30 @@ namespace Bovis.Business
 
         #region Experiencia
         public Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? Actio) => _catalogoData.GetExperiencia(Actio);
+        public async Task<(bool Success, string Message)> AddExperiencia(TB_Cat_Experiencia experiencia)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddExperiencia(experiencia);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteExperiencia(TB_Cat_Experiencia experiencia)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteExperiencia(experiencia);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateExperiencia(InsertMovApi MovAPI, TB_Cat_Experiencia experiencia)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateExperiencia(experiencia);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(experiencia) });
+            return resp;
+        }
         #endregion Experiencia
 
         #region Forma Pago
@@ -323,6 +346,30 @@ namespace Bovis.Business
 
         #region Habilidad
         public Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? Actio) => _catalogoData.GetHabilidad(Actio);
+        public async Task<(bool Success, string Message)> AddHabilidad(TB_Cat_Habilidad habilidad)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddHabilidad(habilidad);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteHabilidad(TB_Cat_Habilidad habilidad)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteHabilidad(habilidad);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateHabilidad(InsertMovApi MovAPI, TB_Cat_Habilidad habilidad)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateHabilidad(habilidad);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(habilidad) });
+            return resp;
+        }
         #endregion Habilidad
 
         #region Ingreso
@@ -537,6 +584,30 @@ namespace Bovis.Business
 
         #region Profesion
         public Task<List<TB_Cat_Profesion>> GetProfesion(bool? Actio) => _catalogoData.GetProfesion(Actio);
+        public async Task<(bool Success, string Message)> AddProfesion(TB_Cat_Profesion profesion)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddProfesion(profesion);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteProfesion(TB_Cat_Profesion profesion)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteProfesion(profesion);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateProfesion(InsertMovApi MovAPI, TB_Cat_Profesion profesion)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateProfesion(profesion);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(profesion) });
+            return resp;
+        }
         #endregion Profesion
 
         #region Puesto

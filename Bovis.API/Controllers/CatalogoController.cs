@@ -129,7 +129,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Clasificacion
-
 	[HttpGet, Route("Clasificacion/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Clasificacion(bool? Activo)
 	{
@@ -181,7 +180,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Costo Indirecto Salarios
-
 	[HttpGet, Route("CostoIndirectoSalarios/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> CostoIndirectoSalarios(bool? Activo)
 	{
@@ -233,7 +231,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Departamento
-
 	[HttpGet, Route("Departamento/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Departamento(bool? Activo)
 	{
@@ -285,7 +282,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Documento
-
 	[HttpGet, Route("Documento/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Documento(bool? Activo)
 	{
@@ -337,7 +333,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Estado Civil
-
 	[HttpGet, Route("EstadoCivil/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> EdoCivil(bool? Activo)
 	{
@@ -389,7 +384,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Estatus Proyecto
-
 	[HttpGet, Route("Estatus/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Estatus(bool? Activo)
 	{
@@ -447,10 +441,50 @@ public class CatalogoController : ControllerBase
         var query = await _catalogoQueryService.GetExperiencia(Activo);
         return Ok(query);
     }
+
+    [HttpPut, Route("Experiencia/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddExperiencia(AgregarExperienciaCommand experiencia)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(experiencia);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Experiencia/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteExperiencia(EliminarExperienciaCommand experiencia)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(experiencia);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Experiencia/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateExperiencia(ActualizarExperienciaCommand experiencia)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        experiencia.Nombre = claimJWTModel.nombre;
+        experiencia.Usuario = claimJWTModel.correo;
+        experiencia.Roles = claimJWTModel.roles;
+        experiencia.TransactionId = claimJWTModel.transactionId;
+        experiencia.Rel = 7;
+        var response = await _mediator.Send(experiencia);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
     #endregion Experiencia
 
     #region Forma Pago
-
     [HttpGet, Route("FormaPago/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> FormaPago(bool? Activo)
 	{
@@ -502,7 +536,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Gasto
-
 	[HttpGet, Route("Gasto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Gasto(bool? Activo)
 	{
@@ -560,10 +593,49 @@ public class CatalogoController : ControllerBase
         var query = await _catalogoQueryService.GetHabilidad(Activo);
         return Ok(query);
     }
+    [HttpPut, Route("Habilidad/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddHabilidad(AgregarHabilidadCommand habilidad)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(habilidad);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Habilidad/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteHabilidad(EliminarHabilidadCommand habilidad)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(habilidad);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Habilidad/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateHabilidad(ActualizarHabilidadCommand habilidad)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        habilidad.Nombre = claimJWTModel.nombre;
+        habilidad.Usuario = claimJWTModel.correo;
+        habilidad.Roles = claimJWTModel.roles;
+        habilidad.TransactionId = claimJWTModel.transactionId;
+        habilidad.Rel = 7;
+        var response = await _mediator.Send(habilidad);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
     #endregion Habilidades
 
     #region Ingreso
-
     [HttpGet, Route("Ingreso/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Ingreso(bool? Activo)
 	{
@@ -666,7 +738,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Moneda
-
 	[HttpGet, Route("Moneda/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Modena(bool? Activo)
 	{
@@ -769,7 +840,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Nivel Puesto
-
 	[HttpGet, Route("NivelPuesto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> NivelPuesto(bool? Activo)
 	{
@@ -821,7 +891,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Pcs
-
 	[HttpGet, Route("Pcs/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Pcs(bool? Activo)
 	{
@@ -873,7 +942,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Prestacion
-
 	[HttpGet, Route("Prestacion/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Prestacion(bool? Activo)
 	{
@@ -931,6 +999,46 @@ public class CatalogoController : ControllerBase
         var query = await _catalogoQueryService.GetProfesion(Activo);
         return Ok(query);
     }
+    [HttpPut, Route("Profesion/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddProfesion(AgregarProfesionCommand profesion)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(profesion);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Profesion/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteProfesion(EliminarProfesionCommand profesion)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(profesion);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Profesion/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateProfesion(ActualizarProfesionCommand profesion)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        profesion.Nombre = claimJWTModel.nombre;
+        profesion.Usuario = claimJWTModel.correo;
+        profesion.Roles = claimJWTModel.roles;
+        profesion.TransactionId = claimJWTModel.transactionId;
+        profesion.Rel = 7;
+        var response = await _mediator.Send(profesion);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
     #endregion
 
     #region Puesto
@@ -985,7 +1093,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Rubro Ingreso Reembolsable
-
 	[HttpGet, Route("RubroIngresoReembolsable/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> RubroIngresoReembolsable(bool? Activo)
 	{
@@ -1037,7 +1144,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Sector
-
 	[HttpGet, Route("Sector/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Sector(bool? Activo)
 	{
@@ -1089,7 +1195,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Cie
-
 	[HttpGet, Route("TipoCie/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoCie(bool? Activo)
 	{
@@ -1141,7 +1246,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Contrato
-
 	[HttpGet, Route("TipoContrato/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoContrato(bool? Activo)
 	{
@@ -1193,7 +1297,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Cta Contable
-
 	[HttpGet, Route("TipoCtaContable/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoCtaContable(bool? Activo)
 	{
@@ -1245,7 +1348,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Cuenta
-
 	[HttpGet, Route("TipoCuenta/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoCuenta(bool? Activo)
 	{
@@ -1297,7 +1399,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Documento
-
 	[HttpGet, Route("TipoDocumento/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoDocumento(bool? Activo)
 	{
@@ -1349,7 +1450,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Empleado
-
 	[HttpGet, Route("TipoEmpleado/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoEmpleado(bool? Activo)
 	{
@@ -1401,7 +1501,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Factura
-
 	[HttpGet, Route("TipoFactura/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoFactura(bool? Activo)
 	{
@@ -1453,7 +1552,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Gasto
-
 	[HttpGet, Route("TipoGasto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoGasto(bool? Activo)
 	{
@@ -1505,7 +1603,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Ingreso
-
 	[HttpGet, Route("TipoIngreso/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoIngreso(bool? Activo)
 	{
@@ -1557,7 +1654,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Pcs
-
 	[HttpGet, Route("TipoPcs/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoPcs(bool? Activo)
 	{
@@ -1609,7 +1705,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Poliza
-
 	[HttpGet, Route("TipoPoliza/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoPoliza(bool? Activo)
 	{
@@ -1661,7 +1756,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Proyecto
-
 	[HttpGet, Route("TipoProyecto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoProyecto(bool? Activo)
 	{
@@ -1713,7 +1807,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Resultado
-
 	[HttpGet, Route("TipoResultado/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoResultado(bool? Activo)
 	{
@@ -1765,7 +1858,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Tipo Sangre
-
 	[HttpGet, Route("TipoSangre/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoSangre(bool? Activo)
 	{
@@ -1817,7 +1909,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region UnidadNegocio
-
 	[HttpGet, Route("UnidadNegocio/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> UnidadNegocio(bool? Activo)
 	{
@@ -1869,7 +1960,6 @@ public class CatalogoController : ControllerBase
 	#endregion
 
 	#region Viatico
-
 	[HttpGet, Route("Viatico/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Viatico(bool? Activo)
 	{

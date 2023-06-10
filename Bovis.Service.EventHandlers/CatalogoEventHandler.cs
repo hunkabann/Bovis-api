@@ -450,7 +450,6 @@ public class ActualizaEdoCivilEventHandler : IRequestHandler<ActualizarEdoCivilC
 #endregion
 
 #region Estatus Proyecto
-
 public class AgregaEstatusProyectoEventHandler : IRequestHandler<AgregarEstatusProyectoCommand, Response<bool>>
 {
 	private readonly ICatalogoBusiness _business;
@@ -513,6 +512,64 @@ public class ActualizaEstatusProyectoEventHandler : IRequestHandler<ActualizarEs
 #endregion
 
 #region Experiencia
+public class AgregaExperienciaEventHandler : IRequestHandler<AgregarExperienciaCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaExperienciaEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarExperienciaCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddExperiencia(new TB_Cat_Experiencia { Activo = true, Experiencia = request.descripcion });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaExperienciaEventHandler : IRequestHandler<EliminarExperienciaCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaExperienciaEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarExperienciaCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteExperiencia(new TB_Cat_Experiencia { IdExperiencia = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaExperienciaEventHandler : IRequestHandler<ActualizarExperienciaCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaExperienciaEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarExperienciaCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateExperiencia(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Experiencia { Experiencia = request.descripcion, IdExperiencia = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
 #endregion Experiencia
 
 #region Forma Pago
@@ -642,6 +699,64 @@ public class ActualizaGastoEventHandler : IRequestHandler<ActualizarGastoCommand
 #endregion
 
 #region Habilidad
+public class AgregaHabilidadEventHandler : IRequestHandler<AgregarHabilidadCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaHabilidadEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarHabilidadCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddHabilidad(new TB_Cat_Habilidad { Activo = true, Habilidad = request.descripcion });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaHabilidadEventHandler : IRequestHandler<EliminarHabilidadCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaHabilidadEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarHabilidadCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteHabilidad(new TB_Cat_Habilidad { IdHabilidad = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaHabilidadEventHandler : IRequestHandler<ActualizarHabilidadCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaHabilidadEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarHabilidadCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateHabilidad(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Habilidad { Habilidad = request.descripcion, IdHabilidad = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
 #endregion Habilidad
 
 #region Ingreso
@@ -1086,6 +1201,64 @@ public class ActualizaPrestacionEventHandler : IRequestHandler<ActualizarPrestac
 #endregion
 
 #region Profesion
+public class AgregaProfesionEventHandler : IRequestHandler<AgregarProfesionCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaProfesionEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarProfesionCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddProfesion(new TB_Cat_Profesion { Activo = true, Profesion = request.descripcion });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaProfesionEventHandler : IRequestHandler<EliminarProfesionCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaProfesionEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarProfesionCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteProfesion(new TB_Cat_Profesion { IdProfesion = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaProfesionEventHandler : IRequestHandler<ActualizarProfesionCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaProfesionEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarProfesionCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateProfesion(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Profesion { Profesion = request.descripcion, IdProfesion = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
 #endregion Profesion
 
 #region Puesto

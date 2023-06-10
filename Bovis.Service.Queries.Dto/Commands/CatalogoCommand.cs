@@ -14,7 +14,6 @@ namespace Bovis.Service.Queries.Dto.Commands
 	}
 
 	#region Beneficio
-
 	public class AgregarBeneficioCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
@@ -206,6 +205,25 @@ namespace Bovis.Service.Queries.Dto.Commands
     #endregion
 
     #region Experiencia
+    public class AgregarExperienciaCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarExperienciaCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarExperienciaCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
     #endregion Experiencia
 
     #region Forma Pago
@@ -257,6 +275,25 @@ namespace Bovis.Service.Queries.Dto.Commands
     #endregion
 
     #region Habilidad
+    public class AgregarHabilidadCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarHabilidadCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarHabilidadCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
     #endregion Habilidad
 
     #region Ingreso
@@ -428,6 +465,25 @@ namespace Bovis.Service.Queries.Dto.Commands
     #endregion
 
     #region Profesion
+    public class AgregarProfesionCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarProfesionCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarProfesionCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
     #endregion Profesion
 
     #region Puesto

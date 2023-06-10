@@ -265,6 +265,20 @@ namespace Bovis.Data
             }
             else return await GetAllFromEntityAsync<TB_Cat_Experiencia>();
         }
+        public Task<bool> AddExperiencia(TB_Cat_Experiencia experiencia) => InsertEntityIdAsync<TB_Cat_Experiencia>(experiencia);
+
+        public Task<bool> UpdateExperiencia(TB_Cat_Experiencia experiencia) => UpdateEntityAsync<TB_Cat_Experiencia>(experiencia);
+
+        public async Task<bool> DeleteExperiencia(TB_Cat_Experiencia experiencia)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Cat_Experiencias
+                       .Where(x => x.IdExperiencia == experiencia.IdExperiencia)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
         #endregion Experiencia
 
         #region Forma Pago
@@ -337,6 +351,20 @@ namespace Bovis.Data
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Habilidad>();
+        }
+        public Task<bool> AddHabilidad(TB_Cat_Habilidad habilidad) => InsertEntityIdAsync<TB_Cat_Habilidad>(habilidad);
+
+        public Task<bool> UpdateHabilidad(TB_Cat_Habilidad habilidad) => UpdateEntityAsync<TB_Cat_Habilidad>(habilidad);
+
+        public async Task<bool> DeleteHabilidad(TB_Cat_Habilidad habilidad)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Cat_Habilidades
+                       .Where(x => x.IdHabilidad == habilidad.IdHabilidad)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
         }
         #endregion Habilidad
 
@@ -560,6 +588,20 @@ namespace Bovis.Data
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Profesion>();
+        }
+        public Task<bool> AddProfesion(TB_Cat_Profesion profesion) => InsertEntityIdAsync<TB_Cat_Profesion>(profesion);
+
+        public Task<bool> UpdateProfesion(TB_Cat_Profesion profesion) => UpdateEntityAsync<TB_Cat_Profesion>(profesion);
+
+        public async Task<bool> DeleteProfesion(TB_Cat_Profesion profesion)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Cat_Profesiones
+                       .Where(x => x.IdProfesion == profesion.IdProfesion)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
         }
         #endregion Profesion
 

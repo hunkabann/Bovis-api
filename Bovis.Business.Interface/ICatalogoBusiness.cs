@@ -6,7 +6,6 @@ namespace Bovis.Business.Interface
 	public interface ICatalogoBusiness : IDisposable
 	{
 		#region Beneficio
-
 		Task<List<TB_Cat_Beneficio>> GetBeneficio(bool? activo);
 		Task<(bool Success, string Message)> AddBeneficio(TB_Cat_Beneficio beneficio);
 		Task<(bool Success, string Message)> UpdateBeneficio(InsertMovApi MovAPI, TB_Cat_Beneficio beneficio);
@@ -79,6 +78,9 @@ namespace Bovis.Business.Interface
 
         #region Experiencia
         Task<List<TB_Cat_Experiencia>> GetExperiencia(bool? activo);
+        Task<(bool Success, string Message)> AddExperiencia(TB_Cat_Experiencia experiencia);
+        Task<(bool Success, string Message)> UpdateExperiencia(InsertMovApi MovAPI, TB_Cat_Experiencia experiencia);
+        Task<(bool Success, string Message)> DeleteExperiencia(TB_Cat_Experiencia experiencia);
         #endregion Experiencia
 
         #region Forma Pago
@@ -101,6 +103,9 @@ namespace Bovis.Business.Interface
 
         #region Habilidad
         Task<List<TB_Cat_Habilidad>> GetHabilidad(bool? activo);
+        Task<(bool Success, string Message)> AddHabilidad(TB_Cat_Habilidad habilidad);
+        Task<(bool Success, string Message)> UpdateHabilidad(InsertMovApi MovAPI, TB_Cat_Habilidad habilidad);
+        Task<(bool Success, string Message)> DeleteHabilidad(TB_Cat_Habilidad habilidad);
         #endregion Habilidad
 
         #region Ingreso
@@ -168,6 +173,9 @@ namespace Bovis.Business.Interface
 
         #region Profesion
         Task<List<TB_Cat_Profesion>> GetProfesion(bool? activo);
+        Task<(bool Success, string Message)> AddProfesion(TB_Cat_Profesion profesion);
+        Task<(bool Success, string Message)> UpdateProfesion(InsertMovApi MovAPI, TB_Cat_Profesion profesion);
+        Task<(bool Success, string Message)> DeleteProfesion(TB_Cat_Profesion profesion);
         #endregion Profesion
 
         #region Puesto
