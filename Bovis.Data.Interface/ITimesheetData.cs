@@ -10,5 +10,6 @@ namespace Bovis.Data.Interface
         Task<(bool existe, string mensaje)> AgregarRegistro(JsonObject registro);
         Task<List<TB_Timesheet>> GetTimeSheets(bool? activo);
         Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
+        Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro);
     }
 }
