@@ -44,5 +44,18 @@ namespace Bovis.API.Controllers
             if(query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpGet, Route("TimeSheets/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")
+        public async Task<IActionResult> GetTimeSheets(bool? Activo)
+        {
+            var query = await _timesheetQueryService.GetTimeSheets(Activo);
+            return Ok(query);
+        }
+        [HttpGet, Route("Registro/{idTimeSheet}")]//, Authorize(Roles = "it.full, dev.full")
+        public async Task<IActionResult> GetTimeSheet(int idTimeSheet)
+        {
+            var query = await _timesheetQueryService.GetTimeSheet(idTimeSheet);
+            return Ok(query);
+        }
     }
 }

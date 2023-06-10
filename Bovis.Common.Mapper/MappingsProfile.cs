@@ -20,6 +20,17 @@ public class MappingsProfile : Profile
             .ForMember(c => c.sabados, dto => dto.MapFrom(src => src.sabados))
             .ForMember(c => c.anio, dto => dto.MapFrom(src => src.anio))
             .ForMember(c => c.dias_habiles, dto => dto.MapFrom(src => src.dias_habiles));
+
+        CreateMap<TimeSheet_Detalle, Detalle_TimeSheet>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.id))
+            .ForMember(c => c.id_empleado, dto => dto.MapFrom(src => src.id_empleado))
+            .ForMember(c => c.mes, dto => dto.MapFrom(src => src.mes))
+            .ForMember(c => c.anio, dto => dto.MapFrom(src => src.anio))
+            .ForMember(c => c.id_responsable, dto => dto.MapFrom(src => src.id_responsable))
+            .ForMember(c => c.sabados, dto => dto.MapFrom(src => src.sabados))
+            .ForMember(c => c.dias_trabajo, dto => dto.MapFrom(src => src.dias_trabajo))
+            .ForMember(c => c.otros, dto => dto.MapFrom(src => src.otros))
+            .ForMember(c => c.proyectos, dto => dto.MapFrom(src => src.proyectos));
         #endregion TimeSheet
 
         #region Requerimientos

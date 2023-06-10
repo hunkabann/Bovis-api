@@ -47,6 +47,17 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.AgregarRegistro(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
+        public async Task<Response<List<TB_Timesheet>>> GetTimeSheets(bool? Activo)
+        {
+            var response = await _timesheetBusiness.GetTimeSheets(Activo);
+            return new Response<List<TB_Timesheet>> { Data = _map.Map<List<TB_Timesheet>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+
+        }
+        public async Task<Response<TimeSheet_Detalle>> GetTimeSheet(int idTimeSheet)
+        {
+            var response = await _timesheetBusiness.GetTimeSheet(idTimeSheet);
+            return new Response<TimeSheet_Detalle> { Data = _map.Map<TimeSheet_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
 
     }
 }

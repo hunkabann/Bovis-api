@@ -32,5 +32,8 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+        public Task<List<TB_Timesheet>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
+
+        public Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet) => _timesheetData.GetTimeSheet(idTimeSheet);
     }
 }

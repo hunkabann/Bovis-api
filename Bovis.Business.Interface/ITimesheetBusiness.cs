@@ -13,6 +13,8 @@ namespace Bovis.Business.Interface
     {
         Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados);
         Task<(bool Success, string Message)> AgregarRegistro(JsonObject registro);
+        Task<List<TB_Timesheet>> GetTimeSheets(bool? activo);
+        Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
     }
 
 }

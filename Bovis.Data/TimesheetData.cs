@@ -146,5 +146,54 @@ namespace Bovis.Data
 
             return resp;
         }
+
+        public async Task<List<TB_Timesheet>> GetTimeSheets(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    return await (from ts in db.tB_Timesheets
+                                  select ts).ToListAsync();
+                }
+            }
+            else return await GetAllFromEntityAsync<TB_Timesheet>();
+        }
+
+        public async Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_timesheet = (from ts in db.tB_Timesheets
+                                    where ts.IdTimesheet == idTimeSheet
+                                    select ts).FirstOrDefault();
+
+                var res_timesheet_otros = (from ts_o in db.tB_Timesheet_Otros
+                                          where ts_o.IdTimeSheet == idTimeSheet
+                                          select ts_o).ToListAsync();
+
+                var res_timesheet_proyectos = (from ts_p in db.tB_Timesheet_Proyectos
+                                              where ts_p.IdTimesheet == idTimeSheet
+                                              select ts_p).ToListAsync();
+
+                TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
+                if (res_timesheet != null)
+                {
+                    timesheetDetalle.id = res_timesheet.IdTimesheet;
+                    timesheetDetalle.id_empleado = res_timesheet.IdEmpleado;
+                    timesheetDetalle.mes = res_timesheet.Mes;
+                    timesheetDetalle.anio = res_timesheet.Anio;
+                    timesheetDetalle.id_responsable = res_timesheet.IdResponsable;
+                    timesheetDetalle.sabados = res_timesheet.Sabados;
+                    timesheetDetalle.dias_trabajo = res_timesheet.DiasTrabajo;
+                }
+
+                timesheetDetalle.otros = await res_timesheet_otros;
+                timesheetDetalle.proyectos = await res_timesheet_proyectos;
+
+                return timesheetDetalle;
+
+            }
+        }
     }
 }

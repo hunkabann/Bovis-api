@@ -5,20 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bovis.Service.Queries.Dto.Responses
+namespace Bovis.Common.Model.NoTable
 {
-    public class Detalle_Dias_Timesheet
-    {
-        public int id { get; set; }
-        public int mes { get; set; }
-        public int dias { get; set; }
-        public int feriados { get; set; }
-        public bool sabados { get; set; }
-        public bool anio { get; set; }
-        public int dias_habiles { get; set; }
-    }
-
-    public class Detalle_TimeSheet
+    public class TimeSheet_Detalle
     {
         public int id { get; set; }
         public int id_empleado { get; set; }
