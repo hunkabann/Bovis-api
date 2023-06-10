@@ -162,21 +162,21 @@ namespace Bovis.Data
 
         public async Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet)
         {
+            TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_timesheet = (from ts in db.tB_Timesheets
-                                    where ts.IdTimesheet == idTimeSheet
-                                    select ts).FirstOrDefault();
+                var res_timesheet = await (from ts in db.tB_Timesheets
+                                           where ts.IdTimesheet == idTimeSheet
+                                           select ts).FirstOrDefaultAsync();
 
-                var res_timesheet_otros = (from ts_o in db.tB_Timesheet_Otros
-                                          where ts_o.IdTimeSheet == idTimeSheet
-                                          select ts_o).ToListAsync();
+                var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                 where ts_o.IdTimeSheet == idTimeSheet
+                                                 select ts_o).ToListAsync();
 
-                var res_timesheet_proyectos = (from ts_p in db.tB_Timesheet_Proyectos
-                                              where ts_p.IdTimesheet == idTimeSheet
-                                              select ts_p).ToListAsync();
+                var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                     where ts_p.IdTimesheet == idTimeSheet
+                                                     select ts_p).ToListAsync();
 
-                TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
                 if (res_timesheet != null)
                 {
                     timesheetDetalle.id = res_timesheet.IdTimesheet;
@@ -188,12 +188,96 @@ namespace Bovis.Data
                     timesheetDetalle.dias_trabajo = res_timesheet.DiasTrabajo;
                 }
 
-                timesheetDetalle.otros = await res_timesheet_otros;
-                timesheetDetalle.proyectos = await res_timesheet_proyectos;
-
-                return timesheetDetalle;
+                timesheetDetalle.otros = res_timesheet_otros;
+                timesheetDetalle.proyectos = res_timesheet_proyectos;
 
             }
+            return timesheetDetalle;
+        }
+
+        public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_time_sheet = Convert.ToInt32(registro["id_time_sheet"].ToString());
+            int id_empleado = Convert.ToInt32(registro["empleado"]["code"].ToString());
+            string nombre_empleado = registro["empleado"]["name"].ToString();
+            string fecha = registro["fecha"].ToString();
+            int mes = Convert.ToInt32(registro["mes"].ToString());
+            int anio = Convert.ToInt32(registro["anio"].ToString());
+            bool sabados = Convert.ToBoolean(registro["sabados"].ToString());
+            int id_responsable = Convert.ToInt32(registro["id_responsable"].ToString());
+            int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_timesheet = await (from timeS in db.tB_Timesheets
+                                           where timeS.IdEmpleado == id_empleado
+                                           && timeS.Mes == mes
+                                           && timeS.Anio == anio
+                                           select timeS).FirstOrDefaultAsync();
+
+                res_timesheet.IdEmpleado = id_empleado;
+                res_timesheet.Mes = mes;
+                res_timesheet.Anio = anio;
+                res_timesheet.IdResponsable = id_responsable;
+                res_timesheet.Sabados = sabados;
+                res_timesheet.DiasTrabajo = dias_trabajo;                
+                
+                
+
+                var insert_timesheet = await db.tB_Timesheets
+                    .Value(x => x.IdEmpleado, id_empleado)
+                    .Value(x => x.Mes, mes)
+                    .Value(x => x.Anio, anio)
+                    .Value(x => x.IdResponsable, id_responsable)
+                    .Value(x => x.Sabados, sabados)
+                    .Value(x => x.DiasTrabajo, dias_trabajo)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_timesheet;
+                resp.Message = insert_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                foreach (var proyecto in registro["proyectos"].AsArray())
+                {
+                    int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
+                    string nombre_proyecto = proyecto["nombre"].ToString();
+                    int dias = Convert.ToInt32(proyecto["dias"].ToString());
+                    int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
+                    int costo = Convert.ToInt32(proyecto["costo"].ToString());
+
+                    var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
+                        .Value(x => x.IdTimesheet, id_time_sheet)
+                        .Value(x => x.IdProyecto, id_proyecto)
+                        .Value(x => x.Descripcion, nombre_proyecto)
+                        .Value(x => x.Dias, dias)
+                        .Value(x => x.TDedicacion, dedicacion)
+                        .Value(x => x.Costo, costo)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_timesheet_proyecto;
+                    resp.Message = insert_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+
+                foreach (var otro in registro["otros"].AsArray())
+                {
+                    string id_otro = otro["id"].ToString();
+                    int dias = Convert.ToInt32(otro["dias"].ToString());
+                    int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
+
+                    var insert_timesheet_otro = await db.tB_Timesheet_Otros
+                        .Value(x => x.IdTimeSheet, id_time_sheet)
+                        .Value(x => x.Descripcion, id_otro)
+                        .Value(x => x.Dias, dias)
+                        .Value(x => x.TDedicacion, dedicacion)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_timesheet_otro;
+                    resp.Message = insert_timesheet_otro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+            }
+
+            return resp;
         }
     }
 }

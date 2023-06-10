@@ -15,7 +15,6 @@ namespace Bovis.Data
 		}
 
 		#region Beneficio
-
 		public async Task<List<TB_Cat_Beneficio>> GetBeneficio(bool? activo)
 		{
 			if (activo.HasValue)

@@ -58,6 +58,11 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.GetTimeSheet(idTimeSheet);
             return new Response<TimeSheet_Detalle> { Data = _map.Map<TimeSheet_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+        public async Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.UpdateRegistro(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
 
     }
 }

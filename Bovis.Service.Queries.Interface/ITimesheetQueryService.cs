@@ -17,6 +17,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro);
         Task<Response<List<TB_Timesheet>>> GetTimeSheets(bool? Activo);
         Task<Response<TimeSheet_Detalle>> GetTimeSheet(int idTimeSheet);
+        Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro);
     }
 }
 

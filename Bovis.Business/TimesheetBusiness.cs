@@ -35,5 +35,14 @@ namespace Bovis.Business
         public Task<List<TB_Timesheet>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
         public Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet) => _timesheetData.GetTimeSheet(idTimeSheet);
+
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _timesheetData.UpdateRegistro(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
     }
 }
