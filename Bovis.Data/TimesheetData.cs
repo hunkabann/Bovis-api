@@ -249,6 +249,16 @@ namespace Bovis.Data
                         resp.Success = res_delete_timesheet_proyecto;
                         resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                     }
+                    else
+                    {
+                        var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id_proyecto && x.IdTimesheet == id_time_sheet)
+                            .UpdateAsync(x => new TB_Timesheet_Proyecto
+                            {
+
+                            });
+                    }
+
+                    // Agrega proyecto nuevo en la BD.                    
                 }
 
                 var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros

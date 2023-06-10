@@ -6,6 +6,7 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -81,7 +82,8 @@ namespace Bovis.Data
                     string cuenta = registro["cuenta"].ToString();
                     string tipo_poliza = registro["tipo_poliza"].ToString();
                     int numero = Convert.ToInt32(registro["numero"].ToString());
-                    DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
+                    string fecha_str = registro["fecha"].ToString();
+                    //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
                     int mes = Convert.ToInt32(registro["mes"].ToString());
                     string concepto = registro["concepto"].ToString();
                     string centro_costos = registro["centro_costos"].ToString();
@@ -98,6 +100,14 @@ namespace Bovis.Data
                     string tipo_responsable = registro["tipo_responsable"].ToString();
                     string tipo_py = registro["tipo_py"].ToString();
                     string clasificacion_py = registro["clasificacion_py"].ToString();
+                    DateTime fecha;
+
+                    if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                    {
+                        resp.Success = insert;
+                        resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                        return resp;
+                    }
 
                     insert = await db.tB_Cie_Datas
                         .Value(x => x.NombreCuenta, nombre_cuenta)
