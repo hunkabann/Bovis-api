@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Common.Model.Tables;
 using System.Text.Json.Nodes;
+using System.Net;
 
 namespace Bovis.API.Controllers
 {
@@ -40,7 +41,8 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> AgregarRegistro([FromBody] JsonObject registro)
         {
             var query = await _timesheetQueryService.AgregarRegistro(registro);
-            return Ok(query);
+            if(query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
     }
 }

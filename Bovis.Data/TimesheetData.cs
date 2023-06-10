@@ -1,4 +1,5 @@
-﻿using Bovis.Common.Model;
+﻿using Azure.Core;
+using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
@@ -7,6 +8,7 @@ using LinqToDB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -79,7 +81,7 @@ namespace Bovis.Data
                 if(timeS_record != null)
                 {
                     resp.Success = true;
-                    resp.Message = String.Format("Ya existe un registro de {0}, de la fecha {1}/{2}", nombre_empleado, mes, anio);
+                    resp.Message = String.Format("Ya existe un registro de {0}, de la fecha {1}/{2}", nombre_empleado, mes, anio);                                        
                     return resp;
                 }
 
