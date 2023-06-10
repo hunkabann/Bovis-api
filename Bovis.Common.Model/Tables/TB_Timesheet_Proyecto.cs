@@ -12,5 +12,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Numdias"), Nullable] public int Dias { get; set; }
         [Column("NumTdedicacion"), Nullable] public int TDedicacion { get; set; }
         [Column("Numcosto"), Nullable] public int Costo { get; set; }
+        [Column("Boactivo"), Nullable] public bool Activo { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Chdescripcion"), Nullable] public string Descripcion { get; set; }
         [Column("Numdias"), Nullable] public int Dias { get; set; }
         [Column("NumTdedicacion"), Nullable] public decimal TDedicacion { get; set; }
+        [Column("Boactivo"), Nullable] public bool Activo { get; set; }
     }
 }
