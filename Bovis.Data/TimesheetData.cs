@@ -67,7 +67,22 @@ namespace Bovis.Data
             int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
-            {
+            {                
+                var res = from timeS in db.tB_Timesheets
+                          where timeS.IdEmpleado == id_empleado
+                          && timeS.Mes == mes
+                          && timeS.Anio == anio
+                          select timeS;
+
+                var timeS_record = await res.FirstOrDefaultAsync();
+                
+                if(timeS_record != null)
+                {
+                    resp.Success = false;
+                    resp.Message = String.Format("Ya existe un registro de {0}, de la fecha {1}/{2}", nombre_empleado, mes, anio);
+                    return resp;
+                }
+
                 int last_inserted_id = 0;
 
                 var insert_timesheet = await db.tB_Timesheets
