@@ -92,6 +92,7 @@ namespace Bovis.Data
                     decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
                     string empresa = registro["empresa"].ToString();
                     int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+                    string tipo_num_proyecto = registro["tipo_num_proyecto"].ToString();
                     string edo_resultados = registro["edo_resultados"].ToString();
                     string responsable = registro["responsable"].ToString();
                     string tipo_responsable = registro["tipo_responsable"].ToString();
@@ -114,6 +115,7 @@ namespace Bovis.Data
                         .Value(x => x.Movimiento, movimiento)
                         .Value(x => x.Empresa, empresa)
                         .Value(x => x.NumProyecto, num_proyecto)
+                        .Value(x => x.TipoNumProyecto, tipo_num_proyecto)
                         .Value(x => x.EdoResultados, edo_resultados)
                         .Value(x => x.Responsable, responsable)
                         .Value(x => x.TipoResponsable, tipo_responsable)

@@ -209,34 +209,25 @@ namespace Bovis.Data
             int id_responsable = Convert.ToInt32(registro["id_responsable"].ToString());
             int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
 
-            using (var db = new ConnectionDB(dbConfig))
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_timesheet = await (from timeS in db.tB_Timesheets
-                                           where timeS.IdEmpleado == id_empleado
-                                           && timeS.Mes == mes
-                                           && timeS.Anio == anio
-                                           select timeS).FirstOrDefaultAsync();
+                var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == id_time_sheet)
+                    .UpdateAsync(x => new TB_Timesheet
+                    {
+                        IdEmpleado = id_empleado,
+                        Mes = mes,
+                        Anio = anio,
+                        IdResponsable = id_responsable,
+                        Sabados = sabados,
+                        DiasTrabajo = dias_trabajo
+                    }) > 0;
 
-                res_timesheet.IdEmpleado = id_empleado;
-                res_timesheet.Mes = mes;
-                res_timesheet.Anio = anio;
-                res_timesheet.IdResponsable = id_responsable;
-                res_timesheet.Sabados = sabados;
-                res_timesheet.DiasTrabajo = dias_trabajo;                
-                
-                
+                resp.Success = res_update_timesheet;
+                resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
-                var insert_timesheet = await db.tB_Timesheets
-                    .Value(x => x.IdEmpleado, id_empleado)
-                    .Value(x => x.Mes, mes)
-                    .Value(x => x.Anio, anio)
-                    .Value(x => x.IdResponsable, id_responsable)
-                    .Value(x => x.Sabados, sabados)
-                    .Value(x => x.DiasTrabajo, dias_trabajo)
-                    .InsertAsync() > 0;
-
-                resp.Success = insert_timesheet;
-                resp.Message = insert_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                     where ts_p.IdTimesheet == id_time_sheet
+                                                     select ts_p).ToListAsync();
 
                 foreach (var proyecto in registro["proyectos"].AsArray())
                 {
@@ -246,18 +237,23 @@ namespace Bovis.Data
                     int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
                     int costo = Convert.ToInt32(proyecto["costo"].ToString());
 
-                    var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
-                        .Value(x => x.IdTimesheet, id_time_sheet)
-                        .Value(x => x.IdProyecto, id_proyecto)
-                        .Value(x => x.Descripcion, nombre_proyecto)
-                        .Value(x => x.Dias, dias)
-                        .Value(x => x.TDedicacion, dedicacion)
-                        .Value(x => x.Costo, costo)
-                        .InsertAsync() > 0;
+                    // Borrar proyecto en BD, que no viene en el nuevo arreglo.
+                    bool existe_proyecto = res_timesheet_proyectos.Any(x => x.IdProyecto == id_proyecto);
 
-                    resp.Success = insert_timesheet_proyecto;
-                    resp.Message = insert_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    if (existe_proyecto == false)
+                    {
+                        var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
+                           .Where(x => x.IdProyecto == id_proyecto)
+                           .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+
+                        resp.Success = res_delete_timesheet_proyecto;
+                        resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    }
                 }
+
+                var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                 where ts_o.IdTimeSheet == id_time_sheet
+                                                 select ts_o).ToListAsync();
 
                 foreach (var otro in registro["otros"].AsArray())
                 {
@@ -265,15 +261,10 @@ namespace Bovis.Data
                     int dias = Convert.ToInt32(otro["dias"].ToString());
                     int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
 
-                    var insert_timesheet_otro = await db.tB_Timesheet_Otros
-                        .Value(x => x.IdTimeSheet, id_time_sheet)
-                        .Value(x => x.Descripcion, id_otro)
-                        .Value(x => x.Dias, dias)
-                        .Value(x => x.TDedicacion, dedicacion)
-                        .InsertAsync() > 0;
+                    
 
-                    resp.Success = insert_timesheet_otro;
-                    resp.Message = insert_timesheet_otro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    //resp.Success = res_update_timesheet_otro;
+                    //resp.Message = res_update_timesheet_otro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
             }
 
