@@ -208,6 +208,7 @@ namespace Bovis.Data
             bool sabados = Convert.ToBoolean(registro["sabados"].ToString());
             int id_responsable = Convert.ToInt32(registro["id_responsable"].ToString());
             int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
+            int index = 0;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
@@ -229,52 +230,145 @@ namespace Bovis.Data
                                                      where ts_p.IdTimesheet == id_time_sheet
                                                      select ts_p).ToListAsync();
 
-                foreach (var proyecto in registro["proyectos"].AsArray())
+                int[] ids_proyectos_db = new int[res_timesheet_proyectos.Count()];
+                index = 0;
+                foreach(var r in res_timesheet_proyectos)
                 {
+                    ids_proyectos_db[index] = r.IdProyecto;
+                    index++;
+                }
+                int[] ids_proyectos_request = new int[registro["proyectos"].AsArray().Count()];
+                index = 0;
+                foreach(var r in registro["proyectos"].AsArray())
+                {
+                    ids_proyectos_request[index] = Convert.ToInt32(r["id"].ToString());
+                    index++;
+                }
+                HashSet<int> ids_proyectos = new HashSet<int>(ids_proyectos_db.Concat(ids_proyectos_request));
+
+                foreach (int id in ids_proyectos)
+                {
+                    JsonObject proyecto = (JsonObject)registro["proyectos"].AsArray().FirstOrDefault(r => r["id"].ToString() == id.ToString());
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
                     int dias = Convert.ToInt32(proyecto["dias"].ToString());
                     int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
                     int costo = Convert.ToInt32(proyecto["costo"].ToString());
 
-                    // Borrar proyecto en BD, que no viene en el nuevo arreglo.
-                    bool existe_proyecto = res_timesheet_proyectos.Any(x => x.IdProyecto == id_proyecto);
-
-                    if (existe_proyecto == false)
+                    if (ids_proyectos_db.Contains(id))
                     {
-                        var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
-                           .Where(x => x.IdProyecto == id_proyecto)
-                           .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+                        if (ids_proyectos_request.Contains(id))
+                        {
+                            // Se actualiza
+                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet)
+                                .UpdateAsync(x => new TB_Timesheet_Proyecto
+                                {
+                                    Descripcion = nombre_proyecto,
+                                    Dias = dias,
+                                    TDedicacion = dedicacion,
+                                    Costo = costo
+                                }) > 0;
 
-                        resp.Success = res_delete_timesheet_proyecto;
-                        resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            resp.Success = res_update_timesheet_proyecto;
+                            resp.Message = res_update_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                        else
+                        {
+                            // Se elimina
+                            var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
+                               .Where(x => x.IdTimesheet_Proyecto == id)
+                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+
+                            resp.Success = res_delete_timesheet_proyecto;
+                            resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
                     }
                     else
                     {
-                        var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id_proyecto && x.IdTimesheet == id_time_sheet)
-                            .UpdateAsync(x => new TB_Timesheet_Proyecto
-                            {
+                        // Se agrega
+                        var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
+                            .Value(x => x.IdTimesheet, id_time_sheet)
+                            .Value(x => x.IdProyecto, id_proyecto)
+                            .Value(x => x.Descripcion, nombre_proyecto)
+                            .Value(x => x.Dias, dias)
+                            .Value(x => x.TDedicacion, dedicacion)
+                            .Value(x => x.Costo, costo).InsertAsync() > 0;
 
-                            });
+                        resp.Success = insert_timesheet_proyecto;
+                        resp.Message = insert_timesheet_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
                     }
-
-                    // Agrega proyecto nuevo en la BD.                    
+                    Console.WriteLine();
                 }
+
 
                 var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
                                                  where ts_o.IdTimeSheet == id_time_sheet
                                                  select ts_o).ToListAsync();
 
-                foreach (var otro in registro["otros"].AsArray())
+                string[] ids_otros_db = new string[res_timesheet_otros.Count()];
+                index = 0;
+                foreach (var r in res_timesheet_otros)
                 {
+                    ids_otros_db[index] = r.Descripcion;
+                    index++;
+                }
+                string[] ids_otros_request = new string[registro["otros"].AsArray().Count()];
+                index = 0;
+                foreach (var r in registro["otros"].AsArray())
+                {
+                    ids_otros_request[index] = r["id"].ToString();
+                    index++;
+                }
+                HashSet<string> ids_otros = new HashSet<string>(ids_otros_db.Concat(ids_otros_request));
+
+                foreach (string id in ids_otros)
+                {
+                    JsonObject otro = (JsonObject)registro["otros"].AsArray().FirstOrDefault(r => r["id"].ToString() == id.ToString());
                     string id_otro = otro["id"].ToString();
                     int dias = Convert.ToInt32(otro["dias"].ToString());
                     int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
 
-                    
+                    if (ids_otros_db.Contains(id))
+                    {
+                        if (ids_otros_request.Contains(id))
+                        {
+                            // Se actualiza
+                            var res_update_timesheet_otro = await db.tB_Timesheet_Otros.Where(x => x.Descripcion == id && x.IdTimeSheet == id_time_sheet)
+                                .UpdateAsync(x => new TB_Timesheet_Otro
+                                {
+                                    Descripcion = id_otro,
+                                    Dias = dias,
+                                    TDedicacion = dedicacion
+                                }) > 0;
 
-                    //resp.Success = res_update_timesheet_otro;
-                    //resp.Message = res_update_timesheet_otro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            resp.Success = res_update_timesheet_otro;
+                            resp.Message = res_update_timesheet_otro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                        else
+                        {
+                            // Se elimina
+                            var res_delete_timesheet_otro = await (db.tB_Timesheet_Otros
+                               .Where(x => x.Descripcion == id)
+                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+
+                            resp.Success = res_delete_timesheet_otro;
+                            resp.Message = res_delete_timesheet_otro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        // Se agrega
+                        var insert_timesheet_otro = await db.tB_Timesheet_Otros
+                            .Value(x => x.IdTimeSheet, id_time_sheet)
+                            .Value(x => x.Descripcion, id_otro)
+                            .Value(x => x.Dias, dias)
+                            .Value(x => x.TDedicacion, dedicacion)
+                            .InsertAsync() > 0;
+
+                        resp.Success = insert_timesheet_otro;
+                        resp.Message = insert_timesheet_otro == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    }
+                    Console.WriteLine();
                 }
             }
 
