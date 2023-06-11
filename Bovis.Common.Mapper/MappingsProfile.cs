@@ -281,6 +281,11 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
+        CreateMap<TB_Cat_Profesion, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdProfesion))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Profesion))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
         CreateMap<TB_Cat_RubroIngresoReembolsable, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdRubroIngreso))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Rubro))
