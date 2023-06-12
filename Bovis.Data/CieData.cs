@@ -70,7 +70,7 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TB_Cie_Data>();
         }
 
-        public async Task<(bool existe, string mensaje)> AgregarRegistros(JsonObject registros)
+        public async Task<(bool existe, string mensaje)> AddRegistros(JsonObject registros)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -139,6 +139,97 @@ namespace Bovis.Data
                     resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
                 }
             }
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                bool update = false;
+                int id_cie = Convert.ToInt32(registro["id_cie"].ToString());
+                string nombre_cuenta = registro["nombre_cuenta"].ToString();
+                string cuenta = registro["cuenta"].ToString();
+                string tipo_poliza = registro["tipo_poliza"].ToString();
+                int numero = Convert.ToInt32(registro["numero"].ToString());
+                string fecha_str = registro["fecha"].ToString();
+                //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
+                int mes = Convert.ToInt32(registro["mes"].ToString());
+                string concepto = registro["concepto"].ToString();
+                string centro_costos = registro["centro_costos"].ToString();
+                string proyectos = registro["proyectos"].ToString();
+                decimal saldo_inicial = Convert.ToDecimal(registro["saldo_inicial"].ToString());
+                decimal debe = Convert.ToDecimal(registro["debe"].ToString());
+                decimal haber = Convert.ToDecimal(registro["haber"].ToString());
+                decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
+                string empresa = registro["empresa"].ToString();
+                int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+                string tipo_num_proyecto = registro["tipo_num_proyecto"].ToString();
+                string edo_resultados = registro["edo_resultados"].ToString();
+                string responsable = registro["responsable"].ToString();
+                string tipo_responsable = registro["tipo_responsable"].ToString();
+                string tipo_py = registro["tipo_py"].ToString();
+                string clasificacion_py = registro["clasificacion_py"].ToString();
+                DateTime fecha;
+
+                if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                {
+                    resp.Success = update;
+                    resp.Message = update == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                    return resp;
+                }
+
+                var res_update_cie = await db.tB_Cie_Datas.Where(x => x.IdCieData == id_cie)
+                    .UpdateAsync(x => new TB_Cie_Data
+                    {
+                        NombreCuenta = nombre_cuenta,
+                        Cuenta = cuenta,
+                        TipoPoliza = tipo_poliza,
+                        Numero = numero,
+                        Fecha = fecha,
+                        Mes = mes,
+                        Concepto = concepto,
+                        CentroCostos = centro_costos,
+                        Proyectos = proyectos,
+                        SaldoInicial = saldo_inicial,
+                        Debe = debe,
+                        Haber = haber,
+                        Movimiento = movimiento,
+                        Empresa = empresa,
+                        NumProyecto = num_proyecto,
+                        TipoNumProyecto = tipo_num_proyecto,
+                        EdoResultados = edo_resultados,
+                        Responsable = responsable,
+                        TipoResponsable = tipo_responsable,
+                        TipoPY = tipo_py,
+                        ClasificacionPY = clasificacion_py
+                    }) > 0;
+
+                resp.Success = res_update_cie;
+                resp.Message = res_update_cie == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+
+            }
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> DeleteRegistro(int idRegistro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_timesheet = await db.tB_Cie_Datas.Where(x => x.IdCieData == idRegistro)
+                                .UpdateAsync(x => new TB_Cie_Data
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_update_timesheet;
+                resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
             return resp;
         }
 

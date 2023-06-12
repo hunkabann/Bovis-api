@@ -30,11 +30,27 @@ namespace Bovis.Business
         #region Registros
         public Task<TB_Cie_Data> GetRegistro(int? idRegistro) => _cieData.GetRegistro(idRegistro);
         public Task<List<TB_Cie_Data>> GetRegistros(bool? Activo) => _cieData.GetRegistros(Activo);
-        public async Task<(bool Success, string Message)> AgregarRegistros(JsonObject registros)
+        public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _cieData.AgregarRegistros(registros);
+            var respData = await _cieData.AddRegistros(registros);
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudieron agregar los registros Cie a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _cieData.UpdateRegistro(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+        public async Task<(bool Success, string Message)> DeleteRegistro(int idRegistro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _cieData.DeleteRegistro(idRegistro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }

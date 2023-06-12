@@ -15,7 +15,9 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Empresa>>> GetEmpresas(bool? Activo);
         Task<Response<TB_Cie_Data>> GetRegistro(int? idRegistro);
         Task<Response<List<TB_Cie_Data>>> GetRegistros(bool? Activo);
-        Task<Response<(bool existe, string mensaje)>> AgregarRegistros(JsonObject registros);
+        Task<Response<(bool existe, string mensaje)>> AddRegistros(JsonObject registros);
+        Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registros);
+        Task<Response<(bool existe, string mensaje)>> DeleteRegistro(int idRegistro);
     }
 }
 

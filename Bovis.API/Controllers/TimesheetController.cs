@@ -38,9 +38,9 @@ namespace Bovis.API.Controllers
         }
 
         [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AgregarRegistro([FromBody] JsonObject registro)
+        public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
-            var query = await _timesheetQueryService.AgregarRegistro(registro);
+            var query = await _timesheetQueryService.AddRegistro(registro);
             if(query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

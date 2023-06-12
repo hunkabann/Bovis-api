@@ -62,9 +62,9 @@ public class RequerimientoController : ControllerBase
     }
 
     [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-    public async Task<IActionResult> AgregarRegistro([FromBody] JsonObject registro)
+    public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
     {
-        var query = await _requerimientoQueryService.AgregarRegistro(registro);
+        var query = await _requerimientoQueryService.AddRegistro(registro);
         return Ok(query);
     }
 

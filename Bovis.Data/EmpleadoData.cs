@@ -168,7 +168,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AgregarRegistro(JsonObject registro)
+        public async Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
