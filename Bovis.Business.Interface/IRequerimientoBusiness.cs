@@ -17,5 +17,6 @@ namespace Bovis.Business.Interface
         Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento);
         Task<(bool Success, string Message)> AgregarRegistro(JsonObject registro);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
+        Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento);
     }
 }

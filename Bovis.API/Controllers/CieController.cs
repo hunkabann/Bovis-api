@@ -42,9 +42,9 @@ namespace Bovis.API.Controllers
 
         #region Registros        
         [HttpGet, Route("Registros/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetRegitros(byte? Estatus)
+        public async Task<IActionResult> GetRegitros(bool? Activo)
         {
-            var query = await _cieQueryService.GetRegistros(Estatus);
+            var query = await _cieQueryService.GetRegistros(Activo);
             return Ok(query);
         }
         [HttpGet("Registro/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")]

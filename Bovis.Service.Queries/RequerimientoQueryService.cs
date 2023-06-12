@@ -56,13 +56,11 @@ namespace Bovis.Service.Queries
             return new Response<List<Requerimiento>> { Data = _map.Map<List<Requerimiento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
-
         public async Task<Response<Requerimiento>> GetRequerimiento(int idRequerimiento)
         {
             var response = await _requerimientoBussines.GetRequerimiento(idRequerimiento);
             return new Response<Requerimiento> { Data = _map.Map<Requerimiento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-
         public async Task<Response<(bool existe, string mensaje)>> AgregarRegistro(JsonObject registro)
         {
             var response = await _requerimientoBussines.AgregarRegistro(registro);
@@ -71,6 +69,11 @@ namespace Bovis.Service.Queries
         public async Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro)
         {
             var response = await _requerimientoBussines.UpdateRegistro(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool existe, string mensaje)>> DeleteRequerimiento(int idRequerimiento)
+        {
+            var response = await _requerimientoBussines.DeleteRequerimiento(idRequerimiento);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Registros

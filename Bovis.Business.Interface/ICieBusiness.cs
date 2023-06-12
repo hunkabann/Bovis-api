@@ -17,7 +17,7 @@ namespace Bovis.Business.Interface
 
         #region Registros
         Task<TB_Cie_Data> GetRegistro(int? numProyecto);
-        Task<List<TB_Cie_Data>> GetRegistros(byte? estatus);
+        Task<List<TB_Cie_Data>> GetRegistros(bool? activo);
         Task<(bool Success, string Message)> AgregarRegistros(JsonObject registros);
         #endregion Registros
     }

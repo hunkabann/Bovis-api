@@ -59,11 +59,12 @@ namespace Bovis.Data
 
             }
         }
-        public async Task<List<TB_Cie_Data>> GetRegistros(byte? estatus)
+        public async Task<List<TB_Cie_Data>> GetRegistros(bool? activo)
         {
-            if (estatus.HasValue)
+            if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cie in db.tB_Cie_Datas
+                                                                          where cie.Activo == activo
                                                                           select cie).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cie_Data>();
@@ -131,6 +132,7 @@ namespace Bovis.Data
                         .Value(x => x.TipoResponsable, tipo_responsable)
                         .Value(x => x.TipoPY, tipo_py)
                         .Value(x => x.ClasificacionPY, clasificacion_py)
+                        .Value(x => x.Activo, true)
                         .InsertAsync() > 0;
 
                     resp.Success = insert;

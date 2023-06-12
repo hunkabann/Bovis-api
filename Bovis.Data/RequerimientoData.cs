@@ -299,5 +299,24 @@ namespace Bovis.Data
 
             return resp;
         }
+
+        public async Task<(bool existe, string mensaje)> DeleteRequerimiento(int idRequerimiento)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_timesheet = await db.tB_Requerimientos.Where(x => x.IdRequerimiento == idRequerimiento)
+                                .UpdateAsync(x => new TB_Requerimiento
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_update_timesheet;
+                resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
     }
 }

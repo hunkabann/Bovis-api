@@ -49,9 +49,9 @@ namespace Bovis.Service.Queries
             var response = await _cieBusiness.GetRegistro(idRegistro);
             return new Response<TB_Cie_Data> { Data = _map.Map<TB_Cie_Data>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<List<TB_Cie_Data>>> GetRegistros(byte? Estatus)
+        public async Task<Response<List<TB_Cie_Data>>> GetRegistros(bool? Activo)
         {
-            var response = await _cieBusiness.GetRegistros(Estatus);
+            var response = await _cieBusiness.GetRegistros(Activo);
             return new Response<List<TB_Cie_Data>> { Data = _map.Map<List<TB_Cie_Data>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 

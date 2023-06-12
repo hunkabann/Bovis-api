@@ -54,6 +54,8 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+
+        public Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento) => _RequerimientoData.DeleteRequerimiento(idRequerimiento);
         #endregion Registros
     }
 }

@@ -11,5 +11,6 @@ namespace Bovis.Data.Interface
         Task<List<TB_Timesheet>> GetTimeSheets(bool? activo);
         Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
         Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro);
+        Task<(bool existe, string mensaje)> DeleteTimeSheet(int idTimeSheet);
     }
 }

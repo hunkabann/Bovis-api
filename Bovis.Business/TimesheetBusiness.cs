@@ -44,5 +44,7 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+
+        public Task<(bool Success, string Message)> DeleteTimeSheet(int idTimeSheet) => _timesheetData.DeleteTimeSheet(idTimeSheet);
     }
 }

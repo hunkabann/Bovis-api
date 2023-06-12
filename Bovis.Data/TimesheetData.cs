@@ -69,7 +69,7 @@ namespace Bovis.Data
             int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
-            {                
+            {
                 var res = from timeS in db.tB_Timesheets
                           where timeS.IdEmpleado == id_empleado
                           && timeS.Mes == mes
@@ -77,11 +77,11 @@ namespace Bovis.Data
                           select timeS;
 
                 var timeS_record = await res.FirstOrDefaultAsync();
-                
-                if(timeS_record != null)
+
+                if (timeS_record != null)
                 {
                     resp.Success = true;
-                    resp.Message = String.Format("Ya existe un registro de {0}, de la fecha {1}/{2}", nombre_empleado, mes, anio);                                        
+                    resp.Message = String.Format("Ya existe un registro de {0}, de la fecha {1}/{2}", nombre_empleado, mes, anio);
                     return resp;
                 }
 
@@ -94,6 +94,7 @@ namespace Bovis.Data
                     .Value(x => x.IdResponsable, id_responsable)
                     .Value(x => x.Sabados, sabados)
                     .Value(x => x.DiasTrabajo, dias_trabajo)
+                    .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
                 resp.Success = insert_timesheet;
@@ -154,6 +155,7 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     return await (from ts in db.tB_Timesheets
+                                  where ts.Activo == activo
                                   select ts).ToListAsync();
                 }
             }
@@ -232,14 +234,14 @@ namespace Bovis.Data
 
                 int[] ids_proyectos_db = new int[res_timesheet_proyectos.Count()];
                 index = 0;
-                foreach(var r in res_timesheet_proyectos)
+                foreach (var r in res_timesheet_proyectos)
                 {
                     ids_proyectos_db[index] = r.IdProyecto;
                     index++;
                 }
                 int[] ids_proyectos_request = new int[registro["proyectos"].AsArray().Count()];
                 index = 0;
-                foreach(var r in registro["proyectos"].AsArray())
+                foreach (var r in registro["proyectos"].AsArray())
                 {
                     ids_proyectos_request[index] = Convert.ToInt32(r["id"].ToString());
                     index++;
@@ -370,6 +372,25 @@ namespace Bovis.Data
                     }
                     Console.WriteLine();
                 }
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> DeleteTimeSheet(int idTimeSheet)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == idTimeSheet)
+                                .UpdateAsync(x => new TB_Timesheet
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_update_timesheet;
+                resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
 
             return resp;

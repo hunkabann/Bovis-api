@@ -1,6 +1,7 @@
 ﻿using Bovis.API.Helper;
 using Bovis.Service.Queries;
 using Bovis.Service.Queries.Dto.Commands;
+using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -73,6 +74,14 @@ public class RequerimientoController : ControllerBase
         var query = await _requerimientoQueryService.UpdateRegistro(registro);
         if (query.Message == string.Empty) return Ok(query);
         else return BadRequest(query.Message);
+    }
+
+    [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> DeleteRequerimiento(int idRequerimiento)
+    {
+        var query = await _requerimientoQueryService.DeleteRequerimiento(idRequerimiento);
+        if (query.Message == string.Empty) return Ok(query);
+        return Ok(query);
     }
     #endregion Registros
 }
