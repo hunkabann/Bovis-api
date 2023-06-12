@@ -15,7 +15,7 @@ namespace Bovis.Service.Queries.Interface
     {
         Task<Response<Dias_Timesheet_Detalle>> GetDiasHabiles(int mes, int anio, bool sabados);
         Task<Response<(bool existe, string mensaje)>> AddRegistro(JsonObject registro);
-        Task<Response<List<TB_Timesheet>>> GetTimeSheets(bool? Activo);
+        Task<Response<List<TimeSheet_Detalle>>> GetTimeSheets(bool? Activo);
         Task<Response<TimeSheet_Detalle>> GetTimeSheet(int idTimeSheet);
         Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro);
         Task<Response<(bool existe, string mensaje)>> DeleteTimeSheet(int idTimeSheet);

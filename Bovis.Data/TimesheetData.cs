@@ -148,18 +148,49 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<List<TB_Timesheet>> GetTimeSheets(bool? activo)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? activo)
         {
             if (activo.HasValue)
             {
+                List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
+                TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
                 using (var db = new ConnectionDB(dbConfig))
                 {
-                    return await (from ts in db.tB_Timesheets
-                                  where ts.Activo == activo
-                                  select ts).ToListAsync();
+                    var res_timesheets = await (from ts in db.tB_Timesheets
+                                                where ts.Activo == activo
+                                                select ts).ToListAsync();
+
+                    foreach (var timesheet in res_timesheets)
+                    {
+                        var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                         where ts_o.IdTimeSheet == timesheet.IdTimesheet
+                                                         select ts_o).ToListAsync();
+
+                        var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                             where ts_p.IdTimesheet == timesheet.IdTimesheet
+                                                             select ts_p).ToListAsync();
+
+                        timesheetDetalle = new TimeSheet_Detalle();
+
+                        timesheetDetalle.id = timesheet.IdTimesheet;
+                        timesheetDetalle.id_empleado = timesheet.IdEmpleado;
+                        timesheetDetalle.mes = timesheet.Mes;
+                        timesheetDetalle.anio = timesheet.Anio;
+                        timesheetDetalle.id_responsable = timesheet.IdResponsable;
+                        timesheetDetalle.sabados = timesheet.Sabados;
+                        timesheetDetalle.dias_trabajo = timesheet.DiasTrabajo;
+
+                        timesheetDetalle.otros = res_timesheet_otros;
+                        timesheetDetalle.proyectos = res_timesheet_proyectos;
+
+                        timesheets_summary.Add(timesheetDetalle);
+                    }
+
                 }
+
+                return timesheets_summary;
             }
-            else return await GetAllFromEntityAsync<TB_Timesheet>();
+            else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
         public async Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet)
