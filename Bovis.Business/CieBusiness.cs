@@ -29,7 +29,7 @@ namespace Bovis.Business
 
         #region Registros
         public Task<TB_Cie_Data> GetRegistro(int? idRegistro) => _cieData.GetRegistro(idRegistro);
-        public Task<List<TB_Cie_Data>> GetRegistros(bool? Activo) => _cieData.GetRegistros(Activo);
+        public Task<List<TB_Cie_Data>> GetRegistros(bool? Activo, int offset, int limit) => _cieData.GetRegistros(Activo, offset, limit);
         public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
         {
             (bool Success, string Message) resp = (true, string.Empty);

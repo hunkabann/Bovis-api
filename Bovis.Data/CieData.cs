@@ -59,17 +59,15 @@ namespace Bovis.Data
 
             }
         }
-        public async Task<List<TB_Cie_Data>> GetRegistros(bool? activo)
+        public async Task<List<TB_Cie_Data>> GetRegistros(bool? activo, int offset, int limit)
         {
-            int paginaActual = 2;
-            int registrosPorPagina = 50;
             if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cie in db.tB_Cie_Datas
                                                                           where cie.Activo == activo
                                                                           select cie)
-                                                                          //.Skip((paginaActual - 1) * registrosPorPagina)
-                                                                          //.Take(registrosPorPagina)
+                                                                          .Skip((offset - 1) * limit)
+                                                                          .Take(limit)
                                                                           .ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cie_Data>();
