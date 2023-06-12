@@ -45,6 +45,15 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _RequerimientoData.UpdateRegistro(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
         #endregion Registros
     }
 }

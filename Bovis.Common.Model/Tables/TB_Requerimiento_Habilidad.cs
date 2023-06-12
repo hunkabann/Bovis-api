@@ -6,6 +6,7 @@ namespace Bovis.Common.Model.Tables
     public class TB_Requerimiento_Habilidad
     {
         [Column("Nukidrequerimiento"), Nullable] public int IdRequerimiento { get; set; }
-        [Column("Nukidhabilidad"), Nullable] public int? IdHabilidad { get; set; }
+        [Column("Nukidhabilidad"), Nullable] public int IdHabilidad { get; set; }
+        [Column("Boactivo"), Nullable] public bool Activo { get; set; }
     }
 }

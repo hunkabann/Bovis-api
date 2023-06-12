@@ -84,7 +84,7 @@ namespace Bovis.Data
             int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
             int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
             int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
-            string profesion = registro["profesion"].ToString();
+            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
             int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
             int sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
             int sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
@@ -97,7 +97,7 @@ namespace Bovis.Data
                     .Value(x => x.IdCategoria, id_categoria)
                     .Value(x => x.IdPuesto, id_puesto)
                     .Value(x => x.IdNivelEstudios, id_nivel_estudios)
-                    .Value(x => x.Profesion, profesion)
+                    .Value(x => x.IdProfesion, id_profesion)
                     .Value(x => x.IdJornada, id_jornada)
                     .Value(x => x.SueldoMin, sueldo_min)
                     .Value(x => x.SueldoMax, sueldo_max)
@@ -139,6 +139,164 @@ namespace Bovis.Data
                     resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
                 }
             }
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
+            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
+            int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
+            int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
+            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
+            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
+            int sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
+            int sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
+            int index = 0;
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_requerimiento = await db.tB_Requerimientos.Where(x => x.IdRequerimiento == id_requerimiento)
+                    .UpdateAsync(x => new TB_Requerimiento
+                    {
+                        IdCategoria = id_categoria,
+                        IdPuesto = id_puesto,
+                        IdNivelEstudios = id_nivel_estudios,
+                        IdProfesion = id_profesion,
+                        IdJornada = id_jornada,
+                        SueldoMin = sueldo_min,
+                        SueldoMax = sueldo_max
+                    }) > 0;
+
+                resp.Success = res_update_requerimiento;
+                resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                var res_requerimiento_habilidades = await (from req_hab in db.tB_Requerimiento_Habilidades
+                                                     where req_hab.IdRequerimiento == id_requerimiento
+                                                     select req_hab).ToListAsync();
+
+                int[] ids_habilidades_db = new int[res_requerimiento_habilidades.Count()];
+                index = 0;
+                foreach (var r in res_requerimiento_habilidades)
+                {
+                    ids_habilidades_db[index] = r.IdHabilidad;
+                    index++;
+                }
+                int[] ids_habilidades_request = new int[registro["habilidades"].AsArray().Count()];
+                index = 0;
+                foreach (var r in registro["habilidades"].AsArray())
+                {
+                    ids_habilidades_request[index] = Convert.ToInt32(r.ToString());
+                    index++;
+                }
+                HashSet<int> ids_habilidades = new HashSet<int>(ids_habilidades_db.Concat(ids_habilidades_request));
+
+                foreach (int id in ids_habilidades)
+                {                    
+                    if (ids_habilidades_db.Contains(id))
+                    {
+                        if (ids_habilidades_request.Contains(id))
+                        {
+                            // Se actualiza
+                            var res_update_requerimiento_habilidad = await db.tB_Requerimiento_Habilidades.Where(x => x.IdHabilidad == id && x.IdRequerimiento == id_requerimiento)
+                                .UpdateAsync(x => new TB_Requerimiento_Habilidad
+                                {
+                                    IdHabilidad = id,
+                                }) > 0;
+
+                            resp.Success = res_update_requerimiento_habilidad;
+                            resp.Message = res_update_requerimiento_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                        else
+                        {
+                            // Se elimina
+                            var res_delete_requerimiento_habilidad = await (db.tB_Requerimiento_Habilidades
+                               .Where(x => x.IdHabilidad == id && x.IdRequerimiento == id_requerimiento)
+                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+
+                            resp.Success = res_delete_requerimiento_habilidad;
+                            resp.Message = res_delete_requerimiento_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        // Se agrega
+                        var res_insert_requerimiento_habilidad = await db.tB_Requerimiento_Habilidades
+                        .Value(x => x.IdRequerimiento, id_requerimiento)
+                        .Value(x => x.IdHabilidad, id)
+                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_requerimiento_habilidad;
+                        resp.Message = res_insert_requerimiento_habilidad == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    }
+                    Console.WriteLine();
+                }
+
+
+                var res_requerimiento_experiencias = await (from req_exp in db.tB_Requerimiento_Experiencias
+                                                           where req_exp.IdRequerimiento == id_requerimiento
+                                                           select req_exp).ToListAsync();
+
+                int[] ids_experiencias_db = new int[res_requerimiento_experiencias.Count()];
+                index = 0;
+                foreach (var r in res_requerimiento_experiencias)
+                {
+                    ids_experiencias_db[index] = r.IdExperiencia;
+                    index++;
+                }
+                int[] ids_experiencias_request = new int[registro["experiencias"].AsArray().Count()];
+                index = 0;
+                foreach (var r in registro["experiencias"].AsArray())
+                {
+                    ids_experiencias_request[index] = Convert.ToInt32(r.ToString());
+                    index++;
+                }
+                HashSet<int> ids_experiencias = new HashSet<int>(ids_experiencias_db.Concat(ids_experiencias_request));
+
+                foreach (int id in ids_experiencias)
+                {
+                    if (ids_experiencias_db.Contains(id))
+                    {
+                        if (ids_experiencias_request.Contains(id))
+                        {
+                            // Se actualiza
+                            var res_update_requerimiento_experiencia = await db.tB_Requerimiento_Experiencias.Where(x => x.IdExperiencia == id && x.IdRequerimiento == id_requerimiento)
+                                .UpdateAsync(x => new TB_Requerimiento_Experiencia
+                                {
+                                    IdExperiencia = id,
+                                }) > 0;
+
+                            resp.Success = res_update_requerimiento_experiencia;
+                            resp.Message = res_update_requerimiento_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                        else
+                        {
+                            // Se elimina
+                            var res_delete_requerimiento_experiencia = await (db.tB_Requerimiento_Experiencias
+                               .Where(x => x.IdExperiencia == id && x.IdRequerimiento == id_requerimiento)
+                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+
+                            resp.Success = res_delete_requerimiento_experiencia;
+                            resp.Message = res_delete_requerimiento_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        // Se agrega
+                        var res_insert_requerimiento_experiencia = await db.tB_Requerimiento_Experiencias
+                        .Value(x => x.IdRequerimiento, id_requerimiento)
+                        .Value(x => x.IdExperiencia, id)
+                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_requerimiento_experiencia;
+                        resp.Message = res_insert_requerimiento_experiencia == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    }
+                    Console.WriteLine();
+                }
+            }
+
             return resp;
         }
     }

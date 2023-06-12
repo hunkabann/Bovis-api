@@ -66,6 +66,14 @@ public class RequerimientoController : ControllerBase
         var query = await _requerimientoQueryService.AgregarRegistro(registro);
         return Ok(query);
     }
+
+    [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
+    {
+        var query = await _requerimientoQueryService.UpdateRegistro(registro);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
+    }
     #endregion Registros
 }
 

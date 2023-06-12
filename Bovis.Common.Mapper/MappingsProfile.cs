@@ -39,7 +39,7 @@ public class MappingsProfile : Profile
             .ForMember(c => c.nukidcategoria, dto => dto.MapFrom(src => src.IdCategoria))
             .ForMember(c => c.nukidpuesto, dto => dto.MapFrom(src => src.IdPuesto))
             .ForMember(c => c.nukidnivel_estudios, dto => dto.MapFrom(src => src.IdNivelEstudios))
-            .ForMember(c => c.chprofesion, dto => dto.MapFrom(src => src.Profesion))
+            .ForMember(c => c.nukidprofesion, dto => dto.MapFrom(src => src.IdProfesion))
             .ForMember(c => c.nukidjornada, dto => dto.MapFrom(src => src.IdJornada))
             .ForMember(c => c.nusueldo_min, dto => dto.MapFrom(src => src.SueldoMin))
             .ForMember(c => c.nusueldo_max, dto => dto.MapFrom(src => src.SueldoMax))
