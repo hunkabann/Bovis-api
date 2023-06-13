@@ -193,6 +193,99 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado)
+        {
+            if (idEmpleado > 0)
+            {
+                List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
+                TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var res_timesheets = await (from ts in db.tB_Timesheets
+                                                where ts.IdEmpleado == idEmpleado
+                                                && ts.Activo == true
+                                                select ts).ToListAsync();
+
+                    foreach (var timesheet in res_timesheets)
+                    {
+                        var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                         where ts_o.IdTimeSheet == timesheet.IdTimesheet
+                                                         select ts_o).ToListAsync();
+
+                        var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                             where ts_p.IdTimesheet == timesheet.IdTimesheet
+                                                             select ts_p).ToListAsync();
+
+                        timesheetDetalle = new TimeSheet_Detalle();
+
+                        timesheetDetalle.id = timesheet.IdTimesheet;
+                        timesheetDetalle.id_empleado = timesheet.IdEmpleado;
+                        timesheetDetalle.mes = timesheet.Mes;
+                        timesheetDetalle.anio = timesheet.Anio;
+                        timesheetDetalle.id_responsable = timesheet.IdResponsable;
+                        timesheetDetalle.sabados = timesheet.Sabados;
+                        timesheetDetalle.dias_trabajo = timesheet.DiasTrabajo;
+
+                        timesheetDetalle.otros = res_timesheet_otros;
+                        timesheetDetalle.proyectos = res_timesheet_proyectos;
+
+                        timesheets_summary.Add(timesheetDetalle);
+                    }
+
+                }
+
+                return timesheets_summary;
+            }
+            else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
+        }
+
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio)
+        {
+            if ((mes >= 1 && mes <= 12) && anio > 0)
+            {
+                List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
+                TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var res_timesheets = await (from ts in db.tB_Timesheets
+                                                where ts.Mes == mes
+                                                && ts.Anio == anio
+                                                && ts.Activo == true
+                                                select ts).ToListAsync();
+
+                    foreach (var timesheet in res_timesheets)
+                    {
+                        var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                         where ts_o.IdTimeSheet == timesheet.IdTimesheet
+                                                         select ts_o).ToListAsync();
+
+                        var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                             where ts_p.IdTimesheet == timesheet.IdTimesheet
+                                                             select ts_p).ToListAsync();
+
+                        timesheetDetalle = new TimeSheet_Detalle();
+
+                        timesheetDetalle.id = timesheet.IdTimesheet;
+                        timesheetDetalle.id_empleado = timesheet.IdEmpleado;
+                        timesheetDetalle.mes = timesheet.Mes;
+                        timesheetDetalle.anio = timesheet.Anio;
+                        timesheetDetalle.id_responsable = timesheet.IdResponsable;
+                        timesheetDetalle.sabados = timesheet.Sabados;
+                        timesheetDetalle.dias_trabajo = timesheet.DiasTrabajo;
+
+                        timesheetDetalle.otros = res_timesheet_otros;
+                        timesheetDetalle.proyectos = res_timesheet_proyectos;
+
+                        timesheets_summary.Add(timesheetDetalle);
+                    }
+
+                }
+
+                return timesheets_summary;
+            }
+            else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
+        }
+
         public async Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet)
         {
             TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();

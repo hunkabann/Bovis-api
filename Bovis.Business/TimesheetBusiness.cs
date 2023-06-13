@@ -34,6 +34,10 @@ namespace Bovis.Business
         }
         public Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
+        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado) => _timesheetData.GetTimeSheetsByEmpleado(idEmpleado);
+
+        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio) => _timesheetData.GetTimeSheetsByFecha(mes, anio);
+
         public Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet) => _timesheetData.GetTimeSheet(idTimeSheet);
 
         public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)

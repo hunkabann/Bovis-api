@@ -52,6 +52,20 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("TimeSheets/Empleado/{idEmpleado}")]//, Authorize(Roles = "it.full, dev.full")
+        public async Task<IActionResult> GetTimeSheetsByEmpleado(int idEmpleado)
+        {
+            var query = await _timesheetQueryService.GetTimeSheetsByEmpleado(idEmpleado);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("TimeSheets/Fecha/{mes}/{anio}")]//, Authorize(Roles = "it.full, dev.full")
+        public async Task<IActionResult> GetTimeSheetsByFecha(int mes, int anio)
+        {
+            var query = await _timesheetQueryService.GetTimeSheetsByFecha(mes, anio);
+            return Ok(query);
+        }
+
         [HttpGet, Route("Registro/{idTimeSheet}")]//, Authorize(Roles = "it.full, dev.full")
         public async Task<IActionResult> GetTimeSheet(int idTimeSheet)
         {

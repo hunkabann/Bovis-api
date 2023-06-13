@@ -53,6 +53,18 @@ namespace Bovis.Service.Queries
             return new Response<List<TimeSheet_Detalle>> { Data = _map.Map<List<TimeSheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
+        public async Task<Response<List<TimeSheet_Detalle>>> GetTimeSheetsByEmpleado(int idEmpleado)
+        {
+            var response = await _timesheetBusiness.GetTimeSheetsByEmpleado(idEmpleado);
+            return new Response<List<TimeSheet_Detalle>> { Data = _map.Map<List<TimeSheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+
+        }
+        public async Task<Response<List<TimeSheet_Detalle>>> GetTimeSheetsByFecha(int mes, int anio)
+        {
+            var response = await _timesheetBusiness.GetTimeSheetsByFecha(mes, anio);
+            return new Response<List<TimeSheet_Detalle>> { Data = _map.Map<List<TimeSheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+
+        }
         public async Task<Response<TimeSheet_Detalle>> GetTimeSheet(int idTimeSheet)
         {
             var response = await _timesheetBusiness.GetTimeSheet(idTimeSheet);
