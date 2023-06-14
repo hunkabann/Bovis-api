@@ -24,4 +24,23 @@ namespace Bovis.Common.Model.NoTable
         public int? IdCentroCostos { get; set; }
         public int? IdTipoCtaContable { get; set; }
     }
+
+    public class CuentaContable_Detalle
+    {
+        public string Cuenta { get; set; }
+        public string TipoCuenta { get; set; }
+        public string TipoResultado { get; set; }
+        public string TipoPY { get; set; }
+        public string ClasificacionPY { get; set; }
+
+
+    }
+
+    public class ProyectoData_Detalle
+    {
+        public string Proyecto { get; set; }
+        public int NumProyecto { get; set; }
+        public string Responsable { get; set; }
+        public string TipoProyecto { get; set; }
+    }
 }

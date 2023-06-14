@@ -45,6 +45,71 @@ namespace Bovis.Data
         }
         #endregion Empresas
 
+        #region Cuenta Data
+        public async Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas)
+        {
+            List<CuentaContable_Detalle> list = new List<CuentaContable_Detalle>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                foreach (var cuenta in cuentas["data"].AsArray())
+                {
+                    var res = await (from cta_c in db.tB_Cat_TipoCtaContables
+                                     join cta in db.tB_Cat_TipoCuentas on cta_c.IdTipoCtaContable equals cta.IdTipoCtaContable
+                                     join result in db.tB_Cat_TipoResultados on cta_c.IdTipoResultado equals result.IdTipoResultado into ctaResult
+                                     from ctaResultItem in ctaResult.DefaultIfEmpty()
+                                     where cta_c.CtaContable == cuenta.ToString()
+                                     select new CuentaContable_Detalle
+                                     {
+                                         Cuenta = cuenta.ToString(),
+                                         TipoCuenta = cta.TipoCuenta,
+                                         TipoResultado = ctaResultItem != null ? ctaResultItem.TipoResultado : string.Empty,
+                                         TipoPY = cta.DivisionPCS,
+                                         ClasificacionPY = cta.DivisionPCS2
+                                     }).FirstOrDefaultAsync();
+
+                    if (res != null)
+                        list.Add(res);
+                }
+            }
+
+            return list;
+        }
+        #endregion Cuenta Data
+
+        #region Proyecto
+        public async Task<List<ProyectoData_Detalle>> GetProyectoData(JsonObject proyectos)
+        {
+            List<ProyectoData_Detalle> list = new List<ProyectoData_Detalle>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                foreach (var proyecto in proyectos["data"].AsArray())
+                {
+                    var res = await (from proy in db.tB_Proyectos
+                                     join emp in db.tB_Empleados on proy.IdDirectorEjecutivo equals emp.NumEmpleadoRrHh
+                                     join per in db.tB_Personas on emp.NumEmpleadoRrHh equals per.IdPersona into empPer
+                                     from empPerItem in empPer.DefaultIfEmpty()
+                                     join t_proy in db.tB_Cat_TipoProyectos on proy.IdTipoProyecto equals t_proy.IdTipoProyecto into proyTProy
+                                     from proyTProyItem in proyTProy.DefaultIfEmpty()
+                                     where proy.Proyecto == proyecto.ToString()
+                                     select new ProyectoData_Detalle
+                                     {
+                                         Proyecto = proyecto.ToString(),
+                                         NumProyecto = proy.NumProyecto,
+                                         Responsable = empPerItem != null ? empPerItem.Nombre + " " + empPerItem.ApPaterno + " " + empPerItem.ApMaterno : string.Empty,
+                                         TipoProyecto = proyTProyItem != null ? proyTProyItem.TipoProyecto : string.Empty
+                                     }).FirstOrDefaultAsync();
+
+                    if (res != null)
+                        list.Add(res);
+                }
+            }
+
+            return list;
+        }
+        #endregion Proyecto
+
         #region Registros
         public async Task<TB_Cie_Data> GetRegistro(int? idRegistro)
         {

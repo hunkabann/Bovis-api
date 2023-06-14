@@ -15,6 +15,14 @@ namespace Bovis.Business.Interface
         Task<List<TB_Empresa>> GetEmpresas(bool? activo);
         #endregion Empresas
 
+        #region Cuenta Data
+        Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas);
+        #endregion Cuenta Data
+
+        #region Proyecto
+        Task<List<ProyectoData_Detalle>> GetProyectoData(JsonObject proyectos);
+        #endregion Proyecto
+
         #region Registros
         Task<TB_Cie_Data> GetRegistro(int? numProyecto);
         Task<List<TB_Cie_Data>> GetRegistros(bool? activo, int offset, int limit);

@@ -40,6 +40,24 @@ namespace Bovis.API.Controllers
         }
         #endregion Empresas
 
+        #region Cuenta Data
+        [HttpPost("Cuentas")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetCuentaData([FromBody] JsonObject cuentas)
+        {
+            var query = await _cieQueryService.GetCuentaData(cuentas);
+            return Ok(query);
+        }
+        #endregion Cuenta Data
+
+        #region Proyecto
+        [HttpPost("Proyectos")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetProyectoData([FromBody] JsonObject proyectos)
+        {
+            var query = await _cieQueryService.GetProyectoData(proyectos);
+            return Ok(query);
+        }
+        #endregion Proyecto
+
         #region Registros        
         [HttpGet, Route("Registros/{Activo?}/{offset}/{limit}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetRegitros(bool? Activo, int offset, int limit)

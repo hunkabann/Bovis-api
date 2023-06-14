@@ -27,6 +27,14 @@ namespace Bovis.Business
         public Task<List<TB_Empresa>> GetEmpresas(bool? Activo) => _cieData.GetEmpresas(Activo);
         #endregion Empresas
 
+        #region Cuenta Data
+        public Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas) => _cieData.GetCuentaData(cuentas);
+        #endregion Cuenta Data
+
+        #region Proyecto
+        public Task<List<ProyectoData_Detalle>> GetProyectoData(JsonObject proyectos) => _cieData.GetProyectoData(proyectos);
+        #endregion Proyecto
+
         #region Registros
         public Task<TB_Cie_Data> GetRegistro(int? idRegistro) => _cieData.GetRegistro(idRegistro);
         public Task<List<TB_Cie_Data>> GetRegistros(bool? Activo, int offset, int limit) => _cieData.GetRegistros(Activo, offset, limit);

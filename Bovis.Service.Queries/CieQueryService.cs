@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Dto.Responses;
@@ -32,8 +33,7 @@ namespace Bovis.Service.Queries
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
-
+        #endregion base
 
         #region Empresas
         public async Task<Response<List<Empresa>>> GetEmpresas(bool? Activo)
@@ -42,6 +42,22 @@ namespace Bovis.Service.Queries
             return new Response<List<Empresa>> { Data = _map.Map<List<Empresa>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Empresas
+
+        #region Cuenta Data
+        public async Task<Response<List<CuentaContable_Detalle>>> GetCuentaData(JsonObject cuentas)
+        {
+            var response = await _cieBusiness.GetCuentaData(cuentas);
+            return new Response<List<CuentaContable_Detalle>> { Data = _map.Map<List<CuentaContable_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        #endregion Cuenta Data
+
+        #region Proyecto
+        public async Task<Response<List<ProyectoData_Detalle>>> GetProyectoData(JsonObject proyectos)
+        {
+            var response = await _cieBusiness.GetProyectoData(proyectos);
+            return new Response<List<ProyectoData_Detalle>> { Data = _map.Map<List<ProyectoData_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        #endregion Proyecto
 
         #region Registros
         public async Task<Response<TB_Cie_Data>> GetRegistro(int? idRegistro)
