@@ -291,35 +291,34 @@ namespace Bovis.Data
             TimeSheet_Detalle res_timesheet = new TimeSheet_Detalle();
             using (var db = new ConnectionDB(dbConfig))
             {
+#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
                 res_timesheet = await (from ts in db.tB_Timesheets
-                                           join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
-                                           join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
-                                           join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
-                                           join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
-                                           where ts.IdTimesheet == idTimeSheet
-                                           select new TimeSheet_Detalle
-                                           {
-                                               id = ts.IdTimesheet,
-                                               id_empleado = ts.IdEmpleado,
-                                               empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
-                                               mes = ts.Mes,
-                                               anio = ts.Anio,
-                                               id_responsable = ts.IdResponsable,
-                                               responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
-                                               sabados = ts.Sabados,
-                                               dias_trabajo = ts.DiasTrabajo
-                                           }).FirstOrDefaultAsync();
+                                       join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
+                                       join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
+                                       join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
+                                       join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
+                                       where ts.IdTimesheet == idTimeSheet
+                                       select new TimeSheet_Detalle
+                                       {
+                                           id = ts.IdTimesheet,
+                                           id_empleado = ts.IdEmpleado,
+                                           empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
+                                           mes = ts.Mes,
+                                           anio = ts.Anio,
+                                           id_responsable = ts.IdResponsable,
+                                           responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
+                                           sabados = ts.Sabados,
+                                           dias_trabajo = ts.DiasTrabajo
+                                       }).FirstOrDefaultAsync();
+#pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
 
-                var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
-                                                 where ts_o.IdTimeSheet == idTimeSheet
-                                                 select ts_o).ToListAsync();
+                res_timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
+                                             where ts_o.IdTimeSheet == idTimeSheet
+                                             select ts_o).ToListAsync();
 
-                var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
-                                                     where ts_p.IdTimesheet == idTimeSheet
-                                                     select ts_p).ToListAsync();
-
-                res_timesheet.otros = res_timesheet_otros;
-                res_timesheet.proyectos = res_timesheet_proyectos;
+                res_timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                 where ts_p.IdTimesheet == idTimeSheet
+                                                 select ts_p).ToListAsync();
 
             }
             return res_timesheet;
