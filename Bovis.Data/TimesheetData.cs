@@ -206,6 +206,7 @@ namespace Bovis.Data
                                                 join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
                                                 join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
                                                 join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
+                                                join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                                 where ts.IdEmpleado == idEmpleado
                                                 && ts.Activo == true
                                                 select new TimeSheet_Detalle
@@ -218,7 +219,11 @@ namespace Bovis.Data
                                                     id_responsable = ts.IdResponsable,
                                                     responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
                                                     sabados = ts.Sabados,
-                                                    dias_trabajo = ts.DiasTrabajo
+                                                    dias_trabajo = ts.DiasTrabajo,
+                                                    coi_empresa = empr.Coi,
+                                                    noi_empresa = empr.Noi,
+                                                    noi_empleado = emp2.NoEmpleadoNoi,
+                                                    num_empleado = emp2.NumEmpleado
                                                 }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
@@ -254,6 +259,7 @@ namespace Bovis.Data
                                                 join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
                                                 join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
                                                 join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
+                                                join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
@@ -267,7 +273,11 @@ namespace Bovis.Data
                                                     id_responsable = ts.IdResponsable,
                                                     responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
                                                     sabados = ts.Sabados,
-                                                    dias_trabajo = ts.DiasTrabajo
+                                                    dias_trabajo = ts.DiasTrabajo,
+                                                    coi_empresa = empr.Coi,
+                                                    noi_empresa = empr.Noi,
+                                                    noi_empleado = emp2.NoEmpleadoNoi,
+                                                    num_empleado = emp2.NumEmpleado
                                                 }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
@@ -301,6 +311,7 @@ namespace Bovis.Data
                                        join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
                                        join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
                                        join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
+                                       join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                        where ts.IdTimesheet == idTimeSheet
                                        select new TimeSheet_Detalle
                                        {
@@ -312,7 +323,11 @@ namespace Bovis.Data
                                            id_responsable = ts.IdResponsable,
                                            responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
                                            sabados = ts.Sabados,
-                                           dias_trabajo = ts.DiasTrabajo
+                                           dias_trabajo = ts.DiasTrabajo,
+                                           coi_empresa = empr.Coi,
+                                           noi_empresa = empr.Noi,
+                                           noi_empleado = emp2.NoEmpleadoNoi,
+                                           num_empleado = emp2.NumEmpleado
                                        }).FirstOrDefaultAsync();
 #pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
 

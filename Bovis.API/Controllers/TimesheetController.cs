@@ -30,13 +30,16 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
+        #region Dias Hábiles
         [HttpGet, Route("DiasHabiles/{mes}/{anio}/{sabados}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetDiasHabiles(int mes, int anio, bool sabados)
         {
             var query = await _timesheetQueryService.GetDiasHabiles(mes, anio, sabados);
             return Ok(query);
         }
+        #endregion Días Hábiles
 
+        #region TimeSheets
         [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
@@ -88,5 +91,6 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             return Ok(query);
         }
+        #endregion TimeSheets
     }
 }
