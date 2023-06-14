@@ -11,9 +11,11 @@ namespace Bovis.Common.Model.NoTable
     {
         public int id { get; set; }
         public int id_empleado { get; set; }
+        public string empleado { get; set; }
         public int mes { get; set; }
         public int anio { get; set; }
         public int id_responsable { get; set; }
+        public string responsable { get; set; }
         public bool sabados { get; set; }
         public int dias_trabajo { get; set; }
         public List<TB_Timesheet_Otro> otros { get; set; }

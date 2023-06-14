@@ -98,10 +98,10 @@ namespace Bovis.Data
                     decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
                     string empresa = registro["empresa"].ToString();
                     int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-                    string tipo_num_proyecto = registro["tipo_num_proyecto"].ToString();
+                    string tipo_cuenta = registro["tipo_cuenta"].ToString();
                     string edo_resultados = registro["edo_resultados"].ToString();
                     string responsable = registro["responsable"].ToString();
-                    string tipo_responsable = registro["tipo_responsable"].ToString();
+                    string tipo_proyecto = registro["tipo_proyecto"].ToString();
                     string tipo_py = registro["tipo_py"].ToString();
                     string clasificacion_py = registro["clasificacion_py"].ToString();
                     DateTime fecha;
@@ -129,10 +129,10 @@ namespace Bovis.Data
                         .Value(x => x.Movimiento, movimiento)
                         .Value(x => x.Empresa, empresa)
                         .Value(x => x.NumProyecto, num_proyecto)
-                        .Value(x => x.TipoNumProyecto, tipo_num_proyecto)
+                        .Value(x => x.TipoCuenta, tipo_cuenta)
                         .Value(x => x.EdoResultados, edo_resultados)
                         .Value(x => x.Responsable, responsable)
-                        .Value(x => x.TipoResponsable, tipo_responsable)
+                        .Value(x => x.TipoProyecto, tipo_proyecto)
                         .Value(x => x.TipoPY, tipo_py)
                         .Value(x => x.ClasificacionPY, clasificacion_py)
                         .Value(x => x.Activo, true)
@@ -169,10 +169,10 @@ namespace Bovis.Data
                 decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
                 string empresa = registro["empresa"].ToString();
                 int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-                string tipo_num_proyecto = registro["tipo_num_proyecto"].ToString();
+                string tipo_cuenta = registro["tipo_cuenta"].ToString();
                 string edo_resultados = registro["edo_resultados"].ToString();
                 string responsable = registro["responsable"].ToString();
-                string tipo_responsable = registro["tipo_responsable"].ToString();
+                string tipo_proyecto = registro["tipo_proyecto"].ToString();
                 string tipo_py = registro["tipo_py"].ToString();
                 string clasificacion_py = registro["clasificacion_py"].ToString();
                 DateTime fecha;
@@ -202,10 +202,10 @@ namespace Bovis.Data
                         Movimiento = movimiento,
                         Empresa = empresa,
                         NumProyecto = num_proyecto,
-                        TipoNumProyecto = tipo_num_proyecto,
+                        TipoCuenta = tipo_cuenta,
                         EdoResultados = edo_resultados,
                         Responsable = responsable,
-                        TipoResponsable = tipo_responsable,
+                        TipoProyecto = tipo_proyecto,
                         TipoPY = tipo_py,
                         ClasificacionPY = clasificacion_py
                     }) > 0;

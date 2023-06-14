@@ -21,10 +21,10 @@ namespace Bovis.Common.Model.Tables
         [Column("Numovimiento"), Nullable] public decimal? Movimiento { get; set; }
         [Column("Chempresa"), Nullable] public string? Empresa { get; set; }
         [Column("Nunum_proyecto"), Nullable] public int? NumProyecto { get; set; }
-        [Column("Chtipo_num_proyecto"), Nullable] public string? TipoNumProyecto { get; set; }
+        [Column("Chtipo_cuenta"), Nullable] public string? TipoCuenta { get; set; }
         [Column("Chedo_resultados"), Nullable] public string? EdoResultados { get; set; }
         [Column("Chresponsable"), Nullable] public string? Responsable { get; set; }
-        [Column("Chtipo_responsable"), Nullable] public string? TipoResponsable { get; set; }
+        [Column("Chtipo_proyecto"), Nullable] public string? TipoProyecto { get; set; }
         [Column("Chtipo_py"), Nullable] public string? TipoPY { get; set; }
         [Column("Chclasificacion_py"), Nullable] public string? ClasificacionPY { get; set; }
         [Column("Boactivo"), Nullable] public bool? Activo { get; set; }

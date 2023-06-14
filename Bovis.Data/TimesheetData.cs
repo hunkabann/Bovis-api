@@ -288,12 +288,27 @@ namespace Bovis.Data
 
         public async Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet)
         {
-            TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
+            TimeSheet_Detalle res_timesheet = new TimeSheet_Detalle();
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_timesheet = await (from ts in db.tB_Timesheets
+                res_timesheet = await (from ts in db.tB_Timesheets
+                                           join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
+                                           join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
+                                           join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
+                                           join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
                                            where ts.IdTimesheet == idTimeSheet
-                                           select ts).FirstOrDefaultAsync();
+                                           select new TimeSheet_Detalle
+                                           {
+                                               id = ts.IdTimesheet,
+                                               id_empleado = ts.IdEmpleado,
+                                               empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
+                                               mes = ts.Mes,
+                                               anio = ts.Anio,
+                                               id_responsable = ts.IdResponsable,
+                                               responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
+                                               sabados = ts.Sabados,
+                                               dias_trabajo = ts.DiasTrabajo
+                                           }).FirstOrDefaultAsync();
 
                 var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
                                                  where ts_o.IdTimeSheet == idTimeSheet
@@ -303,22 +318,11 @@ namespace Bovis.Data
                                                      where ts_p.IdTimesheet == idTimeSheet
                                                      select ts_p).ToListAsync();
 
-                if (res_timesheet != null)
-                {
-                    timesheetDetalle.id = res_timesheet.IdTimesheet;
-                    timesheetDetalle.id_empleado = res_timesheet.IdEmpleado;
-                    timesheetDetalle.mes = res_timesheet.Mes;
-                    timesheetDetalle.anio = res_timesheet.Anio;
-                    timesheetDetalle.id_responsable = res_timesheet.IdResponsable;
-                    timesheetDetalle.sabados = res_timesheet.Sabados;
-                    timesheetDetalle.dias_trabajo = res_timesheet.DiasTrabajo;
-                }
-
-                timesheetDetalle.otros = res_timesheet_otros;
-                timesheetDetalle.proyectos = res_timesheet_proyectos;
+                res_timesheet.otros = res_timesheet_otros;
+                res_timesheet.proyectos = res_timesheet_proyectos;
 
             }
-            return timesheetDetalle;
+            return res_timesheet;
         }
 
         public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
