@@ -202,34 +202,36 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var res_timesheets = await (from ts in db.tB_Timesheets
+                                                join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
+                                                join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
+                                                join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
+                                                join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
                                                 where ts.IdEmpleado == idEmpleado
                                                 && ts.Activo == true
-                                                select ts).ToListAsync();
+                                                select new TimeSheet_Detalle
+                                                {
+                                                    id = ts.IdTimesheet,
+                                                    id_empleado = ts.IdEmpleado,
+                                                    empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
+                                                    mes = ts.Mes,
+                                                    anio = ts.Anio,
+                                                    id_responsable = ts.IdResponsable,
+                                                    responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
+                                                    sabados = ts.Sabados,
+                                                    dias_trabajo = ts.DiasTrabajo
+                                                }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
                     {
-                        var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
-                                                         where ts_o.IdTimeSheet == timesheet.IdTimesheet
+                        timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                         where ts_o.IdTimeSheet == timesheet.id
                                                          select ts_o).ToListAsync();
 
-                        var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
-                                                             where ts_p.IdTimesheet == timesheet.IdTimesheet
+                        timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                             where ts_p.IdTimesheet == timesheet.id
                                                              select ts_p).ToListAsync();
 
-                        timesheetDetalle = new TimeSheet_Detalle();
-
-                        timesheetDetalle.id = timesheet.IdTimesheet;
-                        timesheetDetalle.id_empleado = timesheet.IdEmpleado;
-                        timesheetDetalle.mes = timesheet.Mes;
-                        timesheetDetalle.anio = timesheet.Anio;
-                        timesheetDetalle.id_responsable = timesheet.IdResponsable;
-                        timesheetDetalle.sabados = timesheet.Sabados;
-                        timesheetDetalle.dias_trabajo = timesheet.DiasTrabajo;
-
-                        timesheetDetalle.otros = res_timesheet_otros;
-                        timesheetDetalle.proyectos = res_timesheet_proyectos;
-
-                        timesheets_summary.Add(timesheetDetalle);
+                        timesheets_summary.Add(timesheet);
                     }
 
                 }
@@ -248,35 +250,37 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var res_timesheets = await (from ts in db.tB_Timesheets
+                                                join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
+                                                join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
+                                                join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
+                                                join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
-                                                select ts).ToListAsync();
+                                                select new TimeSheet_Detalle
+                                                {
+                                                    id = ts.IdTimesheet,
+                                                    id_empleado = ts.IdEmpleado,
+                                                    empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
+                                                    mes = ts.Mes,
+                                                    anio = ts.Anio,
+                                                    id_responsable = ts.IdResponsable,
+                                                    responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
+                                                    sabados = ts.Sabados,
+                                                    dias_trabajo = ts.DiasTrabajo
+                                                }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
                     {
-                        var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
-                                                         where ts_o.IdTimeSheet == timesheet.IdTimesheet
+                        timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                         where ts_o.IdTimeSheet == timesheet.id
                                                          select ts_o).ToListAsync();
 
-                        var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
-                                                             where ts_p.IdTimesheet == timesheet.IdTimesheet
+                        timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                             where ts_p.IdTimesheet == timesheet.id
                                                              select ts_p).ToListAsync();
 
-                        timesheetDetalle = new TimeSheet_Detalle();
-
-                        timesheetDetalle.id = timesheet.IdTimesheet;
-                        timesheetDetalle.id_empleado = timesheet.IdEmpleado;
-                        timesheetDetalle.mes = timesheet.Mes;
-                        timesheetDetalle.anio = timesheet.Anio;
-                        timesheetDetalle.id_responsable = timesheet.IdResponsable;
-                        timesheetDetalle.sabados = timesheet.Sabados;
-                        timesheetDetalle.dias_trabajo = timesheet.DiasTrabajo;
-
-                        timesheetDetalle.otros = res_timesheet_otros;
-                        timesheetDetalle.proyectos = res_timesheet_proyectos;
-
-                        timesheets_summary.Add(timesheetDetalle);
+                        timesheets_summary.Add(timesheet);
                     }
 
                 }
