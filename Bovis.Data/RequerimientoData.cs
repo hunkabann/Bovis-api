@@ -53,15 +53,72 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TB_Requerimiento_Experiencia>();
         }
 
-        public async Task<List<TB_Requerimiento>> GetRequerimientos(bool? activo)
+        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? activo)
         {
+            List<Requerimiento_Detalle> requerimientos = new List<Requerimiento_Detalle>();
+            Requerimiento_Detalle requerimiento = new Requerimiento_Detalle();
             if (activo.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimientos
-                                                                          where req.Activo == activo
-                                                                          select req).ToListAsync();
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var res_requerimientos = await (from req in db.tB_Requerimientos
+                                                    join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria
+                                                    join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto
+                                                    join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios
+                                                    join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion
+                                                    join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada
+                                                    where req.Activo == activo
+                                                    select new Requerimiento_Detalle
+                                                    {
+                                                        nukidrequerimiento = req.IdRequerimiento,
+                                                        nukidcategoria = req.IdCategoria,
+                                                        chcategoria = cat.Categoria,
+                                                        nukidpuesto = req.IdPuesto,
+                                                        chpuesto = pue.Puesto,
+                                                        nukidnivel_estudios = req.IdNivelEstudios,
+                                                        chnivel_estudios = niv.NivelEstudios,
+                                                        nukidprofesion = req.IdProfesion,
+                                                        chprofesion = prof.Profesion,
+                                                        nukidjornada = req.IdJornada,
+                                                        chjornada = jor.Jornada,
+                                                        nusueldo_min = req.SueldoMin,
+                                                        nusueldo_max = req.SueldoMax
+                                                    }).ToListAsync();
+
+                    foreach (var req in res_requerimientos)
+                    {
+                        var res_experiencias = await (from exp in db.tB_Requerimiento_Experiencias
+                                                      where exp.IdRequerimiento == req.nukidrequerimiento
+                                                      select exp).ToListAsync();
+
+                        var res_habilidades = await (from hab in db.tB_Requerimiento_Habilidades
+                                                     where hab.IdRequerimiento == req.nukidrequerimiento
+                                                     select hab).ToListAsync();
+
+                        requerimiento = new Requerimiento_Detalle();
+                        requerimiento.nukidrequerimiento = req.nukidrequerimiento;
+                        requerimiento.nukidcategoria = req.nukidcategoria;
+                        requerimiento.chcategoria = req.chcategoria;
+                        requerimiento.nukidpuesto = req.nukidpuesto;
+                        requerimiento.chpuesto = req.chpuesto;
+                        requerimiento.nukidnivel_estudios = req.nukidnivel_estudios;
+                        requerimiento.chnivel_estudios = req.chnivel_estudios;
+                        requerimiento.nukidprofesion = req.nukidprofesion;
+                        requerimiento.chprofesion = req.chprofesion;
+                        requerimiento.nukidjornada = req.nukidjornada;
+                        requerimiento.chjornada = req.chjornada;
+                        requerimiento.nusueldo_min = req.nusueldo_min;
+                        requerimiento.nusueldo_max = req.nusueldo_max;
+                        requerimiento.experiencias = res_experiencias;
+                        requerimiento.habilidades = res_habilidades;
+
+                        requerimientos.Add(requerimiento);
+                    }
+                }
+
+                return requerimientos;
             }
-            else return await GetAllFromEntityAsync<TB_Requerimiento>();
+            else return await GetAllFromEntityAsync<Requerimiento_Detalle>();
         }
 
         public async Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento)

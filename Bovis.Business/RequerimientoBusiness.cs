@@ -33,7 +33,7 @@ namespace Bovis.Business
         #endregion Experiencias
 
         #region Registros
-        public Task<List<TB_Requerimiento>> GetRequerimientos(bool? Activo) => _RequerimientoData.GetRequerimientos(Activo);
+        public Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Activo) => _RequerimientoData.GetRequerimientos(Activo);
 
         public Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento) => _RequerimientoData.GetRequerimiento(idRequerimiento);
 
