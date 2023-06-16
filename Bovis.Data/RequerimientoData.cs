@@ -121,15 +121,47 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<Requerimiento_Detalle>();
         }
 
-        public async Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento)
+        public async Task<Requerimiento_Detalle> GetRequerimiento(int idRequerimiento)
         {
+            Requerimiento_Detalle requerimiento = new Requerimiento_Detalle();
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from req in db.tB_Requerimientos
-                          where req.IdRequerimiento == idRequerimiento
-                          select req;
+#pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+                requerimiento = await (from req in db.tB_Requerimientos
+                                       join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria
+                                               join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto
+                                               join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios
+                                               join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion
+                                               join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada
+                                               where req.IdRequerimiento == idRequerimiento
+                                               select new Requerimiento_Detalle
+                                               {
+                                                   nukidrequerimiento = req.IdRequerimiento,
+                                                   nukidcategoria = req.IdCategoria,
+                                                   chcategoria = cat.Categoria,
+                                                   nukidpuesto = req.IdPuesto,
+                                                   chpuesto = pue.Puesto,
+                                                   nukidnivel_estudios = req.IdNivelEstudios,
+                                                   chnivel_estudios = niv.NivelEstudios,
+                                                   nukidprofesion = req.IdProfesion,
+                                                   chprofesion = prof.Profesion,
+                                                   nukidjornada = req.IdJornada,
+                                                   chjornada = jor.Jornada,
+                                                   nusueldo_min = req.SueldoMin,
+                                                   nusueldo_max = req.SueldoMax
+                                               }).FirstOrDefaultAsync();
+#pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
 
-                return await res.FirstOrDefaultAsync();
+                requerimiento.experiencias = await (from exp in db.tB_Requerimiento_Experiencias
+                                              where exp.IdRequerimiento == idRequerimiento
+                                              select exp).ToListAsync();
+
+                requerimiento.habilidades = await (from hab in db.tB_Requerimiento_Habilidades
+                                             where hab.IdRequerimiento == idRequerimiento
+                                             select hab).ToListAsync();
+
+                return requerimiento;
 
             }
         }

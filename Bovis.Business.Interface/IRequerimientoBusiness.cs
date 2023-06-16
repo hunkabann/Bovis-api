@@ -14,7 +14,7 @@ namespace Bovis.Business.Interface
         Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento);
         Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento);
         Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? activo);
-        Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento);
+        Task<Requerimiento_Detalle> GetRequerimiento(int idRequerimiento);
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento);

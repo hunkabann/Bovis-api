@@ -35,7 +35,7 @@ namespace Bovis.Business
         #region Registros
         public Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Activo) => _RequerimientoData.GetRequerimientos(Activo);
 
-        public Task<TB_Requerimiento> GetRequerimiento(int idRequerimiento) => _RequerimientoData.GetRequerimiento(idRequerimiento);
+        public Task<Requerimiento_Detalle> GetRequerimiento(int idRequerimiento) => _RequerimientoData.GetRequerimiento(idRequerimiento);
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {
