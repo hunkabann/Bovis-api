@@ -129,25 +129,30 @@ namespace Bovis.Data
             {
 #pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
                 requerimiento = await (from req in db.tB_Requerimientos
-                                       join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria
-                                       join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto
-                                       join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios
-                                       join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion
-                                       join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada
+                                       join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria into catGroup
+                                       from cat in catGroup.DefaultIfEmpty()
+                                       join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto into pueGroup
+                                       from pue in pueGroup.DefaultIfEmpty()
+                                       join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios into nivGroup
+                                       from niv in nivGroup.DefaultIfEmpty()
+                                       join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion into profGroup
+                                       from prof in profGroup.DefaultIfEmpty()
+                                       join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada into jorGroup
+                                       from jor in jorGroup.DefaultIfEmpty()
                                        where req.IdRequerimiento == idRequerimiento
                                        select new Requerimiento_Detalle
                                        {
                                            nukidrequerimiento = req.IdRequerimiento,
                                            nukidcategoria = req.IdCategoria,
-                                           chcategoria = cat.Categoria,
+                                           chcategoria = cat != null ? cat.Categoria : null,
                                            nukidpuesto = req.IdPuesto,
-                                           chpuesto = pue.Puesto,
+                                           chpuesto = pue != null ? pue.Puesto : null,
                                            nukidnivel_estudios = req.IdNivelEstudios,
-                                           chnivel_estudios = niv.NivelEstudios,
+                                           chnivel_estudios = niv != null ? niv.NivelEstudios : null,
                                            nukidprofesion = req.IdProfesion,
-                                           chprofesion = prof.Profesion,
+                                           chprofesion = prof != null ? prof.Profesion : null,
                                            nukidjornada = req.IdJornada,
-                                           chjornada = jor.Jornada,
+                                           chjornada = jor != null ? jor.Jornada : null,
                                            nusueldo_min = req.SueldoMin,
                                            nusueldo_max = req.SueldoMax
                                        }).FirstOrDefaultAsync();
