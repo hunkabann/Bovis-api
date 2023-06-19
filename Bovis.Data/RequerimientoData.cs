@@ -315,6 +315,7 @@ namespace Bovis.Data
                         var res_insert_requerimiento_habilidad = await db.tB_Requerimiento_Habilidades
                         .Value(x => x.IdRequerimiento, id_requerimiento)
                         .Value(x => x.IdHabilidad, id)
+                        .Value(x => x.Activo, true)
                         .InsertAsync() > 0;
 
                         resp.Success = res_insert_requerimiento_habilidad;
@@ -378,6 +379,7 @@ namespace Bovis.Data
                         var res_insert_requerimiento_experiencia = await db.tB_Requerimiento_Experiencias
                         .Value(x => x.IdRequerimiento, id_requerimiento)
                         .Value(x => x.IdExperiencia, id)
+                        .Value(x => x.Activo, true)
                         .InsertAsync() > 0;
 
                         resp.Success = res_insert_requerimiento_experiencia;
