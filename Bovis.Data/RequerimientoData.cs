@@ -303,7 +303,8 @@ namespace Bovis.Data
                             // Se elimina
                             var res_delete_requerimiento_habilidad = await (db.tB_Requerimiento_Habilidades
                                .Where(x => x.IdHabilidad == id && x.IdRequerimiento == id_requerimiento)
-                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+                               .Set(x => x.Activo, false))
+                               .UpdateAsync() >= 0;
 
                             resp.Success = res_delete_requerimiento_habilidad;
                             resp.Message = res_delete_requerimiento_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
@@ -327,7 +328,8 @@ namespace Bovis.Data
 
                 var res_requerimiento_experiencias = await (from req_exp in db.tB_Requerimiento_Experiencias
                                                            where req_exp.IdRequerimiento == id_requerimiento
-                                                           select req_exp).ToListAsync();
+                                                           select req_exp)
+                                                           .ToListAsync();
 
                 int[] ids_experiencias_db = new int[res_requerimiento_experiencias.Count()];
                 index = 0;
@@ -367,7 +369,8 @@ namespace Bovis.Data
                             // Se elimina
                             var res_delete_requerimiento_experiencia = await (db.tB_Requerimiento_Experiencias
                                .Where(x => x.IdExperiencia == id && x.IdRequerimiento == id_requerimiento)
-                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+                               .Set(x => x.Activo, false))
+                               .UpdateAsync() >= 0;
 
                             resp.Success = res_delete_requerimiento_experiencia;
                             resp.Message = res_delete_requerimiento_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;

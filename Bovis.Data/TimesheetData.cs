@@ -376,7 +376,8 @@ namespace Bovis.Data
 
                 var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                      where ts_p.IdTimesheet == id_time_sheet
-                                                     select ts_p).ToListAsync();
+                                                     select ts_p)
+                                                     .ToListAsync();
 
                 int[] ids_proyectos_db = new int[res_timesheet_proyectos.Count()];
                 index = 0;
@@ -426,7 +427,8 @@ namespace Bovis.Data
                             // Se elimina
                             var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
                                .Where(x => x.IdTimesheet_Proyecto == id)
-                               .Set(x => x.Activo, false)).UpdateAsync() >= 0;
+                               .Set(x => x.Activo, false))
+                               .UpdateAsync() >= 0;
 
                             resp.Success = res_delete_timesheet_proyecto;
                             resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
@@ -441,7 +443,9 @@ namespace Bovis.Data
                             .Value(x => x.Descripcion, nombre_proyecto)
                             .Value(x => x.Dias, dias)
                             .Value(x => x.TDedicacion, dedicacion)
-                            .Value(x => x.Costo, costo).InsertAsync() > 0;
+                            .Value(x => x.Costo, costo)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
 
                         resp.Success = insert_timesheet_proyecto;
                         resp.Message = insert_timesheet_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
@@ -452,7 +456,8 @@ namespace Bovis.Data
 
                 var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
                                                  where ts_o.IdTimeSheet == id_time_sheet
-                                                 select ts_o).ToListAsync();
+                                                 select ts_o)
+                                                 .ToListAsync();
 
                 string[] ids_otros_db = new string[res_timesheet_otros.Count()];
                 index = 0;
@@ -513,6 +518,7 @@ namespace Bovis.Data
                             .Value(x => x.Descripcion, id_otro)
                             .Value(x => x.Dias, dias)
                             .Value(x => x.TDedicacion, dedicacion)
+                            .Value(x => x.Activo, true)
                             .InsertAsync() > 0;
 
                         resp.Success = insert_timesheet_otro;
