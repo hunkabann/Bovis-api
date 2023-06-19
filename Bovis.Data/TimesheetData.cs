@@ -414,7 +414,8 @@ namespace Bovis.Data
                                     Descripcion = nombre_proyecto,
                                     Dias = dias,
                                     TDedicacion = dedicacion,
-                                    Costo = costo
+                                    Costo = costo,
+                                    Activo = true
                                 }) > 0;
 
                             resp.Success = res_update_timesheet_proyecto;
@@ -486,7 +487,8 @@ namespace Bovis.Data
                                 {
                                     Descripcion = id_otro,
                                     Dias = dias,
-                                    TDedicacion = dedicacion
+                                    TDedicacion = dedicacion,
+                                    Activo = true
                                 }) > 0;
 
                             resp.Success = res_update_timesheet_otro;
