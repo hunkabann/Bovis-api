@@ -164,10 +164,12 @@ namespace Bovis.Data
                     {
                         var res_timesheet_otros = await (from ts_o in db.tB_Timesheet_Otros
                                                          where ts_o.IdTimeSheet == timesheet.IdTimesheet
+                                                         && ts_o.Activo == true
                                                          select ts_o).ToListAsync();
 
                         var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                              where ts_p.IdTimesheet == timesheet.IdTimesheet
+                                                             && ts_p.Activo == true
                                                              select ts_p).ToListAsync();
 
                         timesheetDetalle = new TimeSheet_Detalle();
@@ -230,10 +232,12 @@ namespace Bovis.Data
                     {
                         timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
                                                          where ts_o.IdTimeSheet == timesheet.id
+                                                         && ts_o.Activo == true
                                                          select ts_o).ToListAsync();
 
                         timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                              where ts_p.IdTimesheet == timesheet.id
+                                                             && ts_p.Activo == true
                                                              select ts_p).ToListAsync();
 
                         timesheets_summary.Add(timesheet);
@@ -284,10 +288,12 @@ namespace Bovis.Data
                     {
                         timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
                                                          where ts_o.IdTimeSheet == timesheet.id
+                                                         && ts_o.Activo == true
                                                          select ts_o).ToListAsync();
 
                         timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                              where ts_p.IdTimesheet == timesheet.id
+                                                             && ts_p.Activo == true
                                                              select ts_p).ToListAsync();
 
                         timesheets_summary.Add(timesheet);
@@ -333,10 +339,12 @@ namespace Bovis.Data
 
                 res_timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
                                              where ts_o.IdTimeSheet == idTimeSheet
+                                             && ts_o.Activo == true
                                              select ts_o).ToListAsync();
 
                 res_timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                  where ts_p.IdTimesheet == idTimeSheet
+                                                 && ts_p.Activo == true
                                                  select ts_p).ToListAsync();
 
             }

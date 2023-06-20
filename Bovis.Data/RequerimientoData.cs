@@ -89,10 +89,12 @@ namespace Bovis.Data
                     {
                         var res_experiencias = await (from exp in db.tB_Requerimiento_Experiencias
                                                       where exp.IdRequerimiento == req.nukidrequerimiento
+                                                      && exp.Activo == true
                                                       select exp).ToListAsync();
 
                         var res_habilidades = await (from hab in db.tB_Requerimiento_Habilidades
                                                      where hab.IdRequerimiento == req.nukidrequerimiento
+                                                     && hab.Activo == true
                                                      select hab).ToListAsync();
 
                         requerimiento = new Requerimiento_Detalle();
