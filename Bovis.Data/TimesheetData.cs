@@ -121,6 +121,7 @@ namespace Bovis.Data
                         .Value(x => x.Dias, dias)
                         .Value(x => x.TDedicacion, dedicacion)
                         .Value(x => x.Costo, costo)
+                        .Value(x => x.Activo, true)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_timesheet_proyecto;
@@ -138,6 +139,7 @@ namespace Bovis.Data
                         .Value(x => x.Descripcion, id_otro)
                         .Value(x => x.Dias, dias)
                         .Value(x => x.TDedicacion, dedicacion)
+                        .Value(x => x.Activo, true)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_timesheet_otro;
