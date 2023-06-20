@@ -93,7 +93,7 @@ namespace Bovis.Data
                 {
                     var res = await (from proy in db.tB_Proyectos
                                      join emp in db.tB_Empleados on proy.IdDirectorEjecutivo equals emp.NumEmpleadoRrHh
-                                     join per in db.tB_Personas on emp.NumEmpleadoRrHh equals per.IdPersona into empPer
+                                     join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into empPer
                                      from empPerItem in empPer.DefaultIfEmpty()
                                      join t_proy in db.tB_Cat_TipoProyectos on proy.IdTipoProyecto equals t_proy.IdTipoProyecto into proyTProy
                                      from proyTProyItem in proyTProy.DefaultIfEmpty()
