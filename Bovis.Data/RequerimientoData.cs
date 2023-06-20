@@ -139,7 +139,7 @@ namespace Bovis.Data
                                        from prof in profGroup.DefaultIfEmpty()
                                        join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada into jorGroup
                                        from jor in jorGroup.DefaultIfEmpty()
-                                       where req.IdRequerimiento == idRequerimiento
+                                       where req.IdRequerimiento == idRequerimiento                                       
                                        select new Requerimiento_Detalle
                                        {
                                            nukidrequerimiento = req.IdRequerimiento,
@@ -160,10 +160,12 @@ namespace Bovis.Data
 
                 requerimiento.experiencias = await (from exp in db.tB_Requerimiento_Experiencias
                                                     where exp.IdRequerimiento == idRequerimiento
+                                                    && exp.Activo == true
                                                     select exp).ToListAsync();
 
                 requerimiento.habilidades = await (from hab in db.tB_Requerimiento_Habilidades
                                                    where hab.IdRequerimiento == idRequerimiento
+                                                   && hab.Activo == true
                                                    select hab).ToListAsync();
 
             }
