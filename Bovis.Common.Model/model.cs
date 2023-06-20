@@ -49,7 +49,8 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cat_TipoGasto> tB_Cat_TipoGastos { get { return this.GetTable<TB_Cat_TipoGasto>(); } }
 		public ITable<TB_Cat_TipoIngreso> tB_Cat_TipoIngresos { get { return this.GetTable<TB_Cat_TipoIngreso>(); } }
 		public ITable<TB_Cat_TipoPcs> tB_Cat_TipoPcs { get { return this.GetTable<TB_Cat_TipoPcs>(); } }
-		public ITable<TB_Cat_TipoPoliza> tB_Cat_TipoPolizas { get { return this.GetTable<TB_Cat_TipoPoliza>(); } }
+        public ITable<TB_Cat_TipoPcs2> tB_Cat_TipoPcs2 { get { return this.GetTable<TB_Cat_TipoPcs2>(); } }
+        public ITable<TB_Cat_TipoPoliza> tB_Cat_TipoPolizas { get { return this.GetTable<TB_Cat_TipoPoliza>(); } }
 		public ITable<TB_Cat_TipoProyecto> tB_Cat_TipoProyectos { get { return this.GetTable<TB_Cat_TipoProyecto>(); } }
 		public ITable<TB_Cat_TipoResultado> tB_Cat_TipoResultados { get { return this.GetTable<TB_Cat_TipoResultado>(); } }
 		public ITable<TB_Cat_TipoSangre> tB_Cat_TipoSangres { get { return this.GetTable<TB_Cat_TipoSangre>(); } }

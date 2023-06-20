@@ -55,17 +55,22 @@ namespace Bovis.Data
                 foreach (var cuenta in cuentas["data"].AsArray())
                 {
                     var res = await (from cta_c in db.tB_Cat_TipoCtaContables
-                                     join cta in db.tB_Cat_TipoCuentas on cta_c.IdTipoCtaContable equals cta.IdTipoCtaContable
-                                     join result in db.tB_Cat_TipoResultados on cta_c.IdTipoResultado equals result.IdTipoResultado into ctaResult
-                                     from ctaResultItem in ctaResult.DefaultIfEmpty()
+                                     join cta in db.tB_Cat_TipoCuentas on cta_c.IdTipoCuenta equals cta.IdTipoCuenta into ctaJoin
+                                     from ctaItem in ctaJoin.DefaultIfEmpty()
+                                     join result in db.tB_Cat_TipoResultados on cta_c.IdTipoResultado equals result.IdTipoResultado into resultJoin
+                                     from resultItem in resultJoin.DefaultIfEmpty()
+                                     join pcs in db.tB_Cat_TipoPcs on cta_c.IdPcs equals pcs.IdTipoPcs into pcsJoin
+                                     from pcsItem in pcsJoin.DefaultIfEmpty()
+                                     join pcs2 in db.tB_Cat_TipoPcs2 on cta_c.IdPcs2 equals pcs2.IdTipoPcs2 into pcsJoin2
+                                     from pcsItem2 in pcsJoin2.DefaultIfEmpty()
                                      where cta_c.CtaContable == cuenta.ToString()
                                      select new CuentaContable_Detalle
                                      {
                                          Cuenta = cuenta.ToString(),
-                                         TipoCuenta = cta.TipoCuenta,
-                                         TipoResultado = ctaResultItem != null ? ctaResultItem.TipoResultado : string.Empty,
-                                         TipoPY = cta.DivisionPCS,
-                                         ClasificacionPY = cta.DivisionPCS2
+                                         TipoCuenta = ctaItem != null ? ctaItem.TipoCuenta : string.Empty,
+                                         TipoResultado = resultItem != null ? resultItem.TipoResultado : string.Empty,
+                                         TipoPY = pcsItem != null ? pcsItem.TipoPcs : string.Empty,
+                                         ClasificacionPY = pcsItem2 != null ? pcsItem2.TipoPcs2 : string.Empty
                                      }).FirstOrDefaultAsync();
 
                     if (res != null)
