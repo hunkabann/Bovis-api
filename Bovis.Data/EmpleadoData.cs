@@ -43,7 +43,7 @@ namespace Bovis.Data
                                                                           {
                                                                               nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
                                                                               nukidpersona = emp.IdPersona,
-                                                                              nombre_persona = per.Nombre + " " + per.ApPaterno + " " + per.ApPaterno,
+                                                                              nombre_persona = per.Nombre + " " + per.ApPaterno + " " + per.ApMaterno,
                                                                               nukidtipo_empleado = emp.IdTipoEmpleado,
                                                                               nukidcategoria = emp.IdCategoria,
                                                                               nukidtipo_contrato = emp.IdTipoContrato,
