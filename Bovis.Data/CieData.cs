@@ -167,13 +167,13 @@ namespace Bovis.Data
                     decimal haber = Convert.ToDecimal(registro["haber"].ToString());
                     decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
                     string empresa = registro["empresa"].ToString();
-                    int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-                    string tipo_cuenta = registro["tipo_cuenta"].ToString();
-                    string edo_resultados = registro["edo_resultados"].ToString();
-                    string responsable = registro["responsable"].ToString();
-                    string tipo_proyecto = registro["tipo_proyecto"].ToString();
-                    string tipo_py = registro["tipo_py"].ToString();
-                    string clasificacion_py = registro["clasificacion_py"].ToString();
+                    int num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : 0;
+                    string tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : string.Empty;
+                    string edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : string.Empty;
+                    string responsable = registro["responsable"] != null ? registro["responsable"].ToString() : string.Empty;
+                    string tipo_proyecto = registro["tipo_proyecto"] != null ? registro["tipo_proyecto"].ToString() : string.Empty;
+                    string tipo_py = registro["tipo_py"] != null ? registro["tipo_py"].ToString() : string.Empty;
+                    string clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : string.Empty;
                     DateTime fecha;
 
                     if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
@@ -238,7 +238,7 @@ namespace Bovis.Data
                 decimal haber = Convert.ToDecimal(registro["haber"].ToString());
                 decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
                 string empresa = registro["empresa"].ToString();
-                int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+                int num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : 0;
                 string tipo_cuenta = registro["tipo_cuenta"].ToString();
                 string edo_resultados = registro["edo_resultados"].ToString();
                 string responsable = registro["responsable"].ToString();
