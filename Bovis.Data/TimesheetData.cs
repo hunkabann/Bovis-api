@@ -47,7 +47,7 @@ namespace Bovis.Data
                               feriados = timeS.Feriados,
                               sabados = timeS.Sabados,
                               anio = timeS.Anio,
-                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados - timeS.Sabados
+                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados
                           };
 
                 return await res.FirstOrDefaultAsync();
