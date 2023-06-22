@@ -203,11 +203,20 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateSector(TB_Cat_Sector sector);
 		Task<bool> DeleteSector(TB_Cat_Sector sector);
 
-		#endregion
+        #endregion
 
-		#region Tipo Cie
+        #region Sexo
 
-		Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? activo);
+        Task<List<TB_Cat_Sexo>> GetSexo(bool? activo);
+        Task<bool> AddSexo(TB_Cat_Sexo Sexo);
+        Task<bool> UpdateSexo(TB_Cat_Sexo Sexo);
+        Task<bool> DeleteSexo(TB_Cat_Sexo Sexo);
+
+        #endregion Sexo
+
+        #region Tipo Cie
+
+        Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? activo);
 		Task<bool> AddTipoCie(TB_Cat_TipoCie tipoCie);
 		Task<bool> UpdateTipoCie(TB_Cat_TipoCie tipoCie);
 		Task<bool> DeleteTipoCie(TB_Cat_TipoCie tipoCie);

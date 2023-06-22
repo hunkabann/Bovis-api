@@ -203,11 +203,19 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateSector(InsertMovApi MovAPI, TB_Cat_Sector sector);
 		Task<(bool Success, string Message)> DeleteSector(TB_Cat_Sector sector);
 
-		#endregion
+        #endregion
 
-		#region Tipo Cie
+        #region Sexo
+        Task<List<TB_Cat_Sexo>> GetSexo(bool? activo);
+        Task<(bool Success, string Message)> AddSexo(TB_Cat_Sexo Sexo);
+        Task<(bool Success, string Message)> UpdateSexo(InsertMovApi MovAPI, TB_Cat_Sexo Sexo);
+        Task<(bool Success, string Message)> DeleteSexo(TB_Cat_Sexo Sexo);
 
-		Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? activo);
+        #endregion
+
+        #region Tipo Cie
+
+        Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? activo);
 		Task<(bool Success, string Message)> AddTipoCie(TB_Cat_TipoCie tipoCie);
 		Task<(bool Success, string Message)> UpdateTipoCie(InsertMovApi MovAPI, TB_Cat_TipoCie tipoCie);
 		Task<(bool Success, string Message)> DeleteTipoCie(TB_Cat_TipoCie tipoCie);

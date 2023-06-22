@@ -671,7 +671,6 @@ namespace Bovis.Business
 		#endregion
 
 		#region Sector
-
 		public Task<List<TB_Cat_Sector>> GetSector(bool? Actio) => _catalogoData.GetSector(Actio);
 		public async Task<(bool Success, string Message)> AddSector(TB_Cat_Sector sector)
 		{
@@ -698,11 +697,40 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Tipo Cie
+        #region Sexo
+        public Task<List<TB_Cat_Sexo>> GetSexo(bool? Activo) => _catalogoData.GetSexo(Activo);
+        public async Task<(bool Success, string Message)> AddSexo(TB_Cat_Sexo Sexo)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddSexo(Sexo);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del catálogo a la base de datos"; return resp; }
+            return resp;
+        }
 
-		public Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? Actio) => _catalogoData.GetTipoCie(Actio);
+        public async Task<(bool Success, string Message)> DeleteSexo(TB_Cat_Sexo Sexo)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteSexo(Sexo);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del catálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateSexo(InsertMovApi MovAPI, TB_Cat_Sexo Sexo)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateSexo(Sexo);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(Sexo) });
+            return resp;
+        }
+
+        #endregion Sexo
+
+        #region Tipo Cie
+
+        public Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? Actio) => _catalogoData.GetTipoCie(Actio);
 		public async Task<(bool Success, string Message)> AddTipoCie(TB_Cat_TipoCie tipoCie)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);

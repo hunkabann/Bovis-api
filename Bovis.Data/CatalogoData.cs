@@ -692,11 +692,40 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Tipo Cie
+        #region Sexo
+        public async Task<List<TB_Cat_Sexo>> GetSexo(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Sexos
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Cat_Sexo>();
+        }
 
-		public async Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? activo)
+        public Task<bool> AddSexo(TB_Cat_Sexo Sexo) => InsertEntityIdAsync<TB_Cat_Sexo>(Sexo);
+
+        public Task<bool> UpdateSexo(TB_Cat_Sexo Sexo) => UpdateEntityAsync<TB_Cat_Sexo>(Sexo);
+
+        public async Task<bool> DeleteSexo(TB_Cat_Sexo Sexo)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Cat_Sexos
+                       .Where(x => x.IdSexo == Sexo.IdSexo)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Sexo
+
+        #region Tipo Cie
+
+        public async Task<List<TB_Cat_TipoCie>> GetTipoCie(bool? activo)
 		{
 			if (activo.HasValue)
 			{

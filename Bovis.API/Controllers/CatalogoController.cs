@@ -1192,10 +1192,61 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Tipo Cie
-	[HttpGet, Route("TipoCie/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    #region Sexo
+    [HttpGet, Route("Sexo/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Sexo(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetSexo(Activo);
+        return Ok(query);
+    }
+
+    [HttpPut, Route("Sexo/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddSexo(AgregarSexoCommand Sexo)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Sexo);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Sexo/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteSexo(EliminarSexoCommand Sexo)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Sexo);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Sexo/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateSexo(ActualizarSexoCommand Sexo)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        Sexo.Nombre = claimJWTModel.nombre;
+        Sexo.Usuario = claimJWTModel.correo;
+        Sexo.Roles = claimJWTModel.roles;
+        Sexo.TransactionId = claimJWTModel.transactionId;
+        Sexo.Rel = 18;
+        var response = await _mediator.Send(Sexo);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+
+    #endregion Sexo
+
+    #region Tipo Cie
+    [HttpGet, Route("TipoCie/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoCie(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoCie(Activo);

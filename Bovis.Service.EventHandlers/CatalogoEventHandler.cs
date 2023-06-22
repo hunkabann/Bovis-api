@@ -1450,6 +1450,69 @@ public class ActualizaSectorEventHandler : IRequestHandler<ActualizarSectorComma
 
 #endregion
 
+#region Sexo
+
+public class AgregaSexoEventHandler : IRequestHandler<AgregarSexoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaSexoEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarSexoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddSexo(new TB_Cat_Sexo { Activo = true, Sexo = request.descripcion });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaSexoEventHandler : IRequestHandler<EliminarSexoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaSexoEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarSexoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteSexo(new TB_Cat_Sexo { IdSexo = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaSexoEventHandler : IRequestHandler<ActualizarSexoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaSexoEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarSexoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateSexo(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Sexo { Sexo = request.descripcion, IdSexo = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+#endregion Sexo
+
 #region Tipo Cie
 
 public class AgregaTipoCieEventHandler : IRequestHandler<AgregarTipoCieCommand, Response<bool>>

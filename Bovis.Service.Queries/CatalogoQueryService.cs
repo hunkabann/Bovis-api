@@ -156,7 +156,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetTipoCie(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetSexo(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetSexo(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetTipoCie(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetTipoCie(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };

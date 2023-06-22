@@ -51,7 +51,9 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetSector(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetTipoCie(bool? Activo);
+    Task<Response<List<Catalogo>>> GetSexo(bool? Activo);
+
+    Task<Response<List<Catalogo>>> GetTipoCie(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetTipoContrato(bool? Activo);
 
