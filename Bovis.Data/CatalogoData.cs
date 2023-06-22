@@ -1024,7 +1024,6 @@ namespace Bovis.Data
         #endregion
 
         #region Tipo Persona
-
         public async Task<List<TB_Cat_TipoPersona>> GetTipoPersona(bool? activo)
         {
             if (activo.HasValue)

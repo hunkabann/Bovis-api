@@ -822,7 +822,6 @@ namespace Bovis.Service.Queries.Dto.Commands
     #endregion
 
     #region Tipo Persona
-
     public class AgregarTipoPersonaCommand : IRequest<Response<bool>>
     {
         [Required(ErrorMessage = "El campo descripcion es requerido")]

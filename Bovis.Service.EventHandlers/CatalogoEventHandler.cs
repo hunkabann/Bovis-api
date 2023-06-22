@@ -2144,7 +2144,6 @@ public class ActualizaTipoPcsEventHandler : IRequestHandler<ActualizarTipoPcsCom
 #endregion
 
 #region Tipo Persona
-
 public class AgregaTipoPersonaEventHandler : IRequestHandler<AgregarTipoPersonaCommand, Response<bool>>
 {
     private readonly ICatalogoBusiness _business;

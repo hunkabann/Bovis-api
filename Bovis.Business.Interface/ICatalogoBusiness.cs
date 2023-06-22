@@ -304,7 +304,6 @@ namespace Bovis.Business.Interface
         #endregion
 
         #region Tipo Persona
-
         Task<List<TB_Cat_TipoPersona>> GetTipoPersona(bool? activo);
         Task<(bool Success, string Message)> AddTipoPersona(TB_Cat_TipoPersona tipoPersona);
         Task<(bool Success, string Message)> UpdateTipoPersona(InsertMovApi MovAPI, TB_Cat_TipoPersona tipoPersona);

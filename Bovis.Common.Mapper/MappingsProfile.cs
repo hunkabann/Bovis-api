@@ -173,17 +173,7 @@ public class MappingsProfile : Profile
             .ForMember(c => c.nuestatus, dto => dto.MapFrom(src => src.Estatus));
         #endregion Cie
 
-        #region Catalogos
-        CreateMap<TB_Cat_Experiencia, Catalogo>()
-            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdExperiencia))
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Experiencia))
-            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
-
-        CreateMap<TB_Cat_Habilidad, Catalogo>()
-            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdHabilidad))
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Habilidad))
-            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
-
+        #region Catalogos                
         CreateMap<TB_Cat_Beneficio, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdBeneficio))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Beneficio))
@@ -204,13 +194,11 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.CostoIndirecto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_Departamento, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdDepartamento))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Departamento))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_Documento, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdDocumento))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Documento))
@@ -226,16 +214,24 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Estatus))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
+        CreateMap<TB_Cat_Experiencia, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdExperiencia))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Experiencia))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
         CreateMap<TB_Cat_FormaPago, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdFormaPago))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoDocumento))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_Gasto, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoGasto))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Gasto))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
+        CreateMap<TB_Cat_Habilidad, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdHabilidad))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Habilidad))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Ingreso, Catalogo>()
@@ -243,7 +239,6 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Ingreso))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_Jornada, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdJornada))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Descripcion))
@@ -264,7 +259,6 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.NivelPuesto))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_Pcs, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPcs))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Pcs))
@@ -275,7 +269,6 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_Puesto, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPuesto))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Puesto))
@@ -296,18 +289,21 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Sector))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
+        CreateMap<TB_Cat_Sexo, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdSexo))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Sexo))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
         CreateMap<TB_Cat_TipoCie, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoCie))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoCie))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_TipoContrato, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoContrato))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Contrato))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        /****/
         CreateMap<TB_Cat_TipoCtaContable, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoCuenta))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Concepto))
@@ -348,6 +344,11 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPcs))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
+        CreateMap<TB_Cat_TipoPersona, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoPersona))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPersona))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
         CreateMap<TB_Cat_TipoPoliza, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoPoliza))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoPoliza))
@@ -356,7 +357,7 @@ public class MappingsProfile : Profile
         CreateMap<TB_Cat_TipoProyecto, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoProyecto))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoProyecto))
-            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));        
 
         CreateMap<TB_Cat_TipoResultado, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoResultado))
