@@ -301,12 +301,20 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateTipoPcs(InsertMovApi MovAPI, TB_Cat_TipoPcs tipoPcs);
 		Task<(bool Success, string Message)> DeleteTipoPcs(TB_Cat_TipoPcs tipoPcs);
 
-		#endregion
+        #endregion
 
+        #region Tipo Persona
 
-		#region Tipo Poliza
+        Task<List<TB_Cat_TipoPersona>> GetTipoPersona(bool? activo);
+        Task<(bool Success, string Message)> AddTipoPersona(TB_Cat_TipoPersona tipoPersona);
+        Task<(bool Success, string Message)> UpdateTipoPersona(InsertMovApi MovAPI, TB_Cat_TipoPersona tipoPersona);
+        Task<(bool Success, string Message)> DeleteTipoPersona(TB_Cat_TipoPersona tipoPersona);
 
-		Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? activo);
+        #endregion Tipo Persona
+
+        #region Tipo Poliza
+
+        Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? activo);
 		Task<(bool Success, string Message)> AddTipoPoliza(TB_Cat_TipoPoliza tipoPoliza);
 		Task<(bool Success, string Message)> UpdateTipoPoliza(InsertMovApi MovAPI, TB_Cat_TipoPoliza tipoPoliza);
 		Task<(bool Success, string Message)> DeleteTipoPoliza(TB_Cat_TipoPoliza tipoPoliza);

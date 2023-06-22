@@ -72,8 +72,9 @@ public interface ICatalogoQueryService : IDisposable
 	Task<Response<List<Catalogo>>> GetTipoIngreso(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetTipoPcs(bool? Activo);
+    Task<Response<List<Catalogo>>> GetTipoPersona(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetTipoPoliza(bool? Activo);
+    Task<Response<List<Catalogo>>> GetTipoPoliza(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetTipoProyecto(bool? Activo);
 

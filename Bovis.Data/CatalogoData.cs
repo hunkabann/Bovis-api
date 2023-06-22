@@ -1021,12 +1021,41 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
+        #region Tipo Persona
 
-		#region Tipo Poliza
+        public async Task<List<TB_Cat_TipoPersona>> GetTipoPersona(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoPersonas
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Cat_TipoPersona>();
+        }
 
-		public async Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? activo)
+        public Task<bool> AddTipoPersona(TB_Cat_TipoPersona tipoPersona) => InsertEntityIdAsync<TB_Cat_TipoPersona>(tipoPersona);
+
+        public Task<bool> UpdateTipoPersona(TB_Cat_TipoPersona tipoPersona) => UpdateEntityAsync<TB_Cat_TipoPersona>(tipoPersona);
+
+        public async Task<bool> DeleteTipoPersona(TB_Cat_TipoPersona tipoPersona)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Cat_TipoPersonas
+                       .Where(x => x.IdTipoPersona == tipoPersona.IdTipoPersona)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Tipo Persona
+
+        #region Tipo Poliza
+
+        public async Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? activo)
 		{
 			if (activo.HasValue)
 			{

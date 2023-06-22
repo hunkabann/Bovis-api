@@ -819,11 +819,35 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
 
-	#region Tipo Poliza
+    #region Tipo Persona
 
-	public class AgregarTipoPolizaCommand : IRequest<Response<bool>>
+    public class AgregarTipoPersonaCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarTipoPersonaCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarTipoPersonaCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
+
+    #endregion Tipo Persona
+
+    #region Tipo Poliza
+
+    public class AgregarTipoPolizaCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
 		public string? descripcion { get; set; }

@@ -302,11 +302,20 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateTipoPcs(TB_Cat_TipoPcs tipoPcs);
 		Task<bool> DeleteTipoPcs(TB_Cat_TipoPcs tipoPcs);
 
-		#endregion
+        #endregion
 
-		#region Tipo Poliza
+        #region Tipo Persona
 
-		Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? activo);
+        Task<List<TB_Cat_TipoPersona>> GetTipoPersona(bool? activo);
+        Task<bool> AddTipoPersona(TB_Cat_TipoPersona tipoPersona);
+        Task<bool> UpdateTipoPersona(TB_Cat_TipoPersona tipoPersona);
+        Task<bool> DeleteTipoPersona(TB_Cat_TipoPersona tipoPersona);
+
+        #endregion Tipo Persona
+
+        #region Tipo Poliza
+
+        Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? activo);
 		Task<bool> AddTipoPoliza(TB_Cat_TipoPoliza tipoPoliza);
 		Task<bool> UpdateTipoPoliza(TB_Cat_TipoPoliza tipoPoliza);
 		Task<bool> DeleteTipoPoliza(TB_Cat_TipoPoliza tipoPoliza);

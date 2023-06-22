@@ -1753,10 +1753,61 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Tipo Poliza
-	[HttpGet, Route("TipoPoliza/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    #region Tipo Persona
+    [HttpGet, Route("TipoPersona/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> TipoPersona(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetTipoPersona(Activo);
+        return Ok(query);
+    }
+
+    [HttpPut, Route("TipoPersona/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddTipoPersona(AgregarTipoPersonaCommand TipoPersona)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(TipoPersona);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("TipoPersona/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTipoPersona(EliminarTipoPersonaCommand TipoPersona)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(TipoPersona);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("TipoPersona/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTipoPersona(ActualizarTipoPersonaCommand TipoPersona)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        TipoPersona.Nombre = claimJWTModel.nombre;
+        TipoPersona.Usuario = claimJWTModel.correo;
+        TipoPersona.Roles = claimJWTModel.roles;
+        TipoPersona.TransactionId = claimJWTModel.transactionId;
+        TipoPersona.Rel = 24;
+        var response = await _mediator.Send(TipoPersona);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+
+    #endregion Tipo Persona
+
+    #region Tipo Poliza
+    [HttpGet, Route("TipoPoliza/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> TipoPoliza(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetTipoPoliza(Activo);

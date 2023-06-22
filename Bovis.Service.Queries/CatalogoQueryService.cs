@@ -222,7 +222,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetTipoPoliza(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetTipoPersona(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetTipoPersona(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetTipoPoliza(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetTipoPoliza(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };

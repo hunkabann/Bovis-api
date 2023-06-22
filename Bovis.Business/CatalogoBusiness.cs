@@ -1026,11 +1026,40 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Tipo Poliza
+        #region Tipo Persona
+        public Task<List<TB_Cat_TipoPersona>> GetTipoPersona(bool? Actio) => _catalogoData.GetTipoPersona(Actio);
+        public async Task<(bool Success, string Message)> AddTipoPersona(TB_Cat_TipoPersona tipoPersona)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddTipoPersona(tipoPersona);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
 
-		public Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? Actio) => _catalogoData.GetTipoPoliza(Actio);
+        public async Task<(bool Success, string Message)> DeleteTipoPersona(TB_Cat_TipoPersona tipoPersona)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteTipoPersona(tipoPersona);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateTipoPersona(InsertMovApi MovAPI, TB_Cat_TipoPersona tipoPersona)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateTipoPersona(tipoPersona);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(tipoPersona) });
+            return resp;
+        }
+
+        #endregion Tipo Persona
+
+        #region Tipo Poliza
+
+        public Task<List<TB_Cat_TipoPoliza>> GetTipoPoliza(bool? Actio) => _catalogoData.GetTipoPoliza(Actio);
 		public async Task<(bool Success, string Message)> AddTipoPoliza(TB_Cat_TipoPoliza tipoPoliza)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
