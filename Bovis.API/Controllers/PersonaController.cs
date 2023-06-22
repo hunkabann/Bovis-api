@@ -1,0 +1,57 @@
+﻿using Bovis.Service.Queries;
+using Bovis.Service.Queries.Dto.Commands;
+using Bovis.Service.Queries.Dto.Request;
+using Bovis.Service.Queries.Dto.Both;
+using Bovis.Service.Queries.Interface;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
+using Bovis.API.Helper;
+using Newtonsoft.Json;
+using System.Security.Claims;
+using System.Text.Json.Nodes;
+
+namespace Bovis.API.Controllers
+{
+    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    public class PersonaController : ControllerBase
+    {
+        private string TransactionId { get { return HttpContext.TraceIdentifier; } }
+        private readonly ILogger<PersonaController> _logger;
+        private readonly IPersonaQueryService _personaQueryService;
+        private readonly IMediator _mediator;
+
+        public PersonaController(ILogger<PersonaController> logger, IPersonaQueryService _personaQueryService, IMediator _mediator)
+        {
+            _logger = logger;
+            this._personaQueryService = _personaQueryService;
+            this._mediator = _mediator;
+        }
+
+        #region Personas
+        [HttpGet, Route("Personas/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetPersonas(bool? Activo)
+        {
+            var query = await _personaQueryService.GetPersonas(Activo);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Registro/{idPersona}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetPersona(int idPersona)
+        {
+            var query = await _personaQueryService.GetPersona(idPersona);
+            return Ok(query);
+        }
+
+
+        [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
+        {
+            var query = await _personaQueryService.AddRegistro(registro);
+            return Ok(query);
+        }
+        #endregion Personas
+
+    }
+}

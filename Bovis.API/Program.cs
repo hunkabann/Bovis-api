@@ -55,9 +55,17 @@ builder.Services.AddScoped<ICatalogoBusiness, CatalogoBusiness>();
 builder.Services.AddScoped<ICatalogoData, CatalogoData>();
 builder.Services.AddScoped<ITransactionData, TransactionData>();
 
+builder.Services.AddScoped<ICieQueryService, CieQueryService>();
+builder.Services.AddScoped<ICieBusiness, CieBusiness>();
+builder.Services.AddScoped<ICieData, CieData>();
+
 builder.Services.AddScoped<IDorQueryService, DorQueryService>();
 builder.Services.AddScoped<IDorBusiness, DorBusiness>();
 builder.Services.AddScoped<IDorData, DorData>();
+
+builder.Services.AddScoped<IEmpleadoQueryService, EmpleadoQueryService>();
+builder.Services.AddScoped<IEmpleadoBusiness, EmpleadoBusiness>();
+builder.Services.AddScoped<IEmpleadoData, EmpleadoData>();
 
 builder.Services.AddScoped<IFacturaQueryService, FacturaQueryService>();
 builder.Services.AddScoped<IFacturaBusiness, FacturaBusiness>();
@@ -67,13 +75,9 @@ builder.Services.AddScoped<IPcsQueryService, PcsQueryService>();
 builder.Services.AddScoped<IPcsBusiness, PcsBusiness>();
 builder.Services.AddScoped<IPcsData, PcsData>();
 
-builder.Services.AddScoped<ICieQueryService, CieQueryService>();
-builder.Services.AddScoped<ICieBusiness, CieBusiness>();
-builder.Services.AddScoped<ICieData, CieData>();
-
-builder.Services.AddScoped<IEmpleadoQueryService, EmpleadoQueryService>();
-builder.Services.AddScoped<IEmpleadoBusiness, EmpleadoBusiness>();
-builder.Services.AddScoped<IEmpleadoData, EmpleadoData>();
+builder.Services.AddScoped<IPersonaQueryService, PersonaQueryService>();
+builder.Services.AddScoped<IPersonaBusiness, PersonaBusiness>();
+builder.Services.AddScoped<IPersonaData, PersonaData>();
 
 builder.Services.AddScoped<IRequerimientoQueryService, RequerimientoQueryService>();
 builder.Services.AddScoped<IRequerimientoBusiness, RequerimientoBusiness>();

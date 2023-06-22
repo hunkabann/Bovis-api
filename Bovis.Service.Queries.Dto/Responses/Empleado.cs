@@ -58,19 +58,32 @@ namespace Bovis.Service.Queries.Dto.Responses
         public int nukidpersona { get; set; }
         public string nombre_persona { get; set; }
         public int nukidtipo_empleado { get; set; }
+        public string chtipo_emplado { get; set; }
         public int nukidcategoria { get; set; }
+        public string chcategoria { get; set; }
         public int nukidtipo_contrato { get; set; }
-        public string chcve_puesto { get; set; }
+        public string chtipo_contrato { get; set; }
+        public int chcve_puesto { get; set; }
         public int nukidempresa { get; set; }
+        public string chempresa { get; set; }
         public int nukidciudad { get; set; }
+        public string chciudad { get; set; }
         public int nukidnivel_estudios { get; set; }
+        public string chnivel_estudios { get; set; }
         public int nukidforma_pago { get; set; }
+        public string chforma_pago { get; set; }
         public int nukidjornada { get; set; }
+        public string chjornada { get; set; }
         public int nukiddepartamento { get; set; }
+        public string chdepartamento { get; set; }
         public int nukidclasificacion { get; set; }
+        public string chclasificacion { get; set; }
         public int nukidjefe_directo { get; set; }
+        public string chjefe_directo { get; set; }
         public int nukidunidad_negocio { get; set; }
+        public string chunidad_negocio { get; set; }
         public int nukidtipo_contrato_sat { get; set; }
+        public string chtipo_contrato_sat { get; set; }
         public int nunum_empleado { get; set; }
         public DateTime dtfecha_ingreso { get; set; }
         public DateTime dtfecha_salida { get; set; }

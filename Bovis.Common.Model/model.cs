@@ -42,7 +42,8 @@ namespace Bovis.Common.Model
         public ITable<TB_Cat_Sexo> tB_Cat_Sexos { get { return this.GetTable<TB_Cat_Sexo>(); } }
         public ITable<TB_Cat_TipoCie> tB_Cat_TipoCies { get { return this.GetTable<TB_Cat_TipoCie>(); } }
 		public ITable<TB_Cat_TipoContrato> tB_Cat_TipoContratos { get { return this.GetTable<TB_Cat_TipoContrato>(); } }
-		public ITable<TB_Cat_TipoCtaContable> tB_Cat_TipoCtaContables { get { return this.GetTable<TB_Cat_TipoCtaContable>(); } }
+        public ITable<TB_Cat_TipoContrato_Sat> tB_Cat_TipoContrato_Sats { get { return this.GetTable<TB_Cat_TipoContrato_Sat>(); } }
+        public ITable<TB_Cat_TipoCtaContable> tB_Cat_TipoCtaContables { get { return this.GetTable<TB_Cat_TipoCtaContable>(); } }
 		public ITable<TB_Cat_TipoCuenta> tB_Cat_TipoCuentas { get { return this.GetTable<TB_Cat_TipoCuenta>(); } }
 		public ITable<TB_Cat_TipoDocumento> tB_Cat_TipoDocumentos { get { return this.GetTable<TB_Cat_TipoDocumento>(); } }
 		public ITable<TB_Cat_TipoEmpleado> tB_Cat_TipoEmpleados { get { return this.GetTable<TB_Cat_TipoEmpleado>(); } }
