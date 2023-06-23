@@ -264,6 +264,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int num_empleado_rr_hh = Convert.ToInt32(registro["num_empleado_rr_hh"].ToString());
             int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
             int id_tipo_empleado = Convert.ToInt32(registro["id_tipo_empleado"].ToString());
             int id_categoria = Convert.ToInt32(registro["id_categoria"].ToString());
@@ -308,6 +309,7 @@ namespace Bovis.Data
                 int last_inserted_id = 0;
 
                 var insert_empleado = await db.tB_Empleados
+                    .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
                     .Value(x => x.IdPersona, id_persona)
                     .Value(x => x.IdTipoEmpleado, id_tipo_empleado)
                     .Value(x => x.IdCategoria, id_categoria)
@@ -392,7 +394,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            int num_empleado_rr_hh = Convert.ToInt32(registro["num_empleado_rr_hh"].ToString());
             int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
             int id_tipo_empleado = Convert.ToInt32(registro["id_tipo_empleado"].ToString());
             int id_categoria = Convert.ToInt32(registro["id_categoria"].ToString());
@@ -435,7 +437,7 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_empleado = await db.tB_Empleados.Where(x => x.NumEmpleadoRrHh == id_empleado)
+                var res_update_empleado = await db.tB_Empleados.Where(x => x.NumEmpleadoRrHh == num_empleado_rr_hh)
                     .UpdateAsync(x => new TB_Empleado
                     {
                         IdPersona = id_persona,
@@ -482,10 +484,9 @@ namespace Bovis.Data
                 resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
-
                 var res_empleado_habilidades = await (from emp_hab in db.tB_Empleado_Habilidades
-                                                           where emp_hab.IdEmpleado == id_empleado
-                                                           select emp_hab).ToListAsync();
+                                                      where emp_hab.IdEmpleado == num_empleado_rr_hh
+                                                      select emp_hab).ToListAsync();
 
                 int[] ids_habilidades_db = new int[res_empleado_habilidades.Count()];
                 index = 0;
@@ -510,7 +511,7 @@ namespace Bovis.Data
                         if (ids_habilidades_request.Contains(id))
                         {
                             // Se actualiza
-                            var res_update_empleado_habilidad = await db.tB_Empleado_Habilidades.Where(x => x.IdHabilidad == id && x.IdEmpleado == id_empleado)
+                            var res_update_empleado_habilidad = await db.tB_Empleado_Habilidades.Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
                                 .UpdateAsync(x => new TB_Empleado_Habilidad
                                 {
                                     IdHabilidad = id,
@@ -524,7 +525,7 @@ namespace Bovis.Data
                         {
                             // Se elimina
                             var res_delete_empleado_habilidad = await (db.tB_Empleado_Habilidades
-                               .Where(x => x.IdHabilidad == id && x.IdEmpleado == id_empleado)
+                               .Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
                                .Set(x => x.Activo, false))
                                .UpdateAsync() >= 0;
 
@@ -536,7 +537,7 @@ namespace Bovis.Data
                     {
                         // Se agrega
                         var res_insert_empleado_habilidad = await db.tB_Empleado_Habilidades
-                        .Value(x => x.IdEmpleado, id_empleado)
+                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
                         .Value(x => x.IdHabilidad, id)
                         .Value(x => x.Activo, true)
                         .InsertAsync() > 0;
@@ -548,8 +549,8 @@ namespace Bovis.Data
                 }
 
                 var res_empleado_experiencias = await (from emp_exp in db.tB_Empleado_Experiencias
-                                                            where emp_exp.IdEmpleado == id_empleado
-                                                            select emp_exp)
+                                                       where emp_exp.IdEmpleado == num_empleado_rr_hh
+                                                       select emp_exp)
                                                            .ToListAsync();
 
                 int[] ids_experiencias_db = new int[res_empleado_experiencias.Count()];
@@ -575,7 +576,7 @@ namespace Bovis.Data
                         if (ids_experiencias_request.Contains(id))
                         {
                             // Se actualiza
-                            var res_update_empleado_experiencia = await db.tB_Empleado_Experiencias.Where(x => x.IdExperiencia == id && x.IdEmpleado == id_empleado)
+                            var res_update_empleado_experiencia = await db.tB_Empleado_Experiencias.Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
                                 .UpdateAsync(x => new TB_Empleado_Experiencia
                                 {
                                     IdExperiencia = id,
@@ -589,7 +590,7 @@ namespace Bovis.Data
                         {
                             // Se elimina
                             var res_delete_empleado_experiencia = await (db.tB_Empleado_Experiencias
-                               .Where(x => x.IdExperiencia == id && x.IdEmpleado == id_empleado)
+                               .Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
                                .Set(x => x.Activo, false))
                                .UpdateAsync() >= 0;
 
@@ -601,7 +602,7 @@ namespace Bovis.Data
                     {
                         // Se agrega
                         var res_insert_empleado_experiencia = await db.tB_Empleado_Experiencias
-                        .Value(x => x.IdEmpleado, id_empleado)
+                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
                         .Value(x => x.IdExperiencia, id)
                         .Value(x => x.Activo, true)
                         .InsertAsync() > 0;

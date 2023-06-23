@@ -169,6 +169,53 @@ namespace Bovis.Data
             }
             return resp;
         }
+
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
+            string nombre = registro["nombre"].ToString();
+            string apellido_paterno = registro["apellido_paterno"].ToString();
+            string apellido_materno = registro["apellido_materno"].ToString();
+            int id_edo_civil = Convert.ToInt32(registro["id_edo_civil"].ToString());
+            DateTime fecha_nacimiento = Convert.ToDateTime(registro["fecha_nacimiento"].ToString());
+            int id_tipo_sangre = Convert.ToInt32(registro["id_tipo_sangre"].ToString());
+            int id_sexo = Convert.ToInt32(registro["id_sexo"].ToString());
+            string rfc = registro["rfc"].ToString();
+            int id_tipo_persona = Convert.ToInt32(registro["id_tipo_persona"].ToString());
+            string email = registro["email"].ToString();
+            string telefono = registro["telefono"].ToString();
+            string celular = registro["celular"].ToString();
+            string curp = registro["curp"].ToString();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_persona = await db.tB_Personas.Where(x => x.IdPersona == id_persona)
+                    .UpdateAsync(x => new TB_Persona
+                    {
+                        Nombre = nombre,
+                        ApPaterno = apellido_paterno,
+                        ApMaterno = apellido_materno,
+                        IdEdoCivil = id_edo_civil,
+                        FechaNacimiento = fecha_nacimiento,
+                        IdTipoSangre = id_tipo_sangre,
+                        IdSexo = id_sexo,
+                        Rfc = rfc,
+                        IdTipoPersona = id_tipo_persona,
+                        Email = email,
+                        Telefono = telefono,
+                        Celular = celular,
+                        Curp = curp
+                    }) > 0;
+
+                resp.Success = res_update_persona;
+                resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+            }
+            return resp;
+        }
         #endregion Personas
     }
 }

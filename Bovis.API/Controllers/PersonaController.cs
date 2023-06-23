@@ -44,11 +44,17 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-
         [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
             var query = await _personaQueryService.AddRegistro(registro);
+            return Ok(query);
+        }
+
+        [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
+        {
+            var query = await _personaQueryService.UpdateRegistro(registro);
             return Ok(query);
         }
         #endregion Personas
