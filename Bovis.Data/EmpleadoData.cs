@@ -440,6 +440,7 @@ namespace Bovis.Data
                 var res_update_empleado = await db.tB_Empleados.Where(x => x.NumEmpleadoRrHh == num_empleado_rr_hh)
                     .UpdateAsync(x => new TB_Empleado
                     {
+                        NumEmpleadoRrHh = num_empleado_rr_hh,
                         IdPersona = id_persona,
                         IdTipoEmpleado = id_tipo_empleado,
                         IdCategoria = id_categoria,
