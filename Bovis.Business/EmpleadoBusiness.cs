@@ -43,5 +43,9 @@ namespace Bovis.Business
         #region Proyectos
         public Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado) => _empleadoData.GetProyectos(idEmpleado);
         #endregion Proyectos
+
+        #region Ciudades
+        public Task<List<TB_Ciudad>> GetCiudades(bool? Activo) => _empleadoData.GetCiudades(Activo);
+        #endregion Ciudades
     }
 }

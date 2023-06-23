@@ -1,5 +1,6 @@
 ﻿using Bovis.Common;
 using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 using System.Text.Json.Nodes;
 
@@ -17,6 +18,10 @@ namespace Bovis.Service.Queries.Interface
         #region Proyectos
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int idEmpleado);
         #endregion Proyectos
+
+        #region Ciudades
+        Task<Response<List<TB_Ciudad>>> GetCiudades(bool? Activo);
+        #endregion Ciudades
     }
 }
 

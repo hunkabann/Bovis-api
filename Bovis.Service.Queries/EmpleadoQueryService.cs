@@ -2,6 +2,7 @@
 using Bovis.Business.Interface;
 using Bovis.Common;
 using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
@@ -67,6 +68,14 @@ namespace Bovis.Service.Queries
             return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Proyectos
+
+        #region Ciudades
+        public async Task<Response<List<TB_Ciudad>>> GetCiudades(bool? Activo)
+        {
+            var response = await _empleadoBusiness.GetCiudades(Activo);
+            return new Response<List<TB_Ciudad>> { Data = _map.Map<List<TB_Ciudad>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+        #endregion Ciudades
     }
 }
 

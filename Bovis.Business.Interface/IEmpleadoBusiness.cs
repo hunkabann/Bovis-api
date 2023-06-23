@@ -21,6 +21,10 @@ namespace Bovis.Business.Interface
         #region Proyectos
         Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado);
         #endregion Proyectos
+
+        #region Ciudades
+        Task<List<TB_Ciudad>> GetCiudades(bool? Activo);
+        #endregion Ciudades
     }
 
 }

@@ -427,5 +427,18 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<Proyecto_Detalle>();
         }
         #endregion Proyectos
+
+        #region Ciudades
+        public async Task<List<TB_Ciudad>> GetCiudades(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from ciudad in db.tB_Ciudads
+                                                                          where ciudad.Activo == activo
+                                                                          select ciudad).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Ciudad>();
+        }
+        #endregion Ciudades
     }
 }
