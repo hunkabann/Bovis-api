@@ -48,14 +48,16 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
             var query = await _personaQueryService.AddRegistro(registro);
-            return Ok(query);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
 
         [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
             var query = await _personaQueryService.UpdateRegistro(registro);
-            return Ok(query);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
         #endregion Personas
 

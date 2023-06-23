@@ -72,8 +72,7 @@ public class RequerimientoController : ControllerBase
     public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
     {
         var query = await _requerimientoQueryService.UpdateRegistro(registro);
-        if (query.Message == string.Empty) return Ok(query);
-        else return BadRequest(query.Message);
+        return Ok(query);
     }
 
     [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
