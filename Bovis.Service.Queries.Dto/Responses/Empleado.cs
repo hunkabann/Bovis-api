@@ -34,9 +34,9 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string chhabilidades { get; set; }
         public string churl_repositorio { get; set; }
         public decimal nusalario { get; set; }
-        public string chprofesion { get; set; }
+        public int nukidprofesion { get; set; }
         public int nuantiguedad { get; set; }
-        public string chturno { get; set; }
+        public int nukidturno { get; set; }
         public int nuunidad_medica { get; set; }
         public string chregistro_patronal { get; set; }
         public string chcotizacion { get; set; }

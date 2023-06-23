@@ -65,11 +65,15 @@ namespace Bovis.Data
                                                                           from unidadItem in unidadJoin.DefaultIfEmpty()
                                                                           join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
                                                                           from contrato_satItem in contrato_satJoin.DefaultIfEmpty()
+                                                                          join profesion in db.tB_Cat_Profesiones on emp.IdProfesion equals profesion.IdProfesion into profesionJoin
+                                                                          from profesionItem in profesionJoin.DefaultIfEmpty()
+                                                                          join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
+                                                                          from turnoItem in turnoJoin.DefaultIfEmpty()
                                                                           where emp.Activo == activo
                                                                           select new Empleado_Detalle
                                                                           {
                                                                               nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
-                                                                              nukidpersona = emp.IdPersona,                                                                              
+                                                                              nukidpersona = emp.IdPersona,
                                                                               nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
                                                                               nukidtipo_empleado = emp.IdTipoEmpleado,
                                                                               chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
@@ -108,9 +112,11 @@ namespace Bovis.Data
                                                                               chhabilidades = emp.Habilidades,
                                                                               churl_repositorio = emp.UrlRepositorio,
                                                                               nusalario = emp.Salario,
-                                                                              chprofesion = emp.Profesion,
+                                                                              nukidprofesion = emp.IdProfesion,
+                                                                              chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
                                                                               nuantiguedad = emp.Antiguedad,
-                                                                              chturno = emp.Turno,
+                                                                              nukidturno = emp.IdTurno,
+                                                                              chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
                                                                               nuunidad_medica = emp.UnidadMedica,
                                                                               chregistro_patronal = emp.RegistroPatronal,
                                                                               chcotizacion = emp.Cotizacion,
@@ -162,6 +168,10 @@ namespace Bovis.Data
                                  from unidadItem in unidadJoin.DefaultIfEmpty()
                                  join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
                                  from contrato_satItem in contrato_satJoin.DefaultIfEmpty()
+                                 join profesion in db.tB_Cat_Profesiones on emp.IdProfesion equals profesion.IdProfesion into profesionJoin
+                                 from profesionItem in profesionJoin.DefaultIfEmpty()
+                                 join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
+                                 from turnoItem in turnoJoin.DefaultIfEmpty()
                                  where emp.NumEmpleadoRrHh == idEmpleado
                                  select new Empleado_Detalle
                                  {
@@ -205,9 +215,11 @@ namespace Bovis.Data
                                      chhabilidades = emp.Habilidades,
                                      churl_repositorio = emp.UrlRepositorio,
                                      nusalario = emp.Salario,
-                                     chprofesion = emp.Profesion,
+                                     nukidprofesion = emp.IdProfesion,
+                                     chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
                                      nuantiguedad = emp.Antiguedad,
-                                     chturno = emp.Turno,
+                                     nukidturno = emp.IdTurno,
+                                     chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
                                      nuunidad_medica = emp.UnidadMedica,
                                      chregistro_patronal = emp.RegistroPatronal,
                                      chcotizacion = emp.Cotizacion,
@@ -252,21 +264,21 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_persona = Convert.ToInt32(registro["persona"].ToString());
-            int id_tipo_empleado = Convert.ToInt32(registro["tipo_empleado"].ToString());
-            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
-            int id_tipo_contrato = Convert.ToInt32(registro["tipo_contrato"].ToString());
+            int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
+            int id_tipo_empleado = Convert.ToInt32(registro["id_tipo_empleado"].ToString());
+            int id_categoria = Convert.ToInt32(registro["id_categoria"].ToString());
+            int id_tipo_contrato = Convert.ToInt32(registro["id_tipo_contrato"].ToString());
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
-            int id_empresa = Convert.ToInt32(registro["empresa"].ToString());
-            int id_ciudad = Convert.ToInt32(registro["ciudad"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["nivel_estudios"].ToString());
-            int id_forma_pago = Convert.ToInt32(registro["forma_pago"].ToString());
-            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            int id_departamento = Convert.ToInt32(registro["departamento"].ToString());
-            int id_clasificacion = Convert.ToInt32(registro["clasificacion"].ToString());
-            int id_jefe_directo = Convert.ToInt32(registro["jefe_directo"].ToString());
-            int id_unidad_negocio = Convert.ToInt32(registro["unidad_negocio"].ToString());
-            int id_tipo_contrato_sat = Convert.ToInt32(registro["tipo_contrato_sat"].ToString());
+            int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
+            int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
+            int id_nivel_estudios = Convert.ToInt32(registro["id_nivel_estudios"].ToString());
+            int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
+            int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
+            int id_departamento = Convert.ToInt32(registro["id_departamento"].ToString());
+            int id_clasificacion = Convert.ToInt32(registro["id_clasificacion"].ToString());
+            int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
+            int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
+            int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
             int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime fecha_salida = Convert.ToDateTime(registro["fecha_salida"].ToString());
@@ -275,9 +287,9 @@ namespace Bovis.Data
             string email_bovis = registro["email_bovis"].ToString();
             string url_repo = registro["url_repo"].ToString();
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
-            string profesion = registro["profesion"].ToString();
-            int antiguedad = Convert.ToInt32(registro["antiguedad"].ToString());
-            string turno = registro["turno"].ToString();
+            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
+            int antiguedad = Convert.ToInt32(registro["id_antiguedad"].ToString());
+            int id_turno = Convert.ToInt32(registro["id_turno"].ToString());
             int unidad_medica = Convert.ToInt32(registro["unidad_medica"].ToString());
             string registro_patronal = registro["registro_patronal"].ToString();
             string cotizacion = registro["cotizacion"].ToString();
@@ -319,14 +331,13 @@ namespace Bovis.Data
                     .Value(x => x.EmailBovis, email_bovis)
                     .Value(x => x.UrlRepositorio, url_repo)
                     .Value(x => x.Salario, salario)
-                    .Value(x => x.Profesion, profesion)
+                    .Value(x => x.IdProfesion, id_profesion)
                     .Value(x => x.Antiguedad, antiguedad)
-                    .Value(x => x.Turno, turno)
+                    .Value(x => x.IdTurno, id_turno)
                     .Value(x => x.UnidadMedica, unidad_medica)
                     .Value(x => x.RegistroPatronal, registro_patronal)
                     .Value(x => x.Cotizacion, cotizacion)
                     .Value(x => x.Duracion, duracion)
-                    .Value(x => x.Activo, true)
                     .Value(x => x.DescuentoPension, descuento_pension)
                     .Value(x => x.PorcentajePension, porcentaje_pension)
                     .Value(x => x.FondoFijo, fondo_fijo)
@@ -335,6 +346,7 @@ namespace Bovis.Data
                     .Value(x => x.ValorDescuento, valor_descuento)
                     .Value(x => x.NoEmpleadoNoi, no_empleado_noi)
                     .Value(x => x.Rol, rol)
+                    .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
                 resp.Success = insert_empleado;
@@ -353,6 +365,7 @@ namespace Bovis.Data
                     var insert_habilidad = await db.tB_Empleado_Habilidades
                         .Value(x => x.IdEmpleado, last_inserted_id)
                         .Value(x => x.IdHabilidad, id_habilidad)
+
                         .InsertAsync() > 0;
 
                     resp.Success = insert_habilidad;

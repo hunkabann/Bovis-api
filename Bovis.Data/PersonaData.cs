@@ -134,6 +134,17 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res = await (from per in db.tB_Personas
+                                 where per.Rfc == rfc
+                                 select per).FirstOrDefaultAsync();
+
+                if (res != null)
+                {
+                    resp.Success = true;
+                    resp.Message = String.Format("Ya existe un registro de {0}, con RFC: {1}", nombre + " " + apellido_paterno + " " + apellido_materno, rfc);
+                    return resp;
+                }
+
                 var insert_empleado = await db.tB_Personas
                     .Value(x => x.IdEdoCivil, id_edo_civil)
                     .Value(x => x.IdTipoSangre, id_tipo_sangre)

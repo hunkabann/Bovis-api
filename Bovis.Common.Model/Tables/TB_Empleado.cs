@@ -31,9 +31,9 @@ namespace Bovis.Common.Model.Tables
 		[Column("Chhabilidades"), Nullable] public string Habilidades { get; set; }
 		[Column("Churl_repositorio"), Nullable] public string UrlRepositorio { get; set; }
 		[Column("Nusalario"), NotNull] public decimal Salario { get; set; }
-		[Column("Chprofesion"), NotNull] public string Profesion { get; set; }
+		[Column("Nukidprofesion"), NotNull] public int IdProfesion { get; set; }
 		[Column("Nuantiguedad"), NotNull] public short Antiguedad { get; set; }
-		[Column("Chturno"), NotNull] public string Turno { get; set; }
+		[Column("Nukidturno"), NotNull] public int IdTurno { get; set; }
 		[Column("Nuunidad_medica"), Nullable] public byte UnidadMedica { get; set; }
 		[Column("Chregistro_patronal"), Nullable] public string RegistroPatronal { get; set; }
 		[Column("Chcotizacion"), Nullable] public string Cotizacion { get; set; }
