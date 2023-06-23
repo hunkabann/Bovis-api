@@ -65,14 +65,16 @@ public class RequerimientoController : ControllerBase
     public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
     {
         var query = await _requerimientoQueryService.AddRegistro(registro);
-        return Ok(query);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
     }
 
     [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
     {
         var query = await _requerimientoQueryService.UpdateRegistro(registro);
-        return Ok(query);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
     }
 
     [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
@@ -80,7 +82,7 @@ public class RequerimientoController : ControllerBase
     {
         var query = await _requerimientoQueryService.DeleteRequerimiento(idRequerimiento);
         if (query.Message == string.Empty) return Ok(query);
-        return Ok(query);
+        else return BadRequest(query.Message);
     }
     #endregion Registros
 }

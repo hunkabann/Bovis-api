@@ -89,7 +89,7 @@ namespace Bovis.API.Controllers
         {
             var query = await _timesheetQueryService.DeleteTimeSheet(idTimeSheet);
             if (query.Message == string.Empty) return Ok(query);
-            return Ok(query);
+            else return BadRequest(query.Message);
         }
         #endregion TimeSheets
     }

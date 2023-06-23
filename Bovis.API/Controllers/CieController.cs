@@ -77,14 +77,16 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> AddRegistros([FromBody] JsonObject registros)
         {
             var query = await _cieQueryService.AddRegistros(registros);
-            return Ok(query);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
 
         [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
             var query = await _cieQueryService.UpdateRegistro(registro);
-            return Ok(query);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
 
         [HttpDelete, Route("Registro/Borrar/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")
@@ -92,7 +94,7 @@ namespace Bovis.API.Controllers
         {
             var query = await _cieQueryService.DeleteRegistro(idRegistro);
             if (query.Message == string.Empty) return Ok(query);
-            return Ok(query);
+            else return BadRequest(query.Message);
         }
         #endregion Registros
     }
