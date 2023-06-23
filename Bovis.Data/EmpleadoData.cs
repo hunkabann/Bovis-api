@@ -295,7 +295,7 @@ namespace Bovis.Data
             string registro_patronal = registro["registro_patronal"].ToString();
             string cotizacion = registro["cotizacion"].ToString();
             int duracion = Convert.ToInt32(registro["duracion"].ToString());
-            bool descuento_pension = Convert.ToBoolean(registro["decuento_pension"].ToString());
+            bool descuento_pension = Convert.ToBoolean(registro["descuento_pension"].ToString());
             decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
             decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
             int credito_infonavit = Convert.ToInt32(registro["credito_infonavit"].ToString());
@@ -425,7 +425,7 @@ namespace Bovis.Data
             string registro_patronal = registro["registro_patronal"].ToString();
             string cotizacion = registro["cotizacion"].ToString();
             int duracion = Convert.ToInt32(registro["duracion"].ToString());
-            bool descuento_pension = Convert.ToBoolean(registro["decuento_pension"].ToString());
+            bool descuento_pension = Convert.ToBoolean(registro["descuento_pension"].ToString());
             decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
             decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
             int credito_infonavit = Convert.ToInt32(registro["credito_infonavit"].ToString());
