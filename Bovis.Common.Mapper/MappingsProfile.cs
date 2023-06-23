@@ -369,6 +369,11 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoSangre))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
+        CreateMap<TB_Cat_Turno, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTurno))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Turno))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
         CreateMap<TB_Cat_UnidadNegocio, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdUnidadNegocio))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.UnidadNegocio))

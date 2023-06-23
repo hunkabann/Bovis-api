@@ -2008,10 +2008,61 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region UnidadNegocio
-	[HttpGet, Route("UnidadNegocio/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    #region Turno
+    [HttpGet, Route("Turno/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Turno(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetTurno(Activo);
+        return Ok(query);
+    }
+
+    [HttpPut, Route("Turno/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Addturno(AgregarTurnoCommand Turno)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Turno);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Turno/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteTurno(EliminarTurnoCommand Turno)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Turno);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Turno/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateTurnoSangre(ActualizarTurnoCommand Turno)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        Turno.Nombre = claimJWTModel.nombre;
+        Turno.Usuario = claimJWTModel.correo;
+        Turno.Roles = claimJWTModel.roles;
+        Turno.TransactionId = claimJWTModel.transactionId;
+        Turno.Rel = 32;
+        var response = await _mediator.Send(Turno);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+
+    #endregion Turno
+
+    #region UnidadNegocio
+    [HttpGet, Route("UnidadNegocio/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> UnidadNegocio(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetUnidadNegocio(Activo);

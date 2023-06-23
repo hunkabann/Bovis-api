@@ -1170,11 +1170,40 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Unidad Negocio
+        #region Turno
+        public async Task<List<TB_Cat_Turno>> GetTurno(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from turno in db.tB_Cat_Turnos
+                                                                          where turno.Activo == activo
+                                                                          select turno).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Cat_Turno>();
+        }
 
-		public async Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? activo)
+        public Task<bool> AddTurno(TB_Cat_Turno Turno) => InsertEntityIdAsync<TB_Cat_Turno>(Turno);
+
+        public Task<bool> UpdateTurno(TB_Cat_Turno Turno) => UpdateEntityAsync<TB_Cat_Turno>(Turno);
+
+        public async Task<bool> DeleteTurno(TB_Cat_Turno Turno)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Cat_Turnos
+                       .Where(x => x.IdTurno == Turno.IdTurno)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Turno
+
+        #region Unidad Negocio
+
+        public async Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? activo)
 		{
 			if (activo.HasValue)
 			{

@@ -252,7 +252,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetUnidadNegocio(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetTurno(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetTurno(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetUnidadNegocio(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetUnidadNegocio(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };

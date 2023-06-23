@@ -345,11 +345,19 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateTipoSangre(InsertMovApi MovAPI, TB_Cat_TipoSangre tipoSangre);
 		Task<(bool Success, string Message)> DeleteTipoSangre(TB_Cat_TipoSangre tipoSangre);
 
-		#endregion
+        #endregion
 
-		#region Unidad Negocio
+        #region Turno
+        Task<List<TB_Cat_Turno>> GetTurno(bool? activo);
+        Task<(bool Success, string Message)> AddTurno(TB_Cat_Turno Turno);
+        Task<(bool Success, string Message)> UpdateTurno(InsertMovApi MovAPI, TB_Cat_Turno Turno);
+        Task<(bool Success, string Message)> DeleteTurno(TB_Cat_Turno Turno);
 
-		Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? activo);
+        #endregion Turno
+
+        #region Unidad Negocio
+
+        Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? activo);
 		Task<(bool Success, string Message)> AddUnidadNegocio(TB_Cat_UnidadNegocio unidadNegocio);
 		Task<(bool Success, string Message)> UpdateUnidadNegocio(InsertMovApi MovAPI, TB_Cat_UnidadNegocio unidadNegocio);
 		Task<(bool Success, string Message)> DeleteUnidadNegocio(TB_Cat_UnidadNegocio unidadNegocio);

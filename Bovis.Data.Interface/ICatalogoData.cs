@@ -347,11 +347,19 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateTipoSangre(TB_Cat_TipoSangre tipoSangre);
 		Task<bool> DeleteTipoSangre(TB_Cat_TipoSangre tipoSangre);
 
-		#endregion
+        #endregion
 
-		#region Unidad Negocio
+        #region Turno
+        Task<List<TB_Cat_Turno>> GetTurno(bool? activo);
+        Task<bool> AddTurno(TB_Cat_Turno Turno);
+        Task<bool> UpdateTurno(TB_Cat_Turno Turno);
+        Task<bool> DeleteTurno(TB_Cat_Turno Turno);
 
-		Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? activo);
+        #endregion Turno
+
+        #region Unidad Negocio
+
+        Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? activo);
 		Task<bool> AddUnidadNegocio(TB_Cat_UnidadNegocio unidadNegocio);
 		Task<bool> UpdateUnidadNegocio(TB_Cat_UnidadNegocio unidadNegocio);
 		Task<bool> DeleteUnidadNegocio(TB_Cat_UnidadNegocio unidadNegocio);

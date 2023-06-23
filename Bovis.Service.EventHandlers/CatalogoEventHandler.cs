@@ -2457,6 +2457,69 @@ public class ActualizaTipoSangreEventHandler : IRequestHandler<ActualizarTipoSan
 
 #endregion
 
+#region Turno
+
+public class AgregaTurnoEventHandler : IRequestHandler<AgregarTurnoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaTurnoEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarTurnoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddTurno(new TB_Cat_Turno { Activo = true, Turno = request.descripcion });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaTurnoEventHandler : IRequestHandler<EliminarTurnoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaTurnoEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarTurnoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteTurno(new TB_Cat_Turno { IdTurno = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaTurnoEventHandler : IRequestHandler<ActualizarTurnoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaTurnoEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarTurnoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateTurno(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Turno { Turno = request.descripcion, IdTurno = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+#endregion
+
 #region Unidad Negocio
 
 public class AgregaUnidadNegocioEventHandler : IRequestHandler<AgregarUnidadNegocioCommand, Response<bool>>

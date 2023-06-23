@@ -83,7 +83,9 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetTipoSangre(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetUnidadNegocio(bool? Activo);
+    Task<Response<List<Catalogo>>> GetTurno(bool? Activo);
+
+    Task<Response<List<Catalogo>>> GetUnidadNegocio(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetViatico(bool? Activo);
 

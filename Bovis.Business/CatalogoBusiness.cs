@@ -1175,11 +1175,40 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region UnidadNegocio
+        #region Turno
+        public Task<List<TB_Cat_Turno>> GetTurno(bool? Activo) => _catalogoData.GetTurno(Activo);
+        public async Task<(bool Success, string Message)> AddTurno(TB_Cat_Turno Turno)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddTurno(Turno);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del catálogo a la base de datos"; return resp; }
+            return resp;
+        }
 
-		public Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? Actio) => _catalogoData.GetUnidadNegocio(Actio);
+        public async Task<(bool Success, string Message)> DeleteTurno(TB_Cat_Turno Turno)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteTurno(Turno);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo eliminar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateTurno(InsertMovApi MovAPI, TB_Cat_Turno Turno)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateTurno(Turno);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo actualizar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(Turno) });
+            return resp;
+        }
+
+        #endregion Turno
+
+        #region UnidadNegocio
+
+        public Task<List<TB_Cat_UnidadNegocio>> GetUnidadNegocio(bool? Actio) => _catalogoData.GetUnidadNegocio(Actio);
 		public async Task<(bool Success, string Message)> AddUnidadNegocio(TB_Cat_UnidadNegocio unidadNegocio)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
