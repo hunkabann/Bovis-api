@@ -57,6 +57,13 @@ namespace Bovis.API.Controllers
             var query = await _empleadoQueryService.AddRegistro(registro);
             return Ok(query);
         }
+
+        [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
+        {
+            var query = await _empleadoQueryService.UpdateRegistro(registro);
+            return Ok(query);
+        }
         #endregion Empleados
 
         #region Proyectos

@@ -11,6 +11,7 @@ namespace Bovis.Data.Interface
         Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
         Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
+        Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         #endregion Empleados
 
         #region Proyectos

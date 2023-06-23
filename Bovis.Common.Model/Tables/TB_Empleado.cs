@@ -32,12 +32,12 @@ namespace Bovis.Common.Model.Tables
 		[Column("Churl_repositorio"), Nullable] public string UrlRepositorio { get; set; }
 		[Column("Nusalario"), NotNull] public decimal Salario { get; set; }
 		[Column("Nukidprofesion"), NotNull] public int IdProfesion { get; set; }
-		[Column("Nuantiguedad"), NotNull] public short Antiguedad { get; set; }
+		[Column("Nuantiguedad"), NotNull] public int Antiguedad { get; set; }
 		[Column("Nukidturno"), NotNull] public int IdTurno { get; set; }
-		[Column("Nuunidad_medica"), Nullable] public byte UnidadMedica { get; set; }
+		[Column("Nuunidad_medica"), Nullable] public int UnidadMedica { get; set; }
 		[Column("Chregistro_patronal"), Nullable] public string RegistroPatronal { get; set; }
 		[Column("Chcotizacion"), Nullable] public string Cotizacion { get; set; }
-		[Column("Nuduracion"), NotNull] public short Duracion { get; set; }
+		[Column("Nuduracion"), NotNull] public int Duracion { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
 		[Column("Bodescuento_pension"), NotNull] public bool DescuentoPension { get; set; }
 		[Column("Nuporcentaje_pension"), Nullable] public decimal PorcentajePension { get; set; }

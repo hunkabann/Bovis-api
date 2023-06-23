@@ -387,6 +387,233 @@ namespace Bovis.Data
             }
             return resp;
         }
+
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
+            int id_tipo_empleado = Convert.ToInt32(registro["id_tipo_empleado"].ToString());
+            int id_categoria = Convert.ToInt32(registro["id_categoria"].ToString());
+            int id_tipo_contrato = Convert.ToInt32(registro["id_tipo_contrato"].ToString());
+            int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
+            int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
+            int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
+            int id_nivel_estudios = Convert.ToInt32(registro["id_nivel_estudios"].ToString());
+            int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
+            int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
+            int id_departamento = Convert.ToInt32(registro["id_departamento"].ToString());
+            int id_clasificacion = Convert.ToInt32(registro["id_clasificacion"].ToString());
+            int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
+            int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
+            int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
+            DateTime fecha_salida = Convert.ToDateTime(registro["fecha_salida"].ToString());
+            DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
+            int nss = Convert.ToInt32(registro["nss"].ToString());
+            string email_bovis = registro["email_bovis"].ToString();
+            string url_repo = registro["url_repo"].ToString();
+            decimal salario = Convert.ToDecimal(registro["salario"].ToString());
+            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
+            int antiguedad = Convert.ToInt32(registro["id_antiguedad"].ToString());
+            int id_turno = Convert.ToInt32(registro["id_turno"].ToString());
+            int unidad_medica = Convert.ToInt32(registro["unidad_medica"].ToString());
+            string registro_patronal = registro["registro_patronal"].ToString();
+            string cotizacion = registro["cotizacion"].ToString();
+            int duracion = Convert.ToInt32(registro["duracion"].ToString());
+            bool descuento_pension = Convert.ToBoolean(registro["decuento_pension"].ToString());
+            decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
+            decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
+            int credito_infonavit = Convert.ToInt32(registro["credito_infonavit"].ToString());
+            string tipo_descuento = registro["tipo_descuento"].ToString();
+            decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
+            int no_empleado_noi = Convert.ToInt32(registro["no_empleado_noi"].ToString());
+            string rol = registro["rol"].ToString();
+            int index = 0;
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_empleado = await db.tB_Empleados.Where(x => x.NumEmpleadoRrHh == id_empleado)
+                    .UpdateAsync(x => new TB_Empleado
+                    {
+                        IdPersona = id_persona,
+                        IdTipoEmpleado = id_tipo_empleado,
+                        IdCategoria = id_categoria,
+                        IdTipoContrato = id_tipo_contrato,
+                        CvePuesto = cve_puesto,
+                        IdEmpresa = id_empresa,
+                        IdCiudad = id_ciudad,
+                        IdNivelEstudios = id_nivel_estudios,
+                        IdFormaPago = id_forma_pago,
+                        IdJornada = id_jornada,
+                        IdDepartamento = id_departamento,
+                        IdClasificacion = id_clasificacion,
+                        IdJefeDirecto = id_jefe_directo,
+                        IdUnidadNegocio = id_unidad_negocio,
+                        IdTipoContrato_sat = id_tipo_contrato_sat,
+                        NumEmpleado = num_empleado,
+                        FechaIngreso = fecha_ingreso,
+                        FechaSalida = fecha_salida,
+                        FechaUltimoReingreso = fecha_ultimo_reingreso,
+                        Nss = nss,
+                        EmailBovis = email_bovis,
+                        UrlRepositorio = url_repo,
+                        Salario = salario,
+                        IdProfesion = id_profesion,
+                        Antiguedad = antiguedad,
+                        IdTurno = id_turno,
+                        UnidadMedica = unidad_medica,
+                        RegistroPatronal = registro_patronal,
+                        Cotizacion = cotizacion,
+                        Duracion = duracion,
+                        DescuentoPension = descuento_pension,
+                        PorcentajePension = porcentaje_pension,
+                        FondoFijo = fondo_fijo,
+                        CreditoInfonavit = credito_infonavit,
+                        TipoDescuento = tipo_descuento,
+                        ValorDescuento = valor_descuento,
+                        NoEmpleadoNoi = no_empleado_noi,
+                        Rol = rol
+                    }) > 0;
+
+                resp.Success = res_update_empleado;
+                resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+
+                var res_empleado_habilidades = await (from emp_hab in db.tB_Empleado_Habilidades
+                                                           where emp_hab.IdEmpleado == id_empleado
+                                                           select emp_hab).ToListAsync();
+
+                int[] ids_habilidades_db = new int[res_empleado_habilidades.Count()];
+                index = 0;
+                foreach (var r in res_empleado_habilidades)
+                {
+                    ids_habilidades_db[index] = r.IdHabilidad;
+                    index++;
+                }
+                int[] ids_habilidades_request = new int[registro["habilidades"].AsArray().Count()];
+                index = 0;
+                foreach (var r in registro["habilidades"].AsArray())
+                {
+                    ids_habilidades_request[index] = Convert.ToInt32(r.ToString());
+                    index++;
+                }
+                HashSet<int> ids_habilidades = new HashSet<int>(ids_habilidades_db.Concat(ids_habilidades_request));
+
+                foreach (int id in ids_habilidades)
+                {
+                    if (ids_habilidades_db.Contains(id))
+                    {
+                        if (ids_habilidades_request.Contains(id))
+                        {
+                            // Se actualiza
+                            var res_update_empleado_habilidad = await db.tB_Empleado_Habilidades.Where(x => x.IdHabilidad == id && x.IdEmpleado == id_empleado)
+                                .UpdateAsync(x => new TB_Empleado_Habilidad
+                                {
+                                    IdHabilidad = id,
+                                    Activo = true
+                                }) > 0;
+
+                            resp.Success = res_update_empleado_habilidad;
+                            resp.Message = res_update_empleado_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                        else
+                        {
+                            // Se elimina
+                            var res_delete_empleado_habilidad = await (db.tB_Empleado_Habilidades
+                               .Where(x => x.IdHabilidad == id && x.IdEmpleado == id_empleado)
+                               .Set(x => x.Activo, false))
+                               .UpdateAsync() >= 0;
+
+                            resp.Success = res_delete_empleado_habilidad;
+                            resp.Message = res_delete_empleado_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        // Se agrega
+                        var res_insert_empleado_habilidad = await db.tB_Empleado_Habilidades
+                        .Value(x => x.IdEmpleado, id_empleado)
+                        .Value(x => x.IdHabilidad, id)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_empleado_habilidad;
+                        resp.Message = res_insert_empleado_habilidad == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    }
+                    Console.WriteLine();
+                }
+
+                var res_empleado_experiencias = await (from emp_exp in db.tB_Empleado_Experiencias
+                                                            where emp_exp.IdEmpleado == id_empleado
+                                                            select emp_exp)
+                                                           .ToListAsync();
+
+                int[] ids_experiencias_db = new int[res_empleado_experiencias.Count()];
+                index = 0;
+                foreach (var r in res_empleado_experiencias)
+                {
+                    ids_experiencias_db[index] = r.IdExperiencia;
+                    index++;
+                }
+                int[] ids_experiencias_request = new int[registro["experiencias"].AsArray().Count()];
+                index = 0;
+                foreach (var r in registro["experiencias"].AsArray())
+                {
+                    ids_experiencias_request[index] = Convert.ToInt32(r.ToString());
+                    index++;
+                }
+                HashSet<int> ids_experiencias = new HashSet<int>(ids_experiencias_db.Concat(ids_experiencias_request));
+
+                foreach (int id in ids_experiencias)
+                {
+                    if (ids_experiencias_db.Contains(id))
+                    {
+                        if (ids_experiencias_request.Contains(id))
+                        {
+                            // Se actualiza
+                            var res_update_empleado_experiencia = await db.tB_Empleado_Experiencias.Where(x => x.IdExperiencia == id && x.IdEmpleado == id_empleado)
+                                .UpdateAsync(x => new TB_Empleado_Experiencia
+                                {
+                                    IdExperiencia = id,
+                                    Activo = true
+                                }) > 0;
+
+                            resp.Success = res_update_empleado_experiencia;
+                            resp.Message = res_update_empleado_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                        else
+                        {
+                            // Se elimina
+                            var res_delete_empleado_experiencia = await (db.tB_Empleado_Experiencias
+                               .Where(x => x.IdExperiencia == id && x.IdEmpleado == id_empleado)
+                               .Set(x => x.Activo, false))
+                               .UpdateAsync() >= 0;
+
+                            resp.Success = res_delete_empleado_experiencia;
+                            resp.Message = res_delete_empleado_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        }
+                    }
+                    else
+                    {
+                        // Se agrega
+                        var res_insert_empleado_experiencia = await db.tB_Empleado_Experiencias
+                        .Value(x => x.IdEmpleado, id_empleado)
+                        .Value(x => x.IdExperiencia, id)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_empleado_experiencia;
+                        resp.Message = res_insert_empleado_experiencia == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    }
+                    Console.WriteLine();
+                }
+            }
+            return resp;
+        }
         #endregion Empleados
 
         #region Proyectos
