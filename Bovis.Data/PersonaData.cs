@@ -120,7 +120,7 @@ namespace Bovis.Data
 
             string nombre = registro["nombre"].ToString();
             string apellido_paterno = registro["apellido_paterno"].ToString();
-            string apellido_materno = registro["apellido_materno"].ToString();
+            string apellido_materno = registro["apellido_materno"] != null ? registro["apellido_materno"].ToString() : string.Empty;
             int id_edo_civil = Convert.ToInt32(registro["id_edo_civil"].ToString());
             DateTime fecha_nacimiento = Convert.ToDateTime(registro["fecha_nacimiento"].ToString());
             int id_tipo_sangre = Convert.ToInt32(registro["id_tipo_sangre"].ToString());
@@ -177,7 +177,7 @@ namespace Bovis.Data
             int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
             string nombre = registro["nombre"].ToString();
             string apellido_paterno = registro["apellido_paterno"].ToString();
-            string apellido_materno = registro["apellido_materno"].ToString();
+            string apellido_materno = registro["apellido_materno"] != null ? registro["apellido_materno"].ToString() : string.Empty;
             int id_edo_civil = Convert.ToInt32(registro["id_edo_civil"].ToString());
             DateTime fecha_nacimiento = Convert.ToDateTime(registro["fecha_nacimiento"].ToString());
             int id_tipo_sangre = Convert.ToInt32(registro["id_tipo_sangre"].ToString());
