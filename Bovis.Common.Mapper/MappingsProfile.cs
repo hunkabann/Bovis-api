@@ -241,7 +241,7 @@ public class MappingsProfile : Profile
 
         CreateMap<TB_Cat_Jornada, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdJornada))
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Descripcion))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Jornada))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Modena, Catalogo>()

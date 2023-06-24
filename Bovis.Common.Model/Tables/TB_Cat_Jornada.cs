@@ -7,8 +7,6 @@ namespace Bovis.Common.Model.Tables
 	{
 		[Column("Nukidjornada"), NotNull, PrimaryKey, Identity] public int IdJornada { get; set; }
 		[Column("Chjornada"), NotNull] public string Jornada { get; set; }
-		[Column("Chdescripcion_jornada"), NotNull] public string Descripcion { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
-		[Column("Chcve_jornada"), Nullable] public byte? Cve { get; set; }
 	}
 }
