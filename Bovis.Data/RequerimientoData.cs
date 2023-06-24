@@ -68,6 +68,7 @@ namespace Bovis.Data
                                                     join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion
                                                     join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada
                                                     where req.Activo == activo
+                                                    orderby req.IdRequerimiento descending
                                                     select new Requerimiento_Detalle
                                                     {
                                                         nukidrequerimiento = req.IdRequerimiento,

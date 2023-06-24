@@ -158,6 +158,7 @@ namespace Bovis.Data
                 {
                     var res_timesheets = await (from ts in db.tB_Timesheets
                                                 where ts.Activo == activo
+                                                orderby ts.IdTimesheet descending
                                                 select ts).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
@@ -211,6 +212,7 @@ namespace Bovis.Data
                                                 join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                                 where ts.IdEmpleado == idEmpleado
                                                 && ts.Activo == true
+                                                orderby ts.IdTimesheet descending
                                                 select new TimeSheet_Detalle
                                                 {
                                                     id = ts.IdTimesheet,
@@ -267,6 +269,7 @@ namespace Bovis.Data
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
+                                                orderby ts.IdTimesheet descending
                                                 select new TimeSheet_Detalle
                                                 {
                                                     id = ts.IdTimesheet,
