@@ -431,7 +431,7 @@ namespace Bovis.Data
             string url_repo = registro["url_repo"].ToString();
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
             int id_profesion = Convert.ToInt32(registro["id_profesion"].ToString());
-            int antiguedad = Convert.ToInt32(registro["id_antiguedad"].ToString());
+            int antiguedad = Convert.ToInt32(registro["antiguedad"].ToString());
             int id_turno = Convert.ToInt32(registro["id_turno"].ToString());
             int unidad_medica = Convert.ToInt32(registro["unidad_medica"].ToString());
             string registro_patronal = registro["registro_patronal"].ToString();
