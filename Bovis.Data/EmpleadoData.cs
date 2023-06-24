@@ -236,6 +236,16 @@ namespace Bovis.Data
                                      chrol = emp.Rol
                                  }).FirstOrDefaultAsync();
 
+                res.experiencias = await (from exp in db.tB_Empleado_Experiencias
+                                                    where exp.IdEmpleado == idEmpleado
+                                                    && exp.Activo == true
+                                                    select exp).ToListAsync();
+
+                res.habilidades = await (from hab in db.tB_Empleado_Habilidades
+                                                   where hab.IdEmpleado == idEmpleado
+                                                   && hab.Activo == true
+                                                   select hab).ToListAsync();
+
                 return res;
 
             }

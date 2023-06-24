@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bovis.Common.Model.Tables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,6 +67,8 @@ namespace Bovis.Common.Model.NoTable
         public decimal nuvalor_descuento { get; set; }
         public int nuno_empleado_noi { get; set; }
         public string chrol { get; set; }
+        public List<TB_Empleado_Experiencia> experiencias { get; set; }
+        public List<TB_Empleado_Habilidad> habilidades { get; set; }
     }
 
     public class Empleado_BasicData
