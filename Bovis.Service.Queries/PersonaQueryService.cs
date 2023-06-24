@@ -58,6 +58,12 @@ namespace Bovis.Service.Queries
             var response = await _personaBusiness.UpdateRegistro(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
+
+        public async Task<Response<(bool Success, string Message)>> UpdateEstatus(JsonObject registro)
+        {
+            var response = await _personaBusiness.UpdateEstatus(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
         #endregion Personas
 
     }

@@ -16,6 +16,7 @@ namespace Bovis.Business.Interface
         Task<Persona_Detalle> GetPersona(int idPersona);
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
+        Task<(bool Success, string Message)> UpdateEstatus(JsonObject registro);
         #endregion Personas
     }
 
