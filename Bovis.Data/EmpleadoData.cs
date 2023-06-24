@@ -306,6 +306,17 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res = await (from emp in db.tB_Empleados
+                                 where emp.NumEmpleadoRrHh == num_empleado_rr_hh
+                                 select emp).FirstOrDefaultAsync();
+
+                if (res != null)
+                {
+                    resp.Success = true;
+                    resp.Message = String.Format("Ya existe un registro de empleaco con el número RR HH: {0}", num_empleado_rr_hh);
+                    return resp;
+                }
+
                 int last_inserted_id = 0;
 
                 var insert_empleado = await db.tB_Empleados
