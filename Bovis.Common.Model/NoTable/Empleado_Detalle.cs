@@ -43,7 +43,7 @@ namespace Bovis.Common.Model.NoTable
         public DateTime dtfecha_ingreso { get; set; }
         public DateTime dtfecha_salida { get; set; }
         public DateTime dtfecha_ultimo_reingreso { get; set; }
-        public decimal chnss { get; set; }
+        public string chnss { get; set; }
         public string chemail_bovis { get; set; }
         public string chexperiencias { get; set; }
         public string chhabilidades { get; set; }
@@ -62,10 +62,10 @@ namespace Bovis.Common.Model.NoTable
         public bool bodescuento_pension { get; set; }
         public decimal nuporcentaje_pension { get; set; }
         public decimal nufondo_fijo { get; set; }
-        public int nucredito_infonavit { get; set; }
+        public string nucredito_infonavit { get; set; }
         public string chtipo_descuento { get; set; }
         public decimal nuvalor_descuento { get; set; }
-        public int nuno_empleado_noi { get; set; }
+        public string nuno_empleado_noi { get; set; }
         public string chrol { get; set; }
         public List<TB_Empleado_Experiencia> experiencias { get; set; }
         public List<TB_Empleado_Habilidad> habilidades { get; set; }

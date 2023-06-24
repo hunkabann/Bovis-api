@@ -25,7 +25,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Dtfecha_ingreso"), NotNull] public DateTime FechaIngreso { get; set; }
 		[Column("Dtfecha_salida"), Nullable] public DateTime FechaSalida { get; set; }
 		[Column("Dtfecha_ultimo_reingreso"), Nullable] public DateTime FechaUltimoReingreso { get; set; }
-		[Column("Chnss"), Nullable] public decimal Nss { get; set; }
+		[Column("Chnss"), Nullable] public string Nss { get; set; }
 		[Column("Chemail_bovis"), Nullable] public string EmailBovis { get; set; }
 		[Column("Chexperiencias"), Nullable] public string Experiencias { get; set; }
 		[Column("Chhabilidades"), Nullable] public string Habilidades { get; set; }
@@ -42,10 +42,10 @@ namespace Bovis.Common.Model.Tables
 		[Column("Bodescuento_pension"), NotNull] public bool DescuentoPension { get; set; }
 		[Column("Nuporcentaje_pension"), Nullable] public decimal PorcentajePension { get; set; }
 		[Column("Nufondo_fijo"), Nullable] public decimal FondoFijo { get; set; }
-		[Column("Nucredito_infonavit"), Nullable] public int CreditoInfonavit { get; set; }
+		[Column("Nucredito_infonavit"), Nullable] public string CreditoInfonavit { get; set; }
 		[Column("Chtipo_descuento"), Nullable] public string TipoDescuento { get; set; }
 		[Column("Nuvalor_descuento"), Nullable] public decimal ValorDescuento { get; set; }
-		[Column("Nuno_empleado_noi"), Nullable] public int NoEmpleadoNoi { get; set; }
+		[Column("Nuno_empleado_noi"), Nullable] public string NoEmpleadoNoi { get; set; }
 		[Column("Chrol"), Nullable] public string Rol { get; set; }
 	}
 }

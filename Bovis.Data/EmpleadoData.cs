@@ -295,7 +295,7 @@ namespace Bovis.Data
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime fecha_salida = Convert.ToDateTime(registro["fecha_salida"].ToString());
             DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
-            int nss = Convert.ToInt32(registro["nss"].ToString());
+            string nss = registro["nss"].ToString();
             string email_bovis = registro["email_bovis"].ToString();
             string url_repo = registro["url_repo"].ToString();
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
@@ -309,10 +309,10 @@ namespace Bovis.Data
             bool descuento_pension = Convert.ToBoolean(registro["descuento_pension"].ToString());
             decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
             decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
-            int credito_infonavit = Convert.ToInt32(registro["credito_infonavit"].ToString());
+            string credito_infonavit = registro["credito_infonavit"].ToString();
             string tipo_descuento = registro["tipo_descuento"].ToString();
             decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
-            int no_empleado_noi = Convert.ToInt32(registro["no_empleado_noi"].ToString());
+            string no_empleado_noi = registro["no_empleado_noi"].ToString();
             string rol = registro["rol"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
@@ -328,7 +328,7 @@ namespace Bovis.Data
                     return resp;
                 }
 
-                int last_inserted_id = 0;
+                int last_inserted_id = 0;                
 
                 var insert_empleado = await db.tB_Empleados
                     .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
@@ -344,9 +344,9 @@ namespace Bovis.Data
                     .Value(x => x.IdJornada, id_jornada)
                     .Value(x => x.IdDepartamento, id_departamento)
                     .Value(x => x.IdClasificacion, id_clasificacion)
-                    .Value(x => x.IdJefeDirecto, id_jefe_directo)
+                    .Value(x => x.IdJefeDirecto, id_jefe_directo != 0 ? id_jefe_directo : (int?)null)
                     .Value(x => x.IdUnidadNegocio, id_unidad_negocio)
-                    .Value(x => x.IdTipoContrato_sat, id_tipo_contrato_sat)
+                    .Value(x => x.IdTipoContrato_sat, id_tipo_contrato_sat != 0 ? id_tipo_contrato_sat : (int?)null)
                     .Value(x => x.NumEmpleado, num_empleado)
                     .Value(x => x.FechaIngreso, fecha_ingreso)
                     .Value(x => x.FechaSalida, fecha_salida)
@@ -436,7 +436,7 @@ namespace Bovis.Data
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime fecha_salida = Convert.ToDateTime(registro["fecha_salida"].ToString());
             DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
-            int nss = Convert.ToInt32(registro["nss"].ToString());
+            string nss = registro["nss"].ToString();
             string email_bovis = registro["email_bovis"].ToString();
             string url_repo = registro["url_repo"].ToString();
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
@@ -450,10 +450,10 @@ namespace Bovis.Data
             bool descuento_pension = Convert.ToBoolean(registro["descuento_pension"].ToString());
             decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
             decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
-            int credito_infonavit = Convert.ToInt32(registro["credito_infonavit"].ToString());
+            string credito_infonavit = registro["credito_infonavit"].ToString();
             string tipo_descuento = registro["tipo_descuento"].ToString();
             decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
-            int no_empleado_noi = Convert.ToInt32(registro["no_empleado_noi"].ToString());
+            string no_empleado_noi = registro["no_empleado_noi"].ToString();
             string rol = registro["rol"].ToString();
             int index = 0;
 
