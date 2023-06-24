@@ -69,7 +69,7 @@ namespace Bovis.Data
                                                                           from profesionItem in profesionJoin.DefaultIfEmpty()
                                                                           join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
                                                                           from turnoItem in turnoJoin.DefaultIfEmpty()
-                                                                          where emp.Activo == activo
+                                                                          //where emp.Activo == activo
                                                                           select new Empleado_Detalle
                                                                           {
                                                                               nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
