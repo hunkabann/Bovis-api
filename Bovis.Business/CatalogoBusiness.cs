@@ -612,7 +612,7 @@ namespace Bovis.Business
 
         #region Puesto
 
-        public Task<List<TB_Cat_Puesto>> GetPuesto(bool? Actio) => _catalogoData.GetPuesto(Actio);
+        public Task<List<Puesto_Detalle>> GetPuesto(bool? Actio) => _catalogoData.GetPuesto(Actio);
 		public async Task<(bool Success, string Message)> AddPuesto(TB_Cat_Puesto puesto)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);

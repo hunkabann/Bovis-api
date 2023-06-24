@@ -180,7 +180,7 @@ namespace Bovis.Business.Interface
 
         #region Puesto
 
-        Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo);
+        Task<List<Puesto_Detalle>> GetPuesto(bool? activo);
 		Task<(bool Success, string Message)> AddPuesto(TB_Cat_Puesto puesto);
 		Task<(bool Success, string Message)> UpdatePuesto(InsertMovApi MovAPI, TB_Cat_Puesto puesto);
 		Task<(bool Success, string Message)> DeletePuesto(TB_Cat_Puesto puesto);

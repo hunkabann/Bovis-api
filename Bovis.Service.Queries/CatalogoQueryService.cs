@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 
@@ -138,10 +140,10 @@ public class CatalogoQueryService : ICatalogoQueryService
         return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
     }
 
-    public async Task<Response<List<Catalogo>>> GetPuesto(bool? Activo)
+    public async Task<Response<List<Puesto_Detalle>>> GetPuesto(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetPuesto(Activo);
-		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+		return new Response<List<Puesto_Detalle>> { Data = _map.Map<List<Puesto_Detalle>>(response), Success = true };
 	}
 
 	public async Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo)

@@ -1,4 +1,5 @@
-﻿using Bovis.Common.Model.Tables;
+﻿using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 
 namespace Bovis.Data.Interface
 {
@@ -180,7 +181,7 @@ namespace Bovis.Data.Interface
 
         #region Puesto
 
-        Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo);
+        Task<List<Puesto_Detalle>> GetPuesto(bool? activo);
 		Task<bool> AddPuesto(TB_Cat_Puesto puesto);
 		Task<bool> UpdatePuesto(TB_Cat_Puesto puesto);
 		Task<bool> DeletePuesto(TB_Cat_Puesto puesto);

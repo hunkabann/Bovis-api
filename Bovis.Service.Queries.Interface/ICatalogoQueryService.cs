@@ -1,4 +1,6 @@
 ﻿using Bovis.Common;
+using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 
 namespace Bovis.Service.Queries.Interface;
@@ -45,7 +47,7 @@ public interface ICatalogoQueryService : IDisposable
 
     Task<Response<List<Catalogo>>> GetProfesion(bool? Activo);
 
-    Task<Response<List<Catalogo>>> GetPuesto(bool? Activo);
+    Task<Response<List<Puesto_Detalle>>> GetPuesto(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo);
 

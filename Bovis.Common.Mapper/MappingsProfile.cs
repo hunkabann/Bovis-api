@@ -269,10 +269,13 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        CreateMap<TB_Cat_Puesto, Catalogo>()
-            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPuesto))
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Puesto))
-            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+        CreateMap<TB_Cat_Puesto, Puesto_Detalle>()
+            .ForMember(c => c.nukid_puesto, dto => dto.MapFrom(src => src.IdPuesto))
+            .ForMember(c => c.chpuesto, dto => dto.MapFrom(src => src.Puesto))            
+            .ForMember(c => c.nusalario_min, dto => dto.MapFrom(src => src.SalarioMin))
+            .ForMember(c => c.nusalario_max, dto => dto.MapFrom(src => src.SalarioMax))
+            .ForMember(c => c.nusalario_prom, dto => dto.MapFrom(src => src.SalarioProm))
+            .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_Profesion, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdProfesion))

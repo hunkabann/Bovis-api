@@ -1,4 +1,5 @@
 ﻿using Bovis.Common.Model;
+using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
@@ -606,15 +607,23 @@ namespace Bovis.Data
 
         #region Puesto
 
-        public async Task<List<TB_Cat_Puesto>> GetPuesto(bool? activo)
+        public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
 		{
 			if (activo.HasValue)
 			{
-				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Puestos
-																		  where cat.Activo == activo
-																		  select cat).ToListAsync();
+				using (var db = new ConnectionDB(dbConfig)) return await (from puesto in db.tB_Cat_Puestos
+																		  where puesto.Activo == activo
+																		  select new Puesto_Detalle
+																		  {
+																			  nukid_puesto = puesto.IdPuesto,
+																			  nukidnivel = puesto.IdNivel,
+																			  chpuesto = puesto.Puesto,
+																			  nusalario_min = puesto.SalarioMin,
+																			  nusalario_max = puesto.SalarioMax,
+																			  nusalario_prom = puesto.SalarioProm
+																		  }).ToListAsync();
 			}
-			else return await GetAllFromEntityAsync<TB_Cat_Puesto>();
+			else return await GetAllFromEntityAsync<Puesto_Detalle>();
 		}
 
 		public Task<bool> AddPuesto(TB_Cat_Puesto puesto) => InsertEntityIdAsync<TB_Cat_Puesto>(puesto);

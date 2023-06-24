@@ -10,7 +10,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Chpuesto"), NotNull] public string Puesto { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
 		[Column("nusalario_min"), NotNull] public decimal SalarioMin { get; set; }
-		[Column("nusalario_max"), Nullable] public decimal? SalarioMax { get; set; }
-		[Column("nusalio_prom"), Nullable] public decimal? SalioProm { get; set; }
+		[Column("nusalario_max"), Nullable] public decimal SalarioMax { get; set; }
+		[Column("nusalio_prom"), Nullable] public decimal SalarioProm { get; set; }
 	}
 }
