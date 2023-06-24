@@ -314,7 +314,7 @@ namespace Bovis.Data
                 if (res != null)
                 {
                     resp.Success = true;
-                    resp.Message = String.Format("Ya existe un registro de empleaco con el número RR HH: {0}", num_empleado_rr_hh);
+                    resp.Message = String.Format("Ya existe un registro de empleado con el número RR HH: {0}", num_empleado_rr_hh);
                     return resp;
                 }
 
