@@ -387,7 +387,7 @@ namespace Bovis.Data
                     int id_habilidad = Convert.ToInt32(habilidad.ToString());
 
                     var insert_habilidad = await db.tB_Empleado_Habilidades
-                        .Value(x => x.IdEmpleado, last_inserted_id)
+                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
                         .Value(x => x.IdHabilidad, id_habilidad)
 
                         .InsertAsync() > 0;
@@ -401,7 +401,7 @@ namespace Bovis.Data
                     int id_experiencia = Convert.ToInt32(experiencia.ToString());
 
                     var insert_experiencia = await db.tB_Empleado_Experiencias
-                        .Value(x => x.IdEmpleado, last_inserted_id)
+                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
                         .Value(x => x.IdExperiencia, id_experiencia)
                         .InsertAsync() > 0;
 
