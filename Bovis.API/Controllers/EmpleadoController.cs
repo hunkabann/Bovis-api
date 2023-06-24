@@ -66,6 +66,14 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpPut("Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> UpdateEstatus([FromBody] JsonObject registro)
+        {
+            var query = await _empleadoQueryService.UpdateEstatus(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Empleados
 
         #region Proyectos

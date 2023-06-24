@@ -627,6 +627,27 @@ namespace Bovis.Data
             }
             return resp;
         }
+
+        public async Task<(bool Success, string Message)> UpdateEstatus(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            
+            int num_empleado_rr_hh = Convert.ToInt32(registro["id"].ToString());
+            bool activo = Convert.ToBoolean(registro["boactivo"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_empleado = await db.tB_Empleados.Where(x => x.NumEmpleadoRrHh == num_empleado_rr_hh)
+                    .UpdateAsync(x => new TB_Empleado
+                    {
+                        Activo = activo
+                    }) > 0;
+
+                resp.Success = res_update_empleado;
+                resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+            return resp;
+        }
         #endregion Empleados
 
         #region Proyectos

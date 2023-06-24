@@ -221,7 +221,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
+            int id_persona = Convert.ToInt32(registro["id"].ToString());
             bool activo = Convert.ToBoolean(registro["boactivo"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
@@ -234,8 +234,6 @@ namespace Bovis.Data
 
                 resp.Success = res_update_persona;
                 resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
-
-
             }
             return resp;
         }
