@@ -84,7 +84,8 @@ namespace Bovis.Data
                                                         nukidjornada = req.IdJornada,
                                                         chjornada = jor.Jornada,
                                                         nusueldo_min = req.SueldoMin,
-                                                        nusueldo_max = req.SueldoMax
+                                                        nusueldo_max = req.SueldoMax,
+                                                        boactivo = req.Activo
                                                     }).ToListAsync();
 
                     foreach (var req in res_requerimientos)
@@ -115,6 +116,7 @@ namespace Bovis.Data
                         requerimiento.nusueldo_max = req.nusueldo_max;
                         requerimiento.experiencias = res_experiencias;
                         requerimiento.habilidades = res_habilidades;
+                        requerimiento.boactivo = req.boactivo;
 
                         requerimientos.Add(requerimiento);
                     }

@@ -25,5 +25,6 @@ namespace Bovis.Common.Model.NoTable
         public int nusueldo_max { get; set; }
         public List<TB_Requerimiento_Habilidad> habilidades { get; set; }
         public List<TB_Requerimiento_Experiencia> experiencias { get; set; }
+        public bool boactivo { get; set; }
     }
 }
