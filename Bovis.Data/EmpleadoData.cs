@@ -314,6 +314,7 @@ namespace Bovis.Data
             decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
             string no_empleado_noi = registro["no_empleado_noi"].ToString();
             string rol = registro["rol"].ToString();
+            int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -408,6 +409,18 @@ namespace Bovis.Data
 
                     resp.Success = insert_experiencia;
                     resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+                }
+
+                if(id_requerimiento > 0)
+                {
+                    var res_update_requerimiento = await db.tB_Requerimientos.Where(x => x.IdRequerimiento == id_requerimiento)
+                    .UpdateAsync(x => new TB_Requerimiento
+                    {
+                        NumEmpleadoRrHh = num_empleado_rr_hh
+                    }) > 0;
+
+                    resp.Success = res_update_requerimiento;
+                    resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
             }
             return resp;
