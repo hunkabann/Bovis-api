@@ -9,6 +9,7 @@ namespace Bovis.Service.Queries.Interface
     {
         #region Personas
         Task<Response<List<Persona_Detalle>>> GetPersonas(bool? Activo);
+        Task<Response<List<Persona_Detalle>>> GetPersonasLibres();
         Task<Response<Persona_Detalle>> GetPersona(int idPersona);
         Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdateRegistro(JsonObject registro);

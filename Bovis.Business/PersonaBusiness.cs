@@ -26,6 +26,8 @@ namespace Bovis.Business
         #region Personas
         public Task<List<Persona_Detalle>> GetPersonas(bool? Activo) => _personaData.GetPersonas(Activo);
 
+        public Task<List<Persona_Detalle>> GetPersonasLibres() => _personaData.GetPersonasLibres();
+
         public Task<Persona_Detalle> GetPersona(int idPersona) => _personaData.GetPersona(idPersona);
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)

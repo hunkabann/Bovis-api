@@ -37,6 +37,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("Personas/Libres")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetPersonasLibres()
+        {
+            var query = await _personaQueryService.GetPersonasLibres();
+            return Ok(query);
+        }
+
         [HttpGet, Route("Registro/{idPersona}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetPersona(int idPersona)
         {

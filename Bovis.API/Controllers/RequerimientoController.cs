@@ -47,10 +47,10 @@ public class RequerimientoController : ControllerBase
     #endregion Experiencias
 
     #region Registros
-    [HttpGet, Route("Requerimientos/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")
-    public async Task<IActionResult> GetRequerimientos(bool? Activo)
+    [HttpGet, Route("Requerimientos/{Asignados?}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetRequerimientos(bool? Asignados)
     {
-        var query = await _requerimientoQueryService.GetRequerimientos(Activo);
+        var query = await _requerimientoQueryService.GetRequerimientos(Asignados);
         return Ok(query);
     }
 

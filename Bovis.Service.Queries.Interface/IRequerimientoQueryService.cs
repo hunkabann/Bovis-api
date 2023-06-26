@@ -15,7 +15,7 @@ namespace Bovis.Service.Queries.Interface
     {
         Task<Response<List<Habilidad>>> GetHabilidades(int idRequerimiento);
         Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento);
-        Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Activo);
+        Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Asignados);
         Task<Response<Requerimiento_Detalle>> GetRequerimiento(int idRequerimiento);
         Task<Response<(bool existe, string mensaje)>> AddRegistro(JsonObject registro);
         Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro);

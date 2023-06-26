@@ -51,9 +51,9 @@ namespace Bovis.Service.Queries
         #endregion Experiencias
 
         #region Registros
-        public async Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Activo)
+        public async Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Asignados)
         {
-            var response = await _requerimientoBussines.GetRequerimientos(Activo);
+            var response = await _requerimientoBussines.GetRequerimientos(Asignados);
             return new Response<List<Requerimiento_Detalle>> { Data = _map.Map<List<Requerimiento_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }

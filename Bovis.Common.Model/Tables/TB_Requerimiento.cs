@@ -13,6 +13,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Nukidjornada"), Nullable] public int IdJornada { get; set; }
         [Column("Nusueldo_min"), Nullable] public int SueldoMin { get; set; }
         [Column("Nusueldo_max"), Nullable] public int SueldoMax { get; set; }
+        [Column("Nunumempleado_rr_hh"), Nullable] public int NumEmpleadoRrHh { get; set; }
         [Column("Boactivo"), Nullable] public bool Activo { get; set; }
     }
 }

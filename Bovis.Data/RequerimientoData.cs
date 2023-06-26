@@ -53,11 +53,11 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TB_Requerimiento_Experiencia>();
         }
 
-        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? activo)
+        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados)
         {
             List<Requerimiento_Detalle> requerimientos = new List<Requerimiento_Detalle>();
             Requerimiento_Detalle requerimiento = new Requerimiento_Detalle();
-            if (activo.HasValue)
+            if (Asignados.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -67,7 +67,8 @@ namespace Bovis.Data
                                                     join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios
                                                     join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion
                                                     join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada
-                                                    where req.Activo == activo
+                                                    where (Asignados == false) ? req.NumEmpleadoRrHh == null : req.NumEmpleadoRrHh != null
+                                                    && req.Activo == true
                                                     orderby req.IdRequerimiento descending
                                                     select new Requerimiento_Detalle
                                                     {

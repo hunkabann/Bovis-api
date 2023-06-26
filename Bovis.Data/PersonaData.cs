@@ -73,6 +73,60 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<Persona_Detalle>();
         }
 
+        public async Task<List<Persona_Detalle>> GetPersonasLibres()
+        {
+            List<Persona_Detalle> personas = new List<Persona_Detalle>();
+            List<int> excludePersonas = new List<int>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var empleados = await (from emp in db.tB_Empleados
+                                       select emp).ToListAsync();
+
+                foreach (var emp in empleados)
+                {
+                    excludePersonas.Add(emp.IdPersona);
+                }
+
+                personas = await (from per in db.tB_Personas
+                                  join edo_civil in db.tB_Cat_EdoCivils on per.IdEdoCivil equals edo_civil.IdEdoCivil into edo_civilJoin
+                                  from edo_civilItem in edo_civilJoin.DefaultIfEmpty()
+                                  join sangre in db.tB_Cat_TipoSangres on per.IdTipoSangre equals sangre.IdTipoSangre into sangreJoin
+                                  from sangreItem in sangreJoin.DefaultIfEmpty()
+                                  join sexo in db.tB_Cat_Sexos on per.IdSexo equals sexo.IdSexo into sexoJoin
+                                  from sexoItem in sexoJoin.DefaultIfEmpty()
+                                  join tipo_per in db.tB_Cat_TipoPersonas on per.IdTipoPersona equals tipo_per.IdTipoPersona into tipo_perJoin
+                                  from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
+                                  where per.Activo == true
+                                  && !excludePersonas.Contains(per.IdPersona)
+                                  orderby per.IdPersona descending
+                                  select new Persona_Detalle
+                                  {
+                                      nukidpersona = per.IdPersona,
+                                      nukidedo_civil = per.IdEdoCivil,
+                                      chedo_civil = edo_civilItem != null ? edo_civilItem.EdoCivil : string.Empty,
+                                      nukidtipo_sangre = per.IdTipoSangre,
+                                      chtipo_sangre = sangreItem != null ? sangreItem.TipoSangre : string.Empty,
+                                      chnombre = per.Nombre,
+                                      chap_paterno = per.ApPaterno,
+                                      chap_materno = per.ApMaterno,
+                                      nukidsexo = per.IdSexo,
+                                      chsexo = sexoItem != null ? sexoItem.Sexo : string.Empty,
+                                      chrfc = per.Rfc,
+                                      dtfecha_nacimiento = per.FechaNacimiento,
+                                      chemail = per.Email,
+                                      chtelefono = per.Telefono,
+                                      chcelular = per.Celular,
+                                      chcurp = per.Curp,
+                                      nukidtipo_persona = per.IdTipoPersona,
+                                      chtipo_persona = tipo_perItem != null ? tipo_perItem.TipoPersona : string.Empty,
+                                      boactivo = per.Activo
+                                  }).ToListAsync();
+            }
+
+            return personas;
+        }
+
         public async Task<Persona_Detalle> GetPersona(int idPersona)
         {
             using (var db = new ConnectionDB(dbConfig))
