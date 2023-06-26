@@ -120,6 +120,9 @@ namespace Bovis.Common.Model.NoTable
         
         //public List<TB_Proyecto_Factura_Nota_Credito>? NotaCredito { get; set; }
         //public List<TB_Proyecto_Factura_Cobranza>? Cobranza { get; set; }
+
+        public int NotasCredito { set; get; }
+        public int Cobranzas { get; set; }
     }
 
 }
