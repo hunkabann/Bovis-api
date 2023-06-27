@@ -56,7 +56,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetEdoCivil(bool? Activo)
+    public async Task<Response<List<TB_Estado>>> GetEdo(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetEdo(Activo);
+        return new Response<List<TB_Estado>> { Data = _map.Map<List<TB_Estado>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetEdoCivil(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetEdoCivil(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
@@ -170,10 +176,10 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetTipoContrato(bool? Activo)
+	public async Task<Response<List<TipoContrato_Detalle>>> GetTipoContrato(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetTipoContrato(Activo);
-		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+		return new Response<List<TipoContrato_Detalle>> { Data = _map.Map<List<TipoContrato_Detalle>>(response), Success = true };
 	}
 
 	public async Task<Response<List<Catalogo>>> GetTipoCtaContable(bool? Activo)

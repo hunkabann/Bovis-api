@@ -302,10 +302,11 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoCie))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        CreateMap<TB_Cat_TipoContrato, Catalogo>()
-            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoContrato))
-            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Contrato))
-            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+        CreateMap<TB_Cat_TipoContrato, TipoContrato_Detalle>()
+            .ForMember(c => c.nukid_contrato, dto => dto.MapFrom(src => src.IdTipoContrato))
+            .ForMember(c => c.chcontrato, dto => dto.MapFrom(src => src.Contrato))
+            .ForMember(c => c.chve_contrato, dto => dto.MapFrom(src => src.VeContrato))
+            .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoCtaContable, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoCuenta))
@@ -386,6 +387,13 @@ public class MappingsProfile : Profile
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdViatico))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Viatico))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
+
+        CreateMap<TB_Estado, TB_Estado>()
+            .ForMember(c => c.IdEstado, dto => dto.MapFrom(src => src.IdEstado))
+            .ForMember(c => c.IdPais, dto => dto.MapFrom(src => src.IdPais))
+            .ForMember(c => c.Estado, dto => dto.MapFrom(src => src.Estado))
+            .ForMember(c => c.CveEntidad, dto => dto.MapFrom(src => src.CveEntidad))
+            .ForMember(c => c.Activo, dto => dto.MapFrom(src => src.Activo));
 
         #endregion
 

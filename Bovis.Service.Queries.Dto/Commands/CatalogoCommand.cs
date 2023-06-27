@@ -154,11 +154,35 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
 
-	#region Estado Civil
+    #region Estado
 
-	public class AgregarEdoCivilCommand : IRequest<Response<bool>>
+    public class AgregarEdoCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarEdoCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarEdoCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
+
+    #endregion Estado
+
+    #region Estado Civil
+
+    public class AgregarEdoCivilCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
 		public string? descripcion { get; set; }

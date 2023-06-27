@@ -195,11 +195,41 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Estado Civil
+        #region Estado
 
-		public Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? Actio) => _catalogoData.GetEdoCivil(Actio);
+        public Task<List<TB_Estado>> GetEdo(bool? Activo) => _catalogoData.GetEdo(Activo);
+        public async Task<(bool Success, string Message)> AddEdo(TB_Estado edo)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddEdo(edo);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del catálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteEdo(TB_Estado edo)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteEdo(edo);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo eliminar el elemento del catálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateEdo(InsertMovApi MovAPI, TB_Estado edo)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateEdo(edo);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo actualizar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(edo) });
+            return resp;
+        }
+
+        #endregion Estado
+
+        #region Estado Civil
+
+        public Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? Actio) => _catalogoData.GetEdoCivil(Actio);
 		public async Task<(bool Success, string Message)> AddEdoCivil(TB_Cat_EdoCivil edoCivil)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
@@ -760,7 +790,7 @@ namespace Bovis.Business
 
 		#region Tipo Contrato
 
-		public Task<List<TB_Cat_TipoContrato>> GetTipoContrato(bool? Actio) => _catalogoData.GetTipoContrato(Actio);
+		public Task<List<TipoContrato_Detalle>> GetTipoContrato(bool? Actio) => _catalogoData.GetTipoContrato(Actio);
 		public async Task<(bool Success, string Message)> AddTipoContrato(TB_Cat_TipoContrato tipoContrato)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);

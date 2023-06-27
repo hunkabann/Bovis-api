@@ -13,5 +13,7 @@ namespace Bovis.Data.Interface
         Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro);
         Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro);
         Task<(bool existe, string mensaje)> DeleteRequerimiento(int idRequerimiento);
+        Task<List<Empleado_Detalle>> GetDirectoresEjecutivos();
+        Task<List<TB_EmpleadoProyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo);
     }
 }

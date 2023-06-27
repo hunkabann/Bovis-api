@@ -20,5 +20,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool existe, string mensaje)>> AddRegistro(JsonObject registro);
         Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro);
         Task<Response<(bool existe, string mensaje)>> DeleteRequerimiento(int idRequerimiento);
+        Task<Response<List<Empleado_Detalle>>> GetDirectoresEjecutivos();
+        Task<Response<List<TB_EmpleadoProyecto>>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo);
     }
 }

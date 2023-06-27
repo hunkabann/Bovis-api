@@ -192,11 +192,39 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Estado Civil
+        #region Estado
+        public async Task<List<TB_Estado>> GetEdo(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Estados
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Estado>();
+        }
 
-		public async Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? activo)
+        public Task<bool> AddEdo(TB_Estado edo) => InsertEntityIdAsync<TB_Estado>(edo);
+
+        public Task<bool> UpdateEdo(TB_Estado edo) => UpdateEntityAsync<TB_Estado>(edo);
+
+        public async Task<bool> DeleteEdo(TB_Estado edo)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Estados
+                       .Where(x => x.IdEstado == edo.IdEstado)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Estado
+
+        #region Estado Civil
+        public async Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? activo)
 		{
 			if (activo.HasValue)
 			{
@@ -764,15 +792,21 @@ namespace Bovis.Data
 
 		#region Tipo Contrato
 
-		public async Task<List<TB_Cat_TipoContrato>> GetTipoContrato(bool? activo)
+		public async Task<List<TipoContrato_Detalle>> GetTipoContrato(bool? activo)
 		{
 			if (activo.HasValue)
 			{
-				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoContratos
-																		  where cat.Activo == activo
-																		  select cat).ToListAsync();
+				using (var db = new ConnectionDB(dbConfig)) return await (from contrato in db.tB_Cat_TipoContratos
+																		  where contrato.Activo == activo
+																		  select new TipoContrato_Detalle
+																		  {
+																			  nukid_contrato = contrato.IdTipoContrato,
+																			  chcontrato = contrato.Contrato,
+																			  chve_contrato = contrato.VeContrato,
+																			  boactivo = contrato.Activo
+																		  }).ToListAsync();
 			}
-			else return await GetAllFromEntityAsync<TB_Cat_TipoContrato>();
+			else return await GetAllFromEntityAsync<TipoContrato_Detalle>();
 		}
 
 		public Task<bool> AddTipoContrato(TB_Cat_TipoContrato tipoContrato) => InsertEntityIdAsync<TB_Cat_TipoContrato>(tipoContrato);

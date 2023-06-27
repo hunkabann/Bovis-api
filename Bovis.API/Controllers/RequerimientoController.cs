@@ -85,5 +85,23 @@ public class RequerimientoController : ControllerBase
         else return BadRequest(query.Message);
     }
     #endregion Registros
+
+    #region Director Ejecutivo
+    [HttpGet, Route("DirectoresEjecutivos")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetDirectoresEjecutivos()
+    {
+        var query = await _requerimientoQueryService.GetDirectoresEjecutivos();
+        return Ok(query);
+    }
+    #endregion Director Ejecutivo
+
+    #region Proyectos
+    [HttpGet, Route("Proyectos/DirectorEjecutivo/{IdDirectorEjecutivo}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+    {
+        var query = await _requerimientoQueryService.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
+        return Ok(query);
+    }
+    #endregion Proyectos
 }
 

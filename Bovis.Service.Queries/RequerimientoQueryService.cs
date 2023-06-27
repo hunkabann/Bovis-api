@@ -78,5 +78,23 @@ namespace Bovis.Service.Queries
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Registros
+
+        #region Director Ejecutivo
+        public async Task<Response<List<Empleado_Detalle>>> GetDirectoresEjecutivos()
+        {
+            var response = await _requerimientoBussines.GetDirectoresEjecutivos();
+            return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+
+        }
+        #endregion Director Ejecutivo
+
+        #region Proyectos
+        public async Task<Response<List<TB_EmpleadoProyecto>>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        {
+            var response = await _requerimientoBussines.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
+            return new Response<List<TB_EmpleadoProyecto>> { Data = _map.Map<List<TB_EmpleadoProyecto>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+
+        }
+        #endregion Proyectos
     }
 }

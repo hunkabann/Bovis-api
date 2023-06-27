@@ -330,10 +330,60 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Estado Civil
-	[HttpGet, Route("EstadoCivil/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    #region Estado
+    [HttpGet, Route("Estado/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Edo(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetEdo(Activo);
+        return Ok(query);
+    }
+
+    [HttpPut, Route("Estado/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddEdo(AgregarEdoCommand Edo)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Edo);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Estado/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeleteEdo(EliminarEdoCommand Edo)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Edo);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Estado/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdateEdo(ActualizarEdoCommand Edo)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        Edo.Nombre = claimJWTModel.nombre;
+        Edo.Usuario = claimJWTModel.correo;
+        Edo.Roles = claimJWTModel.roles;
+        Edo.TransactionId = claimJWTModel.transactionId;
+        Edo.Rel = 6;
+        var response = await _mediator.Send(Edo);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+    #endregion Estado
+
+    #region Estado Civil
+    [HttpGet, Route("EstadoCivil/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> EdoCivil(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetEdoCivil(Activo);

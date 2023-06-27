@@ -56,11 +56,19 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateDocumento(InsertMovApi MovAPI, TB_Cat_Documento documento);
 		Task<(bool Success, string Message)> DeleteDocumento(TB_Cat_Documento documento);
 
-		#endregion
+        #endregion
 
-		#region Estado Civil
+        #region Estado
+        Task<List<TB_Estado>> GetEdo(bool? activo);
+        Task<(bool Success, string Message)> AddEdo(TB_Estado edo);
+        Task<(bool Success, string Message)> UpdateEdo(InsertMovApi MovAPI, TB_Estado edo);
+        Task<(bool Success, string Message)> DeleteEdo(TB_Estado edo);
 
-		Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? activo);
+        #endregion Estado
+
+        #region Estado Civil
+
+        Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? activo);
 		Task<(bool Success, string Message)> AddEdoCivil(TB_Cat_EdoCivil edoCivil);
 		Task<(bool Success, string Message)> UpdateEdoCivil(InsertMovApi MovAPI, TB_Cat_EdoCivil edoCivil);
 		Task<(bool Success, string Message)> DeleteEdoCivil(TB_Cat_EdoCivil edoCivil);
@@ -224,7 +232,7 @@ namespace Bovis.Business.Interface
 
 		#region Tipo Contrato
 
-		Task<List<TB_Cat_TipoContrato>> GetTipoContrato(bool? activo);
+		Task<List<TipoContrato_Detalle>> GetTipoContrato(bool? activo);
 		Task<(bool Success, string Message)> AddTipoContrato(TB_Cat_TipoContrato tipoContrato);
 		Task<(bool Success, string Message)> UpdateTipoContrato(InsertMovApi MovAPI, TB_Cat_TipoContrato tipoContrato);
 		Task<(bool Success, string Message)> DeleteTipoContrato(TB_Cat_TipoContrato tipoContrato);

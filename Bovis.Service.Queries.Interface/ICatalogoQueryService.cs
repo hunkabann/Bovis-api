@@ -19,7 +19,9 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetDocumento(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetEdoCivil(bool? Activo);
+    Task<Response<List<TB_Estado>>> GetEdo(bool? Activo);
+
+    Task<Response<List<Catalogo>>> GetEdoCivil(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetEstatusProyecto(bool? Activo);
 
@@ -57,7 +59,7 @@ public interface ICatalogoQueryService : IDisposable
 
     Task<Response<List<Catalogo>>> GetTipoCie(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetTipoContrato(bool? Activo);
+	Task<Response<List<TipoContrato_Detalle>>> GetTipoContrato(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetTipoCtaContable(bool? Activo);
 

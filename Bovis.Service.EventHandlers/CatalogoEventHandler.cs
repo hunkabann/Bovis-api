@@ -386,6 +386,69 @@ public class ActualizaDocumentoEventHandler : IRequestHandler<ActualizarDocument
 
 #endregion
 
+#region Estado
+
+public class AgregaEdoEventHandler : IRequestHandler<AgregarEdoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaEdoEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarEdoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddEdo(new TB_Estado { Activo = true, Estado = request.descripcion });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaEdoEventHandler : IRequestHandler<EliminarEdoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaEdoEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarEdoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteEdo(new TB_Estado { IdEstado = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaEdoEventHandler : IRequestHandler<ActualizarEdoCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaEdoEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarEdoCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateEdo(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Estado { Estado = request.descripcion, IdEstado = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+#endregion Estado
+
 #region Estado Civil
 
 public class AgregaEdoCivilEventHandler : IRequestHandler<AgregarEdoCivilCommand, Response<bool>>

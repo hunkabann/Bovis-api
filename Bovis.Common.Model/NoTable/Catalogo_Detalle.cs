@@ -16,4 +16,12 @@ namespace Bovis.Common.Model.NoTable
         public decimal nusalario_max { get; set; }
         public decimal nusalario_prom { get; set; }
     }
+
+    public class TipoContrato_Detalle
+    {
+        public int nukid_contrato { get; set; }
+        public string chcontrato { get; set; }
+        public string chve_contrato { get; set; }
+        public bool boactivo { get; set; }
+    }
 }

@@ -31,6 +31,8 @@ namespace Bovis.Data
             GC.Collect();
         }
         #endregion base
+
+        #region Habilidades
         public async Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento)
         {
             if (idRequerimiento > 0)
@@ -41,7 +43,9 @@ namespace Bovis.Data
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento_Habilidad>();
         }
+        #endregion #Habilidades
 
+        #region Expereincias
         public async Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento)
         {
             if (idRequerimiento > 0)
@@ -52,7 +56,9 @@ namespace Bovis.Data
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento_Experiencia>();
         }
+        #endregion Experiencias
 
+        #region Registros
         public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados)
         {
             List<Requerimiento_Detalle> requerimientos = new List<Requerimiento_Detalle>();
@@ -428,5 +434,127 @@ namespace Bovis.Data
 
             return resp;
         }
+        #endregion Registros
+
+        #region Director Ejecutivo
+        public async Task<List<Empleado_Detalle>> GetDirectoresEjecutivos()
+        {
+            using (var db = new ConnectionDB(dbConfig)) return await (from emp in db.tB_Empleados
+                                                                      join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into perJoin
+                                                                      from perItem in perJoin.DefaultIfEmpty()
+                                                                      join tipo_emp in db.tB_Cat_TipoEmpleados on emp.IdTipoEmpleado equals tipo_emp.IdTipoEmpleado into tipo_empJoin
+                                                                      from tipo_empItem in tipo_empJoin.DefaultIfEmpty()
+                                                                      join cat in db.tB_Cat_Categorias on emp.IdCategoria equals cat.IdCategoria into catJoin
+                                                                      from catItem in catJoin.DefaultIfEmpty()
+                                                                      join contrato in db.tB_Cat_TipoContratos on emp.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
+                                                                      from contratoItem in contratoJoin.DefaultIfEmpty()
+                                                                      join empresa in db.tB_Empresas on emp.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                                                                      from empresaItem in empresaJoin.DefaultIfEmpty()
+                                                                      join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                                                      from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                                                                      join estudios in db.tB_Cat_NivelEstudios on emp.IdNivelEstudios equals estudios.IdNivelEstudios into estudiosJoin
+                                                                      from estudiosItem in estudiosJoin.DefaultIfEmpty()
+                                                                      join pago in db.tB_Cat_FormaPagos on emp.IdFormaPago equals pago.IdFormaPago into pagoJoin
+                                                                      from pagoItem in pagoJoin.DefaultIfEmpty()
+                                                                      join jornada in db.tB_Cat_Jornadas on emp.IdJornada equals jornada.IdJornada into jornadaJoin
+                                                                      from jornadaItem in jornadaJoin.DefaultIfEmpty()
+                                                                      join depto in db.tB_Cat_Departamentos on emp.IdDepartamento equals depto.IdDepartamento into deptoJoin
+                                                                      from deptoItem in deptoJoin.DefaultIfEmpty()
+                                                                      join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
+                                                                      from clasifItem in clasifJoin.DefaultIfEmpty()
+                                                                      join jefe in db.tB_Personas on emp.IdJefeDirecto equals jefe.IdPersona into jefeJoin
+                                                                      from jefeItem in jefeJoin.DefaultIfEmpty()
+                                                                      join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
+                                                                      from unidadItem in unidadJoin.DefaultIfEmpty()
+                                                                      join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
+                                                                      from contrato_satItem in contrato_satJoin.DefaultIfEmpty()
+                                                                      join profesion in db.tB_Cat_Profesiones on emp.IdProfesion equals profesion.IdProfesion into profesionJoin
+                                                                      from profesionItem in profesionJoin.DefaultIfEmpty()
+                                                                      join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
+                                                                      from turnoItem in turnoJoin.DefaultIfEmpty()
+                                                                      join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
+                                                                      from puestoItem in puestoJoin.DefaultIfEmpty()
+                                                                      where puestoItem.Puesto == "Director Ejecutivo"
+                                                                      && emp.Activo == true
+                                                                      orderby emp.NumEmpleadoRrHh descending
+                                                                      select new Empleado_Detalle
+                                                                      {
+                                                                          nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
+                                                                          nukidpersona = emp.IdPersona,
+                                                                          nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                                                          nukidtipo_empleado = emp.IdTipoEmpleado,
+                                                                          chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
+                                                                          nukidcategoria = emp.IdCategoria,
+                                                                          chcategoria = catItem != null ? catItem.Categoria : string.Empty,
+                                                                          nukidtipo_contrato = emp.IdTipoContrato,
+                                                                          chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
+                                                                          chcve_puesto = emp.CvePuesto,
+                                                                          nukidempresa = emp.IdEmpresa,
+                                                                          chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                                                          nukidciudad = emp.IdCiudad,
+                                                                          chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                                                          nukidnivel_estudios = emp.IdNivelEstudios,
+                                                                          chnivel_estudios = estudiosItem != null ? estudiosItem.NivelEstudios : string.Empty,
+                                                                          nukidforma_pago = emp.IdFormaPago,
+                                                                          chforma_pago = pagoItem != null ? pagoItem.TipoDocumento : string.Empty,
+                                                                          nukidjornada = emp.IdJornada,
+                                                                          chjornada = jornadaItem != null ? jornadaItem.Jornada : string.Empty,
+                                                                          nukiddepartamento = emp.IdDepartamento,
+                                                                          chdepartamento = deptoItem != null ? deptoItem.Departamento : string.Empty,
+                                                                          nukidclasificacion = emp.IdClasificacion,
+                                                                          chclasificacion = clasifItem != null ? clasifItem.Clasificacion : string.Empty,
+                                                                          nukidjefe_directo = emp.IdJefeDirecto,
+                                                                          chjefe_directo = jefeItem != null ? jefeItem.Nombre + " " + jefeItem.ApPaterno + " " + jefeItem.ApMaterno : string.Empty,
+                                                                          nukidunidad_negocio = emp.IdUnidadNegocio,
+                                                                          chunidad_negocio = unidadItem != null ? unidadItem.UnidadNegocio : string.Empty,
+                                                                          nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
+                                                                          chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
+                                                                          nunum_empleado = emp.NumEmpleado,
+                                                                          dtfecha_ingreso = emp.FechaIngreso,
+                                                                          dtfecha_salida = emp.FechaSalida,
+                                                                          dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso,
+                                                                          chnss = emp.Nss,
+                                                                          chemail_bovis = emp.EmailBovis,
+                                                                          chexperiencias = emp.Experiencias,
+                                                                          chhabilidades = emp.Habilidades,
+                                                                          churl_repositorio = emp.UrlRepositorio,
+                                                                          nusalario = emp.Salario,
+                                                                          nukidprofesion = emp.IdProfesion,
+                                                                          chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
+                                                                          nuantiguedad = emp.Antiguedad,
+                                                                          nukidturno = emp.IdTurno,
+                                                                          chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
+                                                                          nuunidad_medica = emp.UnidadMedica,
+                                                                          chregistro_patronal = emp.RegistroPatronal,
+                                                                          chcotizacion = emp.Cotizacion,
+                                                                          nuduracion = emp.Duracion,
+                                                                          boactivo = emp.Activo,
+                                                                          bodescuento_pension = emp.DescuentoPension,
+                                                                          nuporcentaje_pension = emp.PorcentajePension,
+                                                                          nufondo_fijo = emp.FondoFijo,
+                                                                          nucredito_infonavit = emp.CreditoInfonavit,
+                                                                          chtipo_descuento = emp.TipoDescuento,
+                                                                          nuvalor_descuento = emp.ValorDescuento,
+                                                                          nuno_empleado_noi = emp.NoEmpleadoNoi,
+                                                                          chrol = emp.Rol
+                                                                      }).ToListAsync();
+
+        }
+        #endregion Director Ejecutivo
+
+        #region Proyectos
+        public async Task<List<TB_EmpleadoProyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        {
+            List<TB_EmpleadoProyecto> list = null;
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                list = await (from proyectos in db.tB_EmpleadoProyectos
+                              where proyectos.NumEmpleadoRrHh == IdDirectorEjecutivo
+                              select proyectos).ToListAsync();
+            }
+
+            return list;
+        }
+        #endregion Proyectos
     }
 }

@@ -57,11 +57,19 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateDocumento(TB_Cat_Documento documento);
 		Task<bool> DeleteDocumento(TB_Cat_Documento documento);
 
-		#endregion
+        #endregion
 
-		#region Estado Civil
+        #region Estado
+        Task<List<TB_Estado>> GetEdo(bool? activo);
+        Task<bool> AddEdo(TB_Estado edo);
+        Task<bool> UpdateEdo(TB_Estado edo);
+        Task<bool> DeleteEdo(TB_Estado edo);
 
-		Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? activo);
+        #endregion Estado
+
+        #region Estado Civil
+
+        Task<List<TB_Cat_EdoCivil>> GetEdoCivil(bool? activo);
 		Task<bool> AddEdoCivil(TB_Cat_EdoCivil edoCivil);
 		Task<bool> UpdateEdoCivil(TB_Cat_EdoCivil edoCivil);
 		Task<bool> DeleteEdoCivil(TB_Cat_EdoCivil edoCivil);
@@ -226,7 +234,7 @@ namespace Bovis.Data.Interface
 
 		#region Tipo Contrato
 
-		Task<List<TB_Cat_TipoContrato>> GetTipoContrato(bool? activo);
+		Task<List<TipoContrato_Detalle>> GetTipoContrato(bool? activo);
 		Task<bool> AddTipoContrato(TB_Cat_TipoContrato tipoContrato);
 		Task<bool> UpdateTipoContrato(TB_Cat_TipoContrato tipoContrato);
 		Task<bool> DeleteTipoContrato(TB_Cat_TipoContrato tipoContrato);

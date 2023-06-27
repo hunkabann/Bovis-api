@@ -57,5 +57,13 @@ namespace Bovis.Business
 
         public Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento) => _RequerimientoData.DeleteRequerimiento(idRequerimiento);
         #endregion Registros
+
+        #region Director Ejecutivo
+        public Task<List<Empleado_Detalle>> GetDirectoresEjecutivos() => _RequerimientoData.GetDirectoresEjecutivos();
+        #endregion Director Ejecutivo
+
+        #region Proyectos
+        public Task<List<TB_EmpleadoProyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo) => _RequerimientoData.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
+        #endregion Proyectos
     }
 }
