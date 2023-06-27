@@ -58,7 +58,7 @@ public class MappingsProfile : Profile
         CreateMap<Empleado_Detalle, Detalle_Empleado>()
             .ForMember(c => c.nunum_empleado_rr_hh, dto => dto.MapFrom(src => src.nunum_empleado_rr_hh))
             .ForMember(c => c.nukidpersona, dto => dto.MapFrom(src => src.nukidpersona))
-            .ForMember(c=> c.nombre_persona, dto => dto.MapFrom(src => src.nombre_persona))
+            .ForMember(c => c.nombre_persona, dto => dto.MapFrom(src => src.nombre_persona))
             .ForMember(c => c.nukidtipo_empleado, dto => dto.MapFrom(src => src.nukidtipo_empleado))
             .ForMember(c => c.nukidcategoria, dto => dto.MapFrom(src => src.nukidcategoria))
             .ForMember(c => c.nukidtipo_contrato, dto => dto.MapFrom(src => src.nukidtipo_contrato))
@@ -271,7 +271,7 @@ public class MappingsProfile : Profile
 
         CreateMap<TB_Cat_Puesto, Puesto_Detalle>()
             .ForMember(c => c.nukid_puesto, dto => dto.MapFrom(src => src.IdPuesto))
-            .ForMember(c => c.chpuesto, dto => dto.MapFrom(src => src.Puesto))            
+            .ForMember(c => c.chpuesto, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.nusalario_min, dto => dto.MapFrom(src => src.SalarioMin))
             .ForMember(c => c.nusalario_max, dto => dto.MapFrom(src => src.SalarioMax))
             .ForMember(c => c.nusalario_prom, dto => dto.MapFrom(src => src.SalarioProm))
@@ -360,7 +360,7 @@ public class MappingsProfile : Profile
         CreateMap<TB_Cat_TipoProyecto, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoProyecto))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.TipoProyecto))
-            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));        
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
         CreateMap<TB_Cat_TipoResultado, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdTipoResultado))
@@ -549,8 +549,10 @@ public class MappingsProfile : Profile
            .ForMember(c => c.C_ImpSaldoAnt, dto => dto.MapFrom(src => src.C_ImpSaldoAnt))
            .ForMember(c => c.C_ImporteSaldoInsoluto, dto => dto.MapFrom(src => src.C_ImporteSaldoInsoluto))
            .ForMember(c => c.C_IvaP, dto => dto.MapFrom(src => src.C_IvaP))
-            .ForMember(c => c.C_TipoCambioP, dto => dto.MapFrom(src => src.C_TipoCambioP))
-           .ForMember(c => c.C_FechaPago, dto => dto.MapFrom(src => src.C_FechaPago));
+           .ForMember(c => c.C_TipoCambioP, dto => dto.MapFrom(src => src.C_TipoCambioP))
+           .ForMember(c => c.C_FechaPago, dto => dto.MapFrom(src => src.C_FechaPago))
+           .ForMember(c => c.Cobranzas, dto => dto.MapFrom(src => src.Cobranzas))
+           .ForMember(c => c.NotasCredito, dto => dto.MapFrom(src => src.NotasCredito));
 
         #endregion
     }

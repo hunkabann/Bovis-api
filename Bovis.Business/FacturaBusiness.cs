@@ -307,22 +307,22 @@ namespace Bovis.Business
 
         public async Task<List<FacturaDetalles>> Search(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin)
         {
-            var resp =  new List<FacturaDetalles>();
-            if(idProyecto == null && idCliente==null&& idEmpresa==null&& fechaIni==null && fechaFin != null)
+            var resp = new List<FacturaDetalles>();
+            if (idProyecto == null && idCliente == null && idEmpresa == null && fechaIni == null && fechaFin != null)
             {
                 resp = await _facturaData.GetAllFacturas();
                 return resp;
             }
-            
-            if(idProyecto!=null && fechaIni==null && fechaFin!=null)
+
+            if (idProyecto != null && fechaIni == null && fechaFin != null)
             {
-               resp = await _facturaData.GetFacturasProyecto(idProyecto);
+                resp = await _facturaData.GetFacturasProyecto(idProyecto);
                 return resp;
 
             }
             if (idProyecto != null && fechaIni != null && fechaFin != null)
             {
-                resp = await _facturaData.GetFacturasProyectoFecha(idProyecto,fechaIni,fechaFin);
+                resp = await _facturaData.GetFacturasProyectoFecha(idProyecto, fechaIni, fechaFin);
                 return resp;
 
             }

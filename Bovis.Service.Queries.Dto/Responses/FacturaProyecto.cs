@@ -57,5 +57,8 @@ namespace Bovis.Service.Queries.Dto.Responses
         public decimal? C_TipoCambioP { set; get; }
         public DateTime? C_FechaPago { set; get; }
 
+        public int NotasCredito { set; get; }
+        public int Cobranzas { get; set; }
+
     }
 }

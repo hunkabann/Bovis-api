@@ -19,6 +19,8 @@ namespace Bovis.Common.Model.Tables
 		[Column("nutipo_cambio"), Nullable] public decimal? TipoCambio { set; get; }
 		[Column("dtfecha_nota_credito"), NotNull] public DateTime FechaNotaCredito { set; get; }
 		[Column("chxml"), NotNull] public string Xml { set; get; }
+        [Column("dtfecha_cancelacion"), Nullable] public DateTime FechaCancelacion { set; get; }
+        [Column("chmotivocancela"), Nullable] public string MotivoCancela { set; get; }
 
-	}
+    }
 }

@@ -218,10 +218,9 @@ namespace Bovis.Data
 
                 foreach (var facturaDetalle in res)
                 {
-                    var res_notas = await (
-                                    from notas in db.tB_ProyectoFacturasNotaCredito
-                                    where notas.IdFactura == facturaDetalle.Id
-                                    select notas).ToListAsync();
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           select notas).ToListAsync();
 
                     facturaDetalle.NotasCredito = res_notas.Count();
 
