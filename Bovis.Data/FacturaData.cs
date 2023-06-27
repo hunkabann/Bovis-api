@@ -220,12 +220,14 @@ namespace Bovis.Data
                 {
                     var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
                                            select notas).ToListAsync();
 
                     facturaDetalle.NotasCredito = res_notas.Count();
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
                                                where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
                                                select cobr).ToListAsync();
 
                     facturaDetalle.Cobranzas = res_cobranzas.Count();
