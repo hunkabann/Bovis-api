@@ -387,7 +387,6 @@ public class ActualizaDocumentoEventHandler : IRequestHandler<ActualizarDocument
 #endregion
 
 #region Estado
-
 public class AgregaEdoEventHandler : IRequestHandler<AgregarEdoCommand, Response<bool>>
 {
     private readonly ICatalogoBusiness _business;

@@ -63,7 +63,7 @@ namespace Bovis.Business
         #endregion Director Ejecutivo
 
         #region Proyectos
-        public Task<List<TB_EmpleadoProyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo) => _RequerimientoData.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
+        public Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo) => _RequerimientoData.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
         #endregion Proyectos
     }
 }

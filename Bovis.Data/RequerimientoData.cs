@@ -6,6 +6,7 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -68,11 +69,36 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var res_requerimientos = await (from req in db.tB_Requerimientos
-                                                    join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria
-                                                    join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto
-                                                    join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios
-                                                    join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion
-                                                    join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada
+                                                    join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria into catJoin
+                                                    from catItem in catJoin.DefaultIfEmpty()
+                                                    join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto into pueJoin
+                                                    from pueItem in pueJoin.DefaultIfEmpty()
+                                                    join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios into nivJoin
+                                                    from nivItem in nivJoin.DefaultIfEmpty()
+                                                    join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion into profJoin
+                                                    from profItem in profJoin.DefaultIfEmpty()
+                                                    join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada into jorJoin
+                                                    from jorItem in jorJoin.DefaultIfEmpty()
+                                                    join emp1 in db.tB_Empleados on req.NumEmpleadoRrHh equals emp1.NumEmpleadoRrHh into emp1Join
+                                                    from emp1Item in emp1Join.DefaultIfEmpty()
+                                                    join per1 in db.tB_Personas on emp1Item.NumEmpleadoRrHh equals per1.IdPersona into per1Join
+                                                    from per1Item in per1Join.DefaultIfEmpty()
+                                                    join emp2 in db.tB_Empleados on req.IdDirectorEjecutivo equals emp2.NumEmpleadoRrHh into emp2Join
+                                                    from emp2Item in emp2Join.DefaultIfEmpty()
+                                                    join per2 in db.tB_Personas on emp2Item.NumEmpleadoRrHh equals per2.IdPersona into per2Join
+                                                    from per2Item in per2Join.DefaultIfEmpty()
+                                                    join proy in db.tB_Proyectos on req.IdDirectorEjecutivo equals proy.IdDirectorEjecutivo into proyJoin
+                                                    from proyItem in proyJoin.DefaultIfEmpty()
+                                                    join emp3 in db.tB_Empleados on req.IdJefeInmediato equals emp3.NumEmpleadoRrHh into emp3Join
+                                                    from emp3Item in emp3Join.DefaultIfEmpty()
+                                                    join per3 in db.tB_Personas on emp3Item.NumEmpleadoRrHh equals per3.IdPersona into per3Join
+                                                    from per3Item in per3Join.DefaultIfEmpty()
+                                                    join contrato in db.tB_Cat_TipoContratos on req.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
+                                                    from contratoItem in contratoJoin.DefaultIfEmpty()
+                                                    join estado in db.tB_Estados on req.IdEstado equals estado.IdEstado into estadoJoin
+                                                    from estadoItem in estadoJoin.DefaultIfEmpty()
+                                                    join ciudad in db.tB_Ciudads on req.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                                    from ciudadItem in ciudadJoin.DefaultIfEmpty()
                                                     where (Asignados == false) ? req.NumEmpleadoRrHh == null : req.NumEmpleadoRrHh != null
                                                     && req.Activo == true
                                                     orderby req.IdRequerimiento descending
@@ -80,17 +106,36 @@ namespace Bovis.Data
                                                     {
                                                         nukidrequerimiento = req.IdRequerimiento,
                                                         nukidcategoria = req.IdCategoria,
-                                                        chcategoria = cat.Categoria,
+                                                        chcategoria = catItem != null ? catItem.Categoria : string.Empty,
                                                         nukidpuesto = req.IdPuesto,
-                                                        chpuesto = pue.Puesto,
+                                                        chpuesto = pueItem != null ? pueItem.Puesto : string.Empty,
                                                         nukidnivel_estudios = req.IdNivelEstudios,
-                                                        chnivel_estudios = niv.NivelEstudios,
+                                                        chnivel_estudios = nivItem != null ? nivItem.NivelEstudios : string.Empty,
                                                         nukidprofesion = req.IdProfesion,
-                                                        chprofesion = prof.Profesion,
+                                                        chprofesion = profItem != null ? profItem.Profesion : string.Empty,
                                                         nukidjornada = req.IdJornada,
-                                                        chjornada = jor.Jornada,
+                                                        chjornada = jorItem != null ? jorItem.Jornada : string.Empty,
                                                         nusueldo_min = req.SueldoMin,
                                                         nusueldo_max = req.SueldoMax,
+                                                        nusueldo_real = req.SueldoReal,
+                                                        nunumempleado_rr_hh = req.NumEmpleadoRrHh,
+                                                        chempleado_rr_hh = per1Item != null ? per1Item.Nombre + " " + per1Item.ApPaterno + " " + per1Item.ApMaterno : string.Empty,
+                                                        nukiddirector_ejecutivo = req.IdDirectorEjecutivo,
+                                                        chdirector_ejecutivo = per2Item != null ? per2Item.Nombre + " " + per2Item.ApPaterno + " " + per2Item.ApMaterno : string.Empty,
+                                                        nukidproyecto = req.IdProyecto,
+                                                        chproyecto = proyItem != null ? proyItem.Proyecto : string.Empty,
+                                                        nukidjefe_inmediato = req.IdJefeInmediato,
+                                                        chjefe_inmediato = per3Item != null ? per3Item.Nombre + " " + per3Item.ApPaterno + " " + per3Item.ApMaterno : string.Empty,
+                                                        nukidtipo_contrato = req.IdTipoContrato,
+                                                        chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
+                                                        nukidestado = req.IdEstado,
+                                                        chestado = estadoItem != null ? estadoItem.Estado : string.Empty,
+                                                        nukidciudad = req.IdCiudad,
+                                                        chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                                        bodisponibilidad_viajar = req.DisponibilidadViajar,
+                                                        nuanios_experiencia = req.AniosExperiencia,
+                                                        chnivel_ingles = req.NivelIngles,
+                                                        chcomentarios = req.Comentarios,
                                                         boactivo = req.Activo
                                                     }).ToListAsync();
 
@@ -120,6 +165,25 @@ namespace Bovis.Data
                         requerimiento.chjornada = req.chjornada;
                         requerimiento.nusueldo_min = req.nusueldo_min;
                         requerimiento.nusueldo_max = req.nusueldo_max;
+                        requerimiento.nusueldo_real = req.nusueldo_real;
+                        requerimiento.nunumempleado_rr_hh = req.nunumempleado_rr_hh;
+                        requerimiento.chempleado_rr_hh = req.chempleado_rr_hh;
+                        requerimiento.nukiddirector_ejecutivo = req.nunumempleado_rr_hh;
+                        requerimiento.chdirector_ejecutivo = req.chdirector_ejecutivo;
+                        requerimiento.nukidproyecto = req.nukidproyecto;
+                        requerimiento.chproyecto = req.chproyecto;
+                        requerimiento.nukidjefe_inmediato = req.nukidjefe_inmediato;
+                        requerimiento.chjefe_inmediato = req.chjefe_inmediato;
+                        requerimiento.nukidtipo_contrato = req.nukidtipo_contrato;
+                        requerimiento.chtipo_contrato = req.chtipo_contrato;
+                        requerimiento.nukidestado = req.nukidestado;
+                        requerimiento.chestado = req.chestado;
+                        requerimiento.nukidciudad = req.nukidciudad;
+                        requerimiento.chciudad = req.chciudad;
+                        requerimiento.bodisponibilidad_viajar = req.bodisponibilidad_viajar;
+                        requerimiento.nuanios_experiencia = req.nuanios_experiencia;
+                        requerimiento.chnivel_ingles = req.chnivel_ingles;
+                        requerimiento.chcomentarios = req.chcomentarios;
                         requerimiento.experiencias = res_experiencias;
                         requerimiento.habilidades = res_habilidades;
                         requerimiento.boactivo = req.boactivo;
@@ -141,32 +205,72 @@ namespace Bovis.Data
             {
 #pragma warning disable CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
                 requerimiento = await (from req in db.tB_Requerimientos
-                                       join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria into catGroup
-                                       from cat in catGroup.DefaultIfEmpty()
-                                       join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto into pueGroup
-                                       from pue in pueGroup.DefaultIfEmpty()
-                                       join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios into nivGroup
-                                       from niv in nivGroup.DefaultIfEmpty()
-                                       join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion into profGroup
-                                       from prof in profGroup.DefaultIfEmpty()
-                                       join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada into jorGroup
-                                       from jor in jorGroup.DefaultIfEmpty()
+                                       join cat in db.tB_Cat_Categorias on req.IdCategoria equals cat.IdCategoria into catJoin
+                                       from catItem in catJoin.DefaultIfEmpty()
+                                       join pue in db.tB_Cat_Puestos on req.IdPuesto equals pue.IdPuesto into pueJoin
+                                       from pueItem in pueJoin.DefaultIfEmpty()
+                                       join niv in db.tB_Cat_NivelEstudios on req.IdNivelEstudios equals niv.IdNivelEstudios into nivJoin
+                                       from nivItem in nivJoin.DefaultIfEmpty()
+                                       join prof in db.tB_Cat_Profesiones on req.IdProfesion equals prof.IdProfesion into profJoin
+                                       from profItem in profJoin.DefaultIfEmpty()
+                                       join jor in db.tB_Cat_Jornadas on req.IdJornada equals jor.IdJornada into jorJoin
+                                       from jorItem in jorJoin.DefaultIfEmpty()
+                                       join emp1 in db.tB_Empleados on req.NumEmpleadoRrHh equals emp1.NumEmpleadoRrHh into emp1Join
+                                       from emp1Item in emp1Join.DefaultIfEmpty()
+                                       join per1 in db.tB_Personas on emp1Item.NumEmpleadoRrHh equals per1.IdPersona into per1Join
+                                       from per1Item in per1Join.DefaultIfEmpty()
+                                       join emp2 in db.tB_Empleados on req.IdDirectorEjecutivo equals emp2.NumEmpleadoRrHh into emp2Join
+                                       from emp2Item in emp2Join.DefaultIfEmpty()
+                                       join per2 in db.tB_Personas on emp2Item.NumEmpleadoRrHh equals per2.IdPersona into per2Join
+                                       from per2Item in per2Join.DefaultIfEmpty()
+                                       join proy in db.tB_Proyectos on req.IdDirectorEjecutivo equals proy.IdDirectorEjecutivo into proyJoin
+                                       from proyItem in proyJoin.DefaultIfEmpty()
+                                       join emp3 in db.tB_Empleados on req.IdJefeInmediato equals emp3.NumEmpleadoRrHh into emp3Join
+                                       from emp3Item in emp3Join.DefaultIfEmpty()
+                                       join per3 in db.tB_Personas on emp3Item.NumEmpleadoRrHh equals per3.IdPersona into per3Join
+                                       from per3Item in per3Join.DefaultIfEmpty()
+                                       join contrato in db.tB_Cat_TipoContratos on req.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
+                                       from contratoItem in contratoJoin.DefaultIfEmpty()
+                                       join estado in db.tB_Estados on req.IdEstado equals estado.IdEstado into estadoJoin
+                                       from estadoItem in estadoJoin.DefaultIfEmpty()
+                                       join ciudad in db.tB_Ciudads on req.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                       from ciudadItem in ciudadJoin.DefaultIfEmpty()
                                        where req.IdRequerimiento == idRequerimiento                                       
                                        select new Requerimiento_Detalle
                                        {
                                            nukidrequerimiento = req.IdRequerimiento,
                                            nukidcategoria = req.IdCategoria,
-                                           chcategoria = cat != null ? cat.Categoria : null,
+                                           chcategoria = catItem != null ? catItem.Categoria : string.Empty,
                                            nukidpuesto = req.IdPuesto,
-                                           chpuesto = pue != null ? pue.Puesto : null,
+                                           chpuesto = pueItem != null ? pueItem.Puesto : string.Empty,
                                            nukidnivel_estudios = req.IdNivelEstudios,
-                                           chnivel_estudios = niv != null ? niv.NivelEstudios : null,
+                                           chnivel_estudios = nivItem != null ? nivItem.NivelEstudios : string.Empty,
                                            nukidprofesion = req.IdProfesion,
-                                           chprofesion = prof != null ? prof.Profesion : null,
+                                           chprofesion = profItem != null ? profItem.Profesion : string.Empty,
                                            nukidjornada = req.IdJornada,
-                                           chjornada = jor != null ? jor.Jornada : null,
+                                           chjornada = jorItem != null ? jorItem.Jornada : string.Empty,
                                            nusueldo_min = req.SueldoMin,
-                                           nusueldo_max = req.SueldoMax
+                                           nusueldo_max = req.SueldoMax,
+                                           nusueldo_real = req.SueldoReal,
+                                           nunumempleado_rr_hh = req.NumEmpleadoRrHh,
+                                           chempleado_rr_hh = per1Item != null ? per1Item.Nombre + " " + per1Item.ApPaterno + " " + per1Item.ApMaterno : string.Empty,
+                                           nukiddirector_ejecutivo = req.IdDirectorEjecutivo,
+                                           chdirector_ejecutivo = per2Item != null ? per2Item.Nombre + " " + per2Item.ApPaterno + " " + per2Item.ApMaterno : string.Empty,
+                                           nukidproyecto = req.IdProyecto,
+                                           chproyecto = proyItem != null ? proyItem.Proyecto : string.Empty,
+                                           nukidjefe_inmediato = req.IdJefeInmediato,
+                                           chjefe_inmediato = per3Item != null ? per3Item.Nombre + " " + per3Item.ApPaterno + " " + per3Item.ApMaterno : string.Empty,
+                                           nukidtipo_contrato = req.IdTipoContrato,
+                                           chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
+                                           nukidestado = req.IdEstado,
+                                           chestado = estadoItem != null ? estadoItem.Estado : string.Empty,
+                                           nukidciudad = req.IdCiudad,
+                                           chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                           bodisponibilidad_viajar = req.DisponibilidadViajar,
+                                           nuanios_experiencia = req.AniosExperiencia,
+                                           chnivel_ingles = req.NivelIngles,
+                                           chcomentarios = req.Comentarios,
+                                           boactivo = req.Activo
                                        }).FirstOrDefaultAsync();
 #pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
 
@@ -193,8 +297,19 @@ namespace Bovis.Data
             int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
             int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
             int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            int sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
-            int sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
+            decimal sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
+            decimal sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
+            decimal sueldo_real = Convert.ToInt32(registro["sueldoReal"].ToString());
+            int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
+            int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
+            int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
+            int id_tipo_contrato = Convert.ToInt32(registro["idTipoContrato"].ToString());
+            int id_estado = Convert.ToInt32(registro["idEstado"].ToString());
+            int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
+            bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
+            int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
+            string nivel_ingles = registro["nivelIngles"].ToString();
+            string comentarios = registro["comentarios"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -208,6 +323,17 @@ namespace Bovis.Data
                     .Value(x => x.IdJornada, id_jornada)
                     .Value(x => x.SueldoMin, sueldo_min)
                     .Value(x => x.SueldoMax, sueldo_max)
+                    .Value(x => x.SueldoReal, sueldo_real)
+                    .Value(x => x.IdDirectorEjecutivo, id_director_ejecutivo)
+                    .Value(x => x.IdProyecto, id_proyecto)
+                    .Value(x => x.IdJefeInmediato, id_jefe_inmediato)
+                    .Value(x => x.IdTipoContrato, id_tipo_contrato)
+                    .Value(x => x.IdEstado, id_estado)
+                    .Value(x => x.IdCiudad, id_ciudad)
+                    .Value(x => x.DisponibilidadViajar, disponibilidad_viajar)
+                    .Value(x => x.AniosExperiencia, anios_experiencia)
+                    .Value(x => x.NivelIngles, nivel_ingles)
+                    .Value(x => x.Comentarios, comentarios)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
                 
@@ -263,6 +389,17 @@ namespace Bovis.Data
             int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
             int sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
             int sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
+            decimal sueldo_real = Convert.ToInt32(registro["sueldoReal"].ToString());
+            int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
+            int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
+            int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
+            int id_tipo_contrato = Convert.ToInt32(registro["idTipoContrato"].ToString());
+            int id_estado = Convert.ToInt32(registro["idEstado"].ToString());
+            int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
+            bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
+            int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
+            string nivel_ingles = registro["nivelIngles"].ToString();
+            string comentarios = registro["comentarios"].ToString();
             int index = 0;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
@@ -276,7 +413,18 @@ namespace Bovis.Data
                         IdProfesion = id_profesion,
                         IdJornada = id_jornada,
                         SueldoMin = sueldo_min,
-                        SueldoMax = sueldo_max
+                        SueldoMax = sueldo_max,
+                        SueldoReal = sueldo_real,
+                        IdDirectorEjecutivo = id_director_ejecutivo,
+                        IdProyecto = id_proyecto,
+                        IdJefeInmediato = id_jefe_inmediato,
+                        IdTipoContrato = id_tipo_contrato,
+                        IdEstado = id_estado,
+                        IdCiudad = id_ciudad,
+                        DisponibilidadViajar = disponibilidad_viajar,
+                        AniosExperiencia = anios_experiencia,
+                        NivelIngles = nivel_ingles,
+                        Comentarios = comentarios
                     }) > 0;
 
                 resp.Success = res_update_requerimiento;
@@ -543,13 +691,13 @@ namespace Bovis.Data
         #endregion Director Ejecutivo
 
         #region Proyectos
-        public async Task<List<TB_EmpleadoProyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        public async Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
         {
-            List<TB_EmpleadoProyecto> list = null;
+            List<TB_Proyecto> list = null;
             using (var db = new ConnectionDB(dbConfig))
             {
-                list = await (from proyectos in db.tB_EmpleadoProyectos
-                              where proyectos.NumEmpleadoRrHh == IdDirectorEjecutivo
+                list = await (from proyectos in db.tB_Proyectos
+                              where proyectos.IdDirectorEjecutivo == IdDirectorEjecutivo
                               select proyectos).ToListAsync();
             }
 
