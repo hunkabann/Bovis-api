@@ -151,14 +151,24 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
             {
-                var objetivoDB = await db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
+                var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
                     .UpdateAsync(x => new TB_ProyectoFactura
                     {
                         FechaCancelacion = factura.FechaCancelacion,
                         MotivoCancelacion = factura.MotivoCancelacion
-                    }) > 0;
+                    })) > 0;
 
                 resp.Success = objetivoDB;
+
+                var notas_factura = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.FechaCancelacion == null
+                                           && notas.IdFactura == factura.Id
+                                           select notas).ToListAsync();
+
+                var cobranza_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
+                                              where cobranza.FechaCancelacion == null
+                                              && cobranza.IdFactura == factura.Id
+                                              select cobranza).ToListAsync();
 
             }
             return resp;

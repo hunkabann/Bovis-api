@@ -297,9 +297,9 @@ namespace Bovis.Data
             int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
             int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
             int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            decimal sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
-            decimal sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
-            decimal sueldo_real = Convert.ToInt32(registro["sueldoReal"].ToString());
+            decimal sueldo_min = Convert.ToDecimal(registro["sueldoMin"].ToString());
+            decimal sueldo_max = Convert.ToDecimal(registro["sueldoMax"].ToString());
+            decimal sueldo_real = Convert.ToDecimal(registro["sueldoReal"].ToString());
             int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
             int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
             int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
@@ -387,9 +387,9 @@ namespace Bovis.Data
             int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
             int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
             int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            int sueldo_min = Convert.ToInt32(registro["sueldoMin"].ToString());
-            int sueldo_max = Convert.ToInt32(registro["sueldoMax"].ToString());
-            decimal sueldo_real = Convert.ToInt32(registro["sueldoReal"].ToString());
+            decimal sueldo_min = Convert.ToDecimal(registro["sueldoMin"].ToString());
+            decimal sueldo_max = Convert.ToDecimal(registro["sueldoMax"].ToString());
+            decimal sueldo_real = Convert.ToDecimal(registro["sueldoReal"].ToString());
             int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
             int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
             int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
