@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Xml;
 
 namespace Bovis.Business
@@ -302,6 +303,24 @@ namespace Bovis.Business
             var respData = await _facturaData.CancelFactura(new TB_ProyectoFactura { Id = factura.Id, FechaCancelacion = factura.FechaCancelacion, MotivoCancelacion = factura.MotivoCancelacion });
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo cancelar la factura"; return resp; }
             else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(factura) });
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> CancelNota(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _facturaData.CancelNota(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la nota en la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> CancelCobranza(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _facturaData.CancelCobranza(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la cobranza en la base de datos"; return resp; }
+            else resp = respData;
             return resp;
         }
 

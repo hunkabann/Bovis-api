@@ -6,6 +6,7 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.Tools;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data
 {
@@ -197,6 +198,55 @@ namespace Bovis.Data
                     resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
                 }
             }
+
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> CancelNota(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            string uuid_nota = registro["uuid"].ToString();
+            DateTime fecha_cancelacion = Convert.ToDateTime(registro["fecha_cancelacion"].ToString());
+            string motivo_cancelacion = registro["motivo_cancelacion"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
+                                .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
+                                {
+                                    FechaCancelacion = fecha_cancelacion,
+                                    MotivoCancelacion = motivo_cancelacion
+                                }) > 0;
+
+                resp.Success = res_update_nota;
+                resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la nota." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> CancelCobranza(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            string uuid_cobranza = registro["uuid"].ToString();
+            DateTime fecha_cancelacion = Convert.ToDateTime(registro["fecha_cancelacion"].ToString());
+            string motivo_cancelacion = registro["motivo_cancelacion"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
+                                .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
+                                {
+                                    FechaCancelacion = fecha_cancelacion,
+                                    MotivoCancelacion = motivo_cancelacion
+                                }) > 0;
+
+                resp.Success = res_update_nota;
+                resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la cobranza." : string.Empty;
+            }
+
             return resp;
         }
 

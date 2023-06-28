@@ -1,5 +1,6 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data.Interface
 {
@@ -21,5 +22,7 @@ namespace Bovis.Data.Interface
         Task<List<FacturaDetalles>> GetFacturasEmpresaFecha(int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin);
         Task<List<FacturaDetalles>> GetFacturasCliente(int? idCliente);
         Task<List<FacturaDetalles>> GetFacturasClienteFecha(int? idCliente, DateTime? fechaIni, DateTime? fechaFin);
+        Task<(bool existe, string mensaje)> CancelNota(JsonObject registro);
+        Task<(bool existe, string mensaje)> CancelCobranza(JsonObject registro);
     }
 }

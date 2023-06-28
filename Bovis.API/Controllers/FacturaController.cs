@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
@@ -82,6 +83,22 @@ namespace Bovis.API.Controllers
             var response = await _mediator.Send(factura);
             if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
             return Ok(response);
+        }
+
+        [HttpPut("Nota/Cancelar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> CancelNota([FromBody] JsonObject registro)
+        {
+            var query = await _facturaQueryService.CancelNota(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpPut("Cobranza/Cancelar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> CancelCobranza([FromBody] JsonObject registro)
+        {
+            var query = await _facturaQueryService.CancelCobranza(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
 
         [HttpPost("Consultar")]//, Authorize(Roles = "eje.full, dev.full")]

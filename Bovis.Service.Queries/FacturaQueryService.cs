@@ -6,6 +6,7 @@ using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Dto.Request;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Service.Queries
 {
@@ -32,25 +33,38 @@ namespace Bovis.Service.Queries
 			//Factura_Proyecto response = null;
 			//try
 			//{
-				var response = await _facturaBusiness.GetInfoProyecto(numProyecto);
+			var response = await _facturaBusiness.GetInfoProyecto(numProyecto);
 
 			//}
 			//catch (Exception ex)
 			//{
 
 			//}
-            return new Response<FacturaProyecto> { Data = _map.Map<FacturaProyecto>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontro información del proyecto." : default };
-        }
-        public async Task<Response<List<DetallesFactura>>> Search(ConsultarFactura request) 
-		{ 
-			var response = await _facturaBusiness.Search(request.IdProyecto, request.IdCliente, request.IdEmpresa, request.FechaIni, request.FechaFin);
-            return new Response<List<DetallesFactura>> { Data = _map.Map<List<DetallesFactura>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información con los parametros especificados." : default };
+			return new Response<FacturaProyecto> { Data = _map.Map<FacturaProyecto>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontro información del proyecto." : default };
 		}
 
-public void Dispose()
+		public async Task<Response<List<DetallesFactura>>> Search(ConsultarFactura request)
+		{
+			var response = await _facturaBusiness.Search(request.IdProyecto, request.IdCliente, request.IdEmpresa, request.FechaIni, request.FechaFin);
+			return new Response<List<DetallesFactura>> { Data = _map.Map<List<DetallesFactura>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información con los parametros especificados." : default };
+		}
+
+        public async Task<Response<(bool existe, string mensaje)>> CancelNota(JsonObject registro)
         {
-            GC.SuppressFinalize(this);
-            GC.Collect();
+            var response = await _facturaBusiness.CancelNota(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
-    }
+
+        public async Task<Response<(bool existe, string mensaje)>> CancelCobranza(JsonObject registro)
+        {
+            var response = await _facturaBusiness.CancelCobranza(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+
+        public void Dispose()
+		{
+			GC.SuppressFinalize(this);
+			GC.Collect();
+		}
+	}
 }
