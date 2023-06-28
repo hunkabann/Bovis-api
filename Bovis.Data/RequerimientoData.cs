@@ -223,7 +223,7 @@ namespace Bovis.Data
                                        from emp2Item in emp2Join.DefaultIfEmpty()
                                        join per2 in db.tB_Personas on emp2Item.NumEmpleadoRrHh equals per2.IdPersona into per2Join
                                        from per2Item in per2Join.DefaultIfEmpty()
-                                       join proy in db.tB_Proyectos on req.IdDirectorEjecutivo equals proy.IdDirectorEjecutivo into proyJoin
+                                       join proy in db.tB_Proyectos on req.IdProyecto equals proy.NumProyecto into proyJoin
                                        from proyItem in proyJoin.DefaultIfEmpty()
                                        join emp3 in db.tB_Empleados on req.IdJefeInmediato equals emp3.NumEmpleadoRrHh into emp3Join
                                        from emp3Item in emp3Join.DefaultIfEmpty()
