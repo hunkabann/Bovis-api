@@ -159,17 +159,43 @@ namespace Bovis.Data
                     })) > 0;
 
                 resp.Success = objetivoDB;
+                resp.Message = objetivoDB == default ? "Ocurrio un error al cancelar registro de factura." : string.Empty;
 
                 var notas_factura = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.FechaCancelacion == null
                                            && notas.IdFactura == factura.Id
                                            select notas).ToListAsync();
 
-                var cobranza_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
+                foreach(var nota in notas_factura)
+                {
+                    var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
+                    .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
+                    {
+                        FechaCancelacion = factura.FechaCancelacion,
+                        MotivoCancela = factura.MotivoCancelacion
+                    })) > 0;
+
+                    resp.Success = resp_nota;
+                    resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
+                }
+
+                var cobranzas_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
                                               where cobranza.FechaCancelacion == null
                                               && cobranza.IdFactura == factura.Id
                                               select cobranza).ToListAsync();
 
+                foreach (var cobranza in cobranzas_factura)
+                {
+                    var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
+                    .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
+                    {
+                        FechaCancelacion = factura.FechaCancelacion,
+                        MotivoCancela = factura.MotivoCancelacion
+                    })) > 0;
+
+                    resp.Success = resp_cobranza;
+                    resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
+                }
             }
             return resp;
         }

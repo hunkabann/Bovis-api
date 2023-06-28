@@ -19,11 +19,11 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nuanio"), NotNull] public short Anio { get; set; }
 		[Column("dtfecha_emision"), NotNull] public DateTime FechaEmision { get; set; }
 		[Column("dtfecha_pago"), Nullable] public DateTime? FechaPago { get; set; }
-		[Column("dtfecha_cancelacion"), Nullable] public DateTime? FechaCancelacion { get; set; }
+		[Column("dtfecha_cancelacion"), Nullable] public DateTime FechaCancelacion { get; set; }
 		[Column("chno_factura"), Nullable] public string? NoFactura { get; set; }
 		[Column("nutipo_cambio"), Nullable] public decimal? TipoCambio { get; set; }
         [Column("chxml"), NotNull] public string XmlB64 { get; set; }
-        [Column("chmotivocancela"), Nullable] public string? MotivoCancelacion { get; set; }
+        [Column("chmotivocancela"), Nullable] public string MotivoCancelacion { get; set; }
 
 
         //[Column("Nudolares"), Nullable] public decimal? Dolares { get; set; }
