@@ -172,7 +172,7 @@ namespace Bovis.Data
                     .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
                     {
                         FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancela = factura.MotivoCancelacion
+                        MotivoCancelacion = factura.MotivoCancelacion
                     })) > 0;
 
                     resp.Success = resp_nota;
@@ -190,7 +190,7 @@ namespace Bovis.Data
                     .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
                     {
                         FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancela = factura.MotivoCancelacion
+                        MotivoCancelacion = factura.MotivoCancelacion
                     })) > 0;
 
                     resp.Success = resp_cobranza;
