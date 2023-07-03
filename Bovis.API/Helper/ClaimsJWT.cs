@@ -24,6 +24,16 @@ namespace Bovis.API.Helper
 					transactionId = TransactionId
 				};
 			}
+			else
+			{
+				userSettings = new ClaimJWTModel
+				{
+					nombre = "Usuario desconocido",
+					correo = "Correo desconocido",
+					roles = "dev.full",
+					transactionId = TransactionId
+				};
+			}
 			return userSettings ?? new ClaimJWTModel();
 		}
 	}
