@@ -42,5 +42,8 @@ namespace Bovis.Service.Queries.Dto.Commands
         public int Id { get; set; }
         [Required(ErrorMessage = "El campo MotivoCancelacion es requerido")]
         public string MotivoCancelacion { get; set; }
+
+        [Required(ErrorMessage = "El campo FechaCancelacion es requerido")]
+        public DateTime FechaCancelacion { get; set; }
     }
 }
