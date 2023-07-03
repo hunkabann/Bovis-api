@@ -28,8 +28,8 @@ namespace Bovis.API.Helper
 			{
 				userSettings = new ClaimJWTModel
 				{
-					nombre = "Usuario desconocido",
-					correo = "Correo desconocido",
+					nombre = "No identificado",
+					correo = "No identificado",
 					roles = "dev.full",
 					transactionId = TransactionId
 				};
