@@ -60,7 +60,7 @@ namespace Bovis.Data
         #endregion Experiencias
 
         #region Registros
-        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados)
+        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
         {
             List<Requerimiento_Detalle> requerimientos = new List<Requerimiento_Detalle>();
             Requerimiento_Detalle requerimiento = new Requerimiento_Detalle();
@@ -99,8 +99,11 @@ namespace Bovis.Data
                                                     from estadoItem in estadoJoin.DefaultIfEmpty()
                                                     join ciudad in db.tB_Ciudads on req.IdCiudad equals ciudad.IdCiudad into ciudadJoin
                                                     from ciudadItem in ciudadJoin.DefaultIfEmpty()
-                                                    where (Asignados == false) ? req.NumEmpleadoRrHh == null : req.NumEmpleadoRrHh != null
-                                                    && req.Activo == true
+                                                    where (Asignados == false ? req.NumEmpleadoRrHh == null : req.NumEmpleadoRrHh != null)
+                                                      && (idDirector == 0 || req.IdDirectorEjecutivo == idDirector)
+                                                      && (idProyecto == 0 || req.IdProyecto == idProyecto)
+                                                      && (idPuesto == 0 || req.IdPuesto == idPuesto)
+                                                      && req.Activo == true
                                                     orderby req.IdRequerimiento descending
                                                     select new Requerimiento_Detalle
                                                     {

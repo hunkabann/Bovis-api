@@ -11,6 +11,9 @@ using Bovis.API.Helper;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
+using Bovis.Service.Queries.Dto.Responses;
+using Microsoft.AspNetCore.Http;
+using Bovis.Common.Model.Tables;
 
 namespace Bovis.API.Controllers
 {
@@ -62,7 +65,17 @@ namespace Bovis.API.Controllers
         [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
-            var query = await _empleadoQueryService.UpdateRegistro(registro);
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 45);
+            
+            var query = await _empleadoQueryService.UpdateRegistro(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
@@ -70,7 +83,17 @@ namespace Bovis.API.Controllers
         [HttpPut("Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> UpdateEstatus([FromBody] JsonObject registro)
         {
-            var query = await _empleadoQueryService.UpdateEstatus(registro);
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 1047);
+
+            var query = await _empleadoQueryService.UpdateEstatus(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

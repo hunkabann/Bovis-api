@@ -10,9 +10,11 @@ namespace Bovis.Business
     {
         #region base
         private readonly IPersonaData _personaData;
-        public PersonaBusiness(IPersonaData _personaData)
+        private readonly ITransactionData _transactionData;
+        public PersonaBusiness(IPersonaData _personaData, ITransactionData _transactionData)
         {
             this._personaData = _personaData;
+            this._transactionData = _transactionData;
         }
 
         public void Dispose()
@@ -42,18 +44,26 @@ namespace Bovis.Business
         public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _personaData.UpdateRegistro(registro);
+            var respData = await _personaData.UpdateRegistro((JsonObject)registro["Registro"]);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de la persona a la base de datos"; return resp; }
-            else resp = respData;
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
             return resp;
         }
 
         public async Task<(bool Success, string Message)> UpdateEstatus(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _personaData.UpdateEstatus(registro);
+            var respData = await _personaData.UpdateEstatus((JsonObject)registro["Registro"]);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de la persona a la base de datos"; return resp; }
-            else resp = respData;
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
             return resp;
         }
         #endregion Personas

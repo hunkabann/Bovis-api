@@ -84,7 +84,17 @@ namespace Bovis.API.Controllers
         [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
-            var query = await _cieQueryService.UpdateRegistro(registro);
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 1051);
+
+            var query = await _cieQueryService.UpdateRegistro(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

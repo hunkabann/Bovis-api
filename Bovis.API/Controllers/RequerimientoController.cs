@@ -47,10 +47,10 @@ public class RequerimientoController : ControllerBase
     #endregion Experiencias
 
     #region Registros
-    [HttpGet, Route("Requerimientos/{Asignados?}")]//, Authorize(Roles = "it.full, dev.full")
-    public async Task<IActionResult> GetRequerimientos(bool? Asignados)
+    [HttpGet, Route("Requerimientos/{Asignados?}/{idDirector?}/{idProyecto?}/{idPuesto?}")]//, Authorize(Roles = "it.full, dev.full")
+    public async Task<IActionResult> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
     {
-        var query = await _requerimientoQueryService.GetRequerimientos(Asignados);
+        var query = await _requerimientoQueryService.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
         return Ok(query);
     }
 
@@ -72,7 +72,17 @@ public class RequerimientoController : ControllerBase
     [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
     {
-        var query = await _requerimientoQueryService.UpdateRegistro(registro);
+        ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+        JsonObject registroJsonObject = new JsonObject();
+        registroJsonObject.Add("Registro", registro);
+        registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+        registroJsonObject.Add("Usuario", claimJWTModel.correo);
+        registroJsonObject.Add("Roles", claimJWTModel.roles);
+        registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+        registroJsonObject.Add("Rel", 1049);
+
+        var query = await _requerimientoQueryService.UpdateRegistro(registroJsonObject);
         if (query.Message == string.Empty) return Ok(query);
         else return BadRequest(query.Message);
     }

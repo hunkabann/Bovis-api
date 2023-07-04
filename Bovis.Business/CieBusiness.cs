@@ -11,9 +11,11 @@ namespace Bovis.Business
     {
         #region base
         private readonly ICieData _cieData;
-        public CieBusiness(ICieData _cieData)
+        private readonly ITransactionData _transactionData;
+        public CieBusiness(ICieData _cieData, ITransactionData _transactionData)
         {
             this._cieData = _cieData;
+            this._transactionData = _transactionData;
         }
 
         public void Dispose()
@@ -49,9 +51,13 @@ namespace Bovis.Business
         public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _cieData.UpdateRegistro(registro);
+            var respData = await _cieData.UpdateRegistro((JsonObject)registro["Registro"]);
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
-            else resp = respData;
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
             return resp;
         }
         public async Task<(bool Success, string Message)> DeleteRegistro(int idRegistro)
