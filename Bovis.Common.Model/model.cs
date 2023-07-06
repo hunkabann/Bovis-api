@@ -70,7 +70,9 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cobranza> tB_Cobranzas { get { return this.GetTable<TB_Cobranza>(); } }
 		public ITable<TB_Colonia> tB_Colonias { get { return this.GetTable<TB_Colonia>(); } }
 		public ITable<TB_Contacto> tB_Contactos { get { return this.GetTable<TB_Contacto>(); } }
-		public ITable<TB_CuentaBanco> tB_CuentaBancos { get { return this.GetTable<TB_CuentaBanco>(); } }
+        public ITable<TB_Contrato_Empleado> tB_Contrato_Empleados { get { return this.GetTable<TB_Contrato_Empleado>(); } }
+        public ITable<TB_Contrato_Template> tB_Contrato_Templates { get { return this.GetTable<TB_Contrato_Template>(); } }
+        public ITable<TB_CuentaBanco> tB_CuentaBancos { get { return this.GetTable<TB_CuentaBanco>(); } }
         public ITable<TB_Dias_Timesheet> tB_Dias_Timesheets { get { return this.GetTable<TB_Dias_Timesheet>(); } }
         public ITable<TB_Direccion> tB_Direccions { get { return this.GetTable<TB_Direccion>(); } }
 		public ITable<TB_Empleado> tB_Empleados { get { return this.GetTable<TB_Empleado>(); } }

@@ -59,6 +59,10 @@ builder.Services.AddScoped<ICieQueryService, CieQueryService>();
 builder.Services.AddScoped<ICieBusiness, CieBusiness>();
 builder.Services.AddScoped<ICieData, CieData>();
 
+builder.Services.AddScoped<IContratoQueryService, ContratoQueryService>();
+builder.Services.AddScoped<IContratoBusiness, ContratoBusiness>();
+builder.Services.AddScoped<IContratoData, ContratoData>();
+
 builder.Services.AddScoped<IDorQueryService, DorQueryService>();
 builder.Services.AddScoped<IDorBusiness, DorBusiness>();
 builder.Services.AddScoped<IDorData, DorData>();

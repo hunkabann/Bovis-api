@@ -19,7 +19,6 @@ namespace Bovis.Service.Queries
     {
         #region base
         private readonly ITimesheetBusiness _timesheetBusiness;
-
         private readonly IMapper _map;
 
         public TimesheetQueryService(IMapper _map, ITimesheetBusiness _timesheetBusiness)
