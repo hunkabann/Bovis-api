@@ -43,10 +43,10 @@ namespace Bovis.Service.Queries
 			return new Response<FacturaProyecto> { Data = _map.Map<FacturaProyecto>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontro información del proyecto." : default };
 		}
 
-		public async Task<Response<List<DetallesFactura>>> Search(ConsultarFactura request)
+		public async Task<Response<List<FacturaDetalles>>> Search(ConsultarFactura request)
 		{
 			var response = await _facturaBusiness.Search(request.IdProyecto, request.IdCliente, request.IdEmpresa, request.FechaIni, request.FechaFin);
-			return new Response<List<DetallesFactura>> { Data = _map.Map<List<DetallesFactura>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información con los parametros especificados." : default };
+			return new Response<List<FacturaDetalles>> { Data = _map.Map<List<FacturaDetalles>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información con los parametros especificados." : default };
 		}
 
         public async Task<Response<(bool existe, string mensaje)>> CancelNota(JsonObject registro)

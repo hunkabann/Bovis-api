@@ -71,7 +71,7 @@ namespace Bovis.Common.Model.NoTable
         public string? Error { get; set; }
     }
 
-    public class FacturaDetalles
+    public class FacturaDetalles 
     {
         public int Id { get; set; }
         public string Uuid { get; set; }
@@ -91,10 +91,37 @@ namespace Bovis.Common.Model.NoTable
         public string? NoFactura { get; set; }
         public decimal? TipoCambio { get; set; }
         public string? MotivoCancelacion { get; set; }
+        public List<NotaDetalle> Notas { get; set; }
+        public List<CobranzaDetalle> Cobranzas { get; set; }
+        public int TotalNotasCredito { set; get; }
+        public int TotalCobranzas { get; set; }
+        ////nota credito
+        //public string? NC_UuidNotaCredito { set; get; }
+        //public string? NC_IdMoneda { set; get; }
+        //public string? NC_IdTipoRelacion { set; get; }
+        //public string? NC_NotaCredito { set; get; }
+        //public decimal? NC_Importe { set; get; }
+        //public decimal? NC_Iva { set; get; }
+        //public decimal? NC_Total { set; get; }
+        //public string? NC_Concepto { set; get; }
+        //public byte? NC_Mes { set; get; }
+        //public short NC_Anio { set; get; }
+        //public decimal? NC_TipoCambio { set; get; }
+        //public DateTime? NC_FechaNotaCredito { set; get; }
+        ////cobranza
+        //public string? C_UuidCobranza { set; get; }
+        //public string? C_IdMonedaP { set; get; }
+        //public decimal? C_ImportePagado { set; get; }
+        //public decimal? C_ImpSaldoAnt { set; get; }
+        //public decimal? C_ImporteSaldoInsoluto { set; get; }
+        //public decimal? C_IvaP { set; get; }
+        //public decimal? C_TipoCambioP { set; get; }
+        //public DateTime? C_FechaPago { set; get; }
+    }
 
-        //nota credito
-        
-         public string? NC_UuidNotaCredito { set; get; }
+    public class NotaDetalle
+    {
+        public string? NC_UuidNotaCredito { set; get; }
         public string? NC_IdMoneda { set; get; }
         public string? NC_IdTipoRelacion { set; get; }
         public string? NC_NotaCredito { set; get; }
@@ -106,23 +133,18 @@ namespace Bovis.Common.Model.NoTable
         public short NC_Anio { set; get; }
         public decimal? NC_TipoCambio { set; get; }
         public DateTime? NC_FechaNotaCredito { set; get; }
+    }
 
-        //cobranza
-        
-         public string? C_UuidCobranza { set; get; }
-         public string? C_IdMonedaP { set; get; }
+    public class CobranzaDetalle
+    {
+        public string? C_UuidCobranza { set; get; }
+        public string? C_IdMonedaP { set; get; }
         public decimal? C_ImportePagado { set; get; }
         public decimal? C_ImpSaldoAnt { set; get; }
         public decimal? C_ImporteSaldoInsoluto { set; get; }
         public decimal? C_IvaP { set; get; }
         public decimal? C_TipoCambioP { set; get; }
         public DateTime? C_FechaPago { set; get; }
-        
-        //public List<TB_Proyecto_Factura_Nota_Credito>? NotaCredito { get; set; }
-        //public List<TB_Proyecto_Factura_Cobranza>? Cobranza { get; set; }
-
-        public int NotasCredito { set; get; }
-        public int Cobranzas { get; set; }
     }
 
 }

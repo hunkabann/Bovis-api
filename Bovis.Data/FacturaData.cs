@@ -279,27 +279,27 @@ namespace Bovis.Data
                                      FechaPago = a.FechaPago,
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
-                                     MotivoCancelacion = a.MotivoCancelacion,
-                                     NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     NC_IdMoneda = ab.IdMoneda,
-                                     NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     NC_NotaCredito = ab.NotaCredito,
-                                     NC_Importe = ab.Importe,
-                                     NC_Iva = ab.Iva,
-                                     NC_Total = ab.Total,
-                                     NC_Concepto = ab.Concepto,
-                                     NC_Mes = ab.Mes,
-                                     NC_Anio = ab.Anio,
-                                     NC_TipoCambio = ab.TipoCambio,
-                                     NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     C_UuidCobranza = ac.UuidCobranza,
-                                     C_IdMonedaP = ac.IdMonedaP,
-                                     C_ImportePagado = ac.ImportePagado,
-                                     C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     C_IvaP = ac.IvaP,
-                                     C_TipoCambioP = ac.TipoCambioP,
-                                     C_FechaPago = ac.FechaPago
+                                     MotivoCancelacion = a.MotivoCancelacion
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -307,16 +307,51 @@ namespace Bovis.Data
                     var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.IdFactura == facturaDetalle.Id
                                            && notas.FechaCancelacion == null
-                                           select notas).ToListAsync();
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
 
-                    facturaDetalle.NotasCredito = res_notas.Count();
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
                                                where cobr.IdFactura == facturaDetalle.Id
                                                && cobr.FechaCancelacion == null
-                                               select cobr).ToListAsync();
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
 
-                    facturaDetalle.Cobranzas = res_cobranzas.Count();
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
                 }
 
                 return res;
@@ -329,7 +364,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from a in db.tB_ProyectoFacturas
+                var res = await (from a in db.tB_ProyectoFacturas
                           join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
                           from ab in factNC.DefaultIfEmpty()
                           join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
@@ -355,29 +390,81 @@ namespace Bovis.Data
                               NoFactura = a.NoFactura,
                               TipoCambio = a.TipoCambio,
                               MotivoCancelacion = a.MotivoCancelacion,
-                              NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              NC_IdMoneda = ab.IdMoneda,
-                              NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              NC_NotaCredito = ab.NotaCredito,
-                              NC_Importe = ab.Importe,
-                              NC_Iva = ab.Iva,
-                              NC_Total = ab.Total,
-                              NC_Concepto = ab.Concepto,
-                              NC_Mes = ab.Mes,
-                              NC_Anio = ab.Anio,
-                              NC_TipoCambio = ab.TipoCambio,
-                              NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              C_UuidCobranza = ac.UuidCobranza,
-                              C_IdMonedaP = ac.IdMonedaP,
-                              C_ImportePagado = ac.ImportePagado,
-                              C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              C_IvaP = ac.IvaP,
-                              C_TipoCambioP = ac.TipoCambioP,
-                              C_FechaPago = ac.FechaPago
-                          };
+                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                              //NC_IdMoneda = ab.IdMoneda,
+                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                              //NC_NotaCredito = ab.NotaCredito,
+                              //NC_Importe = ab.Importe,
+                              //NC_Iva = ab.Iva,
+                              //NC_Total = ab.Total,
+                              //NC_Concepto = ab.Concepto,
+                              //NC_Mes = ab.Mes,
+                              //NC_Anio = ab.Anio,
+                              //NC_TipoCambio = ab.TipoCambio,
+                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                              //C_UuidCobranza = ac.UuidCobranza,
+                              //C_IdMonedaP = ac.IdMonedaP,
+                              //C_ImportePagado = ac.ImportePagado,
+                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                              //C_IvaP = ac.IvaP,
+                              //C_TipoCambioP = ac.TipoCambioP,
+                              //C_FechaPago = ac.FechaPago
+                          }).ToListAsync();
 
-                return await res.ToListAsync();
+                foreach (var facturaDetalle in res)
+                {
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
+
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
+
+                    var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                               where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
+
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
+                }
+
+                return res;
 
             }
         }
@@ -385,55 +472,107 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from a in db.tB_ProyectoFacturas
-                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
-                          from ab in factNC.DefaultIfEmpty()
-                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
-                          from ac in factC.DefaultIfEmpty()
-                          where a.NumProyecto == idProyecto && a.FechaEmision >= fechaIni && a.FechaEmision <= fechaFin
-                          select new FacturaDetalles
-                          {
-                              Id = a.Id,
-                              Uuid = a.Uuid,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoFactura = a.IdTipoFactura,
-                              IdMoneda = a.IdMoneda,
-                              Importe = a.Importe,
-                              Iva = a.Iva,
-                              IvaRet = a.IvaRet,
-                              Total = a.Total,
-                              Concepto = a.Concepto,
-                              Mes = a.Mes,
-                              Anio = a.Anio,
-                              FechaEmision = a.FechaEmision,
-                              FechaCancelacion = a.FechaCancelacion,
-                              FechaPago = a.FechaPago,
-                              NoFactura = a.NoFactura,
-                              TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion,
-                              NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              NC_IdMoneda = ab.IdMoneda,
-                              NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              NC_NotaCredito = ab.NotaCredito,
-                              NC_Importe = ab.Importe,
-                              NC_Iva = ab.Iva,
-                              NC_Total = ab.Total,
-                              NC_Concepto = ab.Concepto,
-                              NC_Mes = ab.Mes,
-                              NC_Anio = ab.Anio,
-                              NC_TipoCambio = ab.TipoCambio,
-                              NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              C_UuidCobranza = ac.UuidCobranza,
-                              C_IdMonedaP = ac.IdMonedaP,
-                              C_ImportePagado = ac.ImportePagado,
-                              C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              C_IvaP = ac.IvaP,
-                              C_TipoCambioP = ac.TipoCambioP,
-                              C_FechaPago = ac.FechaPago
-                          };
+                var res = await (from a in db.tB_ProyectoFacturas
+                                 join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                 from ab in factNC.DefaultIfEmpty()
+                                 join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                 from ac in factC.DefaultIfEmpty()
+                                 where a.NumProyecto == idProyecto && a.FechaEmision >= fechaIni && a.FechaEmision <= fechaFin
+                                 select new FacturaDetalles
+                                 {
+                                     Id = a.Id,
+                                     Uuid = a.Uuid,
+                                     NumProyecto = a.NumProyecto,
+                                     IdTipoFactura = a.IdTipoFactura,
+                                     IdMoneda = a.IdMoneda,
+                                     Importe = a.Importe,
+                                     Iva = a.Iva,
+                                     IvaRet = a.IvaRet,
+                                     Total = a.Total,
+                                     Concepto = a.Concepto,
+                                     Mes = a.Mes,
+                                     Anio = a.Anio,
+                                     FechaEmision = a.FechaEmision,
+                                     FechaCancelacion = a.FechaCancelacion,
+                                     FechaPago = a.FechaPago,
+                                     NoFactura = a.NoFactura,
+                                     TipoCambio = a.TipoCambio,
+                                     MotivoCancelacion = a.MotivoCancelacion
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
+                                 }).ToListAsync();
 
-                return await res.ToListAsync();
+                foreach (var facturaDetalle in res)
+                {
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
+
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
+
+                    var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                               where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
+
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
+                }
+
+                return res;
 
             }
         }
@@ -450,7 +589,7 @@ namespace Bovis.Data
                                    where a.IdEmpresa == idEmpresa
                                    select a.NumProyecto).ToArray();
 
-                var res = from a in db.tB_ProyectoFacturas
+                var res = await (from a in db.tB_ProyectoFacturas
                           join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
                           from ab in factNC.DefaultIfEmpty()
                           join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
@@ -475,30 +614,82 @@ namespace Bovis.Data
                               FechaPago = a.FechaPago,
                               NoFactura = a.NoFactura,
                               TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion,
-                              NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              NC_IdMoneda = ab.IdMoneda,
-                              NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              NC_NotaCredito = ab.NotaCredito,
-                              NC_Importe = ab.Importe,
-                              NC_Iva = ab.Iva,
-                              NC_Total = ab.Total,
-                              NC_Concepto = ab.Concepto,
-                              NC_Mes = ab.Mes,
-                              NC_Anio = ab.Anio,
-                              NC_TipoCambio = ab.TipoCambio,
-                              NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              C_UuidCobranza = ac.UuidCobranza,
-                              C_IdMonedaP = ac.IdMonedaP,
-                              C_ImportePagado = ac.ImportePagado,
-                              C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              C_IvaP = ac.IvaP,
-                              C_TipoCambioP = ac.TipoCambioP,
-                              C_FechaPago = ac.FechaPago
-                          };
+                              MotivoCancelacion = a.MotivoCancelacion
+                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                              //NC_IdMoneda = ab.IdMoneda,
+                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                              //NC_NotaCredito = ab.NotaCredito,
+                              //NC_Importe = ab.Importe,
+                              //NC_Iva = ab.Iva,
+                              //NC_Total = ab.Total,
+                              //NC_Concepto = ab.Concepto,
+                              //NC_Mes = ab.Mes,
+                              //NC_Anio = ab.Anio,
+                              //NC_TipoCambio = ab.TipoCambio,
+                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                              //C_UuidCobranza = ac.UuidCobranza,
+                              //C_IdMonedaP = ac.IdMonedaP,
+                              //C_ImportePagado = ac.ImportePagado,
+                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                              //C_IvaP = ac.IvaP,
+                              //C_TipoCambioP = ac.TipoCambioP,
+                              //C_FechaPago = ac.FechaPago
+                          }).ToListAsync();
 
-                return await res.ToListAsync();
+                foreach (var facturaDetalle in res)
+                {
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
+
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
+
+                    var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                               where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
+
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
+                }
+
+                return res;
 
             }
         }
@@ -513,7 +704,7 @@ namespace Bovis.Data
                                     where a.IdEmpresa == idEmpresa
                                     select a.NumProyecto).ToArray();
 
-                var res = from a in db.tB_ProyectoFacturas
+                var res = await (from a in db.tB_ProyectoFacturas
                           join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
                           from ab in factNC.DefaultIfEmpty()
                           join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
@@ -539,29 +730,81 @@ namespace Bovis.Data
                               NoFactura = a.NoFactura,
                               TipoCambio = a.TipoCambio,
                               MotivoCancelacion = a.MotivoCancelacion,
-                              NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              NC_IdMoneda = ab.IdMoneda,
-                              NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              NC_NotaCredito = ab.NotaCredito,
-                              NC_Importe = ab.Importe,
-                              NC_Iva = ab.Iva,
-                              NC_Total = ab.Total,
-                              NC_Concepto = ab.Concepto,
-                              NC_Mes = ab.Mes,
-                              NC_Anio = ab.Anio,
-                              NC_TipoCambio = ab.TipoCambio,
-                              NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              C_UuidCobranza = ac.UuidCobranza,
-                              C_IdMonedaP = ac.IdMonedaP,
-                              C_ImportePagado = ac.ImportePagado,
-                              C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              C_IvaP = ac.IvaP,
-                              C_TipoCambioP = ac.TipoCambioP,
-                              C_FechaPago = ac.FechaPago
-                          };
+                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                              //NC_IdMoneda = ab.IdMoneda,
+                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                              //NC_NotaCredito = ab.NotaCredito,
+                              //NC_Importe = ab.Importe,
+                              //NC_Iva = ab.Iva,
+                              //NC_Total = ab.Total,
+                              //NC_Concepto = ab.Concepto,
+                              //NC_Mes = ab.Mes,
+                              //NC_Anio = ab.Anio,
+                              //NC_TipoCambio = ab.TipoCambio,
+                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                              //C_UuidCobranza = ac.UuidCobranza,
+                              //C_IdMonedaP = ac.IdMonedaP,
+                              //C_ImportePagado = ac.ImportePagado,
+                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                              //C_IvaP = ac.IvaP,
+                              //C_TipoCambioP = ac.TipoCambioP,
+                              //C_FechaPago = ac.FechaPago
+                          }).ToListAsync();
 
-                return await res.ToListAsync();
+                foreach (var facturaDetalle in res)
+                {
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
+
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
+
+                    var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                               where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
+
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
+                }
+
+                return res;
 
             }
         }
@@ -579,7 +822,7 @@ namespace Bovis.Data
                                     where a.IdEmpresa == idCliente
                                     select a.NumProyecto).ToArray();
 
-                var res = from a in db.tB_ProyectoFacturas
+                var res = await (from a in db.tB_ProyectoFacturas
                           join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
                           from ab in factNC.DefaultIfEmpty()
                           join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
@@ -604,30 +847,82 @@ namespace Bovis.Data
                               FechaPago = a.FechaPago,
                               NoFactura = a.NoFactura,
                               TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion,
-                              NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              NC_IdMoneda = ab.IdMoneda,
-                              NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              NC_NotaCredito = ab.NotaCredito,
-                              NC_Importe = ab.Importe,
-                              NC_Iva = ab.Iva,
-                              NC_Total = ab.Total,
-                              NC_Concepto = ab.Concepto,
-                              NC_Mes = ab.Mes,
-                              NC_Anio = ab.Anio,
-                              NC_TipoCambio = ab.TipoCambio,
-                              NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              C_UuidCobranza = ac.UuidCobranza,
-                              C_IdMonedaP = ac.IdMonedaP,
-                              C_ImportePagado = ac.ImportePagado,
-                              C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              C_IvaP = ac.IvaP,
-                              C_TipoCambioP = ac.TipoCambioP,
-                              C_FechaPago = ac.FechaPago
-                          };
+                              MotivoCancelacion = a.MotivoCancelacion
+                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                              //NC_IdMoneda = ab.IdMoneda,
+                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                              //NC_NotaCredito = ab.NotaCredito,
+                              //NC_Importe = ab.Importe,
+                              //NC_Iva = ab.Iva,
+                              //NC_Total = ab.Total,
+                              //NC_Concepto = ab.Concepto,
+                              //NC_Mes = ab.Mes,
+                              //NC_Anio = ab.Anio,
+                              //NC_TipoCambio = ab.TipoCambio,
+                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                              //C_UuidCobranza = ac.UuidCobranza,
+                              //C_IdMonedaP = ac.IdMonedaP,
+                              //C_ImportePagado = ac.ImportePagado,
+                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                              //C_IvaP = ac.IvaP,
+                              //C_TipoCambioP = ac.TipoCambioP,
+                              //C_FechaPago = ac.FechaPago
+                          }).ToListAsync();
 
-                return await res.ToListAsync();
+                foreach (var facturaDetalle in res)
+                {
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
+
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
+
+                    var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                               where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
+
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
+                }
+
+                return res;
 
             }
         }
@@ -641,7 +936,7 @@ namespace Bovis.Data
                                     where a.IdEmpresa == idCliente
                                     select a.NumProyecto).ToArray();
 
-                var res = from a in db.tB_ProyectoFacturas
+                var res = await (from a in db.tB_ProyectoFacturas
                           join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
                           from ab in factNC.DefaultIfEmpty()
                           join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
@@ -666,30 +961,82 @@ namespace Bovis.Data
                               FechaPago = a.FechaPago,
                               NoFactura = a.NoFactura,
                               TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion,
-                              NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              NC_IdMoneda = ab.IdMoneda,
-                              NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              NC_NotaCredito = ab.NotaCredito,
-                              NC_Importe = ab.Importe,
-                              NC_Iva = ab.Iva,
-                              NC_Total = ab.Total,
-                              NC_Concepto = ab.Concepto,
-                              NC_Mes = ab.Mes,
-                              NC_Anio = ab.Anio,
-                              NC_TipoCambio = ab.TipoCambio,
-                              NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              C_UuidCobranza = ac.UuidCobranza,
-                              C_IdMonedaP = ac.IdMonedaP,
-                              C_ImportePagado = ac.ImportePagado,
-                              C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              C_IvaP = ac.IvaP,
-                              C_TipoCambioP = ac.TipoCambioP,
-                              C_FechaPago = ac.FechaPago
-                          };
+                              MotivoCancelacion = a.MotivoCancelacion
+                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                              //NC_IdMoneda = ab.IdMoneda,
+                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                              //NC_NotaCredito = ab.NotaCredito,
+                              //NC_Importe = ab.Importe,
+                              //NC_Iva = ab.Iva,
+                              //NC_Total = ab.Total,
+                              //NC_Concepto = ab.Concepto,
+                              //NC_Mes = ab.Mes,
+                              //NC_Anio = ab.Anio,
+                              //NC_TipoCambio = ab.TipoCambio,
+                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                              //C_UuidCobranza = ac.UuidCobranza,
+                              //C_IdMonedaP = ac.IdMonedaP,
+                              //C_ImportePagado = ac.ImportePagado,
+                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                              //C_IvaP = ac.IvaP,
+                              //C_TipoCambioP = ac.TipoCambioP,
+                              //C_FechaPago = ac.FechaPago
+                          }).ToListAsync();
 
-                return await res.ToListAsync();
+                foreach (var facturaDetalle in res)
+                {
+                    var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           where notas.IdFactura == facturaDetalle.Id
+                                           && notas.FechaCancelacion == null
+                                           select new NotaDetalle
+                                           {
+                                               NC_UuidNotaCredito = notas.UuidNotaCredito,
+                                               NC_IdMoneda = notas.IdMoneda,
+                                               NC_IdTipoRelacion = notas.IdTipoRelacion,
+                                               NC_NotaCredito = notas.NotaCredito,
+                                               NC_Importe = notas.Importe,
+                                               NC_Iva = notas.Iva,
+                                               NC_Total = notas.Total,
+                                               NC_Concepto = notas.Concepto,
+                                               NC_Mes = notas.Mes,
+                                               NC_Anio = notas.Anio,
+                                               NC_TipoCambio = notas.TipoCambio,
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                           }).ToListAsync();
+
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    foreach (var nota in res_notas)
+                    {
+                        facturaDetalle.Notas.Add(nota);
+                    }
+
+                    var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                               where cobr.IdFactura == facturaDetalle.Id
+                                               && cobr.FechaCancelacion == null
+                                               select new CobranzaDetalle
+                                               {
+                                                   C_UuidCobranza = cobr.UuidCobranza,
+                                                   C_IdMonedaP = cobr.IdMonedaP,
+                                                   C_ImportePagado = cobr.ImportePagado,
+                                                   C_ImpSaldoAnt = cobr.ImpSaldoAnt,
+                                                   C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
+                                                   C_IvaP = cobr.IvaP,
+                                                   C_TipoCambioP = cobr.TipoCambioP,
+                                                   C_FechaPago = cobr.FechaPago
+                                               }).ToListAsync();
+
+                    facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
+                    foreach (var cobranza in res_cobranzas)
+                    {
+                        facturaDetalle.Cobranzas.Add(cobranza);
+                    }
+
+                    facturaDetalle.TotalNotasCredito = res_notas.Count();
+                    facturaDetalle.TotalCobranzas = res_cobranzas.Count();
+                }
+
+                return res;
 
             }
         }
