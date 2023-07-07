@@ -48,6 +48,8 @@ namespace Bovis.Data
                                                                           from catItem in catJoin.DefaultIfEmpty()
                                                                           join contrato in db.tB_Cat_TipoContratos on emp.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
                                                                           from contratoItem in contratoJoin.DefaultIfEmpty()
+                                                                          join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
+                                                                          from puestoItem in puestoJoin.DefaultIfEmpty()
                                                                           join empresa in db.tB_Empresas on emp.IdEmpresa equals empresa.IdEmpresa into empresaJoin
                                                                           from empresaItem in empresaJoin.DefaultIfEmpty()
                                                                           join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
@@ -90,6 +92,7 @@ namespace Bovis.Data
                                                                               nukidtipo_contrato = emp.IdTipoContrato,
                                                                               chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
                                                                               chcve_puesto = emp.CvePuesto,
+                                                                              chpuesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
                                                                               nukidempresa = emp.IdEmpresa,
                                                                               chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
                                                                               chcalle = emp.Calle,
@@ -166,6 +169,8 @@ namespace Bovis.Data
                                  from catItem in catJoin.DefaultIfEmpty()
                                  join contrato in db.tB_Cat_TipoContratos on emp.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
                                  from contratoItem in contratoJoin.DefaultIfEmpty()
+                                 join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
+                                 from puestoItem in puestoJoin.DefaultIfEmpty()
                                  join empresa in db.tB_Empresas on emp.IdEmpresa equals empresa.IdEmpresa into empresaJoin
                                  from empresaItem in empresaJoin.DefaultIfEmpty()
                                  join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
@@ -207,6 +212,7 @@ namespace Bovis.Data
                                      nukidtipo_contrato = emp.IdTipoContrato,
                                      chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
                                      chcve_puesto = emp.CvePuesto,
+                                     chpuesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
                                      nukidempresa = emp.IdEmpresa,
                                      chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
                                      chcalle = emp.Calle,

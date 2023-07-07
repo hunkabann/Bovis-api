@@ -64,6 +64,7 @@ namespace Bovis.Service.Queries.Dto.Responses
         public int nukidtipo_contrato { get; set; }
         public string chtipo_contrato { get; set; }
         public int chcve_puesto { get; set; }
+        public string chpuesto { get; set; }
         public int nukidempresa { get; set; }
         public string chempresa { get; set; }
         public string chcalle { get; set; }
