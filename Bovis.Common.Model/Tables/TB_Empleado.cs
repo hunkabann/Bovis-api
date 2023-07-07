@@ -12,7 +12,15 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidtipo_contrato"), NotNull] public int IdTipoContrato { get; set; }
 		[Column("Chcve_puesto"), NotNull] public int CvePuesto { get; set; }
 		[Column("Nukidempresa"), NotNull] public int IdEmpresa { get; set; }
-		[Column("Nukidciudad"), NotNull] public int IdCiudad { get; set; }
+        [Column("Chcalle"), Nullable] public string Calle { get; set; }
+        [Column("Nunumero_interior"), Nullable] public string NumeroInterior { get; set; }
+        [Column("Nunumero_exterior"), Nullable] public string NumeroExterior { get; set; }
+        [Column("Chcolonia"), Nullable] public string Colonia { get; set; }
+        [Column("Chalcaldia"), Nullable] public string Alcaldia { get; set; }
+        [Column("Nukidciudad"), NotNull] public int IdCiudad { get; set; }
+        [Column("Nukidestado"), NotNull] public int IdEstado { get; set; }
+        [Column("Chcp"), NotNull] public string CP { get; set; }
+        [Column("Nukidpais"), NotNull] public int IdPais { get; set; }
 		[Column("Nukidnivel_estudios"), NotNull] public int IdNivelEstudios { get; set; }
 		[Column("Nukidforma_pago"), NotNull] public int IdFormaPago { get; set; }
 		[Column("Nukidjornada"), Nullable] public int IdJornada { get; set; }

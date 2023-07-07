@@ -66,8 +66,18 @@ namespace Bovis.Service.Queries.Dto.Responses
         public int chcve_puesto { get; set; }
         public int nukidempresa { get; set; }
         public string chempresa { get; set; }
+        public string chcalle { get; set; }
+        public string nunumero_interior { get; set; }
+        public string nunumero_exterior { get; set; }
+        public string chcolonia { get; set; }
+        public string chalcaldia { get; set; }
         public int nukidciudad { get; set; }
         public string chciudad { get; set; }
+        public int nukidestado { get; set; }
+        public string chestado { get; set; }
+        public string chcp { get; set; }
+        public int nukidpais { get; set; }
+        public string chpais { get; set; }
         public int nukidnivel_estudios { get; set; }
         public string chnivel_estudios { get; set; }
         public int nukidforma_pago { get; set; }

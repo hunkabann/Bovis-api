@@ -52,6 +52,10 @@ namespace Bovis.Data
                                                                           from empresaItem in empresaJoin.DefaultIfEmpty()
                                                                           join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
                                                                           from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                                                                          join estado in db.tB_Estados on emp.IdEstado equals estado.IdEstado into estadoJoin
+                                                                          from estadoItem in estadoJoin.DefaultIfEmpty()
+                                                                          join pais in db.tB_Pais on emp.IdPais equals pais.IdPais into paisJoin
+                                                                          from paisItem in paisJoin.DefaultIfEmpty()
                                                                           join estudios in db.tB_Cat_NivelEstudios on emp.IdNivelEstudios equals estudios.IdNivelEstudios into estudiosJoin
                                                                           from estudiosItem in estudiosJoin.DefaultIfEmpty()
                                                                           join pago in db.tB_Cat_FormaPagos on emp.IdFormaPago equals pago.IdFormaPago into pagoJoin
@@ -88,8 +92,18 @@ namespace Bovis.Data
                                                                               chcve_puesto = emp.CvePuesto,
                                                                               nukidempresa = emp.IdEmpresa,
                                                                               chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                                                              chcalle = emp.Calle,
+                                                                              nunumero_interior = emp.NumeroInterior,
+                                                                              nunumero_exterior = emp.NumeroExterior,
+                                                                              chcolonia = emp.Colonia,
+                                                                              chalcaldia = emp.Alcaldia,
                                                                               nukidciudad = emp.IdCiudad,
                                                                               chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                                                              nukidestado = emp.IdEstado,
+                                                                              chestado = estadoItem != null ? estadoItem.Estado : string.Empty,
+                                                                              chcp = emp.CP,
+                                                                              nukidpais = emp.IdPais,
+                                                                              chpais = paisItem != null ? paisItem.Pais : string.Empty,
                                                                               nukidnivel_estudios = emp.IdNivelEstudios,
                                                                               chnivel_estudios = estudiosItem != null ? estudiosItem.NivelEstudios : string.Empty,
                                                                               nukidforma_pago = emp.IdFormaPago,
@@ -156,6 +170,10 @@ namespace Bovis.Data
                                  from empresaItem in empresaJoin.DefaultIfEmpty()
                                  join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
                                  from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                                 join estado in db.tB_Estados on emp.IdEstado equals estado.IdEstado into estadoJoin
+                                 from estadoItem in estadoJoin.DefaultIfEmpty()
+                                 join pais in db.tB_Pais on emp.IdPais equals pais.IdPais into paisJoin
+                                 from paisItem in paisJoin.DefaultIfEmpty()
                                  join estudios in db.tB_Cat_NivelEstudios on emp.IdNivelEstudios equals estudios.IdNivelEstudios into estudiosJoin
                                  from estudiosItem in estudiosJoin.DefaultIfEmpty()
                                  join pago in db.tB_Cat_FormaPagos on emp.IdFormaPago equals pago.IdFormaPago into pagoJoin
@@ -191,8 +209,18 @@ namespace Bovis.Data
                                      chcve_puesto = emp.CvePuesto,
                                      nukidempresa = emp.IdEmpresa,
                                      chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                     chcalle = emp.Calle,
+                                     nunumero_interior = emp.NumeroInterior,
+                                     nunumero_exterior = emp.NumeroExterior,
+                                     chcolonia = emp.Colonia,
+                                     chalcaldia = emp.Alcaldia,
                                      nukidciudad = emp.IdCiudad,
                                      chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                     nukidestado = emp.IdEstado,
+                                     chestado = estadoItem != null ? estadoItem.Estado : string.Empty,
+                                     chcp = emp.CP,
+                                     nukidpais = emp.IdPais,
+                                     chpais = paisItem != null ? paisItem.Pais : string.Empty,
                                      nukidnivel_estudios = emp.IdNivelEstudios,
                                      chnivel_estudios = estudiosItem != null ? estudiosItem.NivelEstudios : string.Empty,
                                      nukidforma_pago = emp.IdFormaPago,
@@ -285,7 +313,15 @@ namespace Bovis.Data
             int id_tipo_contrato = Convert.ToInt32(registro["id_tipo_contrato"].ToString());
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
+            string calle = registro["calle"].ToString();
+            string numero_interior = registro["numero_interior"].ToString();
+            string numero_exterior = registro["numero_exterior"].ToString();
+            string colonia = registro["colonia"].ToString();
+            string alcaldia = registro["alcaldia"].ToString();
             int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
+            int id_estado = Convert.ToInt32(registro["id_estado"].ToString());
+            string codigo_postal = registro["codigo_postal"].ToString();
+            int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
             int id_nivel_estudios = Convert.ToInt32(registro["id_nivel_estudios"].ToString());
             int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
             int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
@@ -342,7 +378,15 @@ namespace Bovis.Data
                     .Value(x => x.IdTipoContrato, id_tipo_contrato)
                     .Value(x => x.CvePuesto, cve_puesto)
                     .Value(x => x.IdEmpresa, id_empresa)
+                    .Value(x => x.Calle, calle)
+                    .Value(x => x.NumeroInterior, numero_interior)
+                    .Value(x => x.NumeroExterior, numero_exterior)
+                    .Value(x => x.Colonia, colonia)
+                    .Value(x => x.Alcaldia, alcaldia)
                     .Value(x => x.IdCiudad, id_ciudad)
+                    .Value(x => x.IdEstado, id_estado)
+                    .Value(x => x.CP, codigo_postal)
+                    .Value(x => x.IdPais, id_pais)
                     .Value(x => x.IdNivelEstudios, id_nivel_estudios)
                     .Value(x => x.IdFormaPago, id_forma_pago)
                     .Value(x => x.IdJornada, id_jornada)
@@ -440,7 +484,15 @@ namespace Bovis.Data
             int id_tipo_contrato = Convert.ToInt32(registro["id_tipo_contrato"].ToString());
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
+            string calle = registro["calle"].ToString();
+            string numero_interior = registro["numero_interior"].ToString();
+            string numero_exterior = registro["numero_exterior"].ToString();
+            string colonia = registro["colonia"].ToString();
+            string alcaldia = registro["alcaldia"].ToString();
             int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
+            int id_estado = Convert.ToInt32(registro["id_estado"].ToString());
+            string codigo_postal = registro["codigo_postal"].ToString();
+            int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
             int id_nivel_estudios = Convert.ToInt32(registro["id_nivel_estudios"].ToString());
             int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
             int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
@@ -486,7 +538,15 @@ namespace Bovis.Data
                         IdTipoContrato = id_tipo_contrato,
                         CvePuesto = cve_puesto,
                         IdEmpresa = id_empresa,
+                        Calle = calle,
+                        NumeroInterior = numero_interior,
+                        NumeroExterior = numero_exterior,
+                        Colonia = colonia,
+                        Alcaldia = alcaldia,
                         IdCiudad = id_ciudad,
+                        IdEstado = id_estado,
+                        CP = codigo_postal,
+                        IdPais = id_pais,
                         IdNivelEstudios = id_nivel_estudios,
                         IdFormaPago = id_forma_pago,
                         IdJornada = id_jornada,
