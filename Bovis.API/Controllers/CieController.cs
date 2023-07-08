@@ -32,7 +32,7 @@ namespace Bovis.API.Controllers
         }
 
         #region Empresas
-        [HttpGet, Route("Empresas/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")
+        [HttpGet, Route("Empresas/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetEmpresas(bool? Activo)
         {
             var query = await _cieQueryService.GetEmpresas(Activo);
@@ -99,7 +99,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete, Route("Registro/Borrar/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")
+        [HttpDelete, Route("Registro/Borrar/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> DeleteRegistro(int idRegistro)
         {
             var query = await _cieQueryService.DeleteRegistro(idRegistro);

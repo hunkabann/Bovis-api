@@ -34,14 +34,14 @@ namespace Bovis.API.Controllers
         }
 
         #region Templates
-        [HttpGet, Route("Templates/{Estatus}")]//, Authorize(Roles = "it.full, dev.full")
+        [HttpGet, Route("Templates/{Estatus}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetTemplates(string Estatus)
         {
             var query = await _contratoQueryService.GetTemplates(Estatus);
             return Ok(query);
         }
 
-        [HttpGet, Route("Template/Registro/{idTemplate}")]//, Authorize(Roles = "it.full, dev.full")
+        [HttpGet, Route("Template/Registro/{idTemplate}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetTemplate(int IdTemplate)
         {
             var query = await _contratoQueryService.GetTemplate(IdTemplate);
@@ -95,14 +95,14 @@ namespace Bovis.API.Controllers
 
 
         #region Contratos Empleado
-        [HttpGet, Route("ContratosEmpleado/{IdEmpleado}")]//, Authorize(Roles = "it.full, dev.full")
+        [HttpGet, Route("ContratosEmpleado/{IdEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetContratosEmpleado(int IdEmpleado)
         {
             var query = await _contratoQueryService.GetContratosEmpleado(IdEmpleado);
             return Ok(query);
         }
 
-        [HttpGet, Route("ContratoEmpleado/Registro/{IdContratoEmpleado}")]//, Authorize(Roles = "it.full, dev.full")
+        [HttpGet, Route("ContratoEmpleado/Registro/{IdContratoEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetContratoEmpleado(int IdContratoEmpleado)
         {
             var query = await _contratoQueryService.GetContratoEmpleado(IdContratoEmpleado);

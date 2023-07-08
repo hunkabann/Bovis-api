@@ -47,14 +47,14 @@ public class RequerimientoController : ControllerBase
     #endregion Experiencias
 
     #region Registros
-    [HttpGet, Route("Requerimientos/{Asignados?}/{idDirector?}/{idProyecto?}/{idPuesto?}")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpGet, Route("Requerimientos/{Asignados?}/{idDirector?}/{idProyecto?}/{idPuesto?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
     {
         var query = await _requerimientoQueryService.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
         return Ok(query);
     }
 
-    [HttpGet, Route("Registro/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpGet, Route("Registro/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> GetRequerimiento(int idRequerimiento)
     {
         var query = await _requerimientoQueryService.GetRequerimiento(idRequerimiento);
@@ -87,7 +87,7 @@ public class RequerimientoController : ControllerBase
         else return BadRequest(query.Message);
     }
 
-    [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> DeleteRequerimiento(int idRequerimiento)
     {
         var query = await _requerimientoQueryService.DeleteRequerimiento(idRequerimiento);
@@ -97,7 +97,7 @@ public class RequerimientoController : ControllerBase
     #endregion Registros
 
     #region Director Ejecutivo
-    [HttpGet, Route("DirectoresEjecutivos")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpGet, Route("DirectoresEjecutivos")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> GetDirectoresEjecutivos()
     {
         var query = await _requerimientoQueryService.GetDirectoresEjecutivos();
@@ -106,7 +106,7 @@ public class RequerimientoController : ControllerBase
     #endregion Director Ejecutivo
 
     #region Proyectos
-    [HttpGet, Route("Proyectos/DirectorEjecutivo/{IdDirectorEjecutivo}")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpGet, Route("Proyectos/DirectorEjecutivo/{IdDirectorEjecutivo}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
     {
         var query = await _requerimientoQueryService.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
