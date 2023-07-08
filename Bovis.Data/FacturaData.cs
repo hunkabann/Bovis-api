@@ -10,16 +10,16 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.Data
 {
-	public class FacturaData : RepositoryLinq2DB<ConnectionDB>, IFacturaData
-	{
-		#region base
-		private readonly string dbConfig = "DBConfig";
+    public class FacturaData : RepositoryLinq2DB<ConnectionDB>, IFacturaData
+    {
+        #region base
+        private readonly string dbConfig = "DBConfig";
 
-		public FacturaData()
-		{
-			this.ConfigurationDB = dbConfig;
-		}
-		#endregion
+        public FacturaData()
+        {
+            this.ConfigurationDB = dbConfig;
+        }
+        #endregion
 
         public async Task<Factura_Proyecto> GetInfoProyecto(int numProyecto)
         {
@@ -93,9 +93,9 @@ namespace Bovis.Data
                 .InsertAsync() > 0;
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar la factura." : string.Empty;
-			}
-			return resp;
-		}
+            }
+            return resp;
+        }
 
         public async Task<(bool existe, string mensaje)> AddNotaCredito(TB_Proyecto_Factura_Nota_Credito notaCredito)
         {
@@ -104,7 +104,7 @@ namespace Bovis.Data
             {
                 var inseert = await db.tB_ProyectoFacturasNotaCredito
                 .Value(x => x.IdFactura, notaCredito.IdFactura)
-                .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)                
+                .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
                 .Value(x => x.IdMoneda, notaCredito.IdMoneda)
                 .Value(x => x.IdTipoRelacion, notaCredito.IdMoneda)
                 .Value(x => x.NotaCredito, notaCredito.NotaCredito)
@@ -115,7 +115,7 @@ namespace Bovis.Data
                 .Value(x => x.Mes, notaCredito.Mes)
                 .Value(x => x.Anio, notaCredito.Anio)
                 .Value(x => x.TipoCambio, notaCredito.TipoCambio)
-                .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)                
+                .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
                 .Value(x => x.Xml, notaCredito.Xml)
                 .InsertAsync() > 0;
                 resp.Success = inseert;
@@ -138,7 +138,7 @@ namespace Bovis.Data
                 .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
                 .Value(x => x.IvaP, pagos.IvaP)
                 .Value(x => x.TipoCambioP, pagos.TipoCambioP)
-                .Value(x => x.FechaPago, pagos.FechaPago)               
+                .Value(x => x.FechaPago, pagos.FechaPago)
                 .Value(x => x.Xml, pagos.Xml)
                 .InsertAsync() > 0;
                 resp.Success = inseert;
@@ -167,7 +167,7 @@ namespace Bovis.Data
                                            && notas.IdFactura == factura.Id
                                            select notas).ToListAsync();
 
-                foreach(var nota in notas_factura)
+                foreach (var nota in notas_factura)
                 {
                     var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
                     .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
@@ -181,9 +181,9 @@ namespace Bovis.Data
                 }
 
                 var cobranzas_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
-                                              where cobranza.FechaCancelacion == null
-                                              && cobranza.IdFactura == factura.Id
-                                              select cobranza).ToListAsync();
+                                               where cobranza.FechaCancelacion == null
+                                               && cobranza.IdFactura == factura.Id
+                                               select cobranza).ToListAsync();
 
                 foreach (var cobranza in cobranzas_factura)
                 {
@@ -260,6 +260,7 @@ namespace Bovis.Data
                                  from ab in factNC.DefaultIfEmpty()
                                  join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
                                  from ac in factC.DefaultIfEmpty()
+                                 orderby a.Id descending
                                  select new FacturaDetalles
                                  {
                                      Id = a.Id,
@@ -365,52 +366,53 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res = await (from a in db.tB_ProyectoFacturas
-                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
-                          from ab in factNC.DefaultIfEmpty()
-                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
-                          from ac in factC.DefaultIfEmpty()
-                          where a.NumProyecto == idProyecto
-                          select new FacturaDetalles
-                          {
-                              Id = a.Id,
-                              Uuid = a.Uuid,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoFactura = a.IdTipoFactura,
-                              IdMoneda = a.IdMoneda,
-                              Importe = a.Importe,
-                              Iva = a.Iva,
-                              IvaRet = a.IvaRet,
-                              Total = a.Total,
-                              Concepto = a.Concepto,
-                              Mes = a.Mes,
-                              Anio = a.Anio,
-                              FechaEmision = a.FechaEmision,
-                              FechaCancelacion = a.FechaCancelacion,
-                              FechaPago = a.FechaPago,
-                              NoFactura = a.NoFactura,
-                              TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion,
-                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              //NC_IdMoneda = ab.IdMoneda,
-                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              //NC_NotaCredito = ab.NotaCredito,
-                              //NC_Importe = ab.Importe,
-                              //NC_Iva = ab.Iva,
-                              //NC_Total = ab.Total,
-                              //NC_Concepto = ab.Concepto,
-                              //NC_Mes = ab.Mes,
-                              //NC_Anio = ab.Anio,
-                              //NC_TipoCambio = ab.TipoCambio,
-                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              //C_UuidCobranza = ac.UuidCobranza,
-                              //C_IdMonedaP = ac.IdMonedaP,
-                              //C_ImportePagado = ac.ImportePagado,
-                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              //C_IvaP = ac.IvaP,
-                              //C_TipoCambioP = ac.TipoCambioP,
-                              //C_FechaPago = ac.FechaPago
-                          }).ToListAsync();
+                                 join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                 from ab in factNC.DefaultIfEmpty()
+                                 join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                 from ac in factC.DefaultIfEmpty()
+                                 where a.NumProyecto == idProyecto
+                                 orderby a.Id descending
+                                 select new FacturaDetalles
+                                 {
+                                     Id = a.Id,
+                                     Uuid = a.Uuid,
+                                     NumProyecto = a.NumProyecto,
+                                     IdTipoFactura = a.IdTipoFactura,
+                                     IdMoneda = a.IdMoneda,
+                                     Importe = a.Importe,
+                                     Iva = a.Iva,
+                                     IvaRet = a.IvaRet,
+                                     Total = a.Total,
+                                     Concepto = a.Concepto,
+                                     Mes = a.Mes,
+                                     Anio = a.Anio,
+                                     FechaEmision = a.FechaEmision,
+                                     FechaCancelacion = a.FechaCancelacion,
+                                     FechaPago = a.FechaPago,
+                                     NoFactura = a.NoFactura,
+                                     TipoCambio = a.TipoCambio,
+                                     MotivoCancelacion = a.MotivoCancelacion,
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
+                                 }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
                 {
@@ -478,6 +480,7 @@ namespace Bovis.Data
                                  join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
                                  from ac in factC.DefaultIfEmpty()
                                  where a.NumProyecto == idProyecto && a.FechaEmision >= fechaIni && a.FechaEmision <= fechaFin
+                                 orderby a.Id descending
                                  select new FacturaDetalles
                                  {
                                      Id = a.Id,
@@ -586,56 +589,57 @@ namespace Bovis.Data
 
 
                 var lstProyectos = (from a in db.tB_Proyectos
-                                   where a.IdEmpresa == idEmpresa
-                                   select a.NumProyecto).ToArray();
+                                    where a.IdEmpresa == idEmpresa
+                                    select a.NumProyecto).ToArray();
 
                 var res = await (from a in db.tB_ProyectoFacturas
-                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
-                          from ab in factNC.DefaultIfEmpty()
-                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
-                          from ac in factC.DefaultIfEmpty()
-                          where a.NumProyecto.In(lstProyectos)
-                          select new FacturaDetalles
-                          {
-                              Id = a.Id,
-                              Uuid = a.Uuid,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoFactura = a.IdTipoFactura,
-                              IdMoneda = a.IdMoneda,
-                              Importe = a.Importe,
-                              Iva = a.Iva,
-                              IvaRet = a.IvaRet,
-                              Total = a.Total,
-                              Concepto = a.Concepto,
-                              Mes = a.Mes,
-                              Anio = a.Anio,
-                              FechaEmision = a.FechaEmision,
-                              FechaCancelacion = a.FechaCancelacion,
-                              FechaPago = a.FechaPago,
-                              NoFactura = a.NoFactura,
-                              TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion
-                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              //NC_IdMoneda = ab.IdMoneda,
-                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              //NC_NotaCredito = ab.NotaCredito,
-                              //NC_Importe = ab.Importe,
-                              //NC_Iva = ab.Iva,
-                              //NC_Total = ab.Total,
-                              //NC_Concepto = ab.Concepto,
-                              //NC_Mes = ab.Mes,
-                              //NC_Anio = ab.Anio,
-                              //NC_TipoCambio = ab.TipoCambio,
-                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              //C_UuidCobranza = ac.UuidCobranza,
-                              //C_IdMonedaP = ac.IdMonedaP,
-                              //C_ImportePagado = ac.ImportePagado,
-                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              //C_IvaP = ac.IvaP,
-                              //C_TipoCambioP = ac.TipoCambioP,
-                              //C_FechaPago = ac.FechaPago
-                          }).ToListAsync();
+                                 join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                 from ab in factNC.DefaultIfEmpty()
+                                 join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                 from ac in factC.DefaultIfEmpty()
+                                 where a.NumProyecto.In(lstProyectos)
+                                 orderby a.Id descending
+                                 select new FacturaDetalles
+                                 {
+                                     Id = a.Id,
+                                     Uuid = a.Uuid,
+                                     NumProyecto = a.NumProyecto,
+                                     IdTipoFactura = a.IdTipoFactura,
+                                     IdMoneda = a.IdMoneda,
+                                     Importe = a.Importe,
+                                     Iva = a.Iva,
+                                     IvaRet = a.IvaRet,
+                                     Total = a.Total,
+                                     Concepto = a.Concepto,
+                                     Mes = a.Mes,
+                                     Anio = a.Anio,
+                                     FechaEmision = a.FechaEmision,
+                                     FechaCancelacion = a.FechaCancelacion,
+                                     FechaPago = a.FechaPago,
+                                     NoFactura = a.NoFactura,
+                                     TipoCambio = a.TipoCambio,
+                                     MotivoCancelacion = a.MotivoCancelacion
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
+                                 }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
                 {
@@ -705,52 +709,53 @@ namespace Bovis.Data
                                     select a.NumProyecto).ToArray();
 
                 var res = await (from a in db.tB_ProyectoFacturas
-                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
-                          from ab in factNC.DefaultIfEmpty()
-                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
-                          from ac in factC.DefaultIfEmpty()
-                          where a.NumProyecto.In(lstProyectos)
-                          select new FacturaDetalles
-                          {
-                              Id = a.Id,
-                              Uuid = a.Uuid,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoFactura = a.IdTipoFactura,
-                              IdMoneda = a.IdMoneda,
-                              Importe = a.Importe,
-                              Iva = a.Iva,
-                              IvaRet = a.IvaRet,
-                              Total = a.Total,
-                              Concepto = a.Concepto,
-                              Mes = a.Mes,
-                              Anio = a.Anio,
-                              FechaEmision = a.FechaEmision,
-                              FechaCancelacion = a.FechaCancelacion,
-                              FechaPago = a.FechaPago,
-                              NoFactura = a.NoFactura,
-                              TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion,
-                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              //NC_IdMoneda = ab.IdMoneda,
-                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              //NC_NotaCredito = ab.NotaCredito,
-                              //NC_Importe = ab.Importe,
-                              //NC_Iva = ab.Iva,
-                              //NC_Total = ab.Total,
-                              //NC_Concepto = ab.Concepto,
-                              //NC_Mes = ab.Mes,
-                              //NC_Anio = ab.Anio,
-                              //NC_TipoCambio = ab.TipoCambio,
-                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              //C_UuidCobranza = ac.UuidCobranza,
-                              //C_IdMonedaP = ac.IdMonedaP,
-                              //C_ImportePagado = ac.ImportePagado,
-                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              //C_IvaP = ac.IvaP,
-                              //C_TipoCambioP = ac.TipoCambioP,
-                              //C_FechaPago = ac.FechaPago
-                          }).ToListAsync();
+                                 join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                 from ab in factNC.DefaultIfEmpty()
+                                 join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                 from ac in factC.DefaultIfEmpty()
+                                 where a.NumProyecto.In(lstProyectos)
+                                 orderby a.Id descending
+                                 select new FacturaDetalles
+                                 {
+                                     Id = a.Id,
+                                     Uuid = a.Uuid,
+                                     NumProyecto = a.NumProyecto,
+                                     IdTipoFactura = a.IdTipoFactura,
+                                     IdMoneda = a.IdMoneda,
+                                     Importe = a.Importe,
+                                     Iva = a.Iva,
+                                     IvaRet = a.IvaRet,
+                                     Total = a.Total,
+                                     Concepto = a.Concepto,
+                                     Mes = a.Mes,
+                                     Anio = a.Anio,
+                                     FechaEmision = a.FechaEmision,
+                                     FechaCancelacion = a.FechaCancelacion,
+                                     FechaPago = a.FechaPago,
+                                     NoFactura = a.NoFactura,
+                                     TipoCambio = a.TipoCambio,
+                                     MotivoCancelacion = a.MotivoCancelacion,
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
+                                 }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
                 {
@@ -823,52 +828,53 @@ namespace Bovis.Data
                                     select a.NumProyecto).ToArray();
 
                 var res = await (from a in db.tB_ProyectoFacturas
-                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
-                          from ab in factNC.DefaultIfEmpty()
-                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
-                          from ac in factC.DefaultIfEmpty()
-                          where a.NumProyecto.In(lstProyectos) 
-                          select new FacturaDetalles
-                          {
-                              Id = a.Id,
-                              Uuid = a.Uuid,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoFactura = a.IdTipoFactura,
-                              IdMoneda = a.IdMoneda,
-                              Importe = a.Importe,
-                              Iva = a.Iva,
-                              IvaRet = a.IvaRet,
-                              Total = a.Total,
-                              Concepto = a.Concepto,
-                              Mes = a.Mes,
-                              Anio = a.Anio,
-                              FechaEmision = a.FechaEmision,
-                              FechaCancelacion = a.FechaCancelacion,
-                              FechaPago = a.FechaPago,
-                              NoFactura = a.NoFactura,
-                              TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion
-                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              //NC_IdMoneda = ab.IdMoneda,
-                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              //NC_NotaCredito = ab.NotaCredito,
-                              //NC_Importe = ab.Importe,
-                              //NC_Iva = ab.Iva,
-                              //NC_Total = ab.Total,
-                              //NC_Concepto = ab.Concepto,
-                              //NC_Mes = ab.Mes,
-                              //NC_Anio = ab.Anio,
-                              //NC_TipoCambio = ab.TipoCambio,
-                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              //C_UuidCobranza = ac.UuidCobranza,
-                              //C_IdMonedaP = ac.IdMonedaP,
-                              //C_ImportePagado = ac.ImportePagado,
-                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              //C_IvaP = ac.IvaP,
-                              //C_TipoCambioP = ac.TipoCambioP,
-                              //C_FechaPago = ac.FechaPago
-                          }).ToListAsync();
+                                 join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                 from ab in factNC.DefaultIfEmpty()
+                                 join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                 from ac in factC.DefaultIfEmpty()
+                                 where a.NumProyecto.In(lstProyectos)
+                                 orderby a.Id descending
+                                 select new FacturaDetalles
+                                 {
+                                     Id = a.Id,
+                                     Uuid = a.Uuid,
+                                     NumProyecto = a.NumProyecto,
+                                     IdTipoFactura = a.IdTipoFactura,
+                                     IdMoneda = a.IdMoneda,
+                                     Importe = a.Importe,
+                                     Iva = a.Iva,
+                                     IvaRet = a.IvaRet,
+                                     Total = a.Total,
+                                     Concepto = a.Concepto,
+                                     Mes = a.Mes,
+                                     Anio = a.Anio,
+                                     FechaEmision = a.FechaEmision,
+                                     FechaCancelacion = a.FechaCancelacion,
+                                     FechaPago = a.FechaPago,
+                                     NoFactura = a.NoFactura,
+                                     TipoCambio = a.TipoCambio,
+                                     MotivoCancelacion = a.MotivoCancelacion
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
+                                 }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
                 {
@@ -937,52 +943,53 @@ namespace Bovis.Data
                                     select a.NumProyecto).ToArray();
 
                 var res = await (from a in db.tB_ProyectoFacturas
-                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
-                          from ab in factNC.DefaultIfEmpty()
-                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
-                          from ac in factC.DefaultIfEmpty()
-                          where a.NumProyecto.In(lstProyectos) && a.FechaEmision >= fechaIni && a.FechaEmision <= fechaFin
-                          select new FacturaDetalles
-                          {
-                              Id = a.Id,
-                              Uuid = a.Uuid,
-                              NumProyecto = a.NumProyecto,
-                              IdTipoFactura = a.IdTipoFactura,
-                              IdMoneda = a.IdMoneda,
-                              Importe = a.Importe,
-                              Iva = a.Iva,
-                              IvaRet = a.IvaRet,
-                              Total = a.Total,
-                              Concepto = a.Concepto,
-                              Mes = a.Mes,
-                              Anio = a.Anio,
-                              FechaEmision = a.FechaEmision,
-                              FechaCancelacion = a.FechaCancelacion,
-                              FechaPago = a.FechaPago,
-                              NoFactura = a.NoFactura,
-                              TipoCambio = a.TipoCambio,
-                              MotivoCancelacion = a.MotivoCancelacion
-                              //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                              //NC_IdMoneda = ab.IdMoneda,
-                              //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                              //NC_NotaCredito = ab.NotaCredito,
-                              //NC_Importe = ab.Importe,
-                              //NC_Iva = ab.Iva,
-                              //NC_Total = ab.Total,
-                              //NC_Concepto = ab.Concepto,
-                              //NC_Mes = ab.Mes,
-                              //NC_Anio = ab.Anio,
-                              //NC_TipoCambio = ab.TipoCambio,
-                              //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                              //C_UuidCobranza = ac.UuidCobranza,
-                              //C_IdMonedaP = ac.IdMonedaP,
-                              //C_ImportePagado = ac.ImportePagado,
-                              //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                              //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                              //C_IvaP = ac.IvaP,
-                              //C_TipoCambioP = ac.TipoCambioP,
-                              //C_FechaPago = ac.FechaPago
-                          }).ToListAsync();
+                                 join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                 from ab in factNC.DefaultIfEmpty()
+                                 join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                 from ac in factC.DefaultIfEmpty()
+                                 where a.NumProyecto.In(lstProyectos) && a.FechaEmision >= fechaIni && a.FechaEmision <= fechaFin
+                                 orderby a.Id descending
+                                 select new FacturaDetalles
+                                 {
+                                     Id = a.Id,
+                                     Uuid = a.Uuid,
+                                     NumProyecto = a.NumProyecto,
+                                     IdTipoFactura = a.IdTipoFactura,
+                                     IdMoneda = a.IdMoneda,
+                                     Importe = a.Importe,
+                                     Iva = a.Iva,
+                                     IvaRet = a.IvaRet,
+                                     Total = a.Total,
+                                     Concepto = a.Concepto,
+                                     Mes = a.Mes,
+                                     Anio = a.Anio,
+                                     FechaEmision = a.FechaEmision,
+                                     FechaCancelacion = a.FechaCancelacion,
+                                     FechaPago = a.FechaPago,
+                                     NoFactura = a.NoFactura,
+                                     TipoCambio = a.TipoCambio,
+                                     MotivoCancelacion = a.MotivoCancelacion
+                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
+                                     //NC_IdMoneda = ab.IdMoneda,
+                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
+                                     //NC_NotaCredito = ab.NotaCredito,
+                                     //NC_Importe = ab.Importe,
+                                     //NC_Iva = ab.Iva,
+                                     //NC_Total = ab.Total,
+                                     //NC_Concepto = ab.Concepto,
+                                     //NC_Mes = ab.Mes,
+                                     //NC_Anio = ab.Anio,
+                                     //NC_TipoCambio = ab.TipoCambio,
+                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
+                                     //C_UuidCobranza = ac.UuidCobranza,
+                                     //C_IdMonedaP = ac.IdMonedaP,
+                                     //C_ImportePagado = ac.ImportePagado,
+                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
+                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
+                                     //C_IvaP = ac.IvaP,
+                                     //C_TipoCambioP = ac.TipoCambioP,
+                                     //C_FechaPago = ac.FechaPago
+                                 }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
                 {
@@ -1045,10 +1052,10 @@ namespace Bovis.Data
 
         public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
 
-		public void Dispose()
-		{
-			GC.SuppressFinalize(this);
-			GC.Collect();
-		}
-	}
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            GC.Collect();
+        }
+    }
 }
