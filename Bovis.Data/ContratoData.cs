@@ -34,22 +34,35 @@ namespace Bovis.Data
 
 
         #region Templates
-        public async Task<List<TB_Contrato_Template>> GetTemplates(bool? Activo)
+        public async Task<List<TB_Contrato_Template>> GetTemplates(string Estatus)
         {
-            if (Activo.HasValue)
+            List<TB_Contrato_Template> list = new List<TB_Contrato_Template>();
+            using (var db = new ConnectionDB(dbConfig))
             {
-                List<TB_Contrato_Template> list = new List<TB_Contrato_Template>();
-                using (var db = new ConnectionDB(dbConfig))
+                switch (Estatus)
                 {
-                    list = await (from contrato in db.tB_Contrato_Templates
-                                                where contrato.Activo == Activo
-                                                orderby contrato.IdContratoTemplate descending
-                                                select contrato).ToListAsync();
+                    case "todos":
+                        list = await (from contrato in db.tB_Contrato_Templates
+                                      orderby contrato.IdContratoTemplate descending
+                                      select contrato).ToListAsync();
+                        break;
+                    case "activos":
+                        list = await (from contrato in db.tB_Contrato_Templates
+                                      where contrato.Activo == true
+                                      orderby contrato.IdContratoTemplate descending
+                                      select contrato).ToListAsync();
+                        break;
+                    case "inactivos":
+                        list = await (from contrato in db.tB_Contrato_Templates
+                                      where contrato.Activo == false
+                                      orderby contrato.IdContratoTemplate descending
+                                      select contrato).ToListAsync();
+                        break;
                 }
 
-                return list;
             }
-            else return await GetAllFromEntityAsync<TB_Contrato_Template>();
+
+            return list;
         }
 
         public async Task<TB_Contrato_Template> GetTemplate(int IdTemplate)
@@ -107,6 +120,27 @@ namespace Bovis.Data
                 resp.Message = res_update_template == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
 
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateTemplateEstatus(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_contrato_template = Convert.ToInt32(registro["id_contrato_template"].ToString());
+            bool activo = Convert.ToBoolean(registro["boactivo"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_template = await db.tB_Contrato_Templates.Where(x => x.IdContratoTemplate == id_contrato_template)
+                    .UpdateAsync(x => new TB_Contrato_Template
+                    {
+                        Activo = activo
+                    }) > 0;
+
+                resp.Success = res_update_template;
+                resp.Message = res_update_template == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
             return resp;
         }
         #endregion Templates

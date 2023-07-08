@@ -34,9 +34,9 @@ namespace Bovis.Service.Queries
         #endregion base
 
         #region Templates
-        public async Task<Response<List<TB_Contrato_Template>>> GetTemplates(bool? Activo)
+        public async Task<Response<List<TB_Contrato_Template>>> GetTemplates(string Estatus)
         {
-            var response = await _contratoBusiness.GetTemplates(Activo);
+            var response = await _contratoBusiness.GetTemplates(Estatus);
             return new Response<List<TB_Contrato_Template>> { Data = _map.Map<List<TB_Contrato_Template>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
@@ -57,6 +57,12 @@ namespace Bovis.Service.Queries
         public async Task<Response<(bool existe, string mensaje)>> UpdateTemplate(JsonObject registro)
         {
             var response = await _contratoBusiness.UpdateTemplate(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+
+        public async Task<Response<(bool existe, string mensaje)>> UpdateTemplateEstatus(JsonObject registro)
+        {
+            var response = await _contratoBusiness.UpdateTemplateEstatus(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Templates

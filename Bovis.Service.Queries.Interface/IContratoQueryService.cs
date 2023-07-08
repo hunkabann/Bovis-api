@@ -14,10 +14,11 @@ namespace Bovis.Service.Queries.Interface
     public interface IContratoQueryService
     {
         #region Templates
-        Task<Response<List<TB_Contrato_Template>>> GetTemplates(bool? Activo);
+        Task<Response<List<TB_Contrato_Template>>> GetTemplates(string Estatus);
         Task<Response<TB_Contrato_Template>> GetTemplate(int IdTemplate);
         Task<Response<(bool existe, string mensaje)>> AddTemplate(JsonObject registro);
         Task<Response<(bool existe, string mensaje)>> UpdateTemplate(JsonObject registro);
+        Task<Response<(bool existe, string mensaje)>> UpdateTemplateEstatus(JsonObject registro);
         #endregion Templates
 
         #region Contratos Empleado

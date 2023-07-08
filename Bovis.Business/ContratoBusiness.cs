@@ -4,6 +4,7 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
 using System.Text.Json.Nodes;
 using Bovis.Common;
+using System.Net.NetworkInformation;
 
 namespace Bovis.Business
 {
@@ -26,7 +27,7 @@ namespace Bovis.Business
         #endregion base
 
         #region Templates
-        public Task<List<TB_Contrato_Template>> GetTemplates(bool? Activo) => _contratoData.GetTemplates(Activo);
+        public Task<List<TB_Contrato_Template>> GetTemplates(string Estatus) => _contratoData.GetTemplates(Estatus);
         public Task<TB_Contrato_Template> GetTemplate(int IdTemplate) => _contratoData.GetTemplate(IdTemplate);
 
         public async Task<(bool Success, string Message)> AddTemplate(JsonObject registro)
@@ -43,6 +44,19 @@ namespace Bovis.Business
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _contratoData.UpdateTemplate((JsonObject)registro["Registro"]);
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateTemplateEstatus(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _contratoData.UpdateTemplateEstatus((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro del Empleado"; return resp; }
             else
             {
                 resp = respData;

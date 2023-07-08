@@ -12,10 +12,11 @@ namespace Bovis.Business.Interface
     public interface IContratoBusiness : IDisposable
     {
         #region Templates
-        Task<List<TB_Contrato_Template>> GetTemplates(bool? activo);
+        Task<List<TB_Contrato_Template>> GetTemplates(string Estatus);
         Task<TB_Contrato_Template> GetTemplate(int IdTemplate);
         Task<(bool Success, string Message)> AddTemplate(JsonObject registro);
         Task<(bool Success, string Message)> UpdateTemplate(JsonObject registro);
+        Task<(bool Success, string Message)> UpdateTemplateEstatus(JsonObject registro);
         #endregion Templates
 
         #region Contratos Empleado

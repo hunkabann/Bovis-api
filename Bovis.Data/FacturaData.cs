@@ -816,7 +816,6 @@ namespace Bovis.Data
         #endregion
 
         #region facturasCliente
-
         public async Task<List<FacturaDetalles>> GetFacturasCliente(int? idCliente)
         {
             using (var db = new ConnectionDB(dbConfig))

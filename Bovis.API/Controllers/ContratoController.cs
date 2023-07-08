@@ -34,10 +34,10 @@ namespace Bovis.API.Controllers
         }
 
         #region Templates
-        [HttpGet, Route("Templates/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")
-        public async Task<IActionResult> GetTemplates(bool? Activo)
+        [HttpGet, Route("Templates/{Estatus}")]//, Authorize(Roles = "it.full, dev.full")
+        public async Task<IActionResult> GetTemplates(string Estatus)
         {
-            var query = await _contratoQueryService.GetTemplates(Activo);
+            var query = await _contratoQueryService.GetTemplates(Estatus);
             return Ok(query);
         }
 
@@ -74,6 +74,23 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
+        [HttpPut("Template/Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> UpdateTemplateEstatus([FromBody] JsonObject registro)
+        {
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 1047);
+
+            var query = await _contratoQueryService.UpdateTemplateEstatus(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Templates
 
 
