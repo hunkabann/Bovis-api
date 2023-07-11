@@ -79,7 +79,11 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.DeleteTimeSheet(idTimeSheet);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
-
+        public async Task<Response<List<Empleado_Detalle>>> GetEmpleadosByResponsable(string EmailResponsable)
+        {
+            var response = await _timesheetBusiness.GetEmpleadosByResponsable(EmailResponsable);
+            return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
     }
 }
 

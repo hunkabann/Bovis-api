@@ -104,6 +104,13 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpGet, Route("EmpleadosByResponsable/{EmailResponsable}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetEmpleadosByResponsable(string EmailResponsable)
+        {
+            var query = await _timesheetQueryService.GetEmpleadosByResponsable(EmailResponsable);
+            return Ok(query);
+        }
         #endregion TimeSheets
     }
 }

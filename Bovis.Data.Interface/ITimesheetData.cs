@@ -14,5 +14,6 @@ namespace Bovis.Data.Interface
         Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
         Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro);
         Task<(bool existe, string mensaje)> DeleteTimeSheet(int idTimeSheet);
+        Task<List<Empleado_Detalle>> GetEmpleadosByResponsable(string EmailResponsable);
     }
 }
