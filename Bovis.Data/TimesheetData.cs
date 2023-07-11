@@ -340,15 +340,18 @@ namespace Bovis.Data
                                        }).FirstOrDefaultAsync();
 #pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
 
-                res_timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
-                                             where ts_o.IdTimeSheet == idTimeSheet
-                                             && ts_o.Activo == true
-                                             select ts_o).ToListAsync();
+                if (res_timesheet != null)
+                {
+                    res_timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
+                                                 where ts_o.IdTimeSheet == idTimeSheet
+                                                 && ts_o.Activo == true
+                                                 select ts_o).ToListAsync();
 
-                res_timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
-                                                 where ts_p.IdTimesheet == idTimeSheet
-                                                 && ts_p.Activo == true
-                                                 select ts_p).ToListAsync();
+                    res_timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                     where ts_p.IdTimesheet == idTimeSheet
+                                                     && ts_p.Activo == true
+                                                     select ts_p).ToListAsync();
+                }
 
             }
             return res_timesheet;

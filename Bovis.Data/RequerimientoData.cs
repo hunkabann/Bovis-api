@@ -277,15 +277,18 @@ namespace Bovis.Data
                                        }).FirstOrDefaultAsync();
 #pragma warning restore CS8600 // Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
 
-                requerimiento.experiencias = await (from exp in db.tB_Requerimiento_Experiencias
-                                                    where exp.IdRequerimiento == idRequerimiento
-                                                    && exp.Activo == true
-                                                    select exp).ToListAsync();
+                if (requerimiento != null)
+                {
+                    requerimiento.experiencias = await (from exp in db.tB_Requerimiento_Experiencias
+                                                        where exp.IdRequerimiento == idRequerimiento
+                                                        && exp.Activo == true
+                                                        select exp).ToListAsync();
 
-                requerimiento.habilidades = await (from hab in db.tB_Requerimiento_Habilidades
-                                                   where hab.IdRequerimiento == idRequerimiento
-                                                   && hab.Activo == true
-                                                   select hab).ToListAsync();
+                    requerimiento.habilidades = await (from hab in db.tB_Requerimiento_Habilidades
+                                                       where hab.IdRequerimiento == idRequerimiento
+                                                       && hab.Activo == true
+                                                       select hab).ToListAsync();
+                }
 
             }
             return requerimiento;
