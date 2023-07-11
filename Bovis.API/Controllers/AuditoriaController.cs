@@ -25,6 +25,17 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
+        #region Auditoria Legal
+        #endregion Auditoria Legal
+
+        #region Auditoria de Calidad (Cumplimiento)
+        [HttpGet, Route("Cumplimiento/Documentos")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetDocumentosAuditoriaCumplimiento()
+        {
+            var query = await _auditoriaQueryService.GetDocumentosAuditoriaCumplimiento();
+            return Ok(query);
+        }
+        #endregion Auditoria de Calidad (Cumplimiento)
 
     }
 }

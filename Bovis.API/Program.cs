@@ -49,6 +49,9 @@ builder.Services.AddCors(options => options.AddPolicy("policyAPI",
 								  .AllowAnyHeader()
 								  .AllowAnyMethod()));
 
+builder.Services.AddScoped<IAuditoriaQueryService, AuditoriaQueryService>();
+builder.Services.AddScoped<IAuditoriaBusiness, AuditoriaBusiness>();
+builder.Services.AddScoped<IAuditoriaData, AuditoriaData>();
 
 builder.Services.AddScoped<ICatalogoQueryService, CatalogoQueryService>();
 builder.Services.AddScoped<ICatalogoBusiness, CatalogoBusiness>();

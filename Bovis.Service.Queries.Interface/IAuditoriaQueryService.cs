@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bovis.Common.Model.NoTable;
+using Bovis.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,7 @@ namespace Bovis.Service.Queries.Interface
 {
     public interface IAuditoriaQueryService
     {
+        Task<Response<List<Documentos_Auditoria_Cumplimiento_Detalle>>> GetDocumentosAuditoriaCumplimiento();
     }
 }
 

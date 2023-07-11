@@ -21,5 +21,6 @@ namespace Bovis.Business
         }
         #endregion
 
+        public Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetDocumentosAuditoriaCumplimiento() => _auditoriaData.GetDocumentosAuditoriaCumplimiento();
     }
 }

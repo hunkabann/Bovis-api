@@ -10,7 +10,7 @@ namespace Bovis.Business.Interface
 {
     public interface IAuditoriaBusiness : IDisposable
     {
-
+        Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetDocumentosAuditoriaCumplimiento();
     }
 
 }
