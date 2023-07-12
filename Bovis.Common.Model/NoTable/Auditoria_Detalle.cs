@@ -34,7 +34,5 @@ namespace Bovis.Common.Model.NoTable
         public string Cumplimiento { get; set; }
         public string DocumentoRef { get; set; }
         public bool Aplica { get; set; }
-        public string Motivo { get; set; }
-        public string DocumentoBase64 { get; set; }
     }
 }

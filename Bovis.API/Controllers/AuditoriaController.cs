@@ -87,22 +87,19 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Cumplimiento/Documento")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> UpdateAuditoriaCumplimientoDocumento([FromBody] JsonObject registro)
+        [HttpPost("Cumplimiento/Documento")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddAuditoriaCumplimientoDocumento([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            JsonObject registroJsonObject = new JsonObject();
-            registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
-            registroJsonObject.Add("Rel", 1050);
-
-            var query = await _auditoriaQueryService.UpdateAuditoriaCumplimientoDocumento(registroJsonObject);
+            var query = await _auditoriaQueryService.AddAuditoriaCumplimientoDocumento(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
+        }
+
+        [HttpGet, Route("Cumplimiento/Documentos/{IdAuditoriaCumplimiento}/{offset}/{limit}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit)
+        {
+            var query = await _auditoriaQueryService.GetDocumentosAuditoriaCumplimiento(IdAuditoriaCumplimiento, offset, limit);
+            return Ok(query);
         }
 
         #endregion Auditoria de Calidad (Cumplimiento)

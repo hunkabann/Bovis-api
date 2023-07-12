@@ -15,6 +15,7 @@ namespace Bovis.Common.Model
         public ITable<DOR_Tooltip> dOR_Tooltip { get { return this.GetTable<DOR_Tooltip>(); } }
         public ITable<TB_Auditoria_Contractual_Proyecto> tB_Auditoria_Contractual_Proyectos { get { return this.GetTable<TB_Auditoria_Contractual_Proyecto>(); } }
         public ITable<TB_Auditoria_Cumplimiento> tB_Auditoria_Cumplimientos { get { return this.GetTable<TB_Auditoria_Cumplimiento>(); } }
+        public ITable<TB_Auditoria_Cumplimiento_Documento> tB_Auditoria_Cumplimiento_Documentos { get { return this.GetTable<TB_Auditoria_Cumplimiento_Documento>(); } }
         public ITable<TB_Auditoria_Cumplimiento_Proyecto> tB_Auditoria_Cumplimiento_Proyectos { get { return this.GetTable<TB_Auditoria_Cumplimiento_Proyecto>(); } }
         public ITable<TB_Banco> tB_Bancos { get { return this.GetTable<TB_Banco>(); } }
 		public ITable<TB_Bitacora> tB_Bitacoras { get { return this.GetTable<TB_Bitacora>(); } }

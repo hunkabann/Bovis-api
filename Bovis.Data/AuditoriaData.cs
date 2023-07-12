@@ -120,9 +120,7 @@ namespace Bovis.Data
                                       IdSeccion = catItem.IdSeccion,
                                       Cumplimiento = catItem.Cumplimiento,
                                       DocumentoRef = catItem.DocumentoRef,
-                                      Aplica = doc.Aplica,
-                                      Motivo = doc.Motivo,
-                                      DocumentoBase64 = doc.DocumentoBase64
+                                      Aplica = doc.Aplica
                                   }).ToListAsync();
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
@@ -152,7 +150,7 @@ namespace Bovis.Data
                                 count_aplica++;
                         }
                     }
-                                        
+
                     decimal porcentaje = (count_aplica > 0 && count_auditorias_seccion > 0) ? (((decimal)count_aplica / count_auditorias_seccion) * 100) : 0;
                     auditoria.NuProcentaje = Math.Round(porcentaje);
                     auditorias.Add(auditoria);
@@ -185,7 +183,6 @@ namespace Bovis.Data
                                                                 .Value(x => x.IdAuditoriaCumplimiento, id_auditoria)
                                                                 .Value(x => x.IdProyecto, id_proyecto)
                                                                 .Value(x => x.Aplica, aplica)
-                                                                .Value(x => x.Motivo, motivo)
                                                                 .InsertAsync() > 0;
 
                     resp.Success = insert_auditoriacumplimiento_proyecto;
@@ -219,7 +216,6 @@ namespace Bovis.Data
                                                                 .Value(x => x.IdAuditoriaCumplimiento, id_auditoria)
                                                                 .Value(x => x.IdProyecto, id_proyecto)
                                                                 .Value(x => x.Aplica, aplica)
-                                                                .Value(x => x.Motivo, motivo)
                                                                 .InsertAsync() > 0;
 
                     resp.Success = insert_auditoriacumplimiento_proyecto;
@@ -229,30 +225,45 @@ namespace Bovis.Data
 
             return resp;
         }
-        
-        public async Task<(bool existe, string mensaje)> UpdateAuditoriaCumplimientoDocumento(JsonObject registro)
+
+        public async Task<(bool existe, string mensaje)> AddAuditoriaCumplimientoDocumento(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
-            int id_auditoria = Convert.ToInt32(registro["id_auditoria"].ToString());
+            int id_auditoria_proyecto = Convert.ToInt32(registro["id_auditoria_proyecto"].ToString());
             string motivo = registro["motivo"].ToString();
             string documento_base64 = registro["documento_base64"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_timesheet = await db.tB_Auditoria_Cumplimiento_Proyectos.Where(x => x.IdProyecto == id_proyecto && x.IdAuditoriaCumplimiento == id_auditoria)
-                    .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Proyecto
-                    {
-                        DocumentoBase64 = documento_base64,
-                        Motivo = motivo
-                    }) > 0;
+                var insert_auditoriacumplimiento_documento = await db.tB_Auditoria_Cumplimiento_Documentos
+                                                                .Value(x => x.IdAuditoriaCumplimientoProyecto, id_auditoria_proyecto)
+                                                                .Value(x => x.Motivo, motivo)
+                                                                .Value(x => x.Fecha, DateTime.Now)
+                                                                .Value(x => x.DocumentoBase64, documento_base64)
+                                                                .InsertAsync() > 0;
 
-                resp.Success = res_update_timesheet;
-                resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = insert_auditoriacumplimiento_documento;
+                resp.Message = insert_auditoriacumplimiento_documento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
 
             return resp;
+        }
+
+        public async Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var docs = await (from doc in db.tB_Auditoria_Cumplimiento_Documentos
+                                  where doc.IdAuditoriaCumplimientoProyecto == IdAuditoriaCumplimiento
+                                  orderby doc.IdDocumento descending
+                                  select doc)
+                                  .Skip((offset - 1) * limit)
+                                  .Take(limit)
+                                  .ToListAsync();
+
+            return docs;
+            }
         }
         #endregion Auditoria de Calidad (Cumplimiento)
     }
