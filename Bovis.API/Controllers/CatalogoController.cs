@@ -889,7 +889,6 @@ public class CatalogoController : ControllerBase
 
     #endregion
     
-
     #region Nivel Puesto
     [HttpGet, Route("NivelPuesto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> NivelPuesto(bool? Activo)

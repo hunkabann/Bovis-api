@@ -696,14 +696,38 @@ namespace Bovis.Data
                     if (empleado != null)
                     {
                         empleado.experiencias = await (from exp in db.tB_Empleado_Experiencias
+                                                  join cat in db.tB_Cat_Experiencias on exp.IdExperiencia equals cat.IdExperiencia
                                                   where exp.IdEmpleado == empleado.nunum_empleado_rr_hh
                                                   && exp.Activo == true
-                                                  select exp).ToListAsync();
+                                                  select new Experiencia_Detalle
+                                                  {
+                                                      IdEmpleado = exp.IdEmpleado,
+                                                      IdExperiencia = exp.IdExperiencia,
+                                                      Experiencia = cat.Experiencia,
+                                                      Activo = exp.Activo
+                                                  }).ToListAsync();
+
+                        foreach (var exp in empleado.experiencias)
+                        {
+                            empleado.chexperiencias += (empleado.chexperiencias == null) ? exp.Experiencia : "," + exp.Experiencia;
+                        }
 
                         empleado.habilidades = await (from hab in db.tB_Empleado_Habilidades
+                                                 join cat in db.tB_Cat_Habilidades on hab.IdHabilidad equals cat.IdHabilidad
                                                  where hab.IdEmpleado == empleado.nunum_empleado_rr_hh
                                                  && hab.Activo == true
-                                                 select hab).ToListAsync();
+                                                 select new Habilidad_Detalle
+                                                 {
+                                                     IdEmpleado = hab.IdEmpleado,
+                                                     IdHabilidad = hab.IdHabilidad,
+                                                     Habilidad = cat.Habilidad,
+                                                     Activo = hab.Activo
+                                                 }).ToListAsync();
+
+                        foreach (var hab in empleado.habilidades)
+                        {
+                            empleado.chhabilidades += (empleado.chhabilidades == null) ? hab.Habilidad : "," + hab.Habilidad;
+                        }
                     }
 
                     empleados.Add(empleado);

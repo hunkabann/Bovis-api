@@ -1,4 +1,5 @@
 ﻿using Bovis.Common.Model.Tables;
+using LinqToDB.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,9 +56,7 @@ namespace Bovis.Common.Model.NoTable
         public DateTime dtfecha_salida { get; set; }
         public DateTime dtfecha_ultimo_reingreso { get; set; }
         public string chnss { get; set; }
-        public string chemail_bovis { get; set; }
-        public string chexperiencias { get; set; }
-        public string chhabilidades { get; set; }
+        public string chemail_bovis { get; set; }        
         public string churl_repositorio { get; set; }
         public decimal nusalario { get; set; }
         public int nukidprofesion { get; set; }
@@ -78,8 +77,10 @@ namespace Bovis.Common.Model.NoTable
         public decimal nuvalor_descuento { get; set; }
         public string nuno_empleado_noi { get; set; }
         public string chrol { get; set; }
-        public List<TB_Empleado_Experiencia> experiencias { get; set; }
-        public List<TB_Empleado_Habilidad> habilidades { get; set; }
+        public string chexperiencias { get; set; }
+        public string chhabilidades { get; set; }
+        public List<Experiencia_Detalle> experiencias { get; set; }
+        public List<Habilidad_Detalle> habilidades { get; set; }
     }
 
     public class Empleado_BasicData
@@ -88,5 +89,21 @@ namespace Bovis.Common.Model.NoTable
         public string chnombre { get; set; }
         public string chap_paterno { get; set; }
         public string chap_materno { get; set; }
+    }
+
+    public class Experiencia_Detalle
+    {
+        public int IdEmpleado { get; set; }
+        public int IdExperiencia { get; set; }
+        public string Experiencia { get;set; }
+        public bool Activo { get; set; }
+    }
+
+    public class Habilidad_Detalle
+    {
+        public int IdEmpleado { get; set; }
+        public int IdHabilidad { get; set; }
+        public string Habilidad { get; set; }
+        public bool Activo { get; set; }
     }
 }

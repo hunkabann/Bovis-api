@@ -14,6 +14,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Transactions;
+using static LinqToDB.SqlQuery.SqlPredicate;
 
 namespace Bovis.Data
 {
@@ -276,14 +277,38 @@ namespace Bovis.Data
                 if (res != null)
                 {
                     res.experiencias = await (from exp in db.tB_Empleado_Experiencias
+                                              join cat in db.tB_Cat_Experiencias on exp.IdExperiencia equals cat.IdExperiencia
                                               where exp.IdEmpleado == idEmpleado
                                               && exp.Activo == true
-                                              select exp).ToListAsync();
+                                              select new Experiencia_Detalle
+                                              {
+                                                  IdEmpleado = exp.IdEmpleado,
+                                                  IdExperiencia = exp.IdExperiencia,
+                                                  Experiencia = cat.Experiencia,
+                                                  Activo = exp.Activo
+                                              }).ToListAsync();
+
+                    foreach(var exp in res.experiencias)
+                    {
+                        res.chexperiencias += (res.chexperiencias == null) ? exp.Experiencia : "," + exp.Experiencia;
+                    }
 
                     res.habilidades = await (from hab in db.tB_Empleado_Habilidades
+                                             join cat in db.tB_Cat_Habilidades on hab.IdHabilidad equals cat.IdHabilidad
                                              where hab.IdEmpleado == idEmpleado
                                              && hab.Activo == true
-                                             select hab).ToListAsync();
+                                             select new Habilidad_Detalle
+                                             {
+                                                 IdEmpleado = hab.IdEmpleado,
+                                                 IdHabilidad = hab.IdHabilidad,
+                                                 Habilidad = cat.Habilidad,
+                                                 Activo = hab.Activo
+                                             }).ToListAsync();
+
+                    foreach (var hab in res.habilidades)
+                    {
+                        res.chhabilidades += (res.chhabilidades == null) ? hab.Habilidad : "," + hab.Habilidad;
+                    }
                 }
                 return res;
 
