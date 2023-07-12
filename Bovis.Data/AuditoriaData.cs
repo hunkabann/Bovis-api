@@ -109,7 +109,7 @@ namespace Bovis.Data
                                   join cat in db.tB_Cat_Auditoria_Cumplimientos on doc.IdAuditoriaCumplimiento equals cat.IdAuditoriaCumplimiento into catJoin
                                   from catItem in catJoin.DefaultIfEmpty()
                                   where doc.IdProyecto == IdProyecto
-                                  select new TB_Cat_Auditoria_Cumplimiento
+                                  select new Auditoria_Cumplimiento_Detalle
                                   {
                                       IdAuditoriaCumplimiento = doc.IdAuditoriaCumplimiento,
                                       IdProyecto = doc.IdProyecto,
@@ -121,7 +121,8 @@ namespace Bovis.Data
                                       Cumplimiento = catItem.Cumplimiento,
                                       DocumentoRef = catItem.DocumentoRef,
                                       Aplica = doc.Aplica,
-                                      Motivo = doc.Motivo
+                                      Motivo = doc.Motivo,
+                                      DocumentoBase64 = doc.DocumentoBase64
                                   }).ToListAsync();
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
@@ -135,14 +136,14 @@ namespace Bovis.Data
                     Documentos_Auditoria_Cumplimiento_Proyecto_Detalle auditoria = new Documentos_Auditoria_Cumplimiento_Proyecto_Detalle();
                     auditoria.IdSeccion = seccion.IdSeccion;
                     auditoria.ChSeccion = seccion.Seccion;
-                    auditoria.Auditorias = new List<TB_Cat_Auditoria_Cumplimiento>();
+                    auditoria.Auditorias = new List<Auditoria_Cumplimiento_Detalle>();
 
                     foreach (var doc in docs)
                     {
                         if (seccion.IdSeccion == doc.IdSeccion)
                         {
                             if (auditoria.Auditorias == null)
-                                auditoria.Auditorias = new List<TB_Cat_Auditoria_Cumplimiento>();
+                                auditoria.Auditorias = new List<Auditoria_Cumplimiento_Detalle>();
                             auditoria.Auditorias.Add(doc);
 
                             count_auditorias_seccion++;
