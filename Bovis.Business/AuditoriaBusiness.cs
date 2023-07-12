@@ -63,6 +63,18 @@ namespace Bovis.Business
             }
             return resp;
         }
+        public async Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoDocumento(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _auditoriaData.UpdateAuditoriaCumplimientoDocumento((JsonObject)registro["Registro"]);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

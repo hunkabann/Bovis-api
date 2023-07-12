@@ -228,6 +228,31 @@ namespace Bovis.Data
 
             return resp;
         }
+        
+        public async Task<(bool existe, string mensaje)> UpdateAuditoriaCumplimientoDocumento(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+            int id_auditoria = Convert.ToInt32(registro["id_auditoria"].ToString());
+            string motivo = registro["motivo"].ToString();
+            string documento_base64 = registro["documento_base64"].ToString();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_timesheet = await db.tB_Auditoria_Cumplimiento_Proyectos.Where(x => x.IdProyecto == id_proyecto && x.IdAuditoriaCumplimiento == id_auditoria)
+                    .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Proyecto
+                    {
+                        DocumentoBase64 = documento_base64,
+                        Motivo = motivo
+                    }) > 0;
+
+                resp.Success = res_update_timesheet;
+                resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

@@ -86,7 +86,25 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
-        
+
+        [HttpPut("Cumplimiento/Documento")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> UpdateAuditoriaCumplimientoDocumento([FromBody] JsonObject registro)
+        {
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 1050);
+
+            var query = await _auditoriaQueryService.UpdateAuditoriaCumplimientoDocumento(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
         #endregion Auditoria de Calidad (Cumplimiento)
 
     }

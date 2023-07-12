@@ -73,6 +73,12 @@ namespace Bovis.Service.Queries
             var response = await _auditoriaBusiness.UpdateAuditoriaCumplimientoProyecto(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
+
+        public async Task<Response<(bool existe, string mensaje)>> UpdateAuditoriaCumplimientoDocumento(JsonObject registro)
+        {
+            var response = await _auditoriaBusiness.UpdateAuditoriaCumplimientoDocumento(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

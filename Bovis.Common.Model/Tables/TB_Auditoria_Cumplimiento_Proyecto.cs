@@ -9,5 +9,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Nukidproyecto"), Nullable] public int IdProyecto { get; set; }
         [Column("Boaplica"), Nullable] public bool Aplica { get; set; }
         [Column("Chmotivo"), Nullable] public string Motivo { get; set; }
+        [Column("Chdocumento"), Nullable] public string DocumentoBase64 { get; set; }
     }
 }
