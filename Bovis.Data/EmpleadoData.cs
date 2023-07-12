@@ -290,7 +290,7 @@ namespace Bovis.Data
 
                     foreach(var exp in res.experiencias)
                     {
-                        res.chexperiencias += (res.chexperiencias == null) ? exp.Experiencia : "," + exp.Experiencia;
+                        res.chexperiencias += (res.chexperiencias == null) ? exp.Experiencia : ", " + exp.Experiencia;
                     }
 
                     res.habilidades = await (from hab in db.tB_Empleado_Habilidades
@@ -307,7 +307,7 @@ namespace Bovis.Data
 
                     foreach (var hab in res.habilidades)
                     {
-                        res.chhabilidades += (res.chhabilidades == null) ? hab.Habilidad : "," + hab.Habilidad;
+                        res.chhabilidades += (res.chhabilidades == null) ? hab.Habilidad : ", " + hab.Habilidad;
                     }
                 }
                 return res;

@@ -709,7 +709,7 @@ namespace Bovis.Data
 
                         foreach (var exp in empleado.experiencias)
                         {
-                            empleado.chexperiencias += (empleado.chexperiencias == null) ? exp.Experiencia : "," + exp.Experiencia;
+                            empleado.chexperiencias += (empleado.chexperiencias == null) ? exp.Experiencia : ", " + exp.Experiencia;
                         }
 
                         empleado.habilidades = await (from hab in db.tB_Empleado_Habilidades
@@ -726,7 +726,7 @@ namespace Bovis.Data
 
                         foreach (var hab in empleado.habilidades)
                         {
-                            empleado.chhabilidades += (empleado.chhabilidades == null) ? hab.Habilidad : "," + hab.Habilidad;
+                            empleado.chhabilidades += (empleado.chhabilidades == null) ? hab.Habilidad : ", " + hab.Habilidad;
                         }
                     }
 
