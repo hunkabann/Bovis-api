@@ -92,7 +92,26 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+            var cumplimientos = registro["cumplimientos"].AsArray();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var delete_auditoriacumplimiento_proyecto = await db.tB_Auditoria_Cumplimiento_Proyectos
+                                                                .Where(x => x.IdProyecto == id_proyecto)
+                                                                .DeleteAsync() > 0;
+
+                foreach (var c in cumplimientos)
+                {
+                    var insert_auditoriacumplimiento_proyecto = await db.tB_Auditoria_Cumplimiento_Proyectos
+                                                                .Value(x => x.IdProyecto, id_proyecto)
+                                                                .Value(x => x.IdAuditoriaCumplimiento, Convert.ToInt32(c.ToString()))
+                                                                .InsertAsync() > 0;
+
+                    resp.Success = insert_auditoriacumplimiento_proyecto;
+                    resp.Message = insert_auditoriacumplimiento_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                }
+            }
 
             return resp;
         }
