@@ -6,6 +6,6 @@ namespace Bovis.Common.Model.Tables
     public class TB_Auditoria_Cumplimiento_Proyecto
     {
         [Column("Nukidproyecto"), Nullable] public int IdProyecto { get; set; }
-        [Column("Nukidauditoria_cumplimiento"), Nullable] public int IdCAuditoriaCumplimiento { get; set; }
+        [Column("Nukidauditoria_cumplimiento"), Nullable] public int IdAuditoriaCumplimiento { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries
@@ -41,6 +42,18 @@ namespace Bovis.Service.Queries
         {
             var response = await _auditoriaBusiness.GetDocumentosAuditoriaCumplimiento();
             return new Response<List<Documentos_Auditoria_Cumplimiento_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Cumplimiento_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+
+        public async Task<Response<(bool existe, string mensaje)>> AddDocumentosAuditoriaCumplimiento(JsonObject registro)
+        {
+            var response = await _auditoriaBusiness.AddDocumentosAuditoriaCumplimiento(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+
+        public async Task<Response<(bool existe, string mensaje)>> UpdateAuditoriaCumplimientoProyecto(JsonObject registro)
+        {
+            var response = await _auditoriaBusiness.UpdateAuditoriaCumplimientoProyecto(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Auditoria de Calidad (Cumplimiento)
     }

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Bovis.Data
@@ -30,6 +31,10 @@ namespace Bovis.Data
         }
         #endregion
 
+        #region Auditoria Legal
+        #endregion Auditoria Legal
+
+        #region Auditoria de Calidad (Cumplimiento)
         public async Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetDocumentosAuditoriaCumplimiento()
         {
             List<Documentos_Auditoria_Cumplimiento_Detalle> documentos = new List<Documentos_Auditoria_Cumplimiento_Detalle>();
@@ -57,7 +62,40 @@ namespace Bovis.Data
             }
 
             return documentos;
-
         }
+
+        public async Task<(bool existe, string mensaje)> AddDocumentosAuditoriaCumplimiento(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+            var cumplimientos = registro["cumplimientos"].AsArray();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                foreach (var c in cumplimientos)
+                {
+                    var insert_auditoriacumplimiento_proyecto = await db.tB_Auditoria_Cumplimiento_Proyectos
+                                                                .Value(x => x.IdProyecto, id_proyecto)
+                                                                .Value(x => x.IdAuditoriaCumplimiento, Convert.ToInt32(c.ToString()))
+                                                                .InsertAsync() > 0;
+
+                    resp.Success = insert_auditoriacumplimiento_proyecto;
+                    resp.Message = insert_auditoriacumplimiento_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                }
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool existe, string mensaje)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            
+
+            return resp;
+        }
+        #endregion Auditoria de Calidad (Cumplimiento)
     }
 }
