@@ -124,29 +124,38 @@ namespace Bovis.Data
                                       Motivo = doc.Motivo
                                   }).ToListAsync();
 
-                Documentos_Auditoria_Cumplimiento_Proyecto_Detalle auditoria = new Documentos_Auditoria_Cumplimiento_Proyecto_Detalle();
-                int count_aplica = 0;
-                foreach (var doc in docs)
+                var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
+                                       select seccion).ToListAsync();
+
+
+                foreach (var seccion in secciones)
                 {
-                    auditoria.IdSeccion = doc.IdSeccion;
-
-                    var seccion = await (from secc in db.tB_Cat_Auditoria_Cumplimiento_Seccions
-                                         where secc.IdSeccion == doc.IdSeccion
-                                         select secc).FirstOrDefaultAsync();
-
+                    int count_aplica = 0;
+                    int count_auditorias_seccion = 0;
+                    Documentos_Auditoria_Cumplimiento_Proyecto_Detalle auditoria = new Documentos_Auditoria_Cumplimiento_Proyecto_Detalle();
+                    auditoria.IdSeccion = seccion.IdSeccion;
                     auditoria.ChSeccion = seccion.Seccion;
+                    auditoria.Auditorias = new List<TB_Cat_Auditoria_Cumplimiento>();
 
-                    if (auditoria.Auditorias == null)
-                        auditoria.Auditorias = new List<TB_Cat_Auditoria_Cumplimiento>();
-                    auditoria.Auditorias.Add(doc);
+                    foreach (var doc in docs)
+                    {
+                        if (seccion.IdSeccion == doc.IdSeccion)
+                        {
+                            if (auditoria.Auditorias == null)
+                                auditoria.Auditorias = new List<TB_Cat_Auditoria_Cumplimiento>();
+                            auditoria.Auditorias.Add(doc);
 
-                    if (doc.Aplica == true)
-                        count_aplica++;
+                            count_auditorias_seccion++;
+
+                            if (doc.Aplica == true)
+                                count_aplica++;
+                        }
+                    }
+                                        
+                    decimal porcentaje = (count_aplica > 0 && count_auditorias_seccion > 0) ? (((decimal)count_aplica / count_auditorias_seccion) * 100) : 0;
+                    auditoria.NuProcentaje = Math.Round(porcentaje);
+                    auditorias.Add(auditoria);
                 }
-
-                auditoria.NuProcentaje = (count_aplica / docs.Count) * 100;
-
-                auditorias.Add(auditoria);
             }
 
             return auditorias;
