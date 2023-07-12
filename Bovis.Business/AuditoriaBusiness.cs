@@ -26,15 +26,26 @@ namespace Bovis.Business
 
         #region Auditoria Legal
         public Task<List<TB_Cat_Auditoria_Contractual>> GetAuditoriasContractual() => _auditoriaData.GetAuditoriasContractual();
+
+        public async Task<(bool Success, string Message)> AddAuditoriasContractual(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _auditoriaData.AddAuditoriasContractual(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
         public Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento() => _auditoriaData.GetAuditoriasCumplimiento();
+        
+        public Task<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>> GetAuditoriasCumplimientoByProyecto(int IdProyecto) => _auditoriaData.GetAuditoriasCumplimientoByProyecto(IdProyecto);
 
-        public async Task<(bool Success, string Message)> AddDocumentosAuditoriaCumplimiento(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriasCumplimiento(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.AddDocumentosAuditoriaCumplimiento(registro);
+            var respData = await _auditoriaData.AddAuditoriasCumplimiento(registro);
             if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;

@@ -128,7 +128,13 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetPcs(bool? Activo)
+    public async Task<Response<List<Catalogo>>> GetPais(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetPais(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    public async Task<Response<List<Catalogo>>> GetPcs(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetPcs(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };

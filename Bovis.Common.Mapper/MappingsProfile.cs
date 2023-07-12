@@ -395,6 +395,10 @@ public class MappingsProfile : Profile
             .ForMember(c => c.CveEntidad, dto => dto.MapFrom(src => src.CveEntidad))
             .ForMember(c => c.Activo, dto => dto.MapFrom(src => src.Activo));
 
+        CreateMap<TB_Pais, Catalogo>()
+            .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdPais))
+            .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Pais))
+            .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
         #endregion
 
         #region DOR

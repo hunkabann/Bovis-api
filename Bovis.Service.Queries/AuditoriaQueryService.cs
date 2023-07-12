@@ -41,6 +41,12 @@ namespace Bovis.Service.Queries
             var response = await _auditoriaBusiness.GetAuditoriasContractual();
             return new Response<List<TB_Cat_Auditoria_Contractual>> { Data = _map.Map<List<TB_Cat_Auditoria_Contractual>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+
+        public async Task<Response<(bool existe, string mensaje)>> AddAuditoriasContractual(JsonObject registro)
+        {
+            var response = await _auditoriaBusiness.AddAuditoriasContractual(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
@@ -50,9 +56,15 @@ namespace Bovis.Service.Queries
             return new Response<List<Documentos_Auditoria_Cumplimiento_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Cumplimiento_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> AddDocumentosAuditoriaCumplimiento(JsonObject registro)
+        public async Task<Response<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>>> GetAuditoriasCumplimientoByProyecto(int IdProyecto)
         {
-            var response = await _auditoriaBusiness.AddDocumentosAuditoriaCumplimiento(registro);
+            var response = await _auditoriaBusiness.GetAuditoriasCumplimientoByProyecto(IdProyecto);
+            return new Response<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+
+        public async Task<Response<(bool existe, string mensaje)>> AddAuditoriasCumplimiento(JsonObject registro)
+        {
+            var response = await _auditoriaBusiness.AddAuditoriasCumplimiento(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
 

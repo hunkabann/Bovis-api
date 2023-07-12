@@ -43,6 +43,8 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetNivelPuesto(bool? Activo);
 
+	Task<Response<List<Catalogo>>> GetPais(bool? Activo);
+
 	Task<Response<List<Catalogo>>> GetPcs(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetPrestacion(bool? Activo);

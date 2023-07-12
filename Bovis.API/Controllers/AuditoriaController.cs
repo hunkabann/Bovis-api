@@ -36,6 +36,14 @@ namespace Bovis.API.Controllers
             var query = await _auditoriaQueryService.GetAuditoriasContractual();
             return Ok(query);
         }
+
+        [HttpPost("Contractual/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddAuditoriasContractual([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.AddAuditoriasContractual(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
@@ -46,10 +54,17 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpPost("Cumplimiento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AddDocumentosAuditoriaCumplimiento([FromBody] JsonObject registro)
+        [HttpGet, Route("Cumplimiento/Proyecto/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetAuditoriasCumplimientoByProyecto(int IdProyecto)
         {
-            var query = await _auditoriaQueryService.AddDocumentosAuditoriaCumplimiento(registro);
+            var query = await _auditoriaQueryService.GetAuditoriasCumplimientoByProyecto(IdProyecto);
+            return Ok(query);
+        }
+
+        [HttpPost("Cumplimiento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddAuditoriasCumplimiento([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.AddAuditoriasCumplimiento(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

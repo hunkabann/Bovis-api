@@ -13,11 +13,13 @@ namespace Bovis.Business.Interface
     {
         #region Auditoria Legal
         Task<List<TB_Cat_Auditoria_Contractual>> GetAuditoriasContractual();
+        Task<(bool Success, string Message)> AddAuditoriasContractual(JsonObject registro);
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
         Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento();
-        Task<(bool Success, string Message)> AddDocumentosAuditoriaCumplimiento(JsonObject registro);
+        Task<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>> GetAuditoriasCumplimientoByProyecto(int IdProyecto);
+        Task<(bool Success, string Message)> AddAuditoriasCumplimiento(JsonObject registro);
         Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro);
         #endregion Auditoria de Calidad (Cumplimiento)
     }

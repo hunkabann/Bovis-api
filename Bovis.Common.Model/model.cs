@@ -13,7 +13,7 @@ namespace Bovis.Common.Model
         public ITable<DOR_Objetivos_Nivel> dOR_Objetivos_Nivel { get { return this.GetTable<DOR_Objetivos_Nivel>(); } }
         public ITable<DOR_ObjetivosDesepeno> dOR_ObjetivosDesepenos { get { return this.GetTable<DOR_ObjetivosDesepeno>(); } }
         public ITable<DOR_Tooltip> dOR_Tooltip { get { return this.GetTable<DOR_Tooltip>(); } }
-        public ITable<TB_Auditoria_Contractual> tB_Auditoria_Contractuals { get { return this.GetTable<TB_Auditoria_Contractual>(); } }
+        public ITable<TB_Auditoria_Contractual_Proyecto> tB_Auditoria_Contractual_Proyectos { get { return this.GetTable<TB_Auditoria_Contractual_Proyecto>(); } }
         public ITable<TB_Auditoria_Cumplimiento> tB_Auditoria_Cumplimientos { get { return this.GetTable<TB_Auditoria_Cumplimiento>(); } }
         public ITable<TB_Auditoria_Cumplimiento_Proyecto> tB_Auditoria_Cumplimiento_Proyectos { get { return this.GetTable<TB_Auditoria_Cumplimiento_Proyecto>(); } }
         public ITable<TB_Banco> tB_Bancos { get { return this.GetTable<TB_Banco>(); } }

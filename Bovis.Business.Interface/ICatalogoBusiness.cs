@@ -159,11 +159,20 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> UpdateNivelPuesto(InsertMovApi MovAPI, TB_Cat_NivelPuesto nivelPuesto);
 		Task<(bool Success, string Message)> DeleteNivelPuesto(TB_Cat_NivelPuesto nivelPuesto);
 
-		#endregion
+        #endregion
 
-		#region Pcs
+        #region Pais
 
-		Task<List<TB_Cat_Pcs>> GetPcs(bool? activo);
+        Task<List<TB_Pais>> GetPais(bool? activo);
+        Task<(bool Success, string Message)> AddPais(TB_Pais Pais);
+        Task<(bool Success, string Message)> UpdatePais(InsertMovApi MovAPI, TB_Pais Pais);
+        Task<(bool Success, string Message)> DeletePais(TB_Pais Pais);
+
+        #endregion Pais
+
+        #region Pcs
+
+        Task<List<TB_Cat_Pcs>> GetPcs(bool? activo);
 		Task<(bool Success, string Message)> AddPcs(TB_Cat_Pcs pcs);
 		Task<(bool Success, string Message)> UpdatePcs(InsertMovApi MovAPI, TB_Cat_Pcs pcs);
 		Task<(bool Success, string Message)> DeletePcs(TB_Cat_Pcs pcs);

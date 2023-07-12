@@ -887,10 +887,11 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
+    
 
-	#region Nivel Puesto
-	[HttpGet, Route("NivelPuesto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    #region Nivel Puesto
+    [HttpGet, Route("NivelPuesto/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> NivelPuesto(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetNivelPuesto(Activo);
@@ -938,10 +939,61 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Pcs
-	[HttpGet, Route("Pcs/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    #region Pais
+    [HttpGet, Route("Pais/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> Pais(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetPais(Activo);
+        return Ok(query);
+    }
+
+    [HttpPut, Route("Pais/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> AddPais(AgregarPaisCommand Pais)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Pais);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Pais/Borrar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> DeletePais(EliminarPaisCommand Pais)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Pais);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Pais/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    public async Task<IActionResult> UpdatePais(ActualizarPaisCommand Pais)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        Pais.Nombre = claimJWTModel.nombre;
+        Pais.Usuario = claimJWTModel.correo;
+        Pais.Roles = claimJWTModel.roles;
+        Pais.TransactionId = claimJWTModel.transactionId;
+        Pais.Rel = 14;
+        var response = await _mediator.Send(Pais);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+
+    #endregion Pais
+
+    #region Pcs
+    [HttpGet, Route("Pcs/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
     public async Task<IActionResult> Pcs(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetPcs(Activo);

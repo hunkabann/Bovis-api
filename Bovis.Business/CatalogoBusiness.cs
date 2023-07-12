@@ -550,11 +550,41 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Pcs
+        #region Pais
 
-		public Task<List<TB_Cat_Pcs>> GetPcs(bool? Actio) => _catalogoData.GetPcs(Actio);
+        public Task<List<TB_Pais>> GetPais(bool? Actio) => _catalogoData.GetPais(Actio);
+        public async Task<(bool Success, string Message)> AddPais(TB_Pais Pais)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddPais(Pais);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeletePais(TB_Pais Pais)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeletePais(Pais);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdatePais(InsertMovApi MovAPI, TB_Pais Pais)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdatePais(Pais);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(Pais) });
+            return resp;
+        }
+
+        #endregion Pais
+
+        #region Pcs
+
+        public Task<List<TB_Cat_Pcs>> GetPcs(bool? Actio) => _catalogoData.GetPcs(Actio);
 		public async Task<(bool Success, string Message)> AddPcs(TB_Cat_Pcs pcs)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);

@@ -544,11 +544,41 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Pcs
+        #region Pais
 
-		public async Task<List<TB_Cat_Pcs>> GetPcs(bool? activo)
+        public async Task<List<TB_Pais>> GetPais(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Pais
+                                                                          where cat.Activo == activo
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Pais>();
+        }
+
+        public Task<bool> AddPais(TB_Pais Pais) => InsertEntityIdAsync<TB_Pais>(Pais);
+
+        public Task<bool> UpdatePais(TB_Pais Pais) => UpdateEntityAsync<TB_Pais>(Pais);
+
+        public async Task<bool> DeletePais(TB_Pais Pais)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Pais
+                       .Where(x => x.IdPais == Pais.IdPais)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Pais
+
+        #region Pcs
+
+        public async Task<List<TB_Cat_Pcs>> GetPcs(bool? activo)
 		{
 			if (activo.HasValue)
 			{

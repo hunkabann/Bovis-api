@@ -160,11 +160,20 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateNivelPuesto(TB_Cat_NivelPuesto nivelPuesto);
 		Task<bool> DeleteNivelPuesto(TB_Cat_NivelPuesto nivelPuesto);
 
-		#endregion
+        #endregion
 
-		#region Pcs
+        #region Pais
 
-		Task<List<TB_Cat_Pcs>> GetPcs(bool? activo);
+        Task<List<TB_Pais>> GetPais(bool? activo);
+        Task<bool> AddPais(TB_Pais Pais);
+        Task<bool> UpdatePais(TB_Pais Pais);
+        Task<bool> DeletePais(TB_Pais Pais);
+
+        #endregion Pais
+
+        #region Pcs
+
+        Task<List<TB_Cat_Pcs>> GetPcs(bool? activo);
 		Task<bool> AddPcs(TB_Cat_Pcs pcs);
 		Task<bool> UpdatePcs(TB_Cat_Pcs pcs);
 		Task<bool> DeletePcs(TB_Cat_Pcs pcs);
