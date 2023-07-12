@@ -32,10 +32,20 @@ namespace Bovis.Data
         #endregion
 
         #region Auditoria Legal
+        public async Task<List<TB_Cat_Auditoria_Contractual>> GetAuditoriasContractual()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var auditorias = await (from audit in db.tB_Cat_Auditoria_Contractuals
+                                        select audit).ToListAsync();
+
+                return auditorias;
+            }
+        }
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
-        public async Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetDocumentosAuditoriaCumplimiento()
+        public async Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento()
         {
             List<Documentos_Auditoria_Cumplimiento_Detalle> documentos = new List<Documentos_Auditoria_Cumplimiento_Detalle>();
 

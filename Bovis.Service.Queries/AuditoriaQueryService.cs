@@ -2,6 +2,7 @@
 using Bovis.Business.Interface;
 using Bovis.Common;
 using Bovis.Common.Model.NoTable;
+using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Interface;
 using System;
@@ -35,12 +36,17 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region Auditoria Legal
+        public async Task<Response<List<TB_Cat_Auditoria_Contractual>>> GetAuditoriasContractual()
+        {
+            var response = await _auditoriaBusiness.GetAuditoriasContractual();
+            return new Response<List<TB_Cat_Auditoria_Contractual>> { Data = _map.Map<List<TB_Cat_Auditoria_Contractual>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
-        public async Task<Response<List<Documentos_Auditoria_Cumplimiento_Detalle>>> GetDocumentosAuditoriaCumplimiento()
+        public async Task<Response<List<Documentos_Auditoria_Cumplimiento_Detalle>>> GetAuditoriasCumplimiento()
         {
-            var response = await _auditoriaBusiness.GetDocumentosAuditoriaCumplimiento();
+            var response = await _auditoriaBusiness.GetAuditoriasCumplimiento();
             return new Response<List<Documentos_Auditoria_Cumplimiento_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Cumplimiento_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 

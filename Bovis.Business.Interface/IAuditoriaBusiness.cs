@@ -12,10 +12,11 @@ namespace Bovis.Business.Interface
     public interface IAuditoriaBusiness : IDisposable
     {
         #region Auditoria Legal
+        Task<List<TB_Cat_Auditoria_Contractual>> GetAuditoriasContractual();
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
-        Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetDocumentosAuditoriaCumplimiento();
+        Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento();
         Task<(bool Success, string Message)> AddDocumentosAuditoriaCumplimiento(JsonObject registro);
         Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro);
         #endregion Auditoria de Calidad (Cumplimiento)

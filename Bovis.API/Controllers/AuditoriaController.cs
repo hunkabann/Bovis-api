@@ -30,13 +30,19 @@ namespace Bovis.API.Controllers
         }
 
         #region Auditoria Legal
+        [HttpGet, Route("Contractual")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetAuditoriasContractual()
+        {
+            var query = await _auditoriaQueryService.GetAuditoriasContractual();
+            return Ok(query);
+        }
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
-        [HttpGet, Route("Cumplimiento/Documentos")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetDocumentosAuditoriaCumplimiento()
+        [HttpGet, Route("Cumplimiento")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetAuditoriasCumplimiento()
         {
-            var query = await _auditoriaQueryService.GetDocumentosAuditoriaCumplimiento();
+            var query = await _auditoriaQueryService.GetAuditoriasCumplimiento();
             return Ok(query);
         }
 

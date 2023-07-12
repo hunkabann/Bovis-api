@@ -25,10 +25,11 @@ namespace Bovis.Business
         #endregion base
 
         #region Auditoria Legal
+        public Task<List<TB_Cat_Auditoria_Contractual>> GetAuditoriasContractual() => _auditoriaData.GetAuditoriasContractual();
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
-        public Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetDocumentosAuditoriaCumplimiento() => _auditoriaData.GetDocumentosAuditoriaCumplimiento();
+        public Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento() => _auditoriaData.GetAuditoriasCumplimiento();
 
         public async Task<(bool Success, string Message)> AddDocumentosAuditoriaCumplimiento(JsonObject registro)
         {
