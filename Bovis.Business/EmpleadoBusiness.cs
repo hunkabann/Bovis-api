@@ -75,7 +75,7 @@ namespace Bovis.Business
         #endregion Proyectos
 
         #region Ciudades
-        public Task<List<TB_Ciudad>> GetCiudades(bool? Activo) => _empleadoData.GetCiudades(Activo);
+        public Task<List<TB_Ciudad>> GetCiudades(bool? Activo, int? IdEstado) => _empleadoData.GetCiudades(Activo, IdEstado);
         #endregion Ciudades
     }
 }

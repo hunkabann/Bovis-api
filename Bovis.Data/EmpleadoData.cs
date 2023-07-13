@@ -812,12 +812,13 @@ namespace Bovis.Data
         #endregion Proyectos
 
         #region Ciudades
-        public async Task<List<TB_Ciudad>> GetCiudades(bool? activo)
+        public async Task<List<TB_Ciudad>> GetCiudades(bool? activo, int? IdEstado)
         {
             if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from ciudad in db.tB_Ciudads
-                                                                          where ciudad.Activo == activo
+                                                                          where (ciudad.Activo == activo)
+                                                                          && (IdEstado == 0 || ciudad.IdEstado == IdEstado)
                                                                           select ciudad).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Ciudad>();

@@ -109,10 +109,10 @@ namespace Bovis.API.Controllers
         #endregion Proyectos
 
         #region Ciudades
-        [HttpGet, Route("Ciudades/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetCiudades(bool? Activo)
+        [HttpGet, Route("Ciudades/{Activo?}/{IdEstado?}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetCiudades(bool? Activo, int? IdEstado)
         {
-            var query = await _empleadoQueryService.GetCiudades(Activo);
+            var query = await _empleadoQueryService.GetCiudades(Activo, IdEstado);
             return Ok(query);
         }
         #endregion Ciudades

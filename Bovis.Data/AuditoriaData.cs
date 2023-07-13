@@ -111,7 +111,7 @@ namespace Bovis.Data
                                   where doc.IdProyecto == IdProyecto
                                   select new Auditoria_Cumplimiento_Detalle
                                   {
-                                      IdAuditoriaCumplimiento = doc.IdAuditoriaCumplimiento,
+                                      IdAuditoriaCumplimiento = doc.IdAuditoriaCumplimientoProyecto,
                                       IdProyecto = doc.IdProyecto,
                                       IdDirector = catItem.IdDirector,
                                       Mes = catItem.Mes,
@@ -120,7 +120,7 @@ namespace Bovis.Data
                                       IdSeccion = catItem.IdSeccion,
                                       Cumplimiento = catItem.Cumplimiento,
                                       DocumentoRef = catItem.DocumentoRef,
-                                      Aplica = doc.Aplica
+                                      Aplica = doc.Aplica                                      
                                   }).ToListAsync();
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
@@ -143,6 +143,14 @@ namespace Bovis.Data
                             if (auditoria.Auditorias == null)
                                 auditoria.Auditorias = new List<Auditoria_Cumplimiento_Detalle>();
                             auditoria.Auditorias.Add(doc);
+
+                            var documentos = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
+                                                    where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoriaCumplimiento
+                                                    && documento.Fecha.Month == DateTime.Now.Month
+                                                    && documento.Fecha.Year == DateTime.Now.Year
+                                                    select documento).ToListAsync();
+
+                            doc.TieneDocumento = documentos.Count > 0 ? true : false;
 
                             count_auditorias_seccion++;
 

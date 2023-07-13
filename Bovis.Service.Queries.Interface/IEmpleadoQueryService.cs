@@ -23,7 +23,7 @@ namespace Bovis.Service.Queries.Interface
         #endregion Proyectos
 
         #region Ciudades
-        Task<Response<List<TB_Ciudad>>> GetCiudades(bool? Activo);
+        Task<Response<List<TB_Ciudad>>> GetCiudades(bool? Activo, int? IdEstado);
         #endregion Ciudades
     }
 }

@@ -18,7 +18,7 @@ namespace Bovis.Common.Model.NoTable
     {
         public int IdSeccion { get; set; }
         public string ChSeccion { get; set; }
-        public decimal NuProcentaje { get; set; }
+        public decimal NuProcentaje { get; set; }        
         public List<Auditoria_Cumplimiento_Detalle> Auditorias { get; set; }
     }
 
@@ -34,5 +34,6 @@ namespace Bovis.Common.Model.NoTable
         public string Cumplimiento { get; set; }
         public string DocumentoRef { get; set; }
         public bool Aplica { get; set; }
+        public bool TieneDocumento { get; set; }
     }
 }

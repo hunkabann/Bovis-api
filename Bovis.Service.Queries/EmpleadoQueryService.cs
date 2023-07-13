@@ -82,9 +82,9 @@ namespace Bovis.Service.Queries
         #endregion Proyectos
 
         #region Ciudades
-        public async Task<Response<List<TB_Ciudad>>> GetCiudades(bool? Activo)
+        public async Task<Response<List<TB_Ciudad>>> GetCiudades(bool? Activo, int? IdEstado)
         {
-            var response = await _empleadoBusiness.GetCiudades(Activo);
+            var response = await _empleadoBusiness.GetCiudades(Activo, IdEstado);
             return new Response<List<TB_Ciudad>> { Data = _map.Map<List<TB_Ciudad>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Ciudades
