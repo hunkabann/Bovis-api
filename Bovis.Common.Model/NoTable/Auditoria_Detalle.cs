@@ -35,5 +35,6 @@ namespace Bovis.Common.Model.NoTable
         public string DocumentoRef { get; set; }
         public bool Aplica { get; set; }
         public bool TieneDocumento { get; set; }
+        public bool UltimoDocumentoValido { get; set; }
     }
 }

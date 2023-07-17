@@ -74,6 +74,18 @@ namespace Bovis.Business
         }
 
         public Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit) => _auditoriaData.GetDocumentosAuditoriaCumplimiento(IdAuditoriaCumplimiento, offset, limit);
+
+        public Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoriaCumplimiento(int IdDocumento) => _auditoriaData.GetDocumentoAuditoriaCumplimiento(IdDocumento);
+
+        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _auditoriaData.AddAuditoriaCumplimientoDocumentoValidacion(registro);
+            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+        
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

@@ -120,7 +120,7 @@ namespace Bovis.Data
                                       IdSeccion = catItem.IdSeccion,
                                       Cumplimiento = catItem.Cumplimiento,
                                       DocumentoRef = catItem.DocumentoRef,
-                                      Aplica = doc.Aplica                                      
+                                      Aplica = doc.Aplica
                                   }).ToListAsync();
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
@@ -144,13 +144,23 @@ namespace Bovis.Data
                                 auditoria.Auditorias = new List<Auditoria_Cumplimiento_Detalle>();
                             auditoria.Auditorias.Add(doc);
 
+                            // Se obtiene el conteo de documntos por Auditoría
                             var documentos = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
                                                     where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoriaCumplimiento
                                                     && documento.Fecha.Month == DateTime.Now.Month
                                                     && documento.Fecha.Year == DateTime.Now.Year
                                                     select documento).ToListAsync();
 
-                            doc.TieneDocumento = documentos.Count > 0 ? true : false;
+                            doc.TieneDocumento = documentos.Count > 0 ? true : false;    
+                            
+                            // Se obtiene la validación del último documento subido a la Auditoría
+                            var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
+                                                         where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoriaCumplimiento
+                                                         orderby documento.Fecha descending
+                                                         select documento).FirstOrDefaultAsync();
+
+                            if (ultimoDocumento != null)
+                                doc.UltimoDocumentoValido = ultimoDocumento.Valido;
 
                             count_auditorias_seccion++;
 
@@ -272,6 +282,41 @@ namespace Bovis.Data
 
             return docs;
             }
+        }
+
+        public async Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoriaCumplimiento(int IdDocumento)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var document = await (from doc in db.tB_Auditoria_Cumplimiento_Documentos
+                                  where doc.IdDocumento == IdDocumento
+                                  select doc)
+                                  .FirstOrDefaultAsync();
+
+                return document;
+            }
+        }
+
+        public async Task<(bool existe, string mensaje)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_documento = Convert.ToInt32(registro["id_documento"].ToString());
+            bool valido = Convert.ToBoolean(registro["valido"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_valida_documento = await db.tB_Auditoria_Cumplimiento_Documentos.Where(x => x.IdDocumento == id_documento)
+                                .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Documento
+                                {
+                                    Valido = valido
+                                }) > 0;
+
+                resp.Success = res_valida_documento;
+                resp.Message = res_valida_documento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
         }
         #endregion Auditoria de Calidad (Cumplimiento)
     }

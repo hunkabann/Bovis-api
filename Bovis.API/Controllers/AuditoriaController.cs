@@ -102,6 +102,20 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("Cumplimiento/Documento/{IdDocumento}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetDocumentoAuditoriaCumplimiento(int IdDocumento)
+        {
+            var query = await _auditoriaQueryService.GetDocumentoAuditoriaCumplimiento(IdDocumento);
+            return Ok(query);
+        }
+
+        [HttpPut("Cumplimiento/Documento/Validacion")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddAuditoriaCumplimientoDocumentoValidacion([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.AddAuditoriaCumplimientoDocumentoValidacion(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Auditoria de Calidad (Cumplimiento)
 
     }

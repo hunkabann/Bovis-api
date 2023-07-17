@@ -18,6 +18,8 @@ namespace Bovis.Data.Interface
         Task<(bool existe, string mensaje)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro);
         Task<(bool existe, string mensaje)> AddAuditoriaCumplimientoDocumento(JsonObject registro);
         Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit);
+        Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoriaCumplimiento(int IdDocumento);
+        Task<(bool existe, string mensaje)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro);
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }
