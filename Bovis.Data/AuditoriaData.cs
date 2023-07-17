@@ -151,8 +151,8 @@ namespace Bovis.Data
                                                     && documento.Fecha.Year == DateTime.Now.Year
                                                     select documento).ToListAsync();
 
-                            doc.TieneDocumento = documentos.Count > 0 ? true : false;    
-                            
+                            doc.TieneDocumento = documentos.Count > 0 ? true : false;
+
                             // Se obtiene la validación del último documento subido a la Auditoría
                             var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
                                                          where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoriaCumplimiento
@@ -160,7 +160,10 @@ namespace Bovis.Data
                                                          select documento).FirstOrDefaultAsync();
 
                             if (ultimoDocumento != null)
+                            {
+                                doc.IdDocumento = ultimoDocumento.IdDocumento;
                                 doc.UltimoDocumentoValido = ultimoDocumento.Valido;
+                            }
 
                             count_auditorias_seccion++;
 
@@ -280,7 +283,7 @@ namespace Bovis.Data
                                   .Take(limit)
                                   .ToListAsync();
 
-            return docs;
+                return docs;
             }
         }
 
@@ -289,8 +292,8 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var document = await (from doc in db.tB_Auditoria_Cumplimiento_Documentos
-                                  where doc.IdDocumento == IdDocumento
-                                  select doc)
+                                      where doc.IdDocumento == IdDocumento
+                                      select doc)
                                   .FirstOrDefaultAsync();
 
                 return document;
@@ -301,19 +304,23 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_documento = Convert.ToInt32(registro["id_documento"].ToString());
-            bool valido = Convert.ToBoolean(registro["valido"].ToString());
-
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_valida_documento = await db.tB_Auditoria_Cumplimiento_Documentos.Where(x => x.IdDocumento == id_documento)
-                                .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Documento
-                                {
-                                    Valido = valido
-                                }) > 0;
+                foreach (var r in registro["data"].AsArray())
+                {
+                    int id_documento = Convert.ToInt32(r["id_documento"].ToString());
+                    bool valido = Convert.ToBoolean(r["valido"].ToString());
 
-                resp.Success = res_valida_documento;
-                resp.Message = res_valida_documento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    var res_valida_documento = await db.tB_Auditoria_Cumplimiento_Documentos
+                                                .Where(x => x.IdDocumento == id_documento)
+                                                .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Documento
+                                                {
+                                                    Valido = valido
+                                                }) > 0;
+
+                    resp.Success = res_valida_documento;
+                    resp.Message = res_valida_documento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
             }
 
             return resp;
