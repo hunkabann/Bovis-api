@@ -19,7 +19,13 @@ namespace Bovis.Data
         {
             this.ConfigurationDB = dbConfig;
         }
-        #endregion
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            GC.Collect();
+        }
+        #endregion base
 
         public async Task<Factura_Proyecto> GetInfoProyecto(int numProyecto)
         {
@@ -1049,12 +1055,6 @@ namespace Bovis.Data
 
         #endregion        
 
-        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            GC.Collect();
-        }
+        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();        
     }
 }

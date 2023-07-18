@@ -42,6 +42,9 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string? Concepto { get; set; }
         public string? Descripcion { get; set; }
         public string? Meta { get; set; }
+        public string Real { get; set; }
+        public string PorcentajeEstimado { get; set; }
+        public string PorcentajeReal { get; set; }
         public string? Acepto { get; set; }
         public string? MotivoR { get; set; }
         public DateTime? FechaCarga { get; set; }

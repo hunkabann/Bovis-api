@@ -10,7 +10,7 @@ public interface IDorData : IDisposable
     Task<List<Dor_Subordinados>> GetDorListaSubordinados(string name);
     Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(string nivel, string unidadNegocio);
     //Task<List<DOR_ObjetivosDesepeno>> GetDorObjetivosDesepeno(int anio, int proyecto, string concepto, int? empleado);
-    Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto);
+    Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes);
     Task<(bool existe, string mensaje)> AddObjetivo(DOR_ObjetivosDesepeno objetivo);
     Task<(bool existe, string mensaje)> UpdObjetivo(DOR_ObjetivosDesepeno objetivo);
     Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto);

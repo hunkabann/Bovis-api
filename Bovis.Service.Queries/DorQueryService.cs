@@ -51,9 +51,9 @@ namespace Bovis.Service.Queries
             return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el proyecto solicitado." : default };
         }
 
-        public async Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto)
+        public async Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes)
         {
-            var response = await _dorBusiness.GetDorObjetivosDesepeno(anio, proyecto, empleado, nivel, acepto);
+            var response = await _dorBusiness.GetDorObjetivosDesepeno(anio, proyecto, empleado, nivel, acepto, mes);
             return new Response<List<DorObjetivoDesepeno>> { Data = _map.Map<List<DorObjetivoDesepeno>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el usuario solicitado." : default };
         }
 

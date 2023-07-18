@@ -25,7 +25,7 @@ namespace Bovis.Business
         public Task<List<Dor_Subordinados>> GetDorListaSubordinados(string name) => _dorData.GetDorListaSubordinados(name);
         public Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(string nivel, string unidadNegocio) => _dorData.GetDorObjetivosGenerales(nivel, unidadNegocio);
         //public Task<List<DOR_ObjetivosDesepeno>> GetDorObjetivosDesepeno(int anio, int proyecto, string concepto, int? empleado) => _dorData.GetDorObjetivosDesepeno(anio, proyecto, concepto, empleado);
-        public Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto) => _dorData.GetDorObjetivosDesepeno(anio, proyecto, empleado,nivel, acepto);
+        public Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes) => _dorData.GetDorObjetivosDesepeno(anio, proyecto, empleado,nivel, acepto, mes);
         public Task<(bool Success, string Message)> AddDorObjetivo(DOR_ObjetivosDesepeno objetivo) => _dorData.AddObjetivo(objetivo);
         public Task<(bool Success, string Message)> UpdDorObjetivo(DOR_ObjetivosDesepeno objetivo) => _dorData.UpdObjetivo(objetivo);
 

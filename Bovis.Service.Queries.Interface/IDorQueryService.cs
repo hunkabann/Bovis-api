@@ -10,7 +10,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<DorSubordinado>>> GetDorListaSubordinados(string name);
         Task<Response<List<DorObjetivoGeneral>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio);
         //Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, string concepto, int? empleado);
-        Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto);
+        Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes);
         Task<Response<List<DorObjetivoGeneral>>> GetDorGpmProyecto(int proyecto);
         Task<Response<List<DorObjetivoGeneral>>> GetDorMetasProyecto(int proyecto, int nivel);
     }

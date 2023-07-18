@@ -12,7 +12,7 @@ namespace Bovis.Business.Interface
         Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(string nivel, string unidadNegocio);
 
         //Task<List<DOR_ObjetivosDesepeno>> GetDorObjetivosDesepeno(int anio, int proyecto, string concepto, int? empleado);
-        Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado,int nivel, int? acepto);
+        Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado,int nivel, int? acepto, int mes);
         Task<(bool Success, string Message)> AddDorObjetivo(DOR_ObjetivosDesepeno objetivo);
         Task<(bool Success, string Message)> UpdDorObjetivo(DOR_ObjetivosDesepeno objetivo);
         Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto);

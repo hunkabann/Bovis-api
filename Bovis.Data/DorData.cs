@@ -159,76 +159,80 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto)
+        public async Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-
                 if (acepto >= 1)
                 {
                     var subQuery = from a in db.dOR_ObjetivosDesepenos
-                              //join b in db.dOR_Objetivos_Nivel
-                              //  on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                              
-                              where a.Empleado == empleado.ToString().Trim()
-                               && a.Anio == anio.ToString().Trim()
-                               && a.Proyecto == proyecto.ToString().Trim()
-                               //&& b.Nivel == nivel.ToString().Trim()
-                               && a.Acepto == acepto.ToString().Trim()
-                              select new Dor_ObjetivosEmpleado
-                              {
-                                  IdEmpOb = a.IdEmpOb,
-                                  UnidadDeNegocio = a.UnidadDeNegocio,
-                                  Concepto = a.Concepto,
-                                  Descripcion = a.Descripcion,
-                                  Meta = a.Meta,
-                                  Acepto = a.Acepto,
-                                  MotivoR = a.MotivoR,
-                                  FechaCarga = a.FechaCarga,
-                                  FechaAceptado = a.FechaAceptado,
-                                  FechaRechazo = a.FechaRechazo,
-                                  Nivel = null,
-                                  Valor = a.Nivel,
-                                  Tooltip = null
-                              };
+                                   join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                   where a.Empleado == empleado.ToString().Trim()
+                                   && a.Anio == anio.ToString().Trim()
+                                   && a.Proyecto == proyecto.ToString().Trim()
+                                   //&& b.Nivel == nivel.ToString().Trim()
+                                   && a.Acepto == acepto.ToString().Trim()
+                                   && (mes == 0 || a.Mes == mes)
+                                   select new Dor_ObjetivosEmpleado
+                                   {
+                                       IdEmpOb = a.IdEmpOb,
+                                       UnidadDeNegocio = a.UnidadDeNegocio,
+                                       Concepto = a.Concepto,
+                                       Descripcion = a.Descripcion,
+                                       Meta = a.Meta,
+                                       Real = a.Real != null ? a.Real : "0",
+                                       PorcentajeEstimado = b.Valor,
+                                       PorcentajeReal = (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString(),
+                                       Acepto = a.Acepto,
+                                       MotivoR = a.MotivoR,
+                                       FechaCarga = a.FechaCarga,
+                                       FechaAceptado = a.FechaAceptado,
+                                       FechaRechazo = a.FechaRechazo,
+                                       Nivel = null,
+                                       Valor = a.Nivel,
+                                       Tooltip = null
+                                   };
 
                     return await subQuery.ToListAsync();
-
                 }
                 else
                 {
                     var resBase = from a in db.dOR_ObjetivosDesepenos
-                              where a.Empleado == empleado.ToString().Trim()
-                               && a.Anio == anio.ToString().Trim()
-                               && a.Proyecto == proyecto.ToString().Trim()
-                               && a.Nivel != null
-                              select new Dor_ObjetivosEmpleado
-                              {
-                                  IdEmpOb = a.IdEmpOb,
-                                  UnidadDeNegocio = a.UnidadDeNegocio,
-                                  Concepto = a.Concepto,
-                                  Descripcion = a.Descripcion,
-                                  Meta = a.Meta,
-                                  Acepto = a.Acepto,
-                                  MotivoR = a.MotivoR,
-                                  FechaCarga = a.FechaCarga,
-                                  FechaAceptado = a.FechaAceptado,
-                                  FechaRechazo = a.FechaRechazo,
-                                  Nivel = null,
-                                  Valor = a.Nivel,
-                                  Tooltip = null
-                              };
+                                  join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                  where a.Empleado == empleado.ToString().Trim()
+                                  && a.Anio == anio.ToString().Trim()
+                                  && a.Proyecto == proyecto.ToString().Trim()
+                                  && a.Nivel != null
+                                  && (mes == 0 || a.Mes == mes)
+                                  select new Dor_ObjetivosEmpleado
+                                  {
+                                      IdEmpOb = a.IdEmpOb,
+                                      UnidadDeNegocio = a.UnidadDeNegocio,
+                                      Concepto = a.Concepto,
+                                      Descripcion = a.Descripcion,
+                                      Meta = a.Meta,
+                                      Real = a.Real != null ? a.Real : "0",
+                                      PorcentajeEstimado = b.Valor,
+                                      PorcentajeReal = (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString(),
+                                      Acepto = a.Acepto,
+                                      MotivoR = a.MotivoR,
+                                      FechaCarga = a.FechaCarga,
+                                      FechaAceptado = a.FechaAceptado,
+                                      FechaRechazo = a.FechaRechazo,
+                                      Nivel = null,
+                                      Valor = a.Nivel,
+                                      Tooltip = null
+                                  };
 
                     var res = from a in db.dOR_ObjetivosDesepenos
-                              join b in db.dOR_Objetivos_Nivel
-                                on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                              join c in db.dOR_Tooltip
-                                on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                              join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                              join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
                               where a.Empleado == empleado.ToString().Trim()
-                               && a.Anio == anio.ToString().Trim()
-                               && a.Proyecto == proyecto.ToString().Trim()
-                               && b.Nivel == nivel.ToString().Trim()
-                               && a.Acepto == acepto.ToString().Trim()
+                              && a.Anio == anio.ToString().Trim()
+                              && a.Proyecto == proyecto.ToString().Trim()
+                              && b.Nivel == nivel.ToString().Trim()
+                              && a.Acepto == acepto.ToString().Trim()
+                              && (mes == 0 || a.Mes == mes)
                               select new Dor_ObjetivosEmpleado
                               {
                                   IdEmpOb = a.IdEmpOb,
@@ -236,6 +240,9 @@ namespace Bovis.Data
                                   Concepto = a.Concepto,
                                   Descripcion = a.Descripcion,
                                   Meta = a.Meta,
+                                  Real = a.Real != null ? a.Real : "0",
+                                  PorcentajeEstimado = b.Valor,
+                                  PorcentajeReal = (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString(),
                                   Acepto = a.Acepto,
                                   MotivoR = a.MotivoR,
                                   FechaCarga = a.FechaCarga,
