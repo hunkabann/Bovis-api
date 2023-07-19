@@ -80,7 +80,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
 
-                var res = from a in db.dOR_Objetivos_Gral
+                var res = await (from a in db.dOR_Objetivos_Gral
                           join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
                           join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
                           where a.UnidadDeNegocio == unidadNegocio
@@ -99,9 +99,10 @@ namespace Bovis.Data
                               Nivel = b.Nivel,
                               Valor = b.Valor,
                               Tooltip = c.Tooltip
-                          };
+                          }).ToListAsync();
 
-                return await res.ToListAsync();
+
+                return res;
 
             }
         }
@@ -174,7 +175,7 @@ namespace Bovis.Data
                                    && a.Proyecto == proyecto.ToString().Trim()
                                    //&& b.Nivel == nivel.ToString().Trim()
                                    && a.Acepto == acepto.ToString().Trim()
-                                   && (mes == 0 || a.Mes == mes)
+                                   //&& (mes == 0 || a.Mes == mes)
                                    select new Dor_ObjetivosEmpleado
                                    {
                                        IdEmpOb = a.IdEmpOb,
@@ -205,7 +206,7 @@ namespace Bovis.Data
                                   && a.Anio == anio
                                   && a.Proyecto == proyecto.ToString().Trim()
                                   && a.Nivel != null
-                                  && (mes == 0 || a.Mes == mes)
+                                  //&& (mes == 0 || a.Mes == mes)
                                   select new Dor_ObjetivosEmpleado
                                   {
                                       IdEmpOb = a.IdEmpOb,
@@ -234,7 +235,7 @@ namespace Bovis.Data
                               && a.Proyecto == proyecto.ToString().Trim()
                               && b.Nivel == nivel.ToString().Trim()
                               && a.Acepto == acepto.ToString().Trim()
-                              && (mes == 0 || a.Mes == mes)
+                              //&& (mes == 0 || a.Mes == mes)
                               select new Dor_ObjetivosEmpleado
                               {
                                   IdEmpOb = a.IdEmpOb,
