@@ -17,18 +17,26 @@ namespace Bovis.Data
             this.ConfigurationDB = dbConfig;
         }
 
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            GC.Collect();
+        }
+
         public async Task<DOR_Empleados?> GetDorEjecutivoCorreo(string email)
         {
-            using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.dOR_Empleados
-                                                                      where cat.CorreoElec == email
-                                                                      select cat).FirstOrDefaultAsync();
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                return await (from cat in db.dOR_Empleados
+                              where cat.CorreoElec == email
+                              select cat).FirstOrDefaultAsync();
+            }
         }
         public async Task<Dor_Subordinados> GetDorEmpleadoCorreo(string email)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-
-                var res = from a in db.dOR_Empleados
+                var res = await (from a in db.dOR_Empleados
                           join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
                           where a.CorreoElec == email
                           select new Dor_Subordinados
@@ -42,10 +50,9 @@ namespace Bovis.Data
                               Nivel = b.Nivel,
                               CentrosdeCostos = a.CentrosdeCostos,
                               JefeDirecto = a.JefeDirecto
-                          };
+                          }).FirstAsync();
 
-                return await res.FirstAsync();
-
+                return res;
             }
         }
 
@@ -53,25 +60,23 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res = await (from a in db.dOR_Empleados
+                                 join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
+                                 where a.JefeDirecto == name
+                                 select new Dor_Subordinados
+                                 {
+                                     Nombre = a.Nombre,
+                                     Puesto = a.Puesto,
+                                     NoEmpleado = a.NoEmpleado,
+                                     Proyecto = a.Proyecto,
+                                     DireccionEjecutiva = a.DireccionEjecutiva,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Nivel = b.Nivel,
+                                     CentrosdeCostos = a.CentrosdeCostos,
+                                     JefeDirecto = a.JefeDirecto
+                                 }).ToListAsync();
 
-                var res = from a in db.dOR_Empleados
-                          join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
-                          where a.JefeDirecto == name
-                          select new Dor_Subordinados
-                          {
-                              Nombre = a.Nombre,
-                              Puesto = a.Puesto,
-                              NoEmpleado = a.NoEmpleado,
-                              Proyecto = a.Proyecto,
-                              DireccionEjecutiva = a.DireccionEjecutiva,
-                              UnidadDeNegocio = a.UnidadDeNegocio,
-                              Nivel = b.Nivel,
-                              CentrosdeCostos = a.CentrosdeCostos,
-                              JefeDirecto = a.JefeDirecto
-                          };
-
-                return await res.ToListAsync();
-
+                return res;
             }
         }
 
@@ -79,31 +84,28 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-
                 var res = await (from a in db.dOR_Objetivos_Gral
-                          join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                          join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                          where a.UnidadDeNegocio == unidadNegocio
-                          && b.Nivel == nivel
-                          && (mes == 0 || a.Mes == mes)
-                          select new Dor_ObjetivosGenerales
-                          {
-                              Id = a.Id,
-                              UnidadDeNegocio = a.UnidadDeNegocio,
-                              Concepto = a.Concepto,
-                              Descripcion = a.Descripcion,
-                              Meta = a.Meta,
-                              Real = a.Real != null ? a.Real : "0",
-                              PorcentajeEstimado = b.Valor,
-                              PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                              Nivel = b.Nivel,
-                              Valor = b.Valor,
-                              Tooltip = c.Tooltip
-                          }).ToListAsync();
-
+                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                                 where a.UnidadDeNegocio == unidadNegocio
+                                 && b.Nivel == nivel
+                                 && (mes == 0 || a.Mes == mes)
+                                 select new Dor_ObjetivosGenerales
+                                 {
+                                     Id = a.Id,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Concepto = a.Concepto,
+                                     Descripcion = a.Descripcion,
+                                     Meta = a.Meta,
+                                     Real = a.Real != null ? a.Real : "0",
+                                     PorcentajeEstimado = b.Valor,
+                                     PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                     Nivel = b.Nivel,
+                                     Valor = b.Valor,
+                                     Tooltip = c.Tooltip
+                                 }).ToListAsync();
 
                 return res;
-
             }
         }
 
@@ -111,54 +113,51 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res = await (from a in db.dOR_Gpm_Proyecto
+                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                                 where a.Proyecto == proyecto
+                                 select new Dor_ObjetivosGenerales
+                                 {
+                                     Id = a.Id,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Concepto = a.Concepto,
+                                     Descripcion = a.Descripcion,
+                                     Meta = a.Meta.ToString().Trim(),
+                                     Nivel = null,
+                                     Valor = null,
+                                     Tooltip = c.Tooltip
+                                 }).ToListAsync();
 
-                var res = from a in db.dOR_Gpm_Proyecto                          
-                          join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                          where a.Proyecto== proyecto
-                          select new Dor_ObjetivosGenerales
-                          {
-                              Id = a.Id,
-                              UnidadDeNegocio = a.UnidadDeNegocio,
-                              Concepto = a.Concepto,
-                              Descripcion = a.Descripcion,
-                              Meta = a.Meta.ToString().Trim(),
-                              Nivel = null,
-                              Valor = null,
-                              Tooltip = c.Tooltip
-                          };
-
-                return await res.ToListAsync();
-
+                return res;
             }
         }
 
-       
         public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from a in db.dOR_Meta_Proyecto
-                          join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                          join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                          where a.NoProyecto == proyecto && b.Nivel == nivel.ToString().Trim()
-                          && (mes == 0 || a.Mes == mes)
-                          select new Dor_ObjetivosGenerales
-                          {
-                              Id = a.Id,
-                              UnidadDeNegocio = a.UnidadDeNegocio,
-                              Concepto = a.Concepto,
-                              Descripcion = a.Descripcion,
-                              Meta = a.Meta.ToString().Trim(),
-                              Real = a.Real != null ? a.Real : "0",
-                              PorcentajeEstimado = b.Valor,
-                              PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                              Nivel = b.Nivel,
-                              Valor = b.Valor,
-                              Tooltip = c.Tooltip
-                          };
+                var res = await (from a in db.dOR_Meta_Proyecto
+                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                                 where a.NoProyecto == proyecto
+                                 && b.Nivel == nivel.ToString().Trim()
+                                 && (mes == 0 || a.Mes == mes)
+                                 select new Dor_ObjetivosGenerales
+                                 {
+                                     Id = a.Id,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Concepto = a.Concepto,
+                                     Descripcion = a.Descripcion,
+                                     Meta = a.Meta.ToString().Trim(),
+                                     Real = a.Real != null ? a.Real : "0",
+                                     PorcentajeEstimado = b.Valor,
+                                     PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                     Nivel = b.Nivel,
+                                     Valor = b.Valor,
+                                     Tooltip = c.Tooltip
+                                 }).ToListAsync();
 
-                return await res.ToListAsync();
-
+                return res;
             }
         }
 
@@ -168,95 +167,95 @@ namespace Bovis.Data
             {
                 if (acepto >= 1)
                 {
-                    var subQuery = from a in db.dOR_ObjetivosDesepenos
-                                   join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                                   where a.Empleado == empleado.ToString().Trim()
-                                   && a.Anio == anio
-                                   && a.Proyecto == proyecto.ToString().Trim()
-                                   //&& b.Nivel == nivel.ToString().Trim()
-                                   && a.Acepto == acepto.ToString().Trim()
-                                   //&& (mes == 0 || a.Mes == mes)
-                                   select new Dor_ObjetivosEmpleado
-                                   {
-                                       IdEmpOb = a.IdEmpOb,
-                                       UnidadDeNegocio = a.UnidadDeNegocio,
-                                       Concepto = a.Concepto,
-                                       Descripcion = a.Descripcion,
-                                       Meta = a.Meta,
-                                       Real = a.Real != null ? a.Real : "0",
-                                       PorcentajeEstimado = b.Valor,
-                                       PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                       Acepto = a.Acepto,
-                                       MotivoR = a.MotivoR,
-                                       FechaCarga = a.FechaCarga,
-                                       FechaAceptado = a.FechaAceptado,
-                                       FechaRechazo = a.FechaRechazo,
-                                       Nivel = null,
-                                       Valor = a.Nivel,
-                                       Tooltip = null
-                                   };
+                    var subQuery = await (from a in db.dOR_ObjetivosDesepenos
+                                          join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                          where a.Empleado == empleado.ToString().Trim()
+                                          && a.Anio == anio
+                                          && a.Proyecto == proyecto.ToString().Trim()
+                                          && a.Acepto == acepto.ToString().Trim()
+                                          //&& b.Nivel == nivel.ToString().Trim()
+                                          //&& (mes == 0 || a.Mes == mes)
+                                          select new Dor_ObjetivosEmpleado
+                                          {
+                                              IdEmpOb = a.IdEmpOb,
+                                              UnidadDeNegocio = a.UnidadDeNegocio,
+                                              Concepto = a.Concepto,
+                                              Descripcion = a.Descripcion,
+                                              Meta = a.Meta,
+                                              Real = a.Real != null ? a.Real : "0",
+                                              PorcentajeEstimado = b.Valor,
+                                              PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                              Acepto = a.Acepto,
+                                              MotivoR = a.MotivoR,
+                                              FechaCarga = a.FechaCarga,
+                                              FechaAceptado = a.FechaAceptado,
+                                              FechaRechazo = a.FechaRechazo,
+                                              Nivel = null,
+                                              Valor = a.Nivel,
+                                              Tooltip = null
+                                          }).ToListAsync();
 
-                    return await subQuery.ToListAsync();
+                    return subQuery;
                 }
                 else
                 {
-                    var resBase = from a in db.dOR_ObjetivosDesepenos
-                                  join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                                  where a.Empleado == empleado.ToString().Trim()
-                                  && a.Anio == anio
-                                  && a.Proyecto == proyecto.ToString().Trim()
-                                  && a.Nivel != null
-                                  //&& (mes == 0 || a.Mes == mes)
-                                  select new Dor_ObjetivosEmpleado
-                                  {
-                                      IdEmpOb = a.IdEmpOb,
-                                      UnidadDeNegocio = a.UnidadDeNegocio,
-                                      Concepto = a.Concepto,
-                                      Descripcion = a.Descripcion,
-                                      Meta = a.Meta,
-                                      Real = a.Real != null ? a.Real : "0",
-                                      PorcentajeEstimado = b.Valor,
-                                      PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                      Acepto = a.Acepto,
-                                      MotivoR = a.MotivoR,
-                                      FechaCarga = a.FechaCarga,
-                                      FechaAceptado = a.FechaAceptado,
-                                      FechaRechazo = a.FechaRechazo,
-                                      Nivel = null,
-                                      Valor = a.Nivel,
-                                      Tooltip = null
-                                  };
+                    var resBase = await (from a in db.dOR_ObjetivosDesepenos
+                                         join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                         where a.Empleado == empleado.ToString().Trim()
+                                         && a.Anio == anio
+                                         && a.Proyecto == proyecto.ToString().Trim()
+                                         && a.Nivel != null
+                                         //&& (mes == 0 || a.Mes == mes)
+                                         select new Dor_ObjetivosEmpleado
+                                         {
+                                             IdEmpOb = a.IdEmpOb,
+                                             UnidadDeNegocio = a.UnidadDeNegocio,
+                                             Concepto = a.Concepto,
+                                             Descripcion = a.Descripcion,
+                                             Meta = a.Meta,
+                                             Real = a.Real != null ? a.Real : "0",
+                                             PorcentajeEstimado = b.Valor,
+                                             PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                             Acepto = a.Acepto,
+                                             MotivoR = a.MotivoR,
+                                             FechaCarga = a.FechaCarga,
+                                             FechaAceptado = a.FechaAceptado,
+                                             FechaRechazo = a.FechaRechazo,
+                                             Nivel = null,
+                                             Valor = a.Nivel,
+                                             Tooltip = null
+                                         }).ToListAsync();
 
-                    var res = from a in db.dOR_ObjetivosDesepenos
-                              join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                              join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                              where a.Empleado == empleado.ToString().Trim()
-                              && a.Anio == anio
-                              && a.Proyecto == proyecto.ToString().Trim()
-                              && b.Nivel == nivel.ToString().Trim()
-                              && a.Acepto == acepto.ToString().Trim()
-                              //&& (mes == 0 || a.Mes == mes)
-                              select new Dor_ObjetivosEmpleado
-                              {
-                                  IdEmpOb = a.IdEmpOb,
-                                  UnidadDeNegocio = a.UnidadDeNegocio,
-                                  Concepto = a.Concepto,
-                                  Descripcion = a.Descripcion,
-                                  Meta = a.Meta,
-                                  Real = a.Real != null ? a.Real : "0",
-                                  PorcentajeEstimado = b.Valor,
-                                  PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                  Acepto = a.Acepto,
-                                  MotivoR = a.MotivoR,
-                                  FechaCarga = a.FechaCarga,
-                                  FechaAceptado = a.FechaAceptado,
-                                  FechaRechazo = a.FechaRechazo,
-                                  Nivel = b.Nivel,
-                                  Valor = b.Valor,
-                                  Tooltip = c.Tooltip
-                              };
-                    if (await resBase.ToListAsync() == null)
-                        return await res.ToListAsync();
+                    var res = await (from a in db.dOR_ObjetivosDesepenos
+                                     join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                                     join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                                     where a.Empleado == empleado.ToString().Trim()
+                                     && a.Anio == anio
+                                     && a.Proyecto == proyecto.ToString().Trim()
+                                     && b.Nivel == nivel.ToString().Trim()
+                                     && a.Acepto == acepto.ToString().Trim()
+                                     //&& (mes == 0 || a.Mes == mes)
+                                     select new Dor_ObjetivosEmpleado
+                                     {
+                                         IdEmpOb = a.IdEmpOb,
+                                         UnidadDeNegocio = a.UnidadDeNegocio,
+                                         Concepto = a.Concepto,
+                                         Descripcion = a.Descripcion,
+                                         Meta = a.Meta,
+                                         Real = a.Real != null ? a.Real : "0",
+                                         PorcentajeEstimado = b.Valor,
+                                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                         Acepto = a.Acepto,
+                                         MotivoR = a.MotivoR,
+                                         FechaCarga = a.FechaCarga,
+                                         FechaAceptado = a.FechaAceptado,
+                                         FechaRechazo = a.FechaRechazo,
+                                         Nivel = b.Nivel,
+                                         Valor = b.Valor,
+                                         Tooltip = c.Tooltip
+                                     }).ToListAsync();
+                    if (resBase == null)
+                        return res;
 
                     var dict = res.ToDictionary(p => p.IdEmpOb);
                     foreach (var item in resBase)
@@ -267,7 +266,6 @@ namespace Bovis.Data
                     return merged;
                     //return await resBase.Union(res).ToListAsync();
                 }
-                
             }
         }
 
@@ -276,16 +274,15 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var query = (from cat in db.dOR_ObjetivosDesepenos
+                var query = await (from cat in db.dOR_ObjetivosDesepenos
                              where cat.Anio == anio
                              && cat.Proyecto == proyecto.ToString()
                              && cat.Concepto == concepto
                              //&& cat.Empleado == (empleado.HasValue ? empleado.ToString() : default(string))
                              //|| cat.Empleado == null
-                             select cat);
+                             select cat).ToListAsync();
 
-                return await query.ToListAsync();
-
+                return query;
             }
         }
 
@@ -296,20 +293,19 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var objetivoDB = await db.dOR_ObjetivosDesepenos.Where(x => x.IdEmpOb == objetivo.IdEmpOb)
-                    .UpdateAsync(x => new DOR_ObjetivosDesepeno
-                    {
-                        Meta = objetivo.Meta,
-                        Acepto = objetivo.Acepto,
-                        Descripcion = objetivo.Descripcion,
-                        MotivoR = objetivo.MotivoR,
-                        FechaCarga = objetivo.FechaCarga,
-                        FechaAceptado = objetivo.FechaAceptado,
-                        FechaRechazo = objetivo.FechaRechazo,
-                        Nivel= objetivo.Nivel,
-                    }) > 0;
+                                    .UpdateAsync(x => new DOR_ObjetivosDesepeno
+                                    {
+                                        Meta = objetivo.Meta,
+                                        Acepto = objetivo.Acepto,
+                                        Descripcion = objetivo.Descripcion,
+                                        MotivoR = objetivo.MotivoR,
+                                        FechaCarga = objetivo.FechaCarga,
+                                        FechaAceptado = objetivo.FechaAceptado,
+                                        FechaRechazo = objetivo.FechaRechazo,
+                                        Nivel = objetivo.Nivel,
+                                    }) > 0;
 
                 resp.Success = objetivoDB;
-
             }
             return resp;
         }
@@ -322,19 +318,19 @@ namespace Bovis.Data
                 //if(objetivoDB is  null)
                 //{
                 var inseert = await db.dOR_ObjetivosDesepenos
-                .Value(x => x.UnidadDeNegocio, objetivo.UnidadDeNegocio)
-                .Value(x => x.Concepto, objetivo.Concepto)
-                .Value(x => x.Descripcion, objetivo.Descripcion)
-                .Value(x => x.Meta, objetivo.Meta)
-                .Value(x => x.Real, objetivo.Real)
-                .Value(x => x.Ponderado, objetivo.Ponderado)
-                .Value(x => x.Calificacion, objetivo.Calificacion)
-                .Value(x => x.Nivel, objetivo.Nivel)               
-                .Value(x => x.Anio, objetivo.Anio)
-                .Value(x => x.Proyecto, objetivo.Proyecto)
-                .Value(x => x.Empleado, objetivo.Empleado)
-                //.UpdateAsync() > 0;
-                .InsertAsync() > 0;
+                                .Value(x => x.UnidadDeNegocio, objetivo.UnidadDeNegocio)
+                                .Value(x => x.Concepto, objetivo.Concepto)
+                                .Value(x => x.Descripcion, objetivo.Descripcion)
+                                .Value(x => x.Meta, objetivo.Meta)
+                                .Value(x => x.Real, objetivo.Real)
+                                .Value(x => x.Ponderado, objetivo.Ponderado)
+                                .Value(x => x.Calificacion, objetivo.Calificacion)
+                                .Value(x => x.Nivel, objetivo.Nivel)
+                                .Value(x => x.Anio, objetivo.Anio)
+                                .Value(x => x.Proyecto, objetivo.Proyecto)
+                                .Value(x => x.Empleado, objetivo.Empleado)
+                                //.UpdateAsync() > 0;
+                                .InsertAsync() > 0;
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar el objetivo." : string.Empty;
                 //}
@@ -345,13 +341,7 @@ namespace Bovis.Data
                 //}
             }
             return resp;
-        }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            GC.Collect();
-        }
+        }        
 
     }
 }
