@@ -425,6 +425,9 @@ public class MappingsProfile : Profile
             .ForMember(c => c.Concepto, dto => dto.MapFrom(src => src.Concepto))
             .ForMember(c => c.Descripcion, dto => dto.MapFrom(src => src.Descripcion))
             .ForMember(c => c.Meta, dto => dto.MapFrom(src => src.Meta))
+            .ForMember(c => c.Real, dto => dto.MapFrom(src => src.Real))
+            .ForMember(c => c.PorcentajeEstimado, dto => dto.MapFrom(src => src.PorcentajeEstimado))
+            .ForMember(c => c.PorcentajeReal, dto => dto.MapFrom(src => src.PorcentajeReal))
             .ForMember(c => c.Nivel, dto => dto.MapFrom(src => src.Nivel))
             .ForMember(c => c.Valor, dto => dto.MapFrom(src => src.Valor))
             .ForMember(c => c.Tooltip, dto => dto.MapFrom(src => src.Tooltip));

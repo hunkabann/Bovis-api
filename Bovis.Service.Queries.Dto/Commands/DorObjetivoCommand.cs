@@ -21,7 +21,7 @@ namespace Bovis.Service.Queries.Dto.Commands
         public string? Calificacion { get; set; }
         public string? Nivel { get; set; }
         //[Required(ErrorMessage = "El campo año es requerido")]
-        public string? Anio { get; set; }
+        public int? Anio { get; set; }
         //[Required(ErrorMessage = "El campo proyecto es requerido")]
         public string? Proyecto { get; set; }
         //[Required(ErrorMessage = "El campo empleado es requerido")]

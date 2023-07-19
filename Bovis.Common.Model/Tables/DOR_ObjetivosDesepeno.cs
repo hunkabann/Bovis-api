@@ -14,7 +14,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Ponderado"), Nullable] public string? Ponderado { get; set; }
         [Column("Calificacion"), Nullable] public string? Calificacion { get; set; }
         [Column("Nivel"), Nullable] public string? Nivel { get; set; }
-        [Column("Año"), Nullable] public string? Anio { get; set; }
+        [Column("Año"), Nullable] public int? Anio { get; set; }
         [Column("Mes"), Nullable] public int? Mes { get; set; }
         [Column("Proyecto"), Nullable] public string? Proyecto { get; set; }
         [Column("Empleado"), Nullable] public string? Empleado { get; set; }
