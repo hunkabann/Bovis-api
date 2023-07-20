@@ -428,7 +428,8 @@ public class MappingsProfile : Profile
             .ForMember(c => c.Real, dto => dto.MapFrom(src => src.Real))
             .ForMember(c => c.PorcentajeEstimado, dto => dto.MapFrom(src => src.PorcentajeEstimado))
             .ForMember(c => c.PorcentajeReal, dto => dto.MapFrom(src => src.PorcentajeReal))
-            .ForMember(c => c.MetaMensual, dto => dto.MapFrom(src => src.MetaMensual))
+            .ForMember(c => c.Ingreso, dto => dto.MapFrom(src => src.Ingreso))
+            .ForMember(c => c.Gasto, dto => dto.MapFrom(src => src.Gasto))
             .ForMember(c => c.Nivel, dto => dto.MapFrom(src => src.Nivel))
             .ForMember(c => c.Valor, dto => dto.MapFrom(src => src.Valor))
             .ForMember(c => c.Tooltip, dto => dto.MapFrom(src => src.Tooltip));
@@ -441,7 +442,7 @@ public class MappingsProfile : Profile
            .ForMember(c => c.Meta, dto => dto.MapFrom(src => src.Meta))
            .ForMember(c => c.Real, dto => dto.MapFrom(src => src.Real))
            .ForMember(c => c.PorcentajeEstimado, dto => dto.MapFrom(src => src.PorcentajeEstimado))
-           .ForMember(c => c.PorcentajeReal, dto => dto.MapFrom(src => src.PorcentajeReal))
+           .ForMember(c => c.PorcentajeReal, dto => dto.MapFrom(src => src.PorcentajeReal))           
            .ForMember(c => c.Acepto, dto => dto.MapFrom(src => src.Acepto))
            .ForMember(c => c.MotivoR, dto => dto.MapFrom(src => src.MotivoR))
            .ForMember(c => c.FechaCarga, dto => dto.MapFrom(src => src.FechaCarga))
