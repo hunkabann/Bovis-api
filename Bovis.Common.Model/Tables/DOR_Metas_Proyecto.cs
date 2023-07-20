@@ -13,7 +13,7 @@ namespace Bovis.Common.Model.Tables
         [Column("META"), Nullable] public double? Meta { get; set; }
         [Column("Real"), Nullable] public string Real { get; set; }
         [Column("Mes"), Nullable] public int Mes { get; set; }
-        [Column("Año"), Nullable] public string Año { get; set; }
+        [Column("Año"), Nullable] public int Año { get; set; }
 
     }
 }

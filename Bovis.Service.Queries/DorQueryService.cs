@@ -35,9 +35,9 @@ namespace Bovis.Service.Queries
             var response = await _dorBusiness.GetDorListaSubordinados(name);
             return new Response<List<DorSubordinado>> { Data = _map.Map<List<DorSubordinado>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el usuario solicitado." : default };
         }
-        public async Task<Response<List<DorObjetivoGeneral>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes)
+        public async Task<Response<List<DorObjetivoGeneral>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
         {
-            var response = await _dorBusiness.GetDorObjetivosGenerales(nivel, unidadNegocio, mes);
+            var response = await _dorBusiness.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, seccion);
             return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el nivel solicitado." : default };
         }
         public async Task<Response<List<DorObjetivoGeneral>>> GetDorGpmProyecto(int proyecto)
@@ -45,9 +45,9 @@ namespace Bovis.Service.Queries
             var response = await _dorBusiness.GetDorGpmProyecto(proyecto);
             return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el proyecto solicitado." : default };
         }
-        public async Task<Response<List<DorObjetivoGeneral>>> GetDorMetasProyecto(int proyecto, int nivel, int mes)
+        public async Task<Response<List<DorObjetivoGeneral>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
         {
-            var response = await _dorBusiness.GetDorMetasProyecto(proyecto, nivel, mes);
+            var response = await _dorBusiness.GetDorMetasProyecto(proyecto, nivel, mes, seccion);
             return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el proyecto solicitado." : default };
         }
 

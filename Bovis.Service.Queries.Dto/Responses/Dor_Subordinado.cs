@@ -32,6 +32,7 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string Real { get; set; }
         public string PorcentajeEstimado { get; set; }
         public string PorcentajeReal { get; set; }
+        public decimal? MetaMensual { get; set; }
         public string? Nivel { get; set; }
         public string? Valor { get; set; }
         public string? Tooltip { get; set; }

@@ -82,6 +82,7 @@ namespace Bovis.Common.Model
         public ITable<TB_CuentaBanco> tB_CuentaBancos { get { return this.GetTable<TB_CuentaBanco>(); } }
         public ITable<TB_Dias_Timesheet> tB_Dias_Timesheets { get { return this.GetTable<TB_Dias_Timesheet>(); } }
         public ITable<TB_Direccion> tB_Direccions { get { return this.GetTable<TB_Direccion>(); } }
+        public ITable<TB_DOR_Real_Gasto_Ingreso_Proyecto_GPM> tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs { get { return this.GetTable<TB_DOR_Real_Gasto_Ingreso_Proyecto_GPM>(); } }
 		public ITable<TB_Empleado> tB_Empleados { get { return this.GetTable<TB_Empleado>(); } }
 		public ITable<TB_EmpleadoBeneficio> tB_EmpleadoBeneficios { get { return this.GetTable<TB_EmpleadoBeneficio>(); } }
 		public ITable<TB_EmpleadoContrato> tB_EmpleadoContratos { get { return this.GetTable<TB_EmpleadoContrato>(); } }

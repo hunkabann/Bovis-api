@@ -57,10 +57,10 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}/{mes}")]//, Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerDorObjectivosGenerales(string nivel, string unidadNegocio, int mes)
+        [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}/{mes}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerDorObjectivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
         {
-            var business = await _dorQueryService.GetDorObjetivosGenerales(nivel, unidadNegocio, mes);
+            var business = await _dorQueryService.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, seccion);
             return Ok(business);
         }
 
@@ -71,10 +71,10 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet("ConsultarMetas/{proyecto}/{nivel}/{mes}")]//, Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerMetasProyecto(int proyecto, int nivel, int mes)
+        [HttpGet("ConsultarMetas/{proyecto}/{nivel}/{mes}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerMetasProyecto(int proyecto, int nivel, int mes, string seccion)
         {
-            var business = await _dorQueryService.GetDorMetasProyecto(proyecto, nivel, mes);
+            var business = await _dorQueryService.GetDorMetasProyecto(proyecto, nivel, mes, seccion);
             return Ok(business);
         }      
 
