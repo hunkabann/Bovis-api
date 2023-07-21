@@ -84,6 +84,12 @@ namespace Bovis.Common.Model.NoTable
         public List<Habilidad_Detalle>? habilidades { get; set; }
     }
 
+    public class Empleado_Responsable
+    {
+        public int? nunum_empleado_rr_hh { get; set; }
+        public string? nombre_persona { get; set; }
+    }
+
     public class Empleado_BasicData
     {
         public int? nukid_empleado { get; set; }
