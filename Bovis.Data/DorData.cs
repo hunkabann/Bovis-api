@@ -97,22 +97,37 @@ namespace Bovis.Data
                                  where a.UnidadDeNegocio == unidadNegocio
                                  && b.Nivel == nivel
                                  && (mes == 0 || a.Mes == mes)
-                                 select new Dor_ObjetivosGenerales
+                                 group new Dor_ObjetivosGenerales
                                  {
                                      Id = a.Id,
                                      UnidadDeNegocio = a.UnidadDeNegocio,
                                      Concepto = a.Concepto,
                                      Descripcion = a.Descripcion,
-                                     Meta = a.Meta,
+                                     Meta = a.Meta.ToString().Trim(),
                                      Real = a.Real != null ? a.Real : "0",
                                      PorcentajeEstimado = b.Valor,
                                      PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                     //MetaMensual = (dItem != null && dItem.Gasto > 0) ? dItem.Ingreso - dItem.Gasto / ((dItem.Gasto > 0) ? dItem.Gasto : 1) : 0,
                                      Ingreso = dItem != null ? dItem.Ingreso : 0,
                                      Gasto = dItem != null ? dItem.Gasto : 0,
                                      Nivel = b.Nivel,
                                      Valor = b.Valor,
                                      Tooltip = c.Tooltip
+                                 } by a.Descripcion into g
+                                 select new Dor_ObjetivosGenerales
+                                 {
+                                     Id = g.First().Id,
+                                     UnidadDeNegocio = g.First().UnidadDeNegocio,
+                                     Concepto = g.First().Concepto,
+                                     Descripcion = g.Key,
+                                     Meta = g.First().Meta,
+                                     Real = g.First().Real,
+                                     PorcentajeEstimado = g.First().PorcentajeEstimado,
+                                     PorcentajeReal = g.First().PorcentajeReal,
+                                     Ingreso = g.First().Ingreso,
+                                     Gasto = g.First().Gasto,
+                                     Nivel = g.First().Nivel,
+                                     Valor = g.First().Valor,
+                                     Tooltip = g.First().Tooltip
                                  }).ToListAsync();
                 }
                 else
@@ -136,8 +151,7 @@ namespace Bovis.Data
                                          Meta = a.Meta.ToString().Trim(),
                                          Real = a.Real != null ? a.Real : "0",
                                          PorcentajeEstimado = b.Valor,
-                                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                         //MetaMensual = (dItem != null && dItem.Gasto > 0) ? dItem.Ingreso - dItem.Gasto / ((dItem.Gasto > 0) ? dItem.Gasto : 1) : 0,
+                                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",                                         
                                          Ingreso = dItem != null ? dItem.Ingreso : 0,
                                          Gasto = dItem != null ? dItem.Gasto : 0,
                                          Nivel = b.Nivel,
@@ -184,7 +198,6 @@ namespace Bovis.Data
                                          Real = a.Real != null ? a.Real : "0",
                                          PorcentajeEstimado = b.Valor,
                                          PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                         //MetaMensual = (dItem != null && dItem.Gasto > 0) ? dItem.Ingreso - dItem.Gasto / ((dItem.Gasto > 0) ? dItem.Gasto : 1) : 0,
                                          Ingreso = dItem != null ? dItem.Ingreso : 0,
                                          Gasto = dItem != null ? dItem.Gasto : 0,
                                          Nivel = b.Nivel,
@@ -274,7 +287,7 @@ namespace Bovis.Data
                                  where a.NoProyecto == proyecto
                                  && b.Nivel == nivel.ToString().Trim()
                                  && (mes == 0 || a.Mes == mes)
-                                 select new Dor_ObjetivosGenerales
+                                 group new Dor_ObjetivosGenerales
                                  {
                                      Id = a.Id,
                                      UnidadDeNegocio = a.UnidadDeNegocio,
@@ -284,12 +297,27 @@ namespace Bovis.Data
                                      Real = a.Real != null ? a.Real : "0",
                                      PorcentajeEstimado = b.Valor,
                                      PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                     //MetaMensual = (dItem != null && dItem.Gasto > 0) ? dItem.Ingreso - dItem.Gasto / ((dItem.Gasto > 0) ? dItem.Gasto : 1) : 0,
                                      Ingreso = dItem != null ? dItem.Ingreso : 0,
                                      Gasto = dItem != null ? dItem.Gasto : 0,
                                      Nivel = b.Nivel,
                                      Valor = b.Valor,
                                      Tooltip = c.Tooltip
+                                 } by a.Descripcion into g
+                                 select new Dor_ObjetivosGenerales
+                                 {
+                                     Id = g.First().Id,
+                                     UnidadDeNegocio = g.First().UnidadDeNegocio,
+                                     Concepto = g.First().Concepto,
+                                     Descripcion = g.Key,
+                                     Meta = g.First().Meta,
+                                     Real = g.First().Real,
+                                     PorcentajeEstimado = g.First().PorcentajeEstimado,
+                                     PorcentajeReal = g.First().PorcentajeReal,
+                                     Ingreso = g.First().Ingreso,
+                                     Gasto = g.First().Gasto,
+                                     Nivel = g.First().Nivel,
+                                     Valor = g.First().Valor,
+                                     Tooltip = g.First().Tooltip
                                  }).ToListAsync();
                 }
                 else
@@ -314,7 +342,6 @@ namespace Bovis.Data
                                          Real = a.Real != null ? a.Real : "0",
                                          PorcentajeEstimado = b.Valor,
                                          PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                         //MetaMensual = (dItem != null && dItem.Gasto > 0) ? dItem.Ingreso - dItem.Gasto / ((dItem.Gasto > 0) ? dItem.Gasto : 1) : 0,
                                          Ingreso = dItem != null ? dItem.Ingreso : 0,
                                          Gasto = dItem != null ? dItem.Gasto : 0,
                                          Nivel = b.Nivel,
@@ -361,7 +388,6 @@ namespace Bovis.Data
                                          Real = a.Real != null ? a.Real : "0",
                                          PorcentajeEstimado = b.Valor,
                                          PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                         //MetaMensual = (dItem != null && dItem.Gasto > 0) ? dItem.Ingreso - dItem.Gasto / ((dItem.Gasto > 0) ? dItem.Gasto : 1) : 0,
                                          Ingreso = dItem != null ? dItem.Ingreso : 0,
                                          Gasto = dItem != null ? dItem.Gasto : 0,
                                          Nivel = b.Nivel,
