@@ -47,8 +47,8 @@ namespace Bovis.Common.Model.Tables
 		[Column("Chcotizacion"), Nullable] public string Cotizacion { get; set; }
 		[Column("Nuduracion"), NotNull] public int Duracion { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
-		[Column("Bodescuento_pension"), NotNull] public bool DescuentoPension { get; set; }
-		[Column("Nuporcentaje_pension"), Nullable] public decimal PorcentajePension { get; set; }
+		[Column("Chporcentaje_pension"), Nullable] public string ChPorcentajePension { get; set; }
+		[Column("Nudescuento_pension"), NotNull] public decimal DescuentoPension { get; set; }
 		[Column("Nufondo_fijo"), Nullable] public decimal FondoFijo { get; set; }
 		[Column("Nucredito_infonavit"), Nullable] public string CreditoInfonavit { get; set; }
 		[Column("Chtipo_descuento"), Nullable] public string TipoDescuento { get; set; }

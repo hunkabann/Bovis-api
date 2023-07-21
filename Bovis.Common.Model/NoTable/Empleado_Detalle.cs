@@ -69,7 +69,8 @@ namespace Bovis.Common.Model.NoTable
         public string chcotizacion { get; set; }
         public int nuduracion { get; set; }
         public bool boactivo { get; set; }
-        public bool bodescuento_pension { get; set; }
+        public string chporcentaje_pension { get; set; }
+        public decimal nudescuento_pension { get; set; }
         public decimal nuporcentaje_pension { get; set; }
         public decimal nufondo_fijo { get; set; }
         public string nucredito_infonavit { get; set; }

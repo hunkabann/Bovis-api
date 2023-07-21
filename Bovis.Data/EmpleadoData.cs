@@ -144,8 +144,8 @@ namespace Bovis.Data
                                                                               chcotizacion = emp.Cotizacion,
                                                                               nuduracion = emp.Duracion,
                                                                               boactivo = emp.Activo,
-                                                                              bodescuento_pension = emp.DescuentoPension,
-                                                                              nuporcentaje_pension = emp.PorcentajePension,
+                                                                              nudescuento_pension = emp.DescuentoPension,
+                                                                              chporcentaje_pension = emp.ChPorcentajePension,
                                                                               nufondo_fijo = emp.FondoFijo,
                                                                               nucredito_infonavit = emp.CreditoInfonavit,
                                                                               chtipo_descuento = emp.TipoDescuento,
@@ -264,8 +264,8 @@ namespace Bovis.Data
                                      chcotizacion = emp.Cotizacion,
                                      nuduracion = emp.Duracion,
                                      boactivo = emp.Activo,
-                                     bodescuento_pension = emp.DescuentoPension,
-                                     nuporcentaje_pension = emp.PorcentajePension,
+                                     nudescuento_pension = emp.DescuentoPension,
+                                     chporcentaje_pension = emp.ChPorcentajePension,
                                      nufondo_fijo = emp.FondoFijo,
                                      nucredito_infonavit = emp.CreditoInfonavit,
                                      chtipo_descuento = emp.TipoDescuento,
@@ -355,11 +355,11 @@ namespace Bovis.Data
             int id_estado = Convert.ToInt32(registro["id_estado"].ToString());
             string codigo_postal = registro["codigo_postal"].ToString();
             int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["id_nivel_estudios"].ToString());
+            int id_nivel_estudios = registro["id_nivel_estudios"] != null ? Convert.ToInt32(registro["id_nivel_estudios"].ToString()) : 0;
             int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
             int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
             int id_departamento = Convert.ToInt32(registro["id_departamento"].ToString());
-            int id_clasificacion = Convert.ToInt32(registro["id_clasificacion"].ToString());
+            int id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : 0;
             int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
             int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
@@ -369,23 +369,23 @@ namespace Bovis.Data
             DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
             string nss = registro["nss"].ToString();
             string email_bovis = registro["email_bovis"].ToString();
-            string url_repo = registro["url_repo"].ToString();
+            string url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : string.Empty;
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
-            int id_profesion = Convert.ToInt32(registro["id_profesion"].ToString());
-            int antiguedad = Convert.ToInt32(registro["antiguedad"].ToString());
-            int id_turno = Convert.ToInt32(registro["id_turno"].ToString());
-            int unidad_medica = Convert.ToInt32(registro["unidad_medica"].ToString());
+            int id_profesion = registro["id_profesion"] != null ? Convert.ToInt32(registro["id_profesion"].ToString()) : 0;
+            int antiguedad = registro["antiguedad"] != null ? Convert.ToInt32(registro["antiguedad"].ToString()) : 0;
+            int id_turno = registro["id_turno"] != null ? Convert.ToInt32(registro["id_turno"].ToString()) : 0;
+            int unidad_medica = registro["unidad_medica"] != null ? Convert.ToInt32(registro["unidad_medica"].ToString()) : 0;
             string registro_patronal = registro["registro_patronal"].ToString();
             string cotizacion = registro["cotizacion"].ToString();
-            int duracion = Convert.ToInt32(registro["duracion"].ToString());
-            bool descuento_pension = Convert.ToBoolean(registro["descuento_pension"].ToString());
-            decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
-            decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
-            string credito_infonavit = registro["credito_infonavit"].ToString();
-            string tipo_descuento = registro["tipo_descuento"].ToString();
-            decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
-            string no_empleado_noi = registro["no_empleado_noi"].ToString();
-            string rol = registro["rol"].ToString();
+            int duracion = registro["duracion"] != null ? Convert.ToInt32(registro["duracion"].ToString()) : 0;
+            decimal descuento_pension = registro["descuento_pension"] != null ? Convert.ToDecimal(registro["descuento_pension"].ToString()) : 0;
+            string porcentaje_pension = registro["porcentaje_pension"] != null ? registro["porcentaje_pension"].ToString() : string.Empty;
+            decimal fondo_fijo = registro["fondo_fijo"] != null ? Convert.ToDecimal(registro["fondo_fijo"].ToString()) : 0;
+            string credito_infonavit = registro["credito_infonavit"] != null ? registro["credito_infonavit"].ToString() : string.Empty;
+            string tipo_descuento = registro["tipo_descuento"] != null ? registro["tipo_descuento"].ToString() : string.Empty;
+            decimal valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : 0;
+            string no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : string.Empty;
+            string rol = registro["rol"] != null ? registro["rol"].ToString() : string.Empty;
             int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
@@ -444,7 +444,7 @@ namespace Bovis.Data
                     .Value(x => x.Cotizacion, cotizacion)
                     .Value(x => x.Duracion, duracion)
                     .Value(x => x.DescuentoPension, descuento_pension)
-                    .Value(x => x.PorcentajePension, porcentaje_pension)
+                    .Value(x => x.ChPorcentajePension, porcentaje_pension)
                     .Value(x => x.FondoFijo, fondo_fijo)
                     .Value(x => x.CreditoInfonavit, credito_infonavit)
                     .Value(x => x.TipoDescuento, tipo_descuento)
@@ -463,32 +463,37 @@ namespace Bovis.Data
                     last_inserted_id = lastInsertedRecord.NumEmpleadoRrHh;
                 }
 
-                foreach (var habilidad in registro["habilidades"].AsArray())
-                {
-                    int id_habilidad = Convert.ToInt32(habilidad.ToString());
+                if (registro["habilidades"] != null) {
+                    foreach (var habilidad in registro["habilidades"].AsArray())
+                    {
+                        int id_habilidad = Convert.ToInt32(habilidad.ToString());
 
-                    var insert_habilidad = await db.tB_Empleado_Habilidades
-                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
-                        .Value(x => x.IdHabilidad, id_habilidad)
-                        .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                        var insert_habilidad = await db.tB_Empleado_Habilidades
+                            .Value(x => x.IdEmpleado, num_empleado_rr_hh)
+                            .Value(x => x.IdHabilidad, id_habilidad)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
 
-                    resp.Success = insert_habilidad;
-                    resp.Message = insert_habilidad == default ? "Ocurrio un error al agregar registro de la habilidad." : string.Empty;
+                        resp.Success = insert_habilidad;
+                        resp.Message = insert_habilidad == default ? "Ocurrio un error al agregar registro de la habilidad." : string.Empty;
+                    }
                 }
 
-                foreach (var experiencia in registro["experiencias"].AsArray())
+                if (registro["experiencias"] != null)
                 {
-                    int id_experiencia = Convert.ToInt32(experiencia.ToString());
+                    foreach (var experiencia in registro["experiencias"].AsArray())
+                    {
+                        int id_experiencia = Convert.ToInt32(experiencia.ToString());
 
-                    var insert_experiencia = await db.tB_Empleado_Experiencias
-                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
-                        .Value(x => x.IdExperiencia, id_experiencia)
-                        .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                        var insert_experiencia = await db.tB_Empleado_Experiencias
+                            .Value(x => x.IdEmpleado, num_empleado_rr_hh)
+                            .Value(x => x.IdExperiencia, id_experiencia)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
 
-                    resp.Success = insert_experiencia;
-                    resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+                        resp.Success = insert_experiencia;
+                        resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+                    }
                 }
 
                 if(id_requerimiento > 0)
@@ -526,11 +531,11 @@ namespace Bovis.Data
             int id_estado = Convert.ToInt32(registro["id_estado"].ToString());
             string codigo_postal = registro["codigo_postal"].ToString();
             int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["id_nivel_estudios"].ToString());
+            int id_nivel_estudios = registro["id_nivel_estudios"] != null ? Convert.ToInt32(registro["id_nivel_estudios"].ToString()) : 0;
             int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
             int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
             int id_departamento = Convert.ToInt32(registro["id_departamento"].ToString());
-            int id_clasificacion = Convert.ToInt32(registro["id_clasificacion"].ToString());
+            int id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : 0;
             int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
             int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
@@ -540,23 +545,23 @@ namespace Bovis.Data
             DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
             string nss = registro["nss"].ToString();
             string email_bovis = registro["email_bovis"].ToString();
-            string url_repo = registro["url_repo"].ToString();
+            string url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : string.Empty;
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
-            int id_profesion = Convert.ToInt32(registro["id_profesion"].ToString());
-            int antiguedad = Convert.ToInt32(registro["antiguedad"].ToString());
-            int id_turno = Convert.ToInt32(registro["id_turno"].ToString());
-            int unidad_medica = Convert.ToInt32(registro["unidad_medica"].ToString());
+            int id_profesion = registro["id_profesion"] != null ? Convert.ToInt32(registro["id_profesion"].ToString()) : 0;
+            int antiguedad = registro["antiguedad"] != null ? Convert.ToInt32(registro["antiguedad"].ToString()) : 0;
+            int id_turno = registro["id_turno"] != null ? Convert.ToInt32(registro["id_turno"].ToString()) : 0;
+            int unidad_medica = registro["unidad_medica"] != null ? Convert.ToInt32(registro["unidad_medica"].ToString()) : 0;
             string registro_patronal = registro["registro_patronal"].ToString();
             string cotizacion = registro["cotizacion"].ToString();
-            int duracion = Convert.ToInt32(registro["duracion"].ToString());
-            bool descuento_pension = Convert.ToBoolean(registro["descuento_pension"].ToString());
-            decimal porcentaje_pension = Convert.ToDecimal(registro["porcentaje_pension"].ToString());
-            decimal fondo_fijo = Convert.ToDecimal(registro["fondo_fijo"].ToString());
-            string credito_infonavit = registro["credito_infonavit"].ToString();
-            string tipo_descuento = registro["tipo_descuento"].ToString();
-            decimal valor_descuento = Convert.ToDecimal(registro["valor_descuento"].ToString());
-            string no_empleado_noi = registro["no_empleado_noi"].ToString();
-            string rol = registro["rol"].ToString();
+            int duracion = registro["duracion"] != null ? Convert.ToInt32(registro["duracion"].ToString()) : 0;
+            decimal descuento_pension = registro["descuento_pension"] != null ? Convert.ToDecimal(registro["descuento_pension"].ToString()) : 0;
+            string porcentaje_pension = registro["porcentaje_pension"] != null ? registro["porcentaje_pension"].ToString() : string.Empty;
+            decimal fondo_fijo = registro["fondo_fijo"] != null ? Convert.ToDecimal(registro["fondo_fijo"].ToString()) : 0;
+            string credito_infonavit = registro["credito_infonavit"] != null ? registro["credito_infonavit"].ToString() : string.Empty;
+            string tipo_descuento = registro["tipo_descuento"] != null ? registro["tipo_descuento"].ToString() : string.Empty;
+            decimal valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : 0;
+            string no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : string.Empty;
+            string rol = registro["rol"] != null ? registro["rol"].ToString() : string.Empty;
             int index = 0;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -604,7 +609,7 @@ namespace Bovis.Data
                         Cotizacion = cotizacion,
                         Duracion = duracion,
                         DescuentoPension = descuento_pension,
-                        PorcentajePension = porcentaje_pension,
+                        ChPorcentajePension = porcentaje_pension,
                         FondoFijo = fondo_fijo,
                         CreditoInfonavit = credito_infonavit,
                         TipoDescuento = tipo_descuento,
@@ -617,133 +622,139 @@ namespace Bovis.Data
                 resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
-                var res_empleado_habilidades = await (from emp_hab in db.tB_Empleado_Habilidades
-                                                      where emp_hab.IdEmpleado == num_empleado_rr_hh
-                                                      select emp_hab).ToListAsync();
+                if (registro["habilidades"] != null)
+                {
+                    var res_empleado_habilidades = await (from emp_hab in db.tB_Empleado_Habilidades
+                                                          where emp_hab.IdEmpleado == num_empleado_rr_hh
+                                                          select emp_hab).ToListAsync();
 
-                int[] ids_habilidades_db = new int[res_empleado_habilidades.Count()];
-                index = 0;
-                foreach (var r in res_empleado_habilidades)
-                {
-                    ids_habilidades_db[index] = r.IdHabilidad;
-                    index++;
-                }
-                int[] ids_habilidades_request = new int[registro["habilidades"].AsArray().Count()];
-                index = 0;
-                foreach (var r in registro["habilidades"].AsArray())
-                {
-                    ids_habilidades_request[index] = Convert.ToInt32(r.ToString());
-                    index++;
-                }
-                HashSet<int> ids_habilidades = new HashSet<int>(ids_habilidades_db.Concat(ids_habilidades_request));
-
-                foreach (int id in ids_habilidades)
-                {
-                    if (ids_habilidades_db.Contains(id))
+                    int[] ids_habilidades_db = new int[res_empleado_habilidades.Count()];
+                    index = 0;
+                    foreach (var r in res_empleado_habilidades)
                     {
-                        if (ids_habilidades_request.Contains(id))
-                        {
-                            // Se actualiza
-                            var res_update_empleado_habilidad = await db.tB_Empleado_Habilidades.Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
-                                .UpdateAsync(x => new TB_Empleado_Habilidad
-                                {
-                                    IdHabilidad = id,
-                                    Activo = true
-                                }) > 0;
+                        ids_habilidades_db[index] = r.IdHabilidad;
+                        index++;
+                    }
+                    int[] ids_habilidades_request = new int[registro["habilidades"].AsArray().Count()];
+                    index = 0;
+                    foreach (var r in registro["habilidades"].AsArray())
+                    {
+                        ids_habilidades_request[index] = Convert.ToInt32(r.ToString());
+                        index++;
+                    }
+                    HashSet<int> ids_habilidades = new HashSet<int>(ids_habilidades_db.Concat(ids_habilidades_request));
 
-                            resp.Success = res_update_empleado_habilidad;
-                            resp.Message = res_update_empleado_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    foreach (int id in ids_habilidades)
+                    {
+                        if (ids_habilidades_db.Contains(id))
+                        {
+                            if (ids_habilidades_request.Contains(id))
+                            {
+                                // Se actualiza
+                                var res_update_empleado_habilidad = await db.tB_Empleado_Habilidades.Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
+                                    .UpdateAsync(x => new TB_Empleado_Habilidad
+                                    {
+                                        IdHabilidad = id,
+                                        Activo = true
+                                    }) > 0;
+
+                                resp.Success = res_update_empleado_habilidad;
+                                resp.Message = res_update_empleado_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            }
+                            else
+                            {
+                                // Se elimina
+                                var res_delete_empleado_habilidad = await (db.tB_Empleado_Habilidades
+                                   .Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
+                                   .Set(x => x.Activo, false))
+                                   .UpdateAsync() >= 0;
+
+                                resp.Success = res_delete_empleado_habilidad;
+                                resp.Message = res_delete_empleado_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            }
                         }
                         else
                         {
-                            // Se elimina
-                            var res_delete_empleado_habilidad = await (db.tB_Empleado_Habilidades
-                               .Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
-                               .Set(x => x.Activo, false))
-                               .UpdateAsync() >= 0;
+                            // Se agrega
+                            var res_insert_empleado_habilidad = await db.tB_Empleado_Habilidades
+                            .Value(x => x.IdEmpleado, num_empleado_rr_hh)
+                            .Value(x => x.IdHabilidad, id)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
 
-                            resp.Success = res_delete_empleado_habilidad;
-                            resp.Message = res_delete_empleado_habilidad == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            resp.Success = res_insert_empleado_habilidad;
+                            resp.Message = res_insert_empleado_habilidad == default ? "Ocurrio un error al agregar registro." : string.Empty;
                         }
+                        Console.WriteLine();
                     }
-                    else
-                    {
-                        // Se agrega
-                        var res_insert_empleado_habilidad = await db.tB_Empleado_Habilidades
-                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
-                        .Value(x => x.IdHabilidad, id)
-                        .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                }
 
-                        resp.Success = res_insert_empleado_habilidad;
-                        resp.Message = res_insert_empleado_habilidad == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                if (registro["experiencias"] != null)
+                {
+                    var res_empleado_experiencias = await (from emp_exp in db.tB_Empleado_Experiencias
+                                                           where emp_exp.IdEmpleado == num_empleado_rr_hh
+                                                           select emp_exp)
+                                                               .ToListAsync();
+
+                    int[] ids_experiencias_db = new int[res_empleado_experiencias.Count()];
+                    index = 0;
+                    foreach (var r in res_empleado_experiencias)
+                    {
+                        ids_experiencias_db[index] = r.IdExperiencia;
+                        index++;
                     }
-                    Console.WriteLine();
-                }
-
-                var res_empleado_experiencias = await (from emp_exp in db.tB_Empleado_Experiencias
-                                                       where emp_exp.IdEmpleado == num_empleado_rr_hh
-                                                       select emp_exp)
-                                                           .ToListAsync();
-
-                int[] ids_experiencias_db = new int[res_empleado_experiencias.Count()];
-                index = 0;
-                foreach (var r in res_empleado_experiencias)
-                {
-                    ids_experiencias_db[index] = r.IdExperiencia;
-                    index++;
-                }
-                int[] ids_experiencias_request = new int[registro["experiencias"].AsArray().Count()];
-                index = 0;
-                foreach (var r in registro["experiencias"].AsArray())
-                {
-                    ids_experiencias_request[index] = Convert.ToInt32(r.ToString());
-                    index++;
-                }
-                HashSet<int> ids_experiencias = new HashSet<int>(ids_experiencias_db.Concat(ids_experiencias_request));
-
-                foreach (int id in ids_experiencias)
-                {
-                    if (ids_experiencias_db.Contains(id))
+                    int[] ids_experiencias_request = new int[registro["experiencias"].AsArray().Count()];
+                    index = 0;
+                    foreach (var r in registro["experiencias"].AsArray())
                     {
-                        if (ids_experiencias_request.Contains(id))
+                        ids_experiencias_request[index] = Convert.ToInt32(r.ToString());
+                        index++;
+                    }
+                    HashSet<int> ids_experiencias = new HashSet<int>(ids_experiencias_db.Concat(ids_experiencias_request));
+
+                    foreach (int id in ids_experiencias)
+                    {
+                        if (ids_experiencias_db.Contains(id))
                         {
-                            // Se actualiza
-                            var res_update_empleado_experiencia = await db.tB_Empleado_Experiencias.Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
-                                .UpdateAsync(x => new TB_Empleado_Experiencia
-                                {
-                                    IdExperiencia = id,
-                                    Activo = true
-                                }) > 0;
+                            if (ids_experiencias_request.Contains(id))
+                            {
+                                // Se actualiza
+                                var res_update_empleado_experiencia = await db.tB_Empleado_Experiencias.Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
+                                    .UpdateAsync(x => new TB_Empleado_Experiencia
+                                    {
+                                        IdExperiencia = id,
+                                        Activo = true
+                                    }) > 0;
 
-                            resp.Success = res_update_empleado_experiencia;
-                            resp.Message = res_update_empleado_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                                resp.Success = res_update_empleado_experiencia;
+                                resp.Message = res_update_empleado_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            }
+                            else
+                            {
+                                // Se elimina
+                                var res_delete_empleado_experiencia = await (db.tB_Empleado_Experiencias
+                                   .Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
+                                   .Set(x => x.Activo, false))
+                                   .UpdateAsync() >= 0;
+
+                                resp.Success = res_delete_empleado_experiencia;
+                                resp.Message = res_delete_empleado_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            }
                         }
                         else
                         {
-                            // Se elimina
-                            var res_delete_empleado_experiencia = await (db.tB_Empleado_Experiencias
-                               .Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
-                               .Set(x => x.Activo, false))
-                               .UpdateAsync() >= 0;
+                            // Se agrega
+                            var res_insert_empleado_experiencia = await db.tB_Empleado_Experiencias
+                            .Value(x => x.IdEmpleado, num_empleado_rr_hh)
+                            .Value(x => x.IdExperiencia, id)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
 
-                            resp.Success = res_delete_empleado_experiencia;
-                            resp.Message = res_delete_empleado_experiencia == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                            resp.Success = res_insert_empleado_experiencia;
+                            resp.Message = res_insert_empleado_experiencia == default ? "Ocurrio un error al agregar registro." : string.Empty;
                         }
+                        Console.WriteLine();
                     }
-                    else
-                    {
-                        // Se agrega
-                        var res_insert_empleado_experiencia = await db.tB_Empleado_Experiencias
-                        .Value(x => x.IdEmpleado, num_empleado_rr_hh)
-                        .Value(x => x.IdExperiencia, id)
-                        .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
-
-                        resp.Success = res_insert_empleado_experiencia;
-                        resp.Message = res_insert_empleado_experiencia == default ? "Ocurrio un error al agregar registro." : string.Empty;
-                    }
-                    Console.WriteLine();
                 }
             }
             

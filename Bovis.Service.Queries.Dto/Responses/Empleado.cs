@@ -42,8 +42,8 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string chcotizacion { get; set; }
         public int nuduracion { get; set; }
         public bool boactivo { get; set; }
-        public bool bodescuento_pension { get; set; }
-        public decimal nuporcentaje_pension { get; set; }
+        public string chporcentaje_pension { get; set; }
+        public decimal nudescuento_pension { get; set; }
         public decimal nufondo_fijo { get; set; }
         public int nucredito_infonavit { get; set; }
         public string chtipo_descuento { get; set; }
@@ -113,7 +113,8 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string chcotizacion { get; set; }
         public int nuduracion { get; set; }
         public bool boactivo { get; set; }
-        public bool bodescuento_pension { get; set; }
+        public string chporcentaje_pension { get; set; }
+        public decimal nudescuento_pension { get; set; }
         public decimal nuporcentaje_pension { get; set; }
         public decimal nufondo_fijo { get; set; }
         public int nucredito_infonavit { get; set; }
