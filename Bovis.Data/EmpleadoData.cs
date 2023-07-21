@@ -125,9 +125,9 @@ namespace Bovis.Data
                                                                               nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
                                                                               chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                                                               nunum_empleado = emp.NumEmpleado,
-                                                                              dtfecha_ingreso = emp.FechaIngreso,
-                                                                              dtfecha_salida = emp.FechaSalida,
-                                                                              dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso,
+                                                                              dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                                                              dtfecha_salida = emp.FechaSalida.ToString("yyyy-MM-dd"),
+                                                                              dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso.ToString("yyyy-MM-dd"),
                                                                               chnss = emp.Nss,
                                                                               chemail_bovis = emp.EmailBovis,
                                                                               chexperiencias = emp.Experiencias,
@@ -200,6 +200,8 @@ namespace Bovis.Data
                                  from profesionItem in profesionJoin.DefaultIfEmpty()
                                  join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
                                  from turnoItem in turnoJoin.DefaultIfEmpty()
+                                 join sexo in db.tB_Cat_Sexos on perItem.IdSexo equals sexo.IdSexo into sexoJoin
+                                 from sexoItem in sexoJoin.DefaultIfEmpty()
                                  where emp.NumEmpleadoRrHh == idEmpleado
                                  select new Empleado_Detalle
                                  {
@@ -245,9 +247,9 @@ namespace Bovis.Data
                                      nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
                                      chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                      nunum_empleado = emp.NumEmpleado,
-                                     dtfecha_ingreso = emp.FechaIngreso,
-                                     dtfecha_salida = emp.FechaSalida,
-                                     dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso,
+                                     dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                     dtfecha_salida = emp.FechaSalida.ToString("yyyy-MM-dd"),
+                                     dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso.ToString("yyyy-MM-dd"),
                                      chnss = emp.Nss,
                                      chemail_bovis = emp.EmailBovis,
                                      chexperiencias = emp.Experiencias,
@@ -271,7 +273,10 @@ namespace Bovis.Data
                                      chtipo_descuento = emp.TipoDescuento,
                                      nuvalor_descuento = emp.ValorDescuento,
                                      nuno_empleado_noi = emp.NoEmpleadoNoi,
-                                     chrol = emp.Rol
+                                     chrol = emp.Rol,
+                                     dtfecha_nacimiento = perItem != null ? perItem.FechaNacimiento.ToString("yyyy-MM-dd") : null,
+                                     nukidsexo = perItem != null ? perItem.IdSexo : null,
+                                     chsexo = sexoItem != null ? sexoItem.Sexo : null
                                  }).FirstOrDefaultAsync();
 
                 if (res != null)

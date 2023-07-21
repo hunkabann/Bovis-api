@@ -3,16 +3,22 @@ using LinqToDB.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Bovis.Common.Model.NoTable
 {
+
     public class Empleado_Detalle
     {
         public int? nunum_empleado_rr_hh { get; set; }
         public int? nukidpersona { get; set; }
         public string? nombre_persona { get; set; }
+        public string? dtfecha_nacimiento { get; set; }
+        public int? nukidsexo { get; set; }
+        public string? chsexo { get; set; }
         public int? nukidtipo_empleado { get; set; }
         public string? chtipo_emplado { get; set; }
         public int? nukidcategoria { get; set; }
@@ -52,9 +58,9 @@ namespace Bovis.Common.Model.NoTable
         public int? nukidtipo_contrato_sat { get; set; }
         public string? chtipo_contrato_sat { get; set; }
         public int? nunum_empleado { get; set; }
-        public DateTime? dtfecha_ingreso { get; set; }
-        public DateTime? dtfecha_salida { get; set; }
-        public DateTime? dtfecha_ultimo_reingreso { get; set; }
+        public string? dtfecha_ingreso { get; set; }
+        public string? dtfecha_salida { get; set; }
+        public string? dtfecha_ultimo_reingreso { get; set; }
         public string? chnss { get; set; }
         public string? chemail_bovis { get; set; }        
         public string? churl_repositorio { get; set; }
@@ -81,7 +87,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chexperiencias { get; set; }
         public string? chhabilidades { get; set; }
         public List<Experiencia_Detalle>? experiencias { get; set; }
-        public List<Habilidad_Detalle>? habilidades { get; set; }
+        public List<Habilidad_Detalle>? habilidades { get; set; }        
     }
 
     public class Empleado_Responsable

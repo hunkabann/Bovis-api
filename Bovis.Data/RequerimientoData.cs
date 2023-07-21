@@ -627,7 +627,7 @@ namespace Bovis.Data
                                                                       join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
                                                                       from turnoItem in turnoJoin.DefaultIfEmpty()
                                                                       join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
-                                                                      from puestoItem in puestoJoin.DefaultIfEmpty()
+                                                                      from puestoItem in puestoJoin.DefaultIfEmpty()                                                                      
                                                                       where puestoItem.Puesto == "Director Ejecutivo"
                                                                       && emp.Activo == true
                                                                       orderby emp.NumEmpleadoRrHh descending
@@ -664,9 +664,9 @@ namespace Bovis.Data
                                                                           nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
                                                                           chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                                                           nunum_empleado = emp.NumEmpleado,
-                                                                          dtfecha_ingreso = emp.FechaIngreso,
-                                                                          dtfecha_salida = emp.FechaSalida,
-                                                                          dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso,
+                                                                          dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                                                          dtfecha_salida = emp.FechaSalida.ToString("yyyy-MM-dd"),
+                                                                          dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso.ToString("yyyy-MM-dd"),
                                                                           chnss = emp.Nss,
                                                                           chemail_bovis = emp.EmailBovis,
                                                                           chexperiencias = emp.Experiencias,
