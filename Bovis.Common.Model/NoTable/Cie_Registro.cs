@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace Bovis.Common.Model.NoTable
 {
+    public class EmpresaRegistro
+    {
+        public int nukidempresa { get; set; }
+        public string chempresa { get; set; }
+        public string rfc { get; set; }
+        public int nucoi { set; get; }
+        public int nunoi { set; get; }
+        public int nusae { set; get; }
+        public bool boactivo { set; get; }
+    }
+
     public class CieRegistro
     {
         public int? IdCie { get; set; }
@@ -23,24 +34,25 @@ namespace Bovis.Common.Model.NoTable
         public byte? Mes { get; set; }
         public int? IdCentroCostos { get; set; }
         public int? IdTipoCtaContable { get; set; }
+        public int? Estatus { set; get; }
     }
 
     public class CuentaContable_Detalle
     {
-        public string Cuenta { get; set; }
-        public string TipoCuenta { get; set; }
-        public string TipoResultado { get; set; }
-        public string TipoPY { get; set; }
-        public string ClasificacionPY { get; set; }
+        public string? Cuenta { get; set; }
+        public string? TipoCuenta { get; set; }
+        public string? TipoResultado { get; set; }
+        public string? TipoPY { get; set; }
+        public string? ClasificacionPY { get; set; }
 
 
     }
 
     public class ProyectoData_Detalle
     {
-        public string Proyecto { get; set; }
-        public int NumProyecto { get; set; }
-        public string Responsable { get; set; }
-        public string TipoProyecto { get; set; }
+        public string? Proyecto { get; set; }
+        public int? NumProyecto { get; set; }
+        public string? Responsable { get; set; }
+        public string? TipoProyecto { get; set; }
     }
 }

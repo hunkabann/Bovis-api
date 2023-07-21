@@ -9,33 +9,33 @@ namespace Bovis.Common.Model.NoTable
 {
     public class Documentos_Auditoria_Cumplimiento_Detalle
     {
-        public int IdSeccion { get; set; }
-        public string ChSeccion { get; set; }
-        public List<TB_Cat_Auditoria_Cumplimiento> Auditorias { get; set; }
+        public int? IdSeccion { get; set; }
+        public string? ChSeccion { get; set; }
+        public List<TB_Cat_Auditoria_Cumplimiento>? Auditorias { get; set; }
     }
 
     public class Documentos_Auditoria_Cumplimiento_Proyecto_Detalle
     {
-        public int IdSeccion { get; set; }
-        public string ChSeccion { get; set; }
+        public int? IdSeccion { get; set; }
+        public string? ChSeccion { get; set; }
         public decimal NuProcentaje { get; set; }        
-        public List<Auditoria_Cumplimiento_Detalle> Auditorias { get; set; }
+        public List<Auditoria_Cumplimiento_Detalle>? Auditorias { get; set; }
     }
 
     public class Auditoria_Cumplimiento_Detalle
     {
-        public int IdAuditoriaCumplimiento { get; set; }
-        public int IdProyecto { get; set; }
-        public int IdDirector { get; set; }
-        public int Mes { get; set; }
-        public DateTime Fecha { get; set; }
-        public string Punto { get; set; }
-        public int IdSeccion { get; set; }
-        public string Cumplimiento { get; set; }
+        public int? IdAuditoriaCumplimiento { get; set; }
+        public int? IdProyecto { get; set; }
+        public int? IdDirector { get; set; }
+        public int? Mes { get; set; }
+        public DateTime? Fecha { get; set; }
+        public string? Punto { get; set; }
+        public int? IdSeccion { get; set; }
+        public string? Cumplimiento { get; set; }
         public string DocumentoRef { get; set; }
-        public bool Aplica { get; set; }
-        public bool TieneDocumento { get; set; }
-        public int IdDocumento { get; set; }
-        public bool UltimoDocumentoValido { get; set; }
+        public bool? Aplica { get; set; }
+        public bool? TieneDocumento { get; set; }
+        public int? IdDocumento { get; set; }
+        public bool? UltimoDocumentoValido { get; set; }
     }
 }

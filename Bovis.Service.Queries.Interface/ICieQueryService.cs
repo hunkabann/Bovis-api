@@ -14,7 +14,7 @@ namespace Bovis.Service.Queries.Interface
     public interface ICieQueryService : IDisposable
     {
         #region Empresas
-        Task<Response<List<Empresa>>> GetEmpresas(bool? Activo);
+        Task<Response<List<EmpresaRegistro>>> GetEmpresas(bool? Activo);
         #endregion Empresas
 
         #region Cuenta Data

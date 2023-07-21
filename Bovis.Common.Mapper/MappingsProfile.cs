@@ -146,7 +146,7 @@ public class MappingsProfile : Profile
         #endregion Empleados
 
         #region Cie
-        CreateMap<TB_Empresa, Empresa>()
+        CreateMap<TB_Empresa, EmpresaRegistro>()
             .ForMember(c => c.nukidempresa, dto => dto.MapFrom(src => src.IdEmpresa))
             .ForMember(c => c.chempresa, dto => dto.MapFrom(src => src.Empresa))
             .ForMember(c => c.rfc, dto => dto.MapFrom(src => src.Rfc))
@@ -155,22 +155,22 @@ public class MappingsProfile : Profile
             .ForMember(c => c.nusae, dto => dto.MapFrom(src => src.Sae))
             .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
 
-        CreateMap<TB_Cie, Cie>()
-            .ForMember(c => c.nukidcie, dto => dto.MapFrom(src => src.IdCie))
-            .ForMember(c => c.nunum_proyecto, dto => dto.MapFrom(src => src.NumProyecto))
-            .ForMember(c => c.nukidtipo_cie, dto => dto.MapFrom(src => src.IdTipoCie))
-            .ForMember(c => c.nukidtipo_poliza, dto => dto.MapFrom(src => src.IdTipoPoliza))
-            .ForMember(c => c.dtfecha, dto => dto.MapFrom(src => src.Fecha))
-            .ForMember(c => c.chconcepto, dto => dto.MapFrom(src => src.Concepto))
-            .ForMember(c => c.nusaldo_ini, dto => dto.MapFrom(src => src.SaldoIni))
-            .ForMember(c => c.nudebe, dto => dto.MapFrom(src => src.Debe))
-            .ForMember(c => c.nuhaber, dto => dto.MapFrom(src => src.Haber))
-            .ForMember(c => c.numovimiento, dto => dto.MapFrom(src => src.Movimiento))
-            .ForMember(c => c.chedo_resultados, dto => dto.MapFrom(src => src.EdoResultados))
-            .ForMember(c => c.numes, dto => dto.MapFrom(src => src.Mes))
-            .ForMember(c => c.nukidcentro_costos, dto => dto.MapFrom(src => src.IdCentroCostos))
-            .ForMember(c => c.nukidtipo_cta_contable, dto => dto.MapFrom(src => src.IdTipoCtaContable))
-            .ForMember(c => c.nuestatus, dto => dto.MapFrom(src => src.Estatus));
+        CreateMap<TB_Cie, CieRegistro>()
+            .ForMember(c => c.IdCie, dto => dto.MapFrom(src => src.IdCie))
+            .ForMember(c => c.NumProyecto, dto => dto.MapFrom(src => src.NumProyecto))
+            .ForMember(c => c.IdTipoCie, dto => dto.MapFrom(src => src.IdTipoCie))
+            .ForMember(c => c.IdTipoPoliza, dto => dto.MapFrom(src => src.IdTipoPoliza))
+            .ForMember(c => c.Fecha, dto => dto.MapFrom(src => src.Fecha))
+            .ForMember(c => c.Concepto, dto => dto.MapFrom(src => src.Concepto))
+            .ForMember(c => c.SaldoIni, dto => dto.MapFrom(src => src.SaldoIni))
+            .ForMember(c => c.Debe, dto => dto.MapFrom(src => src.Debe))
+            .ForMember(c => c.Haber, dto => dto.MapFrom(src => src.Haber))
+            .ForMember(c => c.Movimiento, dto => dto.MapFrom(src => src.Movimiento))
+            .ForMember(c => c.EdoResultados, dto => dto.MapFrom(src => src.EdoResultados))
+            .ForMember(c => c.Mes, dto => dto.MapFrom(src => src.Mes))
+            .ForMember(c => c.IdCentroCostos, dto => dto.MapFrom(src => src.IdCentroCostos))
+            .ForMember(c => c.IdTipoCtaContable, dto => dto.MapFrom(src => src.IdTipoCtaContable))
+            .ForMember(c => c.Estatus, dto => dto.MapFrom(src => src.Estatus));
         #endregion Cie
 
         #region Catalogos                
@@ -441,6 +441,7 @@ public class MappingsProfile : Profile
            .ForMember(c => c.Descripcion, dto => dto.MapFrom(src => src.Descripcion))
            .ForMember(c => c.Meta, dto => dto.MapFrom(src => src.Meta))
            .ForMember(c => c.Real, dto => dto.MapFrom(src => src.Real))
+           .ForMember(c => c.PromedioReal, dto => dto.MapFrom(src => src.PromedioReal))
            .ForMember(c => c.PorcentajeEstimado, dto => dto.MapFrom(src => src.PorcentajeEstimado))
            .ForMember(c => c.PorcentajeReal, dto => dto.MapFrom(src => src.PorcentajeReal))           
            .ForMember(c => c.Acepto, dto => dto.MapFrom(src => src.Acepto))

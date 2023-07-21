@@ -36,10 +36,10 @@ namespace Bovis.Service.Queries
         #endregion base
 
         #region Empresas
-        public async Task<Response<List<Empresa>>> GetEmpresas(bool? Activo)
+        public async Task<Response<List<EmpresaRegistro>>> GetEmpresas(bool? Activo)
         {
             var response = await _cieBusiness.GetEmpresas(Activo);
-            return new Response<List<Empresa>> { Data = _map.Map<List<Empresa>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<List<EmpresaRegistro>> { Data = _map.Map<List<EmpresaRegistro>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion Empresas
 

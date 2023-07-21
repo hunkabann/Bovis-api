@@ -30,11 +30,11 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string? Descripcion { get; set; }
         public string? Meta { get; set; }
         public string Real { get; set; }
-        public string PorcentajeEstimado { get; set; }
-        public string PorcentajeReal { get; set; }
-        public decimal Ingreso { get; set; }
-        public decimal Gasto { get; set; }
-        //public decimal? MetaMensual { get; set; }
+        public string? PromedioReal { get; set; }
+        public string? PorcentajeEstimado { get; set; }
+        public string? PorcentajeReal { get; set; }
+        public decimal? Ingreso { get; set; }
+        public decimal? Gasto { get; set; }
         public string? Nivel { get; set; }
         public string? Valor { get; set; }
         public string? Tooltip { get; set; }
@@ -48,9 +48,10 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string? Concepto { get; set; }
         public string? Descripcion { get; set; }
         public string? Meta { get; set; }
-        public string Real { get; set; }
-        public string PorcentajeEstimado { get; set; }
-        public string PorcentajeReal { get; set; }
+        public string? Real { get; set; }
+        public string? PromedioReal { get; set; }
+        public string? PorcentajeEstimado { get; set; }
+        public string? PorcentajeReal { get; set; }
         public string? Acepto { get; set; }
         public string? MotivoR { get; set; }
         public DateTime? FechaCarga { get; set; }
