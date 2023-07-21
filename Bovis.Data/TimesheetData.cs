@@ -12,6 +12,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using static LinqToDB.SqlQuery.SqlPredicate;
 
 namespace Bovis.Data
 {
@@ -224,7 +225,7 @@ namespace Bovis.Data
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
                                             orderby ts.IdTimesheet descending
-                                            select new TimeSheet_Detalle
+                                            group new TimeSheet_Detalle
                                             {
                                                 id = ts.IdTimesheet,
                                                 id_empleado = ts.IdEmpleado,
@@ -239,6 +240,22 @@ namespace Bovis.Data
                                                 noi_empresa = empr.Noi,
                                                 noi_empleado = emp2.NoEmpleadoNoi,
                                                 num_empleado = emp2.NumEmpleado
+                                            } by ts.IdTimesheet into g
+                                            select new TimeSheet_Detalle
+                                            {
+                                                id = g.First().id,
+                                                id_empleado = g.First().id_empleado,
+                                                empleado = g.First().empleado,
+                                                mes = g.First().mes,
+                                                anio = g.First().anio,
+                                                id_responsable = g.First().id_responsable,
+                                                responsable = g.First().responsable,
+                                                sabados = g.First().sabados,
+                                                dias_trabajo = g.First().dias_trabajo,
+                                                coi_empresa = g.First().coi_empresa,
+                                                noi_empresa = g.First().noi_empresa,
+                                                noi_empleado = g.First().noi_empleado,
+                                                num_empleado = g.First().num_empleado
                                             }).ToListAsync();
 
                 foreach (var timesheet in res_timesheets)
