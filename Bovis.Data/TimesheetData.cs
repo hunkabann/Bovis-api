@@ -196,60 +196,69 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes)
         {
-            if (idEmpleado > 0)
+            // Si idEmpleado == 0, no filtrar por empleado
+            // Si idProyecto == 0, no filtrar por proyecto
+            // Si mes == 0, devolver los del mes anterior
+
+            List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
+            TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
+            int currentYear = DateTime.Now.Year;
+            int currentMonth = DateTime.Now.Month;
+            int targetMonth = mes == 0 ? currentMonth == 1 ? 12 : currentMonth - 1 : mes;
+            int targetYear = currentMonth == 1 && mes == 0 ? currentYear - 1 : currentYear;
+
+            using (var db = new ConnectionDB(dbConfig))
             {
-                List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
-                TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
-                using (var db = new ConnectionDB(dbConfig))
+                var res_timesheets = await (from ts in db.tB_Timesheets
+                                            join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
+                                            join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
+                                            join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
+                                            join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
+                                            join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
+                                            join proy in db.tB_Timesheet_Proyectos on ts.IdTimesheet equals proy.IdTimesheet into proyJoin
+                                            from proyItem in proyJoin.DefaultIfEmpty()
+                                            where ts.Activo == true
+                                            && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
+                                            && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
+                                            && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
+                                            orderby ts.IdTimesheet descending
+                                            select new TimeSheet_Detalle
+                                            {
+                                                id = ts.IdTimesheet,
+                                                id_empleado = ts.IdEmpleado,
+                                                empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
+                                                mes = ts.Mes,
+                                                anio = ts.Anio,
+                                                id_responsable = ts.IdResponsable,
+                                                responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
+                                                sabados = ts.Sabados,
+                                                dias_trabajo = ts.DiasTrabajo,
+                                                coi_empresa = empr.Coi,
+                                                noi_empresa = empr.Noi,
+                                                noi_empleado = emp2.NoEmpleadoNoi,
+                                                num_empleado = emp2.NumEmpleado
+                                            }).ToListAsync();
+
+                foreach (var timesheet in res_timesheets)
                 {
-                    var res_timesheets = await (from ts in db.tB_Timesheets
-                                                join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
-                                                join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
-                                                join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
-                                                join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
-                                                join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
-                                                where ts.IdEmpleado == idEmpleado
-                                                && ts.Activo == true
-                                                orderby ts.IdTimesheet descending
-                                                select new TimeSheet_Detalle
-                                                {
-                                                    id = ts.IdTimesheet,
-                                                    id_empleado = ts.IdEmpleado,
-                                                    empleado = per2.Nombre + " " + per2.ApPaterno + " " + per2.ApMaterno,
-                                                    mes = ts.Mes,
-                                                    anio = ts.Anio,
-                                                    id_responsable = ts.IdResponsable,
-                                                    responsable = per1.Nombre + " " + per1.ApPaterno + " " + per1.ApMaterno,
-                                                    sabados = ts.Sabados,
-                                                    dias_trabajo = ts.DiasTrabajo,
-                                                    coi_empresa = empr.Coi,
-                                                    noi_empresa = empr.Noi,
-                                                    noi_empleado = emp2.NoEmpleadoNoi,
-                                                    num_empleado = emp2.NumEmpleado
-                                                }).ToListAsync();
+                    timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
+                                             where ts_o.IdTimeSheet == timesheet.id
+                                             && ts_o.Activo == true
+                                             select ts_o).ToListAsync();
 
-                    foreach (var timesheet in res_timesheets)
-                    {
-                        timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
-                                                         where ts_o.IdTimeSheet == timesheet.id
-                                                         && ts_o.Activo == true
-                                                         select ts_o).ToListAsync();
+                    timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
+                                                 where ts_p.IdTimesheet == timesheet.id
+                                                 && ts_p.Activo == true
+                                                 select ts_p).ToListAsync();
 
-                        timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
-                                                             where ts_p.IdTimesheet == timesheet.id
-                                                             && ts_p.Activo == true
-                                                             select ts_p).ToListAsync();
-
-                        timesheets_summary.Add(timesheet);
-                    }
-
+                    timesheets_summary.Add(timesheet);
                 }
 
-                return timesheets_summary;
             }
-            else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
+
+            return timesheets_summary;
         }
 
         public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio)

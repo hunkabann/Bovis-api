@@ -9,7 +9,7 @@ namespace Bovis.Data.Interface
         Task<Detalle_Dias_Timesheet> GetDiasHabiles(int mes, int anio, bool sabados);
         Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro);
         Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? activo);
-        Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado);
+        Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes);
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio);
         Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
         Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro);

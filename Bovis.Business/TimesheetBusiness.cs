@@ -36,7 +36,7 @@ namespace Bovis.Business
         }
         public Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
-        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado) => _timesheetData.GetTimeSheetsByEmpleado(idEmpleado);
+        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes) => _timesheetData.GetTimeSheetsByFiltro(idEmpleado, idProyecto, mes);
 
         public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio) => _timesheetData.GetTimeSheetsByFecha(mes, anio);
 
