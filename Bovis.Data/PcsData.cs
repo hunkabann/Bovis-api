@@ -26,7 +26,13 @@ namespace Bovis.Data
 
         public async Task<List<TB_Proyecto>> GetProyectos()
         {
-            return await GetAllFromEntityAsync<TB_Proyecto>();
+            //return await GetAllFromEntityAsync<TB_Proyecto>();
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                return await (from p in db.tB_Proyectos
+                              orderby p.Proyecto ascending
+                              select p).ToListAsync();
+            }
         }
 
         public async Task<TB_Proyecto> GetProyecto(int numProyecto)

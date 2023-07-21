@@ -80,7 +80,7 @@ namespace Bovis.Data
                                                                           join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
                                                                           from turnoItem in turnoJoin.DefaultIfEmpty()
                                                                           //where emp.Activo == activo
-                                                                          orderby emp.NumEmpleadoRrHh descending
+                                                                          orderby perItem.Nombre ascending
                                                                           select new Empleado_Detalle
                                                                           {
                                                                               nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
