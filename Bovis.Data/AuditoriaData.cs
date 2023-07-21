@@ -262,6 +262,7 @@ namespace Bovis.Data
                                                                 .Value(x => x.Motivo, motivo)
                                                                 .Value(x => x.Fecha, DateTime.Now)
                                                                 .Value(x => x.DocumentoBase64, documento_base64)
+                                                                .Value(x => x.Valido, true)
                                                                 .InsertAsync() > 0;
 
                 resp.Success = insert_auditoriacumplimiento_documento;
