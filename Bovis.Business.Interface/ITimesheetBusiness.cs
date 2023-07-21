@@ -11,7 +11,7 @@ namespace Bovis.Business.Interface
 {
     public interface ITimesheetBusiness : IDisposable
     {
-        Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados);
+        Task<Detalle_Dias_Timesheet> GetDiasHabiles(int mes, int anio, bool sabados);
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
         Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? activo);
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado);

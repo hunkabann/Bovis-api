@@ -1,4 +1,5 @@
 ﻿using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 using System.Threading.Tasks;

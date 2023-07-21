@@ -25,4 +25,15 @@ namespace Bovis.Common.Model.NoTable
         public List<TB_Timesheet_Otro>? otros { get; set; }
         public List<TB_Timesheet_Proyecto>? proyectos { get; set; }
     }
+
+    public class Detalle_Dias_Timesheet
+    {
+        public int? id { get; set; }
+        public int? mes { get; set; }
+        public int? dias { get; set; }
+        public int? feriados { get; set; }
+        public int? sabados { get; set; }
+        public int? anio { get; set; }
+        public int? dias_habiles { get; set; }
+    }
 }

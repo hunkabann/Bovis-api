@@ -35,10 +35,10 @@ namespace Bovis.Service.Queries
         }
         #endregion base
 
-        public async Task<Response<Dias_Timesheet_Detalle>> GetDiasHabiles(int mes, int anio, bool sabados)
+        public async Task<Response<Detalle_Dias_Timesheet>> GetDiasHabiles(int mes, int anio, bool sabados)
         {
             var response = await _timesheetBusiness.GetDiasHabiles(mes, anio, sabados);
-            return new Response<Dias_Timesheet_Detalle> { Data = _map.Map<Dias_Timesheet_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<Detalle_Dias_Timesheet> { Data = _map.Map<Detalle_Dias_Timesheet>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool existe, string mensaje)>> AddRegistro(JsonObject registro)

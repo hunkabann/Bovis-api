@@ -6,7 +6,7 @@ namespace Bovis.Data.Interface
 {
     public interface ITimesheetData : IDisposable
     {
-        Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados);
+        Task<Detalle_Dias_Timesheet> GetDiasHabiles(int mes, int anio, bool sabados);
         Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro);
         Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? activo);
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByEmpleado(int idEmpleado);

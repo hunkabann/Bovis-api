@@ -32,14 +32,14 @@ namespace Bovis.Data
         }
         #endregion base
 
-        public async Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados)
+        public async Task<Detalle_Dias_Timesheet> GetDiasHabiles(int mes, int anio, bool sabados)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res = from timeS in db.tB_Dias_Timesheets
                           where timeS.Mes == mes
                           && timeS.Anio == anio
-                          select new Dias_Timesheet_Detalle
+                          select new Detalle_Dias_Timesheet
                           {
                               id = timeS.Id,
                               mes = timeS.Mes,

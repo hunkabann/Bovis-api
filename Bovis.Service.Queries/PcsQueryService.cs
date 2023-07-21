@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 

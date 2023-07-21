@@ -24,7 +24,7 @@ namespace Bovis.Business
         }
         #endregion base
 
-        public Task<Dias_Timesheet_Detalle> GetDiasHabiles(int mes, int anio, bool sabados) => _timesheetData.GetDiasHabiles(mes, anio, sabados);
+        public Task<Detalle_Dias_Timesheet> GetDiasHabiles(int mes, int anio, bool sabados) => _timesheetData.GetDiasHabiles(mes, anio, sabados);
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {
