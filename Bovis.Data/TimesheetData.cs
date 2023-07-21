@@ -596,6 +596,21 @@ namespace Bovis.Data
             {
                 List<Empleado_Detalle> empleados = new List<Empleado_Detalle>();
 
+                empleados = await (from empleadoProyecto in db.tB_EmpleadoProyectos
+                                   join usuarioTimesheet in db.tB_Usuario_Timesheets on empleadoProyecto.NumProyecto equals usuarioTimesheet.NumProyecto
+                                   join empleado in db.tB_Empleados on usuarioTimesheet.NumEmpleadoRrHh equals empleado.NumEmpleadoRrHh
+                                   join persona in db.tB_Personas on empleado.IdPersona equals persona.IdPersona //into perJoin
+                                   //from perItem in perJoin.DefaultIfEmpty()
+                                   where empleado.EmailBovis == EmailResponsable
+                                   select new Empleado_Detalle
+                                   {
+                                       nunum_empleado_rr_hh = empleadoProyecto.NumEmpleadoRrHh,
+                                       nombre_persona = persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno,
+                                   }).ToListAsync();             
+
+
+
+                /*
                 var proyectos_responsable = await (from proyecto in db.tB_Proyectos
                                                    join emp_proy in db.tB_EmpleadoProyectos on proyecto.NumProyecto equals emp_proy.NumProyecto into emp_proyJoin
                                                    from emp_proyItem in emp_proyJoin.DefaultIfEmpty()
@@ -758,6 +773,7 @@ namespace Bovis.Data
 
                     empleados.Add(empleado);
                 }
+                */
 
                 
                 return empleados;

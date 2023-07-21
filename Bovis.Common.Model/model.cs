@@ -127,6 +127,7 @@ namespace Bovis.Common.Model
         public ITable<TB_Timesheet_Otro> tB_Timesheet_Otros { get { return this.GetTable<TB_Timesheet_Otro>(); } }
         public ITable<TB_Timesheet_Proyecto> tB_Timesheet_Proyectos { get { return this.GetTable<TB_Timesheet_Proyecto>(); } }
         public ITable<TB_Usuario> tB_Usuarios { get { return this.GetTable<TB_Usuario>(); } }
+        public ITable<TB_Usuario_Timesheet> tB_Usuario_Timesheets { get { return this.GetTable<TB_Usuario_Timesheet>(); } }
 
 		public ConnectionDB()
 		{
