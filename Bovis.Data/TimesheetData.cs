@@ -599,9 +599,13 @@ namespace Bovis.Data
                 empleados = await (from empleadoProyecto in db.tB_EmpleadoProyectos
                                    join usuarioTimesheet in db.tB_Usuario_Timesheets on empleadoProyecto.NumProyecto equals usuarioTimesheet.NumProyecto
                                    join empleado in db.tB_Empleados on usuarioTimesheet.NumEmpleadoRrHh equals empleado.NumEmpleadoRrHh
-                                   select new Empleado_Detalle
+                                   group new Empleado_Detalle
                                    {
                                        nunum_empleado_rr_hh = empleadoProyecto.NumEmpleadoRrHh
+                                   } by empleadoProyecto.NumEmpleadoRrHh into g
+                                   select new Empleado_Detalle
+                                   {
+                                       nunum_empleado_rr_hh = g.Key
                                    }).ToListAsync();
 
 
