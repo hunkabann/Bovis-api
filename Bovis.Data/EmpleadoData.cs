@@ -126,8 +126,8 @@ namespace Bovis.Data
                                                                               chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                                                               nunum_empleado = emp.NumEmpleado,
                                                                               dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
-                                                                              dtfecha_salida = emp.FechaSalida.ToString("yyyy-MM-dd"),
-                                                                              dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso.ToString("yyyy-MM-dd"),
+                                                                              dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
+                                                                              dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
                                                                               chnss = emp.Nss,
                                                                               chemail_bovis = emp.EmailBovis,
                                                                               chexperiencias = emp.Experiencias,
@@ -248,8 +248,8 @@ namespace Bovis.Data
                                      chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                      nunum_empleado = emp.NumEmpleado,
                                      dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
-                                     dtfecha_salida = emp.FechaSalida.ToString("yyyy-MM-dd"),
-                                     dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso.ToString("yyyy-MM-dd"),
+                                     dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
+                                     dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
                                      chnss = emp.Nss,
                                      chemail_bovis = emp.EmailBovis,
                                      chexperiencias = emp.Experiencias,
@@ -370,8 +370,8 @@ namespace Bovis.Data
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
             int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
-            DateTime fecha_salida = Convert.ToDateTime(registro["fecha_salida"].ToString());
-            DateTime fecha_ultimo_reingreso = Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString());
+            DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
+            DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
             string nss = registro["nss"].ToString();
             string email_bovis = registro["email_bovis"].ToString();
             string url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : string.Empty;
