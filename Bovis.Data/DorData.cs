@@ -120,13 +120,13 @@ namespace Bovis.Data
                                  OCT = a.OCT,
                                  NOV = a.NOV,
                                  DIC = a.DIC
-                             } by a.Descripcion into g
+                             } by new { a.Descripcion, a.Concepto } into g
                              select new Dor_ObjetivosGenerales
                              {
                                  Id = g.First().Id,
                                  UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                 Concepto = g.First().Concepto,
-                                 Descripcion = g.Key,
+                                 Concepto = g.Key.Concepto,
+                                 Descripcion = g.Key.Descripcion,
                                  Meta = g.First().Meta,
                                  PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
@@ -231,13 +231,13 @@ namespace Bovis.Data
                                  OCT = a.OCT,
                                  NOV = a.NOV,
                                  DIC = a.DIC
-                             } by a.Descripcion into g
+                             } by new { a.Descripcion, a.Concepto } into g
                              select new Dor_ObjetivosGenerales
                              {
                                  Id = g.First().Id,
                                  UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                 Concepto = g.First().Concepto,
-                                 Descripcion = g.Key,
+                                 Concepto = g.Key.Concepto,
+                                 Descripcion = g.Key.Descripcion,
                                  Meta = g.First().Meta,
                                  PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
