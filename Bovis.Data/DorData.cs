@@ -87,23 +87,378 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                //if (seccion == "Carga")
+                //{
+                //    res = await (from a in db.dOR_Objetivos_Gral
+                //                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                //                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                //                 join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
+                //                 from dItem in dJoin.DefaultIfEmpty()
+                //                 where a.UnidadDeNegocio == unidadNegocio
+                //                 && b.Nivel == nivel
+                //                 group new Dor_ObjetivosGenerales
+                //                 {
+                //                     Id = a.Id,
+                //                     UnidadDeNegocio = a.UnidadDeNegocio,
+                //                     Concepto = a.Concepto,
+                //                     Descripcion = a.Descripcion,
+                //                     Meta = a.Meta,
+                //                     PorcentajeEstimado = b.Valor,
+                //                     PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                //                     Ingreso = dItem != null ? dItem.Ingreso : 0,
+                //                     Gasto = dItem != null ? dItem.Gasto : 0,
+                //                     Nivel = b.Nivel,
+                //                     Valor = b.Valor,
+                //                     Tooltip = c.Tooltip,
+                //                     ENE = a.ENE,
+                //                     FEB = a.FEB,
+                //                     MAR = a.MAR,
+                //                     ABR = a.ABR,
+                //                     MAY = a.MAY,
+                //                     JUN = a.JUN,
+                //                     JUL = a.JUL,
+                //                     AGO = a.AGO,
+                //                     SEP = a.SEP,
+                //                     OCT = a.OCT,
+                //                     NOV = a.NOV,
+                //                     DIC = a.DIC
+                //                 } by a.Descripcion into g
+                //                 select new Dor_ObjetivosGenerales
+                //                 {
+                //                     Id = g.First().Id,
+                //                     UnidadDeNegocio = g.First().UnidadDeNegocio,
+                //                     Concepto = g.First().Concepto,
+                //                     Descripcion = g.Key,
+                //                     Meta = g.First().Meta,
+                //                     PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
+                //                     PorcentajeEstimado = g.First().PorcentajeEstimado,
+                //                     PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
+                //                     Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
+                //                     Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
+                //                     Nivel = g.First().Nivel,
+                //                     Valor = g.First().Valor,
+                //                     Tooltip = g.First().Tooltip,
+                //                     ENE = g.First().ENE,
+                //                     FEB = g.First().FEB,
+                //                     MAR = g.First().MAR,
+                //                     ABR = g.First().ABR,
+                //                     MAY = g.First().MAY,
+                //                     JUN = g.First().JUN,
+                //                     JUL = g.First().JUL,
+                //                     AGO = g.First().AGO,
+                //                     SEP = g.First().SEP,
+                //                     OCT = g.First().OCT,
+                //                     NOV = g.First().NOV,
+                //                     DIC = g.First().DIC,
+                //                     Real = mes == 0
+                //                         ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                //                         : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                //                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                //                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                //                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                //                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                //                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                //                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                //                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                //                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                //                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                //                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                //                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                //                         : 0
+                //                 }).ToListAsync();
+                //}
+                //else
+                //{
+                //    if (mes > 0)
+                //    {
+                //        res = await (from a in db.dOR_Objetivos_Gral
+                //                     join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                //                     join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                //                     join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
+                //                     from dItem in dJoin.DefaultIfEmpty()
+                //                     where a.UnidadDeNegocio == unidadNegocio
+                //                      && b.Nivel == nivel
+                //                     group new Dor_ObjetivosGenerales
+                //                     {
+                //                         Id = a.Id,
+                //                         UnidadDeNegocio = a.UnidadDeNegocio,
+                //                         Concepto = a.Concepto,
+                //                         Descripcion = a.Descripcion,
+                //                         Meta = a.Meta,
+                //                         PorcentajeEstimado = b.Valor,
+                //                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                //                         Ingreso = dItem != null ? dItem.Ingreso : 0,
+                //                         Gasto = dItem != null ? dItem.Gasto : 0,
+                //                         Nivel = b.Nivel,
+                //                         Valor = b.Valor,
+                //                         Tooltip = c.Tooltip,
+                //                         ENE = a.ENE,
+                //                         FEB = a.FEB,
+                //                         MAR = a.MAR,
+                //                         ABR = a.ABR,
+                //                         MAY = a.MAY,
+                //                         JUN = a.JUN,
+                //                         JUL = a.JUL,
+                //                         AGO = a.AGO,
+                //                         SEP = a.SEP,
+                //                         OCT = a.OCT,
+                //                         NOV = a.NOV,
+                //                         DIC = a.DIC
+                //                     } by a.Descripcion into g
+                //                     select new Dor_ObjetivosGenerales
+                //                     {
+                //                         Id = g.First().Id,
+                //                         UnidadDeNegocio = g.First().UnidadDeNegocio,
+                //                         Concepto = g.First().Concepto,
+                //                         Descripcion = g.Key,
+                //                         Meta = g.First().Meta,
+                //                         PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
+                //                         PorcentajeEstimado = g.First().PorcentajeEstimado,
+                //                         PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
+                //                         Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
+                //                         Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
+                //                         Nivel = g.First().Nivel,
+                //                         Valor = g.First().Valor,
+                //                         Tooltip = g.First().Tooltip,
+                //                         ENE = g.First().ENE,
+                //                         FEB = g.First().FEB,
+                //                         MAR = g.First().MAR,
+                //                         ABR = g.First().ABR,
+                //                         MAY = g.First().MAY,
+                //                         JUN = g.First().JUN,
+                //                         JUL = g.First().JUL,
+                //                         AGO = g.First().AGO,
+                //                         SEP = g.First().SEP,
+                //                         OCT = g.First().OCT,
+                //                         NOV = g.First().NOV,
+                //                         DIC = g.First().DIC,
+                //                         Real = mes == 0
+                //                             ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                //                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                //                                 : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                //                                 : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                //                                 : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                //                                 : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                //                                 : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                //                                 : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                //                                 : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                //                                 : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                //                                 : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                //                                 : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                //                                 : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                //                             : 0
+                //                     }).ToListAsync();
+                //    }
+                //    else
+                //    {
+
+                //        res = await (from a in db.dOR_Objetivos_Gral
+                //                     join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                //                     join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                //                     join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
+                //                     from dItem in dJoin.DefaultIfEmpty()
+                //                     where a.UnidadDeNegocio == unidadNegocio
+                //                     && b.Nivel == nivel
+                //                     group new Dor_ObjetivosGenerales
+                //                     {
+                //                         Id = a.Id,
+                //                         UnidadDeNegocio = a.UnidadDeNegocio,
+                //                         Concepto = a.Concepto,
+                //                         Descripcion = a.Descripcion,
+                //                         Meta = a.Meta,
+                //                         PorcentajeEstimado = b.Valor,
+                //                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                //                         Ingreso = dItem != null ? dItem.Ingreso : 0,
+                //                         Gasto = dItem != null ? dItem.Gasto : 0,
+                //                         Nivel = b.Nivel,
+                //                         Valor = b.Valor,
+                //                         Tooltip = c.Tooltip,
+                //                         ENE = a.ENE,
+                //                         FEB = a.FEB,
+                //                         MAR = a.MAR,
+                //                         ABR = a.ABR,
+                //                         MAY = a.MAY,
+                //                         JUN = a.JUN,
+                //                         JUL = a.JUL,
+                //                         AGO = a.AGO,
+                //                         SEP = a.SEP,
+                //                         OCT = a.OCT,
+                //                         NOV = a.NOV,
+                //                         DIC = a.DIC
+                //                     } by a.Descripcion into g
+                //                     select new Dor_ObjetivosGenerales
+                //                     {
+                //                         Id = g.First().Id,
+                //                         UnidadDeNegocio = g.First().UnidadDeNegocio,
+                //                         Concepto = g.First().Concepto,
+                //                         Descripcion = g.Key,
+                //                         Meta = g.First().Meta,
+                //                         PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
+                //                         PorcentajeEstimado = g.First().PorcentajeEstimado,
+                //                         PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
+                //                         Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
+                //                         Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
+                //                         Nivel = g.First().Nivel,
+                //                         Valor = g.First().Valor,
+                //                         Tooltip = g.First().Tooltip,
+                //                         ENE = g.First().ENE,
+                //                         FEB = g.First().FEB,
+                //                         MAR = g.First().MAR,
+                //                         ABR = g.First().ABR,
+                //                         MAY = g.First().MAY,
+                //                         JUN = g.First().JUN,
+                //                         JUL = g.First().JUL,
+                //                         AGO = g.First().AGO,
+                //                         SEP = g.First().SEP,
+                //                         OCT = g.First().OCT,
+                //                         NOV = g.First().NOV,
+                //                         DIC = g.First().DIC,
+                //                         Real = mes == 0
+                //                             ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                //                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                //                                 : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                //                                 : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                //                                 : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                //                                 : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                //                                 : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                //                                 : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                //                                 : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                //                                 : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                //                                 : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                //                                 : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                //                                 : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                //                             : 0
+                //                     }).ToListAsync();
+                //    }
+                //}
+
+                res = await (from a in db.dOR_Objetivos_Gral
+                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                             join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
+                             from dItem in dJoin.DefaultIfEmpty()
+                             where a.UnidadDeNegocio == unidadNegocio
+                             && b.Nivel == nivel
+                             group new Dor_ObjetivosGenerales
+                             {
+                                 Id = a.Id,
+                                 UnidadDeNegocio = a.UnidadDeNegocio,
+                                 Concepto = a.Concepto,
+                                 Descripcion = a.Descripcion,
+                                 Meta = a.Meta,
+                                 PorcentajeEstimado = b.Valor,
+                                 PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                 Ingreso = dItem != null ? dItem.Ingreso : 0,
+                                 Gasto = dItem != null ? dItem.Gasto : 0,
+                                 Nivel = b.Nivel,
+                                 Valor = b.Valor,
+                                 Tooltip = c.Tooltip,
+                                 ENE = a.ENE,
+                                 FEB = a.FEB,
+                                 MAR = a.MAR,
+                                 ABR = a.ABR,
+                                 MAY = a.MAY,
+                                 JUN = a.JUN,
+                                 JUL = a.JUL,
+                                 AGO = a.AGO,
+                                 SEP = a.SEP,
+                                 OCT = a.OCT,
+                                 NOV = a.NOV,
+                                 DIC = a.DIC
+                             } by a.Descripcion into g
+                             select new Dor_ObjetivosGenerales
+                             {
+                                 Id = g.First().Id,
+                                 UnidadDeNegocio = g.First().UnidadDeNegocio,
+                                 Concepto = g.First().Concepto,
+                                 Descripcion = g.Key,
+                                 Meta = g.First().Meta,
+                                 PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
+                                 PorcentajeEstimado = g.First().PorcentajeEstimado,
+                                 PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
+                                 Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
+                                 Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
+                                 Nivel = g.First().Nivel,
+                                 Valor = g.First().Valor,
+                                 Tooltip = g.First().Tooltip,
+                                 ENE = g.First().ENE,
+                                 FEB = g.First().FEB,
+                                 MAR = g.First().MAR,
+                                 ABR = g.First().ABR,
+                                 MAY = g.First().MAY,
+                                 JUN = g.First().JUN,
+                                 JUL = g.First().JUL,
+                                 AGO = g.First().AGO,
+                                 SEP = g.First().SEP,
+                                 OCT = g.First().OCT,
+                                 NOV = g.First().NOV,
+                                 DIC = g.First().DIC,
+                                 Real = mes == 0
+                                     ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                     : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                                         : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                                         : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                                         : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                                         : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                                         : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                                         : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                                         : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                                         : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                                         : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                                         : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                                         : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                     : 0
+                             }).ToListAsync();
+
+                return res;
+            }
+        }
+
+        public async Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = await (from a in db.dOR_Gpm_Proyecto
+                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                                 where a.Proyecto == proyecto
+                                 select new Dor_ObjetivosGenerales
+                                 {
+                                     Id = a.Id,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Concepto = a.Concepto,
+                                     Descripcion = a.Descripcion,
+                                     Meta = a.Meta,
+                                     Nivel = null,
+                                     Valor = null,
+                                     Tooltip = c.Tooltip
+                                 }).ToListAsync();
+
+                return res;
+            }
+        }
+
+        public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
+        {
+            List<Dor_ObjetivosGenerales> res = null;
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
                 if (seccion == "Carga")
                 {
-                    res = await (from a in db.dOR_Objetivos_Gral
+                    res = await (from a in db.dOR_Meta_Proyecto
                                  join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
                                  join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
                                  join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
                                  from dItem in dJoin.DefaultIfEmpty()
-                                 where a.UnidadDeNegocio == unidadNegocio
-                                 && b.Nivel == nivel
+                                 where a.NoProyecto == proyecto
+                                 && b.Nivel == nivel.ToString().Trim()
                                  group new Dor_ObjetivosGenerales
                                  {
                                      Id = a.Id,
                                      UnidadDeNegocio = a.UnidadDeNegocio,
                                      Concepto = a.Concepto,
                                      Descripcion = a.Descripcion,
-                                     Meta = a.Meta.ToString().Trim(),
-                                     Real = a.Real != null ? a.Real.ToString() : "0",
+                                     Meta = a.Meta,
                                      PorcentajeEstimado = b.Valor,
                                      PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
                                      Ingreso = dItem != null ? dItem.Ingreso : 0,
@@ -131,12 +486,11 @@ namespace Bovis.Data
                                      Concepto = g.First().Concepto,
                                      Descripcion = g.Key,
                                      Meta = g.First().Meta,
-                                     Real = g.First().Real,
                                      PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                      PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                     PorcentajeReal = g.First().PorcentajeReal,
-                                     Ingreso = g.First().Ingreso,
-                                     Gasto = g.First().Gasto,
+                                     PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
+                                     Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
+                                     Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
                                      Nivel = g.First().Nivel,
                                      Valor = g.First().Valor,
                                      Tooltip = g.First().Tooltip,
@@ -152,120 +506,34 @@ namespace Bovis.Data
                                      OCT = g.First().OCT,
                                      NOV = g.First().NOV,
                                      DIC = g.First().DIC,
-                                     ValorMes = mes == 0
-                                             ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
-                                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE))
-                                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB))
-                                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR))
-                                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR))
-                                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY))
-                                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN))
-                                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL))
-                                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO))
-                                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP))
-                                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT))
-                                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV))
-                                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC))
-                                             : 0
+                                     Real = mes == 0
+                                         ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                         : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                         : 0
                                  }).ToListAsync();
                 }
                 else
                 {
                     if (mes > 0)
                     {
-                        res = await (from a in db.dOR_Objetivos_Gral
+                        res = await (from a in db.dOR_Meta_Proyecto
                                      join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
                                      join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
                                      join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
                                      from dItem in dJoin.DefaultIfEmpty()
-                                     where a.UnidadDeNegocio == unidadNegocio
-                                      && b.Nivel == nivel
-                                     group new Dor_ObjetivosGenerales
-                                     {
-                                         Id = a.Id,
-                                         UnidadDeNegocio = a.UnidadDeNegocio,
-                                         Concepto = a.Concepto,
-                                         Descripcion = a.Descripcion,
-                                         Meta = a.Meta.ToString().Trim(),
-                                         Real = a.Real != null ? a.Real.ToString() : "0",
-                                         PorcentajeEstimado = b.Valor,
-                                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                         Ingreso = dItem != null ? dItem.Ingreso : 0,
-                                         Gasto = dItem != null ? dItem.Gasto : 0,
-                                         Nivel = b.Nivel,
-                                         Valor = b.Valor,
-                                         Tooltip = c.Tooltip,
-                                         ENE = a.ENE,
-                                         FEB = a.FEB,
-                                         MAR = a.MAR,
-                                         ABR = a.ABR,
-                                         MAY = a.MAY,
-                                         JUN = a.JUN,
-                                         JUL = a.JUL,
-                                         AGO = a.AGO,
-                                         SEP = a.SEP,
-                                         OCT = a.OCT,
-                                         NOV = a.NOV,
-                                         DIC = a.DIC
-                                     } by a.Descripcion into g
-                                     select new Dor_ObjetivosGenerales
-                                     {
-                                         Id = g.First().Id,
-                                         UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                         Concepto = g.First().Concepto,
-                                         Descripcion = g.Key,
-                                         Meta = g.First().Meta,
-                                         Real = g.First().Real,
-                                         PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
-                                         PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                         PorcentajeReal = g.First().PorcentajeReal,
-                                         Ingreso = g.First().Ingreso,
-                                         Gasto = g.First().Gasto,
-                                         Nivel = g.First().Nivel,
-                                         Valor = g.First().Valor,
-                                         Tooltip = g.First().Tooltip,
-                                         ENE = g.First().ENE,
-                                         FEB = g.First().FEB,
-                                         MAR = g.First().MAR,
-                                         ABR = g.First().ABR,
-                                         MAY = g.First().MAY,
-                                         JUN = g.First().JUN,
-                                         JUL = g.First().JUL,
-                                         AGO = g.First().AGO,
-                                         SEP = g.First().SEP,
-                                         OCT = g.First().OCT,
-                                         NOV = g.First().NOV,
-                                         DIC = g.First().DIC,
-                                         ValorMes = mes == 0
-                                             ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
-                                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE))
-                                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB))
-                                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR))
-                                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR))
-                                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY))
-                                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN))
-                                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL))
-                                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO))
-                                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP))
-                                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT))
-                                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV))
-                                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC))
-                                             : 0
-                                     }).ToListAsync();
-                    }
-                    else
-                    {
-                        int currentMonth = DateTime.Now.Month;
-                        int targetMonth = currentMonth == 1 ? 1 : currentMonth - 1;
-
-                        res = await (from a in db.dOR_Objetivos_Gral
-                                     join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                                     join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                                     join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
-                                     from dItem in dJoin.DefaultIfEmpty()
-                                     where a.UnidadDeNegocio == unidadNegocio
-                                     && b.Nivel == nivel
-                                     //&& ((currentMonth == 1 && a.Mes == targetMonth) || (currentMonth > 1 && a.Mes >= 1 && a.Mes <= targetMonth))
+                                     where a.NoProyecto == proyecto
+                                     && b.Nivel == nivel.ToString().Trim()
                                      group new Dor_ObjetivosGenerales
                                      {
                                          Id = a.Id,
@@ -273,7 +541,6 @@ namespace Bovis.Data
                                          Concepto = a.Concepto,
                                          Descripcion = a.Descripcion,
                                          Meta = a.Meta,
-                                         Real = a.Real != null ? a.Real.ToString() : "0",
                                          PorcentajeEstimado = b.Valor,
                                          PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
                                          Ingreso = dItem != null ? dItem.Ingreso : 0,
@@ -301,7 +568,6 @@ namespace Bovis.Data
                                          Concepto = g.First().Concepto,
                                          Descripcion = g.Key,
                                          Meta = g.First().Meta,
-                                         Real = g.Sum(x => Convert.ToDecimal(x.Real)).ToString(),
                                          PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                          PorcentajeEstimado = g.First().PorcentajeEstimado,
                                          PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
@@ -322,174 +588,25 @@ namespace Bovis.Data
                                          OCT = g.First().OCT,
                                          NOV = g.First().NOV,
                                          DIC = g.First().DIC,
-                                         ValorMes = mes == 0
+                                         Real = mes == 0
                                              ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
-                                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE))
-                                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB))
-                                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR))
-                                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR))
-                                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY))
-                                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN))
-                                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL))
-                                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO))
-                                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP))
-                                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT))
-                                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV))
-                                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC))
+                                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
                                              : 0
-                                     }).ToListAsync();
-                    }
-                }
-
-                //var res = await (from a in db.dOR_Objetivos_Gral
-                //                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                //                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                //                 where a.UnidadDeNegocio == unidadNegocio
-                //                 && b.Nivel == nivel
-                //                 && (mes == 0 || a.Mes == mes)
-                //                 select new Dor_ObjetivosGenerales
-                //                 {
-                //                     Id = a.Id,
-                //                     UnidadDeNegocio = a.UnidadDeNegocio,
-                //                     Concepto = a.Concepto,
-                //                     Descripcion = a.Descripcion,
-                //                     Meta = a.Meta,
-                //                     Real = a.Real != null ? a.Real : "0",
-                //                     PorcentajeEstimado = b.Valor,
-                //                     PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                //                     Nivel = b.Nivel,
-                //                     Valor = b.Valor,
-                //                     Tooltip = c.Tooltip
-                //                 }).ToListAsync();
-
-                return res;
-            }
-        }
-
-        public async Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto)
-        {
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var res = await (from a in db.dOR_Gpm_Proyecto
-                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                                 where a.Proyecto == proyecto
-                                 select new Dor_ObjetivosGenerales
-                                 {
-                                     Id = a.Id,
-                                     UnidadDeNegocio = a.UnidadDeNegocio,
-                                     Concepto = a.Concepto,
-                                     Descripcion = a.Descripcion,
-                                     Meta = a.Meta.ToString().Trim(),
-                                     Nivel = null,
-                                     Valor = null,
-                                     Tooltip = c.Tooltip
-                                 }).ToListAsync();
-
-                return res;
-            }
-        }
-
-        public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
-        {
-            List<Dor_ObjetivosGenerales> res = null;
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                if (seccion == "Carga")
-                {
-                    res = await (from a in db.dOR_Meta_Proyecto
-                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                                 join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
-                                 from dItem in dJoin.DefaultIfEmpty()
-                                 where a.NoProyecto == proyecto
-                                 && b.Nivel == nivel.ToString().Trim()
-                                 && (mes == 0 || a.Mes == mes)
-                                 group new Dor_ObjetivosGenerales
-                                 {
-                                     Id = a.Id,
-                                     UnidadDeNegocio = a.UnidadDeNegocio,
-                                     Concepto = a.Concepto,
-                                     Descripcion = a.Descripcion,
-                                     Meta = a.Meta.ToString().Trim(),
-                                     Real = a.Real != null ? a.Real : "0",
-                                     PorcentajeEstimado = b.Valor,
-                                     PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                     Ingreso = dItem != null ? dItem.Ingreso : 0,
-                                     Gasto = dItem != null ? dItem.Gasto : 0,
-                                     Nivel = b.Nivel,
-                                     Valor = b.Valor,
-                                     Tooltip = c.Tooltip
-                                 } by a.Descripcion into g
-                                 select new Dor_ObjetivosGenerales
-                                 {
-                                     Id = g.First().Id,
-                                     UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                     Concepto = g.First().Concepto,
-                                     Descripcion = g.Key,
-                                     Meta = g.First().Meta,
-                                     Real = g.First().Real,
-                                     PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
-                                     PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                     PorcentajeReal = g.First().PorcentajeReal,
-                                     Ingreso = g.First().Ingreso,
-                                     Gasto = g.First().Gasto,
-                                     Nivel = g.First().Nivel,
-                                     Valor = g.First().Valor,
-                                     Tooltip = g.First().Tooltip
-                                 }).ToListAsync();
-                }
-                else
-                {
-                    if (mes > 0)
-                    {
-                        res = await (from a in db.dOR_Meta_Proyecto
-                                     join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
-                                     join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
-                                     join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Mes, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Mes, d.Año } into dJoin
-                                     from dItem in dJoin.DefaultIfEmpty()
-                                     where a.NoProyecto == proyecto
-                                     && b.Nivel == nivel.ToString().Trim()
-                                     && a.Mes == mes
-                                     group new Dor_ObjetivosGenerales
-                                     {
-                                         Id = a.Id,
-                                         UnidadDeNegocio = a.UnidadDeNegocio,
-                                         Concepto = a.Concepto,
-                                         Descripcion = a.Descripcion,
-                                         Meta = a.Meta.ToString().Trim(),
-                                         Real = a.Real != null ? a.Real : "0",
-                                         PorcentajeEstimado = b.Valor,
-                                         PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                         Ingreso = dItem != null ? dItem.Ingreso : 0,
-                                         Gasto = dItem != null ? dItem.Gasto : 0,
-                                         Nivel = b.Nivel,
-                                         Valor = b.Valor,
-                                         Tooltip = c.Tooltip
-                                     } by a.Descripcion into g
-                                     select new Dor_ObjetivosGenerales
-                                     {
-                                         Id = g.First().Id,
-                                         UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                         Concepto = g.First().Concepto,
-                                         Descripcion = g.Key,
-                                         Meta = g.First().Meta,
-                                         Real = g.Sum(x => Convert.ToDecimal(x.Real)).ToString(),
-                                         PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
-                                         PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                         PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
-                                         Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
-                                         Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
-                                         Nivel = g.First().Nivel,
-                                         Valor = g.First().Valor,
-                                         Tooltip = g.First().Tooltip
                                      }).ToListAsync();
                     }
                     else
                     {
-                        int currentMonth = DateTime.Now.Month;
-                        int targetMonth = currentMonth == 1 ? 1 : currentMonth - 1;
-
                         res = await (from a in db.dOR_Meta_Proyecto
                                      join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
                                      join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
@@ -497,22 +614,32 @@ namespace Bovis.Data
                                      from dItem in dJoin.DefaultIfEmpty()
                                      where a.NoProyecto == proyecto
                                      && b.Nivel == nivel.ToString().Trim()
-                                     && ((currentMonth == 1 && a.Mes == targetMonth) || (currentMonth > 1 && a.Mes >= 1 && a.Mes <= targetMonth))
                                      group new Dor_ObjetivosGenerales
                                      {
                                          Id = a.Id,
                                          UnidadDeNegocio = a.UnidadDeNegocio,
                                          Concepto = a.Concepto,
                                          Descripcion = a.Descripcion,
-                                         Meta = a.Meta.ToString().Trim(),
-                                         Real = a.Real != null ? a.Real : "0",
+                                         Meta = a.Meta,
                                          PorcentajeEstimado = b.Valor,
                                          PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
                                          Ingreso = dItem != null ? dItem.Ingreso : 0,
                                          Gasto = dItem != null ? dItem.Gasto : 0,
                                          Nivel = b.Nivel,
                                          Valor = b.Valor,
-                                         Tooltip = c.Tooltip
+                                         Tooltip = c.Tooltip,
+                                         ENE = a.ENE,
+                                         FEB = a.FEB,
+                                         MAR = a.MAR,
+                                         ABR = a.ABR,
+                                         MAY = a.MAY,
+                                         JUN = a.JUN,
+                                         JUL = a.JUL,
+                                         AGO = a.AGO,
+                                         SEP = a.SEP,
+                                         OCT = a.OCT,
+                                         NOV = a.NOV,
+                                         DIC = a.DIC
                                      } by a.Descripcion into g
                                      select new Dor_ObjetivosGenerales
                                      {
@@ -521,7 +648,6 @@ namespace Bovis.Data
                                          Concepto = g.First().Concepto,
                                          Descripcion = g.Key,
                                          Meta = g.First().Meta,
-                                         Real = g.Sum(x => Convert.ToDecimal(x.Real)).ToString(),
                                          PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                          PorcentajeEstimado = g.First().PorcentajeEstimado,
                                          PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
@@ -529,7 +655,34 @@ namespace Bovis.Data
                                          Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
                                          Nivel = g.First().Nivel,
                                          Valor = g.First().Valor,
-                                         Tooltip = g.First().Tooltip
+                                         Tooltip = g.First().Tooltip,
+                                         ENE = g.First().ENE,
+                                         FEB = g.First().FEB,
+                                         MAR = g.First().MAR,
+                                         ABR = g.First().ABR,
+                                         MAY = g.First().MAY,
+                                         JUN = g.First().JUN,
+                                         JUL = g.First().JUL,
+                                         AGO = g.First().AGO,
+                                         SEP = g.First().SEP,
+                                         OCT = g.First().OCT,
+                                         NOV = g.First().NOV,
+                                         DIC = g.First().DIC,
+                                         Real = mes == 0
+                                             ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                             : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
+                                             : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
+                                             : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
+                                             : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ABR.GetValueOrDefault()))
+                                             : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.MAY.GetValueOrDefault()))
+                                             : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.JUN.GetValueOrDefault()))
+                                             : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.JUL.GetValueOrDefault()))
+                                             : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.AGO.GetValueOrDefault()))
+                                             : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.SEP.GetValueOrDefault()))
+                                             : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.OCT.GetValueOrDefault()))
+                                             : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.NOV.GetValueOrDefault()))
+                                             : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                             : 0
                                      }).ToListAsync();
                     }
                 }

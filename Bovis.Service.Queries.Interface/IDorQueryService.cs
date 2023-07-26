@@ -1,4 +1,5 @@
 ﻿using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Responses;
 
 namespace Bovis.Service.Queries.Interface
@@ -8,10 +9,10 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<DorEmpleadoCorreo>> GetDorEjecutivoCorreo(string email);
         Task<Response<DorSubordinado>> GetDorEmpleadoCorreo(string email);
         Task<Response<List<DorSubordinado>>> GetDorListaSubordinados(string name);
-        Task<Response<List<DorObjetivoGeneral>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion);
+        Task<Response<List<Dor_ObjetivosGenerales>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion);
         //Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, string concepto, int? empleado);
         Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes);
         Task<Response<List<DorObjetivoGeneral>>> GetDorGpmProyecto(int proyecto);
-        Task<Response<List<DorObjetivoGeneral>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion);
+        Task<Response<List<Dor_ObjetivosGenerales>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion);
     }
 }

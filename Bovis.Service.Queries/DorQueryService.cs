@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bovis.Business.Interface;
 using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 
@@ -16,6 +17,12 @@ namespace Bovis.Service.Queries
         {
             this._map = _map;
             this._dorBusiness = _dorBusiness;
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            GC.Collect();
         }
 
         public async Task<Response<DorEmpleadoCorreo>> GetDorEjecutivoCorreo(string email)
@@ -35,20 +42,20 @@ namespace Bovis.Service.Queries
             var response = await _dorBusiness.GetDorListaSubordinados(name);
             return new Response<List<DorSubordinado>> { Data = _map.Map<List<DorSubordinado>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el usuario solicitado." : default };
         }
-        public async Task<Response<List<DorObjetivoGeneral>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
+        public async Task<Response<List<Dor_ObjetivosGenerales>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
         {
             var response = await _dorBusiness.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, seccion);
-            return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el nivel solicitado." : default };
+            return new Response<List<Dor_ObjetivosGenerales>> { Data = _map.Map<List<Dor_ObjetivosGenerales>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el nivel solicitado." : default };
         }
         public async Task<Response<List<DorObjetivoGeneral>>> GetDorGpmProyecto(int proyecto)
         {
             var response = await _dorBusiness.GetDorGpmProyecto(proyecto);
             return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el proyecto solicitado." : default };
         }
-        public async Task<Response<List<DorObjetivoGeneral>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
+        public async Task<Response<List<Dor_ObjetivosGenerales>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
         {
             var response = await _dorBusiness.GetDorMetasProyecto(proyecto, nivel, mes, seccion);
-            return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el proyecto solicitado." : default };
+            return new Response<List<Dor_ObjetivosGenerales>> { Data = _map.Map<List<Dor_ObjetivosGenerales>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el proyecto solicitado." : default };
         }
 
         public async Task<Response<List<DorObjetivoDesepeno>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes)
@@ -62,11 +69,6 @@ namespace Bovis.Service.Queries
         //	var response = await _dorBusiness.GetDorObjetivosDesepeno(anio, proyecto, concepto, empleado);
         //	return new Response<List<DorObjetivoDesepeno>> { Data = _map.Map<List<DorObjetivoDesepeno>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información para el usuario solicitado." : default };
         //}
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-            GC.Collect();
-        }
+        
     }
 }

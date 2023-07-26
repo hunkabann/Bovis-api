@@ -16,8 +16,8 @@ namespace Bovis.Common.Model.Tables
         [Column("Concepto"), NotNull] public string Concepto { get; set; }
         [Column("Descripcicion"), Nullable] public string? Descripcion { get; set; }
         [Column("NoProyecto"), Nullable] public int Proyecto { get; set; }
-        [Column("GPM"), Nullable] public Decimal Meta { get; set; }
-        [Column("Gasto"), Nullable] public Decimal Gasto { get; set; }
+        [Column("GPM"), Nullable] public decimal Meta { get; set; }
+        [Column("Gasto"), Nullable] public decimal Gasto { get; set; }
     }
 }
 

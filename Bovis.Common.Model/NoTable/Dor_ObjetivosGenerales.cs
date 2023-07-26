@@ -12,8 +12,8 @@ namespace Bovis.Common.Model.NoTable
         public string? UnidadDeNegocio { get; set; }
         public string? Concepto { get; set; }
         public string? Descripcion { get; set; }
-        public string? Meta { get; set; }
-        public string? Real { get; set; }
+        public decimal? Meta { get; set; }
+        public decimal? Real { get; set; }
         public string? PromedioReal { get; set; }
         public string? PorcentajeEstimado { get; set; }
         public string? PorcentajeReal { get; set; }
@@ -33,7 +33,6 @@ namespace Bovis.Common.Model.NoTable
         public decimal? SEP { get; set; }
         public decimal? OCT { get; set; }
         public decimal? NOV { get; set; }
-        public decimal? DIC { get; set; }
-        public decimal? ValorMes { get; set; }
+        public decimal? DIC { get; set; } 
     }
 }
