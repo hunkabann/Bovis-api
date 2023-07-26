@@ -46,7 +46,7 @@ namespace Bovis.Service.Queries
 		public async Task<Response<List<FacturaDetalles>>> Search(ConsultarFactura request)
 		{
 			var response = await _facturaBusiness.Search(request.IdProyecto, request.IdCliente, request.IdEmpresa, request.FechaIni, request.FechaFin);
-			return new Response<List<FacturaDetalles>> { Data = _map.Map<List<FacturaDetalles>>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se encontró información con los parametros especificados." : default };
+			return new Response<List<FacturaDetalles>> { Data = _map.Map<List<FacturaDetalles>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información con los parametros especificados." : default };
 		}
 
         public async Task<Response<(bool existe, string mensaje)>> CancelNota(JsonObject registro)
