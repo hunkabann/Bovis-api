@@ -38,6 +38,19 @@ namespace Bovis.Service.Queries.Dto.Responses
         public string? Nivel { get; set; }
         public string? Valor { get; set; }
         public string? Tooltip { get; set; }
+        public decimal? ENE { get; set; }
+        public decimal? FEB { get; set; }
+        public decimal? MAR { get; set; }
+        public decimal? ABR { get; set; }
+        public decimal? MAY { get; set; }
+        public decimal? JUN { get; set; }
+        public decimal? JUL { get; set; }
+        public decimal? AGO { get; set; }
+        public decimal? SEP { get; set; }
+        public decimal? OCT { get; set; }
+        public decimal? NOV { get; set; }
+        public decimal? DIC { get; set; }
+        public decimal? ValorMes { get; set; }
     }
 
     public class DorObjetivoDesepeno

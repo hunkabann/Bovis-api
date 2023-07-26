@@ -320,7 +320,20 @@ public class MappingsProfile : Profile
             .ForMember(c => c.Gasto, dto => dto.MapFrom(src => src.Gasto))
             .ForMember(c => c.Nivel, dto => dto.MapFrom(src => src.Nivel))
             .ForMember(c => c.Valor, dto => dto.MapFrom(src => src.Valor))
-            .ForMember(c => c.Tooltip, dto => dto.MapFrom(src => src.Tooltip));
+            .ForMember(c => c.Tooltip, dto => dto.MapFrom(src => src.Tooltip))
+            .ForMember(c => c.ENE, dto => dto.MapFrom(src => src.ENE))
+            .ForMember(c => c.FEB, dto => dto.MapFrom(src => src.FEB))
+            .ForMember(c => c.MAR, dto => dto.MapFrom(src => src.MAR))
+            .ForMember(c => c.ABR, dto => dto.MapFrom(src => src.ABR))
+            .ForMember(c => c.MAY, dto => dto.MapFrom(src => src.MAY))
+            .ForMember(c => c.JUN, dto => dto.MapFrom(src => src.JUN))
+            .ForMember(c => c.JUL, dto => dto.MapFrom(src => src.JUL))
+            .ForMember(c => c.AGO, dto => dto.MapFrom(src => src.AGO))
+            .ForMember(c => c.SEP, dto => dto.MapFrom(src => src.SEP))
+            .ForMember(c => c.OCT, dto => dto.MapFrom(src => src.OCT))
+            .ForMember(c => c.NOV, dto => dto.MapFrom(src => src.NOV))
+            .ForMember(c => c.DIC, dto => dto.MapFrom(src => src.DIC))
+            .ForMember(c => c.ValorMes, dto => dto.MapFrom(src => src.ValorMes));
 
         CreateMap<Dor_ObjetivosEmpleado, DorObjetivoDesepeno>()
            .ForMember(c => c.IdEmpOb, dto => dto.MapFrom(src => src.IdEmpOb))
