@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "E48Xj6++VwojP5LGuRP43kLbAxzKkcKjNNRhA+bgSpFWO1xeRUjKW+HGu7FQD86mIBWwjx1K6b/BL2bLQoQKSw==",
+  "dgSpecHash": "UCO4njIUrsrcVDGjA8vp+yJMn8xzanzcjyomVy9UFuIgcowNGWh8xxlOCHyFxuA7tZQhB32VwIl5gLZb+GhM5A==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj",
+  "projectFilePath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries.Interface/Bovis.Service.Queries.Interface.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512"
+    "/Users/liveproductionsdj/.nuget/packages/linq2db/4.4.0/linq2db.4.4.0.nupkg.sha512",
+    "/Users/liveproductionsdj/.nuget/packages/mediatr/11.1.0/mediatr.11.1.0.nupkg.sha512",
+    "/Users/liveproductionsdj/.nuget/packages/mediatr.contracts/1.0.1/mediatr.contracts.1.0.1.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,240 +1,360 @@
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.Development.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\important-logs.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.exe
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.deps.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.runtimeconfig.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\AutoMapper.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Core.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Identity.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Security.KeyVault.Certificates.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Security.KeyVault.Secrets.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\linq2db.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\MediatR.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\MediatR.Contracts.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.AzureAD.UI.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.Certificate.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.Certificateless.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.TokenCache.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.LoggingExtensions.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Validators.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Newtonsoft.Json.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.AspNetCore.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Formatting.Compact.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Settings.Configuration.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Sinks.Console.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Sinks.Debug.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Sinks.File.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Drawing.Common.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Memory.Data.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Runtime.Caching.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.Xml.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Permissions.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Windows.Extensions.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.Interface.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Mapper.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Model.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.Interface.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.EventHandlers.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Interface.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.Interface.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.EventHandlers.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Model.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.Interface.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.AssemblyReference.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfoInputs.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfo.cs
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CoreCompileInputs.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cs
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssets.props
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.build.Bovis.API.props
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Bovis.API.props
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Bovis.API.props
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.pack.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.build.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.development.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\scopedcss\bundle\Bovis.API.styles.css
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CopyComplete
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\refint\Bovis.API.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.genruntimeconfig.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\ref\Bovis.API.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.Development.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\important-logs.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.exe
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.deps.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.runtimeconfig.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\AutoMapper.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Core.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Identity.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Security.KeyVault.Certificates.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Azure.Security.KeyVault.Secrets.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\linq2db.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\MediatR.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\MediatR.Contracts.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.AzureAD.UI.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Client.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.Certificate.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.Certificateless.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Identity.Web.TokenCache.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.LoggingExtensions.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.IdentityModel.Validators.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Newtonsoft.Json.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.AspNetCore.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Formatting.Compact.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Settings.Configuration.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Sinks.Console.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Sinks.Debug.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Serilog.Sinks.File.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Drawing.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Memory.Data.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Runtime.Caching.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.Xml.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Permissions.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Windows.Extensions.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.Pkcs.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.Interface.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Mapper.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Model.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.Interface.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.EventHandlers.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Interface.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.Interface.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.EventHandlers.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Model.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Service.Queries.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.Interface.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.AssemblyReference.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfoInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfo.cs
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cs
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssets.props
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.build.Bovis.API.props
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Bovis.API.props
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Bovis.API.props
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.pack.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.build.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.development.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\scopedcss\bundle\Bovis.API.styles.css
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CopyComplete
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\refint\Bovis.API.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.genruntimeconfig.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\ref\Bovis.API.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/appsettings.Development.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/appsettings.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/important-logs.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.exe
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.deps.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.runtimeconfig.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/AutoMapper.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Core.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Identity.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Security.KeyVault.Certificates.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Security.KeyVault.Secrets.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/linq2db.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.Contracts.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.Extensions.Microsoft.DependencyInjection.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.AzureAD.UI.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Bcl.AsyncInterfaces.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Data.SqlClient.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Extensions.DependencyModel.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Client.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Client.Extensions.Msal.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.Certificate.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.Certificateless.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.TokenCache.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.LoggingExtensions.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Validators.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.OpenApi.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.SqlServer.Server.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Win32.SystemEvents.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Newtonsoft.Json.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.AspNetCore.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Extensions.Hosting.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Extensions.Logging.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Formatting.Compact.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Settings.Configuration.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.Console.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.Debug.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.File.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Configuration.ConfigurationManager.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Drawing.Common.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Memory.Data.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Runtime.Caching.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.Pkcs.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.ProtectedData.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.Xml.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Permissions.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Windows.Extensions.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.Pkcs.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.Interface.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Mapper.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Model.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.Interface.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.EventHandlers.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Interface.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.Interface.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Model.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Interface.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.Interface.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Mapper.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.AssemblyReference.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.AssemblyInfoInputs.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.AssemblyInfo.cs
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CoreCompileInputs.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.MvcApplicationPartsAssemblyInfo.cs
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.MvcApplicationPartsAssemblyInfo.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssets.props
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.build.Bovis.API.props
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.buildMultiTargeting.Bovis.API.props
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.buildTransitive.Bovis.API.props
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.pack.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.build.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.development.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/scopedcss/bundle/Bovis.API.styles.css
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CopyComplete
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/refint/Bovis.API.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.genruntimeconfig.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/ref/Bovis.API.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/appsettings.Development.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/appsettings.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/important-logs.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.exe
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.deps.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.runtimeconfig.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/AutoMapper.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Core.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Identity.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Security.KeyVault.Certificates.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Security.KeyVault.Secrets.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/linq2db.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.Contracts.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.Extensions.Microsoft.DependencyInjection.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.AzureAD.UI.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Bcl.AsyncInterfaces.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Data.SqlClient.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Extensions.DependencyModel.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Client.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Client.Extensions.Msal.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.Certificate.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.Certificateless.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.TokenCache.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.LoggingExtensions.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Validators.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.OpenApi.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.SqlServer.Server.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Win32.SystemEvents.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Newtonsoft.Json.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.AspNetCore.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Extensions.Hosting.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Extensions.Logging.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Formatting.Compact.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Settings.Configuration.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.Console.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.Debug.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.File.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Configuration.ConfigurationManager.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Drawing.Common.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Memory.Data.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Runtime.Caching.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.Pkcs.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.ProtectedData.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.Xml.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Permissions.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Windows.Extensions.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.Pkcs.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.Interface.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Mapper.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Model.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.Interface.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.EventHandlers.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Interface.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.Interface.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Model.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Interface.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.Interface.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Mapper.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.AssemblyReference.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.AssemblyInfoInputs.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.AssemblyInfo.cs
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CoreCompileInputs.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.MvcApplicationPartsAssemblyInfo.cs
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.MvcApplicationPartsAssemblyInfo.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssets.props
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.build.Bovis.API.props
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.buildMultiTargeting.Bovis.API.props
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.buildTransitive.Bovis.API.props
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.pack.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.build.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.development.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/scopedcss/bundle/Bovis.API.styles.css
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CopyComplete
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/refint/Bovis.API.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.genruntimeconfig.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/ref/Bovis.API.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/appsettings.Development.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/appsettings.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/important-logs.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.deps.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.runtimeconfig.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.API.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/AutoMapper.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Core.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Identity.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Security.KeyVault.Certificates.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Azure.Security.KeyVault.Secrets.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/linq2db.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.Contracts.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/MediatR.Extensions.Microsoft.DependencyInjection.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.AzureAD.UI.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Data.SqlClient.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Extensions.DependencyModel.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Client.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Client.Extensions.Msal.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.Certificate.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.Certificateless.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Identity.Web.TokenCache.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Logging.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.LoggingExtensions.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.IdentityModel.Validators.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.OpenApi.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.SqlServer.Server.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Microsoft.Win32.SystemEvents.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Newtonsoft.Json.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.AspNetCore.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Extensions.Hosting.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Extensions.Logging.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Formatting.Compact.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Settings.Configuration.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.Console.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.Debug.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Serilog.Sinks.File.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Configuration.ConfigurationManager.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Drawing.Common.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Memory.Data.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Runtime.Caching.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.Pkcs.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.ProtectedData.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Cryptography.Xml.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Security.Permissions.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/System.Windows.Extensions.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.Pkcs.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.Interface.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Mapper.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Model.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.Interface.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.EventHandlers.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Interface.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.Interface.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Model.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Interface.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Service.Queries.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Business.Interface.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Data.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/bin/Debug/net6.0/Bovis.Common.Mapper.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.AssemblyReference.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.AssemblyInfoInputs.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.AssemblyInfo.cs
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CoreCompileInputs.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.MvcApplicationPartsAssemblyInfo.cs
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.MvcApplicationPartsAssemblyInfo.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.build.Bovis.API.props
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.buildMultiTargeting.Bovis.API.props
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets/msbuild.buildTransitive.Bovis.API.props
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.pack.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.build.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.development.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/scopedcss/bundle/Bovis.API.styles.css
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CopyComplete
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/refint/Bovis.API.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.genruntimeconfig.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.API/obj/Debug/net6.0/ref/Bovis.API.dll

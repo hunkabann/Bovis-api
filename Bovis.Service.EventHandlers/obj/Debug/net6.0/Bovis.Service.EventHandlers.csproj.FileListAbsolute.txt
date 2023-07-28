@@ -1,42 +1,63 @@
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.EventHandlers.deps.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.EventHandlers.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.EventHandlers.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Business.Interface.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.Model.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Business.Interface.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.Model.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.csproj.AssemblyReference.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.GeneratedMSBuildEditorConfig.editorconfig
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.AssemblyInfoInputs.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.AssemblyInfo.cs
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.csproj.CoreCompileInputs.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.csproj.CopyComplete
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\refint\Bovis.Service.EventHandlers.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\ref\Bovis.Service.EventHandlers.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.EventHandlers.deps.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.EventHandlers.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.EventHandlers.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Business.Interface.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.Model.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Business.Interface.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\bin\Debug\net6.0\Bovis.Common.Model.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.csproj.AssemblyReference.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.GeneratedMSBuildEditorConfig.editorconfig
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.AssemblyInfoInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.AssemblyInfo.cs
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.csproj.CopyComplete
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\refint\Bovis.Service.EventHandlers.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\ref\Bovis.Service.EventHandlers.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.deps.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Business.Interface.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.Model.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Business.Interface.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.Model.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.AssemblyReference.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.GeneratedMSBuildEditorConfig.editorconfig
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.AssemblyInfoInputs.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.AssemblyInfo.cs
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.CoreCompileInputs.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.CopyComplete
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/refint/Bovis.Service.EventHandlers.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/ref/Bovis.Service.EventHandlers.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.deps.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Business.Interface.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.Model.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Business.Interface.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.Model.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.AssemblyReference.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.GeneratedMSBuildEditorConfig.editorconfig
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.AssemblyInfoInputs.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.AssemblyInfo.cs
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.CoreCompileInputs.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.CopyComplete
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/refint/Bovis.Service.EventHandlers.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/ref/Bovis.Service.EventHandlers.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.deps.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Business.Interface.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.Model.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Business.Interface.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/bin/Debug/net6.0/Bovis.Common.Model.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.AssemblyReference.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.GeneratedMSBuildEditorConfig.editorconfig
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.AssemblyInfoInputs.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.AssemblyInfo.cs
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.CoreCompileInputs.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.csproj.CopyComplete
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/refint/Bovis.Service.EventHandlers.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/Bovis.Service.EventHandlers.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/Debug/net6.0/ref/Bovis.Service.EventHandlers.dll

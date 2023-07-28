@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Bn5be88ZCh29SS9uhopXJeIrqkJIbLTGe5r83o17XNSmrHpFLOx9K7BJMhTwVATzjSMwcLhp4Q5JZ2YdLa0ZBA==",
+  "dgSpecHash": "jQF4uZkgT3aWUhhFNzsq2pwFM8Qojou+GtD1xvk8ZrWYOtB5RVyi86zSYCDDXZNxJ8DC0jVacOD69Xj4pSuOGA==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj",
+  "projectFilePath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries/Bovis.Service.Queries.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+    "/Users/liveproductionsdj/.nuget/packages/automapper/12.0.0/automapper.12.0.0.nupkg.sha512",
+    "/Users/liveproductionsdj/.nuget/packages/linq2db/4.4.0/linq2db.4.4.0.nupkg.sha512",
+    "/Users/liveproductionsdj/.nuget/packages/mediatr/11.1.0/mediatr.11.1.0.nupkg.sha512",
+    "/Users/liveproductionsdj/.nuget/packages/mediatr.contracts/1.0.1/mediatr.contracts.1.0.1.nupkg.sha512",
+    "/Users/liveproductionsdj/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }

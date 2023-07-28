@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZqfL5qOY98oKh7pvtO1iOwjyaU1GqgCX4sNxYtljIZJb1LH0Zz7ieyiFabGXqdUpk8XmsgMP1rZ2VxrNMJc6zw==",
+  "dgSpecHash": "GU1HfdF7EXj+SovRUJwiuQBGNmp2TLE2L0C3v1dLwGE4XqJMyTT4sUO87u2euVbQO85ZLexOB2OK/kyWKbkxGg==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Logging\\Bovis.Common.Logging.csproj",
+  "projectFilePath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Logging/Bovis.Common.Logging.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

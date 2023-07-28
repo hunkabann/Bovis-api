@@ -1,38 +1,57 @@
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.deps.json
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.AssemblyReference.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfoInputs.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfo.cs
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CopyComplete
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\refint\Bovis.Common.Mapper.dll
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.pdb
-F:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\ref\Bovis.Common.Mapper.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.deps.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.AssemblyReference.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfoInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfo.cs
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CopyComplete
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\refint\Bovis.Common.Mapper.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\ref\Bovis.Common.Mapper.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.deps.json
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Model.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Model.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.AssemblyReference.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.AssemblyInfoInputs.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.AssemblyInfo.cs
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.CopyComplete
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/refint/Bovis.Common.Mapper.dll
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.pdb
+F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/ref/Bovis.Common.Mapper.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.deps.json
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Model.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Model.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.AssemblyReference.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.AssemblyInfoInputs.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.AssemblyInfo.cs
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.CopyComplete
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/refint/Bovis.Common.Mapper.dll
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.pdb
+E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/ref/Bovis.Common.Mapper.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.deps.json
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Mapper.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Model.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Service.Queries.Dto.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.Model.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/bin/Debug/net6.0/Bovis.Common.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.AssemblyReference.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.AssemblyInfoInputs.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.AssemblyInfo.cs
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.csproj.CopyComplete
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/refint/Bovis.Common.Mapper.dll
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.pdb
+/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/ref/Bovis.Common.Mapper.dll
