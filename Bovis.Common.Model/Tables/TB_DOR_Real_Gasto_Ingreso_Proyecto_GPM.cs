@@ -13,5 +13,17 @@ namespace Bovis.Common.Model.Tables
         [Column("Gasto"), Nullable] public decimal? Gasto { get; set; }
         [Column("Mes"), Nullable] public int? Mes { get; set; }
         [Column("Año"), Nullable] public int? Año { get; set; }
+        [Column("Ene"), Nullable] public decimal? Ene { get; set; }
+        [Column("Feb"), Nullable] public decimal? Feb { get; set; }
+        [Column("Mar"), Nullable] public decimal? Mar { get; set; }
+        [Column("Abr"), Nullable] public decimal? Abr { get; set; }
+        [Column("May"), Nullable] public decimal? May { get; set; }
+        [Column("Jun"), Nullable] public decimal? Jun { get; set; }
+        [Column("Jul"), Nullable] public decimal? Jul { get; set; }
+        [Column("Ago"), Nullable] public decimal? Ago { get; set; }
+        [Column("Sep"), Nullable] public decimal? Sep { get; set; }
+        [Column("Oct"), Nullable] public decimal? Oct { get; set; }
+        [Column("Nov"), Nullable] public decimal? Nov { get; set; }
+        [Column("Dic"), Nullable] public decimal? Dic { get; set; }
     }
 }
