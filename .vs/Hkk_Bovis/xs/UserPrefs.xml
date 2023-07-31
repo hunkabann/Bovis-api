@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{BA6985DE-E940-423F-928B-EC36499D2716}|Default">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Bovis.Data/DorData.cs">
+    <Files>
+      <File FileName="Bovis.Data/DorData.cs" Line="268" Column="679" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Hkk_Bovis">
+            <Node name="3 Data">
+              <Node name="Bovis.Data" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.0_220Api.Bovis.API PreferredExecutionTarget="/Applications/Safari.app" />
+</Properties>
