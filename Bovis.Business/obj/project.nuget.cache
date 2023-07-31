@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Z589qxXuLZVvsx6tgc/l/nRzYAamfRyzC37azJrJYchRrxLb9C0YmrZGwnAMq8gUm0dLSPcdDZtJpWT8Fg/Yog==",
+  "dgSpecHash": "kz/KYJ7O1/fnYRLOqgjqN4A2+2o72jM1rXryWCwh+jhE/2iQTuLfeVg2GDHq9SrGFAg+CLIRWjgWyDZ+JxIosw==",
   "success": true,
-  "projectFilePath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Business/Bovis.Business.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
   "expectedPackageFiles": [
-    "/Users/liveproductionsdj/.nuget/packages/linq2db/4.4.0/linq2db.4.4.0.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/mediatr/11.1.0/mediatr.11.1.0.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/mediatr.contracts/1.0.1/mediatr.contracts.1.0.1.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/microsoft.extensions.logging.abstractions/5.0.0/microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512"
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\5.0.0\\microsoft.extensions.logging.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
   ],
   "logs": []
 }

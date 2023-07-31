@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "gRKoWwY/2TVoVDHvYf/vZokItnvlACrqzhwyRHGvW3em8krR5yDPqhu2VTldUOuvdLhSBT0vIwpIoW3HxoHn4w==",
+  "dgSpecHash": "3TH9BvaA2CmLvtmbArhOvPDgcbr2EMz+xGQwx0QyrXueGZYxgqdLnbq1gGcdRhIXQNrETpjPVZlblyX1W1BnMA==",
   "success": true,
-  "projectFilePath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/Bovis.Service.EventHandlers.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
   "expectedPackageFiles": [
-    "/Users/liveproductionsdj/.nuget/packages/automapper/12.0.0/automapper.12.0.0.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/linq2db/4.4.0/linq2db.4.4.0.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/mediatr/11.1.0/mediatr.11.1.0.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/mediatr.contracts/1.0.1/mediatr.contracts.1.0.1.nupkg.sha512",
-    "/Users/liveproductionsdj/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512"
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }
