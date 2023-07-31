@@ -102,9 +102,6 @@ namespace Bovis.Data
                                  Descripcion = a.Descripcion,
                                  Meta = a.Meta,
                                  PorcentajeEstimado = b.Valor,
-                                 //PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                 //Ingreso = dItem != null ? dItem.Ingreso : 0,
-                                 //Gasto = dItem != null ? dItem.Gasto : 0,
                                  Nivel = b.Nivel,
                                  Valor = b.Valor,
                                  Tooltip = c.Tooltip,
@@ -130,9 +127,6 @@ namespace Bovis.Data
                                  Meta = g.First().Meta,
                                  PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                 //PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
-                                 //Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
-                                 //Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
                                  Nivel = g.First().Nivel,
                                  Valor = g.First().Valor,
                                  Tooltip = g.First().Tooltip,
@@ -149,7 +143,7 @@ namespace Bovis.Data
                                  NOV = g.First().NOV,
                                  DIC = g.First().DIC,
                                  Real = mes == 0
-                                     ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault()))
+                                     ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()) + Convert.ToDecimal(item.FEB.GetValueOrDefault()) + Convert.ToDecimal(item.MAR.GetValueOrDefault()) + Convert.ToDecimal(item.ABR.GetValueOrDefault()) + Convert.ToDecimal(item.MAY.GetValueOrDefault()) + Convert.ToDecimal(item.JUN.GetValueOrDefault()) + Convert.ToDecimal(item.JUL.GetValueOrDefault()) + Convert.ToDecimal(item.AGO.GetValueOrDefault()) + Convert.ToDecimal(item.SEP.GetValueOrDefault()) + Convert.ToDecimal(item.OCT.GetValueOrDefault()) + Convert.ToDecimal(item.NOV.GetValueOrDefault()) + Convert.ToDecimal(item.DIC.GetValueOrDefault())) / (DateTime.Now.Month - 1)
                                      : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ENE.GetValueOrDefault()))
                                          : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.FEB.GetValueOrDefault()))
                                          : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.MAR.GetValueOrDefault()))
@@ -218,9 +212,6 @@ namespace Bovis.Data
                                  Descripcion = a.Descripcion,
                                  Meta = a.Meta,
                                  PorcentajeEstimado = b.Valor,
-                                 //PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                 //Ingreso = dItem != null ? dItem.Ingreso : 0,
-                                 //Gasto = dItem != null ? dItem.Gasto : 0, 
                                  Nivel = b.Nivel,
                                  Valor = b.Valor,
                                  Tooltip = c.Tooltip,
@@ -246,9 +237,6 @@ namespace Bovis.Data
                                  Meta = g.First().Meta,
                                  PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                 //PorcentajeReal = g.Sum(x => Convert.ToDecimal(x.PorcentajeReal)).ToString(),
-                                 //Ingreso = g.Sum(x => Convert.ToDecimal(x.Ingreso)),
-                                 //Gasto = g.Sum(x => Convert.ToDecimal(x.Gasto)),
                                  Nivel = g.First().Nivel,
                                  Valor = g.First().Valor,
                                  Tooltip = g.First().Tooltip,
