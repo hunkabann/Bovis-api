@@ -220,7 +220,7 @@ namespace Bovis.Data
                                  PorcentajeEstimado = b.Valor,
                                  //PorcentajeReal = (a.Real != null && b.Valor != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(b.Valor) / Convert.ToDecimal(a.Meta)).ToString() : "0",
                                  //Ingreso = dItem != null ? dItem.Ingreso : 0,
-                                 //Gasto = dItem != null ? dItem.Gasto : 0,
+                                 //Gasto = dItem != null ? dItem.Gasto : 0, 
                                  Nivel = b.Nivel,
                                  Valor = b.Valor,
                                  Tooltip = c.Tooltip,
