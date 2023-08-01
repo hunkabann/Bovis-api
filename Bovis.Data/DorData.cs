@@ -634,8 +634,7 @@ namespace Bovis.Data
                                      Nivel = g.Max(item => item.Nivel),
                                      Valor = g.Max(item => item.Valor),
                                      Tooltip = g.First().Tooltip
-                                 }
-                                 ).ToListAsync();
+                                 }).ToListAsync();
                 }
             }
 
