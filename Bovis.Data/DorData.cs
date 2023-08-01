@@ -538,56 +538,6 @@ namespace Bovis.Data
                 }
                 else
                 {
-                    res = await (from a in db.dOR_ObjetivosDesepenos
-                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
-                                 from bItem in bJoin.DefaultIfEmpty()
-                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
-                                 from cItem in cJoin.DefaultIfEmpty()
-                                 where a.Anio == anio
-                                 && a.Proyecto == proyecto
-                                 && a.Empleado == empleado
-                                 && bItem.Nivel == nivel
-                                 && a.Acepto == acepto
-                                 group new Dor_ObjetivosEmpleado
-                                 {
-                                     IdEmpOb = a.IdEmpOb,
-                                     UnidadDeNegocio = a.UnidadDeNegocio,
-                                     Concepto = a.Concepto,
-                                     Descripcion = a.Descripcion,
-                                     Meta = a.Meta,
-                                     Real = a.Real != null ? a.Real : 0,
-                                     PorcentajeEstimado = bItem != null ? bItem.Valor : 0,
-                                     PorcentajeReal = (a.Real != null && a.Meta != null) ? Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta) : 0,
-                                     Acepto = a.Acepto,
-                                     MotivoR = a.MotivoR,
-                                     FechaCarga = a.FechaCarga,
-                                     FechaAceptado = a.FechaAceptado,
-                                     FechaRechazo = a.FechaRechazo,
-                                     Nivel = bItem != null ? bItem.Nivel : 0,
-                                     Valor = bItem != null ? bItem.Valor : 0,
-                                     Tooltip = cItem != null ? cItem.Tooltip : string.Empty
-                                 } by new { a.Concepto, a.Descripcion } into g
-                                 select new Dor_ObjetivosEmpleado
-                                 {
-                                     IdEmpOb = g.First().IdEmpOb,
-                                     UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                     Concepto = g.Key.Concepto,
-                                     Descripcion = g.Key.Descripcion,
-                                     Meta = g.First().Meta,
-                                     Real = g.First().Real,
-                                     PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                     PorcentajeReal = g.First().PorcentajeReal,
-                                     Acepto = g.First().Acepto,
-                                     MotivoR = g.First().MotivoR,
-                                     FechaCarga = g.First().FechaCarga,
-                                     FechaAceptado = g.First().FechaAceptado,
-                                     FechaRechazo = g.First().FechaRechazo,
-                                     Nivel = g.First().Nivel,
-                                     Valor = g.First().Valor,
-                                     Tooltip = g.First().Tooltip
-                                 }).ToListAsync();
-
-
                     //res = await (from a in db.dOR_ObjetivosDesepenos
                     //             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
                     //             from bItem in bJoin.DefaultIfEmpty()
@@ -637,9 +587,12 @@ namespace Bovis.Data
                     //                 Tooltip = g.First().Tooltip
                     //             }).ToListAsync();
 
+
                     res = await (from a in db.dOR_ObjetivosDesepenos
                                  join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
                                  from bItem in bJoin.DefaultIfEmpty()
+                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
+                                 from cItem in cJoin.DefaultIfEmpty()
                                  where a.Anio == anio
                                  && a.Proyecto == proyecto
                                  && a.Empleado == empleado
@@ -653,14 +606,15 @@ namespace Bovis.Data
                                      Concepto = a.Concepto,
                                      Descripcion = a.Descripcion,
                                      Meta = a.Meta,
-                                     Real = a.Real != null ? a.Real : 0,
+                                     Real = a.Real ?? 0,
                                      Acepto = a.Acepto,
                                      MotivoR = a.MotivoR,
                                      FechaCarga = a.FechaCarga,
                                      FechaAceptado = a.FechaAceptado,
                                      FechaRechazo = a.FechaRechazo,
-                                     Nivel = bItem != null ? bItem.Nivel : 0,
-                                     Valor = bItem != null ? bItem.Valor : 0
+                                     Nivel = bItem.Nivel ?? 0,
+                                     Valor = bItem.Valor ?? 0,
+                                     Tooltip = cItem.Tooltip ?? string.Empty
                                  } by new { a.Concepto, a.Descripcion } into g
                                  select new Dor_ObjetivosEmpleado
                                  {
@@ -678,7 +632,8 @@ namespace Bovis.Data
                                      FechaAceptado = g.First().FechaAceptado,
                                      FechaRechazo = g.First().FechaRechazo,
                                      Nivel = g.Max(item => item.Nivel),
-                                     Valor = g.Max(item => item.Valor)
+                                     Valor = g.Max(item => item.Valor),
+                                     Tooltip = g.First().Tooltip
                                  }
                                  ).ToListAsync();
                 }
