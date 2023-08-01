@@ -59,6 +59,19 @@ namespace Bovis.Common.Model.NoTable
         public decimal? GastoNoviembre { get; set; }
         public decimal? GastoDiciembre { get; set; }
         public decimal? GastoTotal { get; set; }
+        public decimal? ProyectadoEnero { get; set; }
+        public decimal? ProyectadoFebrero { get; set; }
+        public decimal? ProyectadoMarzo { get; set; }
+        public decimal? ProyectadoAbril { get; set; }
+        public decimal? ProyectadoMayo { get; set; }
+        public decimal? ProyectadoJunio { get; set; }
+        public decimal? ProyectadoJulio { get; set; }
+        public decimal? ProyectadoAgosto { get; set; }
+        public decimal? ProyectadoSeptiembre { get; set; }
+        public decimal? ProyectadoOctubre { get; set; }
+        public decimal? ProyectadoNoviembre { get; set; }
+        public decimal? ProyectadoDiciembre { get; set; }
+        public decimal? ProyectadoTotal { get; set; }
         public decimal? MetaMensual { get; set; }
 
     }
