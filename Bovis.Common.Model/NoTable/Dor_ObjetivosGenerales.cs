@@ -17,9 +17,7 @@ namespace Bovis.Common.Model.NoTable
         public decimal? Real { get; set; }
         public string? PromedioReal { get; set; }
         public string? PorcentajeEstimado { get; set; }
-        public string? PorcentajeReal { get; set; }
-        public decimal? Ingreso { get; set; }
-        public decimal? Gasto { get; set; }
+        public string? PorcentajeReal { get; set; }        
         public string? Nivel { get; set; }
         public string? Valor { get; set; }
         public string? Tooltip { get; set; }
@@ -46,6 +44,22 @@ namespace Bovis.Common.Model.NoTable
         public decimal? IngresoSeptiembre { get; set; }
         public decimal? IngresoOctubre { get; set; }
         public decimal? IngresoNoviembre { get; set; }
-        public decimal? IngresoDiciembre { get; set; } 
+        public decimal? IngresoDiciembre { get; set; }
+        public decimal? IngresoTotal { get; set; }
+        public decimal? GastoEnero { get; set; }
+        public decimal? GastoFebrero { get; set; }
+        public decimal? GastoMarzo { get; set; }
+        public decimal? GastoAbril { get; set; }
+        public decimal? GastoMayo { get; set; }
+        public decimal? GastoJunio { get; set; }
+        public decimal? GastoJulio { get; set; }
+        public decimal? GastoAgosto { get; set; }
+        public decimal? GastoSeptiembre { get; set; }
+        public decimal? GastoOctubre { get; set; }
+        public decimal? GastoNoviembre { get; set; }
+        public decimal? GastoDiciembre { get; set; }
+        public decimal? GastoTotal { get; set; }
+        public decimal? MetaMensual { get; set; }
+
     }
 }

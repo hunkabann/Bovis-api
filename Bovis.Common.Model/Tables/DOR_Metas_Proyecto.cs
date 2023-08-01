@@ -14,18 +14,30 @@ namespace Bovis.Common.Model.Tables
         [Column("Real"), Nullable] public decimal? Real { get; set; }
         [Column("Mes"), Nullable] public int? Mes { get; set; }
         [Column("Año"), Nullable] public int? Año { get; set; }
-        [Column("Ene"), Nullable] public decimal? Ene { get; set; }
-        [Column("Feb"), Nullable] public decimal? Feb { get; set; }
-        [Column("Mar"), Nullable] public decimal? Mar { get; set; }
-        [Column("Abr"), Nullable] public decimal? Abr { get; set; }
-        [Column("May"), Nullable] public decimal? May { get; set; }
-        [Column("Jun"), Nullable] public decimal? Jun { get; set; }
-        [Column("Jul"), Nullable] public decimal? Jul { get; set; }
-        [Column("Ago"), Nullable] public decimal? Ago { get; set; }
-        [Column("Sep"), Nullable] public decimal? Sep { get; set; }
-        [Column("Oct"), Nullable] public decimal? Oct { get; set; }
-        [Column("Nov"), Nullable] public decimal? Nov { get; set; }
-        [Column("Dic"), Nullable] public decimal? Dic { get; set; }
+        [Column("Ene"), Nullable] public decimal? Enero { get; set; }
+        [Column("Feb"), Nullable] public decimal? Febrero { get; set; }
+        [Column("Mar"), Nullable] public decimal? Marzo { get; set; }
+        [Column("Abr"), Nullable] public decimal? Abril { get; set; }
+        [Column("May"), Nullable] public decimal? Mayo { get; set; }
+        [Column("Jun"), Nullable] public decimal? Junio { get; set; }
+        [Column("Jul"), Nullable] public decimal? Julio { get; set; }
+        [Column("Ago"), Nullable] public decimal? Agosto { get; set; }
+        [Column("Sep"), Nullable] public decimal? Septiembre { get; set; }
+        [Column("Oct"), Nullable] public decimal? Octubre { get; set; }
+        [Column("Nov"), Nullable] public decimal? Noviembre { get; set; }
+        [Column("Dic"), Nullable] public decimal? Diciembre { get; set; }
+        [Column("EneP"), Nullable] public decimal? ProyectadoEnero { get; set; }
+        [Column("FebP"), Nullable] public decimal? ProyectadoFebrero { get; set; }
+        [Column("MarP"), Nullable] public decimal? ProyectadoMarzo { get; set; }
+        [Column("AbrP"), Nullable] public decimal? ProyectadoAbril { get; set; }
+        [Column("MayP"), Nullable] public decimal? ProyectadoMayo { get; set; }
+        [Column("JunP"), Nullable] public decimal? ProyectadoJunio { get; set; }
+        [Column("JulP"), Nullable] public decimal? ProyectadoJulio { get; set; }
+        [Column("AgoP"), Nullable] public decimal? ProyectadoAgosto { get; set; }
+        [Column("SepP"), Nullable] public decimal? ProyectadoSeptiembre { get; set; }
+        [Column("OctP"), Nullable] public decimal? ProyectadoOctubre { get; set; }
+        [Column("NovP"), Nullable] public decimal? ProyectadoNoviembre { get; set; }
+        [Column("DicP"), Nullable] public decimal? ProyectadoDiciembre { get; set; }
 
     }
 }
