@@ -22,16 +22,16 @@ namespace Bovis.Service.EventHandlers
         {
             DateTime fechaLocal = DateTime.Now;
 
-            if (!string.IsNullOrEmpty(objetivo.Acepto))
+            if (!string.IsNullOrEmpty(objetivo.Acepto.ToString()))
                 switch (objetivo.Acepto)
                 {
-                    case "1":
+                    case 1:
                         objetivo.FechaCarga = fechaLocal;
                         break;
-                    case "2":
+                    case 2:
                         objetivo.FechaAceptado = fechaLocal;
                         break;
-                    case "3":
+                    case 3:
                         objetivo.FechaRechazo = fechaLocal;
                         break;
                 }

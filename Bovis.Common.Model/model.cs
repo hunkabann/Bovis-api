@@ -8,7 +8,7 @@ namespace Bovis.Common.Model
 	{
 		public ITable<DOR_Empleados> dOR_Empleados { get { return this.GetTable<DOR_Empleados>(); } }
         public ITable<DOR_Gpm_Proyecto> dOR_Gpm_Proyecto { get { return this.GetTable<DOR_Gpm_Proyecto>(); } }
-        public ITable<DOR_Metas_Proyecto> dOR_Meta_Proyecto { get { return this.GetTable<DOR_Metas_Proyecto>(); } }
+        public ITable<DOR_Meta_Proyecto> dOR_Meta_Proyectos { get { return this.GetTable<DOR_Meta_Proyecto>(); } }
         public ITable<DOR_Objetivos_Gral> dOR_Objetivos_Gral { get { return this.GetTable<DOR_Objetivos_Gral>(); } }
         public ITable<DOR_Objetivos_Nivel> dOR_Objetivos_Nivel { get { return this.GetTable<DOR_Objetivos_Nivel>(); } }
         public ITable<DOR_ObjetivosDesepeno> dOR_ObjetivosDesepenos { get { return this.GetTable<DOR_ObjetivosDesepeno>(); } }

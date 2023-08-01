@@ -12,18 +12,18 @@ namespace Bovis.Common.Model.NoTable
         public string? UnidadDeNegocio { get; set; }
         public string? Concepto { get; set; }
         public string? Descripcion { get; set; }
-        public string? Meta { get; set; }
-        public string? Real { get; set; }
-        public string? PromedioReal { get; set; }
-        public string? PorcentajeEstimado { get; set; }
-        public string? PorcentajeReal { get; set; }
-        public string? Acepto { get; set; }
+        public decimal? Meta { get; set; }
+        public decimal? Real { get; set; }
+        public decimal? PromedioReal { get; set; }
+        public decimal? PorcentajeEstimado { get; set; }
+        public decimal? PorcentajeReal { get; set; }
+        public int? Acepto { get; set; }
         public string? MotivoR { get; set; }
         public DateTime? FechaCarga { get; set; }
         public DateTime? FechaAceptado { get; set; }
         public DateTime? FechaRechazo { get; set; }
-        public string? Nivel { get; set; }
-        public string? Valor { get; set; }
+        public int? Nivel { get; set; }
+        public int? Valor { get; set; }
         public string? Tooltip { get; set; }
 
     }

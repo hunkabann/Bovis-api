@@ -4,6 +4,7 @@ using Bovis.Common;
 using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Service.Queries
 {
@@ -42,7 +43,7 @@ namespace Bovis.Service.Queries
             var response = await _dorBusiness.GetDorListaSubordinados(name);
             return new Response<List<DorSubordinado>> { Data = _map.Map<List<DorSubordinado>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información para el usuario solicitado." : default };
         }
-        public async Task<Response<List<Dor_ObjetivosGenerales>>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
+        public async Task<Response<List<Dor_ObjetivosGenerales>>> GetDorObjetivosGenerales(int nivel, string unidadNegocio, int mes, string seccion)
         {
             var response = await _dorBusiness.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, seccion);
             return new Response<List<Dor_ObjetivosGenerales>> { Data = _map.Map<List<Dor_ObjetivosGenerales>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información para el nivel solicitado." : default };
@@ -69,6 +70,11 @@ namespace Bovis.Service.Queries
         //	var response = await _dorBusiness.GetDorObjetivosDesepeno(anio, proyecto, concepto, empleado);
         //	return new Response<List<DorObjetivoDesepeno>> { Data = _map.Map<List<DorObjetivoDesepeno>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información para el usuario solicitado." : default };
         //}
-        
+
+        public async Task<Response<(bool existe, string mensaje)>> UpdateReal(JsonObject registro)
+        {
+            var response = await _dorBusiness.UpdateReal(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
     }
 }

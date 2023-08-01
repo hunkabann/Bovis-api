@@ -1,4 +1,6 @@
-﻿using Bovis.Service.Queries.Dto.Commands;
+﻿using Bovis.API.Helper;
+using Bovis.Service.Queries;
+using Bovis.Service.Queries.Dto.Commands;
 using Bovis.Service.Queries.Dto.Request;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
@@ -6,6 +8,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Newtonsoft.Json;
+using System.Security.Claims;
+using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
@@ -58,7 +63,7 @@ namespace Bovis.API.Controllers
         }
 
         [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}/{mes}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerDorObjectivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
+        public async Task<IActionResult> ObtenerDorObjectivosGenerales(int nivel, string unidadNegocio, int mes, string seccion)
         {
             var business = await _dorQueryService.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, seccion);
             return Ok(business);
@@ -92,6 +97,24 @@ namespace Bovis.API.Controllers
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
             var business = await _mediator.Send(objetivo);
             return Ok(business);
+        }
+
+        [HttpPut("UpdateReal")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> UpdateReal([FromBody] JsonObject registro)
+        {
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 45);
+
+            var query = await _dorQueryService.UpdateReal(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
     }
 }

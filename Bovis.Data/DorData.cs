@@ -5,6 +5,7 @@ using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
 using System.Collections.Generic;
+using System.Text.Json.Nodes;
 using static LinqToDB.SqlQuery.SqlPredicate;
 
 namespace Bovis.Data
@@ -82,7 +83,7 @@ namespace Bovis.Data
         }
 
         // CORPORATIVO
-        public async Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(string nivel, string unidadNegocio, int mes, string seccion)
+        public async Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(int nivel, string unidadNegocio, int mes, string seccion)
         {           
             List<Dor_ObjetivosGenerales> res = null;
 
@@ -96,6 +97,7 @@ namespace Bovis.Data
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.UnidadDeNegocio == unidadNegocio
                              && b.Nivel == nivel
+                             orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
                              {
                                  Id = a.Id,
@@ -259,7 +261,7 @@ namespace Bovis.Data
 
                 foreach (var r in res)
                 {                    
-                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? (Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta)).ToString() : "0";
+                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                     r.MetaMensual = resta_ingresos_gastos / r.MetaValor;
                 }
 
@@ -290,21 +292,22 @@ namespace Bovis.Data
             }
         }
 
-        // DE PROYECTO
+        // DE PROYECTO / AREA
         public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
         {
             List<Dor_ObjetivosGenerales> res = null;
 
             using (var db = new ConnectionDB(dbConfig))
             {                
-                res = await (from a in db.dOR_Meta_Proyecto
+                res = await (from a in db.dOR_Meta_Proyectos
                              join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
                              join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
                              from cItem in cJoin.DefaultIfEmpty()
                              join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.NoProyecto == proyecto
-                             && b.Nivel == nivel.ToString().Trim()
+                             && b.Nivel == nivel
+                             orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
                              {
                                  Id = a.Id,
@@ -489,7 +492,7 @@ namespace Bovis.Data
 
                 foreach (var r in res)
                 {
-                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? (Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta)).ToString() : "0";
+                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                 }
 
                 return res;
@@ -507,10 +510,10 @@ namespace Bovis.Data
                     res = await (from a in db.dOR_ObjetivosDesepenos
                                  join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
                                  from bItem in bJoin.DefaultIfEmpty()
-                                 where a.Empleado == empleado.ToString().Trim()
+                                 where a.Empleado == empleado
                                  && a.Anio == anio
-                                 && a.Proyecto == proyecto.ToString().Trim()
-                                 && a.Acepto == acepto.ToString().Trim()
+                                 && a.Proyecto == proyecto
+                                 && a.Acepto == acepto
                                  //&& b.Nivel == nivel.ToString().Trim()
                                  //&& (mes == 0 || a.Mes == mes)
                                  select new Dor_ObjetivosEmpleado
@@ -520,9 +523,9 @@ namespace Bovis.Data
                                      Concepto = a.Concepto,
                                      Descripcion = a.Descripcion,
                                      Meta = a.Meta,
-                                     Real = a.Real != null ? a.Real : "0",
-                                     PorcentajeEstimado = bItem != null ? bItem.Valor : "0",
-                                     PorcentajeReal = (a.Real != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                     Real = a.Real != null ? a.Real : 0,
+                                     PorcentajeEstimado = bItem != null ? bItem.Valor : 0,
+                                     PorcentajeReal = (a.Real != null && a.Meta != null) ? Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta) : 0,
                                      Acepto = a.Acepto,
                                      MotivoR = a.MotivoR,
                                      FechaCarga = a.FechaCarga,
@@ -535,45 +538,16 @@ namespace Bovis.Data
                 }
                 else
                 {
-                    var resBase = await (from a in db.dOR_ObjetivosDesepenos
-                                         join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
-                                         from bItem in bJoin.DefaultIfEmpty()
-                                         where a.Empleado == empleado.ToString().Trim()
-                                         && a.Anio == anio
-                                         && a.Proyecto == proyecto.ToString().Trim()
-                                         && a.Nivel != null
-                                         //&& (mes == 0 || a.Mes == mes)
-                                         select new Dor_ObjetivosEmpleado
-                                         {
-                                             IdEmpOb = a.IdEmpOb,
-                                             UnidadDeNegocio = a.UnidadDeNegocio,
-                                             Concepto = a.Concepto,
-                                             Descripcion = a.Descripcion,
-                                             Meta = a.Meta,
-                                             Real = a.Real != null ? a.Real : "0",
-                                             PorcentajeEstimado = bItem != null ? bItem.Valor : "0",
-                                             PorcentajeReal = (a.Real != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta)).ToString() : "0",
-                                             Acepto = a.Acepto,
-                                             MotivoR = a.MotivoR,
-                                             FechaCarga = a.FechaCarga,
-                                             FechaAceptado = a.FechaAceptado,
-                                             FechaRechazo = a.FechaRechazo,
-                                             Nivel = null,
-                                             Valor = a.Nivel,
-                                             Tooltip = null
-                                         }).ToListAsync();
-
                     res = await (from a in db.dOR_ObjetivosDesepenos
                                  join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
                                  from bItem in bJoin.DefaultIfEmpty()
                                  join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
                                  from cItem in cJoin.DefaultIfEmpty()
                                  where a.Anio == anio
-                                 && a.Proyecto == proyecto.ToString().Trim()
-                                 && a.Empleado == empleado.ToString().Trim()
-                                 && bItem.Nivel == nivel.ToString().Trim()
-                                 && a.Acepto == acepto.ToString().Trim()
-                                 //&& (mes == 0 || a.Mes == mes)
+                                 && a.Proyecto == proyecto
+                                 && a.Empleado == empleado
+                                 && bItem.Nivel == nivel
+                                 && a.Acepto == acepto
                                  group new Dor_ObjetivosEmpleado
                                  {
                                      IdEmpOb = a.IdEmpOb,
@@ -581,24 +555,24 @@ namespace Bovis.Data
                                      Concepto = a.Concepto,
                                      Descripcion = a.Descripcion,
                                      Meta = a.Meta,
-                                     Real = a.Real != null ? a.Real : "0",
-                                     PorcentajeEstimado = bItem != null ? bItem.Valor : "0",
-                                     PorcentajeReal = (a.Real != null && a.Meta != null) ? (Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta)).ToString() : "0",
+                                     Real = a.Real != null ? a.Real : 0,
+                                     PorcentajeEstimado = bItem != null ? bItem.Valor : 0,
+                                     PorcentajeReal = (a.Real != null && a.Meta != null) ? Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta) : 0,
                                      Acepto = a.Acepto,
                                      MotivoR = a.MotivoR,
                                      FechaCarga = a.FechaCarga,
                                      FechaAceptado = a.FechaAceptado,
                                      FechaRechazo = a.FechaRechazo,
-                                     Nivel = bItem != null ? bItem.Nivel : "0",
-                                     Valor = bItem != null ? bItem.Valor : "0",
+                                     Nivel = bItem != null ? bItem.Nivel : 0,
+                                     Valor = bItem != null ? bItem.Valor : 0,
                                      Tooltip = cItem != null ? cItem.Tooltip : string.Empty
-                                 } by new { a.IdEmpOb } into g
+                                 } by new { a.Concepto, a.Descripcion } into g
                                  select new Dor_ObjetivosEmpleado
                                  {
-                                     IdEmpOb = g.Key.IdEmpOb,
+                                     IdEmpOb = g.First().IdEmpOb,
                                      UnidadDeNegocio = g.First().UnidadDeNegocio,
-                                     Concepto = g.First().Concepto,
-                                     Descripcion = g.First().Descripcion,
+                                     Concepto = g.Key.Concepto,
+                                     Descripcion = g.Key.Descripcion,
                                      Meta = g.First().Meta,
                                      Real = g.First().Real,
                                      PorcentajeEstimado = g.First().PorcentajeEstimado,
@@ -613,18 +587,100 @@ namespace Bovis.Data
                                      Tooltip = g.First().Tooltip
                                  }).ToListAsync();
 
-                    //if (resBase == null)
-                    //    return res;
 
-                    //var dict = res.ToDictionary(p => p.IdEmpOb);
-                    //foreach (var item in resBase)
-                    //{
-                    //    dict[item.IdEmpOb] = item;
-                    //}
-                    //var merged = dict.Values.ToList();
+                    //res = await (from a in db.dOR_ObjetivosDesepenos
+                    //             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
+                    //             from bItem in bJoin.DefaultIfEmpty()
+                    //             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
+                    //             from cItem in cJoin.DefaultIfEmpty()
+                    //             where a.Anio == anio
+                    //             && a.Proyecto == proyecto
+                    //             && a.Empleado == empleado
+                    //             && bItem.Nivel == nivel
+                    //             && a.Acepto == acepto
+                    //             group new Dor_ObjetivosEmpleado
+                    //             {
+                    //                 IdEmpOb = a.IdEmpOb,
+                    //                 UnidadDeNegocio = a.UnidadDeNegocio,
+                    //                 Concepto = a.Concepto,
+                    //                 Descripcion = a.Descripcion,
+                    //                 Meta = a.Meta,
+                    //                 Real = a.Real != null ? a.Real : 0,
+                    //                 PorcentajeEstimado = bItem != null ? bItem.Valor : 0,
+                    //                 PorcentajeReal = (a.Real != null && a.Meta != null) ? Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta) : 0,
+                    //                 Acepto = a.Acepto,
+                    //                 MotivoR = a.MotivoR,
+                    //                 FechaCarga = a.FechaCarga,
+                    //                 FechaAceptado = a.FechaAceptado,
+                    //                 FechaRechazo = a.FechaRechazo,
+                    //                 Nivel = bItem != null ? bItem.Nivel : 0,
+                    //                 Valor = bItem != null ? bItem.Valor : 0,
+                    //                 Tooltip = cItem != null ? cItem.Tooltip : string.Empty
+                    //             } by new { a.Concepto, a.Descripcion } into g
+                    //             select new Dor_ObjetivosEmpleado
+                    //             {
+                    //                 IdEmpOb = g.First().IdEmpOb,
+                    //                 UnidadDeNegocio = g.First().UnidadDeNegocio,
+                    //                 Concepto = g.Key.Concepto,
+                    //                 Descripcion = g.Key.Descripcion,
+                    //                 Meta = g.First().Meta,
+                    //                 Real = g.First().Real,
+                    //                 PorcentajeEstimado = g.First().PorcentajeEstimado,
+                    //                 PorcentajeReal = g.First().PorcentajeReal,
+                    //                 Acepto = g.First().Acepto,
+                    //                 MotivoR = g.First().MotivoR,
+                    //                 FechaCarga = g.First().FechaCarga,
+                    //                 FechaAceptado = g.First().FechaAceptado,
+                    //                 FechaRechazo = g.First().FechaRechazo,
+                    //                 Nivel = g.First().Nivel,
+                    //                 Valor = g.First().Valor,
+                    //                 Tooltip = g.First().Tooltip
+                    //             }).ToListAsync();
 
-                    //return merged;
-
+                    res = await (from a in db.dOR_ObjetivosDesepenos
+                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
+                                 from bItem in bJoin.DefaultIfEmpty()
+                                 where a.Anio == anio
+                                 && a.Proyecto == proyecto
+                                 && a.Empleado == empleado
+                                 && bItem.Nivel == nivel
+                                 && a.Acepto == acepto
+                                 orderby a.Descripcion ascending
+                                 group new Dor_ObjetivosEmpleado
+                                 {
+                                     IdEmpOb = a.IdEmpOb,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Concepto = a.Concepto,
+                                     Descripcion = a.Descripcion,
+                                     Meta = a.Meta,
+                                     Real = a.Real != null ? a.Real : 0,
+                                     Acepto = a.Acepto,
+                                     MotivoR = a.MotivoR,
+                                     FechaCarga = a.FechaCarga,
+                                     FechaAceptado = a.FechaAceptado,
+                                     FechaRechazo = a.FechaRechazo,
+                                     Nivel = bItem != null ? bItem.Nivel : 0,
+                                     Valor = bItem != null ? bItem.Valor : 0
+                                 } by new { a.Concepto, a.Descripcion } into g
+                                 select new Dor_ObjetivosEmpleado
+                                 {
+                                     IdEmpOb = g.First().IdEmpOb,
+                                     UnidadDeNegocio = g.First().UnidadDeNegocio,
+                                     Concepto = g.Key.Concepto,
+                                     Descripcion = g.Key.Descripcion,
+                                     Meta = g.First().Meta,
+                                     Real = g.First().Real,
+                                     PorcentajeEstimado = g.Max(item => item.Valor),
+                                     PorcentajeReal = g.First().Real * g.Max(item => item.Valor) / g.First().Meta,
+                                     Acepto = g.First().Acepto,
+                                     MotivoR = g.First().MotivoR,
+                                     FechaCarga = g.First().FechaCarga,
+                                     FechaAceptado = g.First().FechaAceptado,
+                                     FechaRechazo = g.First().FechaRechazo,
+                                     Nivel = g.Max(item => item.Nivel),
+                                     Valor = g.Max(item => item.Valor)
+                                 }
+                                 ).ToListAsync();
                 }
             }
 
@@ -638,7 +694,7 @@ namespace Bovis.Data
             {
                 var query = await (from cat in db.dOR_ObjetivosDesepenos
                              where cat.Anio == anio
-                             && cat.Proyecto == proyecto.ToString()
+                             && cat.Proyecto == proyecto
                              && cat.Concepto == concepto
                              //&& cat.Empleado == (empleado.HasValue ? empleado.ToString() : default(string))
                              //|| cat.Empleado == null
@@ -703,7 +759,27 @@ namespace Bovis.Data
                 //}
             }
             return resp;
-        }        
+        }
 
+        public async Task<(bool Success, string Message)> UpdateReal(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_record = Convert.ToInt32(registro["id"].ToString());
+            decimal real = Convert.ToDecimal(registro["real"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_real = await db.dOR_Meta_Proyectos.Where(x => x.Id == id_record)
+                    .UpdateAsync(x => new DOR_Meta_Proyecto
+                    {
+                        Real = real
+                    }) > 0;
+
+                resp.Success = res_update_real;
+                resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+            return resp;
+        }
     }
 }
