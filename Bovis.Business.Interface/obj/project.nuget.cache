@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sE8AruS+wwNxm6sdGa208jdMFQrOeJGaNRMnoq7zp8yKN9VNQk+sFT8mRcC8Lwxx4esdkxJxgxnndqNks/eDeA==",
+  "dgSpecHash": "VYVrKDpVU1sSxJngzGkSJ/Cei6hYe0dI4udtvgTYefddV7N9RabsP8ZEzSHIIYsF2Np84+Zs4LozxBm2NBKoQQ==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512"
   ],

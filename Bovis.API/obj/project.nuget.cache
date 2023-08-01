@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0zMiXsEejVUnlrEOgGH14XIPPOZ3ERQ1LxHa5oayLjWnETM96iuGuIuP/Seu1QCeeR1mX9/+zQJT05lOn0ghtA==",
+  "dgSpecHash": "U7Ngcg1JTHE/oYKrgx3qsAxbMkciwFV6jAxPl95TQ702LpMTsKMEr5G1e9YquM4RDN1BUgFEw00wM/opNsfrFw==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3n4PJU3vSlREcV8ToHh3f7sl3X4iiVuLzLlyoE7JfkWiaJZbZhAoUV2jvdI1/U/QA7NlIpYjU8j5CCQX0N/e0g==",
+  "dgSpecHash": "Q8g8sjeAiqHEkb5Yo7nWhN+KNqAALOqoLUF/ck0vVxCs1vui7Y1rUWA1G0aCgGc/DRh6+6Ps77kS4672Yn0dwA==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",

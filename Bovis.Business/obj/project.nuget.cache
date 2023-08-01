@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kz/KYJ7O1/fnYRLOqgjqN4A2+2o72jM1rXryWCwh+jhE/2iQTuLfeVg2GDHq9SrGFAg+CLIRWjgWyDZ+JxIosw==",
+  "dgSpecHash": "GvoGGUnOZMxruMejKn3ewaojXQ1ryyi3zpnvvUWVZUy7cFXztBSTb3udbkstgGbh7GiXEIzzz4bJ1fOUfohORA==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\linq2db\\4.4.0\\linq2db.4.4.0.nupkg.sha512",
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\mediatr\\11.1.0\\mediatr.11.1.0.nupkg.sha512",

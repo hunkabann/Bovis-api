@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5ORtQY/dGzVxS0W4jOKlQCDIIQnDAoIj0PXkHf1xiwQ42x4RCFUCX/FVbVq6Jia0VM+SCvuwSVeezn/47Q2luA==",
+  "dgSpecHash": "gnSJTJR3Bae6xQEFCcz46p8ZY+qQVgPmqVhXccaIgvxXDhdZPGEdqyA7PpaasHj0Tw9dnnaUL+oDyoNoAh5ktA==",
   "success": true,
-  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
+  "projectFilePath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\norberto_baltezar\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
