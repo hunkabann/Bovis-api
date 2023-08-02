@@ -505,7 +505,6 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-
                 //res = await (from a in db.dOR_ObjetivosDesepenos
                 //             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
                 //             from bItem in bJoin.DefaultIfEmpty()
