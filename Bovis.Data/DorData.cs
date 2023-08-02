@@ -598,12 +598,12 @@ namespace Bovis.Data
                                      Descripcion = a.Descripcion,
                                      Meta = a.Meta,
                                      Real = a.Real,
-                                     Valor = a.Valor,
                                      Acepto = a.Acepto,
                                      MotivoR = a.MotivoR,
                                      FechaCarga = a.FechaCarga,
                                      FechaAceptado = a.FechaAceptado,
-                                     FechaRechazo = a.FechaRechazo
+                                     FechaRechazo = a.FechaRechazo,
+                                     Valor = a.Valor
                                  } by new { a.IdEmpOb, a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Meta, a.Valor, a.Real, a.Acepto, a.MotivoR, a.FechaCarga, a.FechaAceptado, a.FechaRechazo } into g
                                  select new Dor_ObjetivosEmpleado
                                  {
@@ -619,7 +619,9 @@ namespace Bovis.Data
                                      MotivoR = g.Key.MotivoR,
                                      FechaCarga = g.Key.FechaCarga,
                                      FechaAceptado = g.Key.FechaAceptado,
-                                     FechaRechazo = g.Key.FechaRechazo
+                                     FechaRechazo = g.Key.FechaRechazo,
+                                     Nivel = nivel,
+                                     Valor = g.Key.Valor
                                  }).ToListAsync();
                 }
             }
