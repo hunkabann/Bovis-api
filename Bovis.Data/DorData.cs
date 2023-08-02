@@ -505,125 +505,93 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                if (acepto >= 1)
-                {
-                    res = await (from a in db.dOR_ObjetivosDesepenos
-                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
-                                 from bItem in bJoin.DefaultIfEmpty()
-                                 where a.Empleado == empleado
-                                 && a.Anio == anio
-                                 && a.Proyecto == proyecto
-                                 && a.Acepto == acepto
-                                 //&& b.Nivel == nivel.ToString().Trim()
-                                 //&& (mes == 0 || a.Mes == mes)
-                                 select new Dor_ObjetivosEmpleado
-                                 {
-                                     IdEmpOb = a.IdEmpOb,
-                                     UnidadDeNegocio = a.UnidadDeNegocio,
-                                     Concepto = a.Concepto,
-                                     Descripcion = a.Descripcion,
-                                     Meta = a.Meta,
-                                     Real = a.Real ?? 0,
-                                     PorcentajeEstimado = bItem.Valor ?? 0,
-                                     PorcentajeReal = (a.Real != null && a.Meta != null) ? Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem.Valor ?? 0) / Convert.ToDecimal(a.Meta) : 0,
-                                     Acepto = a.Acepto,
-                                     MotivoR = a.MotivoR,
-                                     FechaCarga = a.FechaCarga,
-                                     FechaAceptado = a.FechaAceptado,
-                                     FechaRechazo = a.FechaRechazo,
-                                     Nivel = null,
-                                     Valor = a.Valor,
-                                     Tooltip = null
-                                 }).ToListAsync();
-                }
-                else
-                {
-                    //res = await (from a in db.dOR_ObjetivosDesepenos
-                    //             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
-                    //             from bItem in bJoin.DefaultIfEmpty()
-                    //             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
-                    //             from cItem in cJoin.DefaultIfEmpty()
-                    //             where a.Anio == anio
-                    //             && a.Proyecto == proyecto
-                    //             && a.Empleado == empleado
-                    //             && bItem.Nivel == nivel
-                    //             orderby a.Descripcion ascending
-                    //             group new Dor_ObjetivosEmpleado
-                    //             {
-                    //                 IdEmpOb = a.IdEmpOb,
-                    //                 UnidadDeNegocio = a.UnidadDeNegocio,
-                    //                 Concepto = a.Concepto,
-                    //                 Descripcion = a.Descripcion,
-                    //                 Meta = a.Meta,
-                    //                 Real = a.Real ?? 0,
-                    //                 Acepto = a.Acepto,
-                    //                 MotivoR = a.MotivoR,
-                    //                 FechaCarga = a.FechaCarga,
-                    //                 FechaAceptado = a.FechaAceptado,
-                    //                 FechaRechazo = a.FechaRechazo,
-                    //                 Nivel = bItem.Nivel ?? 0,
-                    //                 Valor = bItem.Valor ?? 0,
-                    //                 Tooltip = cItem.Tooltip ?? string.Empty
-                    //             } by new { a.Concepto, a.Descripcion } into g
-                    //             select new Dor_ObjetivosEmpleado
-                    //             {
-                    //                 IdEmpOb = g.First().IdEmpOb,
-                    //                 UnidadDeNegocio = g.First().UnidadDeNegocio,
-                    //                 Concepto = g.Key.Concepto,
-                    //                 Descripcion = g.Key.Descripcion,
-                    //                 Meta = g.First().Meta,
-                    //                 Real = g.First().Real,
-                    //                 PorcentajeEstimado = g.Max(item => item.Valor),
-                    //                 PorcentajeReal = g.First().Real * g.Max(item => item.Valor) / g.First().Meta,
-                    //                 Acepto = g.First().Acepto,
-                    //                 MotivoR = g.First().MotivoR,
-                    //                 FechaCarga = g.First().FechaCarga,
-                    //                 FechaAceptado = g.First().FechaAceptado,
-                    //                 FechaRechazo = g.First().FechaRechazo,
-                    //                 Nivel = g.Max(item => item.Nivel),
-                    //                 Valor = g.Max(item => item.Valor),
-                    //                 Tooltip = g.First().Tooltip
-                    //             }).ToListAsync();
 
-                    res = await (from a in db.dOR_ObjetivosDesepenos
-                                 where a.Anio == anio
-                                 && a.Proyecto == proyecto
-                                 && a.Empleado == empleado
-                                 orderby a.Descripcion ascending
-                                 group new Dor_ObjetivosEmpleado
-                                 {
-                                     IdEmpOb = a.IdEmpOb,
-                                     UnidadDeNegocio = a.UnidadDeNegocio,
-                                     Concepto = a.Concepto,
-                                     Descripcion = a.Descripcion,
-                                     Meta = a.Meta,
-                                     Real = a.Real,
-                                     Acepto = a.Acepto,
-                                     MotivoR = a.MotivoR,
-                                     FechaCarga = a.FechaCarga,
-                                     FechaAceptado = a.FechaAceptado,
-                                     FechaRechazo = a.FechaRechazo,
-                                     Valor = a.Valor
-                                 } by new { a.IdEmpOb, a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Meta, a.Valor, a.Real, a.Acepto, a.MotivoR, a.FechaCarga, a.FechaAceptado, a.FechaRechazo } into g
-                                 select new Dor_ObjetivosEmpleado
-                                 {
-                                     IdEmpOb = g.Key.IdEmpOb,
-                                     UnidadDeNegocio = g.Key.UnidadDeNegocio,
-                                     Concepto = g.Key.Concepto,
-                                     Descripcion = g.Key.Descripcion,
-                                     Meta = g.Key.Meta ?? 0,
-                                     Real = g.Key.Real ?? 0,
-                                     PorcentajeEstimado = g.Key.Valor ?? 0,
-                                     PorcentajeReal = (g.Key.Real * Convert.ToDecimal(g.Key.Valor) / g.Key.Meta) ?? 0,
-                                     Acepto = g.Key.Acepto,
-                                     MotivoR = g.Key.MotivoR,
-                                     FechaCarga = g.Key.FechaCarga,
-                                     FechaAceptado = g.Key.FechaAceptado,
-                                     FechaRechazo = g.Key.FechaRechazo,
-                                     Nivel = nivel,
-                                     Valor = g.Key.Valor
-                                 }).ToListAsync();
-                }
+                //res = await (from a in db.dOR_ObjetivosDesepenos
+                //             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
+                //             from bItem in bJoin.DefaultIfEmpty()
+                //             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
+                //             from cItem in cJoin.DefaultIfEmpty()
+                //             where a.Anio == anio
+                //             && a.Proyecto == proyecto
+                //             && a.Empleado == empleado
+                //             && bItem.Nivel == nivel
+                //             orderby a.Descripcion ascending
+                //             group new Dor_ObjetivosEmpleado
+                //             {
+                //                 IdEmpOb = a.IdEmpOb,
+                //                 UnidadDeNegocio = a.UnidadDeNegocio,
+                //                 Concepto = a.Concepto,
+                //                 Descripcion = a.Descripcion,
+                //                 Meta = a.Meta,
+                //                 Real = a.Real ?? 0,
+                //                 Acepto = a.Acepto,
+                //                 MotivoR = a.MotivoR,
+                //                 FechaCarga = a.FechaCarga,
+                //                 FechaAceptado = a.FechaAceptado,
+                //                 FechaRechazo = a.FechaRechazo,
+                //                 Nivel = bItem.Nivel ?? 0,
+                //                 Valor = bItem.Valor ?? 0,
+                //                 Tooltip = cItem.Tooltip ?? string.Empty
+                //             } by new { a.Concepto, a.Descripcion } into g
+                //             select new Dor_ObjetivosEmpleado
+                //             {
+                //                 IdEmpOb = g.First().IdEmpOb,
+                //                 UnidadDeNegocio = g.First().UnidadDeNegocio,
+                //                 Concepto = g.Key.Concepto,
+                //                 Descripcion = g.Key.Descripcion,
+                //                 Meta = g.First().Meta,
+                //                 Real = g.First().Real,
+                //                 PorcentajeEstimado = g.Max(item => item.Valor),
+                //                 PorcentajeReal = g.First().Real * g.Max(item => item.Valor) / g.First().Meta,
+                //                 Acepto = g.First().Acepto,
+                //                 MotivoR = g.First().MotivoR,
+                //                 FechaCarga = g.First().FechaCarga,
+                //                 FechaAceptado = g.First().FechaAceptado,
+                //                 FechaRechazo = g.First().FechaRechazo,
+                //                 Nivel = g.Max(item => item.Nivel),
+                //                 Valor = g.Max(item => item.Valor),
+                //                 Tooltip = g.First().Tooltip
+                //             }).ToListAsync();
+
+                res = await (from a in db.dOR_ObjetivosDesepenos
+                             where a.Anio == anio
+                             && a.Proyecto == proyecto
+                             && a.Empleado == empleado
+                             && (acepto == 0 || a.Acepto == acepto)
+                             orderby a.Descripcion ascending
+                             group new Dor_ObjetivosEmpleado
+                             {
+                                 IdEmpOb = a.IdEmpOb,
+                                 UnidadDeNegocio = a.UnidadDeNegocio,
+                                 Concepto = a.Concepto,
+                                 Descripcion = a.Descripcion,
+                                 Meta = a.Meta,
+                                 Real = a.Real,
+                                 Acepto = a.Acepto,
+                                 MotivoR = a.MotivoR,
+                                 FechaCarga = a.FechaCarga,
+                                 FechaAceptado = a.FechaAceptado,
+                                 FechaRechazo = a.FechaRechazo,
+                                 Valor = a.Valor
+                             } by new { a.IdEmpOb, a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Meta, a.Valor, a.Real, a.Acepto, a.MotivoR, a.FechaCarga, a.FechaAceptado, a.FechaRechazo } into g
+                             select new Dor_ObjetivosEmpleado
+                             {
+                                 IdEmpOb = g.Key.IdEmpOb,
+                                 UnidadDeNegocio = g.Key.UnidadDeNegocio,
+                                 Concepto = g.Key.Concepto,
+                                 Descripcion = g.Key.Descripcion,
+                                 Meta = g.Key.Meta ?? 0,
+                                 Real = g.Key.Real ?? 0,
+                                 PorcentajeEstimado = g.Key.Valor ?? 0,
+                                 PorcentajeReal = (g.Key.Real * Convert.ToDecimal(g.Key.Valor) / g.Key.Meta) ?? 0,
+                                 Acepto = g.Key.Acepto,
+                                 MotivoR = g.Key.MotivoR,
+                                 FechaCarga = g.Key.FechaCarga,
+                                 FechaAceptado = g.Key.FechaAceptado,
+                                 FechaRechazo = g.Key.FechaRechazo,
+                                 Nivel = nivel,
+                                 Valor = g.Key.Valor ?? 0
+                             }).ToListAsync();
             }
 
             return res;
