@@ -532,7 +532,7 @@ namespace Bovis.Data
                                      FechaAceptado = a.FechaAceptado,
                                      FechaRechazo = a.FechaRechazo,
                                      Nivel = null,
-                                     Valor = a.Nivel,
+                                     Valor = a.Valor,
                                      Tooltip = null
                                  }).ToListAsync();
                 }
@@ -547,7 +547,7 @@ namespace Bovis.Data
                     //             && a.Proyecto == proyecto
                     //             && a.Empleado == empleado
                     //             && bItem.Nivel == nivel
-                    //             && a.Acepto == acepto
+                    //             orderby a.Descripcion ascending
                     //             group new Dor_ObjetivosEmpleado
                     //             {
                     //                 IdEmpOb = a.IdEmpOb,
@@ -555,17 +555,15 @@ namespace Bovis.Data
                     //                 Concepto = a.Concepto,
                     //                 Descripcion = a.Descripcion,
                     //                 Meta = a.Meta,
-                    //                 Real = a.Real != null ? a.Real : 0,
-                    //                 PorcentajeEstimado = bItem != null ? bItem.Valor : 0,
-                    //                 PorcentajeReal = (a.Real != null && a.Meta != null) ? Convert.ToDecimal(a.Real) * Convert.ToDecimal(bItem != null ? bItem.Valor : "0") / Convert.ToDecimal(a.Meta) : 0,
+                    //                 Real = a.Real ?? 0,
                     //                 Acepto = a.Acepto,
                     //                 MotivoR = a.MotivoR,
                     //                 FechaCarga = a.FechaCarga,
                     //                 FechaAceptado = a.FechaAceptado,
                     //                 FechaRechazo = a.FechaRechazo,
-                    //                 Nivel = bItem != null ? bItem.Nivel : 0,
-                    //                 Valor = bItem != null ? bItem.Valor : 0,
-                    //                 Tooltip = cItem != null ? cItem.Tooltip : string.Empty
+                    //                 Nivel = bItem.Nivel ?? 0,
+                    //                 Valor = bItem.Valor ?? 0,
+                    //                 Tooltip = cItem.Tooltip ?? string.Empty
                     //             } by new { a.Concepto, a.Descripcion } into g
                     //             select new Dor_ObjetivosEmpleado
                     //             {
@@ -575,29 +573,22 @@ namespace Bovis.Data
                     //                 Descripcion = g.Key.Descripcion,
                     //                 Meta = g.First().Meta,
                     //                 Real = g.First().Real,
-                    //                 PorcentajeEstimado = g.First().PorcentajeEstimado,
-                    //                 PorcentajeReal = g.First().PorcentajeReal,
+                    //                 PorcentajeEstimado = g.Max(item => item.Valor),
+                    //                 PorcentajeReal = g.First().Real * g.Max(item => item.Valor) / g.First().Meta,
                     //                 Acepto = g.First().Acepto,
                     //                 MotivoR = g.First().MotivoR,
                     //                 FechaCarga = g.First().FechaCarga,
                     //                 FechaAceptado = g.First().FechaAceptado,
                     //                 FechaRechazo = g.First().FechaRechazo,
-                    //                 Nivel = g.First().Nivel,
-                    //                 Valor = g.First().Valor,
+                    //                 Nivel = g.Max(item => item.Nivel),
+                    //                 Valor = g.Max(item => item.Valor),
                     //                 Tooltip = g.First().Tooltip
                     //             }).ToListAsync();
 
-
                     res = await (from a in db.dOR_ObjetivosDesepenos
-                                 join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
-                                 from bItem in bJoin.DefaultIfEmpty()
-                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
-                                 from cItem in cJoin.DefaultIfEmpty()
                                  where a.Anio == anio
                                  && a.Proyecto == proyecto
                                  && a.Empleado == empleado
-                                 && bItem.Nivel == nivel
-                                 && a.Acepto == acepto
                                  orderby a.Descripcion ascending
                                  group new Dor_ObjetivosEmpleado
                                  {
@@ -606,34 +597,28 @@ namespace Bovis.Data
                                      Concepto = a.Concepto,
                                      Descripcion = a.Descripcion,
                                      Meta = a.Meta,
-                                     Real = a.Real ?? 0,
+                                     Real = a.Real,
+                                     Valor = a.Valor,
                                      Acepto = a.Acepto,
                                      MotivoR = a.MotivoR,
                                      FechaCarga = a.FechaCarga,
                                      FechaAceptado = a.FechaAceptado,
-                                     FechaRechazo = a.FechaRechazo,
-                                     Nivel = bItem.Nivel ?? 0,
-                                     Valor = bItem.Valor ?? 0,
-                                     Tooltip = cItem.Tooltip ?? string.Empty
-                                 } by new { a.Concepto, a.Descripcion } into g
+                                     FechaRechazo = a.FechaRechazo
+                                 } by new { a.IdEmpOb, a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Meta, a.Valor, a.Real, a.Acepto, a.MotivoR, a.FechaCarga, a.FechaAceptado, a.FechaRechazo } into g
                                  select new Dor_ObjetivosEmpleado
                                  {
-                                     IdEmpOb = g.First().IdEmpOb,
-                                     UnidadDeNegocio = g.First().UnidadDeNegocio,
+                                     IdEmpOb = g.Key.IdEmpOb,
+                                     UnidadDeNegocio = g.Key.UnidadDeNegocio,
                                      Concepto = g.Key.Concepto,
                                      Descripcion = g.Key.Descripcion,
-                                     Meta = g.First().Meta,
-                                     Real = g.First().Real,
-                                     PorcentajeEstimado = g.Max(item => item.Valor),
-                                     PorcentajeReal = g.First().Real * g.Max(item => item.Valor) / g.First().Meta,
-                                     Acepto = g.First().Acepto,
-                                     MotivoR = g.First().MotivoR,
-                                     FechaCarga = g.First().FechaCarga,
-                                     FechaAceptado = g.First().FechaAceptado,
-                                     FechaRechazo = g.First().FechaRechazo,
-                                     Nivel = g.Max(item => item.Nivel),
-                                     Valor = g.Max(item => item.Valor),
-                                     Tooltip = g.First().Tooltip
+                                     Meta = g.Key.Meta,
+                                     Real = g.Key.Real,
+                                     PorcentajeEstimado = g.Key.Real * g.Key.Valor / g.Key.Meta,
+                                     Acepto = g.Key.Acepto,
+                                     MotivoR = g.Key.MotivoR,
+                                     FechaCarga = g.Key.FechaCarga,
+                                     FechaAceptado = g.Key.FechaAceptado,
+                                     FechaRechazo = g.Key.FechaRechazo
                                  }).ToListAsync();
                 }
             }
@@ -674,7 +659,7 @@ namespace Bovis.Data
                                         FechaCarga = objetivo.FechaCarga,
                                         FechaAceptado = objetivo.FechaAceptado,
                                         FechaRechazo = objetivo.FechaRechazo,
-                                        Nivel = objetivo.Nivel,
+                                        Valor = objetivo.Valor,
                                     }) > 0;
 
                 resp.Success = objetivoDB;
@@ -697,7 +682,7 @@ namespace Bovis.Data
                                 .Value(x => x.Real, objetivo.Real)
                                 .Value(x => x.Ponderado, objetivo.Ponderado)
                                 .Value(x => x.Calificacion, objetivo.Calificacion)
-                                .Value(x => x.Nivel, objetivo.Nivel)
+                                .Value(x => x.Valor, objetivo.Valor)
                                 .Value(x => x.Anio, objetivo.Anio)
                                 .Value(x => x.Proyecto, objetivo.Proyecto)
                                 .Value(x => x.Empleado, objetivo.Empleado)

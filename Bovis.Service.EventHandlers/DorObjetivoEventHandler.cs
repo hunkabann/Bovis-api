@@ -47,7 +47,7 @@ namespace Bovis.Service.EventHandlers
                 Real = objetivo.Real,
                 Ponderado = objetivo.Ponderado,
                 Calificacion = objetivo.Calificacion,
-                Nivel = objetivo.Nivel,               
+                Valor = objetivo.Valor,               
                 Anio = objetivo.Anio,
                 Proyecto = objetivo.Proyecto,
                 Empleado = objetivo.Empleado,

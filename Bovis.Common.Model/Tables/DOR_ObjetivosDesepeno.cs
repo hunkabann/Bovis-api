@@ -13,7 +13,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Real"), Nullable] public decimal? Real { get; set; }
         [Column("Ponderado"), Nullable] public string? Ponderado { get; set; }
         [Column("Calificacion"), Nullable] public string? Calificacion { get; set; }
-        [Column("Nivel"), Nullable] public int? Nivel { get; set; }
+        [Column("Valor"), Nullable] public int? Valor { get; set; }
         [Column("Año"), Nullable] public int? Anio { get; set; }
         [Column("Mes"), Nullable] public int? Mes { get; set; }
         [Column("Proyecto"), Nullable] public int? Proyecto { get; set; }

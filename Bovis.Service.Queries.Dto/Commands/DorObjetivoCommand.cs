@@ -19,7 +19,7 @@ namespace Bovis.Service.Queries.Dto.Commands
         public decimal? Real { get; set; }
         public string? Ponderado { get; set; }
         public string? Calificacion { get; set; }
-        public int? Nivel { get; set; }
+        //public int? Nivel { get; set; }
         //[Required(ErrorMessage = "El campo año es requerido")]
         public int? Anio { get; set; }
         //[Required(ErrorMessage = "El campo proyecto es requerido")]
