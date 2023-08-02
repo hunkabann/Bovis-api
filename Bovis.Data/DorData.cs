@@ -613,7 +613,7 @@ namespace Bovis.Data
                                      Descripcion = g.Key.Descripcion,
                                      Meta = g.Key.Meta ?? 0,
                                      Real = g.Key.Real ?? 0,
-                                     PorcentajeEstimado = (g.Key.Real * g.Key.Valor / g.Key.Meta) ?? 0,
+                                     PorcentajeEstimado = (g.Key.Real * Convert.ToDecimal(g.Key.Valor) / g.Key.Meta) ?? 0,
                                      Acepto = g.Key.Acepto,
                                      MotivoR = g.Key.MotivoR,
                                      FechaCarga = g.Key.FechaCarga,
