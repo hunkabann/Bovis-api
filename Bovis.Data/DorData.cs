@@ -675,12 +675,13 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_record = Convert.ToInt32(registro["id"].ToString());
+            int id = Convert.ToInt32(registro["id"].ToString());
+            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
             decimal real = Convert.ToDecimal(registro["real"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_real = await db.dOR_Meta_Proyectos.Where(x => x.Id == id_record)
+                var res_update_real = await db.dOR_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
                     .UpdateAsync(x => new DOR_Meta_Proyecto
                     {
                         Real = real
