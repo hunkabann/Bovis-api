@@ -12,11 +12,13 @@ namespace Bovis.Common.Model.NoTable
         public string? UnidadDeNegocio { get; set; }
         public string? Concepto { get; set; }
         public string? Descripcion { get; set; }
+        public int? Empleado { get; set; }
         public decimal? Meta { get; set; }
         public decimal? MetaValor { get; set; }
         public string? PromedioReal { get; set; }
         public decimal? PorcentajeEstimado { get; set; }
         public decimal? PorcentajeReal { get; set; }        
+        public decimal? RealArea { get; set; }
         public int? Nivel { get; set; }
         public int? Valor { get; set; }
         public string? Tooltip { get; set; }
