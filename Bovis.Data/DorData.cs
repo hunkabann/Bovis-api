@@ -87,6 +87,10 @@ namespace Bovis.Data
         {           
             List<Dor_ObjetivosGenerales> res = null;
 
+            int anio = mes == 0 && DateTime.Now.Month > 1 ? DateTime.Now.Year
+                : mes > 1 ? DateTime.Now.Year
+                : DateTime.Now.Year - 1;
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 res = await (from a in db.dOR_Objetivos_Gral
@@ -97,6 +101,7 @@ namespace Bovis.Data
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.UnidadDeNegocio == unidadNegocio
                              && b.Nivel == nivel
+                             //&& a.Año == anio
                              orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
                              {
@@ -110,42 +115,42 @@ namespace Bovis.Data
                                  Nivel = b.Nivel,
                                  Valor = b.Valor,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
-                                 Enero = a.Ene ?? 0,
-                                 Febrero = a.Feb ?? 0,
-                                 Marzo = a.Mar ?? 0,
-                                 Abril = a.Abr ?? 0,
-                                 Mayo = a.May ?? 0,
-                                 Junio = a.Jun ?? 0,
-                                 Julio = a.Jul ?? 0,
-                                 Agosto = a.Ago ?? 0,
-                                 Septiembre = a.Sep ?? 0,
-                                 Octubre = a.Oct ?? 0,
-                                 Noviembre = a.Nov ?? 0,
-                                 Diciembre = a.Dic ?? 0,
-                                 IngresoEnero = dItem.InEnero ?? 0,
-                                 IngresoFebrero = dItem.InFebrero ?? 0,
-                                 IngresoMarzo = dItem.InMarzo ?? 0,
-                                 IngresoAbril = dItem.InAbril ?? 0,
-                                 IngresoMayo = dItem.InMayo ?? 0,
-                                 IngresoJunio = dItem.InJunio ?? 0,
-                                 IngresoJulio = dItem.InJulio ?? 0,
-                                 IngresoAgosto = dItem.InAgosto ?? 0,
-                                 IngresoSeptiembre = dItem.InSeptiembre ?? 0,
-                                 IngresoOctubre = dItem.InOctubre ?? 0,
-                                 IngresoNoviembre = dItem.InNoviembre ?? 0,
-                                 IngresoDiciembre = dItem.InDiciembre ?? 0,
-                                 GastoEnero = dItem.OutEnero ?? 0,
-                                 GastoFebrero = dItem.OutFebrero ?? 0,
-                                 GastoMarzo = dItem.OutMarzo ?? 0,
-                                 GastoAbril = dItem.OutAbril ?? 0,
-                                 GastoMayo = dItem.OutMayo ?? 0,
-                                 GastoJunio = dItem.OutJunio ?? 0,
-                                 GastoJulio = dItem.OutJulio ?? 0,
-                                 GastoAgosto = dItem.OutAgosto ?? 0,
-                                 GastoSeptiembre = dItem.OutSeptiembre ?? 0,
-                                 GastoOctubre = dItem.OutOctubre ?? 0,
-                                 GastoNoviembre = dItem.OutNoviembre ?? 0,
-                                 GastoDiciembre = dItem.OutDiciembre ?? 0
+                                 Enero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
+                                 Febrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
+                                 Marzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.Marzo : 0) ?? 0,
+                                 Abril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? a.Abril : 0) ?? 0,
+                                 Mayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? a.Mayo : 0) ?? 0,
+                                 Junio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? a.Junio : 0) ?? 0,
+                                 Julio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? a.Julio : 0) ?? 0,
+                                 Agosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? a.Agosto : 0) ?? 0,
+                                 Septiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? a.Septiembre : 0) ?? 0,
+                                 Octubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? a.Octubre : 0) ?? 0,
+                                 Noviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? a.Noviembre : 0) ?? 0,
+                                 Diciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? a.Diciembre : 0) ?? 0,
+                                 IngresoEnero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? dItem.InEnero : 0) ?? 0,
+                                 IngresoFebrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? dItem.InFebrero : 0) ?? 0,
+                                 IngresoMarzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? dItem.InMarzo : 0) ?? 0,
+                                 IngresoAbril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? dItem.InAbril : 0) ?? 0,
+                                 IngresoMayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? dItem.InMayo : 0) ?? 0,
+                                 IngresoJunio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? dItem.InJunio : 0) ?? 0,
+                                 IngresoJulio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? dItem.InJulio : 0) ?? 0,
+                                 IngresoAgosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? dItem.InAgosto : 0) ?? 0,
+                                 IngresoSeptiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? dItem.InSeptiembre : 0) ?? 0,
+                                 IngresoOctubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? dItem.InOctubre : 0) ?? 0,
+                                 IngresoNoviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? dItem.InNoviembre : 0) ?? 0,
+                                 IngresoDiciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? dItem.InDiciembre : 0) ?? 0,
+                                 GastoEnero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? dItem.OutEnero : 0) ?? 0,
+                                 GastoFebrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? dItem.OutFebrero : 0) ?? 0,
+                                 GastoMarzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? dItem.OutMarzo : 0) ?? 0,
+                                 GastoAbril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? dItem.OutAbril : 0) ?? 0,
+                                 GastoMayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? dItem.OutMayo : 0) ?? 0,
+                                 GastoJunio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? dItem.OutJunio : 0) ?? 0,
+                                 GastoJulio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? dItem.OutJulio : 0) ?? 0,
+                                 GastoAgosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? dItem.OutAgosto : 0) ?? 0,
+                                 GastoSeptiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? dItem.OutSeptiembre : 0) ?? 0,
+                                 GastoOctubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? dItem.OutOctubre : 0) ?? 0,
+                                 GastoNoviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? dItem.OutNoviembre : 0) ?? 0,
+                                 GastoDiciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? dItem.OutDiciembre : 0) ?? 0
                              } by new { a.Descripcion, a.Concepto } into g
                              select new Dor_ObjetivosGenerales
                              {
@@ -159,7 +164,7 @@ namespace Bovis.Data
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
                                  Nivel = g.First().Nivel,
                                  Valor = g.First().Valor,
-                                 Tooltip = g.First().Tooltip,                                 
+                                 Tooltip = g.First().Tooltip,
                                  Enero = g.First().Enero,
                                  Febrero = g.First().Febrero,
                                  Marzo = g.First().Marzo,
@@ -172,20 +177,20 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,
-                                 Real = mes == 0 ? g.Sum(item => Convert.ToDecimal(item.Enero.GetValueOrDefault()) + Convert.ToDecimal(item.Febrero.GetValueOrDefault()) + Convert.ToDecimal(item.Marzo.GetValueOrDefault()) + Convert.ToDecimal(item.Abril.GetValueOrDefault()) + Convert.ToDecimal(item.Mayo.GetValueOrDefault()) + Convert.ToDecimal(item.Junio.GetValueOrDefault()) + Convert.ToDecimal(item.Julio.GetValueOrDefault()) + Convert.ToDecimal(item.Agosto.GetValueOrDefault()) + Convert.ToDecimal(item.Septiembre.GetValueOrDefault()) + Convert.ToDecimal(item.Octubre.GetValueOrDefault()) + Convert.ToDecimal(item.Noviembre.GetValueOrDefault()) + Convert.ToDecimal(item.Diciembre.GetValueOrDefault())) / (DateTime.Now.Month - 1)
-                                     : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.Enero.GetValueOrDefault()))
-                                     : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.Febrero.GetValueOrDefault()))
-                                     : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.Marzo.GetValueOrDefault()))
-                                     : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.Abril.GetValueOrDefault()))
-                                     : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.Mayo.GetValueOrDefault()))
-                                     : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.Junio.GetValueOrDefault()))
-                                     : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.Julio.GetValueOrDefault()))
-                                     : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.Agosto.GetValueOrDefault()))
-                                     : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.Septiembre.GetValueOrDefault()))
-                                     : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.Octubre.GetValueOrDefault()))
-                                     : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.Noviembre.GetValueOrDefault()))
-                                     : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.Diciembre.GetValueOrDefault()))
-                                     : 0,
+                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 : mes == 1 ? g.First().Enero
+                                 : mes == 2 ? g.First().Febrero
+                                 : mes == 3 ? g.First().Marzo
+                                 : mes == 4 ? g.First().Abril
+                                 : mes == 5 ? g.First().Mayo
+                                 : mes == 6 ? g.First().Junio
+                                 : mes == 7 ? g.First().Julio
+                                 : mes == 8 ? g.First().Agosto
+                                 : mes == 9 ? g.First().Septiembre
+                                 : mes == 10 ? g.First().Octubre
+                                 : mes == 11 ? g.First().Noviembre
+                                 : mes == 12 ? g.First().Diciembre
+                                 : 0,
                                  IngresoEnero = g.First().IngresoEnero,
                                  IngresoFebrero = g.First().IngresoFebrero,
                                  IngresoMarzo = g.First().IngresoMarzo,
@@ -198,20 +203,20 @@ namespace Bovis.Data
                                  IngresoOctubre = g.First().IngresoOctubre,
                                  IngresoNoviembre = g.First().IngresoNoviembre,
                                  IngresoDiciembre = g.First().IngresoDiciembre,
-                                 IngresoTotal = mes == 0 ? g.Sum(item => Convert.ToDecimal(item.IngresoEnero.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoFebrero.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoMarzo.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoAbril.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoMayo.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoJunio.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoJulio.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoAgosto.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoSeptiembre.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoOctubre.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoNoviembre.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.IngresoEnero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.IngresoFebrero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.IngresoMarzo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.IngresoAbril.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.IngresoMayo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.IngresoJunio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.IngresoJulio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.IngresoAgosto.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.IngresoSeptiembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.IngresoOctubre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.IngresoNoviembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.IngresoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : 0,
+                                 IngresoTotal = mes == 0 ? (g.First().IngresoEnero + g.First().IngresoFebrero + g.First().IngresoMarzo + g.First().IngresoAbril + g.First().IngresoMayo + g.First().IngresoJunio + g.First().IngresoJulio + g.First().IngresoAgosto + g.First().IngresoSeptiembre + g.First().IngresoOctubre + g.First().IngresoNoviembre + g.First().IngresoDiciembre) / g.First().MetaValor
+                                 : mes == 1 ? g.First().IngresoEnero / g.First().MetaValor
+                                 : mes == 2 ? g.First().IngresoFebrero / g.First().MetaValor
+                                 : mes == 3 ? g.First().IngresoMarzo / g.First().MetaValor
+                                 : mes == 4 ? g.First().IngresoAbril / g.First().MetaValor
+                                 : mes == 5 ? g.First().IngresoMayo / g.First().MetaValor
+                                 : mes == 6 ? g.First().IngresoJunio / g.First().MetaValor
+                                 : mes == 7 ? g.First().IngresoJulio / g.First().MetaValor
+                                 : mes == 8 ? g.First().IngresoAgosto / g.First().MetaValor
+                                 : mes == 9 ? g.First().IngresoSeptiembre / g.First().MetaValor
+                                 : mes == 10 ? g.First().IngresoOctubre / g.First().MetaValor
+                                 : mes == 11 ? g.First().IngresoNoviembre / g.First().MetaValor
+                                 : mes == 12 ? g.First().IngresoDiciembre / g.First().MetaValor
+                                 : 0,
                                  GastoEnero = g.First().GastoEnero,
                                  GastoFebrero = g.First().GastoFebrero,
                                  GastoMarzo = g.First().GastoMarzo,
@@ -223,21 +228,21 @@ namespace Bovis.Data
                                  GastoSeptiembre = g.First().GastoSeptiembre,
                                  GastoOctubre = g.First().GastoOctubre,
                                  GastoNoviembre = g.First().GastoNoviembre,
-                                 GastoDiciembre = g.First().GastoDiciembre,                                 
-                                 GastoTotal = mes == 0 ? g.Sum(item => Convert.ToDecimal(item.GastoEnero.GetValueOrDefault()) + Convert.ToDecimal(item.GastoFebrero.GetValueOrDefault()) + Convert.ToDecimal(item.GastoMarzo.GetValueOrDefault()) + Convert.ToDecimal(item.GastoAbril.GetValueOrDefault()) + Convert.ToDecimal(item.GastoMayo.GetValueOrDefault()) + Convert.ToDecimal(item.GastoJunio.GetValueOrDefault()) + Convert.ToDecimal(item.GastoJulio.GetValueOrDefault()) + Convert.ToDecimal(item.GastoAgosto.GetValueOrDefault()) + Convert.ToDecimal(item.GastoSeptiembre.GetValueOrDefault()) + Convert.ToDecimal(item.GastoOctubre.GetValueOrDefault()) + Convert.ToDecimal(item.GastoNoviembre.GetValueOrDefault()) + Convert.ToDecimal(item.GastoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.GastoEnero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.GastoFebrero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.GastoMarzo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.GastoAbril.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.GastoMayo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.GastoJunio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.GastoJulio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.GastoAgosto.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.GastoSeptiembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.GastoOctubre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.GastoNoviembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.GastoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : 0                                 
+                                 GastoDiciembre = g.First().GastoDiciembre,
+                                 GastoTotal = mes == 0 ? (g.First().GastoEnero + g.First().GastoFebrero + g.First().GastoMarzo + g.First().GastoAbril + g.First().GastoMayo + g.First().GastoJunio + g.First().GastoJulio + g.First().GastoAgosto + g.First().GastoSeptiembre + g.First().GastoOctubre + g.First().GastoNoviembre + g.First().GastoDiciembre) / g.First().MetaValor
+                                 : mes == 1 ? g.First().GastoEnero / g.First().MetaValor
+                                 : mes == 2 ? g.First().GastoFebrero / g.First().MetaValor
+                                 : mes == 3 ? g.First().GastoMarzo / g.First().MetaValor
+                                 : mes == 4 ? g.First().GastoAbril / g.First().MetaValor
+                                 : mes == 5 ? g.First().GastoMayo / g.First().MetaValor
+                                 : mes == 6 ? g.First().GastoJunio / g.First().MetaValor
+                                 : mes == 7 ? g.First().GastoJulio / g.First().MetaValor
+                                 : mes == 8 ? g.First().GastoAgosto / g.First().MetaValor
+                                 : mes == 9 ? g.First().GastoSeptiembre / g.First().MetaValor
+                                 : mes == 10 ? g.First().GastoOctubre / g.First().MetaValor
+                                 : mes == 11 ? g.First().GastoNoviembre / g.First().MetaValor
+                                 : mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
+                                 : 0
                              }).ToListAsync();
 
                 var res_meta_mensual = await (from a in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs
@@ -294,6 +299,10 @@ namespace Bovis.Data
         {
             List<Dor_ObjetivosGenerales> res = null;
 
+            int anio = mes == 0 && DateTime.Now.Month > 1 ? DateTime.Now.Year
+                : mes > 1 ? DateTime.Now.Year
+                : DateTime.Now.Year - 1;
+
             using (var db = new ConnectionDB(dbConfig))
             {                
                 res = await (from a in db.dOR_Meta_Proyectos
@@ -304,6 +313,7 @@ namespace Bovis.Data
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.NoProyecto == proyecto
                              && b.Nivel == nivel
+                             //&& a.Año == anio
                              orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
                              {
@@ -318,54 +328,54 @@ namespace Bovis.Data
                                  Nivel = b.Nivel,
                                  Valor = b.Valor,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
-                                 Enero = a.Enero ?? 0,
-                                 Febrero = a.Febrero ?? 0,
-                                 Marzo = a.Marzo ?? 0,
-                                 Abril = a.Abril ?? 0,
-                                 Mayo = a.Mayo ?? 0,
-                                 Junio = a.Junio ?? 0,
-                                 Julio = a.Julio ?? 0,
-                                 Agosto = a.Agosto ?? 0,
-                                 Septiembre = a.Septiembre ?? 0,
-                                 Octubre = a.Octubre ?? 0,
-                                 Noviembre = a.Noviembre ?? 0,
-                                 Diciembre = a.Diciembre ?? 0,
-                                 IngresoEnero = dItem.InEnero ?? 0,
-                                 IngresoFebrero = dItem.InFebrero ?? 0,
-                                 IngresoMarzo = dItem.InMarzo ?? 0,
-                                 IngresoAbril = dItem.InAbril ?? 0,
-                                 IngresoMayo = dItem.InMayo ?? 0,
-                                 IngresoJunio = dItem.InJunio ?? 0,
-                                 IngresoJulio = dItem.InJulio ?? 0,
-                                 IngresoAgosto = dItem.InAgosto ?? 0,
-                                 IngresoSeptiembre = dItem.InSeptiembre ?? 0,
-                                 IngresoOctubre = dItem.InOctubre ?? 0,
-                                 IngresoNoviembre = dItem.InNoviembre ?? 0,
-                                 IngresoDiciembre = dItem.InDiciembre ?? 0,
-                                 GastoEnero = dItem.OutEnero ?? 0,
-                                 GastoFebrero = dItem.OutFebrero ?? 0,
-                                 GastoMarzo = dItem.OutMarzo ?? 0,
-                                 GastoAbril = dItem.OutAbril ?? 0,
-                                 GastoMayo = dItem.OutMayo ?? 0,
-                                 GastoJunio = dItem.OutJunio ?? 0,
-                                 GastoJulio = dItem.OutJulio ?? 0,
-                                 GastoAgosto = dItem.OutAgosto ?? 0,
-                                 GastoSeptiembre = dItem.OutSeptiembre ?? 0,
-                                 GastoOctubre = dItem.OutOctubre ?? 0,
-                                 GastoNoviembre = dItem.OutNoviembre ?? 0,
-                                 GastoDiciembre = dItem.OutDiciembre ?? 0,
-                                 ProyectadoEnero = a.ProyectadoEnero ?? 0,
-                                 ProyectadoFebrero = a.ProyectadoFebrero ?? 0,
-                                 ProyectadoMarzo = a.ProyectadoMarzo ?? 0,
-                                 ProyectadoAbril = a.ProyectadoAbril ?? 0,
-                                 ProyectadoMayo = a.ProyectadoMayo ?? 0,
-                                 ProyectadoJunio = a.ProyectadoJunio ?? 0,
-                                 ProyectadoJulio = a.ProyectadoJulio ?? 0,
-                                 ProyectadoAgosto = a.ProyectadoAgosto ?? 0,
-                                 ProyectadoSeptiembre = a.ProyectadoSeptiembre ?? 0,
-                                 ProyectadoOctubre = a.ProyectadoOctubre ?? 0,
-                                 ProyectadoNoviembre = a.ProyectadoNoviembre ?? 0,
-                                 ProyectadoDiciembre = a.ProyectadoDiciembre ?? 0
+                                 Enero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
+                                 Febrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
+                                 Marzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.Marzo : 0) ?? 0,
+                                 Abril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? a.Abril : 0) ?? 0,
+                                 Mayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? a.Mayo : 0) ?? 0,
+                                 Junio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? a.Junio : 0) ?? 0,
+                                 Julio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? a.Julio : 0) ?? 0,
+                                 Agosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? a.Agosto : 0) ?? 0,
+                                 Septiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? a.Septiembre : 0) ?? 0,
+                                 Octubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? a.Octubre : 0) ?? 0,
+                                 Noviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? a.Noviembre : 0) ?? 0,
+                                 Diciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? a.Diciembre : 0) ?? 0,
+                                 IngresoEnero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? dItem.InEnero : 0) ?? 0,
+                                 IngresoFebrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? dItem.InFebrero : 0) ?? 0,
+                                 IngresoMarzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? dItem.InMarzo : 0) ?? 0,
+                                 IngresoAbril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? dItem.InAbril : 0) ?? 0,
+                                 IngresoMayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? dItem.InMayo : 0) ?? 0,
+                                 IngresoJunio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? dItem.InJunio : 0) ?? 0,
+                                 IngresoJulio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? dItem.InJulio : 0) ?? 0,
+                                 IngresoAgosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? dItem.InAgosto : 0) ?? 0,
+                                 IngresoSeptiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? dItem.InSeptiembre : 0) ?? 0,
+                                 IngresoOctubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? dItem.InOctubre : 0) ?? 0,
+                                 IngresoNoviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? dItem.InNoviembre : 0) ?? 0,
+                                 IngresoDiciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? dItem.InDiciembre : 0) ?? 0,
+                                 GastoEnero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? dItem.OutEnero : 0) ?? 0,
+                                 GastoFebrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? dItem.OutFebrero : 0) ?? 0,
+                                 GastoMarzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? dItem.OutMarzo : 0) ?? 0,
+                                 GastoAbril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? dItem.OutAbril : 0) ?? 0,
+                                 GastoMayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? dItem.OutMayo : 0) ?? 0,
+                                 GastoJunio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? dItem.OutJunio : 0) ?? 0,
+                                 GastoJulio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? dItem.OutJulio : 0) ?? 0,
+                                 GastoAgosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? dItem.OutAgosto : 0) ?? 0,
+                                 GastoSeptiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? dItem.OutSeptiembre : 0) ?? 0,
+                                 GastoOctubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? dItem.OutOctubre : 0) ?? 0,
+                                 GastoNoviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? dItem.OutNoviembre : 0) ?? 0,
+                                 GastoDiciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? dItem.OutDiciembre : 0) ?? 0,
+                                 ProyectadoEnero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.ProyectadoEnero : 0) ?? 0,
+                                 ProyectadoFebrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.ProyectadoFebrero : 0) ?? 0,
+                                 ProyectadoMarzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.ProyectadoMarzo : 0) ?? 0,
+                                 ProyectadoAbril = (DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? a.ProyectadoAbril : 0) ?? 0,
+                                 ProyectadoMayo = (DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? a.ProyectadoMayo : 0) ?? 0,
+                                 ProyectadoJunio = (DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? a.ProyectadoJunio : 0) ?? 0,
+                                 ProyectadoJulio = (DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? a.ProyectadoJulio : 0) ?? 0,
+                                 ProyectadoAgosto = (DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? a.ProyectadoAgosto : 0) ?? 0,
+                                 ProyectadoSeptiembre = (DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? a.ProyectadoSeptiembre : 0) ?? 0,
+                                 ProyectadoOctubre = (DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? a.ProyectadoOctubre : 0) ?? 0,
+                                 ProyectadoNoviembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? a.ProyectadoNoviembre : 0) ?? 0,
+                                 ProyectadoDiciembre = (DateTime.Now.Month > 11 || (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? a.ProyectadoDiciembre : 0) ?? 0
                              } by new { a.Descripcion, a.Concepto } into g
                              select new Dor_ObjetivosGenerales
                              {
@@ -393,20 +403,20 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,
-                                 Real = g.First().Concepto == "AREA" && g.First().Descripcion == "Planes de trabajo" && g.First().Empleado != null ? g.First().RealArea                                 
-                                 : mes == 0 ? g.Sum(item => Convert.ToDecimal(item.Enero.GetValueOrDefault()) + Convert.ToDecimal(item.Febrero.GetValueOrDefault()) + Convert.ToDecimal(item.Marzo.GetValueOrDefault()) + Convert.ToDecimal(item.Abril.GetValueOrDefault()) + Convert.ToDecimal(item.Mayo.GetValueOrDefault()) + Convert.ToDecimal(item.Junio.GetValueOrDefault()) + Convert.ToDecimal(item.Julio.GetValueOrDefault()) + Convert.ToDecimal(item.Agosto.GetValueOrDefault()) + Convert.ToDecimal(item.Septiembre.GetValueOrDefault()) + Convert.ToDecimal(item.Octubre.GetValueOrDefault()) + Convert.ToDecimal(item.Noviembre.GetValueOrDefault()) + Convert.ToDecimal(item.Diciembre.GetValueOrDefault())) / (DateTime.Now.Month - 1)
-                                 : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.Enero.GetValueOrDefault()))
-                                 : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.Febrero.GetValueOrDefault()))
-                                 : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.Marzo.GetValueOrDefault()))
-                                 : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.Abril.GetValueOrDefault()))
-                                 : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.Mayo.GetValueOrDefault()))
-                                 : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.Junio.GetValueOrDefault()))
-                                 : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.Julio.GetValueOrDefault()))
-                                 : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.Agosto.GetValueOrDefault()))
-                                 : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.Septiembre.GetValueOrDefault()))
-                                 : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.Octubre.GetValueOrDefault()))
-                                 : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.Noviembre.GetValueOrDefault()))
-                                 : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.Diciembre.GetValueOrDefault()))
+                                 Real = g.First().Concepto == "AREA" && g.First().Descripcion == "Planes de trabajo" && g.First().Empleado != null ? g.First().RealArea
+                                 : mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 : mes == 1 ? g.First().Enero
+                                 : mes == 2 ? g.First().Febrero
+                                 : mes == 3 ? g.First().Marzo
+                                 : mes == 4 ? g.First().Abril
+                                 : mes == 5 ? g.First().Mayo
+                                 : mes == 6 ? g.First().Junio
+                                 : mes == 7 ? g.First().Julio
+                                 : mes == 8 ? g.First().Agosto
+                                 : mes == 9 ? g.First().Septiembre
+                                 : mes == 10 ? g.First().Octubre
+                                 : mes == 11 ? g.First().Noviembre
+                                 : mes == 12 ? g.First().Diciembre
                                  : 0,
                                  IngresoEnero = g.First().IngresoEnero,
                                  IngresoFebrero = g.First().IngresoFebrero,
@@ -420,21 +430,20 @@ namespace Bovis.Data
                                  IngresoOctubre = g.First().IngresoOctubre,
                                  IngresoNoviembre = g.First().IngresoNoviembre,
                                  IngresoDiciembre = g.First().IngresoDiciembre,
-                                 IngresoTotal = mes == 0
-                                    ? g.Sum(item => Convert.ToDecimal(item.IngresoEnero.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoFebrero.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoMarzo.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoAbril.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoMayo.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoJunio.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoJulio.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoAgosto.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoSeptiembre.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoOctubre.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoNoviembre.GetValueOrDefault()) + Convert.ToDecimal(item.IngresoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.IngresoEnero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.IngresoFebrero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.IngresoMarzo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.IngresoAbril.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.IngresoMayo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.IngresoJunio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.IngresoJulio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.IngresoAgosto.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.IngresoSeptiembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.IngresoOctubre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.IngresoNoviembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.IngresoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : 0,
+                                 IngresoTotal = mes == 0 ? (g.First().IngresoEnero + g.First().IngresoFebrero + g.First().IngresoMarzo + g.First().IngresoAbril + g.First().IngresoMayo + g.First().IngresoJunio + g.First().IngresoJulio + g.First().IngresoAgosto + g.First().IngresoSeptiembre + g.First().IngresoOctubre + g.First().IngresoNoviembre + g.First().IngresoDiciembre) / g.First().MetaValor
+                                 : mes == 1 ? g.First().IngresoEnero / g.First().MetaValor
+                                 : mes == 2 ? g.First().IngresoFebrero / g.First().MetaValor
+                                 : mes == 3 ? g.First().IngresoMarzo / g.First().MetaValor
+                                 : mes == 4 ? g.First().IngresoAbril / g.First().MetaValor
+                                 : mes == 5 ? g.First().IngresoMayo / g.First().MetaValor
+                                 : mes == 6 ? g.First().IngresoJunio / g.First().MetaValor
+                                 : mes == 7 ? g.First().IngresoJulio / g.First().MetaValor
+                                 : mes == 8 ? g.First().IngresoAgosto / g.First().MetaValor
+                                 : mes == 9 ? g.First().IngresoSeptiembre / g.First().MetaValor
+                                 : mes == 10 ? g.First().IngresoOctubre / g.First().MetaValor
+                                 : mes == 11 ? g.First().IngresoNoviembre / g.First().MetaValor
+                                 : mes == 12 ? g.First().IngresoDiciembre / g.First().MetaValor
+                                 : 0,
                                  GastoEnero = g.First().GastoEnero,
                                  GastoFebrero = g.First().GastoFebrero,
                                  GastoMarzo = g.First().GastoMarzo,
@@ -447,21 +456,20 @@ namespace Bovis.Data
                                  GastoOctubre = g.First().GastoOctubre,
                                  GastoNoviembre = g.First().GastoNoviembre,
                                  GastoDiciembre = g.First().GastoDiciembre,
-                                 GastoTotal = mes == 0
-                                    ? g.Sum(item => Convert.ToDecimal(item.GastoEnero.GetValueOrDefault()) + Convert.ToDecimal(item.GastoFebrero.GetValueOrDefault()) + Convert.ToDecimal(item.GastoMarzo.GetValueOrDefault()) + Convert.ToDecimal(item.GastoAbril.GetValueOrDefault()) + Convert.ToDecimal(item.GastoMayo.GetValueOrDefault()) + Convert.ToDecimal(item.GastoJunio.GetValueOrDefault()) + Convert.ToDecimal(item.GastoJulio.GetValueOrDefault()) + Convert.ToDecimal(item.GastoAgosto.GetValueOrDefault()) + Convert.ToDecimal(item.GastoSeptiembre.GetValueOrDefault()) + Convert.ToDecimal(item.GastoOctubre.GetValueOrDefault()) + Convert.ToDecimal(item.GastoNoviembre.GetValueOrDefault()) + Convert.ToDecimal(item.GastoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.GastoEnero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.GastoFebrero.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.GastoMarzo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.GastoAbril.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.GastoMayo.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.GastoJunio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.GastoJulio.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.GastoAgosto.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.GastoSeptiembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.GastoOctubre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.GastoNoviembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.GastoDiciembre.GetValueOrDefault())) / g.First().MetaValor
-                                    : 0,
+                                 GastoTotal = mes == 0 ? (g.First().GastoEnero + g.First().GastoFebrero + g.First().GastoMarzo + g.First().GastoAbril + g.First().GastoMayo + g.First().GastoJunio + g.First().GastoJulio + g.First().GastoAgosto + g.First().GastoSeptiembre + g.First().GastoOctubre + g.First().GastoNoviembre + g.First().GastoDiciembre) / g.First().MetaValor
+                                 : mes == 1 ? g.First().GastoEnero / g.First().MetaValor
+                                 : mes == 2 ? g.First().GastoFebrero / g.First().MetaValor
+                                 : mes == 3 ? g.First().GastoMarzo / g.First().MetaValor
+                                 : mes == 4 ? g.First().GastoAbril / g.First().MetaValor
+                                 : mes == 5 ? g.First().GastoMayo / g.First().MetaValor
+                                 : mes == 6 ? g.First().GastoJunio / g.First().MetaValor
+                                 : mes == 7 ? g.First().GastoJulio / g.First().MetaValor
+                                 : mes == 8 ? g.First().GastoAgosto / g.First().MetaValor
+                                 : mes == 9 ? g.First().GastoSeptiembre / g.First().MetaValor
+                                 : mes == 10 ? g.First().GastoOctubre / g.First().MetaValor
+                                 : mes == 11 ? g.First().GastoNoviembre / g.First().MetaValor
+                                 : mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
+                                 : 0,
                                  ProyectadoEnero = g.First().ProyectadoEnero,
                                  ProyectadoFebrero = g.First().ProyectadoFebrero,
                                  ProyectadoMarzo = g.First().ProyectadoMarzo,
@@ -474,21 +482,20 @@ namespace Bovis.Data
                                  ProyectadoOctubre = g.First().ProyectadoOctubre,
                                  ProyectadoNoviembre = g.First().ProyectadoNoviembre,
                                  ProyectadoDiciembre = g.First().ProyectadoDiciembre,
-                                 ProyectadoTotal = mes == 0
-                                    ? g.Sum(item => Convert.ToDecimal(item.ProyectadoEnero.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoFebrero.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoMarzo.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoAbril.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoMayo.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoJunio.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoJulio.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoAgosto.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoSeptiembre.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoOctubre.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoNoviembre.GetValueOrDefault()) + Convert.ToDecimal(item.ProyectadoDiciembre.GetValueOrDefault())) / (DateTime.Now.Month - 1)
-                                    : mes == 1 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoEnero.GetValueOrDefault()))
-                                    : mes == 2 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoFebrero.GetValueOrDefault()))
-                                    : mes == 3 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoMarzo.GetValueOrDefault()))
-                                    : mes == 4 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoAbril.GetValueOrDefault()))
-                                    : mes == 5 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoMayo.GetValueOrDefault()))
-                                    : mes == 6 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoJunio.GetValueOrDefault()))
-                                    : mes == 7 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoJulio.GetValueOrDefault()))
-                                    : mes == 8 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoAgosto.GetValueOrDefault()))
-                                    : mes == 9 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoSeptiembre.GetValueOrDefault()))
-                                    : mes == 10 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoOctubre.GetValueOrDefault()))
-                                    : mes == 11 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoNoviembre.GetValueOrDefault()))
-                                    : mes == 12 ? g.Sum(item => Convert.ToDecimal(item.ProyectadoDiciembre.GetValueOrDefault()))
-                                    : 0
+                                 ProyectadoTotal = mes == 0 ? (g.First().ProyectadoEnero + g.First().ProyectadoFebrero + g.First().ProyectadoMarzo + g.First().ProyectadoAbril + g.First().ProyectadoMayo + g.First().ProyectadoJunio + g.First().ProyectadoJulio + g.First().ProyectadoAgosto + g.First().ProyectadoSeptiembre + g.First().ProyectadoOctubre + g.First().ProyectadoNoviembre + g.First().ProyectadoDiciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 : mes == 1 ? g.First().ProyectadoEnero
+                                 : mes == 2 ? g.First().ProyectadoFebrero
+                                 : mes == 3 ? g.First().ProyectadoMarzo
+                                 : mes == 4 ? g.First().ProyectadoAbril
+                                 : mes == 5 ? g.First().ProyectadoMayo
+                                 : mes == 6 ? g.First().ProyectadoJunio
+                                 : mes == 7 ? g.First().ProyectadoJulio
+                                 : mes == 8 ? g.First().ProyectadoAgosto
+                                 : mes == 9 ? g.First().ProyectadoSeptiembre
+                                 : mes == 10 ? g.First().ProyectadoOctubre
+                                 : mes == 11 ? g.First().ProyectadoNoviembre
+                                 : mes == 12 ? g.First().ProyectadoDiciembre
+                                 : 0
                              }).ToListAsync();
 
                 foreach (var r in res)

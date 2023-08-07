@@ -20,18 +20,18 @@ namespace Bovis.Common.Model.Tables
         [Column("Año"), Nullable] public int? Año { get; set; }
         [Column("Mes"), Nullable] public int? Mes { get; set; }
         [Column("Real"), Nullable] public decimal? Real { get; set; }
-        [Column("Ene"), Nullable] public decimal? Ene { get; set; }
-        [Column("Feb"), Nullable] public decimal? Feb { get; set; }
-        [Column("Mar"), Nullable] public decimal? Mar { get; set; }
-        [Column("Abr"), Nullable] public decimal? Abr { get; set; }
-        [Column("May"), Nullable] public decimal? May { get; set; }
-        [Column("Jun"), Nullable] public decimal? Jun { get; set; }
-        [Column("Jul"), Nullable] public decimal? Jul { get; set; }
-        [Column("Ago"), Nullable] public decimal? Ago { get; set; }
-        [Column("Sep"), Nullable] public decimal? Sep { get; set; }
-        [Column("Oct"), Nullable] public decimal? Oct { get; set; }
-        [Column("Nov"), Nullable] public decimal? Nov { get; set; }
-        [Column("Dic"), Nullable] public decimal? Dic { get; set; }
+        [Column("Ene"), Nullable] public decimal? Enero { get; set; }
+        [Column("Feb"), Nullable] public decimal? Febrero { get; set; }
+        [Column("Mar"), Nullable] public decimal? Marzo { get; set; }
+        [Column("Abr"), Nullable] public decimal? Abril { get; set; }
+        [Column("May"), Nullable] public decimal? Mayo { get; set; }
+        [Column("Jun"), Nullable] public decimal? Junio { get; set; }
+        [Column("Jul"), Nullable] public decimal? Julio { get; set; }
+        [Column("Ago"), Nullable] public decimal? Agosto { get; set; }
+        [Column("Sep"), Nullable] public decimal? Septiembre { get; set; }
+        [Column("Oct"), Nullable] public decimal? Octubre { get; set; }
+        [Column("Nov"), Nullable] public decimal? Noviembre { get; set; }
+        [Column("Dic"), Nullable] public decimal? Diciembre { get; set; }
     }
 }
 
