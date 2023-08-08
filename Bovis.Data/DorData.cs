@@ -94,13 +94,14 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 res = await (from a in db.dOR_Objetivos_Gral
-                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
+                             from bItem in bJoin.DefaultIfEmpty()
                              join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
                              from cItem in cJoin.DefaultIfEmpty()
                              join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.UnidadDeNegocio == unidadNegocio
-                             && b.Nivel == nivel
+                             && bItem.Nivel == nivel
                              //&& a.Año == anio
                              orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
@@ -111,9 +112,9 @@ namespace Bovis.Data
                                  Descripcion = a.Descripcion,                                 
                                  Meta = a.Meta,
                                  MetaValor = a.MetaValor,
-                                 PorcentajeEstimado = b.Valor,
-                                 Nivel = b.Nivel,
-                                 Valor = b.Valor,
+                                 PorcentajeEstimado = bItem.Valor ?? 0,
+                                 Nivel = bItem.Nivel ?? 0,
+                                 Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
                                  Enero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
                                  Febrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
@@ -176,7 +177,7 @@ namespace Bovis.Data
                                  Septiembre = g.First().Septiembre,
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
-                                 Diciembre = g.First().Diciembre,
+                                 Diciembre = g.First().Diciembre,                                 
                                  Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
@@ -253,7 +254,7 @@ namespace Bovis.Data
                 decimal? gastos = 0;
                 decimal? resta_ingresos_gastos = 0;
 
-                foreach(var m in res_meta_mensual)
+                foreach (var m in res_meta_mensual)
                 {
                     ingresos += m.InEnero ?? 0 + m.InFebrero ?? 0 + m.InMarzo ?? 0 + m.InAbril ?? 0 + m.InMayo ?? 0 + m.InJunio ?? 0 + m.InJulio ?? 0 + m.InAgosto ?? 0 + m.InSeptiembre ?? 0 + m.InOctubre ?? 0 + m.InNoviembre ?? 0 + m.InDiciembre ?? 0;
                     gastos += m.OutEnero ?? 0 + m.OutFebrero ?? 0 + m.OutMarzo ?? 0 + m.OutAbril ?? 0 + m.OutMayo ?? 0 + m.OutJunio ?? 0 + m.OutJulio ?? 0 + m.OutAgosto ?? 0 + m.OutSeptiembre ?? 0 + m.OutOctubre ?? 0 + m.OutNoviembre ?? 0 + m.OutDiciembre ?? 0;
@@ -262,8 +263,8 @@ namespace Bovis.Data
                 resta_ingresos_gastos = ingresos - gastos;
 
                 foreach (var r in res)
-                {                    
-                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
+                {
+                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;                    
                     r.MetaMensual = resta_ingresos_gastos / r.MetaValor;
                 }
 
@@ -306,13 +307,14 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {                
                 res = await (from a in db.dOR_Meta_Proyectos
-                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion }
+                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
+                             from bItem in bJoin.DefaultIfEmpty()
                              join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
                              from cItem in cJoin.DefaultIfEmpty()
                              join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.NoProyecto == proyecto
-                             && b.Nivel == nivel
+                             && bItem.Nivel == nivel
                              //&& a.Año == anio
                              orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
@@ -322,11 +324,11 @@ namespace Bovis.Data
                                  Concepto = a.Concepto,
                                  Descripcion = a.Descripcion,
                                  Empleado = a.Empleado,
-                                 Meta = a.Meta,                                 
-                                 PorcentajeEstimado = b.Valor,
+                                 Meta = a.Meta,                                         
+                                 PorcentajeEstimado = bItem.Valor ?? 0,
                                  RealArea = a.Real ?? 0,
-                                 Nivel = b.Nivel,
-                                 Valor = b.Valor,
+                                 Nivel = bItem.Nivel ?? 0,
+                                 Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
                                  Enero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
                                  Febrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
@@ -418,58 +420,58 @@ namespace Bovis.Data
                                  : mes == 11 ? g.First().Noviembre
                                  : mes == 12 ? g.First().Diciembre
                                  : 0,
-                                 IngresoEnero = g.First().IngresoEnero,
-                                 IngresoFebrero = g.First().IngresoFebrero,
-                                 IngresoMarzo = g.First().IngresoMarzo,
-                                 IngresoAbril = g.First().IngresoAbril,
-                                 IngresoMayo = g.First().IngresoMayo,
-                                 IngresoJunio = g.First().IngresoJunio,
-                                 IngresoJulio = g.First().IngresoJulio,
-                                 IngresoAgosto = g.First().IngresoAgosto,
-                                 IngresoSeptiembre = g.First().IngresoSeptiembre,
-                                 IngresoOctubre = g.First().IngresoOctubre,
-                                 IngresoNoviembre = g.First().IngresoNoviembre,
-                                 IngresoDiciembre = g.First().IngresoDiciembre,
-                                 IngresoTotal = mes == 0 ? (g.First().IngresoEnero + g.First().IngresoFebrero + g.First().IngresoMarzo + g.First().IngresoAbril + g.First().IngresoMayo + g.First().IngresoJunio + g.First().IngresoJulio + g.First().IngresoAgosto + g.First().IngresoSeptiembre + g.First().IngresoOctubre + g.First().IngresoNoviembre + g.First().IngresoDiciembre) / g.First().MetaValor
-                                 : mes == 1 ? g.First().IngresoEnero / g.First().MetaValor
-                                 : mes == 2 ? g.First().IngresoFebrero / g.First().MetaValor
-                                 : mes == 3 ? g.First().IngresoMarzo / g.First().MetaValor
-                                 : mes == 4 ? g.First().IngresoAbril / g.First().MetaValor
-                                 : mes == 5 ? g.First().IngresoMayo / g.First().MetaValor
-                                 : mes == 6 ? g.First().IngresoJunio / g.First().MetaValor
-                                 : mes == 7 ? g.First().IngresoJulio / g.First().MetaValor
-                                 : mes == 8 ? g.First().IngresoAgosto / g.First().MetaValor
-                                 : mes == 9 ? g.First().IngresoSeptiembre / g.First().MetaValor
-                                 : mes == 10 ? g.First().IngresoOctubre / g.First().MetaValor
-                                 : mes == 11 ? g.First().IngresoNoviembre / g.First().MetaValor
-                                 : mes == 12 ? g.First().IngresoDiciembre / g.First().MetaValor
-                                 : 0,
-                                 GastoEnero = g.First().GastoEnero,
-                                 GastoFebrero = g.First().GastoFebrero,
-                                 GastoMarzo = g.First().GastoMarzo,
-                                 GastoAbril = g.First().GastoAbril,
-                                 GastoMayo = g.First().GastoMayo,
-                                 GastoJunio = g.First().GastoJunio,
-                                 GastoJulio = g.First().GastoJulio,
-                                 GastoAgosto = g.First().GastoAgosto,
-                                 GastoSeptiembre = g.First().GastoSeptiembre,
-                                 GastoOctubre = g.First().GastoOctubre,
-                                 GastoNoviembre = g.First().GastoNoviembre,
-                                 GastoDiciembre = g.First().GastoDiciembre,
-                                 GastoTotal = mes == 0 ? (g.First().GastoEnero + g.First().GastoFebrero + g.First().GastoMarzo + g.First().GastoAbril + g.First().GastoMayo + g.First().GastoJunio + g.First().GastoJulio + g.First().GastoAgosto + g.First().GastoSeptiembre + g.First().GastoOctubre + g.First().GastoNoviembre + g.First().GastoDiciembre) / g.First().MetaValor
-                                 : mes == 1 ? g.First().GastoEnero / g.First().MetaValor
-                                 : mes == 2 ? g.First().GastoFebrero / g.First().MetaValor
-                                 : mes == 3 ? g.First().GastoMarzo / g.First().MetaValor
-                                 : mes == 4 ? g.First().GastoAbril / g.First().MetaValor
-                                 : mes == 5 ? g.First().GastoMayo / g.First().MetaValor
-                                 : mes == 6 ? g.First().GastoJunio / g.First().MetaValor
-                                 : mes == 7 ? g.First().GastoJulio / g.First().MetaValor
-                                 : mes == 8 ? g.First().GastoAgosto / g.First().MetaValor
-                                 : mes == 9 ? g.First().GastoSeptiembre / g.First().MetaValor
-                                 : mes == 10 ? g.First().GastoOctubre / g.First().MetaValor
-                                 : mes == 11 ? g.First().GastoNoviembre / g.First().MetaValor
-                                 : mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
-                                 : 0,
+                                 //IngresoEnero = g.First().IngresoEnero,
+                                 //IngresoFebrero = g.First().IngresoFebrero,
+                                 //IngresoMarzo = g.First().IngresoMarzo,
+                                 //IngresoAbril = g.First().IngresoAbril,
+                                 //IngresoMayo = g.First().IngresoMayo,
+                                 //IngresoJunio = g.First().IngresoJunio,
+                                 //IngresoJulio = g.First().IngresoJulio,
+                                 //IngresoAgosto = g.First().IngresoAgosto,
+                                 //IngresoSeptiembre = g.First().IngresoSeptiembre,
+                                 //IngresoOctubre = g.First().IngresoOctubre,
+                                 //IngresoNoviembre = g.First().IngresoNoviembre,
+                                 //IngresoDiciembre = g.First().IngresoDiciembre,
+                                 //IngresoTotal = mes == 0 ? (g.First().IngresoEnero + g.First().IngresoFebrero + g.First().IngresoMarzo + g.First().IngresoAbril + g.First().IngresoMayo + g.First().IngresoJunio + g.First().IngresoJulio + g.First().IngresoAgosto + g.First().IngresoSeptiembre + g.First().IngresoOctubre + g.First().IngresoNoviembre + g.First().IngresoDiciembre) / g.First().MetaValor
+                                 //: mes == 1 ? g.First().IngresoEnero / g.First().MetaValor
+                                 //: mes == 2 ? g.First().IngresoFebrero / g.First().MetaValor
+                                 //: mes == 3 ? g.First().IngresoMarzo / g.First().MetaValor
+                                 //: mes == 4 ? g.First().IngresoAbril / g.First().MetaValor
+                                 //: mes == 5 ? g.First().IngresoMayo / g.First().MetaValor
+                                 //: mes == 6 ? g.First().IngresoJunio / g.First().MetaValor
+                                 //: mes == 7 ? g.First().IngresoJulio / g.First().MetaValor
+                                 //: mes == 8 ? g.First().IngresoAgosto / g.First().MetaValor
+                                 //: mes == 9 ? g.First().IngresoSeptiembre / g.First().MetaValor
+                                 //: mes == 10 ? g.First().IngresoOctubre / g.First().MetaValor
+                                 //: mes == 11 ? g.First().IngresoNoviembre / g.First().MetaValor
+                                 //: mes == 12 ? g.First().IngresoDiciembre / g.First().MetaValor
+                                 //: 0,
+                                 //GastoEnero = g.First().GastoEnero,
+                                 //GastoFebrero = g.First().GastoFebrero,
+                                 //GastoMarzo = g.First().GastoMarzo,
+                                 //GastoAbril = g.First().GastoAbril,
+                                 //GastoMayo = g.First().GastoMayo,
+                                 //GastoJunio = g.First().GastoJunio,
+                                 //GastoJulio = g.First().GastoJulio,
+                                 //GastoAgosto = g.First().GastoAgosto,
+                                 //GastoSeptiembre = g.First().GastoSeptiembre,
+                                 //GastoOctubre = g.First().GastoOctubre,
+                                 //GastoNoviembre = g.First().GastoNoviembre,
+                                 //GastoDiciembre = g.First().GastoDiciembre,
+                                 //GastoTotal = mes == 0 ? (g.First().GastoEnero + g.First().GastoFebrero + g.First().GastoMarzo + g.First().GastoAbril + g.First().GastoMayo + g.First().GastoJunio + g.First().GastoJulio + g.First().GastoAgosto + g.First().GastoSeptiembre + g.First().GastoOctubre + g.First().GastoNoviembre + g.First().GastoDiciembre) / g.First().MetaValor
+                                 //: mes == 1 ? g.First().GastoEnero / g.First().MetaValor
+                                 //: mes == 2 ? g.First().GastoFebrero / g.First().MetaValor
+                                 //: mes == 3 ? g.First().GastoMarzo / g.First().MetaValor
+                                 //: mes == 4 ? g.First().GastoAbril / g.First().MetaValor
+                                 //: mes == 5 ? g.First().GastoMayo / g.First().MetaValor
+                                 //: mes == 6 ? g.First().GastoJunio / g.First().MetaValor
+                                 //: mes == 7 ? g.First().GastoJulio / g.First().MetaValor
+                                 //: mes == 8 ? g.First().GastoAgosto / g.First().MetaValor
+                                 //: mes == 9 ? g.First().GastoSeptiembre / g.First().MetaValor
+                                 //: mes == 10 ? g.First().GastoOctubre / g.First().MetaValor
+                                 //: mes == 11 ? g.First().GastoNoviembre / g.First().MetaValor
+                                 //: mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
+                                 //: 0,
                                  ProyectadoEnero = g.First().ProyectadoEnero,
                                  ProyectadoFebrero = g.First().ProyectadoFebrero,
                                  ProyectadoMarzo = g.First().ProyectadoMarzo,
