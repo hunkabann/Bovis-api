@@ -18,7 +18,7 @@ namespace Bovis.Common.Model.NoTable
         public string? PromedioReal { get; set; }
         public decimal? PorcentajeEstimado { get; set; }
         public decimal? PorcentajeReal { get; set; }        
-        public decimal? RealArea { get; set; }
+        //public decimal? RealArea { get; set; }
         public int? Nivel { get; set; }
         public int? Valor { get; set; }
         public string? Tooltip { get; set; }

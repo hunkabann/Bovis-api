@@ -327,7 +327,7 @@ namespace Bovis.Data
                                  Empleado = empleado,
                                  Meta = a.Meta,                                         
                                  PorcentajeEstimado = bItem.Valor ?? 0,
-                                 RealArea = a.Real ?? 0,
+                                 //RealArea = a.Real ?? 0,
                                  Nivel = bItem.Nivel ?? 0,
                                  Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
@@ -390,7 +390,7 @@ namespace Bovis.Data
                                  Meta = g.First().Meta,                                 
                                  PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
-                                 RealArea = g.First().RealArea,
+                                 //RealArea = g.First().RealArea,
                                  Nivel = g.First().Nivel,
                                  Valor = g.First().Valor,
                                  Tooltip = g.First().Tooltip,
@@ -506,7 +506,7 @@ namespace Bovis.Data
                                           where a.Empleado == empleado
                                           select a.Real).FirstOrDefaultAsync();
 
-                    r.RealArea = r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : r.Real;
+                    r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : r.Real;
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                 }
 
