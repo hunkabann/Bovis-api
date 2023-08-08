@@ -243,7 +243,8 @@ namespace Bovis.Data
                                  : mes == 10 ? g.First().GastoOctubre / g.First().MetaValor
                                  : mes == 11 ? g.First().GastoNoviembre / g.First().MetaValor
                                  : mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
-                                 : 0
+                                 : 0,
+                                 MetaMensual = g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre
                              }).ToListAsync();
 
                 var res_meta_mensual = await (from a in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs
@@ -265,7 +266,7 @@ namespace Bovis.Data
                 foreach (var r in res)
                 {
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;                    
-                    r.MetaMensual = resta_ingresos_gastos / r.MetaValor;
+                    //r.MetaMensual = resta_ingresos_gastos / r.MetaValor;
                 }
 
                 return res;
