@@ -34,7 +34,7 @@ namespace Bovis.Business
         public Task<(bool Success, string Message)> UpdDorObjetivo(DOR_ObjetivosDesepeno objetivo) => _dorData.UpdObjetivo(objetivo);
 
         public Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto) => _dorData.GetDorGpmProyecto(proyecto);
-        public Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion) => _dorData.GetDorMetasProyecto(proyecto, nivel, mes, seccion);
+        public Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion) => _dorData.GetDorMetasProyecto(proyecto, nivel, mes, empleado, seccion);
 
         public async Task<(bool Success, string Message)> UpdateReal(JsonObject registro)
         {

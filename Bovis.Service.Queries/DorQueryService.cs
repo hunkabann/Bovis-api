@@ -53,9 +53,9 @@ namespace Bovis.Service.Queries
             var response = await _dorBusiness.GetDorGpmProyecto(proyecto);
             return new Response<List<DorObjetivoGeneral>> { Data = _map.Map<List<DorObjetivoGeneral>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información para el proyecto solicitado." : default };
         }
-        public async Task<Response<List<Dor_ObjetivosGenerales>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
+        public async Task<Response<List<Dor_ObjetivosGenerales>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion)
         {
-            var response = await _dorBusiness.GetDorMetasProyecto(proyecto, nivel, mes, seccion);
+            var response = await _dorBusiness.GetDorMetasProyecto(proyecto, nivel, mes, empleado, seccion);
             return new Response<List<Dor_ObjetivosGenerales>> { Data = _map.Map<List<Dor_ObjetivosGenerales>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información para el proyecto solicitado." : default };
         }
 

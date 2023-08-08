@@ -76,10 +76,10 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet("ConsultarMetas/{proyecto}/{nivel}/{mes}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerMetasProyecto(int proyecto, int nivel, int mes, string seccion)
+        [HttpGet("ConsultarMetas/{proyecto}/{nivel}/{mes}/{empleado}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion)
         {
-            var business = await _dorQueryService.GetDorMetasProyecto(proyecto, nivel, mes, seccion);
+            var business = await _dorQueryService.GetDorMetasProyecto(proyecto, nivel, mes, empleado, seccion);
             return Ok(business);
         }      
 

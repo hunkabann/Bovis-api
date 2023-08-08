@@ -17,7 +17,7 @@ namespace Bovis.Business.Interface
         Task<(bool Success, string Message)> AddDorObjetivo(DOR_ObjetivosDesepeno objetivo);
         Task<(bool Success, string Message)> UpdDorObjetivo(DOR_ObjetivosDesepeno objetivo);
         Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto);
-        Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion);
+        Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion);
         Task<(bool Success, string Message)> UpdateReal(JsonObject registro);
     }
 }

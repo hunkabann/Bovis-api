@@ -297,7 +297,7 @@ namespace Bovis.Data
         }
 
         // DE PROYECTO / AREA
-        public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, string seccion)
+        public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion)
         {
             List<Dor_ObjetivosGenerales> res = null;
 
@@ -324,7 +324,7 @@ namespace Bovis.Data
                                  UnidadDeNegocio = a.UnidadDeNegocio,
                                  Concepto = a.Concepto,
                                  Descripcion = a.Descripcion,
-                                 Empleado = a.Empleado,
+                                 Empleado = empleado,
                                  Meta = a.Meta,                                         
                                  PorcentajeEstimado = bItem.Valor ?? 0,
                                  RealArea = a.Real ?? 0,
@@ -406,8 +406,7 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,
-                                 Real = g.First().Concepto == "AREA" && g.First().Descripcion == "Planes de trabajo" && g.First().Empleado != null ? g.First().RealArea
-                                 : mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
                                  : mes == 3 ? g.First().Marzo
@@ -503,6 +502,11 @@ namespace Bovis.Data
 
                 foreach (var r in res)
                 {
+                    decimal? realArea = await (from a in db.dOR_Meta_Proyectos
+                                          where a.Empleado == empleado
+                                          select a.Real).FirstOrDefaultAsync();
+
+                    r.RealArea = r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea : r.Real;
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                 }
 
