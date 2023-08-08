@@ -500,12 +500,12 @@ namespace Bovis.Data
                                  : 0
                              }).ToListAsync();
 
-                foreach (var r in res)
-                {
-                    decimal? realArea = await (from a in db.dOR_Meta_Proyectos
-                                          where a.Empleado == empleado
-                                          select a.Real).FirstOrDefaultAsync();
+                decimal? realArea = await (from a in db.dOR_Meta_Proyectos
+                                           where a.Empleado == empleado
+                                           select a.Real).FirstOrDefaultAsync();
 
+                foreach (var r in res)
+                {                    
                     r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : r.Real;
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                 }
