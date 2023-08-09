@@ -178,7 +178,7 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,                                 
-                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1 : DateTime.Now.Month - 2)
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
                                  : mes == 3 ? g.First().Marzo
@@ -406,7 +406,8 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,
-                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1 : DateTime.Now.Month - 2)
+                                 //Real = mes == 0 ? g.First().Real
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
                                  : mes == 3 ? g.First().Marzo
@@ -484,7 +485,7 @@ namespace Bovis.Data
                                  ProyectadoOctubre = g.First().ProyectadoOctubre,
                                  ProyectadoNoviembre = g.First().ProyectadoNoviembre,
                                  ProyectadoDiciembre = g.First().ProyectadoDiciembre,
-                                 ProyectadoTotal = mes == 0 ? (g.First().ProyectadoEnero + g.First().ProyectadoFebrero + g.First().ProyectadoMarzo + g.First().ProyectadoAbril + g.First().ProyectadoMayo + g.First().ProyectadoJunio + g.First().ProyectadoJulio + g.First().ProyectadoAgosto + g.First().ProyectadoSeptiembre + g.First().ProyectadoOctubre + g.First().ProyectadoNoviembre + g.First().ProyectadoDiciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month : DateTime.Now.Month - 1)
+                                 ProyectadoTotal = mes == 0 ? (g.First().ProyectadoEnero + g.First().ProyectadoFebrero + g.First().ProyectadoMarzo + g.First().ProyectadoAbril + g.First().ProyectadoMayo + g.First().ProyectadoJunio + g.First().ProyectadoJulio + g.First().ProyectadoAgosto + g.First().ProyectadoSeptiembre + g.First().ProyectadoOctubre + g.First().ProyectadoNoviembre + g.First().ProyectadoDiciembre) / (DateTime.Now.Month > 1 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1 : DateTime.Now.Month - 2)
                                  : mes == 1 ? g.First().ProyectadoEnero
                                  : mes == 2 ? g.First().ProyectadoFebrero
                                  : mes == 3 ? g.First().ProyectadoMarzo
