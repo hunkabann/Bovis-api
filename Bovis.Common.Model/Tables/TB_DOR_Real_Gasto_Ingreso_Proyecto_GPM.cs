@@ -2,7 +2,7 @@
 
 namespace Bovis.Common.Model.Tables
 {
-    [Table(Schema = "dbo", Name = "tb_DOR_REAL_GASTO_INGRESO_Proyecto_GPM")]
+    [Table(Schema = "dbo", Name = "tb_dor_real_gasto_ingreso_proyecto_gpm")]
     public class TB_Dor_Real_Gasto_Ingreso_Proyecto_Gpm
     {
         [Column("IdReal_Proyecto"), NotNull, PrimaryKey, Identity] public int IdRealProyecto { get; set; }
