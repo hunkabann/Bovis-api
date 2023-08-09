@@ -29,7 +29,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                return await (from cat in db.dOR_Empleados
+                return await (from cat in db.tB_Dor_Empleados
                               where cat.CorreoElec == email
                               select cat).FirstOrDefaultAsync();
             }
@@ -38,8 +38,8 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = await (from a in db.dOR_Empleados
-                          join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
+                var res = await (from a in db.tB_Dor_Empleados
+                                 join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
                           where a.CorreoElec == email
                           select new Dor_Subordinados
                           {
@@ -62,7 +62,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = await (from a in db.dOR_Empleados
+                var res = await (from a in db.tB_Dor_Empleados
                                  join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
                                  where a.JefeDirecto == name
                                  select new Dor_Subordinados
@@ -93,12 +93,12 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                res = await (from a in db.dOR_Objetivos_Gral
-                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
+                res = await (from a in db.tB_Dor_Objetivos_Gral
+                             join b in db.tB_Dor_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
                              from bItem in bJoin.DefaultIfEmpty()
-                             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
+                             join c in db.tB_Dor_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
                              from cItem in cJoin.DefaultIfEmpty()
-                             join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
+                             join d in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.UnidadDeNegocio == unidadNegocio
                              && bItem.Nivel == nivel
@@ -247,7 +247,7 @@ namespace Bovis.Data
                                  MetaMensual = g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre
                              }).ToListAsync();
 
-                var res_meta_mensual = await (from a in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs
+                var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
                                               where a.Año == DateTime.Now.Year
                                               select a).ToListAsync();
 
@@ -277,8 +277,8 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = await (from a in db.dOR_Gpm_Proyecto
-                                 join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
+                var res = await (from a in db.tB_Dor_Gpm_Proyecto
+                                 join c in db.tB_Dor_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
                                  where a.Proyecto == proyecto
                                  select new Dor_ObjetivosGenerales
                                  {
@@ -307,12 +307,12 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {                
-                res = await (from a in db.dOR_Meta_Proyectos
-                             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
+                res = await (from a in db.tB_Dor_Meta_Proyectos
+                             join b in db.tB_Dor_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
                              from bItem in bJoin.DefaultIfEmpty()
-                             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
+                             join c in db.tB_Dor_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
                              from cItem in cJoin.DefaultIfEmpty()
-                             join d in db.tB_DOR_Real_Gasto_Ingreso_Proyecto_GPMs on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
+                             join d in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Año } equals new { d.UnidadDeNegocio, d.Concepto, d.Descripcion, d.Año } into dJoin
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.NoProyecto == proyecto
                              && bItem.Nivel == nivel
@@ -500,7 +500,7 @@ namespace Bovis.Data
                                  : 0
                              }).ToListAsync();
 
-                decimal? realArea = await (from a in db.dOR_Meta_Proyectos
+                decimal? realArea = await (from a in db.tB_Dor_Meta_Proyectos
                                            where a.Empleado == empleado
                                            select a.Real).FirstOrDefaultAsync();
 
@@ -567,7 +567,7 @@ namespace Bovis.Data
                 //                 Tooltip = g.First().Tooltip
                 //             }).ToListAsync();
 
-                res = await (from a in db.dOR_ObjetivosDesepenos
+                res = await (from a in db.tB_Dor_Objetivos_Desepenos
                              where a.Anio == anio
                              && a.Proyecto == proyecto
                              && a.Empleado == empleado
@@ -616,7 +616,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var query = await (from cat in db.dOR_ObjetivosDesepenos
+                var query = await (from cat in db.tB_Dor_Objetivos_Desepenos
                              where cat.Anio == anio
                              && cat.Proyecto == proyecto
                              && cat.Concepto == concepto
@@ -634,7 +634,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
             {
-                var objetivoDB = await db.dOR_ObjetivosDesepenos.Where(x => x.IdEmpOb == objetivo.IdEmpOb)
+                var objetivoDB = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.IdEmpOb == objetivo.IdEmpOb)
                                     .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
                                     {
                                         Meta = objetivo.Meta,
@@ -659,7 +659,7 @@ namespace Bovis.Data
                 //var objetivoDB = await db.dOR_ObjetivosDesepenos.Where(x => x.Anio == objetivo.Anio && x.Empleado == objetivo.Empleado && x.Proyecto == objetivo.Proyecto && x.Descripcion == objetivo.Descripcion).FirstOrDefaultAsync();
                 //if(objetivoDB is  null)
                 //{
-                var inseert = await db.dOR_ObjetivosDesepenos
+                var inseert = await db.tB_Dor_Objetivos_Desepenos
                                 .Value(x => x.UnidadDeNegocio, objetivo.UnidadDeNegocio)
                                 .Value(x => x.Concepto, objetivo.Concepto)
                                 .Value(x => x.Descripcion, objetivo.Descripcion)
@@ -695,7 +695,7 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_real = await db.dOR_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
+                var res_update_real = await db.tB_Dor_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
                     .UpdateAsync(x => new TB_Dor_Meta_Proyecto
                     {
                         Real = real
