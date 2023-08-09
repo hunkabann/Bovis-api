@@ -244,7 +244,8 @@ namespace Bovis.Data
                                  : mes == 11 ? g.First().GastoNoviembre / g.First().MetaValor
                                  : mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
                                  : 0,
-                                 MetaMensual = g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre
+                                 //MetaMensual = g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre
+                                 MetaMensual = g.First().Meta
                              }).ToListAsync();
 
                 var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
@@ -498,7 +499,8 @@ namespace Bovis.Data
                                  : mes == 10 ? g.First().ProyectadoOctubre
                                  : mes == 11 ? g.First().ProyectadoNoviembre
                                  : mes == 12 ? g.First().ProyectadoDiciembre
-                                 : 0
+                                 : 0,
+                                 MetaMensual = g.First().Meta,
                              }).ToListAsync();
 
                 decimal? realArea = await (from a in db.tB_Dor_Meta_Proyectos
