@@ -93,7 +93,7 @@ namespace Bovis.Data
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
                 : DateTime.Now.Month > 2 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1
-                : DateTime.Now.Month;
+                : DateTime.Now.Month - 2;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -312,7 +312,7 @@ namespace Bovis.Data
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
                 : DateTime.Now.Month > 2 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1
-                : DateTime.Now.Month;
+                : DateTime.Now.Month - 2;
 
             using (var db = new ConnectionDB(dbConfig))
             {                
