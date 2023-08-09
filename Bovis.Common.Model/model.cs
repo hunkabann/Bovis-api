@@ -6,13 +6,13 @@ namespace Bovis.Common.Model
 {
 	public partial class ConnectionDB : DataConnection
 	{
-		public ITable<DOR_Empleados> dOR_Empleados { get { return this.GetTable<DOR_Empleados>(); } }
-        public ITable<DOR_Gpm_Proyecto> dOR_Gpm_Proyecto { get { return this.GetTable<DOR_Gpm_Proyecto>(); } }
-        public ITable<DOR_Meta_Proyecto> dOR_Meta_Proyectos { get { return this.GetTable<DOR_Meta_Proyecto>(); } }
-        public ITable<DOR_Objetivos_Gral> dOR_Objetivos_Gral { get { return this.GetTable<DOR_Objetivos_Gral>(); } }
-        public ITable<DOR_Objetivos_Nivel> dOR_Objetivos_Nivel { get { return this.GetTable<DOR_Objetivos_Nivel>(); } }
-        public ITable<DOR_ObjetivosDesepeno> dOR_ObjetivosDesepenos { get { return this.GetTable<DOR_ObjetivosDesepeno>(); } }
-        public ITable<DOR_Tooltip> dOR_Tooltip { get { return this.GetTable<DOR_Tooltip>(); } }
+		public ITable<TB_Dor_Empleados> dOR_Empleados { get { return this.GetTable<TB_Dor_Empleados>(); } }
+        public ITable<TB_Dor_Gpm_Proyecto> dOR_Gpm_Proyecto { get { return this.GetTable<TB_Dor_Gpm_Proyecto>(); } }
+        public ITable<TB_Dor_Meta_Proyecto> dOR_Meta_Proyectos { get { return this.GetTable<TB_Dor_Meta_Proyecto>(); } }
+        public ITable<TB_Dor_Obj_Gral> dOR_Objetivos_Gral { get { return this.GetTable<TB_Dor_Obj_Gral>(); } }
+        public ITable<TB_Dor_Objetivos_Nivel> dOR_Objetivos_Nivel { get { return this.GetTable<TB_Dor_Objetivos_Nivel>(); } }
+        public ITable<TB_Dor_Objetivos_Desepeno> dOR_ObjetivosDesepenos { get { return this.GetTable<TB_Dor_Objetivos_Desepeno>(); } }
+        public ITable<TB_Dor_Tooltip> dOR_Tooltip { get { return this.GetTable<TB_Dor_Tooltip>(); } }
         public ITable<TB_Auditoria_Contractual_Proyecto> tB_Auditoria_Contractual_Proyectos { get { return this.GetTable<TB_Auditoria_Contractual_Proyecto>(); } }
         public ITable<TB_Auditoria_Cumplimiento> tB_Auditoria_Cumplimientos { get { return this.GetTable<TB_Auditoria_Cumplimiento>(); } }
         public ITable<TB_Auditoria_Cumplimiento_Documento> tB_Auditoria_Cumplimiento_Documentos { get { return this.GetTable<TB_Auditoria_Cumplimiento_Documento>(); } }

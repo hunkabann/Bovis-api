@@ -290,7 +290,7 @@ public class MappingsProfile : Profile
         #endregion
 
         #region DOR
-        CreateMap<DOR_Empleados, DorEmpleadoCorreo>()
+        CreateMap<TB_Dor_Empleados, DorEmpleadoCorreo>()
             .ForMember(c => c.Proyecto, dto => dto.MapFrom(src => src.Proyecto))
             .ForMember(c => c.Puesto, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.CentrosdeCostos, dto => dto.MapFrom(src => src.CentrosdeCostos))

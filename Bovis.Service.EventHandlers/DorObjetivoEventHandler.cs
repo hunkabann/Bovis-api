@@ -37,7 +37,7 @@ namespace Bovis.Service.EventHandlers
                 }
 
             var resp = new Response<bool>();
-            (bool Success, string Message) tmpResp = await _business.UpdDorObjetivo(new DOR_ObjetivosDesepeno
+            (bool Success, string Message) tmpResp = await _business.UpdDorObjetivo(new TB_Dor_Objetivos_Desepeno
             {
                 IdEmpOb = objetivo.IdEmpOb,
                 UnidadDeNegocio = objetivo.UnidadDeNegocio,

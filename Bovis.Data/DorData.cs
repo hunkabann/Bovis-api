@@ -25,7 +25,7 @@ namespace Bovis.Data
             GC.Collect();
         }
 
-        public async Task<DOR_Empleados?> GetDorEjecutivoCorreo(string email)
+        public async Task<TB_Dor_Empleados?> GetDorEjecutivoCorreo(string email)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -612,7 +612,7 @@ namespace Bovis.Data
         }
 
 
-        public async Task<List<DOR_ObjetivosDesepeno>> GetDorObjetivosDesepeno(int anio, int proyecto, string concepto, int? empleado)
+        public async Task<List<TB_Dor_Objetivos_Desepeno>> GetDorObjetivosDesepeno(int anio, int proyecto, string concepto, int? empleado)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -629,13 +629,13 @@ namespace Bovis.Data
         }
 
 
-        public async Task<(bool existe, string mensaje)> UpdObjetivo(DOR_ObjetivosDesepeno objetivo)
+        public async Task<(bool existe, string mensaje)> UpdObjetivo(TB_Dor_Objetivos_Desepeno objetivo)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
             {
                 var objetivoDB = await db.dOR_ObjetivosDesepenos.Where(x => x.IdEmpOb == objetivo.IdEmpOb)
-                                    .UpdateAsync(x => new DOR_ObjetivosDesepeno
+                                    .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
                                     {
                                         Meta = objetivo.Meta,
                                         Acepto = objetivo.Acepto,
@@ -651,7 +651,7 @@ namespace Bovis.Data
             }
             return resp;
         }
-        public async Task<(bool existe, string mensaje)> AddObjetivo(DOR_ObjetivosDesepeno objetivo)
+        public async Task<(bool existe, string mensaje)> AddObjetivo(TB_Dor_Objetivos_Desepeno objetivo)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -696,7 +696,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res_update_real = await db.dOR_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
-                    .UpdateAsync(x => new DOR_Meta_Proyecto
+                    .UpdateAsync(x => new TB_Dor_Meta_Proyecto
                     {
                         Real = real
                     }) > 0;
