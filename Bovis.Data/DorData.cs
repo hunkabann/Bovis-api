@@ -182,7 +182,7 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,                                 
-                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) // mes_para_promedio
+                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
                                  : mes == 3 ? g.First().Marzo
