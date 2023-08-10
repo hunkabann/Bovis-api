@@ -120,6 +120,7 @@ namespace Bovis.Data
                                  Nivel = bItem.Nivel ?? 0,
                                  Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
+                                 Real = a.Real,
                                  Enero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
                                  Febrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
                                  Marzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.Marzo : 0) ?? 0,
@@ -182,7 +183,8 @@ namespace Bovis.Data
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
                                  Diciembre = g.First().Diciembre,                                 
-                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
+                                 Real = g.Key.Descripcion == "Seguridad" ? g.First().Real
+                                 : mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
                                  : mes == 3 ? g.First().Marzo
@@ -249,7 +251,6 @@ namespace Bovis.Data
                                  : mes == 12 ? g.First().GastoDiciembre / g.First().MetaValor
                                  : 0,
                                  MetaMensual = g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre
-                                 //MetaMensual = g.First().Meta - 10
                              }).ToListAsync();
 
                 var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
@@ -339,6 +340,7 @@ namespace Bovis.Data
                                  Nivel = bItem.Nivel ?? 0,
                                  Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
+                                 Real = a.Real,
                                  Enero = (DateTime.Now.Month > 1 || (DateTime.Now.Month == 1 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
                                  Febrero = (DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
                                  Marzo = (DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.Marzo : 0) ?? 0,
@@ -388,9 +390,9 @@ namespace Bovis.Data
                                  Septiembre = g.First().Septiembre,
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
-                                 Diciembre = g.First().Diciembre,
-                                 //Real = mes == 0 ? g.First().Real
-                                 Real = mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
+                                 Diciembre = g.First().Diciembre,                                 
+                                 Real = g.Key.Descripcion == "Seguridad" ? g.First().Real
+                                 : mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
                                  : mes == 1 ? g.First().Enero
                                  : mes == 2 ? g.First().Febrero
                                  : mes == 3 ? g.First().Marzo
