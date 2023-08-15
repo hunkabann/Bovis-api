@@ -40,19 +40,19 @@ namespace Bovis.Data
             {
                 var res = await (from a in db.tB_Dor_Empleados
                                  join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
-                          where a.CorreoElec == email
-                          select new Dor_Subordinados
-                          {
-                              Nombre = a.Nombre,
-                              Puesto = a.Puesto,
-                              NoEmpleado = a.NoEmpleado,
-                              Proyecto = a.Proyecto,
-                              DireccionEjecutiva = a.DireccionEjecutiva,
-                              UnidadDeNegocio = a.UnidadDeNegocio,
-                              Nivel = b.Nivel,
-                              CentrosdeCostos = a.CentrosdeCostos,
-                              JefeDirecto = a.JefeDirecto
-                          }).FirstAsync();
+                                 where a.CorreoElec == email
+                                 select new Dor_Subordinados
+                                 {
+                                     Nombre = a.Nombre,
+                                     Puesto = a.Puesto,
+                                     NoEmpleado = a.NoEmpleado,
+                                     Proyecto = a.Proyecto,
+                                     DireccionEjecutiva = a.DireccionEjecutiva,
+                                     UnidadDeNegocio = a.UnidadDeNegocio,
+                                     Nivel = b.Nivel,
+                                     CentrosdeCostos = a.CentrosdeCostos,
+                                     JefeDirecto = a.JefeDirecto
+                                 }).FirstAsync();
 
                 return res;
             }
@@ -84,7 +84,7 @@ namespace Bovis.Data
 
         // CORPORATIVO
         public async Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(int nivel, string unidadNegocio, int mes, int anio, string seccion)
-        {           
+        {
             List<Dor_ObjetivosGenerales> res = null;
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
@@ -109,7 +109,7 @@ namespace Bovis.Data
                                  Id = a.Id,
                                  UnidadDeNegocio = a.UnidadDeNegocio,
                                  Concepto = a.Concepto,
-                                 Descripcion = a.Descripcion,                                 
+                                 Descripcion = a.Descripcion,
                                  Meta = a.Meta,
                                  MetaValor = a.MetaValor,
                                  PorcentajeEstimado = bItem.Valor ?? 0,
@@ -178,7 +178,7 @@ namespace Bovis.Data
                                  Septiembre = g.First().Septiembre,
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
-                                 Diciembre = g.First().Diciembre,                                 
+                                 Diciembre = g.First().Diciembre,
                                  Real = g.Key.Descripcion == "Seguridad" && mes == 0 ? g.First().Real
                                  : mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
                                  : mes == 1 ? g.First().Enero
@@ -268,7 +268,7 @@ namespace Bovis.Data
 
                 foreach (var r in res)
                 {
-                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;                    
+                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                     //r.MetaMensual = resta_ingresos_gastos / r.MetaValor;
                 }
 
@@ -309,7 +309,7 @@ namespace Bovis.Data
                 : DateTime.Now.Month - 2;
 
             using (var db = new ConnectionDB(dbConfig))
-            {                
+            {
                 res = await (from a in db.tB_Dor_Meta_Proyectos
                              join b in db.tB_Dor_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { b.UnidadDeNegocio, b.Concepto, b.Descripcion } into bJoin
                              from bItem in bJoin.DefaultIfEmpty()
@@ -328,7 +328,7 @@ namespace Bovis.Data
                                  Concepto = a.Concepto,
                                  Descripcion = a.Descripcion,
                                  Empleado = empleado,
-                                 Meta = a.Meta,                                         
+                                 Meta = a.Meta,
                                  PorcentajeEstimado = bItem.Valor ?? 0,
                                  Nivel = bItem.Nivel ?? 0,
                                  Valor = bItem.Valor ?? 0,
@@ -366,7 +366,7 @@ namespace Bovis.Data
                                  Concepto = g.Key.Concepto,
                                  Descripcion = g.Key.Descripcion,
                                  Empleado = g.First().Empleado,
-                                 Meta = g.First().Meta,                                 
+                                 Meta = g.First().Meta,
                                  PromedioReal = g.Average(item => Convert.ToDecimal(item.Real)).ToString(),
                                  PorcentajeEstimado = g.First().PorcentajeEstimado,
                                  Nivel = g.First().Nivel,
@@ -383,7 +383,7 @@ namespace Bovis.Data
                                  Septiembre = g.First().Septiembre,
                                  Octubre = g.First().Octubre,
                                  Noviembre = g.First().Noviembre,
-                                 Diciembre = g.First().Diciembre,                                 
+                                 Diciembre = g.First().Diciembre,
                                  Real = g.Key.Descripcion == "Seguridad" && mes == 0 ? g.First().Real
                                  : mes == 0 ? (g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre) / mes_para_promedio
                                  : mes == 1 ? g.First().Enero
@@ -477,16 +477,19 @@ namespace Bovis.Data
                         gastos += GastoEnero + GastoFebrero + GastoMarzo + GastoAbril + GastoMayo + GastoJunio + GastoJulio + GastoAgosto + GastoSeptiembre + GastoOctubre + GastoNoviembre + GastoDiciembre;
                     }
 
-                    new_real = r.Descripcion == "GASTO" ? ingresos != 0 ? (gastos / ingresos) * 100 : 0
-                        : ingresos != 0 ? ((ingresos - gastos) / ingresos) * 100 : 0;
+                    if (ingresos != 0)
+                    {
+                        new_real = r.Descripcion == "GASTO" ? (gastos / ingresos) * 100
+                                : ((ingresos - gastos) / ingresos) * 100;
+                    }
 
                     r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : new_real;
-                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;                                   
-                }             
-
-                return res;
+                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
+                }
             }
-        }
+
+            return res;
+        }    
 
         public async Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes)
         {

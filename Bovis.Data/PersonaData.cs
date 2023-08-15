@@ -99,7 +99,7 @@ namespace Bovis.Data
                                   from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
                                   where per.Activo == true
                                   && !excludePersonas.Contains(per.IdPersona)
-                                  orderby per.IdPersona descending
+                                  orderby per.Nombre ascending
                                   select new Persona_Detalle
                                   {
                                       nukidpersona = per.IdPersona,
