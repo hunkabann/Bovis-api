@@ -249,27 +249,9 @@ namespace Bovis.Data
                                  MetaMensual = g.First().Enero + g.First().Febrero + g.First().Marzo + g.First().Abril + g.First().Mayo + g.First().Junio + g.First().Julio + g.First().Agosto + g.First().Septiembre + g.First().Octubre + g.First().Noviembre + g.First().Diciembre
                              }).ToListAsync();
 
-
-                var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
-                                              where a.Año == anio
-                                              select a).ToListAsync();
-
-                decimal? ingresos = 0;
-                decimal? gastos = 0;
-                decimal? resta_ingresos_gastos = 0;
-
-                foreach (var m in res_meta_mensual)
-                {
-                    ingresos += m.InEnero ?? 0 + m.InFebrero ?? 0 + m.InMarzo ?? 0 + m.InAbril ?? 0 + m.InMayo ?? 0 + m.InJunio ?? 0 + m.InJulio ?? 0 + m.InAgosto ?? 0 + m.InSeptiembre ?? 0 + m.InOctubre ?? 0 + m.InNoviembre ?? 0 + m.InDiciembre ?? 0;
-                    gastos += m.OutEnero ?? 0 + m.OutFebrero ?? 0 + m.OutMarzo ?? 0 + m.OutAbril ?? 0 + m.OutMayo ?? 0 + m.OutJunio ?? 0 + m.OutJulio ?? 0 + m.OutAgosto ?? 0 + m.OutSeptiembre ?? 0 + m.OutOctubre ?? 0 + m.OutNoviembre ?? 0 + m.OutDiciembre ?? 0;
-                }
-
-                resta_ingresos_gastos = ingresos - gastos;
-
                 foreach (var r in res)
                 {
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
-                    //r.MetaMensual = resta_ingresos_gastos / r.MetaValor;
                 }
 
                 return res;
@@ -428,62 +410,75 @@ namespace Bovis.Data
                                  MetaMensual = g.First().Meta,
                              }).ToListAsync();
 
-                decimal? realArea = await (from a in db.tB_Dor_Meta_Proyectos
-                                           where a.Empleado == empleado
-                                           select a.Real).FirstOrDefaultAsync();
+                decimal? real, ingresos, gastos, IngresoEnero, IngresoFebrero, IngresoMarzo, IngresoAbril, IngresoMayo, IngresoJunio, IngresoJulio, IngresoAgosto, IngresoSeptiembre,
+                    IngresoOctubre, IngresoNoviembre, IngresoDiciembre, GastoEnero, GastoFebrero, GastoMarzo, GastoAbril, GastoMayo, GastoJunio, GastoJulio, GastoAgosto, GastoSeptiembre,
+                    GastoOctubre, GastoNoviembre, GastoDiciembre;
 
                 foreach (var r in res)
                 {
-                    var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
-                                                  where a.Año == anio
-                                                  && a.NoProyecto == proyecto
-                                                  && a.UnidadDeNegocio == r.UnidadDeNegocio
-                                                  && a.Concepto == r.Concepto
-                                                  && a.Descripcion == r.Descripcion
-                                                  select a).ToListAsync();
-
-                    decimal? ingresos = 0;
-                    decimal? gastos = 0;
-                    decimal? new_real = 0;
-
-                    foreach (var m in res_meta_mensual)
+                    real = 0;
+                    if ((r.Descripcion == "GASTO" || r.Descripcion == "GPM PROYECTO") && mes == 0)
                     {
-                        decimal IngresoEnero = (anio < DateTime.Now.Year ? m.InEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? m.InEnero : 0) ?? 0;
-                        decimal IngresoFebrero = (anio < DateTime.Now.Year ? m.InFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? m.InFebrero : 0) ?? 0;
-                        decimal IngresoMarzo = (anio < DateTime.Now.Year ? m.InMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? m.InMarzo : 0) ?? 0;
-                        decimal IngresoAbril = (anio < DateTime.Now.Year ? m.InAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? m.InAbril : 0) ?? 0;
-                        decimal IngresoMayo = (anio < DateTime.Now.Year ? m.InMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? m.InMayo : 0) ?? 0;
-                        decimal IngresoJunio = (anio < DateTime.Now.Year ? m.InJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? m.InJunio : 0) ?? 0;
-                        decimal IngresoJulio = (anio < DateTime.Now.Year ? m.InJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? m.InJulio : 0) ?? 0;
-                        decimal IngresoAgosto = (anio < DateTime.Now.Year ? m.InAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? m.InAgosto : 0) ?? 0;
-                        decimal IngresoSeptiembre = (anio < DateTime.Now.Year ? m.InSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? m.InSeptiembre : 0) ?? 0;
-                        decimal IngresoOctubre = (anio < DateTime.Now.Year ? m.InOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? m.InOctubre : 0) ?? 0;
-                        decimal IngresoNoviembre = (anio < DateTime.Now.Year ? m.InNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? m.InNoviembre : 0) ?? 0;
-                        decimal IngresoDiciembre = (anio < DateTime.Now.Year ? m.InDiciembre : 0) ?? 0;
-                        decimal GastoEnero = (anio < DateTime.Now.Year ? m.OutEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? m.OutEnero : 0) ?? 0;
-                        decimal GastoFebrero = (anio < DateTime.Now.Year ? m.OutFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? m.OutFebrero : 0) ?? 0;
-                        decimal GastoMarzo = (anio < DateTime.Now.Year ? m.OutMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? m.OutMarzo : 0) ?? 0;
-                        decimal GastoAbril = (anio < DateTime.Now.Year ? m.OutAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? m.OutAbril : 0) ?? 0;
-                        decimal GastoMayo = (anio < DateTime.Now.Year ? m.OutMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? m.OutMayo : 0) ?? 0;
-                        decimal GastoJunio = (anio < DateTime.Now.Year ? m.OutJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? m.OutJunio : 0) ?? 0;
-                        decimal GastoJulio = (anio < DateTime.Now.Year ? m.OutJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? m.OutJulio : 0) ?? 0;
-                        decimal GastoAgosto = (anio < DateTime.Now.Year ? m.OutAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? m.OutAgosto : 0) ?? 0;
-                        decimal GastoSeptiembre = (anio < DateTime.Now.Year ? m.OutSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? m.OutSeptiembre : 0) ?? 0;
-                        decimal GastoOctubre = (anio < DateTime.Now.Year ? m.OutOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? m.OutOctubre : 0) ?? 0;
-                        decimal GastoNoviembre = (anio < DateTime.Now.Year ? m.OutNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? m.OutNoviembre : 0) ?? 0;
-                        decimal GastoDiciembre = (anio < DateTime.Now.Year ? m.OutDiciembre : 0) ?? 0;
+                        ingresos = 0;
+                        gastos = 0;
 
-                        ingresos += IngresoEnero + IngresoFebrero + IngresoMarzo + IngresoAbril + IngresoMayo + IngresoJunio + IngresoJulio + IngresoAgosto + IngresoSeptiembre + IngresoOctubre + IngresoNoviembre + IngresoDiciembre;
-                        gastos += GastoEnero + GastoFebrero + GastoMarzo + GastoAbril + GastoMayo + GastoJunio + GastoJulio + GastoAgosto + GastoSeptiembre + GastoOctubre + GastoNoviembre + GastoDiciembre;
+                        var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
+                                                      where a.Año == anio
+                                                      && a.NoProyecto == proyecto
+                                                      && a.UnidadDeNegocio == r.UnidadDeNegocio
+                                                      && a.Concepto == r.Concepto
+                                                      && a.Descripcion == r.Descripcion
+                                                      select a).ToListAsync();
+
+                        foreach (var m in res_meta_mensual)
+                        {
+                            IngresoEnero = (anio < DateTime.Now.Year ? m.InEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? m.InEnero : 0) ?? 0;
+                            IngresoFebrero = (anio < DateTime.Now.Year ? m.InFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? m.InFebrero : 0) ?? 0;
+                            IngresoMarzo = (anio < DateTime.Now.Year ? m.InMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? m.InMarzo : 0) ?? 0;
+                            IngresoAbril = (anio < DateTime.Now.Year ? m.InAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? m.InAbril : 0) ?? 0;
+                            IngresoMayo = (anio < DateTime.Now.Year ? m.InMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? m.InMayo : 0) ?? 0;
+                            IngresoJunio = (anio < DateTime.Now.Year ? m.InJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? m.InJunio : 0) ?? 0;
+                            IngresoJulio = (anio < DateTime.Now.Year ? m.InJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? m.InJulio : 0) ?? 0;
+                            IngresoAgosto = (anio < DateTime.Now.Year ? m.InAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? m.InAgosto : 0) ?? 0;
+                            IngresoSeptiembre = (anio < DateTime.Now.Year ? m.InSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? m.InSeptiembre : 0) ?? 0;
+                            IngresoOctubre = (anio < DateTime.Now.Year ? m.InOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? m.InOctubre : 0) ?? 0;
+                            IngresoNoviembre = (anio < DateTime.Now.Year ? m.InNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? m.InNoviembre : 0) ?? 0;
+                            IngresoDiciembre = (anio < DateTime.Now.Year ? m.InDiciembre : 0) ?? 0;
+                            GastoEnero = (anio < DateTime.Now.Year ? m.OutEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? m.OutEnero : 0) ?? 0;
+                            GastoFebrero = (anio < DateTime.Now.Year ? m.OutFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? m.OutFebrero : 0) ?? 0;
+                            GastoMarzo = (anio < DateTime.Now.Year ? m.OutMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? m.OutMarzo : 0) ?? 0;
+                            GastoAbril = (anio < DateTime.Now.Year ? m.OutAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? m.OutAbril : 0) ?? 0;
+                            GastoMayo = (anio < DateTime.Now.Year ? m.OutMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? m.OutMayo : 0) ?? 0;
+                            GastoJunio = (anio < DateTime.Now.Year ? m.OutJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? m.OutJunio : 0) ?? 0;
+                            GastoJulio = (anio < DateTime.Now.Year ? m.OutJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? m.OutJulio : 0) ?? 0;
+                            GastoAgosto = (anio < DateTime.Now.Year ? m.OutAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? m.OutAgosto : 0) ?? 0;
+                            GastoSeptiembre = (anio < DateTime.Now.Year ? m.OutSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? m.OutSeptiembre : 0) ?? 0;
+                            GastoOctubre = (anio < DateTime.Now.Year ? m.OutOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? m.OutOctubre : 0) ?? 0;
+                            GastoNoviembre = (anio < DateTime.Now.Year ? m.OutNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? m.OutNoviembre : 0) ?? 0;
+                            GastoDiciembre = (anio < DateTime.Now.Year ? m.OutDiciembre : 0) ?? 0;
+
+                            ingresos += IngresoEnero + IngresoFebrero + IngresoMarzo + IngresoAbril + IngresoMayo + IngresoJunio + IngresoJulio + IngresoAgosto + IngresoSeptiembre + IngresoOctubre + IngresoNoviembre + IngresoDiciembre;
+                            gastos += GastoEnero + GastoFebrero + GastoMarzo + GastoAbril + GastoMayo + GastoJunio + GastoJulio + GastoAgosto + GastoSeptiembre + GastoOctubre + GastoNoviembre + GastoDiciembre;
+                        }
+
+                        if (ingresos != 0)
+                        {
+                            real = r.Descripcion == "GASTO" ? (gastos / ingresos) * 100
+                                    : ((ingresos - gastos) / ingresos) * 100;
+                        }
                     }
-
-                    if (ingresos != 0)
+                    else if (r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo")
                     {
-                        new_real = r.Descripcion == "GASTO" ? (gastos / ingresos) * 100
-                                : ((ingresos - gastos) / ingresos) * 100;
+                        real = await (from a in db.tB_Dor_Meta_Proyectos
+                                      where a.Empleado == empleado
+                                      select a.Real).FirstOrDefaultAsync();
                     }
+                    else
+                    {
+                        real = r.Real;
+                    }                    
 
-                    r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : new_real;
+                    r.Real = real;
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
                 }
             }
