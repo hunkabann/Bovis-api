@@ -62,10 +62,10 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}/{mes}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerDorObjectivosGenerales(int nivel, string unidadNegocio, int mes, string seccion)
+        [HttpGet("ConsultarObjetivosGenerales/{nivel}/{unidadNegocio}/{mes}/{anio}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerDorObjectivosGenerales(int nivel, string unidadNegocio, int mes, int anio, string seccion)
         {
-            var business = await _dorQueryService.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, seccion);
+            var business = await _dorQueryService.GetDorObjetivosGenerales(nivel, unidadNegocio, mes, anio, seccion);
             return Ok(business);
         }
 
@@ -76,10 +76,10 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet("ConsultarMetas/{proyecto}/{nivel}/{mes}/{empleado}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
-        public async Task<IActionResult> ObtenerMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion)
+        [HttpGet("ConsultarMetas/{proyecto}/{nivel}/{mes}/{anio}/{empleado}/{seccion}")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> ObtenerMetasProyecto(int proyecto, int nivel, int mes, int anio, int empleado, string seccion)
         {
-            var business = await _dorQueryService.GetDorMetasProyecto(proyecto, nivel, mes, empleado, seccion);
+            var business = await _dorQueryService.GetDorMetasProyecto(proyecto, nivel, mes, anio, empleado, seccion);
             return Ok(business);
         }      
 
@@ -113,6 +113,24 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Rel", 45);
 
             var query = await _dorQueryService.UpdateReal(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpPut("UpdateObjetivoPersonal")]//, Authorize(Roles = "eje.full, dev.full")]
+        public async Task<IActionResult> UpdateObjetivoPersonal([FromBody] JsonObject registro)
+        {
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 45);
+
+            var query = await _dorQueryService.UpdateObjetivoPersonal(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

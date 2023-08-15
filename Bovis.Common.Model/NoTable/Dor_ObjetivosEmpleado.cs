@@ -22,6 +22,7 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? FechaCarga { get; set; }
         public DateTime? FechaAceptado { get; set; }
         public DateTime? FechaRechazo { get; set; }
+        public bool? EsPersonal { get; set; }
         public int? Nivel { get; set; }
         public int? Valor { get; set; }
         public string? Tooltip { get; set; }

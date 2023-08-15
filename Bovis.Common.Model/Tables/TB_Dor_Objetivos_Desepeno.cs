@@ -24,6 +24,7 @@ namespace Bovis.Common.Model.Tables
         [Column("FechaCarga"), Nullable] public DateTime? FechaCarga { get; set; }
         [Column("FechaAceptado"), Nullable] public DateTime? FechaAceptado { get; set; }
         [Column("FechaRechazo"), Nullable] public DateTime? FechaRechazo { get; set; }
+        [Column("EsPersonal"), Nullable] public bool? EsPersonal { get; set; }
 
     }
 }

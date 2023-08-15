@@ -83,13 +83,9 @@ namespace Bovis.Data
         }
 
         // CORPORATIVO
-        public async Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(int nivel, string unidadNegocio, int mes, string seccion)
+        public async Task<List<Dor_ObjetivosGenerales>> GetDorObjetivosGenerales(int nivel, string unidadNegocio, int mes, int anio, string seccion)
         {           
             List<Dor_ObjetivosGenerales> res = null;
-
-            int anio = mes == 0 && DateTime.Now.Month > 1 ? DateTime.Now.Year
-                : mes > 1 ? DateTime.Now.Year
-                : DateTime.Now.Year - 1;
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
                 : DateTime.Now.Month > 2 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1
@@ -106,7 +102,7 @@ namespace Bovis.Data
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.UnidadDeNegocio == unidadNegocio
                              && bItem.Nivel == nivel
-                             //&& a.Año == anio
+                             && a.Año == anio
                              orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
                              {
@@ -303,13 +299,9 @@ namespace Bovis.Data
         }
 
         // DE PROYECTO / AREA
-        public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int empleado, string seccion)
+        public async Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int anio, int empleado, string seccion)
         {
             List<Dor_ObjetivosGenerales> res = null;
-
-            int anio = mes == 0 && DateTime.Now.Month > 1 ? DateTime.Now.Year
-                : mes > 1 ? DateTime.Now.Year
-                : DateTime.Now.Year - 1;
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
                 : DateTime.Now.Month > 2 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1
@@ -326,7 +318,7 @@ namespace Bovis.Data
                              from dItem in dJoin.DefaultIfEmpty()
                              where a.NoProyecto == proyecto
                              && bItem.Nivel == nivel
-                             //&& a.Año == anio
+                             && a.Año == anio
                              orderby a.Descripcion ascending
                              group new Dor_ObjetivosGenerales
                              {
@@ -455,53 +447,6 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                //res = await (from a in db.dOR_ObjetivosDesepenos
-                //             join b in db.dOR_Objetivos_Nivel on new { a.UnidadDeNegocio, a.Concepto } equals new { b.UnidadDeNegocio, b.Concepto } into bJoin
-                //             from bItem in bJoin.DefaultIfEmpty()
-                //             join c in db.dOR_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion } into cJoin
-                //             from cItem in cJoin.DefaultIfEmpty()
-                //             where a.Anio == anio
-                //             && a.Proyecto == proyecto
-                //             && a.Empleado == empleado
-                //             && bItem.Nivel == nivel
-                //             orderby a.Descripcion ascending
-                //             group new Dor_ObjetivosEmpleado
-                //             {
-                //                 IdEmpOb = a.IdEmpOb,
-                //                 UnidadDeNegocio = a.UnidadDeNegocio,
-                //                 Concepto = a.Concepto,
-                //                 Descripcion = a.Descripcion,
-                //                 Meta = a.Meta,
-                //                 Real = a.Real ?? 0,
-                //                 Acepto = a.Acepto,
-                //                 MotivoR = a.MotivoR,
-                //                 FechaCarga = a.FechaCarga,
-                //                 FechaAceptado = a.FechaAceptado,
-                //                 FechaRechazo = a.FechaRechazo,
-                //                 Nivel = bItem.Nivel ?? 0,
-                //                 Valor = bItem.Valor ?? 0,
-                //                 Tooltip = cItem.Tooltip ?? string.Empty
-                //             } by new { a.Concepto, a.Descripcion } into g
-                //             select new Dor_ObjetivosEmpleado
-                //             {
-                //                 IdEmpOb = g.First().IdEmpOb,
-                //                 UnidadDeNegocio = g.First().UnidadDeNegocio,
-                //                 Concepto = g.Key.Concepto,
-                //                 Descripcion = g.Key.Descripcion,
-                //                 Meta = g.First().Meta,
-                //                 Real = g.First().Real,
-                //                 PorcentajeEstimado = g.Max(item => item.Valor),
-                //                 PorcentajeReal = g.First().Real * g.Max(item => item.Valor) / g.First().Meta,
-                //                 Acepto = g.First().Acepto,
-                //                 MotivoR = g.First().MotivoR,
-                //                 FechaCarga = g.First().FechaCarga,
-                //                 FechaAceptado = g.First().FechaAceptado,
-                //                 FechaRechazo = g.First().FechaRechazo,
-                //                 Nivel = g.Max(item => item.Nivel),
-                //                 Valor = g.Max(item => item.Valor),
-                //                 Tooltip = g.First().Tooltip
-                //             }).ToListAsync();
-
                 res = await (from a in db.tB_Dor_Objetivos_Desepenos
                              where a.Anio == anio
                              && a.Proyecto == proyecto
@@ -521,8 +466,9 @@ namespace Bovis.Data
                                  FechaCarga = a.FechaCarga,
                                  FechaAceptado = a.FechaAceptado,
                                  FechaRechazo = a.FechaRechazo,
-                                 Valor = a.Valor
-                             } by new { a.IdEmpOb, a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Meta, a.Valor, a.Real, a.Acepto, a.MotivoR, a.FechaCarga, a.FechaAceptado, a.FechaRechazo } into g
+                                 Valor = a.Valor,
+                                 EsPersonal = a.EsPersonal
+                             } by new { a.IdEmpOb, a.UnidadDeNegocio, a.Concepto, a.Descripcion, a.Meta, a.Valor, a.Real, a.Acepto, a.MotivoR, a.FechaCarga, a.FechaAceptado, a.FechaRechazo, a.EsPersonal } into g
                              select new Dor_ObjetivosEmpleado
                              {
                                  IdEmpOb = g.Key.IdEmpOb,
@@ -539,7 +485,8 @@ namespace Bovis.Data
                                  FechaAceptado = g.Key.FechaAceptado,
                                  FechaRechazo = g.Key.FechaRechazo,
                                  Nivel = nivel,
-                                 Valor = g.Key.Valor ?? 0
+                                 Valor = g.Key.Valor ?? 0,
+                                 EsPersonal = g.Key.EsPersonal
                              }).ToListAsync();
             }
 
@@ -632,6 +579,27 @@ namespace Bovis.Data
             {
                 var res_update_real = await db.tB_Dor_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
                     .UpdateAsync(x => new TB_Dor_Meta_Proyecto
+                    {
+                        Real = real
+                    }) > 0;
+
+                resp.Success = res_update_real;
+                resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> UpdateObjetivoPersonal(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id = Convert.ToInt32(registro["id"].ToString());
+            decimal real = Convert.ToDecimal(registro["real"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_real = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.IdEmpOb == id)
+                    .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
                     {
                         Real = real
                     }) > 0;
