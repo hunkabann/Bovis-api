@@ -444,7 +444,6 @@ namespace Bovis.Data
 
                     decimal? ingresos = 0;
                     decimal? gastos = 0;
-                    decimal? resta_ingresos_gastos = 0;
                     decimal? new_real = 0;
 
                     foreach (var m in res_meta_mensual)
@@ -478,9 +477,8 @@ namespace Bovis.Data
                         gastos += GastoEnero + GastoFebrero + GastoMarzo + GastoAbril + GastoMayo + GastoJunio + GastoJulio + GastoAgosto + GastoSeptiembre + GastoOctubre + GastoNoviembre + GastoDiciembre;
                     }
 
-                    resta_ingresos_gastos = ingresos - gastos;
-                    new_real = r.Descripcion == "GASTO" ? ingresos != 0 ? gastos / ingresos : 0
-                        : ingresos != 0 ? resta_ingresos_gastos / ingresos : 0;
+                    new_real = r.Descripcion == "GASTO" ? ingresos != 0 ? (gastos / ingresos) * 100 : 0
+                        : ingresos != 0 ? ((ingresos - gastos) / ingresos) * 100 : 0;
 
                     r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : new_real;
                     r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;                                   
