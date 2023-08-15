@@ -197,7 +197,7 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes)
         {
             // Si idEmpleado == 0, no filtrar por empleado
             // Si idProyecto == 0, no filtrar por proyecto
@@ -223,6 +223,7 @@ namespace Bovis.Data
                                             where ts.Activo == true
                                             && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
+                                            && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
                                             orderby ts.IdTimesheet descending
                                             group new TimeSheet_Detalle
@@ -596,9 +597,9 @@ namespace Bovis.Data
             {
                 List<Empleado_Detalle> empleados = new List<Empleado_Detalle>();
 
-                empleados = await (from empleadoProyecto in db.tB_EmpleadoProyectos
-                                   join usuarioTimesheet in db.tB_Usuario_Timesheets on empleadoProyecto.NumProyecto equals usuarioTimesheet.NumProyecto
-                                   join empleado in db.tB_Empleados on usuarioTimesheet.NumEmpleadoRrHh equals empleado.NumEmpleadoRrHh
+                empleados = await (from empleado in db.tB_Empleados
+                                   join usuarioTimesheet in db.tB_Usuario_Timesheets on empleado.NumEmpleadoRrHh equals usuarioTimesheet.NumEmpleadoRrHh
+                                   join empleadoProyecto in db.tB_EmpleadoProyectos on usuarioTimesheet.NumProyecto equals empleadoProyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
                                    group new Empleado_Detalle
                                    {
@@ -626,6 +627,22 @@ namespace Bovis.Data
 
 
                 return empleados;
+            }
+        }
+        
+        public async Task<List<TB_Proyecto>> GetProyectosByResponsable(string EmailResponsable)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
+
+                proyectos = await (from empleado in db.tB_Empleados
+                                   join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh
+                                   join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
+                                   where empleado.EmailBovis == EmailResponsable
+                                   select proyecto).ToListAsync();
+
+                return proyectos;
             }
         }
     }

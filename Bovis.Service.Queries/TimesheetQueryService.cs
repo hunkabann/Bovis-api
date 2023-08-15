@@ -52,9 +52,9 @@ namespace Bovis.Service.Queries
             return new Response<List<TimeSheet_Detalle>> { Data = _map.Map<List<TimeSheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
-        public async Task<Response<List<TimeSheet_Detalle>>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes)
+        public async Task<Response<List<TimeSheet_Detalle>>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes)
         {
-            var response = await _timesheetBusiness.GetTimeSheetsByFiltro(idEmpleado, idProyecto, mes);
+            var response = await _timesheetBusiness.GetTimeSheetsByFiltro(idEmpleado, idProyecto, idUnidadNegocio, mes);
             return new Response<List<TimeSheet_Detalle>> { Data = _map.Map<List<TimeSheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
@@ -83,6 +83,11 @@ namespace Bovis.Service.Queries
         {
             var response = await _timesheetBusiness.GetEmpleadosByResponsable(EmailResponsable);
             return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }        
+        public async Task<Response<List<TB_Proyecto>>> GetProyectosByResponsable(string EmailResponsable)
+        {
+            var response = await _timesheetBusiness.GetProyectosByResponsable(EmailResponsable);
+            return new Response<List<TB_Proyecto>> { Data = _map.Map<List<TB_Proyecto>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
     }
 }

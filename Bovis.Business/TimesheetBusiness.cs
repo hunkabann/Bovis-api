@@ -36,7 +36,7 @@ namespace Bovis.Business
         }
         public Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
-        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes) => _timesheetData.GetTimeSheetsByFiltro(idEmpleado, idProyecto, mes);
+        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes) => _timesheetData.GetTimeSheetsByFiltro(idEmpleado, idProyecto, idUnidadNegocio, mes);
 
         public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio) => _timesheetData.GetTimeSheetsByFecha(mes, anio);
 
@@ -58,5 +58,6 @@ namespace Bovis.Business
         public Task<(bool Success, string Message)> DeleteTimeSheet(int idTimeSheet) => _timesheetData.DeleteTimeSheet(idTimeSheet);
 
         public Task<List<Empleado_Detalle>> GetEmpleadosByResponsable(string EmailResponsable) => _timesheetData.GetEmpleadosByResponsable(EmailResponsable);
+        public Task<List<TB_Proyecto>> GetProyectosByResponsable(string EmailResponsable) => _timesheetData.GetProyectosByResponsable(EmailResponsable);
     }
 }

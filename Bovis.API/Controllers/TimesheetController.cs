@@ -58,10 +58,10 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("TimeSheets/Filtro/{idEmpleado}/{idProyecto}/{mes}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int mes)
+        [HttpGet, Route("TimeSheets/Filtro/{idEmpleado}/{idProyecto}/{idUnidadNegocio}/{mes}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes)
         {
-            var query = await _timesheetQueryService.GetTimeSheetsByFiltro(idEmpleado, idProyecto, mes);
+            var query = await _timesheetQueryService.GetTimeSheetsByFiltro(idEmpleado, idProyecto, idUnidadNegocio, mes);
             return Ok(query);
         }
 
@@ -109,6 +109,13 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> GetEmpleadosByResponsable(string EmailResponsable)
         {
             var query = await _timesheetQueryService.GetEmpleadosByResponsable(EmailResponsable);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("ProyectosByResponsable/{EmailResponsable}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetProyectosByResponsable(string EmailResponsable)
+        {
+            var query = await _timesheetQueryService.GetProyectosByResponsable(EmailResponsable);
             return Ok(query);
         }
         #endregion TimeSheets
