@@ -9,6 +9,7 @@ namespace Bovis.Common.Model.Tables
         [Column("UnidadNegocio"), Nullable] public string? UnidadDeNegocio { get; set; }
         [Column("Concepto"), NotNull] public string Concepto { get; set; }
         [Column("Descripcion"), Nullable] public string? Descripcion { get; set; }
+        [Column("NoProyecto"), Nullable] public int? NoProyecto { get; set; }
         [Column("Ingreso"), Nullable] public decimal? Ingreso { get; set; }
         [Column("Gasto"), Nullable] public decimal? Gasto { get; set; }
         [Column("Mes"), Nullable] public int? Mes { get; set; }

@@ -432,10 +432,33 @@ namespace Bovis.Data
                                            select a.Real).FirstOrDefaultAsync();
 
                 foreach (var r in res)
-                {                    
-                    r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : r.Real;
-                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;
-                }
+                {
+                    var res_meta_mensual = await (from a in db.tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms
+                                                  where a.Año == DateTime.Now.Year
+                                                  && a.NoProyecto == proyecto
+                                                  && a.UnidadDeNegocio == r.UnidadDeNegocio
+                                                  && a.Concepto == r.Concepto
+                                                  && a.Descripcion == r.Descripcion
+                                                  select a).ToListAsync();
+
+                    decimal? ingresos = 0;
+                    decimal? gastos = 0;
+                    decimal? resta_ingresos_gastos = 0;
+
+                    foreach (var m in res_meta_mensual)
+                    {
+                        ingresos += m.InEnero ?? 0 + m.InFebrero ?? 0 + m.InMarzo ?? 0 + m.InAbril ?? 0 + m.InMayo ?? 0 + m.InJunio ?? 0 + m.InJulio ?? 0 + m.InAgosto ?? 0 + m.InSeptiembre ?? 0 + m.InOctubre ?? 0 + m.InNoviembre ?? 0 + m.InDiciembre ?? 0;
+                        gastos += m.OutEnero ?? 0 + m.OutFebrero ?? 0 + m.OutMarzo ?? 0 + m.OutAbril ?? 0 + m.OutMayo ?? 0 + m.OutJunio ?? 0 + m.OutJulio ?? 0 + m.OutAgosto ?? 0 + m.OutSeptiembre ?? 0 + m.OutOctubre ?? 0 + m.OutNoviembre ?? 0 + m.OutDiciembre ?? 0;
+                    }
+
+                    resta_ingresos_gastos = ingresos - gastos;
+
+                    decimal? new_real = ingresos != 0 ? resta_ingresos_gastos / ingresos : 0;
+
+
+                    r.Real = r.Concepto == "AREA" && r.Descripcion == "Planes de trabajo" ? realArea ?? 0 : new_real;
+                    r.PorcentajeReal = r.Real != null && r.Valor != null && r.Meta != null && r.Meta != 0 ? Convert.ToDecimal(r.Real) * Convert.ToDecimal(r.Valor) / Convert.ToDecimal(r.Meta) : 0;                                   
+                }             
 
                 return res;
             }
