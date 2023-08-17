@@ -671,6 +671,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from puesto in db.tB_Cat_Puestos
 																		  where puesto.Activo == activo
+																		  orderby puesto.Puesto ascending
 																		  select new Puesto_Detalle
 																		  {
 																			  nukid_puesto = puesto.IdPuesto,
