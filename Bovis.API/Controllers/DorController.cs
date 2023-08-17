@@ -110,7 +110,7 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Usuario", claimJWTModel.correo);
             registroJsonObject.Add("Roles", claimJWTModel.roles);
             registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
-            registroJsonObject.Add("Rel", 45);
+            registroJsonObject.Add("Rel", 1051);
 
             var query = await _dorQueryService.UpdateReal(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
@@ -128,7 +128,7 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Usuario", claimJWTModel.correo);
             registroJsonObject.Add("Roles", claimJWTModel.roles);
             registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
-            registroJsonObject.Add("Rel", 45);
+            registroJsonObject.Add("Rel", 1052);
 
             var query = await _dorQueryService.UpdateObjetivoPersonal(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);

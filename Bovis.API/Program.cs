@@ -86,6 +86,10 @@ builder.Services.AddScoped<IPersonaQueryService, PersonaQueryService>();
 builder.Services.AddScoped<IPersonaBusiness, PersonaBusiness>();
 builder.Services.AddScoped<IPersonaData, PersonaData>();
 
+builder.Services.AddScoped<IReporteQueryService, ReporteQueryService>();
+builder.Services.AddScoped<IReporteBusiness, ReporteBusiness>();
+builder.Services.AddScoped<IReporteData, ReporteData>();
+
 builder.Services.AddScoped<IRequerimientoQueryService, RequerimientoQueryService>();
 builder.Services.AddScoped<IRequerimientoBusiness, RequerimientoBusiness>();
 builder.Services.AddScoped<IRequerimientoData, RequerimientoData>();

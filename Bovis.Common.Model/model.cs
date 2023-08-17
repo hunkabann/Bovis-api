@@ -120,6 +120,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_ProyectoParticipacionPersonal> tB_ProyectoParticipacionPersonals { get { return this.GetTable<TB_ProyectoParticipacionPersonal>(); } }
 		public ITable<TB_ProyectoViatico> tB_ProyectoViaticos { get { return this.GetTable<TB_ProyectoViatico>(); } }
 		public ITable<TB_PuestoProyecto> tB_PuestoProyectos{ get { return this.GetTable<TB_PuestoProyecto>(); } }
+		public ITable<TB_Reporte_Custom> tB_Reporte_Customs { get { return this.GetTable<TB_Reporte_Custom>(); } }
 		public ITable<TB_Requerimiento> tB_Requerimientos { get { return this.GetTable<TB_Requerimiento>(); } }
         public ITable<TB_Requerimiento_Experiencia> tB_Requerimiento_Experiencias { get { return this.GetTable<TB_Requerimiento_Experiencia>(); } }
         public ITable<TB_Requerimiento_Habilidad> tB_Requerimiento_Habilidades { get { return this.GetTable<TB_Requerimiento_Habilidad>(); } }
