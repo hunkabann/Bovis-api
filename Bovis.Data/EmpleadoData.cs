@@ -69,7 +69,8 @@ namespace Bovis.Data
                                                                           from deptoItem in deptoJoin.DefaultIfEmpty()
                                                                           join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
                                                                           from clasifItem in clasifJoin.DefaultIfEmpty()
-                                                                          join jefe in db.tB_Personas on emp.IdJefeDirecto equals jefe.IdPersona into jefeJoin
+                                                                          join emp1 in db.tB_Empleados on emp.IdJefeDirecto equals emp1.NumEmpleadoRrHh
+                                                                          join jefe in db.tB_Personas on emp1.IdPersona equals jefe.IdPersona into jefeJoin
                                                                           from jefeItem in jefeJoin.DefaultIfEmpty()
                                                                           join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
                                                                           from unidadItem in unidadJoin.DefaultIfEmpty()
