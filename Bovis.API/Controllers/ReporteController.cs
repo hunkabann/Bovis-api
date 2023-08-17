@@ -34,8 +34,6 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> ExecReportePersonalizado([FromBody] JsonObject registro)
         {
             var query = await _reporteQueryService.ExecReportePersonalizado(registro);
-            //if (!query.Data.TrimStart().StartsWith("[ERROR]", StringComparison.OrdinalIgnoreCase)) return Ok(query);
-
             if (!(query.Data is string)) return Ok(query);
             else return BadRequest(query.Data);
         }
