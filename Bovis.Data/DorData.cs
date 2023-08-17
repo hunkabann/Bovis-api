@@ -14,6 +14,8 @@ namespace Bovis.Data
     {
         private readonly string dbConfig = "DBConfig";
 
+        private readonly int dia_corte = 30;
+
         public DorData()
         {
             this.ConfigurationDB = dbConfig;
@@ -88,7 +90,7 @@ namespace Bovis.Data
             List<Dor_ObjetivosGenerales> res = null;
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
-                : DateTime.Now.Month > 2 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1
+                : DateTime.Now.Month > 2 && DateTime.Now.Day >= dia_corte ? DateTime.Now.Month - 1
                 : DateTime.Now.Month - 2;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -117,41 +119,41 @@ namespace Bovis.Data
                                  Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
                                  Real = a.Real,
-                                 Enero = (anio < DateTime.Now.Year ? a.Enero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
-                                 Febrero = (anio < DateTime.Now.Year ? a.Febrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
-                                 Marzo = (anio < DateTime.Now.Year ? a.Marzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? a.Marzo : 0) ?? 0,
-                                 Abril = (anio < DateTime.Now.Year ? a.Abril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? a.Abril : 0) ?? 0,
-                                 Mayo = (anio < DateTime.Now.Year ? a.Mayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? a.Mayo : 0) ?? 0,
-                                 Junio = (anio < DateTime.Now.Year ? a.Junio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? a.Junio : 0) ?? 0,
-                                 Julio = (anio < DateTime.Now.Year ? a.Julio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? a.Julio : 0) ?? 0,
-                                 Agosto = (anio < DateTime.Now.Year ? a.Agosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? a.Agosto : 0) ?? 0,
-                                 Septiembre = (anio < DateTime.Now.Year ? a.Septiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? a.Septiembre : 0) ?? 0,
-                                 Octubre = (anio < DateTime.Now.Year ? a.Octubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? a.Octubre : 0) ?? 0,
-                                 Noviembre = (anio < DateTime.Now.Year ? a.Noviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? a.Noviembre : 0) ?? 0,
+                                 Enero = (anio < DateTime.Now.Year ? a.Enero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? a.Enero : 0) ?? 0,
+                                 Febrero = (anio < DateTime.Now.Year ? a.Febrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? a.Febrero : 0) ?? 0,
+                                 Marzo = (anio < DateTime.Now.Year ? a.Marzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? a.Marzo : 0) ?? 0,
+                                 Abril = (anio < DateTime.Now.Year ? a.Abril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? a.Abril : 0) ?? 0,
+                                 Mayo = (anio < DateTime.Now.Year ? a.Mayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? a.Mayo : 0) ?? 0,
+                                 Junio = (anio < DateTime.Now.Year ? a.Junio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? a.Junio : 0) ?? 0,
+                                 Julio = (anio < DateTime.Now.Year ? a.Julio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? a.Julio : 0) ?? 0,
+                                 Agosto = (anio < DateTime.Now.Year ? a.Agosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? a.Agosto : 0) ?? 0,
+                                 Septiembre = (anio < DateTime.Now.Year ? a.Septiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? a.Septiembre : 0) ?? 0,
+                                 Octubre = (anio < DateTime.Now.Year ? a.Octubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? a.Octubre : 0) ?? 0,
+                                 Noviembre = (anio < DateTime.Now.Year ? a.Noviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? a.Noviembre : 0) ?? 0,
                                  Diciembre = (anio < DateTime.Now.Year ? a.Diciembre : 0) ?? 0,
-                                 IngresoEnero = (anio < DateTime.Now.Year ? dItem.InEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? dItem.InEnero : 0) ?? 0,
-                                 IngresoFebrero = (anio < DateTime.Now.Year ? dItem.InFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? dItem.InFebrero : 0) ?? 0,
-                                 IngresoMarzo = (anio < DateTime.Now.Year ? dItem.InMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? dItem.InMarzo : 0) ?? 0,
-                                 IngresoAbril = (anio < DateTime.Now.Year ? dItem.InAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? dItem.InAbril : 0) ?? 0,
-                                 IngresoMayo = (anio < DateTime.Now.Year ? dItem.InMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? dItem.InMayo : 0) ?? 0,
-                                 IngresoJunio = (anio < DateTime.Now.Year ? dItem.InJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? dItem.InJunio : 0) ?? 0,
-                                 IngresoJulio = (anio < DateTime.Now.Year ? dItem.InJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? dItem.InJulio : 0) ?? 0,
-                                 IngresoAgosto = (anio < DateTime.Now.Year ? dItem.InAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? dItem.InAgosto : 0) ?? 0,
-                                 IngresoSeptiembre = (anio < DateTime.Now.Year ? dItem.InSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? dItem.InSeptiembre : 0) ?? 0,
-                                 IngresoOctubre = (anio < DateTime.Now.Year ? dItem.InOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? dItem.InOctubre : 0) ?? 0,
-                                 IngresoNoviembre = (anio < DateTime.Now.Year ? dItem.InNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? dItem.InNoviembre : 0) ?? 0,
+                                 IngresoEnero = (anio < DateTime.Now.Year ? dItem.InEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? dItem.InEnero : 0) ?? 0,
+                                 IngresoFebrero = (anio < DateTime.Now.Year ? dItem.InFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? dItem.InFebrero : 0) ?? 0,
+                                 IngresoMarzo = (anio < DateTime.Now.Year ? dItem.InMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? dItem.InMarzo : 0) ?? 0,
+                                 IngresoAbril = (anio < DateTime.Now.Year ? dItem.InAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? dItem.InAbril : 0) ?? 0,
+                                 IngresoMayo = (anio < DateTime.Now.Year ? dItem.InMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? dItem.InMayo : 0) ?? 0,
+                                 IngresoJunio = (anio < DateTime.Now.Year ? dItem.InJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? dItem.InJunio : 0) ?? 0,
+                                 IngresoJulio = (anio < DateTime.Now.Year ? dItem.InJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? dItem.InJulio : 0) ?? 0,
+                                 IngresoAgosto = (anio < DateTime.Now.Year ? dItem.InAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? dItem.InAgosto : 0) ?? 0,
+                                 IngresoSeptiembre = (anio < DateTime.Now.Year ? dItem.InSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? dItem.InSeptiembre : 0) ?? 0,
+                                 IngresoOctubre = (anio < DateTime.Now.Year ? dItem.InOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? dItem.InOctubre : 0) ?? 0,
+                                 IngresoNoviembre = (anio < DateTime.Now.Year ? dItem.InNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? dItem.InNoviembre : 0) ?? 0,
                                  IngresoDiciembre = (anio < DateTime.Now.Year ? dItem.InDiciembre : 0) ?? 0,
-                                 GastoEnero = (anio < DateTime.Now.Year ? dItem.OutEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? dItem.OutEnero : 0) ?? 0,
-                                 GastoFebrero = (anio < DateTime.Now.Year ? dItem.OutFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? dItem.OutFebrero : 0) ?? 0,
-                                 GastoMarzo = (anio < DateTime.Now.Year ? dItem.OutMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? dItem.OutMarzo : 0) ?? 0,
-                                 GastoAbril = (anio < DateTime.Now.Year ? dItem.OutAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? dItem.OutAbril : 0) ?? 0,
-                                 GastoMayo = (anio < DateTime.Now.Year ? dItem.OutMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? dItem.OutMayo : 0) ?? 0,
-                                 GastoJunio = (anio < DateTime.Now.Year ? dItem.OutJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? dItem.OutJunio : 0) ?? 0,
-                                 GastoJulio = (anio < DateTime.Now.Year ? dItem.OutJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? dItem.OutJulio : 0) ?? 0,
-                                 GastoAgosto = (anio < DateTime.Now.Year ? dItem.OutAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? dItem.OutAgosto : 0) ?? 0,
-                                 GastoSeptiembre = (anio < DateTime.Now.Year ? dItem.OutSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? dItem.OutSeptiembre : 0) ?? 0,
-                                 GastoOctubre = (anio < DateTime.Now.Year ? dItem.OutOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? dItem.OutOctubre : 0) ?? 0,
-                                 GastoNoviembre = (anio < DateTime.Now.Year ? dItem.OutNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? dItem.OutNoviembre : 0) ?? 0,
+                                 GastoEnero = (anio < DateTime.Now.Year ? dItem.OutEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? dItem.OutEnero : 0) ?? 0,
+                                 GastoFebrero = (anio < DateTime.Now.Year ? dItem.OutFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? dItem.OutFebrero : 0) ?? 0,
+                                 GastoMarzo = (anio < DateTime.Now.Year ? dItem.OutMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? dItem.OutMarzo : 0) ?? 0,
+                                 GastoAbril = (anio < DateTime.Now.Year ? dItem.OutAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? dItem.OutAbril : 0) ?? 0,
+                                 GastoMayo = (anio < DateTime.Now.Year ? dItem.OutMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? dItem.OutMayo : 0) ?? 0,
+                                 GastoJunio = (anio < DateTime.Now.Year ? dItem.OutJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? dItem.OutJunio : 0) ?? 0,
+                                 GastoJulio = (anio < DateTime.Now.Year ? dItem.OutJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? dItem.OutJulio : 0) ?? 0,
+                                 GastoAgosto = (anio < DateTime.Now.Year ? dItem.OutAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? dItem.OutAgosto : 0) ?? 0,
+                                 GastoSeptiembre = (anio < DateTime.Now.Year ? dItem.OutSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? dItem.OutSeptiembre : 0) ?? 0,
+                                 GastoOctubre = (anio < DateTime.Now.Year ? dItem.OutOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? dItem.OutOctubre : 0) ?? 0,
+                                 GastoNoviembre = (anio < DateTime.Now.Year ? dItem.OutNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? dItem.OutNoviembre : 0) ?? 0,
                                  GastoDiciembre = (anio < DateTime.Now.Year ? dItem.OutDiciembre : 0) ?? 0
                              } by new { a.Descripcion, a.Concepto } into g
                              select new Dor_ObjetivosGenerales
@@ -287,7 +289,7 @@ namespace Bovis.Data
             List<Dor_ObjetivosGenerales> res = null;
 
             int mes_para_promedio = DateTime.Now.Month <= 2 ? 1
-                : DateTime.Now.Month > 2 && DateTime.Now.Day >= 20 ? DateTime.Now.Month - 1
+                : DateTime.Now.Month > 2 && DateTime.Now.Day >= dia_corte ? DateTime.Now.Month - 1
                 : DateTime.Now.Month - 2;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -316,29 +318,29 @@ namespace Bovis.Data
                                  Valor = bItem.Valor ?? 0,
                                  Tooltip = cItem.Tooltip ?? string.Empty,
                                  Real = a.Real,
-                                 Enero = (anio < DateTime.Now.Year ? a.Enero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.Enero : 0) ?? 0,
-                                 Febrero = (anio < DateTime.Now.Year ? a.Febrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.Febrero : 0) ?? 0,
-                                 Marzo = (anio < DateTime.Now.Year ? a.Marzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? a.Marzo : 0) ?? 0,
-                                 Abril = (anio < DateTime.Now.Year ? a.Abril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? a.Abril : 0) ?? 0,
-                                 Mayo = (anio < DateTime.Now.Year ? a.Mayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? a.Mayo : 0) ?? 0,
-                                 Junio = (anio < DateTime.Now.Year ? a.Junio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? a.Junio : 0) ?? 0,
-                                 Julio = (anio < DateTime.Now.Year ? a.Julio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? a.Julio : 0) ?? 0,
-                                 Agosto = (anio < DateTime.Now.Year ? a.Agosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? a.Agosto : 0) ?? 0,
-                                 Septiembre = (anio < DateTime.Now.Year ? a.Septiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? a.Septiembre : 0) ?? 0,
-                                 Octubre = (anio < DateTime.Now.Year ? a.Octubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? a.Octubre : 0) ?? 0,
-                                 Noviembre = (anio < DateTime.Now.Year ? a.Noviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? a.Noviembre : 0) ?? 0,
+                                 Enero = (anio < DateTime.Now.Year ? a.Enero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? a.Enero : 0) ?? 0,
+                                 Febrero = (anio < DateTime.Now.Year ? a.Febrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? a.Febrero : 0) ?? 0,
+                                 Marzo = (anio < DateTime.Now.Year ? a.Marzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? a.Marzo : 0) ?? 0,
+                                 Abril = (anio < DateTime.Now.Year ? a.Abril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? a.Abril : 0) ?? 0,
+                                 Mayo = (anio < DateTime.Now.Year ? a.Mayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? a.Mayo : 0) ?? 0,
+                                 Junio = (anio < DateTime.Now.Year ? a.Junio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? a.Junio : 0) ?? 0,
+                                 Julio = (anio < DateTime.Now.Year ? a.Julio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? a.Julio : 0) ?? 0,
+                                 Agosto = (anio < DateTime.Now.Year ? a.Agosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? a.Agosto : 0) ?? 0,
+                                 Septiembre = (anio < DateTime.Now.Year ? a.Septiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? a.Septiembre : 0) ?? 0,
+                                 Octubre = (anio < DateTime.Now.Year ? a.Octubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? a.Octubre : 0) ?? 0,
+                                 Noviembre = (anio < DateTime.Now.Year ? a.Noviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? a.Noviembre : 0) ?? 0,
                                  Diciembre = (anio < DateTime.Now.Year ? a.Diciembre : 0) ?? 0,
-                                 ProyectadoEnero = (anio < DateTime.Now.Year ? a.ProyectadoEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? a.ProyectadoEnero : 0) ?? 0,
-                                 ProyectadoFebrero = (anio < DateTime.Now.Year ? a.ProyectadoFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? a.ProyectadoFebrero : 0) ?? 0,
-                                 ProyectadoMarzo = (anio < DateTime.Now.Year ? a.ProyectadoMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? a.ProyectadoMarzo : 0) ?? 0,
-                                 ProyectadoAbril = (anio < DateTime.Now.Year ? a.ProyectadoAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? a.ProyectadoAbril : 0) ?? 0,
-                                 ProyectadoMayo = (anio < DateTime.Now.Year ? a.ProyectadoMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? a.ProyectadoMayo : 0) ?? 0,
-                                 ProyectadoJunio = (anio < DateTime.Now.Year ? a.ProyectadoJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? a.ProyectadoJunio : 0) ?? 0,
-                                 ProyectadoJulio = (anio < DateTime.Now.Year ? a.ProyectadoJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? a.ProyectadoJulio : 0) ?? 0,
-                                 ProyectadoAgosto = (anio < DateTime.Now.Year ? a.ProyectadoAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? a.ProyectadoAgosto : 0) ?? 0,
-                                 ProyectadoSeptiembre = (anio < DateTime.Now.Year ? a.ProyectadoSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? a.ProyectadoSeptiembre : 0) ?? 0,
-                                 ProyectadoOctubre = (anio < DateTime.Now.Year ? a.ProyectadoOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? a.ProyectadoOctubre : 0) ?? 0,
-                                 ProyectadoNoviembre = (anio < DateTime.Now.Year ? a.ProyectadoNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? a.ProyectadoNoviembre : 0) ?? 0,
+                                 ProyectadoEnero = (anio < DateTime.Now.Year ? a.ProyectadoEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoEnero : 0) ?? 0,
+                                 ProyectadoFebrero = (anio < DateTime.Now.Year ? a.ProyectadoFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoFebrero : 0) ?? 0,
+                                 ProyectadoMarzo = (anio < DateTime.Now.Year ? a.ProyectadoMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoMarzo : 0) ?? 0,
+                                 ProyectadoAbril = (anio < DateTime.Now.Year ? a.ProyectadoAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoAbril : 0) ?? 0,
+                                 ProyectadoMayo = (anio < DateTime.Now.Year ? a.ProyectadoMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoMayo : 0) ?? 0,
+                                 ProyectadoJunio = (anio < DateTime.Now.Year ? a.ProyectadoJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoJunio : 0) ?? 0,
+                                 ProyectadoJulio = (anio < DateTime.Now.Year ? a.ProyectadoJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoJulio : 0) ?? 0,
+                                 ProyectadoAgosto = (anio < DateTime.Now.Year ? a.ProyectadoAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoAgosto : 0) ?? 0,
+                                 ProyectadoSeptiembre = (anio < DateTime.Now.Year ? a.ProyectadoSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoSeptiembre : 0) ?? 0,
+                                 ProyectadoOctubre = (anio < DateTime.Now.Year ? a.ProyectadoOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoOctubre : 0) ?? 0,
+                                 ProyectadoNoviembre = (anio < DateTime.Now.Year ? a.ProyectadoNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? a.ProyectadoNoviembre : 0) ?? 0,
                                  ProyectadoDiciembre = (anio < DateTime.Now.Year ? a.ProyectadoDiciembre : 0) ?? 0
                              } by new { a.Descripcion, a.Concepto } into g
                              select new Dor_ObjetivosGenerales
@@ -432,29 +434,29 @@ namespace Bovis.Data
 
                         foreach (var m in res_meta_mensual)
                         {
-                            IngresoEnero = (anio < DateTime.Now.Year ? m.InEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? m.InEnero : 0) ?? 0;
-                            IngresoFebrero = (anio < DateTime.Now.Year ? m.InFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? m.InFebrero : 0) ?? 0;
-                            IngresoMarzo = (anio < DateTime.Now.Year ? m.InMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? m.InMarzo : 0) ?? 0;
-                            IngresoAbril = (anio < DateTime.Now.Year ? m.InAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? m.InAbril : 0) ?? 0;
-                            IngresoMayo = (anio < DateTime.Now.Year ? m.InMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? m.InMayo : 0) ?? 0;
-                            IngresoJunio = (anio < DateTime.Now.Year ? m.InJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? m.InJunio : 0) ?? 0;
-                            IngresoJulio = (anio < DateTime.Now.Year ? m.InJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? m.InJulio : 0) ?? 0;
-                            IngresoAgosto = (anio < DateTime.Now.Year ? m.InAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? m.InAgosto : 0) ?? 0;
-                            IngresoSeptiembre = (anio < DateTime.Now.Year ? m.InSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? m.InSeptiembre : 0) ?? 0;
-                            IngresoOctubre = (anio < DateTime.Now.Year ? m.InOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? m.InOctubre : 0) ?? 0;
-                            IngresoNoviembre = (anio < DateTime.Now.Year ? m.InNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? m.InNoviembre : 0) ?? 0;
+                            IngresoEnero = (anio < DateTime.Now.Year ? m.InEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? m.InEnero : 0) ?? 0;
+                            IngresoFebrero = (anio < DateTime.Now.Year ? m.InFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? m.InFebrero : 0) ?? 0;
+                            IngresoMarzo = (anio < DateTime.Now.Year ? m.InMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? m.InMarzo : 0) ?? 0;
+                            IngresoAbril = (anio < DateTime.Now.Year ? m.InAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? m.InAbril : 0) ?? 0;
+                            IngresoMayo = (anio < DateTime.Now.Year ? m.InMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? m.InMayo : 0) ?? 0;
+                            IngresoJunio = (anio < DateTime.Now.Year ? m.InJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? m.InJunio : 0) ?? 0;
+                            IngresoJulio = (anio < DateTime.Now.Year ? m.InJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? m.InJulio : 0) ?? 0;
+                            IngresoAgosto = (anio < DateTime.Now.Year ? m.InAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? m.InAgosto : 0) ?? 0;
+                            IngresoSeptiembre = (anio < DateTime.Now.Year ? m.InSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? m.InSeptiembre : 0) ?? 0;
+                            IngresoOctubre = (anio < DateTime.Now.Year ? m.InOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? m.InOctubre : 0) ?? 0;
+                            IngresoNoviembre = (anio < DateTime.Now.Year ? m.InNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? m.InNoviembre : 0) ?? 0;
                             IngresoDiciembre = (anio < DateTime.Now.Year ? m.InDiciembre : 0) ?? 0;
-                            GastoEnero = (anio < DateTime.Now.Year ? m.OutEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= 20) ? m.OutEnero : 0) ?? 0;
-                            GastoFebrero = (anio < DateTime.Now.Year ? m.OutFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= 20) ? m.OutFebrero : 0) ?? 0;
-                            GastoMarzo = (anio < DateTime.Now.Year ? m.OutMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= 20) ? m.OutMarzo : 0) ?? 0;
-                            GastoAbril = (anio < DateTime.Now.Year ? m.OutAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= 20) ? m.OutAbril : 0) ?? 0;
-                            GastoMayo = (anio < DateTime.Now.Year ? m.OutMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= 20) ? m.OutMayo : 0) ?? 0;
-                            GastoJunio = (anio < DateTime.Now.Year ? m.OutJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= 20) ? m.OutJunio : 0) ?? 0;
-                            GastoJulio = (anio < DateTime.Now.Year ? m.OutJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= 20) ? m.OutJulio : 0) ?? 0;
-                            GastoAgosto = (anio < DateTime.Now.Year ? m.OutAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= 20) ? m.OutAgosto : 0) ?? 0;
-                            GastoSeptiembre = (anio < DateTime.Now.Year ? m.OutSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= 20) ? m.OutSeptiembre : 0) ?? 0;
-                            GastoOctubre = (anio < DateTime.Now.Year ? m.OutOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= 20) ? m.OutOctubre : 0) ?? 0;
-                            GastoNoviembre = (anio < DateTime.Now.Year ? m.OutNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= 20) ? m.OutNoviembre : 0) ?? 0;
+                            GastoEnero = (anio < DateTime.Now.Year ? m.OutEnero : DateTime.Now.Month > 2 || (DateTime.Now.Month == 2 && DateTime.Now.Day >= dia_corte) ? m.OutEnero : 0) ?? 0;
+                            GastoFebrero = (anio < DateTime.Now.Year ? m.OutFebrero : DateTime.Now.Month > 3 || (DateTime.Now.Month == 3 && DateTime.Now.Day >= dia_corte) ? m.OutFebrero : 0) ?? 0;
+                            GastoMarzo = (anio < DateTime.Now.Year ? m.OutMarzo : DateTime.Now.Month > 4 || (DateTime.Now.Month == 4 && DateTime.Now.Day >= dia_corte) ? m.OutMarzo : 0) ?? 0;
+                            GastoAbril = (anio < DateTime.Now.Year ? m.OutAbril : DateTime.Now.Month > 5 || (DateTime.Now.Month == 5 && DateTime.Now.Day >= dia_corte) ? m.OutAbril : 0) ?? 0;
+                            GastoMayo = (anio < DateTime.Now.Year ? m.OutMayo : DateTime.Now.Month > 6 || (DateTime.Now.Month == 6 && DateTime.Now.Day >= dia_corte) ? m.OutMayo : 0) ?? 0;
+                            GastoJunio = (anio < DateTime.Now.Year ? m.OutJunio : DateTime.Now.Month > 7 || (DateTime.Now.Month == 7 && DateTime.Now.Day >= dia_corte) ? m.OutJunio : 0) ?? 0;
+                            GastoJulio = (anio < DateTime.Now.Year ? m.OutJulio : DateTime.Now.Month > 8 || (DateTime.Now.Month == 8 && DateTime.Now.Day >= dia_corte) ? m.OutJulio : 0) ?? 0;
+                            GastoAgosto = (anio < DateTime.Now.Year ? m.OutAgosto : DateTime.Now.Month > 9 || (DateTime.Now.Month == 9 && DateTime.Now.Day >= dia_corte) ? m.OutAgosto : 0) ?? 0;
+                            GastoSeptiembre = (anio < DateTime.Now.Year ? m.OutSeptiembre : DateTime.Now.Month > 10 || (DateTime.Now.Month == 10 && DateTime.Now.Day >= dia_corte) ? m.OutSeptiembre : 0) ?? 0;
+                            GastoOctubre = (anio < DateTime.Now.Year ? m.OutOctubre : DateTime.Now.Month > 11 || (DateTime.Now.Month == 11 && DateTime.Now.Day >= dia_corte) ? m.OutOctubre : 0) ?? 0;
+                            GastoNoviembre = (anio < DateTime.Now.Year ? m.OutNoviembre : (DateTime.Now.Month == 12 && DateTime.Now.Day >= dia_corte) ? m.OutNoviembre : 0) ?? 0;
                             GastoDiciembre = (anio < DateTime.Now.Year ? m.OutDiciembre : 0) ?? 0;
 
                             ingresos += IngresoEnero + IngresoFebrero + IngresoMarzo + IngresoAbril + IngresoMayo + IngresoJunio + IngresoJulio + IngresoAgosto + IngresoSeptiembre + IngresoOctubre + IngresoNoviembre + IngresoDiciembre;
