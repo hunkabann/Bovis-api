@@ -137,6 +137,14 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var reportes = await (from a in db.tB_Reporte_Customs
+                                      join b in db.tB_Empleados on a.IdEmpleadoCrea equals b.NumEmpleadoRrHh into bJoin
+                                      from bItem in bJoin.DefaultIfEmpty()
+                                      join c in db.tB_Personas on bItem.IdPersona equals c.IdPersona into cJoin
+                                      from cItem in cJoin.DefaultIfEmpty()
+                                      join d in db.tB_Empleados on a.IdEmpleadoActualiza equals d.NumEmpleadoRrHh into dJoin
+                                      from dItem in dJoin.DefaultIfEmpty()
+                                      join e in db.tB_Personas on dItem.IdPersona equals e.IdPersona into eJoin
+                                      from eItem in eJoin.DefaultIfEmpty()
                                       where a.Activo == true
                                       && (IdReporte == 0 || a.IdReporte == IdReporte)
                                       select new Reporte_Detalle
@@ -147,8 +155,10 @@ namespace Bovis.Data
                                           Query = a.Query,
                                           FechaCreacion = a.FechaCreacion,
                                           IdEmpleadoCrea = a.IdEmpleadoCrea,
+                                          EmpleadoCrea = cItem != null ? cItem.Nombre + " " + cItem.ApPaterno + " " + cItem.ApMaterno : string.Empty,
                                           FechaActualizacion = a.FechaActualizacion,
                                           IdEmpleadoActualiza = a.IdEmpleadoActualiza,
+                                          EmpleadoActualiza = eItem != null ? eItem.Nombre + " " + eItem.ApPaterno + " " + eItem.ApMaterno : string.Empty,
                                           Activo = a.Activo
                                       }).ToListAsync();
 

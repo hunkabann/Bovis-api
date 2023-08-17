@@ -14,8 +14,10 @@ namespace Bovis.Common.Model.NoTable
         public string? Descripcion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public int? IdEmpleadoCrea { get; set; }
+        public string? EmpleadoCrea { get; set; }
         public DateTime? FechaActualizacion { get; set; }
         public int? IdEmpleadoActualiza { get; set; }               
+        public string? EmpleadoActualiza { get; set; }
         public bool? Activo { get; set; }
     }
 }
