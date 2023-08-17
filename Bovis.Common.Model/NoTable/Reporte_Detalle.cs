@@ -10,6 +10,8 @@ namespace Bovis.Common.Model.NoTable
     {
         public int IdReporte { get; set; }
         public string? Query { get; set; }
+        public string? Nombre { get; set; }
+        public string? Descripcion { get; set; }
         public DateTime? FechaCreacion { get; set; }
         public int? IdEmpleadoCrea { get; set; }
         public DateTime? FechaActualizacion { get; set; }

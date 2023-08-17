@@ -102,6 +102,8 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            string nombre = registro["nombre"].ToString();
+            string descripcion = registro["descripcion"].ToString();
             string custom_query = registro["query"].ToString();
             int id_empleado_crea = Convert.ToInt32(registro["id_empleado_crea"].ToString());
 
@@ -116,6 +118,8 @@ namespace Bovis.Data
             {
                 var insert_custom_query = await db.tB_Reporte_Customs
                     .Value(x => x.Query, custom_query)
+                    .Value(x => x.Nombre, custom_query)
+                    .Value(x => x.Descripcion, descripcion)
                     .Value(x => x.FechaCreacion, DateTime.Now)
                     .Value(x => x.IdEmpleadoCrea, id_empleado_crea)
                     .Value(x => x.Activo, true)
@@ -138,6 +142,8 @@ namespace Bovis.Data
                                       select new Reporte_Detalle
                                       {
                                           IdReporte = a.IdReporte,
+                                          Nombre = a.Nombre,
+                                          Descripcion = a.Descripcion,
                                           Query = a.Query,
                                           FechaCreacion = a.FechaCreacion,
                                           IdEmpleadoCrea = a.IdEmpleadoCrea,
@@ -154,6 +160,8 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_reporte = Convert.ToInt32(registro["id_reporte"].ToString());
+            string nombre = registro["nombre"].ToString();
+            string descripcion = registro["descripcion"].ToString();
             string custom_query = registro["query"].ToString();
             int id_empleado_actualiza = Convert.ToInt32(registro["id_empleado_actualiza"].ToString());
 
@@ -169,6 +177,8 @@ namespace Bovis.Data
                 var res_update_custom_query = await (db.tB_Reporte_Customs.Where(x => x.IdReporte == id_reporte)
                     .UpdateAsync(x => new TB_Reporte_Custom
                     {
+                        Nombre = nombre,
+                        Descripcion = descripcion,
                         Query = custom_query,
                         FechaActualizacion = DateTime.Now,
                         IdEmpleadoActualiza = id_empleado_actualiza
