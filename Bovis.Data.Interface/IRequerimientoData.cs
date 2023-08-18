@@ -10,9 +10,9 @@ namespace Bovis.Data.Interface
         Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento);
         Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto);
         Task<Requerimiento_Detalle> GetRequerimiento(int idRequerimiento);
-        Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro);
-        Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro);
-        Task<(bool existe, string mensaje)> DeleteRequerimiento(int idRequerimiento);
+        Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
+        Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
+        Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento);
         Task<List<Empleado_Detalle>> GetDirectoresEjecutivos();
         Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo);
     }

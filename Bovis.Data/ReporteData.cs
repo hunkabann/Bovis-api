@@ -165,7 +165,7 @@ namespace Bovis.Data
                 return reportes;
             }
         }
-        public async Task<(bool existe, string mensaje)> UpdateReportePersonalizado(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateReportePersonalizado(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -200,7 +200,7 @@ namespace Bovis.Data
 
             return resp;
         }
-        public async Task<(bool existe, string mensaje)> DeleteReportePersonalizado(int IdReporte)
+        public async Task<(bool Success, string Message)> DeleteReportePersonalizado(int IdReporte)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

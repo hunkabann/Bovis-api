@@ -56,7 +56,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -384,7 +384,7 @@ namespace Bovis.Data
             return res_timesheet;
         }
 
-        public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -572,7 +572,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> DeleteTimeSheet(int idTimeSheet)
+        public async Task<(bool Success, string Message)> DeleteTimeSheet(int idTimeSheet)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

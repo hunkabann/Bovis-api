@@ -143,7 +143,7 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TB_Cie_Data>();
         }
 
-        public async Task<(bool existe, string mensaje)> AddRegistros(JsonObject registros)
+        public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -215,7 +215,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -287,7 +287,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> DeleteRegistro(int idRegistro)
+        public async Task<(bool Success, string Message)> DeleteRegistro(int idRegistro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

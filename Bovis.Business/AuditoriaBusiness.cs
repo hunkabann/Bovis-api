@@ -31,7 +31,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _auditoriaData.AddAuditoriasContractual(registro);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
@@ -46,7 +46,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _auditoriaData.AddAuditoriasCumplimiento(registro);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
@@ -55,7 +55,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _auditoriaData.UpdateAuditoriaCumplimientoProyecto((JsonObject)registro["Registro"]);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
             else
             {
                 resp = respData;
@@ -68,7 +68,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _auditoriaData.AddAuditoriaCumplimientoDocumento(registro);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
@@ -81,7 +81,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _auditoriaData.AddAuditoriaCumplimientoDocumentoValidacion(registro);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }

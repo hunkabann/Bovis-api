@@ -294,7 +294,7 @@ namespace Bovis.Data
             return requerimiento;
         }
 
-        public async Task<(bool existe, string mensaje)> AddRegistro(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -383,7 +383,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> UpdateRegistro(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -570,7 +570,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> DeleteRequerimiento(int idRequerimiento)
+        public async Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

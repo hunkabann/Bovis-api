@@ -7,12 +7,17 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using System.Text.Json.Nodes;
+using Bovis.API.Helper;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace Bovis.API.Controllers
 {
     [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class CostoController : ControllerBase
     {
+        #region base
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
         private readonly ILogger<CostoController> _logger;
         private readonly ICostoQueryService _costoQueryService;
@@ -24,7 +29,8 @@ namespace Bovis.API.Controllers
             this._costoQueryService = _costoQueryService;
             this._mediator = _mediator;
         }
+        #endregion base
 
-
+        
     }
 }

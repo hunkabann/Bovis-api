@@ -77,7 +77,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddTemplate(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddTemplate(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -99,7 +99,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> UpdateTemplate(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateTemplate(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -177,7 +177,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddContratoEmpleado(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddContratoEmpleado(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -201,7 +201,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> UpdateContratoEmpleado(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateContratoEmpleado(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

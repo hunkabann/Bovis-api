@@ -4,6 +4,7 @@ using Bovis.Common;
 using Bovis.Common.Model.NoTable;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Service.Queries
 {
@@ -20,13 +21,12 @@ namespace Bovis.Service.Queries
             this._pcsBusiness = _pcsBusiness;
         }
 
-
         public void Dispose()
         {
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
         public async Task<Response<List<Proyecto>>> GetProyectos()
         {
@@ -50,6 +50,52 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetEmpresas();
             return new Response<List<InfoEmpresa>> { Data = _map.Map<List<InfoEmpresa>>(response), Success = true };
         }
+
+        #region Etapas
+        public async Task<Response<(bool Success, string Message)>> AddEtapa(JsonObject registro)
+        {
+            var response = await _pcsBusiness.AddEtapa(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<List<PCS_Etapa_Detalle>>> GetEtapas(int IdProyecto)
+        {
+            var response = await _pcsBusiness.GetEtapas(IdProyecto);
+            return new Response<List<PCS_Etapa_Detalle>> { Data = _map.Map<List<PCS_Etapa_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<(bool existe, string mensaje)>> UpdateEtapa(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateEtapa(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool existe, string mensaje)>> DeleteEtapa(int IdEtapa)
+        {
+            var response = await _pcsBusiness.DeleteEtapa(IdEtapa);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        #endregion Etapas
+
+        #region Empleados
+        public async Task<Response<(bool Success, string Message)>> AddEmpleado(JsonObject registro)
+        {
+            var response = await _pcsBusiness.AddEmpleado(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<List<PCS_Empleado_Detalle>>> GetEmpleados(int IdProyecto)
+        {
+            var response = await _pcsBusiness.GetEmpleados(IdProyecto);
+            return new Response<List<PCS_Empleado_Detalle>> { Data = _map.Map<List<PCS_Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<(bool existe, string mensaje)>> UpdateEmpleado(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateEmpleado(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool existe, string mensaje)>> DeleteEmpleado(int IdEmpleado)
+        {
+            var response = await _pcsBusiness.DeleteEmpleado(IdEmpleado);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        #endregion Empleados
     }
 }
 

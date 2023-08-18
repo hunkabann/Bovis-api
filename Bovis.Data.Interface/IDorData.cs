@@ -13,8 +13,8 @@ public interface IDorData : IDisposable
 
     //Task<List<DOR_ObjetivosDesepeno>> GetDorObjetivosDesepeno(int anio, int proyecto, string concepto, int? empleado);
     Task<List<Dor_ObjetivosEmpleado>> GetDorObjetivosDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes);
-    Task<(bool existe, string mensaje)> AddObjetivo(TB_Dor_Objetivos_Desepeno objetivo);
-    Task<(bool existe, string mensaje)> UpdObjetivo(TB_Dor_Objetivos_Desepeno objetivo);
+    Task<(bool Success, string Message)> AddObjetivo(TB_Dor_Objetivos_Desepeno objetivo);
+    Task<(bool Success, string Message)> UpdObjetivo(TB_Dor_Objetivos_Desepeno objetivo);
     Task<List<Dor_ObjetivosGenerales>> GetDorGpmProyecto(int proyecto);
     Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int anio, int empleado, string seccion);
     Task<(bool Success, string Message)> UpdateReal(JsonObject registro);

@@ -10,8 +10,8 @@ namespace Bovis.Data.Interface
         Task<object> ExecReportePersonalizado(JsonObject registro);
         Task<(bool Success, string Message)> AddReportePersonalizado(JsonObject registro);
         Task<List<Reporte_Detalle>> GetReportesPersonalizados(int IdReporte);
-        Task<(bool existe, string mensaje)> UpdateReportePersonalizado(JsonObject registro);
-        Task<(bool existe, string mensaje)> DeleteReportePersonalizado(int IdReporte);
+        Task<(bool Success, string Message)> UpdateReportePersonalizado(JsonObject registro);
+        Task<(bool Success, string Message)> DeleteReportePersonalizado(int IdReporte);
         #endregion Custom Reports
     }
 }

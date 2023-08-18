@@ -27,6 +27,6 @@ namespace Bovis.Data
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
     }
 }

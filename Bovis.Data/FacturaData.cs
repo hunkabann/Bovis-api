@@ -103,7 +103,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> AddNotaCredito(TB_Proyecto_Factura_Nota_Credito notaCredito)
+        public async Task<(bool Success, string Message)> AddNotaCredito(TB_Proyecto_Factura_Nota_Credito notaCredito)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -130,7 +130,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> AddPagos(TB_Proyecto_Factura_Cobranza pagos)
+        public async Task<(bool Success, string Message)> AddPagos(TB_Proyecto_Factura_Cobranza pagos)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -153,7 +153,7 @@ namespace Bovis.Data
             return resp;
         }
         //public Task<bool> CancelFactura( ) => UpdateEntityAsync<TB_ProyectoFactura>(factura);
-        public async Task<(bool existe, string mensaje)> CancelFactura(TB_ProyectoFactura factura)
+        public async Task<(bool Success, string Message)> CancelFactura(TB_ProyectoFactura factura)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -208,7 +208,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> CancelNota(JsonObject registro)
+        public async Task<(bool Success, string Message)> CancelNota(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -232,7 +232,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> CancelCobranza(JsonObject registro)
+        public async Task<(bool Success, string Message)> CancelCobranza(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

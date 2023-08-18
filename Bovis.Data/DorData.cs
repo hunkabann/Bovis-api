@@ -558,7 +558,7 @@ namespace Bovis.Data
         }
 
 
-        public async Task<(bool existe, string mensaje)> UpdObjetivo(TB_Dor_Objetivos_Desepeno objetivo)
+        public async Task<(bool Success, string Message)> UpdObjetivo(TB_Dor_Objetivos_Desepeno objetivo)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -580,7 +580,7 @@ namespace Bovis.Data
             }
             return resp;
         }
-        public async Task<(bool existe, string mensaje)> AddObjetivo(TB_Dor_Objetivos_Desepeno objetivo)
+        public async Task<(bool Success, string Message)> AddObjetivo(TB_Dor_Objetivos_Desepeno objetivo)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))

@@ -53,9 +53,9 @@ namespace Bovis.Service.Queries
             var response = await _reporteBusiness.UpdateReportePersonalizado(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<(bool existe, string mensaje)>> DeleteReportePersonalizado(int idTimeSheet)
+        public async Task<Response<(bool existe, string mensaje)>> DeleteReportePersonalizado(int IdReporte)
         {
-            var response = await _reporteBusiness.DeleteReportePersonalizado(idTimeSheet);
+            var response = await _reporteBusiness.DeleteReportePersonalizado(IdReporte);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Custom Reports

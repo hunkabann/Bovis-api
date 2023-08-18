@@ -43,7 +43,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddAuditoriasContractual(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriasContractual(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -181,7 +181,7 @@ namespace Bovis.Data
             return auditorias;
         }
 
-        public async Task<(bool existe, string mensaje)> AddAuditoriasCumplimiento(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriasCumplimiento(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -214,7 +214,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -247,7 +247,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool existe, string mensaje)> AddAuditoriaCumplimientoDocumento(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumento(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -301,7 +301,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool existe, string mensaje)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

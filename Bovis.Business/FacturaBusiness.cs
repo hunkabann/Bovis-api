@@ -182,8 +182,8 @@ namespace Bovis.Business
                                         Xml = cfdi.XmlB64
                                     });
 
-                                    tmpFactura.Almacenada = responseFactura.existe;
-                                    tmpFactura.Error = responseFactura.mensaje;
+                                    tmpFactura.Almacenada = responseFactura.Success;
+                                    tmpFactura.Error = responseFactura.Message;
                                 }
                             }
                         }
@@ -270,8 +270,8 @@ namespace Bovis.Business
                                             FechaPago = tryDate,
                                             Xml = cfdi.XmlB64
                                         });
-                                        tmpFactura.Almacenada = responseFactura.existe;
-                                        tmpFactura.Error = responseFactura.mensaje;
+                                        tmpFactura.Almacenada = responseFactura.Success;
+                                        tmpFactura.Error = responseFactura.Message;
                                     }
                                 }
                             }
@@ -301,7 +301,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _facturaData.CancelFactura(new TB_ProyectoFactura { Id = factura.Id, FechaCancelacion = factura.FechaCancelacion, MotivoCancelacion = factura.MotivoCancelacion });
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo cancelar la factura"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar la factura"; return resp; }
             else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(factura) });
             return resp;
         }
@@ -310,7 +310,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _facturaData.CancelNota(registro);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la nota en la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la nota en la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
@@ -319,7 +319,7 @@ namespace Bovis.Business
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _facturaData.CancelCobranza(registro);
-            if (!respData.existe) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la cobranza en la base de datos"; return resp; }
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la cobranza en la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
