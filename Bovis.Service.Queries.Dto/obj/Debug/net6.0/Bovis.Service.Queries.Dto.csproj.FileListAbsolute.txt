@@ -32,20 +32,3 @@ F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Servi
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries.Dto/obj/Debug/net6.0/refint/Bovis.Service.Queries.Dto.dll
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries.Dto/obj/Debug/net6.0/Bovis.Service.Queries.Dto.pdb
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries.Dto/obj/Debug/net6.0/ref/Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Service.Queries.Dto.deps.json
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.Model.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.Model.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.AssemblyReference.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.GeneratedMSBuildEditorConfig.editorconfig
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.AssemblyInfoInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.AssemblyInfo.cs
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.CopyComplete
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\refint\Bovis.Service.Queries.Dto.dll
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\ref\Bovis.Service.Queries.Dto.dll
