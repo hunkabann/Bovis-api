@@ -638,7 +638,7 @@ namespace Bovis.Data
             }
             catch (Exception ex)
             {
-                resp.Success = false;
+                resp.Success = true;
                 resp.Message = string.Format("[ERROR]: {0} - [Request Body]: {1}", ex.Message, registro.ToString());
             }
             return resp;
