@@ -618,12 +618,12 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id = Convert.ToInt32(registro["id"].ToString());
-            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
-            decimal real = Convert.ToDecimal(registro["real"].ToString());
-
             try
             {
+                int id = Convert.ToInt32(registro["id"].ToString());
+                int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+                decimal real = Convert.ToDecimal(registro["real"].ToString());
+
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var res_update_real = await db.tB_Dor_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
@@ -636,7 +636,7 @@ namespace Bovis.Data
                     resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resp.Success = false;
                 resp.Message = string.Format("[ERROR]: {0} - [Request Body]: {1}", ex.Message, registro.ToString());
