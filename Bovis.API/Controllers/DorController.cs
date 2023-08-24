@@ -102,17 +102,18 @@ namespace Bovis.API.Controllers
         [HttpPut("UpdateReal")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> UpdateReal([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
-            JsonObject registroJsonObject = new JsonObject();
-            registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
-            registroJsonObject.Add("Rel", 1051);
+            //ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            //JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            //JsonObject registroJsonObject = new JsonObject();
+            //registroJsonObject.Add("Registro", registro);
+            //registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            //registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            //registroJsonObject.Add("Roles", claimJWTModel.roles);
+            //registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            //registroJsonObject.Add("Rel", 1051);
+            //var query = await _dorQueryService.UpdateReal(registroJsonObject);
+            var query = await _dorQueryService.UpdateReal(registro);
 
-            var query = await _dorQueryService.UpdateReal(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
