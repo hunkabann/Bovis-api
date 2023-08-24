@@ -114,7 +114,7 @@ namespace Bovis.API.Controllers
 
             //var query = await _dorQueryService.UpdateReal(registroJsonObject);
             //if (query.Message == string.Empty) return Ok(query);
-            //else return BadRequest(query.Message);
+            //else return BadRequest(query.Message); 
 
             var query = await _dorQueryService.UpdateReal(registro);
             if (query.Message == string.Empty) return Ok(query);
