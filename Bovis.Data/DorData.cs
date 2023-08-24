@@ -618,20 +618,28 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id = Convert.ToInt32(registro["id"].ToString());
-            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
-            decimal real = Convert.ToDecimal(registro["real"].ToString());
-
-            using (var db = new ConnectionDB(dbConfig))
+            try
             {
-                var res_update_real = await db.tB_Dor_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
-                    .UpdateAsync(x => new TB_Dor_Meta_Proyecto
-                    {
-                        Real = real
-                    }) > 0;
+                int id = Convert.ToInt32(registro["id"].ToString());
+                int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+                decimal real = Convert.ToDecimal(registro["real"].ToString());
 
-                resp.Success = res_update_real;
-                resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var res_update_real = await db.tB_Dor_Meta_Proyectos.Where(x => x.Empleado == id_empleado)
+                        .UpdateAsync(x => new TB_Dor_Meta_Proyecto
+                        {
+                            Real = real
+                        }) > 0;
+
+                    resp.Success = res_update_real;
+                    resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+            }
+            catch (Exception ex)
+            {
+                resp.Success = true;
+                resp.Message = string.Format("[ERROR]: {0} - [Request Body]: {1}", ex.Message, registro.ToString());
             }
             return resp;
         }
