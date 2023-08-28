@@ -25,9 +25,11 @@ Log.Logger = new LoggerConfiguration()
 	.WriteTo.File(@"D:\home\LogFiles\http\RawLogs\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
 	.MinimumLevel.Debug()
 	.CreateLogger();
+
 DataConnection.DefaultSettings = new DBSettings();
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
+
 // Add services to the container.
 builder.Services.AddMediatR(Assembly.Load("Bovis.Service.EventHandlers"));
 builder.Services.AddControllers(options =>
@@ -65,6 +67,10 @@ builder.Services.AddScoped<ICieData, CieData>();
 builder.Services.AddScoped<IContratoQueryService, ContratoQueryService>();
 builder.Services.AddScoped<IContratoBusiness, ContratoBusiness>();
 builder.Services.AddScoped<IContratoData, ContratoData>();
+
+builder.Services.AddScoped<ICostoQueryService, CostoQueryService>();
+builder.Services.AddScoped<ICostoBusiness, CostoBusiness>();
+builder.Services.AddScoped<ICostoData, CostoData>();
 
 builder.Services.AddScoped<IDorQueryService, DorQueryService>();
 builder.Services.AddScoped<IDorBusiness, DorBusiness>();
