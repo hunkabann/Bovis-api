@@ -59,6 +59,50 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
+
+
+        #region Proyectos
+        [HttpPost("Proyectos")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddProyecto([FromBody] JsonObject registro)
+        {
+            var query = await _pcsQueryService.AddProyecto(registro);
+            return Ok(query);
+        }
+
+        [HttpGet("Proyectos/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetProyectos(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetProyectos(IdProyecto);
+            return Ok(query);
+        }
+
+        [HttpPut("Proyectos")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> UpdateProyecto([FromBody] JsonObject registro)
+        {
+            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
+            registroJsonObject.Add("Usuario", claimJWTModel.correo);
+            registroJsonObject.Add("Roles", claimJWTModel.roles);
+            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Rel", 1053);
+
+            var query = await _pcsQueryService.UpdateProyecto(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpDelete("Proyectos/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> DeleteProyecto(int IdProyecto)
+        {
+            var query = await _pcsQueryService.DeleteProyecto(IdProyecto);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+        #endregion Proyectos
+
         #region Etapas
         [HttpPost("Etapas")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> AddEtapa([FromBody] JsonObject registro)

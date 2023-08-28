@@ -36,21 +36,33 @@ namespace Bovis.Common.Model.NoTable
         public string? chalcance { get; set; }
         public string? chcp { get; set; }
         public string? chciudad { get; set; }
-        public int? nukidestatus { get; set; }
-        public int? nukidsector { get; set; }
-        public int? nukidtipo_proyecto { get; set; }
-        public int? nukidresponsable_preconstruccion { get; set; }
-        public int? nukidresponsable_construiccion { get; set; }
-        public int? nukidresponsable_ehs { get; set; }
-        public int? nukidresponsable_supervisor { get; set; }
-        public int? nukidcliente { get; set; }
-        public int? nukidempresa { get; set; }
         public int? nukidpais { get; set; }
+        public string? chpais { get; set; }
+        public int? nukidestatus { get; set; }
+        public string? chestatus { get; set; }
+        public int? nukidsector { get; set; }
+        public string? chsector { get; set; }
+        public int? nukidtipo_proyecto { get; set; }
+        public string? chtipo_proyecto { get; set; }
+        public int? nukidresponsable_preconstruccion { get; set; }
+        public string? chresponsable_preconstruccion { get; set; }
+        public int? nukidresponsable_construccion { get; set; }
+        public string? chresponsable_construccion { get; set; }
+        public int? nukidresponsable_ehs { get; set; }
+        public string? chresponsable_ehs { get; set; }
+        public int? nukidresponsable_supervisor { get; set; }
+        public string? chresponsable_supervisor { get;set; }
+        public int? nukidcliente { get; set; }
+        public string? chcliente { get; set; }
+        public int? nukidempresa { get; set; }
+        public string? chempresa { get; set; }
         public int? nukiddirector_ejecutivo { get; set; }
+        public string? chdirector_ejecutivo { get; set; }
         public decimal? nucosto_promedio_m2 { get; set; }
         public DateTime? dtfecha_ini { get; set; }
         public DateTime? dtfecha_fin { get; set; }
         public int? nunum_empleado_rr_hh { get; set; }
+        public string? empleado { get; set; }
         public decimal? nuporcantaje_participacion { get; set; }
         public string? chalias_puesto { get; set; }
         public string? chgrupo_proyecto { get; set; }

@@ -11,6 +11,14 @@ namespace Bovis.Data.Interface
         Task<List<TB_Cliente>> GetClientes();
         Task<List<TB_Empresa>> GetEmpresas();
 
+
+        #region Proyectos
+        Task<(bool Success, string Message)> AddProyecto(JsonObject registro);
+        Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto);
+        Task<(bool Success, string Message)> UpdateProyecto(JsonObject registro);
+        Task<(bool Success, string Message)> DeleteProyecto(int IdProyecto);
+        #endregion Proyectos
+
         #region Etapas
         Task<(bool Success, string Message)> AddEtapa(JsonObject registro);
         Task<List<PCS_Etapa_Detalle>> GetEtapas(int IdProyecto);
