@@ -22,6 +22,7 @@ namespace Bovis.Data.Interface
         Task<List<FacturaDetalles>> GetFacturasEmpresaFecha(int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin);
         Task<List<FacturaDetalles>> GetFacturasCliente(int? idCliente);
         Task<List<FacturaDetalles>> GetFacturasClienteFecha(int? idCliente, DateTime? fechaIni, DateTime? fechaFin);
+        Task<List<FacturaDetalles>> GetFacturaNumero(string? noFactura);
         Task<(bool Success, string Message)> CancelNota(JsonObject registro);
         Task<(bool Success, string Message)> CancelCobranza(JsonObject registro);
     }
