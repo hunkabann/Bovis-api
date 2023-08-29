@@ -256,15 +256,36 @@ namespace Bovis.Data
         }
 
         #region consultaFacturas
-        public async Task<List<FacturaDetalles>> GetAllFacturas()
+        public async Task<List<FacturaDetalles>> GetAllFacturas(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                List<int> lstProyectosCliente = null;
+                List<int> lstProyectosEmpresa = null;
+                if (idCliente != null)
+                {
+                    lstProyectosCliente = await (from a in db.tB_Proyectos
+                                        where a.IdEmpresa == idCliente
+                                        select a.NumProyecto).ToListAsync();
+                }
+                if (idEmpresa != null)
+                {
+                    lstProyectosEmpresa = await (from a in db.tB_Proyectos
+                                                 where a.IdEmpresa == idEmpresa
+                                                 select a.NumProyecto).ToListAsync();
+                }
+
                 var res = await (from a in db.tB_ProyectoFacturas
                                  join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
                                  from ab in factNC.DefaultIfEmpty()
                                  join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
                                  from ac in factC.DefaultIfEmpty()
+                                 where (idProyecto == null || a.NumProyecto == idProyecto)
+                                 && (lstProyectosCliente == null || a.NumProyecto.In(lstProyectosCliente))
+                                 && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
+                                 && (fechaIni == null || a.FechaEmision >= fechaIni)
+                                 && (fechaFin == null || a.FechaEmision <= fechaFin)
+                                 && (noFactura == null || a.NoFactura == noFactura)
                                  orderby a.Id descending
                                  select new FacturaDetalles
                                  {

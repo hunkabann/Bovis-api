@@ -52,11 +52,29 @@ namespace Bovis.Data
 
         public async Task<List<TB_Cliente>> GetClientes()
         {
-            return await GetAllFromEntityAsync<TB_Cliente>();
+            //return await GetAllFromEntityAsync<TB_Cliente>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var resp = await (from p in db.tB_Clientes
+                                  orderby p.Cliente ascending
+                                  select p).ToListAsync();
+
+                return resp;
+            }
         }
         public async Task<List<TB_Empresa>> GetEmpresas()
         {
-            return await GetAllFromEntityAsync<TB_Empresa>();
+            //return await GetAllFromEntityAsync<TB_Empresa>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var resp = await (from p in db.tB_Empresas
+                                  orderby p.Empresa ascending
+                                  select p).ToListAsync();
+
+                return resp;
+            }
         }
 
 
