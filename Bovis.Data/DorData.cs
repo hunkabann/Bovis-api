@@ -14,7 +14,7 @@ namespace Bovis.Data
     {
         private readonly string dbConfig = "DBConfig";
 
-        private readonly int dia_corte = 30;
+        private readonly int dia_corte = 20;
 
         public DorData()
         {
