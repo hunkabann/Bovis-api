@@ -60,15 +60,15 @@ namespace Bovis.Service.Queries
         #endregion Proyecto
 
         #region Registros
-        public async Task<Response<TB_Cie_Data>> GetRegistro(int? idRegistro)
+        public async Task<Response<Cie_Detalle>> GetRegistro(int? idRegistro)
         {
             var response = await _cieBusiness.GetRegistro(idRegistro);
-            return new Response<TB_Cie_Data> { Data = _map.Map<TB_Cie_Data>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<Cie_Detalle> { Data = _map.Map<Cie_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<List<TB_Cie_Data>>> GetRegistros(bool? Activo, int offset, int limit)
+        public async Task<Response<List<Cie_Detalle>>> GetRegistros(bool? Activo, int offset, int limit)
         {
             var response = await _cieBusiness.GetRegistros(Activo, offset, limit);
-            return new Response<List<TB_Cie_Data>> { Data = _map.Map<List<TB_Cie_Data>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<List<Cie_Detalle>> { Data = _map.Map<List<Cie_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 
         public async Task<Response<(bool existe, string mensaje)>> AddRegistros(JsonObject registros)

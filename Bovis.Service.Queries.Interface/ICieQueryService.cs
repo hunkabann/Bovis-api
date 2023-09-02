@@ -26,8 +26,8 @@ namespace Bovis.Service.Queries.Interface
         #endregion Proyecto
 
         #region Registros
-        Task<Response<TB_Cie_Data>> GetRegistro(int? idRegistro);
-        Task<Response<List<TB_Cie_Data>>> GetRegistros(bool? Activo, int offset, int limit);
+        Task<Response<Cie_Detalle>> GetRegistro(int? idRegistro);
+        Task<Response<List<Cie_Detalle>>> GetRegistros(bool? Activo, int offset, int limit);
         Task<Response<(bool existe, string mensaje)>> AddRegistros(JsonObject registros);
         Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registros);
         Task<Response<(bool existe, string mensaje)>> DeleteRegistro(int idRegistro);

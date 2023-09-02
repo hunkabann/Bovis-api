@@ -2,6 +2,7 @@
 using Bovis.Common.Model.Tables;
 using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Business
 {
@@ -19,7 +20,10 @@ namespace Bovis.Business
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
+
+        public Task<(bool Success, string Message)> AddCosto(JsonObject registro) => _costoData.AddCosto(registro);
+        public Task<List<Costo_Detalle>> GetCostos(int IdCosto) => _costoData.GetCostos(IdCosto);
 
     }
 }

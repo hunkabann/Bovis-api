@@ -28,5 +28,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Chtipo_py"), Nullable] public string? TipoPY { get; set; }
         [Column("Chclasificacion_py"), Nullable] public string? ClasificacionPY { get; set; }
         [Column("Boactivo"), Nullable] public bool? Activo { get; set; }
+        [Column("Nukid_archivo"), Nullable] public int? IdArchivo { get; set; }
     }
 }

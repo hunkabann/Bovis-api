@@ -63,6 +63,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_Categ_Prestacion> tB_Categ_Prestacions { get { return this.GetTable<TB_Categ_Prestacion>(); } }
 		public ITable<TB_Cent_Costos> tB_Cent_Costos { get { return this.GetTable<TB_Cent_Costos>(); } }
 		public ITable<TB_Cie> tB_Cies { get { return this.GetTable<TB_Cie>(); } }
+        public ITable<TB_Cie_Archivo> tB_Cie_Archivos { get { return this.GetTable<TB_Cie_Archivo>(); } }
         public ITable<TB_Cie_Data> tB_Cie_Datas { get { return this.GetTable<TB_Cie_Data>(); } }
         public ITable<TB_Ciudad> tB_Ciudads { get { return this.GetTable<TB_Ciudad>(); } }
 		public ITable<TB_Cliente> tB_Clientes { get { return this.GetTable<TB_Cliente>(); } }
@@ -72,6 +73,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_Contacto> tB_Contactos { get { return this.GetTable<TB_Contacto>(); } }
         public ITable<TB_Contrato_Empleado> tB_Contrato_Empleados { get { return this.GetTable<TB_Contrato_Empleado>(); } }
         public ITable<TB_Contrato_Template> tB_Contrato_Templates { get { return this.GetTable<TB_Contrato_Template>(); } }
+        public ITable<TB_Costo_Por_Empleado> tB_Costo_Por_Empleados { get { return this.GetTable<TB_Costo_Por_Empleado>(); } }
         public ITable<TB_CuentaBanco> tB_CuentaBancos { get { return this.GetTable<TB_CuentaBanco>(); } }
         public ITable<TB_Dias_Timesheet> tB_Dias_Timesheets { get { return this.GetTable<TB_Dias_Timesheet>(); } }
         public ITable<TB_Direccion> tB_Direccions { get { return this.GetTable<TB_Direccion>(); } }
