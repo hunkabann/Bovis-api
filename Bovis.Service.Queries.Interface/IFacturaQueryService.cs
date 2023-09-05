@@ -12,7 +12,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<InfoFactura>> ExtraerInfoFactura(string B64Xml);
         Task<Response<FacturaProyecto>> GetInfoProyecto(int numProyecto);
         Task<Response<List<FacturaDetalles>>> Search(ConsultarFactura request);
-        Task<Response<(bool existe, string mensaje)>> CancelNota(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> CancelCobranza(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> CancelNota(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> CancelCobranza(JsonObject registro);
     }
 }

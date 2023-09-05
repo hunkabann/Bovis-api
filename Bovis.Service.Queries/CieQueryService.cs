@@ -71,22 +71,22 @@ namespace Bovis.Service.Queries
             return new Response<List<Cie_Detalle>> { Data = _map.Map<List<Cie_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> AddRegistros(JsonObject registros)
+        public async Task<Response<(bool Success, string Message)>> AddRegistros(JsonObject registros)
         {
             var response = await _cieBusiness.AddRegistros(registros);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateRegistro(JsonObject registro)
         {
             var response = await _cieBusiness.UpdateRegistro(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> DeleteRegistro(int idRegistro)
+        public async Task<Response<(bool Success, string Message)>> DeleteRegistro(int idRegistro)
         {
             var response = await _cieBusiness.DeleteRegistro(idRegistro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Registros
     }

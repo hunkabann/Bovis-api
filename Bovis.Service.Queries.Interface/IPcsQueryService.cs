@@ -18,22 +18,22 @@ namespace Bovis.Service.Queries.Interface
         #region Proyectos
         Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro);
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
-        Task<Response<(bool existe, string mensaje)>> UpdateProyecto(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> DeleteProyecto(int IdProyecto);
+        Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> DeleteProyecto(int IdProyecto);
         #endregion Proyectos
 
         #region Etapas
         Task<Response<(bool Success, string Message)>> AddEtapa(JsonObject registro);
         Task<Response<List<PCS_Etapa_Detalle>>> GetEtapas(int IdProyecto);
-        Task<Response<(bool existe, string mensaje)>> UpdateEtapa(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> DeleteEtapa(int IdEtapa);
+        Task<Response<(bool Success, string Message)>> UpdateEtapa(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> DeleteEtapa(int IdEtapa);
         #endregion Etapas
 
         #region Empleados
         Task<Response<(bool Success, string Message)>> AddEmpleado(JsonObject registro);
         Task<Response<List<PCS_Empleado_Detalle>>> GetEmpleados(int IdProyecto);
-        Task<Response<(bool existe, string mensaje)>> UpdateEmpleado(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> DeleteEmpleado(int IdEmpleado);
+        Task<Response<(bool Success, string Message)>> UpdateEmpleado(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdEmpleado);
         #endregion Empleados
     }
 }

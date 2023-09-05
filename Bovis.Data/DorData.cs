@@ -657,5 +657,26 @@ namespace Bovis.Data
             }
             return resp;
         }
+        
+        public async Task<(bool Success, string Message)> UpdateAcepto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id = Convert.ToInt32(registro["id"].ToString());
+            int acepto = Convert.ToInt32(registro["acepto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_real = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.IdEmpOb == id)
+                    .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
+                    {
+                        Acepto = acepto
+                    }) > 0;
+
+                resp.Success = res_update_real;
+                resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+            return resp;
+        }
     }
 }

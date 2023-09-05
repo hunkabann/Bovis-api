@@ -41,22 +41,22 @@ namespace Bovis.Service.Queries
         public async Task<Response<(bool Success, string Message)>> AddReportePersonalizado(JsonObject registro)
         {
             var response = await _reporteBusiness.AddReportePersonalizado(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         public async Task<Response<List<Reporte_Detalle>>> GetReportesPersonalizados(int IdReporte)
         {
             var response = await _reporteBusiness.GetReportesPersonalizados(IdReporte);
             return new Response<List<Reporte_Detalle>> { Data = _map.Map<List<Reporte_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<(bool existe, string mensaje)>> UpdateReportePersonalizado(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateReportePersonalizado(JsonObject registro)
         {
             var response = await _reporteBusiness.UpdateReportePersonalizado(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<(bool existe, string mensaje)>> DeleteReportePersonalizado(int IdReporte)
+        public async Task<Response<(bool Success, string Message)>> DeleteReportePersonalizado(int IdReporte)
         {
             var response = await _reporteBusiness.DeleteReportePersonalizado(IdReporte);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Custom Reports
     }

@@ -48,22 +48,22 @@ namespace Bovis.Service.Queries
 
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> AddTemplate(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> AddTemplate(JsonObject registro)
         {
             var response = await _contratoBusiness.AddTemplate(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> UpdateTemplate(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateTemplate(JsonObject registro)
         {
             var response = await _contratoBusiness.UpdateTemplate(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> UpdateTemplateEstatus(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateTemplateEstatus(JsonObject registro)
         {
             var response = await _contratoBusiness.UpdateTemplateEstatus(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Templates
 
@@ -82,16 +82,16 @@ namespace Bovis.Service.Queries
 
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> AddContratoEmpleado(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> AddContratoEmpleado(JsonObject registro)
         {
             var response = await _contratoBusiness.AddContratoEmpleado(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> UpdateContratoEmpleado(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateContratoEmpleado(JsonObject registro)
         {
             var response = await _contratoBusiness.UpdateContratoEmpleado(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Contratos Empleado
     }

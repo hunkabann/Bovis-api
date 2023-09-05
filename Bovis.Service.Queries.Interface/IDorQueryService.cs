@@ -15,7 +15,8 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Dor_ObjetivosEmpleado>>> GetDorObjetivoDesepeno(int anio, int proyecto, int empleado, int nivel, int? acepto, int mes);
         Task<Response<List<DorObjetivoGeneral>>> GetDorGpmProyecto(int proyecto);
         Task<Response<List<Dor_ObjetivosGenerales>>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int anio, int empleado, string seccion);
-        Task<Response<(bool existe, string mensaje)>> UpdateReal(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> UpdateObjetivoPersonal(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateReal(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateObjetivoPersonal(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateAcepto(JsonObject registro);
     }
 }

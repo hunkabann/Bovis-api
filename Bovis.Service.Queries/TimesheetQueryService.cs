@@ -41,7 +41,7 @@ namespace Bovis.Service.Queries
             return new Response<Detalle_Dias_Timesheet> { Data = _map.Map<Detalle_Dias_Timesheet>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> AddRegistro(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro)
         {
             var response = await _timesheetBusiness.AddRegistro(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
@@ -69,15 +69,15 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.GetTimeSheet(idTimeSheet);
             return new Response<TimeSheet_Detalle> { Data = _map.Map<TimeSheet_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<(bool existe, string mensaje)>> UpdateRegistro(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateRegistro(JsonObject registro)
         {
             var response = await _timesheetBusiness.UpdateRegistro(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<(bool existe, string mensaje)>> DeleteTimeSheet(int idTimeSheet)
+        public async Task<Response<(bool Success, string Message)>> DeleteTimeSheet(int idTimeSheet)
         {
             var response = await _timesheetBusiness.DeleteTimeSheet(idTimeSheet);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         public async Task<Response<List<Empleado_Detalle>>> GetEmpleadosByResponsable(string EmailResponsable)
         {

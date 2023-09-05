@@ -16,16 +16,16 @@ namespace Bovis.Service.Queries.Interface
         #region Templates
         Task<Response<List<TB_Contrato_Template>>> GetTemplates(string Estatus);
         Task<Response<TB_Contrato_Template>> GetTemplate(int IdTemplate);
-        Task<Response<(bool existe, string mensaje)>> AddTemplate(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> UpdateTemplate(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> UpdateTemplateEstatus(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> AddTemplate(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateTemplate(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateTemplateEstatus(JsonObject registro);
         #endregion Templates
 
         #region Contratos Empleado
         Task<Response<List<TB_Contrato_Empleado>>> GetContratosEmpleado(int IdEmpleado);
         Task<Response<TB_Contrato_Empleado>> GetContratoEmpleado(int IdContratoEmpleado);
-        Task<Response<(bool existe, string mensaje)>> AddContratoEmpleado(JsonObject registro);
-        Task<Response<(bool existe, string mensaje)>> UpdateContratoEmpleado(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> AddContratoEmpleado(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateContratoEmpleado(JsonObject registro);
         #endregion Contratos Empleado
     }
 }

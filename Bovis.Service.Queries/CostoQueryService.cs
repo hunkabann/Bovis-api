@@ -37,7 +37,7 @@ namespace Bovis.Service.Queries
         public async Task<Response<(bool Success, string Message)>> AddCosto(JsonObject registro)
         {
             var response = await _costoBusiness.AddCosto(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         public async Task<Response<List<Costo_Detalle>>> GetCostos(int IdCosto)
         {
