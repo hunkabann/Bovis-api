@@ -662,19 +662,19 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id = Convert.ToInt32(registro["id"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
             int acepto = Convert.ToInt32(registro["acepto"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_real = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.IdEmpOb == id)
+                var res_update_acepto = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.Empleado == num_empleado)
                     .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
                     {
                         Acepto = acepto
                     }) > 0;
 
-                resp.Success = res_update_real;
-                resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_update_acepto;
+                resp.Message = res_update_acepto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
             return resp;
         }
