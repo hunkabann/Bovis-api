@@ -13,5 +13,6 @@ namespace Bovis.Service.Queries.Dto.Request
         public int? IdEmpresa { get; set; }
         public DateTime? FechaIni { get; set; }
         public DateTime? FechaFin { get; set; }
+        public string? noFactura { get; set; }
     }
 }

@@ -29,6 +29,28 @@ namespace Bovis.Business
         public Task<List<TB_Empresa>> GetEmpresas() => _pcsData.GetEmpresas();
         public Task<List<TB_Cliente>> GetClientes() => _pcsData.GetClientes();
 
+
+        #region Proyectos
+        public Task<(bool Success, string Message)> AddProyecto(JsonObject registro) => _pcsData.AddProyecto(registro);
+
+        public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);
+
+        public async Task<(bool Success, string Message)> UpdateProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateProyecto((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+
+        public Task<(bool Success, string Message)> DeleteProyecto(int IdProyecto) => _pcsData.DeleteProyecto(IdProyecto);
+        #endregion Proyectos
+
         #region Etapas
         public Task<(bool Success, string Message)> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 

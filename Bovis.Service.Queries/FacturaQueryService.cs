@@ -45,20 +45,20 @@ namespace Bovis.Service.Queries
 
 		public async Task<Response<List<FacturaDetalles>>> Search(ConsultarFactura request)
 		{
-			var response = await _facturaBusiness.Search(request.IdProyecto, request.IdCliente, request.IdEmpresa, request.FechaIni, request.FechaFin);
+			var response = await _facturaBusiness.Search(request.IdProyecto, request.IdCliente, request.IdEmpresa, request.FechaIni, request.FechaFin, request.noFactura);
 			return new Response<List<FacturaDetalles>> { Data = _map.Map<List<FacturaDetalles>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información con los parametros especificados." : default };
 		}
 
-        public async Task<Response<(bool existe, string mensaje)>> CancelNota(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> CancelNota(JsonObject registro)
         {
             var response = await _facturaBusiness.CancelNota(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> CancelCobranza(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> CancelCobranza(JsonObject registro)
         {
             var response = await _facturaBusiness.CancelCobranza(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
         public void Dispose()

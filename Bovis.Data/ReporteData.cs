@@ -118,7 +118,7 @@ namespace Bovis.Data
             {
                 var insert_custom_query = await db.tB_Reporte_Customs
                     .Value(x => x.Query, custom_query)
-                    .Value(x => x.Nombre, custom_query)
+                    .Value(x => x.Nombre, nombre)
                     .Value(x => x.Descripcion, descripcion)
                     .Value(x => x.FechaCreacion, DateTime.Now)
                     .Value(x => x.IdEmpleadoCrea, id_empleado_crea)

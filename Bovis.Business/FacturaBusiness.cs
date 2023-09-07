@@ -324,54 +324,54 @@ namespace Bovis.Business
             return resp;
         }
 
-        public async Task<List<FacturaDetalles>> Search(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin)
+        public async Task<List<FacturaDetalles>> Search(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura)
         {
             var resp = new List<FacturaDetalles>();
-            if (idProyecto == null && idCliente == null && idEmpresa == null && fechaIni == null && fechaFin != null)
-            {
-                resp = await _facturaData.GetAllFacturas();
-                return resp;
-            }
-
-            if (idProyecto != null && fechaIni == null && fechaFin != null)
-            {
-                resp = await _facturaData.GetFacturasProyecto(idProyecto);
-                return resp;
-
-            }
-            if (idProyecto != null && fechaIni != null && fechaFin != null)
-            {
-                resp = await _facturaData.GetFacturasProyectoFecha(idProyecto, fechaIni, fechaFin);
-                return resp;
-
-            }
-            if (idEmpresa != null && fechaFin != null)
-            {
-                resp = await _facturaData.GetFacturasEmpresa(idEmpresa);
-                return resp;
-
-            }
-            if (idEmpresa != null && fechaIni != null && fechaFin != null)
-            {
-                resp = await _facturaData.GetFacturasEmpresaFecha(idEmpresa, fechaIni, fechaFin);
-                return resp;
-
-            }
-            if (idCliente != null && fechaFin != null)
-            {
-                resp = await _facturaData.GetFacturasCliente(idCliente);
-                return resp;
-
-            }
-            if (idCliente != null && fechaIni != null && fechaFin != null)
-            {
-                resp = await _facturaData.GetFacturasClienteFecha(idCliente, fechaIni, fechaFin);
-                return resp;
-
-            }
-
-
+            resp = await _facturaData.GetAllFacturas(idProyecto, idCliente, idEmpresa, fechaIni, fechaFin, noFactura);
             return resp;
+
+            //if (idProyecto == null && idCliente == null && idEmpresa == null && fechaIni == null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetAllFacturas();
+            //    return resp;
+            //}
+            //if (idProyecto != null && fechaIni == null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetFacturasProyecto(idProyecto);
+            //    return resp;
+            //}
+            //if (idProyecto != null && fechaIni != null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetFacturasProyectoFecha(idProyecto, fechaIni, fechaFin);
+            //    return resp;
+            //}
+            //if (idEmpresa != null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetFacturasEmpresa(idEmpresa);
+            //    return resp;
+            //}
+            //if (idEmpresa != null && fechaIni != null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetFacturasEmpresaFecha(idEmpresa, fechaIni, fechaFin);
+            //    return resp;
+            //}
+            //if (idCliente != null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetFacturasCliente(idCliente);
+            //    return resp;
+            //}
+            //if (idCliente != null && fechaIni != null && fechaFin != null)
+            //{
+            //    resp = await _facturaData.GetFacturasClienteFecha(idCliente, fechaIni, fechaFin);
+            //    return resp;
+            //}
+            //if(noFactura != null)
+            //{
+            //    resp = await _facturaData.GetFacturaNumero(noFactura);
+            //    return resp;                
+            //}
+
+            //return resp;
         }
 
         public Task<Factura_Proyecto> GetInfoProyecto(int numProyecto) => _facturaData.GetInfoProyecto(numProyecto);

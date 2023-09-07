@@ -31,6 +31,18 @@ namespace Bovis.API.Controllers
         }
         #endregion base
 
-        
+        [HttpPost]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> AddCosto([FromBody] JsonObject registro)
+        {
+            var query = await _costoQueryService.AddCosto(registro);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("{IdCosto}")]//, Authorize(Roles = "it.full, dev.full")]
+        public async Task<IActionResult> GetCostos(int IdCosto)
+        {
+            var query = await _costoQueryService.GetCostos(IdCosto);
+            return Ok(query);
+        }
     }
 }

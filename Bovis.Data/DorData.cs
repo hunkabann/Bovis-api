@@ -14,7 +14,7 @@ namespace Bovis.Data
     {
         private readonly string dbConfig = "DBConfig";
 
-        private readonly int dia_corte = 30;
+        private readonly int dia_corte = 20;
 
         public DorData()
         {
@@ -654,6 +654,28 @@ namespace Bovis.Data
 
                 resp.Success = res_update_real;
                 resp.Message = res_update_real == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> UpdateAcepto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int acepto = Convert.ToInt32(registro["acepto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_acepto = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.Empleado == num_empleado)
+                    .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
+                    {
+                        Acepto = acepto,
+                        FechaAceptado = DateTime.Now
+                    }) > 0;
+
+                resp.Success = res_update_acepto;
+                resp.Message = res_update_acepto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
             return resp;
         }

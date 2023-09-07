@@ -19,6 +19,7 @@ public interface IDorData : IDisposable
     Task<List<Dor_ObjetivosGenerales>> GetDorMetasProyecto(int proyecto, int nivel, int mes, int anio, int empleado, string seccion);
     Task<(bool Success, string Message)> UpdateReal(JsonObject registro);
     Task<(bool Success, string Message)> UpdateObjetivoPersonal(JsonObject registro);
+    Task<(bool Success, string Message)> UpdateAcepto(JsonObject registro);
 }
 
 

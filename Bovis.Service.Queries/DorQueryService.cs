@@ -71,16 +71,22 @@ namespace Bovis.Service.Queries
         //	return new Response<List<DorObjetivoDesepeno>> { Data = _map.Map<List<DorObjetivoDesepeno>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró información para el usuario solicitado." : default };
         //}
 
-        public async Task<Response<(bool existe, string mensaje)>> UpdateReal(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateReal(JsonObject registro)
         {
             var response = await _dorBusiness.UpdateReal(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<(bool existe, string mensaje)>> UpdateObjetivoPersonal(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> UpdateObjetivoPersonal(JsonObject registro)
         {
             var response = await _dorBusiness.UpdateObjetivoPersonal(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+        
+        public async Task<Response<(bool Success, string Message)>> UpdateAcepto(JsonObject registro)
+        {
+            var response = await _dorBusiness.UpdateAcepto(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
     }
 }

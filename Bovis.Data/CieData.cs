@@ -115,32 +115,88 @@ namespace Bovis.Data
         }
         #endregion Proyecto
 
-        #region Registros
-        public async Task<TB_Cie_Data> GetRegistro(int? idRegistro)
+        #region Registros CIE
+        public async Task<Cie_Detalle> GetRegistro(int? idRegistro)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res = await (from cie in db.tB_Cie_Datas
+                          join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
+                          from archivoItem in archivoJoin.DefaultIfEmpty()
+                          where cie.IdCieData == idRegistro
+                          select new Cie_Detalle
+                          {
+                              IdCie = cie.IdCieData,
+                              NombreCuenta = cie.NombreCuenta,
+                              Cuenta = cie.Cuenta,
+                              TipoPoliza = cie.TipoPoliza,
+                              Numero = cie.Numero,
+                              Fecha = cie.Fecha,
+                              Mes = cie.Mes,
+                              Concepto = cie.Concepto,
+                              CentroCostos = cie.CentroCostos,
+                              Proyectos = cie.Proyectos,
+                              SaldoInicial = cie.SaldoInicial,
+                              Debe = cie.Debe,
+                              Haber = cie.Haber,
+                              Movimiento = cie.Movimiento,
+                              Empresa = cie.Empresa,
+                              NumProyecto = cie.NumProyecto,
+                              TipoCuenta = cie.TipoCuenta,
+                              EdoResultados = cie.EdoResultados,
+                              Responsable = cie.Responsable,
+                              TipoProyecto = cie.TipoProyecto,
+                              TipoPy = cie.TipoPY,
+                              ClasificacionPy = cie.ClasificacionPY,
+                              Activo = cie.Activo,
+                              IdArchivo = cie.IdArchivo,
+                              NombreArchivo = archivoItem.NombreArchivo ?? null
+                          }).FirstOrDefaultAsync();
 
-                var res = from a in db.tB_Cie_Datas
-                          where a.IdCieData == idRegistro
-                          select a;
-
-                return await res.FirstOrDefaultAsync();
-
+                return res;
             }
         }
-        public async Task<List<TB_Cie_Data>> GetRegistros(bool? activo, int offset, int limit)
+        public async Task<List<Cie_Detalle>> GetRegistros(bool? activo, int offset, int limit)
         {
             if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cie in db.tB_Cie_Datas
+                                                                          join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
+                                                                          from archivoItem in archivoJoin.DefaultIfEmpty()
                                                                           where cie.Activo == activo
-                                                                          select cie)
+                                                                          select new Cie_Detalle
+                                                                          {
+                                                                              IdCie = cie.IdCieData,
+                                                                              NombreCuenta = cie.NombreCuenta,
+                                                                              Cuenta = cie.Cuenta,
+                                                                              TipoPoliza = cie.TipoPoliza,
+                                                                              Numero = cie.Numero,
+                                                                              Fecha = cie.Fecha,
+                                                                              Mes = cie.Mes,
+                                                                              Concepto = cie.Concepto,
+                                                                              CentroCostos = cie.CentroCostos,
+                                                                              Proyectos = cie.Proyectos,
+                                                                              SaldoInicial = cie.SaldoInicial,
+                                                                              Debe = cie.Debe,
+                                                                              Haber = cie.Haber,
+                                                                              Movimiento = cie.Movimiento,
+                                                                              Empresa = cie.Empresa,
+                                                                              NumProyecto = cie.NumProyecto,
+                                                                              TipoCuenta = cie.TipoCuenta,
+                                                                              EdoResultados = cie.EdoResultados,
+                                                                              Responsable = cie.Responsable,
+                                                                              TipoProyecto = cie.TipoProyecto,
+                                                                              TipoPy = cie.TipoPY,
+                                                                              ClasificacionPy = cie.ClasificacionPY,
+                                                                              Activo = cie.Activo,
+                                                                              IdArchivo = cie.IdArchivo,
+                                                                              NombreArchivo = archivoItem.NombreArchivo ?? null
+                                                                          })
                                                                           .Skip((offset - 1) * limit)
                                                                           .Take(limit)
                                                                           .ToListAsync();
             }
-            else return await GetAllFromEntityAsync<TB_Cie_Data>();
+            else return await GetAllFromEntityAsync<Cie_Detalle>();
         }
 
         public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
@@ -149,67 +205,85 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                bool insert = false;
-                foreach (var registro in registros["data"].AsArray())
-                {
-                    string nombre_cuenta = registro["nombre_cuenta"].ToString();
-                    string cuenta = registro["cuenta"].ToString();
-                    string tipo_poliza = registro["tipo_poliza"].ToString();
-                    int numero = Convert.ToInt32(registro["numero"].ToString());
-                    string fecha_str = registro["fecha"].ToString();
-                    //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
-                    int mes = Convert.ToInt32(registro["mes"].ToString());
-                    string concepto = registro["concepto"].ToString();
-                    string centro_costos = registro["centro_costos"].ToString();
-                    string proyectos = registro["proyectos"].ToString();
-                    decimal saldo_inicial = Convert.ToDecimal(registro["saldo_inicial"].ToString());
-                    decimal debe = Convert.ToDecimal(registro["debe"].ToString());
-                    decimal haber = Convert.ToDecimal(registro["haber"].ToString());
-                    decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
-                    string empresa = registro["empresa"].ToString();
-                    int num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : 0;
-                    string tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : string.Empty;
-                    string edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : string.Empty;
-                    string responsable = registro["responsable"] != null ? registro["responsable"].ToString() : string.Empty;
-                    string tipo_proyecto = registro["tipo_proyecto"] != null ? registro["tipo_proyecto"].ToString() : string.Empty;
-                    string tipo_py = registro["tipo_py"] != null ? registro["tipo_py"].ToString() : string.Empty;
-                    string clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : string.Empty;
-                    DateTime fecha;
+                string nombre_archivo = registros["nombre_archivo"].ToString();
 
-                    if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                int last_inserted_id = 0;
+
+                var insert_archivo = await db.tB_Cie_Archivos
+                    .Value(x => x.NombreArchivo, nombre_archivo)                    
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_archivo;
+                resp.Message = insert_archivo == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+                if (insert_archivo != null)
+                {
+                    var lastInsertedRecord = db.tB_Cie_Archivos.OrderByDescending(x => x.IdArchivo).FirstOrDefault();
+                    last_inserted_id = lastInsertedRecord.IdArchivo;
+
+                    bool insert = false;
+                    foreach (var registro in registros["data"].AsArray())
                     {
+                        string nombre_cuenta = registro["nombre_cuenta"].ToString();
+                        string cuenta = registro["cuenta"].ToString();
+                        string tipo_poliza = registro["tipo_poliza"].ToString();
+                        int numero = Convert.ToInt32(registro["numero"].ToString());
+                        string fecha_str = registro["fecha"].ToString();
+                        //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
+                        int mes = Convert.ToInt32(registro["mes"].ToString());
+                        string concepto = registro["concepto"].ToString();
+                        string centro_costos = registro["centro_costos"].ToString();
+                        string proyectos = registro["proyectos"].ToString();
+                        decimal saldo_inicial = Convert.ToDecimal(registro["saldo_inicial"].ToString());
+                        decimal debe = Convert.ToDecimal(registro["debe"].ToString());
+                        decimal haber = Convert.ToDecimal(registro["haber"].ToString());
+                        decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
+                        string empresa = registro["empresa"].ToString();
+                        int num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : 0;
+                        string tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : string.Empty;
+                        string edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : string.Empty;
+                        string responsable = registro["responsable"] != null ? registro["responsable"].ToString() : string.Empty;
+                        string tipo_proyecto = registro["tipo_proyecto"] != null ? registro["tipo_proyecto"].ToString() : string.Empty;
+                        string tipo_py = registro["tipo_py"] != null ? registro["tipo_py"].ToString() : string.Empty;
+                        string clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : string.Empty;
+                        DateTime fecha;
+
+                        if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
+                        {
+                            resp.Success = insert;
+                            resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                            return resp;
+                        }
+
+                        insert = await db.tB_Cie_Datas
+                            .Value(x => x.NombreCuenta, nombre_cuenta)
+                            .Value(x => x.Cuenta, cuenta)
+                            .Value(x => x.TipoPoliza, tipo_poliza)
+                            .Value(x => x.Numero, numero)
+                            .Value(x => x.Fecha, fecha)
+                            .Value(x => x.Mes, mes)
+                            .Value(x => x.Concepto, concepto)
+                            .Value(x => x.CentroCostos, centro_costos)
+                            .Value(x => x.Proyectos, proyectos)
+                            .Value(x => x.SaldoInicial, saldo_inicial)
+                            .Value(x => x.Debe, debe)
+                            .Value(x => x.Haber, haber)
+                            .Value(x => x.Movimiento, movimiento)
+                            .Value(x => x.Empresa, empresa)
+                            .Value(x => x.NumProyecto, num_proyecto)
+                            .Value(x => x.TipoCuenta, tipo_cuenta)
+                            .Value(x => x.EdoResultados, edo_resultados)
+                            .Value(x => x.Responsable, responsable)
+                            .Value(x => x.TipoProyecto, tipo_proyecto)
+                            .Value(x => x.TipoPY, tipo_py)
+                            .Value(x => x.ClasificacionPY, clasificacion_py)
+                            .Value(x => x.Activo, true)
+                            .Value(x => x.IdArchivo, last_inserted_id)
+                            .InsertAsync() > 0;
+
                         resp.Success = insert;
                         resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
-                        return resp;
                     }
-
-                    insert = await db.tB_Cie_Datas
-                        .Value(x => x.NombreCuenta, nombre_cuenta)
-                        .Value(x => x.Cuenta, cuenta)
-                        .Value(x => x.TipoPoliza, tipo_poliza)
-                        .Value(x => x.Numero, numero)
-                        .Value(x => x.Fecha, fecha)
-                        .Value(x => x.Mes, mes)
-                        .Value(x => x.Concepto, concepto)
-                        .Value(x => x.CentroCostos, centro_costos)
-                        .Value(x => x.Proyectos, proyectos)
-                        .Value(x => x.SaldoInicial, saldo_inicial)
-                        .Value(x => x.Debe, debe)
-                        .Value(x => x.Haber, haber)
-                        .Value(x => x.Movimiento, movimiento)
-                        .Value(x => x.Empresa, empresa)
-                        .Value(x => x.NumProyecto, num_proyecto)
-                        .Value(x => x.TipoCuenta, tipo_cuenta)
-                        .Value(x => x.EdoResultados, edo_resultados)
-                        .Value(x => x.Responsable, responsable)
-                        .Value(x => x.TipoProyecto, tipo_proyecto)
-                        .Value(x => x.TipoPY, tipo_py)
-                        .Value(x => x.ClasificacionPY, clasificacion_py)
-                        .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
-
-                    resp.Success = insert;
-                    resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
                 }
             }
             return resp;
@@ -306,6 +380,6 @@ namespace Bovis.Data
             return resp;
         }
 
-        #endregion Registros
+        #endregion Registros CIE
     }
 }
