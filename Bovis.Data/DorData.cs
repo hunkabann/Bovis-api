@@ -670,7 +670,8 @@ namespace Bovis.Data
                 var res_update_acepto = await db.tB_Dor_Objetivos_Desepenos.Where(x => x.Empleado == num_empleado)
                     .UpdateAsync(x => new TB_Dor_Objetivos_Desepeno
                     {
-                        Acepto = acepto
+                        Acepto = acepto,
+                        FechaAceptado = DateTime.Now
                     }) > 0;
 
                 resp.Success = res_update_acepto;
