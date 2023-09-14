@@ -138,6 +138,11 @@ namespace Bovis.API.Controllers
         [HttpPut("UpdateAcepto")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> UpdateAcepto([FromBody] JsonObject registro)
         {
+            var usuario = HttpContext.User;
+            var nombreUsuario = usuario.FindFirst(ClaimTypes.Name)?.Value;
+            var rolUsuario = usuario.FindFirst(ClaimTypes.Role)?.Value;
+            var transactionId = TransactionId;
+
             ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
             JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
             JsonObject registroJsonObject = new JsonObject();
