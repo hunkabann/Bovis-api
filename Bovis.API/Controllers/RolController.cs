@@ -43,7 +43,7 @@ namespace Bovis.API.Controllers
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("Properties/launchSettings.json")
+                .AddJsonFile("appsettings.json")
                 .Build();
 
             string username = configuration["AppSettings:username"];
@@ -101,11 +101,18 @@ namespace Bovis.API.Controllers
             IHeaderDictionary headers = HttpContext.Request.Headers;
             string token = headers["token"];
             string email = headers["email"];
-            Authorization authorization = new Authorization(_rolQueryService);
-            string bd_token = await authorization.GetAuthorization(email);
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            if (configuration["AppSettings:environment"] == "prod")
+            {
+                Authorization authorization = new Authorization(_rolQueryService);
+                string bd_token = await authorization.GetAuthorization(email);
 
-            if (bd_token != token)
-                return BadRequest(new { error = "Credenciales inválidas.", message = "Usuario y/o contraseña incorrectas." });
+                if (bd_token != token)
+                    return BadRequest(new { error = "Credenciales inválidas.", message = "Usuario y/o contraseña incorrectas." });
+            }
 
             var query = await _rolQueryService.GetRoles(email);
             return Ok(query);

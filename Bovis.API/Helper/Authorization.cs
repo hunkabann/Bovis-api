@@ -25,6 +25,6 @@ namespace Bovis.API.Helper
         {
             var response = _rolQueryService.GetAuthorization(token);
             return response;
-        }
+        }        
     }
 }
