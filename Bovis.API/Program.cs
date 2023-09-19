@@ -9,6 +9,7 @@ using Bovis.Service.Queries;
 using Bovis.Service.Queries.Interface;
 using LinqToDB.Data;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -50,6 +51,11 @@ builder.Services.AddCors(options => options.AddPolicy("policyAPI",
 				builder => builder.WithOrigins("*")
 								  .AllowAnyHeader()
 								  .AllowAnyMethod()));
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("admin"));
+});
 
 builder.Services.AddScoped<IAuditoriaQueryService, AuditoriaQueryService>();
 builder.Services.AddScoped<IAuditoriaBusiness, AuditoriaBusiness>();

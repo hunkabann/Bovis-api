@@ -32,6 +32,18 @@ namespace Bovis.Service.Queries
         }
         #endregion base
 
+        public async Task<Response<(bool Success, string Message)>> AddToken(string email, string str_token)
+        {
+            var response = await _rolBusiness.AddToken(email, str_token);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+
+        public async Task<string> GetAuthorization(string email)
+        {
+            var response = await _rolBusiness.GetAuthorization(email);
+            return response;
+        }
+
         public async Task<Response<Rol_Detalle>> GetRoles(string email)
         {
             var response = await _rolBusiness.GetRoles(email);

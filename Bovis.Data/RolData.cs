@@ -35,8 +35,54 @@ namespace Bovis.Data
         }
         #endregion base
 
+        public async Task<(bool Success, string Message)> AddToken(string email, string str_token)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var empleado = await (from emp in db.tB_Empleados
+                                      where emp.EmailBovis == email
+                                      && emp.Activo == true
+                                      select emp).FirstOrDefaultAsync();
+
+                var res_update_user_token = await (db.tB_Usuarios.Where(x => x.NumEmpleadoRrHh == empleado!.NumEmpleadoRrHh)
+                                .UpdateAsync(x => new TB_Usuario
+                                {
+                                    Token = str_token,
+                                    FechaUltimaSesion = DateTime.Now
+                                })) > 0;
+
+                resp.Success = res_update_user_token;
+                resp.Message = res_update_user_token == default ? "Ocurrio un error al actualizar token del usuario." : string.Empty;
+
+            }
+
+            return resp;
+        }
+
+        public async Task<string> GetAuthorization(string email)
+        {
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var empleado = await (from emp in db.tB_Empleados
+                                      where emp.EmailBovis == email
+                                      && emp.Activo == true
+                                      select emp).FirstOrDefaultAsync();
+
+                var usuario = await (from usr in db.tB_Usuarios
+                                        where usr.NumEmpleadoRrHh == empleado!.NumEmpleadoRrHh
+                                        && usr.Activo == true
+                                        select usr).FirstOrDefaultAsync();
+                
+                return usuario!.Token;
+            }
+        }
+
         public async Task<Rol_Detalle> GetRoles(string email)
         {
+            
             using (var db = new ConnectionDB(dbConfig))
             {
                 var empleado = await (from emp in db.tB_Empleados

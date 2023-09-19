@@ -25,5 +25,12 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "AppSettings": {
+    "username": "B0V1$-2023",
+    "password": "P4$w0RD_2023",
+    "secretKey": "QjBWMiQtNFAxNS0yTzIz",
+    "issuer": "http://bovis.com.mx",
+    "audience": "BOVIS"
   }
 }

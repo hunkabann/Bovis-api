@@ -8,5 +8,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidusuario"), NotNull, PrimaryKey, Identity] public int IdUsuario { get; set; }
 		[Column("Nunum_empleado_rr_hh"), NotNull] public int NumEmpleadoRrHh { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
+		[Column("Chtoken"), NotNull] public string Token { get; set; }
+		[Column("Dtfecha_ultima_session"), NotNull] public DateTime FechaUltimaSesion { get; set; }
 	}
 }
