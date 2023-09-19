@@ -100,6 +100,10 @@ builder.Services.AddScoped<IRequerimientoQueryService, RequerimientoQueryService
 builder.Services.AddScoped<IRequerimientoBusiness, RequerimientoBusiness>();
 builder.Services.AddScoped<IRequerimientoData, RequerimientoData>();
 
+builder.Services.AddScoped<IRolQueryService, RolQueryService>();
+builder.Services.AddScoped<IRolBusiness, RolBusiness>();
+builder.Services.AddScoped<IRolData, RolData>();
+
 builder.Services.AddScoped<ITimesheetQueryService, TimesheetQueryService>();
 builder.Services.AddScoped<ITimesheetBusiness, TimesheetBusiness>();
 builder.Services.AddScoped<ITimesheetData, TimesheetData>();

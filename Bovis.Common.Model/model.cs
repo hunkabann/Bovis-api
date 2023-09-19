@@ -105,7 +105,9 @@ namespace Bovis.Common.Model
 		public ITable<TB_Pais> tB_Pais { get { return this.GetTable<TB_Pais>(); } }
 		public ITable<TB_Perfil> tB_Perfils { get { return this.GetTable<TB_Perfil>(); } }
 		public ITable<TB_PerfilModulo> tB_PerfilModulos { get { return this.GetTable<TB_PerfilModulo>(); } }
-		public ITable<TB_PermisoUsuarioPerfilModulo> tB_PermisoUsuarioPerfilModulos { get { return this.GetTable<TB_PermisoUsuarioPerfilModulo>(); } }
+		public ITable<TB_PerfilPermiso> tB_PerfilPermisos { get { return this.GetTable<TB_PerfilPermiso>(); } }
+		public ITable<TB_PerfilUsuario> tB_PerfilUsuarios { get { return this.GetTable<TB_PerfilUsuario>(); } }
+		public ITable<TB_Permiso> tB_Permisos { get { return this.GetTable<TB_Permiso>(); } }
 		public ITable<TB_Persona> tB_Personas { get { return this.GetTable<TB_Persona>(); } }
 		public ITable<TB_Proyecto> tB_Proyectos { get { return this.GetTable<TB_Proyecto>(); } }
 		public ITable<TB_ProyectoFactura> tB_ProyectoFacturas { get { return this.GetTable<TB_ProyectoFactura>(); } }
