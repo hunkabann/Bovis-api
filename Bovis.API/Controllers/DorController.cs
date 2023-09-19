@@ -102,14 +102,16 @@ namespace Bovis.API.Controllers
         [HttpPut("UpdateReal")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> UpdateReal([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string token = headers["token"];
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1052);
 
             var query = await _dorQueryService.UpdateReal(registroJsonObject);
@@ -120,14 +122,16 @@ namespace Bovis.API.Controllers
         [HttpPut("UpdateObjetivoPersonal")]//, Authorize(Roles = "eje.full, dev.full")]
         public async Task<IActionResult> UpdateObjetivoPersonal([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string token = headers["token"];
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1054);
 
             var query = await _dorQueryService.UpdateObjetivoPersonal(registroJsonObject);
@@ -143,14 +147,16 @@ namespace Bovis.API.Controllers
             var rolUsuario = usuario.FindFirst(ClaimTypes.Role)?.Value;
             var transactionId = TransactionId;
 
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string token = headers["token"];
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1055);
 
             var query = await _dorQueryService.UpdateAcepto(registroJsonObject);

@@ -10,12 +10,15 @@ using Bovis.Service.Queries.Interface;
 using LinqToDB.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
 using System.Reflection;
+using System.Text;
 
 Log.Logger = new LoggerConfiguration()
 	.Enrich.FromLogContext()
@@ -54,7 +57,7 @@ builder.Services.AddCors(options => options.AddPolicy("policyAPI",
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("admin"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 
 builder.Services.AddScoped<IAuditoriaQueryService, AuditoriaQueryService>();
@@ -114,7 +117,7 @@ builder.Services.AddScoped<ITimesheetQueryService, TimesheetQueryService>();
 builder.Services.AddScoped<ITimesheetBusiness, TimesheetBusiness>();
 builder.Services.AddScoped<ITimesheetData, TimesheetData>();
 
-builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
+//builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 
 var app = builder.Build();
 

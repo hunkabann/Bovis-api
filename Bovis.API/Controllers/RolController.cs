@@ -16,8 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-
-
+using Bovis.Common.Model.NoTable;
+using System.Net;
 
 namespace Bovis.API.Controllers
 {
@@ -56,7 +56,7 @@ namespace Bovis.API.Controllers
             string get_username = request["username"].ToString();
             string get_password = request["password"].ToString();
 
-            if(get_username == username && get_password == password)
+            if (get_username == username && get_password == password)
             {
                 var claims = new[] { new Claim(ClaimTypes.Name, username) };
 
@@ -74,7 +74,7 @@ namespace Bovis.API.Controllers
 
                 var query = await _rolQueryService.AddToken(email, str_token);
 
-                if(query.Message != string.Empty)
+                if (query.Message != string.Empty)
                 {
                     return BadRequest(query.Message);
                 }
@@ -87,35 +87,37 @@ namespace Bovis.API.Controllers
                     };
 
                     return Ok(response);
-                }                
+                }
             }
             else
             {
                 return Ok(new { error = "Credenciales inválidas.", message = "Usuario y/o contraseña incorrectas." });
-            }            
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetRoles()
         {
+            JsonObject registro = new JsonObject();
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
-            string email = headers["email"];
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
+
+            string token = headers["token"];
+            string email = headers["email"];
+
             if (configuration["AppSettings:environment"] == "prod")
             {
-                Authorization authorization = new Authorization(_rolQueryService);
-                string bd_token = await authorization.GetAuthorization(email);
-
+                string bd_token = await _rolQueryService.GetAuthorization(email);
                 if (bd_token != token)
                     return BadRequest(new { error = "Credenciales inválidas.", message = "Usuario y/o contraseña incorrectas." });
             }
 
             var query = await _rolQueryService.GetRoles(email);
-            return Ok(query);
+            if (query.Message.IsNullOrEmpty()) return Ok(query);
+            else return BadRequest(query.Message);
         }
     }
 }

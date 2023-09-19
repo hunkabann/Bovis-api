@@ -82,14 +82,16 @@ namespace Bovis.API.Controllers
         [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string token = headers["token"];
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1050);
 
             var query = await _timesheetQueryService.UpdateRegistro(registroJsonObject);

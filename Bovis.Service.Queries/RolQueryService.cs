@@ -38,9 +38,9 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<string> GetAuthorization(string email)
+        public Task<string> GetAuthorization(string token)
         {
-            var response = await _rolBusiness.GetAuthorization(email);
+            var response = _rolBusiness.GetAuthorization(token);
             return response;
         }
 

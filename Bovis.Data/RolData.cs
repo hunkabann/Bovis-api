@@ -81,8 +81,7 @@ namespace Bovis.Data
         }
 
         public async Task<Rol_Detalle> GetRoles(string email)
-        {
-            
+        {            
             using (var db = new ConnectionDB(dbConfig))
             {
                 var empleado = await (from emp in db.tB_Empleados
