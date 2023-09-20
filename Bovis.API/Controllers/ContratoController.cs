@@ -18,7 +18,8 @@ using System.Security.Claims;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class ContratoController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -34,21 +35,21 @@ namespace Bovis.API.Controllers
         }
 
         #region Templates
-        [HttpGet, Route("Templates/{Estatus}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Templates/{Estatus}")]
         public async Task<IActionResult> GetTemplates(string Estatus)
         {
             var query = await _contratoQueryService.GetTemplates(Estatus);
             return Ok(query);
         }
 
-        [HttpGet, Route("Template/Registro/{idTemplate}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Template/Registro/{idTemplate}")]
         public async Task<IActionResult> GetTemplate(int IdTemplate)
         {
             var query = await _contratoQueryService.GetTemplate(IdTemplate);
             return Ok(query);
         }
 
-        [HttpPost("Template/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Template/Agregar")]
         public async Task<IActionResult> AddTemplate([FromBody] JsonObject registro)
         {
             var query = await _contratoQueryService.AddTemplate(registro);
@@ -56,11 +57,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Template/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Template/Actualizar")]
         public async Task<IActionResult> UpdateTemplate([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -76,7 +76,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Template/Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Template/Estatus/Actualizar")]
         public async Task<IActionResult> UpdateTemplateEstatus([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
@@ -99,21 +99,21 @@ namespace Bovis.API.Controllers
 
 
         #region Contratos Empleado
-        [HttpGet, Route("ContratosEmpleado/{IdEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("ContratosEmpleado/{IdEmpleado}")]
         public async Task<IActionResult> GetContratosEmpleado(int IdEmpleado)
         {
             var query = await _contratoQueryService.GetContratosEmpleado(IdEmpleado);
             return Ok(query);
         }
 
-        [HttpGet, Route("ContratoEmpleado/Registro/{IdContratoEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("ContratoEmpleado/Registro/{IdContratoEmpleado}")]
         public async Task<IActionResult> GetContratoEmpleado(int IdContratoEmpleado)
         {
             var query = await _contratoQueryService.GetContratoEmpleado(IdContratoEmpleado);
             return Ok(query);
         }
 
-        [HttpPost("ContratoEmpleado/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("ContratoEmpleado/Agregar")]
         public async Task<IActionResult> AddContratoEmpleado([FromBody] JsonObject registro)
         {
             var query = await _contratoQueryService.AddContratoEmpleado(registro);
@@ -121,7 +121,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("ContratoEmpleado/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("ContratoEmpleado/Actualizar")]
         public async Task<IActionResult> UpdateContratoEmpleado([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;

@@ -31,6 +31,7 @@ Log.Logger = new LoggerConfiguration()
 	.CreateLogger();
 
 DataConnection.DefaultSettings = new DBSettings();
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
@@ -41,7 +42,6 @@ builder.Services.AddControllers(options =>
 	options.Filters.Add(typeof(GlobalExceptionFilter));
 	options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
 });
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -54,11 +54,6 @@ builder.Services.AddCors(options => options.AddPolicy("policyAPI",
 				builder => builder.WithOrigins("*")
 								  .AllowAnyHeader()
 								  .AllowAnyMethod()));
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-});
 
 builder.Services.AddScoped<IAuditoriaQueryService, AuditoriaQueryService>();
 builder.Services.AddScoped<IAuditoriaBusiness, AuditoriaBusiness>();
@@ -117,6 +112,37 @@ builder.Services.AddScoped<ITimesheetQueryService, TimesheetQueryService>();
 builder.Services.AddScoped<ITimesheetBusiness, TimesheetBusiness>();
 builder.Services.AddScoped<ITimesheetData, TimesheetData>();
 
+builder.Services.AddScoped<ITokenQueryService, TokenQueryService>();
+builder.Services.AddScoped<ITokenBusiness, TokenBusiness>();
+builder.Services.AddScoped<ITokenData, TokenData>();
+
+var configuration =  builder.Configuration
+	.SetBasePath(Directory.GetCurrentDirectory())
+	.AddJsonFile("appsettings.json")
+	.Build();
+
+string claveSecreta = configuration["AppSettings:secretKey"];
+var key = Encoding.ASCII.GetBytes(claveSecreta);
+
+builder.Services.AddAuthentication(config =>
+{
+	config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+	config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(config =>
+{
+	config.RequireHttpsMetadata = false;
+	config.SaveToken = true;
+	config.TokenValidationParameters = new TokenValidationParameters()
+	{
+		ValidateIssuerSigningKey = true,
+		IssuerSigningKey = new SymmetricSecurityKey(key),
+		ValidateIssuer = false,
+		ValidateAudience = false,
+		ValidateLifetime = true,
+		ClockSkew = TimeSpan.Zero,
+	};
+});
+
 //builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
 
 var app = builder.Build();
@@ -128,6 +154,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bovis.Api v1"));
 }
+
 app.UseCors("policyAPI");
 app.UseHttpsRedirection();
 app.UseAuthentication();

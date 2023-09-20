@@ -14,7 +14,8 @@ using System.Threading.Tasks;
 namespace Bovis.Service.Queries
 {
     public class RolQueryService : IRolQueryService
-    {
+    {        
+
         #region base
         private readonly IRolBusiness _rolBusiness;
         private readonly IMapper _map;
@@ -31,18 +32,6 @@ namespace Bovis.Service.Queries
             GC.Collect();
         }
         #endregion base
-
-        public async Task<Response<(bool Success, string Message)>> AddToken(string email, string str_token)
-        {
-            var response = await _rolBusiness.AddToken(email, str_token);
-            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
-        }
-
-        public Task<string> GetAuthorization(string token)
-        {
-            var response = _rolBusiness.GetAuthorization(token);
-            return response;
-        }
 
         public async Task<Response<Rol_Detalle>> GetRoles(string email)
         {

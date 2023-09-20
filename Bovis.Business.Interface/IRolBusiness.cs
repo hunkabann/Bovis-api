@@ -10,9 +10,7 @@ using System.Threading.Tasks;
 namespace Bovis.Business.Interface
 {
     public interface IRolBusiness : IDisposable
-    {
-        Task<(bool Success, string Message)> AddToken(string email, string str_token);
-        Task<string> GetAuthorization(string email);
+    {        
         Task<Rol_Detalle> GetRoles(string email);
     }
 }

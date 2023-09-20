@@ -14,7 +14,8 @@ using System.Security.Claims;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class ReporteController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -30,7 +31,7 @@ namespace Bovis.API.Controllers
         }
 
         #region Custom Reports
-        [HttpPost("Personalizado/Ejecutar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Personalizado/Ejecutar")]
         public async Task<IActionResult> ExecReportePersonalizado([FromBody] JsonObject registro)
         {
             var query = await _reporteQueryService.ExecReportePersonalizado(registro);
@@ -38,25 +39,24 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Data);
         }
 
-        [HttpPost("Personalizado/Guardar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Personalizado/Guardar")]
         public async Task<IActionResult> AddReportePersonalizado([FromBody] JsonObject registro)
         {
             var query = await _reporteQueryService.AddReportePersonalizado(registro);
             return Ok(query);
         }
 
-        [HttpGet, Route("Personalizado/{IdReporte}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Personalizado/{IdReporte}")]
         public async Task<IActionResult> GetReportesPersonalizados(int IdReporte)
         {
             var query = await _reporteQueryService.GetReportesPersonalizados(IdReporte);
             return Ok(query);
         }
 
-        [HttpPut("Personalizado/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Personalizado/Actualizar")]
         public async Task<IActionResult> UpdateReportePersonalizado([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -72,7 +72,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete, Route("Personalizado/Borrar/{IdReporte}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpDelete, Route("Personalizado/Borrar/{IdReporte}")]
         public async Task<IActionResult> DeleteReportePersonalizado(int IdReporte)
         {
             var query = await _reporteQueryService.DeleteReportePersonalizado(IdReporte);

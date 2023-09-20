@@ -16,7 +16,8 @@ using Microsoft.Win32;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class CieController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -32,7 +33,7 @@ namespace Bovis.API.Controllers
         }
 
         #region Empresas
-        [HttpGet, Route("Empresas/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Empresas/{Activo?}")]
         public async Task<IActionResult> GetEmpresas(bool? Activo)
         {
             var query = await _cieQueryService.GetEmpresas(Activo);
@@ -41,7 +42,7 @@ namespace Bovis.API.Controllers
         #endregion Empresas
 
         #region Cuenta Data
-        [HttpPost("Cuentas")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost("Cuentas")]
         public async Task<IActionResult> GetCuentaData([FromBody] JsonObject cuentas)
         {
             var query = await _cieQueryService.GetCuentaData(cuentas);
@@ -50,7 +51,7 @@ namespace Bovis.API.Controllers
         #endregion Cuenta Data
 
         #region Proyecto
-        [HttpPost("Proyectos")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost("Proyectos")]
         public async Task<IActionResult> GetProyectoData([FromBody] JsonObject proyectos)
         {
             var query = await _cieQueryService.GetProyectoData(proyectos);
@@ -59,21 +60,21 @@ namespace Bovis.API.Controllers
         #endregion Proyecto
 
         #region Registros        
-        [HttpGet, Route("Registros/{Activo?}/{offset}/{limit}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Registros/{Activo?}/{offset}/{limit}")]
         public async Task<IActionResult> GetRegitros(bool? Activo, int offset, int limit)
         {
             var query = await _cieQueryService.GetRegistros(Activo, offset, limit);
             return Ok(query);
         }
 
-        [HttpGet("Registro/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet("Registro/{idRegistro}")]
         public async Task<IActionResult> GetRegistro(int idRegistro)
         {
             var query = await _cieQueryService.GetRegistro(idRegistro);
             return Ok(query);
         }
 
-        [HttpPost("Registros/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost("Registros/Agregar")]
         public async Task<IActionResult> AddRegistros([FromBody] JsonObject registros)
         {
             var query = await _cieQueryService.AddRegistros(registros);
@@ -81,11 +82,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut("Registro/Actualizar")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -101,7 +101,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete, Route("Registro/Borrar/{idRegistro}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpDelete, Route("Registro/Borrar/{idRegistro}")]
         public async Task<IActionResult> DeleteRegistro(int idRegistro)
         {
             var query = await _cieQueryService.DeleteRegistro(idRegistro);

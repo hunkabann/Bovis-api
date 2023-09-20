@@ -14,7 +14,8 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class PersonaController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -30,28 +31,28 @@ namespace Bovis.API.Controllers
         }
 
         #region Personas
-        [HttpGet, Route("Personas/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Personas/{Activo?}")]
         public async Task<IActionResult> GetPersonas(bool? Activo)
         {
             var query = await _personaQueryService.GetPersonas(Activo);
             return Ok(query);
         }
 
-        [HttpGet, Route("Personas/Libres")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Personas/Libres")]
         public async Task<IActionResult> GetPersonasLibres()
         {
             var query = await _personaQueryService.GetPersonasLibres();
             return Ok(query);
         }
 
-        [HttpGet, Route("Registro/{idPersona}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Registro/{idPersona}")]
         public async Task<IActionResult> GetPersona(int idPersona)
         {
             var query = await _personaQueryService.GetPersona(idPersona);
             return Ok(query);
         }
 
-        [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Registro/Agregar")]
         public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
             var query = await _personaQueryService.AddRegistro(registro);
@@ -59,11 +60,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Registro/Actualizar")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -79,11 +79,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Estatus/Actualizar")]
         public async Task<IActionResult> UpdateEstatus([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();

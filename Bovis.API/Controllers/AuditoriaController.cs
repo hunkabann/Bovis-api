@@ -14,7 +14,8 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class AuditoriaController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -30,14 +31,14 @@ namespace Bovis.API.Controllers
         }
 
         #region Auditoria Legal
-        [HttpGet, Route("Contractual")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Contractual")]
         public async Task<IActionResult> GetAuditoriasContractual()
         {
             var query = await _auditoriaQueryService.GetAuditoriasContractual();
             return Ok(query);
         }
 
-        [HttpPost("Contractual/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Contractual/Agregar")]
         public async Task<IActionResult> AddAuditoriasContractual([FromBody] JsonObject registro)
         {
             var query = await _auditoriaQueryService.AddAuditoriasContractual(registro);
@@ -47,21 +48,21 @@ namespace Bovis.API.Controllers
         #endregion Auditoria Legal
 
         #region Auditoria de Calidad (Cumplimiento)
-        [HttpGet, Route("Cumplimiento")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Cumplimiento")]
         public async Task<IActionResult> GetAuditoriasCumplimiento()
         {
             var query = await _auditoriaQueryService.GetAuditoriasCumplimiento();
             return Ok(query);
         }
 
-        [HttpGet, Route("Cumplimiento/Proyecto/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Cumplimiento/Proyecto/{IdProyecto}")]
         public async Task<IActionResult> GetAuditoriasCumplimientoByProyecto(int IdProyecto)
         {
             var query = await _auditoriaQueryService.GetAuditoriasCumplimientoByProyecto(IdProyecto);
             return Ok(query);
         }
 
-        [HttpPost("Cumplimiento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Cumplimiento/Agregar")]
         public async Task<IActionResult> AddAuditoriasCumplimiento([FromBody] JsonObject registro)
         {
             var query = await _auditoriaQueryService.AddAuditoriasCumplimiento(registro);
@@ -69,11 +70,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Cumplimiento/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Cumplimiento/Actualizar")]
         public async Task<IActionResult> UpdateAuditoriaCumplimientoProyecto([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -89,7 +89,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPost("Cumplimiento/Documento")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Cumplimiento/Documento")]
         public async Task<IActionResult> AddAuditoriaCumplimientoDocumento([FromBody] JsonObject registro)
         {
             var query = await _auditoriaQueryService.AddAuditoriaCumplimientoDocumento(registro);
@@ -97,21 +97,21 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpGet, Route("Cumplimiento/Documentos/{IdAuditoriaCumplimiento}/{offset}/{limit}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Cumplimiento/Documentos/{IdAuditoriaCumplimiento}/{offset}/{limit}")]
         public async Task<IActionResult> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit)
         {
             var query = await _auditoriaQueryService.GetDocumentosAuditoriaCumplimiento(IdAuditoriaCumplimiento, offset, limit);
             return Ok(query);
         }
 
-        [HttpGet, Route("Cumplimiento/Documento/{IdDocumento}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Cumplimiento/Documento/{IdDocumento}")]
         public async Task<IActionResult> GetDocumentoAuditoriaCumplimiento(int IdDocumento)
         {
             var query = await _auditoriaQueryService.GetDocumentoAuditoriaCumplimiento(IdDocumento);
             return Ok(query);
         }
 
-        [HttpPut("Cumplimiento/Documento/Validacion")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Cumplimiento/Documento/Validacion")]
         public async Task<IActionResult> AddAuditoriaCumplimientoDocumentoValidacion([FromBody] JsonObject registro)
         {
             var query = await _auditoriaQueryService.AddAuditoriaCumplimientoDocumentoValidacion(registro);

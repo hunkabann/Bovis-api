@@ -18,17 +18,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Bovis.Common.Model.NoTable;
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Permissions;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]//, RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class RolController : ControllerBase
     {
         #region base
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
         private readonly ILogger<RolController> _logger;
         private readonly IRolQueryService _rolQueryService;
-        private readonly IMediator _mediator;
+        private readonly IMediator _mediator;        
 
         public RolController(ILogger<RolController> logger, IRolQueryService _rolQueryService, IMediator _mediator)
         {
@@ -37,83 +40,13 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
         #endregion base
-
-        [HttpPost("Token")]
-        public async Task<IActionResult> Token([FromBody] JsonObject request)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            string username = configuration["AppSettings:username"];
-            string password = configuration["AppSettings:password"];
-            string claveSecreta = configuration["AppSettings:secretKey"];
-            string issuer = configuration["AppSettings:issuer"];
-            string audience = configuration["AppSettings:audience"];
-
-            string email = request["email"].ToString();
-            string get_username = request["username"].ToString();
-            string get_password = request["password"].ToString();
-
-            if (get_username == username && get_password == password)
-            {
-                var claims = new[] { new Claim(ClaimTypes.Name, username) };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(claveSecreta));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-                var token = new JwtSecurityToken(
-                    issuer: issuer,
-                    audience: audience,
-                    claims: claims,
-                    expires: DateTime.Now.AddYears(999),
-                    signingCredentials: creds
-                );
-                string str_token = new JwtSecurityTokenHandler().WriteToken(token);
-
-                var query = await _rolQueryService.AddToken(email, str_token);
-
-                if (query.Message != string.Empty)
-                {
-                    return BadRequest(query.Message);
-                }
-                else
-                {
-                    var response = new
-                    {
-                        token = str_token,
-                        expiration = token.ValidTo,
-                    };
-
-                    return Ok(response);
-                }
-            }
-            else
-            {
-                return Ok(new { error = "Credenciales inválidas.", message = "Usuario y/o contraseña incorrectas." });
-            }
-        }
-
-        [HttpGet]
+        
+        [HttpGet]//, Authorize(Roles = "it.full, dev.full")]
         public async Task<IActionResult> GetRoles()
         {
-            JsonObject registro = new JsonObject();
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            string token = headers["token"];
+            string nombre = headers["nombre"];
             string email = headers["email"];
-
-            if (configuration["AppSettings:environment"] == "prod")
-            {
-                string bd_token = await _rolQueryService.GetAuthorization(email);
-                if (bd_token != token)
-                    return BadRequest(new { error = "Credenciales inválidas.", message = "Usuario y/o contraseña incorrectas." });
-            }
 
             var query = await _rolQueryService.GetRoles(email);
             if (query.Message.IsNullOrEmpty()) return Ok(query);

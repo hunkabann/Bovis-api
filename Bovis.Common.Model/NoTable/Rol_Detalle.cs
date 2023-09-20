@@ -19,8 +19,8 @@ namespace Bovis.Common.Model.NoTable
         public int nukidmodulo { get; set; }
         public string chmodulo { get; set; }
         public string chsub_modulo { get; set; }
+        public string chpermiso { get; set; }
         public List<string> perfiles { get; set; }
         public List<string> permisos { get; set; }
-        public string chpermiso { get; set; }
     }
 }

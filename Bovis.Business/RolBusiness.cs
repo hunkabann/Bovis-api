@@ -25,11 +25,7 @@ namespace Bovis.Business
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion base
-
-        public Task<(bool Success, string Message)> AddToken(string email, string str_token) => _RolData.AddToken(email, str_token);
-
-        public Task<string> GetAuthorization(string email) => _RolData.GetAuthorization(email);
+        #endregion base        
 
         public Task<Rol_Detalle> GetRoles(string email) => _RolData.GetRoles(email);
     }

@@ -17,7 +17,8 @@ using Bovis.Common.Model.Tables;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class EmpleadoController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -33,28 +34,28 @@ namespace Bovis.API.Controllers
         }
 
         #region Empleados
-        [HttpGet, Route("Empleados/{Activo?}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Empleados/{Activo?}")]
         public async Task<IActionResult> GetEmpleados(bool? Activo)
         {
             var query = await _empleadoQueryService.GetEmpleados(Activo);
             return Ok(query);
         }
 
-        [HttpGet, Route("Registro/{idEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Registro/{idEmpleado}")]
         public async Task<IActionResult> GetEmpleado(int idEmpleado)
         {
             var query = await _empleadoQueryService.GetEmpleado(idEmpleado);
             return Ok(query);
         }
 
-        [HttpGet, Route("Registro/Email/{email}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Registro/Email/{email}")]
         public async Task<IActionResult> GetEmpleadoByEmail(string email)
         {
             var query = await _empleadoQueryService.GetEmpleadoByEmail(email);
             return Ok(query);
         }
 
-        [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Registro/Agregar")]
         public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
             var query = await _empleadoQueryService.AddRegistro(registro);
@@ -62,11 +63,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Registro/Actualizar")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -82,11 +82,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Estatus/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Estatus/Actualizar")]
         public async Task<IActionResult> UpdateEstatus([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
-            string token = headers["token"];
             string email = headers["email"];
             string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
@@ -104,7 +103,7 @@ namespace Bovis.API.Controllers
         #endregion Empleados
 
         #region Proyectos
-        [HttpGet, Route("Proyectos/{idEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Proyectos/{idEmpleado}")]
         public async Task<IActionResult> GetProyectos(int idEmpleado)
         {
             var query = await _empleadoQueryService.GetProyectos(idEmpleado);
@@ -113,7 +112,7 @@ namespace Bovis.API.Controllers
         #endregion Proyectos
 
         #region Ciudades
-        [HttpGet, Route("Ciudades/{Activo?}/{IdEstado?}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Ciudades/{Activo?}/{IdEstado?}")]
         public async Task<IActionResult> GetCiudades(bool? Activo, int? IdEstado)
         {
             var query = await _empleadoQueryService.GetCiudades(Activo, IdEstado);
