@@ -370,6 +370,29 @@ namespace Bovis.Data
 
             }
         }
+        
+        public async Task<Empleado_BasicData> GetEmpleadoDetalle()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = from emp in db.tB_Empleados
+                          join per in db.tB_Personas on emp.IdPersona equals per.IdPersona
+                          join puesto in  db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
+                          from puestoItem in puestoJoin.DefaultIfEmpty()
+                          where puestoItem.IdNivel == 3
+                          select new Empleado_BasicData
+                          {
+                              nukid_empleado = emp.NumEmpleadoRrHh,
+                              chnombre = per.Nombre,
+                              chap_paterno = per.ApPaterno,
+                              chap_materno = per.ApMaterno,
+                              chpuesto = puestoItem != null ? puestoItem.Puesto : string.Empty
+                          };
+
+                return await res.FirstOrDefaultAsync();
+
+            }
+        }
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {

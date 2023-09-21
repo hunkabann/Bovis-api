@@ -55,6 +55,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("ConsultarDetalle")]
+        public async Task<IActionResult> GetEmpleadoDetalle()
+        {
+            var query = await _empleadoQueryService.GetEmpleadoDetalle();
+            return Ok(query);
+        }
+
         [HttpPost, Route("Registro/Agregar")]
         public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
         {
