@@ -13,7 +13,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo);
         Task<Response<Empleado_Detalle>> GetEmpleado(int idEmpleado);
         Task<Response<Empleado_BasicData>> GetEmpleadoByEmail(string email);
-        Task<Response<Empleado_BasicData>> GetEmpleadoDetalle();
+        Task<Response<List<Empleado_BasicData>>> GetEmpleadoDetalle();
         Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdateRegistro(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdateEstatus(JsonObject registro);

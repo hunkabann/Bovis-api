@@ -34,7 +34,7 @@ namespace Bovis.Business
 
         public Task<Empleado_BasicData> GetEmpleadoByEmail(string email) => _empleadoData.GetEmpleadoByEmail(email);
 
-        public Task<Empleado_BasicData> GetEmpleadoDetalle() => _empleadoData.GetEmpleadoDetalle();
+        public Task<List<Empleado_BasicData>> GetEmpleadoDetalle() => _empleadoData.GetEmpleadoDetalle();
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {

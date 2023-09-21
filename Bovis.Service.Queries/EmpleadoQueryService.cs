@@ -54,10 +54,10 @@ namespace Bovis.Service.Queries
             return new Response<Empleado_BasicData> { Data = _map.Map<Empleado_BasicData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         
-        public async Task<Response<Empleado_BasicData>> GetEmpleadoDetalle()
+        public async Task<Response<List<Empleado_BasicData>>> GetEmpleadoDetalle()
         {
             var response = await _empleadoBusiness.GetEmpleadoDetalle();
-            return new Response<Empleado_BasicData> { Data = _map.Map<Empleado_BasicData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<List<Empleado_BasicData>> { Data = _map.Map<List<Empleado_BasicData>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro)
