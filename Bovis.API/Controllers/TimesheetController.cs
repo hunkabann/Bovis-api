@@ -120,6 +120,21 @@ namespace Bovis.API.Controllers
             var query = await _timesheetQueryService.GetProyectosByResponsable(EmailResponsable);
             return Ok(query);
         }
+
+        [HttpGet, Route("NotProyectosByEmpleado/{IdEmpleado}")]
+        public async Task<IActionResult> GetNotProyectosByEmpleado(int IdEmpleado)
+        {
+            var query = await _timesheetQueryService.GetNotProyectosByEmpleado(IdEmpleado);
+            return Ok(query);
+        }
+
+        [HttpPost, Route("ProyectoEmpleado")]
+        public async Task<IActionResult> AddProyectoEmpleado([FromBody] JsonObject registro)
+        {
+            var query = await _timesheetQueryService.AddProyectoEmpleado(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion TimeSheets
     }
 }

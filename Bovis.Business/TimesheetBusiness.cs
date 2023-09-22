@@ -59,5 +59,14 @@ namespace Bovis.Business
 
         public Task<List<Empleado_Detalle>> GetEmpleadosByResponsable(string EmailResponsable) => _timesheetData.GetEmpleadosByResponsable(EmailResponsable);
         public Task<List<TB_Proyecto>> GetProyectosByResponsable(string EmailResponsable) => _timesheetData.GetProyectosByResponsable(EmailResponsable);
+        public Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(int IdEmpleado) => _timesheetData.GetNotProyectosByEmpleado(IdEmpleado);
+        public async Task<(bool Success, string Message)> AddProyectoEmpleado(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _timesheetData.AddProyectoEmpleado(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
     }
 }

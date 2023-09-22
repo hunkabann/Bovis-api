@@ -645,5 +645,48 @@ namespace Bovis.Data
                 return proyectos;
             }
         }
+
+        public async Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(int IdEmpleado)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
+
+                proyectos = await (from p in db.tB_Proyectos
+                                   join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
+                                   from epItem in epJoin.DefaultIfEmpty()
+                                   where epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado
+                                   select p).ToListAsync();
+
+                return proyectos;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> AddProyectoEmpleado(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert_proyecto_empleado = await db.tB_EmpleadoProyectos
+                    .Value(x => x.NumEmpleadoRrHh, id_empleado)
+                    .Value(x => x.NumProyecto, id_proyecto)
+                    .Value(x => x.PorcentajeParticipacion, 0)
+                    .Value(x => x.AliasPuesto, string.Empty)
+                    .Value(x => x.GrupoProyecto, string.Empty)
+                    .Value(x => x.FechaIni, DateTime.Now)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_proyecto_empleado;
+                resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+                
+            }
+
+            return resp;
+        }
     }
 }

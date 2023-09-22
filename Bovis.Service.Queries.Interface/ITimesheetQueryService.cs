@@ -23,6 +23,8 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> DeleteTimeSheet(int idTimeSheet);
         Task<Response<List<Empleado_Detalle>>> GetEmpleadosByResponsable(string EmailResponsable);
         Task<Response<List<TB_Proyecto>>> GetProyectosByResponsable(string EmailResponsable);
+        Task<Response<List<TB_Proyecto>>> GetNotProyectosByEmpleado(int IdEmpleado);
+        Task<Response<(bool Success, string Message)>> AddProyectoEmpleado(JsonObject registro);
     }
 }
 
