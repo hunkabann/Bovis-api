@@ -34,7 +34,23 @@ namespace Bovis.Data
             GC.Collect();
         }
         #endregion base
-        
+
+
+        static string RemoverAcentos(string input)
+        {
+            string normalizedString = input.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (char c in normalizedString)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+        }
 
         public async Task<Rol_Detalle> GetRoles(string email)
         {            
@@ -70,11 +86,15 @@ namespace Bovis.Data
                                    {
                                        nukidmodulo = perfil_modulo.IdModulo,
                                        chmodulo = modulos.Modulo,
+                                       chmodulo_slug = RemoverAcentos(modulos.Modulo.ToLower().Replace(" ", "-")),
                                        chsub_modulo = modulos.SubModulo,
+                                       chsub_modulo_slug = RemoverAcentos(modulos.SubModulo.ToLower().Replace(" ", "-")),
                                        nukidperfil = perfil_usuario.IdPerfil,
                                        chperfil = perfiles.Perfil,
+                                       chperfil_slug = RemoverAcentos(perfiles.Perfil.ToLower().Replace(" ", "-")),
                                        nukidpermiso = perfil_permiso.IdPermiso,
                                        chpermiso = permisos.Permiso,
+                                       chpermiso_slug = RemoverAcentos(permisos.Permiso.ToLower().Replace(" ", "-")),
                                    }).ToListAsync();
 
                 rol.permisos = roles.GroupBy(item => new { item.nukidmodulo, item.chmodulo, item.chsub_modulo })
@@ -86,8 +106,11 @@ namespace Bovis.Data
                                         {
                                             nukidmodulo = group.Key.nukidmodulo,
                                             chmodulo = group.Key.chmodulo,
+                                            chmodulo_slug = group.First().chmodulo_slug,
                                             chsub_modulo = group.Key.chsub_modulo,
+                                            chsub_modulo_slug = group.First().chsub_modulo_slug,
                                             chpermiso = chpermiso,
+                                            chpermiso_slug = RemoverAcentos(chpermiso.ToLower().Replace(" ", "-")),
                                             //nukidperfil = group.Select(item => item.nukidperfil).ToList(),
                                             perfiles = group.Select(item => item.chperfil).Distinct().ToList(),
                                             permisos = group.Select(item => item.chpermiso).Distinct().ToList()
