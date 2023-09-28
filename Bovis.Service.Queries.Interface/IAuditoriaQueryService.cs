@@ -17,15 +17,18 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> AddAuditoriasContractual(JsonObject registro);
         #endregion Auditoria Legal
 
+
+
+
         #region Auditoria de Calidad (Cumplimiento)
-        Task<Response<List<Documentos_Auditoria_Cumplimiento_Detalle>>> GetAuditoriasCumplimiento();
-        Task<Response<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>>> GetAuditoriasCumplimientoByProyecto(int IdProyecto);
-        Task<Response<(bool Success, string Message)>> AddAuditoriasCumplimiento(JsonObject registro);
-        Task<Response<(bool Success, string Message)>> UpdateAuditoriaCumplimientoProyecto(JsonObject registro);
-        Task<Response<(bool Success, string Message)>> AddAuditoriaCumplimientoDocumento(JsonObject registro);
-        Task<Response<List<TB_Auditoria_Cumplimiento_Documento>>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit);
-        Task<Response<TB_Auditoria_Cumplimiento_Documento>> GetDocumentoAuditoriaCumplimiento(int IdDocumento);
-        Task<Response<(bool Success, string Message)>> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro);
+        Task<Response<List<Documentos_Auditoria_Detalle>>> GetAuditorias(string TipoAuditoria);
+        Task<Response<List<Documentos_Auditoria_Proyecto_Detalle>>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria);
+        Task<Response<(bool Success, string Message)>> AddAuditorias(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateAuditoriaProyecto(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> AddAuditoriaDocumento(JsonObject registro);
+        Task<Response<List<TB_Auditoria_Cumplimiento_Documento>>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit);
+        Task<Response<TB_Auditoria_Cumplimiento_Documento>> GetDocumentoAuditoria(int IdDocumento);
+        Task<Response<(bool Success, string Message)>> AddAuditoriaDocumentoValidacion(JsonObject registro);
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

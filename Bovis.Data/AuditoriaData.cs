@@ -69,19 +69,28 @@ namespace Bovis.Data
         }
         #endregion Auditoria Legal
 
+
+
+
+
+
+
+
+
         #region Auditoria de Calidad (Cumplimiento)
-        public async Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento()
+        public async Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria)
         {
-            List<Documentos_Auditoria_Cumplimiento_Detalle> auditorias = new List<Documentos_Auditoria_Cumplimiento_Detalle>();
+            List<Documentos_Auditoria_Detalle> auditorias = new List<Documentos_Auditoria_Detalle>();
 
             using (var db = new ConnectionDB(dbConfig))
             {
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
+                                       where seccion.TipoAuditoria == TipoAuditoria || seccion.TipoAuditoria == "ambos"
                                        select seccion).ToListAsync();
 
                 foreach (var seccion in secciones)
                 {
-                    Documentos_Auditoria_Cumplimiento_Detalle auditoria = new Documentos_Auditoria_Cumplimiento_Detalle();
+                    Documentos_Auditoria_Detalle auditoria = new Documentos_Auditoria_Detalle();
                     auditoria.IdSeccion = seccion.IdSeccion;
                     auditoria.ChSeccion = seccion.Seccion;
                     auditoria.Auditorias = new List<TB_Cat_Auditoria_Cumplimiento>();
@@ -99,9 +108,9 @@ namespace Bovis.Data
             return auditorias;
         }
 
-        public async Task<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>> GetAuditoriasCumplimientoByProyecto(int IdProyecto)
+        public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
-            List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle> auditorias = new List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>();
+            List<Documentos_Auditoria_Proyecto_Detalle> auditorias = new List<Documentos_Auditoria_Proyecto_Detalle>();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -109,9 +118,9 @@ namespace Bovis.Data
                                   join cat in db.tB_Cat_Auditoria_Cumplimientos on doc.IdAuditoriaCumplimiento equals cat.IdAuditoriaCumplimiento into catJoin
                                   from catItem in catJoin.DefaultIfEmpty()
                                   where doc.IdProyecto == IdProyecto
-                                  select new Auditoria_Cumplimiento_Detalle
+                                  select new Auditoria_Detalle
                                   {
-                                      IdAuditoriaCumplimiento = doc.IdAuditoriaCumplimientoProyecto,
+                                      IdAuditoria = doc.IdAuditoriaCumplimientoProyecto,
                                       IdProyecto = doc.IdProyecto,
                                       IdDirector = catItem.IdDirector,
                                       Mes = catItem.Mes,
@@ -124,6 +133,7 @@ namespace Bovis.Data
                                   }).ToListAsync();
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
+                                       where seccion.TipoAuditoria == TipoAuditoria
                                        select seccion).ToListAsync();
 
 
@@ -131,31 +141,33 @@ namespace Bovis.Data
                 {
                     int count_aplica = 0;
                     int count_auditorias_seccion = 0;
-                    Documentos_Auditoria_Cumplimiento_Proyecto_Detalle auditoria = new Documentos_Auditoria_Cumplimiento_Proyecto_Detalle();
+                    Documentos_Auditoria_Proyecto_Detalle auditoria = new Documentos_Auditoria_Proyecto_Detalle();
                     auditoria.IdSeccion = seccion.IdSeccion;
                     auditoria.ChSeccion = seccion.Seccion;
-                    auditoria.Auditorias = new List<Auditoria_Cumplimiento_Detalle>();
+                    auditoria.Auditorias = new List<Auditoria_Detalle>();
 
                     foreach (var doc in docs)
                     {
                         if (seccion.IdSeccion == doc.IdSeccion)
                         {
                             if (auditoria.Auditorias == null)
-                                auditoria.Auditorias = new List<Auditoria_Cumplimiento_Detalle>();
+                                auditoria.Auditorias = new List<Auditoria_Detalle>();
                             auditoria.Auditorias.Add(doc);
 
                             // Se obtiene el conteo de documntos por Auditoría
                             var documentos = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
-                                                    where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoriaCumplimiento
+                                                    where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoria
                                                     && documento.Fecha.Month == DateTime.Now.Month
                                                     && documento.Fecha.Year == DateTime.Now.Year
                                                     select documento).ToListAsync();
 
                             doc.TieneDocumento = documentos.Count > 0 ? true : false;
+                            doc.CantidadDocumentos = documentos.Count;
+                            doc.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
 
                             // Se obtiene la validación del último documento subido a la Auditoría
                             var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
-                                                         where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoriaCumplimiento
+                                                         where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoria
                                                          orderby documento.Fecha descending
                                                          select documento).FirstOrDefaultAsync();
 
@@ -181,7 +193,7 @@ namespace Bovis.Data
             return auditorias;
         }
 
-        public async Task<(bool Success, string Message)> AddAuditoriasCumplimiento(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditorias(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -214,7 +226,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateAuditoriaProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -247,7 +259,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumento(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriaDocumento(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -272,12 +284,12 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit)
+        public async Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
                 var docs = await (from doc in db.tB_Auditoria_Cumplimiento_Documentos
-                                  where doc.IdAuditoriaCumplimientoProyecto == IdAuditoriaCumplimiento
+                                  where doc.IdAuditoriaCumplimientoProyecto == IdAuditoria
                                   orderby doc.IdDocumento descending
                                   select doc)
                                   .Skip((offset - 1) * limit)
@@ -288,7 +300,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoriaCumplimiento(int IdDocumento)
+        public async Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoria(int IdDocumento)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -301,7 +313,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriaDocumentoValidacion(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 

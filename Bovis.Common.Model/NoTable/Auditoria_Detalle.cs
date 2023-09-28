@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Bovis.Common.Model.NoTable
 {
-    public class Documentos_Auditoria_Cumplimiento_Detalle
+    public class Documentos_Auditoria_Detalle
     {
         public int? IdSeccion { get; set; }
         public string? ChSeccion { get; set; }
         public List<TB_Cat_Auditoria_Cumplimiento>? Auditorias { get; set; }
     }
 
-    public class Documentos_Auditoria_Cumplimiento_Proyecto_Detalle
+    public class Documentos_Auditoria_Proyecto_Detalle
     {
         public int? IdSeccion { get; set; }
         public string? ChSeccion { get; set; }
         public decimal NuProcentaje { get; set; }        
-        public List<Auditoria_Cumplimiento_Detalle>? Auditorias { get; set; }
+        public List<Auditoria_Detalle>? Auditorias { get; set; }
     }
 
-    public class Auditoria_Cumplimiento_Detalle
+    public class Auditoria_Detalle
     {
-        public int? IdAuditoriaCumplimiento { get; set; }
+        public int? IdAuditoria { get; set; }
         public int? IdProyecto { get; set; }
         public int? IdDirector { get; set; }
         public int? Mes { get; set; }
@@ -37,5 +37,7 @@ namespace Bovis.Common.Model.NoTable
         public bool? TieneDocumento { get; set; }
         public int? IdDocumento { get; set; }
         public bool? UltimoDocumentoValido { get; set; }
+        public int? CantidadDocumentos { get; set; }
+        public int? CantidadDocumentosValidados { get; set; }
     }
 }

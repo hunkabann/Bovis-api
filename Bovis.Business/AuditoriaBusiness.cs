@@ -37,24 +37,28 @@ namespace Bovis.Business
         }
         #endregion Auditoria Legal
 
-        #region Auditoria de Calidad (Cumplimiento)
-        public Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento() => _auditoriaData.GetAuditoriasCumplimiento();
-        
-        public Task<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>> GetAuditoriasCumplimientoByProyecto(int IdProyecto) => _auditoriaData.GetAuditoriasCumplimientoByProyecto(IdProyecto);
 
-        public async Task<(bool Success, string Message)> AddAuditoriasCumplimiento(JsonObject registro)
+
+
+
+        #region Auditoria de Calidad (Cumplimiento)
+        public Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria) => _auditoriaData.GetAuditorias(TipoAuditoria);
+        
+        public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
+
+        public async Task<(bool Success, string Message)> AddAuditorias(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.AddAuditoriasCumplimiento(registro);
+            var respData = await _auditoriaData.AddAuditorias(registro);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro)
+        public async Task<(bool Success, string Message)> UpdateAuditoriaProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.UpdateAuditoriaCumplimientoProyecto((JsonObject)registro["Registro"]);
+            var respData = await _auditoriaData.UpdateAuditoriaProyecto((JsonObject)registro["Registro"]);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
             else
             {
@@ -64,23 +68,23 @@ namespace Bovis.Business
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumento(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriaDocumento(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.AddAuditoriaCumplimientoDocumento(registro);
+            var respData = await _auditoriaData.AddAuditoriaDocumento(registro);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
         }
 
-        public Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit) => _auditoriaData.GetDocumentosAuditoriaCumplimiento(IdAuditoriaCumplimiento, offset, limit);
+        public Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit) => _auditoriaData.GetDocumentosAuditoria(IdAuditoria, offset, limit);
 
-        public Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoriaCumplimiento(int IdDocumento) => _auditoriaData.GetDocumentoAuditoriaCumplimiento(IdDocumento);
+        public Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoria(int IdDocumento) => _auditoriaData.GetDocumentoAuditoria(IdDocumento);
 
-        public async Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddAuditoriaDocumentoValidacion(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.AddAuditoriaCumplimientoDocumentoValidacion(registro);
+            var respData = await _auditoriaData.AddAuditoriaDocumentoValidacion(registro);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;

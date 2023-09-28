@@ -269,6 +269,7 @@ namespace Bovis.Data
                     timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                  where ts_p.IdTimesheet == timesheet.id
                                                  && ts_p.Activo == true
+                                                 orderby idProyecto ascending
                                                  select ts_p).ToListAsync();
 
                     timesheets_summary.Add(timesheet);
