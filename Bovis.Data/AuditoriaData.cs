@@ -111,6 +111,7 @@ namespace Bovis.Data
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
             List<Documentos_Auditoria_Proyecto_Detalle> auditorias = new List<Documentos_Auditoria_Proyecto_Detalle>();
+            int totalDocumentos = 0;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -164,6 +165,8 @@ namespace Bovis.Data
                             doc.TieneDocumento = documentos.Count > 0 ? true : false;
                             doc.CantidadDocumentos = documentos.Count;
                             doc.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
+                            totalDocumentos += documentos.Count;
+                            auditoria.TotalDocumentos = totalDocumentos;
 
                             // Se obtiene la validación del último documento subido a la Auditoría
                             var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
