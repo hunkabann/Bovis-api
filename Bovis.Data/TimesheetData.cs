@@ -657,7 +657,51 @@ namespace Bovis.Data
                                    join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
                                    from epItem in epJoin.DefaultIfEmpty()
                                    where epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado
-                                   select p).ToListAsync();
+                                   orderby p.NumProyecto ascending
+                                   group new TB_Proyecto
+                                   {
+                                       NumProyecto = p.NumProyecto,
+                                       Proyecto = p.Proyecto,
+                                       Alcance = p.Alcance,
+                                       Cp = p.Cp,
+                                       Ciudad = p.Ciudad,
+                                       IdPais = p.IdPais,
+                                       IdEstatus = p.IdEstatus,
+                                       IdSector = p.IdSector,
+                                       IdTipoProyecto = p.IdTipoProyecto,
+                                       IdResponsablePreconstruccion = p.IdResponsablePreconstruccion,
+                                       IdResponsableConstruccion = p.IdResponsableConstruccion,
+                                       IdResponsableEhs = p.IdResponsableEhs,
+                                       IdResponsableSupervisor = p.IdResponsableSupervisor,
+                                       IdCliente = p.IdCliente,
+                                       IdEmpresa = p.IdEmpresa,
+                                       IdDirectorEjecutivo = p.IdDirectorEjecutivo,
+                                       CostoPromedioM2 = p.CostoPromedioM2,
+                                       FechaIni = p.FechaIni,
+                                       FechaFin = p.FechaFin
+                                   } by p.NumProyecto into g
+                                   select new TB_Proyecto
+                                   {
+                                       NumProyecto = g.Key,
+                                       Proyecto = g.First().Proyecto,
+                                       Alcance = g.First().Alcance,
+                                       Cp = g.First().Cp,
+                                       Ciudad = g.First().Ciudad,
+                                       IdPais = g.First().IdPais,
+                                       IdEstatus = g.First().IdEstatus,
+                                       IdSector = g.First().IdSector,
+                                       IdTipoProyecto = g.First().IdTipoProyecto,
+                                       IdResponsablePreconstruccion = g.First().IdResponsablePreconstruccion,
+                                       IdResponsableConstruccion = g.First().IdResponsableConstruccion,
+                                       IdResponsableEhs = g.First().IdResponsableEhs,
+                                       IdResponsableSupervisor = g.First().IdResponsableSupervisor,
+                                       IdCliente = g.First().IdCliente,
+                                       IdEmpresa = g.First().IdEmpresa,
+                                       IdDirectorEjecutivo = g.First().IdDirectorEjecutivo,
+                                       CostoPromedioM2 = g.First().CostoPromedioM2,
+                                       FechaIni = g.First().FechaIni,
+                                       FechaFin = g.First().FechaFin
+                                   }).ToListAsync();
 
                 return proyectos;
             }
