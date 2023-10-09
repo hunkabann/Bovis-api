@@ -32,10 +32,10 @@ namespace Bovis.API.Controllers
         }
         #endregion base
 
-        [HttpGet, Route("Proyectos")]
-        public async Task<IActionResult> ObtenerProyectos()
+        [HttpGet, Route("Proyectos/{OrdenAlfabetico?}")]
+        public async Task<IActionResult> ObtenerProyectos(bool? OrdenAlfabetico)
         {
-            var business = await _pcsQueryService.GetProyectos();
+            var business = await _pcsQueryService.GetProyectos(OrdenAlfabetico);
             return Ok(business);
         }
 
@@ -70,7 +70,7 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("Proyectos/{IdProyecto}")]
+        [HttpGet, Route("Proyectos/Info/{IdProyecto}")]
         public async Task<IActionResult> GetProyectos(int IdProyecto)
         {
             var query = await _pcsQueryService.GetProyectos(IdProyecto);
