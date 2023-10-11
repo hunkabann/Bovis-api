@@ -226,7 +226,7 @@ namespace Bovis.Data
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
-                                            orderby emp2.NumEmpleado ascending
+                                            orderby ts.IdEmpleado ascending
                                             group new TimeSheet_Detalle
                                             {
                                                 id = ts.IdTimesheet,
@@ -241,7 +241,7 @@ namespace Bovis.Data
                                                 coi_empresa = empr.Coi,
                                                 noi_empresa = empr.Noi,
                                                 noi_empleado = emp2.NoEmpleadoNoi,
-                                                num_empleado = emp2.NumEmpleado
+                                                num_empleado =ts.IdEmpleado
                                             } by ts.IdTimesheet into g
                                             select new TimeSheet_Detalle
                                             {
@@ -298,7 +298,7 @@ namespace Bovis.Data
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
-                                                orderby ts.IdTimesheet descending
+                                                orderby ts.IdEmpleado ascending
                                                 select new TimeSheet_Detalle
                                                 {
                                                     id = ts.IdTimesheet,
@@ -312,8 +312,8 @@ namespace Bovis.Data
                                                     dias_trabajo = ts.DiasTrabajo,
                                                     coi_empresa = empr.Coi,
                                                     noi_empresa = empr.Noi,
-                                                    noi_empleado = emp2.NoEmpleadoNoi,
-                                                    num_empleado = emp2.NumEmpleado
+                                                    noi_empleado = emp1.NoEmpleadoNoi,
+                                                    num_empleado = ts.IdEmpleado
                                                 }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
