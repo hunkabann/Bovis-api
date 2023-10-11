@@ -18,5 +18,6 @@ namespace Bovis.Data.Interface
         Task<List<TB_Proyecto>> GetProyectosByResponsable(string EmailResponsable);
         Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(int IdEmpleado);
         Task<(bool Success, string Message)> AddProyectoEmpleado(JsonObject registro);
+        Task<(bool Success, string Message)> DeleteProyectoEmpleado(JsonObject registro);
     }
 }

@@ -226,7 +226,7 @@ namespace Bovis.Data
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
-                                            orderby ts.IdTimesheet descending
+                                            orderby emp2.NumEmpleado ascending
                                             group new TimeSheet_Detalle
                                             {
                                                 id = ts.IdTimesheet,
@@ -642,6 +642,7 @@ namespace Bovis.Data
                                    join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh
                                    join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
+                                   && empleadoProyecto.Activo == true
                                    select proyecto).ToListAsync();
 
                 return proyectos;
@@ -657,7 +658,8 @@ namespace Bovis.Data
                 proyectos = await (from p in db.tB_Proyectos
                                    join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
                                    from epItem in epJoin.DefaultIfEmpty()
-                                   where epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado
+                                   where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
+                                   && epItem.Activo == true
                                    orderby p.NumProyecto ascending
                                    group new TB_Proyecto
                                    {
@@ -724,12 +726,37 @@ namespace Bovis.Data
                     .Value(x => x.AliasPuesto, string.Empty)
                     .Value(x => x.GrupoProyecto, string.Empty)
                     .Value(x => x.FechaIni, DateTime.Now)
+                    .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
                 resp.Success = insert_proyecto_empleado;
                 resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
 
                 
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteProyectoEmpleado(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
+                                .UpdateAsync(x => new TB_EmpleadoProyecto
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_update_empleado_proyecto;
+                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+
             }
 
             return resp;

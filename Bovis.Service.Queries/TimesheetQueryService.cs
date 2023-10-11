@@ -99,6 +99,11 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.AddProyectoEmpleado(registro);
             return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
+        public async Task<Response<(bool Success, string Message)>> DeleteProyectoEmpleado(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.DeleteProyectoEmpleado(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
     }
 }
 

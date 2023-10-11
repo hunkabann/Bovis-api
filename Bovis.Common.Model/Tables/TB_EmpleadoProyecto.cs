@@ -12,5 +12,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("Chgrupo_proyecto"), NotNull] public string GrupoProyecto { get; set; }
 		[Column("Dtfecha_ini"), NotNull] public DateTime FechaIni { get; set; }
 		[Column("Dtfecha_fin"), Nullable] public DateTime? FechaFin { get; set; }
-	}
+        [Column("Boactivo"), Nullable] public bool? Activo { get; set; }
+    }
 }

@@ -135,6 +135,14 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpDelete, Route("ProyectoEmpleado")]
+        public async Task<IActionResult> DeleteProyectoEmpleado([FromBody] JsonObject registro)
+        {
+            var query = await _timesheetQueryService.DeleteProyectoEmpleado(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion TimeSheets
     }
 }

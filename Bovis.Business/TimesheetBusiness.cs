@@ -68,5 +68,6 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+        public Task<(bool Success, string Message)> DeleteProyectoEmpleado(JsonObject registro) => _timesheetData.DeleteProyectoEmpleado(registro);
     }
 }
