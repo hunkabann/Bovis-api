@@ -312,7 +312,7 @@ namespace Bovis.Data
                                                     dias_trabajo = ts.DiasTrabajo,
                                                     coi_empresa = empr.Coi,
                                                     noi_empresa = empr.Noi,
-                                                    noi_empleado = emp1.NoEmpleadoNoi,
+                                                    noi_empleado = emp2.NoEmpleadoNoi,
                                                     num_empleado = ts.IdEmpleado
                                                 }).ToListAsync();
 
