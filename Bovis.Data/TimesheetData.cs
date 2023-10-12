@@ -273,6 +273,11 @@ namespace Bovis.Data
                                                  orderby ts_p.IdProyecto ascending
                                                  select ts_p).ToListAsync();
 
+                    foreach(var proyecto in timesheet.proyectos)
+                    {
+                        proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                    }
+
                     timesheets_summary.Add(timesheet);
                 }
 
@@ -327,6 +332,11 @@ namespace Bovis.Data
                                                              where ts_p.IdTimesheet == timesheet.id
                                                              && ts_p.Activo == true
                                                              select ts_p).ToListAsync();
+
+                        foreach (var proyecto in timesheet.proyectos)
+                        {
+                            proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                        }
 
                         timesheets_summary.Add(timesheet);
                     }
@@ -772,15 +782,15 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_empleado_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdTimesheet_Proyecto == id_timesheet_proyecto)
+                var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdTimesheet_Proyecto == id_timesheet_proyecto)
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Dias = num_dias,
                                     TDedicacion = num_dedicacion
                                 }) > 0;
 
-                resp.Success = res_update_empleado_proyecto;
-                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+                resp.Success = res_update_timesheet_proyecto;
+                resp.Message = res_update_timesheet_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
 
 
             }
