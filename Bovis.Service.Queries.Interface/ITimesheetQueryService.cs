@@ -26,6 +26,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<TB_Proyecto>>> GetNotProyectosByEmpleado(int IdEmpleado);
         Task<Response<(bool Success, string Message)>> AddProyectoEmpleado(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteProyectoEmpleado(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdateDiasDedicacion(JsonObject registro);
     }
 }
 

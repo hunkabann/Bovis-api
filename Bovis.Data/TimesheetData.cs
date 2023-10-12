@@ -754,7 +754,33 @@ namespace Bovis.Data
                                 }) > 0;
 
                 resp.Success = res_update_empleado_proyecto;
-                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizafalt{ r registro." : string.Empty;
+                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+
+
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateDiasDedicacion(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_timesheet_proyecto = Convert.ToInt32(registro["id_timesheet_proyecto"].ToString());
+            int num_dias = Convert.ToInt32(registro["num_dias"].ToString());
+            int num_dedicacion = Convert.ToInt32(registro["num_dedicacion"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_empleado_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdTimesheet_Proyecto == id_timesheet_proyecto)
+                                .UpdateAsync(x => new TB_Timesheet_Proyecto
+                                {
+                                    Dias = num_dias,
+                                    TDedicacion = num_dedicacion
+                                }) > 0;
+
+                resp.Success = res_update_empleado_proyecto;
+                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
 
 
             }

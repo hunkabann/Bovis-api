@@ -143,6 +143,25 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpPut, Route("DiasDedicacion")]
+        public async Task<IActionResult> UpdateDiasDedicacion([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 2054);
+
+            var query = await _timesheetQueryService.UpdateDiasDedicacion(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion TimeSheets
     }
 }
