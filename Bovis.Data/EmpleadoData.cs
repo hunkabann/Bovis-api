@@ -848,6 +848,7 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig)) return await (from emp_proj in db.tB_EmpleadoProyectos
                                                                           join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto
                                                                           where emp_proj.NumEmpleadoRrHh == idEmpleado
+                                                                          && emp_proj.Activo == true
                                                                           select new Proyecto_Detalle
                                                                           {
                                                                               nunum_proyecto = proj.NumProyecto,

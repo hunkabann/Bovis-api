@@ -754,7 +754,7 @@ namespace Bovis.Data
                                 }) > 0;
 
                 resp.Success = res_update_empleado_proyecto;
-                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizafalt{ r registro." : string.Empty;
 
 
             }
