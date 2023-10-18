@@ -404,8 +404,8 @@ namespace Bovis.Data
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
             string calle = registro["calle"].ToString();
-            string numero_interior = registro["numero_interior"].ToString();
             string numero_exterior = registro["numero_exterior"].ToString();
+            string numero_interior = registro["numero_interior"] != null ? registro["numero_interior"].ToString() : string.Empty;
             string colonia = registro["colonia"].ToString();
             string alcaldia = registro["alcaldia"].ToString();
             int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
@@ -580,8 +580,8 @@ namespace Bovis.Data
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
             string calle = registro["calle"].ToString();
-            string numero_interior = registro["numero_interior"].ToString();
             string numero_exterior = registro["numero_exterior"].ToString();
+            string numero_interior = registro["numero_interior"] != null ? registro["numero_interior"].ToString() : string.Empty;
             string colonia = registro["colonia"].ToString();
             string alcaldia = registro["alcaldia"].ToString();
             int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
