@@ -40,6 +40,17 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.GetDiasHabiles(mes, anio, sabados);
             return new Response<Detalle_Dias_Timesheet> { Data = _map.Map<Detalle_Dias_Timesheet>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+        public async Task<Response<List<Detalle_Dias_Timesheet>>> GetDiasTimesheet(int mes)
+        {
+            var response = await _timesheetBusiness.GetDiasTimesheet(mes);
+            return new Response<List<Detalle_Dias_Timesheet>> { Data = _map.Map<List<Detalle_Dias_Timesheet>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<(bool Success, string Message)>> UpdateDiasFeriadosTimeSheet(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.UpdateDiasFeriadosTimeSheet(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+
 
         public async Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro)
         {
@@ -108,7 +119,7 @@ namespace Bovis.Service.Queries
         {
             var response = await _timesheetBusiness.UpdateDiasDedicacion(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
-        }
+        }        
     }
 }
 

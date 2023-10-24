@@ -3,6 +3,7 @@ using Bovis.Common.Model.Tables;
 using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
 using System.Text.Json.Nodes;
+using Microsoft.Win32;
 
 namespace Bovis.Business
 {
@@ -26,6 +27,21 @@ namespace Bovis.Business
 
         public Task<Detalle_Dias_Timesheet> GetDiasHabiles(int mes, int anio, bool sabados) => _timesheetData.GetDiasHabiles(mes, anio, sabados);
 
+        public Task<List<Detalle_Dias_Timesheet>> GetDiasTimesheet(int mes) => _timesheetData.GetDiasTimesheet(mes);
+
+        public async Task<(bool Success, string Message)> UpdateDiasFeriadosTimeSheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _timesheetData.UpdateDiasFeriadosTimeSheet((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -33,7 +49,8 @@ namespace Bovis.Business
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;
-        }
+        }        
+
         public Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
         public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes) => _timesheetData.GetTimeSheetsByFiltro(idEmpleado, idProyecto, idUnidadNegocio, mes);

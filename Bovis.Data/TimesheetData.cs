@@ -56,6 +56,50 @@ namespace Bovis.Data
             }
         }
 
+        public async Task<List<Detalle_Dias_Timesheet>> GetDiasTimesheet(int mes)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = await (from timeS in db.tB_Dias_Timesheets
+                                 where ( mes == 0 || timeS.Mes == mes )
+                                 && timeS.Anio == DateTime.Now.Year
+                                 orderby timeS.Mes ascending
+                                 select new Detalle_Dias_Timesheet
+                                 {
+                                     id = timeS.Id,
+                                     mes = timeS.Mes,
+                                     dias = timeS.Dias,
+                                     feriados = timeS.Feriados,
+                                     sabados = timeS.Sabados,
+                                     anio = timeS.Anio
+                                 }).ToListAsync();
+
+                return res;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> UpdateDiasFeriadosTimeSheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_timesheet = Convert.ToInt32(registro["id_timesheet"].ToString());
+            int dias = Convert.ToInt32(registro["dias"].ToString());
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_dias_timesheet = await db.tB_Dias_Timesheets.Where(x => x.Id == id_timesheet)
+                                .UpdateAsync(x => new TB_Dias_Timesheet
+                                {
+                                    Feriados = dias
+                                }) > 0;
+
+                resp.Success = res_update_dias_timesheet;
+                resp.Message = res_update_dias_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

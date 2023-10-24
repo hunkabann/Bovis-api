@@ -14,6 +14,8 @@ namespace Bovis.Service.Queries.Interface
     public interface ITimesheetQueryService
     {
         Task<Response<Detalle_Dias_Timesheet>> GetDiasHabiles(int mes, int anio, bool sabados);
+        Task<Response<List<Detalle_Dias_Timesheet>>> GetDiasTimesheet(int mes);
+        Task<Response<(bool Success, string Message)>> UpdateDiasFeriadosTimeSheet(JsonObject registro);
         Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro);
         Task<Response<List<TimeSheet_Detalle>>> GetTimeSheets(bool? Activo);
         Task<Response<List<TimeSheet_Detalle>>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes);
