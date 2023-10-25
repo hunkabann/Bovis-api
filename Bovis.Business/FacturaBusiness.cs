@@ -7,6 +7,7 @@ using Bovis.Service.Queries.Dto.Request;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml;
@@ -210,6 +211,27 @@ namespace Bovis.Business
                 }
             }
             return LstFacturas;
+        }
+
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            var cfdi = await ExtraerDatos(registro["FacturaB64"].ToString());
+            var existeNC = await _facturaData.SearchNotaCredito(cfdi.UUID);
+            if (existeNC != null)
+            {
+                resp.Success = true;
+                resp.Message = $@"La nota de credito {cfdi.UUID} ya existe en la BD";
+            }
+            else
+            {
+                var respData = await _facturaData.AddNotaCreditoSinFactura(registro);
+                if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+                else resp = respData;
+            }
+
+            return resp;
         }
 
         //revisar datos de pagos

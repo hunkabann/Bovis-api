@@ -63,6 +63,14 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
+        [HttpPost, Route("NotaCredito")]
+        public async Task<IActionResult> AddNotaCreditoSinFactura([FromBody] JsonObject registro)
+        {
+            var query = await _facturaQueryService.AddNotaCreditoSinFactura(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
         [HttpPut, Route("AgregarCRP")]
         public async Task<IActionResult> AgregarCRP(AddPagosCommand objetivo)
         {

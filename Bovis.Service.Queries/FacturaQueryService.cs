@@ -28,7 +28,13 @@ namespace Bovis.Service.Queries
 			return new Response<InfoFactura> { Data = _map.Map<InfoFactura>(response), Success = response is not null ? true : default, Message = response is null ? "Mo se pudo extraer información del CFDI." : default };
 		}
 
-		public async Task<Response<FacturaProyecto>> GetInfoProyecto(int numProyecto)
+        public async Task<Response<(bool Success, string Message)>> AddNotaCreditoSinFactura(JsonObject registro)
+        {
+            var response = await _facturaBusiness.AddNotaCreditoSinFactura(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+
+        public async Task<Response<FacturaProyecto>> GetInfoProyecto(int numProyecto)
 		{
 			//Factura_Proyecto response = null;
 			//try
