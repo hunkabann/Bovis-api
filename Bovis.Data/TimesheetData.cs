@@ -37,7 +37,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from timeS in db.tB_Dias_Timesheets
+                var res = await (from timeS in db.tB_Dias_Timesheets
                           where timeS.Mes == mes
                           && timeS.Anio == anio
                           select new Detalle_Dias_Timesheet
@@ -48,10 +48,11 @@ namespace Bovis.Data
                               feriados = timeS.Feriados,
                               sabados = timeS.Sabados,
                               anio = timeS.Anio,
-                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados
-                          };
+                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados,
+                              sabados_feriados = timeS.SabadosFeriados
+                          }).FirstOrDefaultAsync();
 
-                return await res.FirstOrDefaultAsync();
+                return res;
 
             }
         }
@@ -71,7 +72,8 @@ namespace Bovis.Data
                                      dias = timeS.Dias,
                                      feriados = timeS.Feriados,
                                      sabados = timeS.Sabados,
-                                     anio = timeS.Anio
+                                     anio = timeS.Anio,
+                                     sabados_feriados = timeS.SabadosFeriados
                                  }).ToListAsync();
 
                 return res;
@@ -84,13 +86,15 @@ namespace Bovis.Data
 
             int id_timesheet = Convert.ToInt32(registro["id_timesheet"].ToString());
             int dias = Convert.ToInt32(registro["dias"].ToString());
+            int sabados_feriados = Convert.ToInt32(registro["sabados_feriados"].ToString());
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_dias_timesheet = await db.tB_Dias_Timesheets.Where(x => x.Id == id_timesheet)
                                 .UpdateAsync(x => new TB_Dias_Timesheet
                                 {
-                                    Feriados = dias
+                                    Feriados = dias,
+                                    SabadosFeriados = sabados_feriados
                                 }) > 0;
 
                 resp.Success = res_update_dias_timesheet;

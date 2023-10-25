@@ -11,5 +11,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Feriados"), Nullable] public int Feriados { get; set; }
         [Column("Sabados"), Nullable] public int Sabados { get; set; }
         [Column("Año"), Nullable] public int Anio { get; set; }
+        [Column("Sabados_feriados"), Nullable] public int SabadosFeriados { get; set; }
     }
 }
