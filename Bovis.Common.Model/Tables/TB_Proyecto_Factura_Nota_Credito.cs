@@ -6,7 +6,7 @@ namespace Bovis.Common.Model.Tables
 	public class TB_Proyecto_Factura_Nota_Credito
 	{
 		[Column("nukidfactura"), Nullable] public int IdFactura { set; get; }
-		[Column("nukidfactura"), Nullable] public int NumProyecto { set; get; }
+		[Column("nunum_proyecto"), Nullable] public int NumProyecto { set; get; }
 		[Column("chuuid_nota_credito"), NotNull] public string UuidNotaCredito { set; get; }
 		[Column("nukidmoneda"), Nullable] public string? IdMoneda { set; get; }
 		[Column("nukidtipo_relacion"), Nullable] public string? IdTipoRelacion { set; get; }
