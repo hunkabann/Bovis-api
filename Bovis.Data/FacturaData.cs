@@ -76,6 +76,8 @@ namespace Bovis.Data
 
         }
 
+        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
+
         public async Task<(bool existe, string mensaje)> AddFactura(TB_ProyectoFactura factura)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -1221,12 +1223,9 @@ namespace Bovis.Data
                 return res;
             }
         }
-        #endregion facturas por número
-
-        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
+        #endregion facturas por número        
 
         #region Extraer Datos Cfdi
-
         public async Task<BaseCFDI?> ExtraerDatos(string base64String)
         {
             var datosCFDI = default(BaseCFDI);

@@ -219,10 +219,24 @@ namespace Bovis.Business
 
             var cfdi = await ExtraerDatos(registro["FacturaB64"].ToString());
             var existeNC = await _facturaData.SearchNotaCredito(cfdi.UUID);
+
+            if(cfdi.TipoDeComprobante != "E")
+            {
+                resp.Success = true;
+                resp.Message = $@"El archivo seleccionado con el UUID {cfdi.UUID}, no es una nota de crédito.";
+                return resp;
+            }
+            if(cfdi.CfdiRelacionados?.Count > 0)
+            {
+                resp.Success = true;
+                resp.Message = $@"Se han encontrado documentos relacionados a esta nota de crédito.";
+                return resp;
+            }
             if (existeNC != null)
             {
                 resp.Success = true;
                 resp.Message = $@"La nota de credito {cfdi.UUID} ya existe en la BD";
+                return resp;
             }
             else
             {
