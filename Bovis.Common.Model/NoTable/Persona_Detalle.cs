@@ -44,6 +44,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chcurp { get; set; }
         public int? nukidtipo_persona { get; set; }
         public string? chtipo_persona { get; set; }
+        public bool? boempleado { get; set; }
         public bool? boactivo { get; set; }
     }
 }

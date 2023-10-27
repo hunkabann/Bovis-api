@@ -68,6 +68,7 @@ namespace Bovis.Data
                                                                               chcurp = per.Curp,
                                                                               nukidtipo_persona = per.IdTipoPersona,
                                                                               chtipo_persona = tipo_perItem != null ? tipo_perItem.TipoPersona : string.Empty,
+                                                                              boempleado = per.EsEmpleado,
                                                                               boactivo = per.Activo
                                                                           }).ToListAsync();
             }
@@ -121,6 +122,7 @@ namespace Bovis.Data
                                       chcurp = per.Curp,
                                       nukidtipo_persona = per.IdTipoPersona,
                                       chtipo_persona = tipo_perItem != null ? tipo_perItem.TipoPersona : string.Empty,
+                                      boempleado = per.EsEmpleado,
                                       boactivo = per.Activo
                                   }).ToListAsync();
             }
@@ -162,6 +164,7 @@ namespace Bovis.Data
                                      chcurp = per.Curp,
                                      nukidtipo_persona = per.IdTipoPersona,
                                      chtipo_persona = tipo_perItem != null ? tipo_perItem.TipoPersona : string.Empty,
+                                     boempleado = per.EsEmpleado,
                                      boactivo = per.Activo
                                  }).FirstOrDefaultAsync();
 
