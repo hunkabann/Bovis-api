@@ -405,7 +405,7 @@ namespace Bovis.Data
             int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
             bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
             int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
-            string nivel_ingles = registro["nivelIngles"].ToString();
+            string nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : string.Empty;
             string comentarios = registro["comentarios"].ToString();
             int index = 0;
 
