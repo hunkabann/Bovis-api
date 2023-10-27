@@ -661,6 +661,7 @@ namespace Bovis.Data
                                    join usuarioTimesheet in db.tB_Usuario_Timesheets on empleado.NumEmpleadoRrHh equals usuarioTimesheet.NumEmpleadoRrHh
                                    join empleadoProyecto in db.tB_EmpleadoProyectos on usuarioTimesheet.NumProyecto equals empleadoProyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
+                                   orderby empleado.NumEmpleadoRrHh ascending
                                    group new Empleado_Detalle
                                    {
                                        nunum_empleado_rr_hh = empleadoProyecto.NumEmpleadoRrHh
@@ -701,6 +702,7 @@ namespace Bovis.Data
                                    join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
                                    && empleadoProyecto.Activo == true
+                                   orderby proyecto.Proyecto ascending
                                    select proyecto).ToListAsync();
 
                 return proyectos;
@@ -718,7 +720,7 @@ namespace Bovis.Data
                                    from epItem in epJoin.DefaultIfEmpty()
                                    where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
                                    && epItem.Activo == true
-                                   orderby p.NumProyecto ascending
+                                   orderby p.Proyecto ascending
                                    group new TB_Proyecto
                                    {
                                        NumProyecto = p.NumProyecto,
