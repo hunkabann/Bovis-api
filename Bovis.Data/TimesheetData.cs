@@ -38,19 +38,19 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res = await (from timeS in db.tB_Dias_Timesheets
-                          where timeS.Mes == mes
-                          && timeS.Anio == anio
-                          select new Detalle_Dias_Timesheet
-                          {
-                              id = timeS.Id,
-                              mes = timeS.Mes,
-                              dias = timeS.Dias,
-                              feriados = timeS.Feriados,
-                              sabados = timeS.Sabados,
-                              anio = timeS.Anio,
-                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados,
-                              sabados_feriados = timeS.SabadosFeriados
-                          }).FirstOrDefaultAsync();
+                                 where timeS.Mes == mes
+                                 && timeS.Anio == anio
+                                 select new Detalle_Dias_Timesheet
+                                 {
+                                     id = timeS.Id,
+                                     mes = timeS.Mes,
+                                     dias = timeS.Dias,
+                                     feriados = timeS.Feriados,
+                                     sabados = timeS.Sabados,
+                                     anio = timeS.Anio,
+                                     dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados,
+                                     sabados_feriados = timeS.SabadosFeriados
+                                 }).FirstOrDefaultAsync();
 
                 return res;
 
@@ -62,7 +62,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res = await (from timeS in db.tB_Dias_Timesheets
-                                 where ( mes == 0 || timeS.Mes == mes )
+                                 where (mes == 0 || timeS.Mes == mes)
                                  && timeS.Anio == DateTime.Now.Year
                                  orderby timeS.Mes ascending
                                  select new Detalle_Dias_Timesheet
@@ -289,7 +289,7 @@ namespace Bovis.Data
                                                 coi_empresa = empr.Coi,
                                                 noi_empresa = empr.Noi,
                                                 noi_empleado = emp2.NoEmpleadoNoi,
-                                                num_empleado =ts.IdEmpleado
+                                                num_empleado = ts.IdEmpleado
                                             } by ts.IdTimesheet into g
                                             select new TimeSheet_Detalle
                                             {
@@ -321,7 +321,7 @@ namespace Bovis.Data
                                                  orderby ts_p.IdProyecto ascending
                                                  select ts_p).ToListAsync();
 
-                    foreach(var proyecto in timesheet.proyectos)
+                    foreach (var proyecto in timesheet.proyectos)
                     {
                         proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
                     }
@@ -372,14 +372,14 @@ namespace Bovis.Data
                     foreach (var timesheet in res_timesheets)
                     {
                         timesheet.otros = await (from ts_o in db.tB_Timesheet_Otros
-                                                         where ts_o.IdTimeSheet == timesheet.id
-                                                         && ts_o.Activo == true
-                                                         select ts_o).ToListAsync();
+                                                 where ts_o.IdTimeSheet == timesheet.id
+                                                 && ts_o.Activo == true
+                                                 select ts_o).ToListAsync();
 
                         timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
-                                                             where ts_p.IdTimesheet == timesheet.id
-                                                             && ts_p.Activo == true
-                                                             select ts_p).ToListAsync();
+                                                     where ts_p.IdTimesheet == timesheet.id
+                                                     && ts_p.Activo == true
+                                                     select ts_p).ToListAsync();
 
                         foreach (var proyecto in timesheet.proyectos)
                         {
@@ -661,6 +661,7 @@ namespace Bovis.Data
                                    join usuarioTimesheet in db.tB_Usuario_Timesheets on empleado.NumEmpleadoRrHh equals usuarioTimesheet.NumEmpleadoRrHh
                                    join empleadoProyecto in db.tB_EmpleadoProyectos on usuarioTimesheet.NumProyecto equals empleadoProyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
+                                   orderby empleado.NumEmpleadoRrHh ascending
                                    group new Empleado_Detalle
                                    {
                                        nunum_empleado_rr_hh = empleadoProyecto.NumEmpleadoRrHh
@@ -689,7 +690,7 @@ namespace Bovis.Data
                 return empleados;
             }
         }
-        
+
         public async Task<List<TB_Proyecto>> GetProyectosByResponsable(string EmailResponsable)
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -701,6 +702,7 @@ namespace Bovis.Data
                                    join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
                                    && empleadoProyecto.Activo == true
+                                   orderby proyecto.Proyecto ascending
                                    select proyecto).ToListAsync();
 
                 return proyectos;
@@ -718,7 +720,7 @@ namespace Bovis.Data
                                    from epItem in epJoin.DefaultIfEmpty()
                                    where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
                                    && epItem.Activo == true
-                                   orderby p.NumProyecto ascending
+                                   orderby p.Proyecto ascending
                                    group new TB_Proyecto
                                    {
                                        NumProyecto = p.NumProyecto,
@@ -790,7 +792,7 @@ namespace Bovis.Data
                 resp.Success = insert_proyecto_empleado;
                 resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
 
-                
+
             }
 
             return resp;
