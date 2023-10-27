@@ -69,22 +69,26 @@ namespace Bovis.API.Controllers
                 string senderEmailAddress = configuration["EmailSettings:senderEmailAddress"];
 
                 SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
-                NetworkCredential networkCredential = new NetworkCredential(username, password);
+                smtpClient.Credentials = new NetworkCredential(username, password);
+                smtpClient.EnableSsl = enableSSL;
+                smtpClient.Timeout = 5000;
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 MailMessage mailMessage = new MailMessage();
+                mailMessage.Priority = MailPriority.Normal;
+                mailMessage.IsBodyHtml = true;
+                mailMessage.BodyEncoding = Encoding.UTF8;
+                mailMessage.SubjectEncoding = Encoding.UTF8;
                 mailMessage.Subject = subject;
                 mailMessage.Body = body;
                 mailMessage.From = new MailAddress(senderEmailAddress);
 
                 foreach (string emailTo in emailsTo)
                 {
-                    mailMessage.To.Add(emailTo);
+                    mailMessage.To.Add(new MailAddress(emailTo));
                 }
 
-                smtpClient.Credentials = networkCredential;
-                smtpClient.EnableSsl = enableSSL;
-
-                smtpClient.Send(mailMessage);
+                await smtpClient.SendMailAsync(mailMessage);
 
                 return Ok("Email enviado satisfactoriamente.");
             }

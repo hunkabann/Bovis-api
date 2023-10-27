@@ -413,7 +413,6 @@ namespace Bovis.Business
         public Task<Factura_Proyecto> GetInfoProyecto(int numProyecto) => _facturaData.GetInfoProyecto(numProyecto);
 
         #region Extraer Datos Cfdi
-
         public async Task<BaseCFDI?> ExtraerDatos(string base64String)
         {
             var datosCFDI = default(BaseCFDI);
