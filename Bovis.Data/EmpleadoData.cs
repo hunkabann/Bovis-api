@@ -420,7 +420,7 @@ namespace Bovis.Data
             int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
             int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : 0;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
@@ -606,7 +606,7 @@ namespace Bovis.Data
             int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
             int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : 0;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
