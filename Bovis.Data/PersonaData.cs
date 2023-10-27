@@ -46,7 +46,7 @@ namespace Bovis.Data
                                                                           join tipo_per in db.tB_Cat_TipoPersonas on per.IdTipoPersona equals tipo_per.IdTipoPersona into tipo_perJoin
                                                                           from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
                                                                               //where per.Activo == activo
-                                                                          where per.EsEmpleado == false || per.EsEmpleado is DBNull
+                                                                          where per.EsEmpleado == false
                                                                           orderby per.IdPersona descending
                                                                           select new Persona_Detalle
                                                                           {
