@@ -369,7 +369,7 @@ namespace Bovis.Data
                 return res;
             }
         }
-        
+
         public async Task<List<Empleado_BasicData>> GetEmpleadoDetalle()
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -420,7 +420,7 @@ namespace Bovis.Data
             int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
             int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : 0;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
@@ -458,7 +458,7 @@ namespace Bovis.Data
                     return resp;
                 }
 
-                int last_inserted_id = 0;                
+                int last_inserted_id = 0;
 
                 var insert_empleado = await db.tB_Empleados
                     .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
@@ -530,7 +530,8 @@ namespace Bovis.Data
                 resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
-                if (registro["habilidades"] != null) {
+                if (registro["habilidades"] != null)
+                {
                     foreach (var habilidad in registro["habilidades"].AsArray())
                     {
                         int id_habilidad = Convert.ToInt32(habilidad.ToString());
@@ -563,7 +564,7 @@ namespace Bovis.Data
                     }
                 }
 
-                if(id_requerimiento > 0)
+                if (id_requerimiento > 0)
                 {
                     var res_update_requerimiento = await db.tB_Requerimientos.Where(x => x.IdRequerimiento == id_requerimiento)
                     .UpdateAsync(x => new TB_Requerimiento
@@ -606,7 +607,7 @@ namespace Bovis.Data
             int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
             int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
             int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : 0;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
@@ -824,14 +825,14 @@ namespace Bovis.Data
                     }
                 }
             }
-            
+
             return resp;
         }
 
         public async Task<(bool Success, string Message)> UpdateEstatus(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            
+
             int num_empleado_rr_hh = Convert.ToInt32(registro["id"].ToString());
             bool activo = Convert.ToBoolean(registro["boactivo"].ToString());
 
