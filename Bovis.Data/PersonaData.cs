@@ -45,7 +45,8 @@ namespace Bovis.Data
                                                                           from sexoItem in sexoJoin.DefaultIfEmpty()
                                                                           join tipo_per in db.tB_Cat_TipoPersonas on per.IdTipoPersona equals tipo_per.IdTipoPersona into tipo_perJoin
                                                                           from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
-                                                                          //where per.Activo == activo
+                                                                              //where per.Activo == activo
+                                                                          where per.EsEmpleado == false || per.EsEmpleado is DBNull
                                                                           orderby per.IdPersona descending
                                                                           select new Persona_Detalle
                                                                           {
@@ -214,6 +215,7 @@ namespace Bovis.Data
                     .Value(x => x.Celular, celular)
                     .Value(x => x.Curp, curp)
                     .Value(x => x.IdTipoPersona, id_tipo_persona)
+                    .Value(x => x.EsEmpleado, false)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
