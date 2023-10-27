@@ -28,9 +28,9 @@ namespace Bovis.Service.Queries
         }
         #endregion base
 
-        public async Task<Response<List<Proyecto>>> GetProyectos()
+        public async Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico)
         {
-            var response = await _pcsBusiness.GetProyectos();
+            var response = await _pcsBusiness.GetProyectos(OrdenAlfabetico);
             return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
         }
 

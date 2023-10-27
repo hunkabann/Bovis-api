@@ -14,7 +14,8 @@ using System.Security.Claims;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class CostoController : ControllerBase
     {
         #region base
@@ -31,14 +32,14 @@ namespace Bovis.API.Controllers
         }
         #endregion base
 
-        [HttpPost]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost]
         public async Task<IActionResult> AddCosto([FromBody] JsonObject registro)
         {
             var query = await _costoQueryService.AddCosto(registro);
             return Ok(query);
         }
 
-        [HttpGet, Route("{IdCosto}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("{IdCosto}")]
         public async Task<IActionResult> GetCostos(int IdCosto)
         {
             var query = await _costoQueryService.GetCostos(IdCosto);

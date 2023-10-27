@@ -14,7 +14,8 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class AuditoriaController : ControllerBase
     {
         private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -29,90 +30,95 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
-        #region Auditoria Legal
-        [HttpGet, Route("Contractual")]//, Authorize(Roles = "it.full, dev.full")]
+        #region Auditoria Legal (Contractual)
+        [HttpGet, Route("Contractual")]
         public async Task<IActionResult> GetAuditoriasContractual()
         {
             var query = await _auditoriaQueryService.GetAuditoriasContractual();
             return Ok(query);
         }
 
-        [HttpPost("Contractual/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Contractual/Agregar")]
         public async Task<IActionResult> AddAuditoriasContractual([FromBody] JsonObject registro)
         {
             var query = await _auditoriaQueryService.AddAuditoriasContractual(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
-        #endregion Auditoria Legal
+        #endregion Auditoria Legal (Contractual)
+
+
+
+
 
         #region Auditoria de Calidad (Cumplimiento)
-        [HttpGet, Route("Cumplimiento")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetAuditoriasCumplimiento()
+        [HttpGet, Route("{TipoAuditoria}")]
+        public async Task<IActionResult> GetAuditorias(string TipoAuditoria)
         {
-            var query = await _auditoriaQueryService.GetAuditoriasCumplimiento();
+            var query = await _auditoriaQueryService.GetAuditorias(TipoAuditoria);
             return Ok(query);
         }
 
-        [HttpGet, Route("Cumplimiento/Proyecto/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetAuditoriasCumplimientoByProyecto(int IdProyecto)
+        [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}")]
+        public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
-            var query = await _auditoriaQueryService.GetAuditoriasCumplimientoByProyecto(IdProyecto);
+            var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
             return Ok(query);
         }
 
-        [HttpPost("Cumplimiento/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AddAuditoriasCumplimiento([FromBody] JsonObject registro)
+        [HttpPost]
+        public async Task<IActionResult> AddAuditorias([FromBody] JsonObject registro)
         {
-            var query = await _auditoriaQueryService.AddAuditoriasCumplimiento(registro);
+            var query = await _auditoriaQueryService.AddAuditorias(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
 
-        [HttpPut("Cumplimiento/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> UpdateAuditoriaCumplimientoProyecto([FromBody] JsonObject registro)
+        [HttpPut]
+        public async Task<IActionResult> UpdateAuditoriaProyecto([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1050);
 
-            var query = await _auditoriaQueryService.UpdateAuditoriaCumplimientoProyecto(registroJsonObject);
+            var query = await _auditoriaQueryService.UpdateAuditoriaProyecto(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
 
-        [HttpPost("Cumplimiento/Documento")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AddAuditoriaCumplimientoDocumento([FromBody] JsonObject registro)
+        [HttpPost, Route("Documento")]
+        public async Task<IActionResult> AddAuditoriaDocumento([FromBody] JsonObject registro)
         {
-            var query = await _auditoriaQueryService.AddAuditoriaCumplimientoDocumento(registro);
+            var query = await _auditoriaQueryService.AddAuditoriaDocumento(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
 
-        [HttpGet, Route("Cumplimiento/Documentos/{IdAuditoriaCumplimiento}/{offset}/{limit}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit)
+        [HttpGet, Route("Documentos/{IdAuditoria}/{offset}/{limit}")]
+        public async Task<IActionResult> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
         {
-            var query = await _auditoriaQueryService.GetDocumentosAuditoriaCumplimiento(IdAuditoriaCumplimiento, offset, limit);
+            var query = await _auditoriaQueryService.GetDocumentosAuditoria(IdAuditoria, offset, limit);
             return Ok(query);
         }
 
-        [HttpGet, Route("Cumplimiento/Documento/{IdDocumento}")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> GetDocumentoAuditoriaCumplimiento(int IdDocumento)
+        [HttpGet, Route("Documento/{IdDocumento}")]
+        public async Task<IActionResult> GetDocumentoAuditoria(int IdDocumento)
         {
-            var query = await _auditoriaQueryService.GetDocumentoAuditoriaCumplimiento(IdDocumento);
+            var query = await _auditoriaQueryService.GetDocumentoAuditoria(IdDocumento);
             return Ok(query);
         }
 
-        [HttpPut("Cumplimiento/Documento/Validacion")]//, Authorize(Roles = "it.full, dev.full")]
-        public async Task<IActionResult> AddAuditoriaCumplimientoDocumentoValidacion([FromBody] JsonObject registro)
+        [HttpPut, Route("Documento/Validacion")]
+        public async Task<IActionResult> AddAuditoriaDocumentoValidacion([FromBody] JsonObject registro)
         {
-            var query = await _auditoriaQueryService.AddAuditoriaCumplimientoDocumentoValidacion(registro);
+            var query = await _auditoriaQueryService.AddAuditoriaDocumentoValidacion(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

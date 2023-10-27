@@ -35,5 +35,6 @@ namespace Bovis.Common.Model.NoTable
         public int? sabados { get; set; }
         public int? anio { get; set; }
         public int? dias_habiles { get; set; }
+        public int? sabados_feriados { get; set; }
     }
 }

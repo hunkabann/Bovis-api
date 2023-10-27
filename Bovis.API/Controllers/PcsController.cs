@@ -14,7 +14,8 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
-    [ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+    [Authorize]
+    [ApiController, Route("api/[controller]")]
     public class PcsController : ControllerBase
     {
         #region base
@@ -31,28 +32,28 @@ namespace Bovis.API.Controllers
         }
         #endregion base
 
-        [HttpGet("Proyectos")]//, Authorize(Roles = "dev.full")]
-        public async Task<IActionResult> ObtenerProyectos()
+        [HttpGet, Route("Proyectos/{OrdenAlfabetico?}")]
+        public async Task<IActionResult> ObtenerProyectos(bool? OrdenAlfabetico)
         {
-            var business = await _pcsQueryService.GetProyectos();
+            var business = await _pcsQueryService.GetProyectos(OrdenAlfabetico);
             return Ok(business);
         }
 
-        [HttpGet("Proyecto/{numProyecto}")]//, Authorize(Roles = "dev.full")]
+        [HttpGet, Route("Proyecto/{numProyecto}")]
         public async Task<IActionResult> ObtenerProyecto(int numProyecto)
         {
             var business = await _pcsQueryService.GetProyecto(numProyecto);
             return Ok(business);
         }
 
-        [HttpGet("Clientes")]//, Authorize(Roles = "dev.full")]
+        [HttpGet, Route("Clientes")]
         public async Task<IActionResult> ObtenerClientes()
         {
             var business = await _pcsQueryService.GetClientes();
             return Ok(business);
         }
 
-        [HttpGet("Empresas")]//, Authorize(Roles = "dev.full")]
+        [HttpGet, Route("Empresas")]
         public async Task<IActionResult> ObtenerEmpresas()
         {
             var business = await _pcsQueryService.GetEmpresas();
@@ -62,31 +63,32 @@ namespace Bovis.API.Controllers
 
 
         #region Proyectos
-        [HttpPost("Proyectos")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Proyectos")]
         public async Task<IActionResult> AddProyecto([FromBody] JsonObject registro)
         {
             var query = await _pcsQueryService.AddProyecto(registro);
             return Ok(query);
         }
 
-        [HttpGet("Proyectos/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Proyectos/Info/{IdProyecto}")]
         public async Task<IActionResult> GetProyectos(int IdProyecto)
         {
             var query = await _pcsQueryService.GetProyectos(IdProyecto);
             return Ok(query);
         }
 
-        [HttpPut("Proyectos")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Proyectos")]
         public async Task<IActionResult> UpdateProyecto([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1053);
 
             var query = await _pcsQueryService.UpdateProyecto(registroJsonObject);
@@ -94,7 +96,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete("Proyectos/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpDelete, Route("Proyectos/{IdProyecto}")]
         public async Task<IActionResult> DeleteProyecto(int IdProyecto)
         {
             var query = await _pcsQueryService.DeleteProyecto(IdProyecto);
@@ -104,31 +106,32 @@ namespace Bovis.API.Controllers
         #endregion Proyectos
 
         #region Etapas
-        [HttpPost("Etapas")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Etapas")]
         public async Task<IActionResult> AddEtapa([FromBody] JsonObject registro)
         {
             var query = await _pcsQueryService.AddEtapa(registro);
             return Ok(query);
         }
 
-        [HttpGet("Etapas/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Etapas/{IdProyecto}")]
         public async Task<IActionResult> GetEtapas(int IdProyecto)
         {
             var query = await _pcsQueryService.GetEtapas(IdProyecto);
             return Ok(query);
         }
 
-        [HttpPut("Etapas")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Etapas")]
         public async Task<IActionResult> UpdateEtapa([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1053);
 
             var query = await _pcsQueryService.UpdateEtapa(registroJsonObject);
@@ -136,7 +139,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete("Etapas/{IdEtapa}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpDelete, Route("Etapas/{IdEtapa}")]
         public async Task<IActionResult> DeleteEtapa(int IdEtapa)
         {
             var query = await _pcsQueryService.DeleteEtapa(IdEtapa);
@@ -146,31 +149,32 @@ namespace Bovis.API.Controllers
         #endregion Etapas
 
         #region Empleados
-        [HttpPost("Empleados")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPost, Route("Empleados")]
         public async Task<IActionResult> AddEmpleado([FromBody] JsonObject registro)
         {
             var query = await _pcsQueryService.AddEmpleado(registro);
             return Ok(query);
         }
 
-        [HttpGet("Empleados/{IdProyecto}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpGet, Route("Empleados/{IdProyecto}")]
         public async Task<IActionResult> GetEmpleados(int IdProyecto)
         {
             var query = await _pcsQueryService.GetEmpleados(IdProyecto);
             return Ok(query);
         }
 
-        [HttpPut("Empleados")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpPut, Route("Empleados")]
         public async Task<IActionResult> UpdateEmpleado([FromBody] JsonObject registro)
         {
-            ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
             JsonObject registroJsonObject = new JsonObject();
             registroJsonObject.Add("Registro", registro);
-            registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-            registroJsonObject.Add("Usuario", claimJWTModel.correo);
-            registroJsonObject.Add("Roles", claimJWTModel.roles);
-            registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
             registroJsonObject.Add("Rel", 1053);
 
             var query = await _pcsQueryService.UpdateEmpleado(registroJsonObject);
@@ -178,7 +182,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete("Empleados/{IdEmpleado}")]//, Authorize(Roles = "it.full, dev.full")]
+        [HttpDelete, Route("Empleados/{IdEmpleado}")]
         public async Task<IActionResult> DeleteEmpleado(int IdEmpleado)
         {
             var query = await _pcsQueryService.DeleteEmpleado(IdEmpleado);

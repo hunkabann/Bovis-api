@@ -11,15 +11,18 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> AddAuditoriasContractual(JsonObject registro);
         #endregion Auditoria Legal
 
+
+
+
         #region Auditoria de Calidad (Cumplimiento)
-        Task<List<Documentos_Auditoria_Cumplimiento_Detalle>> GetAuditoriasCumplimiento();
-        Task<List<Documentos_Auditoria_Cumplimiento_Proyecto_Detalle>> GetAuditoriasCumplimientoByProyecto(int IdProyecto);
-        Task<(bool Success, string Message)> AddAuditoriasCumplimiento(JsonObject registro);
-        Task<(bool Success, string Message)> UpdateAuditoriaCumplimientoProyecto(JsonObject registro);
-        Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumento(JsonObject registro);
-        Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoriaCumplimiento(int IdAuditoriaCumplimiento, int offset, int limit);
-        Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoriaCumplimiento(int IdDocumento);
-        Task<(bool Success, string Message)> AddAuditoriaCumplimientoDocumentoValidacion(JsonObject registro);
+        Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria);
+        Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria);
+        Task<(bool Success, string Message)> AddAuditorias(JsonObject registro);
+        Task<(bool Success, string Message)> UpdateAuditoriaProyecto(JsonObject registro);
+        Task<(bool Success, string Message)> AddAuditoriaDocumento(JsonObject registro);
+        Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit);
+        Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoria(int IdDocumento);
+        Task<(bool Success, string Message)> AddAuditoriaDocumentoValidacion(JsonObject registro);
         #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Bovis.Common.Model.Tables
 {
-	[Table(Schema = "dbo", Name = "tb_pais")]
+	[Table(Schema = "dbo", Name = "tb_perfil")]
 	public class TB_Perfil
 	{
 		[Column("Nukidperfil"), NotNull, PrimaryKey, Identity] public int IdPerfil { get; set; }

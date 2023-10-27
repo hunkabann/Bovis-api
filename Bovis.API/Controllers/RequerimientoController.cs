@@ -13,7 +13,8 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers;
 
-[ApiController, Route("api/[controller]"), RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+[Authorize]
+[ApiController, Route("api/[controller]")]
 public class RequerimientoController : ControllerBase
 {
     private string TransactionId { get { return HttpContext.TraceIdentifier; } }
@@ -29,7 +30,7 @@ public class RequerimientoController : ControllerBase
     }
 
     #region Habilidades
-    [HttpGet, Route("Habilidades/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpGet, Route("Habilidades/{idRequerimiento}")]
     public async Task<IActionResult> GetHabilidades(int idRequerimiento)
     {
         var query = await _requerimientoQueryService.GetHabilidades(idRequerimiento);
@@ -38,7 +39,7 @@ public class RequerimientoController : ControllerBase
     #endregion Habilidades
 
     #region Experiencias
-    [HttpGet, Route("Experiencias/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")
+    [HttpGet, Route("Experiencias/{idRequerimiento}")]
     public async Task<IActionResult> GetExperiencias(int idRequerimiento)
     {
         var query = await _requerimientoQueryService.GetExperiencias(idRequerimiento);
@@ -47,21 +48,21 @@ public class RequerimientoController : ControllerBase
     #endregion Experiencias
 
     #region Registros
-    [HttpGet, Route("Requerimientos/{Asignados?}/{idDirector?}/{idProyecto?}/{idPuesto?}")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Requerimientos/{Asignados?}/{idDirector?}/{idProyecto?}/{idPuesto?}")]
     public async Task<IActionResult> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
     {
         var query = await _requerimientoQueryService.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
         return Ok(query);
     }
 
-    [HttpGet, Route("Registro/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Registro/{idRequerimiento}")]
     public async Task<IActionResult> GetRequerimiento(int idRequerimiento)
     {
         var query = await _requerimientoQueryService.GetRequerimiento(idRequerimiento);
         return Ok(query);
     }
 
-    [HttpPost("Registro/Agregar")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpPost, Route("Registro/Agregar")]
     public async Task<IActionResult> AddRegistro([FromBody] JsonObject registro)
     {
         var query = await _requerimientoQueryService.AddRegistro(registro);
@@ -69,17 +70,18 @@ public class RequerimientoController : ControllerBase
         else return BadRequest(query.Message);
     }
 
-    [HttpPut("Registro/Actualizar")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpPut, Route("Registro/Actualizar")]
     public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
     {
-        ClaimJWTModel claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-        JsonSerializerSettings settings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+        IHeaderDictionary headers = HttpContext.Request.Headers;        
+        string email = headers["email"];
+        string nombre = headers["nombre"];
         JsonObject registroJsonObject = new JsonObject();
         registroJsonObject.Add("Registro", registro);
-        registroJsonObject.Add("Nombre", claimJWTModel.nombre);
-        registroJsonObject.Add("Usuario", claimJWTModel.correo);
-        registroJsonObject.Add("Roles", claimJWTModel.roles);
-        registroJsonObject.Add("TransactionId", claimJWTModel.transactionId);
+        registroJsonObject.Add("Nombre", nombre);
+        registroJsonObject.Add("Usuario", email);
+        registroJsonObject.Add("Roles", string.Empty);
+        registroJsonObject.Add("TransactionId", TransactionId);
         registroJsonObject.Add("Rel", 1049);
 
         var query = await _requerimientoQueryService.UpdateRegistro(registroJsonObject);
@@ -87,7 +89,7 @@ public class RequerimientoController : ControllerBase
         else return BadRequest(query.Message);
     }
 
-    [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpDelete, Route("Registro/Borrar/{idRequerimiento}")]
     public async Task<IActionResult> DeleteRequerimiento(int idRequerimiento)
     {
         var query = await _requerimientoQueryService.DeleteRequerimiento(idRequerimiento);
@@ -97,7 +99,7 @@ public class RequerimientoController : ControllerBase
     #endregion Registros
 
     #region Director Ejecutivo
-    [HttpGet, Route("DirectoresEjecutivos")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("DirectoresEjecutivos")]
     public async Task<IActionResult> GetDirectoresEjecutivos()
     {
         var query = await _requerimientoQueryService.GetDirectoresEjecutivos();
@@ -106,7 +108,7 @@ public class RequerimientoController : ControllerBase
     #endregion Director Ejecutivo
 
     #region Proyectos
-    [HttpGet, Route("Proyectos/DirectorEjecutivo/{IdDirectorEjecutivo}")]//, Authorize(Roles = "it.full, dev.full")]
+    [HttpGet, Route("Proyectos/DirectorEjecutivo/{IdDirectorEjecutivo}")]
     public async Task<IActionResult> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
     {
         var query = await _requerimientoQueryService.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);

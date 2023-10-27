@@ -10,6 +10,7 @@ namespace Bovis.Service.Queries.Interface
     public interface IFacturaQueryService : IDisposable
     {
         Task<Response<InfoFactura>> ExtraerInfoFactura(string B64Xml);
+        Task<Response<(bool Success, string Message)>> AddNotaCreditoSinFactura(JsonObject registro);
         Task<Response<FacturaProyecto>> GetInfoProyecto(int numProyecto);
         Task<Response<List<FacturaDetalles>>> Search(ConsultarFactura request);
         Task<Response<(bool Success, string Message)>> CancelNota(JsonObject registro);

@@ -37,7 +37,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res = from timeS in db.tB_Dias_Timesheets
+                var res = await (from timeS in db.tB_Dias_Timesheets
                           where timeS.Mes == mes
                           && timeS.Anio == anio
                           select new Detalle_Dias_Timesheet
@@ -48,12 +48,60 @@ namespace Bovis.Data
                               feriados = timeS.Feriados,
                               sabados = timeS.Sabados,
                               anio = timeS.Anio,
-                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados
-                          };
+                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados,
+                              sabados_feriados = timeS.SabadosFeriados
+                          }).FirstOrDefaultAsync();
 
-                return await res.FirstOrDefaultAsync();
+                return res;
 
             }
+        }
+
+        public async Task<List<Detalle_Dias_Timesheet>> GetDiasTimesheet(int mes)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res = await (from timeS in db.tB_Dias_Timesheets
+                                 where ( mes == 0 || timeS.Mes == mes )
+                                 && timeS.Anio == DateTime.Now.Year
+                                 orderby timeS.Mes ascending
+                                 select new Detalle_Dias_Timesheet
+                                 {
+                                     id = timeS.Id,
+                                     mes = timeS.Mes,
+                                     dias = timeS.Dias,
+                                     feriados = timeS.Feriados,
+                                     sabados = timeS.Sabados,
+                                     anio = timeS.Anio,
+                                     sabados_feriados = timeS.SabadosFeriados
+                                 }).ToListAsync();
+
+                return res;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> UpdateDiasFeriadosTimeSheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_timesheet = Convert.ToInt32(registro["id_timesheet"].ToString());
+            int dias = Convert.ToInt32(registro["dias"].ToString());
+            int sabados_feriados = Convert.ToInt32(registro["sabados_feriados"].ToString());
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_dias_timesheet = await db.tB_Dias_Timesheets.Where(x => x.Id == id_timesheet)
+                                .UpdateAsync(x => new TB_Dias_Timesheet
+                                {
+                                    Feriados = dias,
+                                    SabadosFeriados = sabados_feriados
+                                }) > 0;
+
+                resp.Success = res_update_dias_timesheet;
+                resp.Message = res_update_dias_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
         }
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
@@ -172,6 +220,7 @@ namespace Bovis.Data
                         var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                              where ts_p.IdTimesheet == timesheet.IdTimesheet
                                                              && ts_p.Activo == true
+                                                             orderby ts_p.IdProyecto ascending
                                                              select ts_p).ToListAsync();
 
                         timesheetDetalle = new TimeSheet_Detalle();
@@ -225,7 +274,7 @@ namespace Bovis.Data
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
-                                            orderby ts.IdTimesheet descending
+                                            orderby ts.IdEmpleado ascending
                                             group new TimeSheet_Detalle
                                             {
                                                 id = ts.IdTimesheet,
@@ -240,7 +289,7 @@ namespace Bovis.Data
                                                 coi_empresa = empr.Coi,
                                                 noi_empresa = empr.Noi,
                                                 noi_empleado = emp2.NoEmpleadoNoi,
-                                                num_empleado = emp2.NumEmpleado
+                                                num_empleado =ts.IdEmpleado
                                             } by ts.IdTimesheet into g
                                             select new TimeSheet_Detalle
                                             {
@@ -269,7 +318,13 @@ namespace Bovis.Data
                     timesheet.proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                  where ts_p.IdTimesheet == timesheet.id
                                                  && ts_p.Activo == true
+                                                 orderby ts_p.IdProyecto ascending
                                                  select ts_p).ToListAsync();
+
+                    foreach(var proyecto in timesheet.proyectos)
+                    {
+                        proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                    }
 
                     timesheets_summary.Add(timesheet);
                 }
@@ -296,7 +351,7 @@ namespace Bovis.Data
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
-                                                orderby ts.IdTimesheet descending
+                                                orderby ts.IdEmpleado ascending
                                                 select new TimeSheet_Detalle
                                                 {
                                                     id = ts.IdTimesheet,
@@ -311,7 +366,7 @@ namespace Bovis.Data
                                                     coi_empresa = empr.Coi,
                                                     noi_empresa = empr.Noi,
                                                     noi_empleado = emp2.NoEmpleadoNoi,
-                                                    num_empleado = emp2.NumEmpleado
+                                                    num_empleado = ts.IdEmpleado
                                                 }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)
@@ -325,6 +380,11 @@ namespace Bovis.Data
                                                              where ts_p.IdTimesheet == timesheet.id
                                                              && ts_p.Activo == true
                                                              select ts_p).ToListAsync();
+
+                        foreach (var proyecto in timesheet.proyectos)
+                        {
+                            proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                        }
 
                         timesheets_summary.Add(timesheet);
                     }
@@ -640,10 +700,150 @@ namespace Bovis.Data
                                    join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh
                                    join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
+                                   && empleadoProyecto.Activo == true
                                    select proyecto).ToListAsync();
 
                 return proyectos;
             }
+        }
+
+        public async Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(int IdEmpleado)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
+
+                proyectos = await (from p in db.tB_Proyectos
+                                   join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
+                                   from epItem in epJoin.DefaultIfEmpty()
+                                   where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
+                                   && epItem.Activo == true
+                                   orderby p.NumProyecto ascending
+                                   group new TB_Proyecto
+                                   {
+                                       NumProyecto = p.NumProyecto,
+                                       Proyecto = p.Proyecto,
+                                       Alcance = p.Alcance,
+                                       Cp = p.Cp,
+                                       Ciudad = p.Ciudad,
+                                       IdPais = p.IdPais,
+                                       IdEstatus = p.IdEstatus,
+                                       IdSector = p.IdSector,
+                                       IdTipoProyecto = p.IdTipoProyecto,
+                                       IdResponsablePreconstruccion = p.IdResponsablePreconstruccion,
+                                       IdResponsableConstruccion = p.IdResponsableConstruccion,
+                                       IdResponsableEhs = p.IdResponsableEhs,
+                                       IdResponsableSupervisor = p.IdResponsableSupervisor,
+                                       IdCliente = p.IdCliente,
+                                       IdEmpresa = p.IdEmpresa,
+                                       IdDirectorEjecutivo = p.IdDirectorEjecutivo,
+                                       CostoPromedioM2 = p.CostoPromedioM2,
+                                       FechaIni = p.FechaIni,
+                                       FechaFin = p.FechaFin
+                                   } by p.NumProyecto into g
+                                   select new TB_Proyecto
+                                   {
+                                       NumProyecto = g.Key,
+                                       Proyecto = g.First().Proyecto,
+                                       Alcance = g.First().Alcance,
+                                       Cp = g.First().Cp,
+                                       Ciudad = g.First().Ciudad,
+                                       IdPais = g.First().IdPais,
+                                       IdEstatus = g.First().IdEstatus,
+                                       IdSector = g.First().IdSector,
+                                       IdTipoProyecto = g.First().IdTipoProyecto,
+                                       IdResponsablePreconstruccion = g.First().IdResponsablePreconstruccion,
+                                       IdResponsableConstruccion = g.First().IdResponsableConstruccion,
+                                       IdResponsableEhs = g.First().IdResponsableEhs,
+                                       IdResponsableSupervisor = g.First().IdResponsableSupervisor,
+                                       IdCliente = g.First().IdCliente,
+                                       IdEmpresa = g.First().IdEmpresa,
+                                       IdDirectorEjecutivo = g.First().IdDirectorEjecutivo,
+                                       CostoPromedioM2 = g.First().CostoPromedioM2,
+                                       FechaIni = g.First().FechaIni,
+                                       FechaFin = g.First().FechaFin
+                                   }).ToListAsync();
+
+                return proyectos;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> AddProyectoEmpleado(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert_proyecto_empleado = await db.tB_EmpleadoProyectos
+                    .Value(x => x.NumEmpleadoRrHh, id_empleado)
+                    .Value(x => x.NumProyecto, id_proyecto)
+                    .Value(x => x.PorcentajeParticipacion, 0)
+                    .Value(x => x.AliasPuesto, string.Empty)
+                    .Value(x => x.GrupoProyecto, string.Empty)
+                    .Value(x => x.FechaIni, DateTime.Now)
+                    .Value(x => x.Activo, true)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_proyecto_empleado;
+                resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+                
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteProyectoEmpleado(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
+                                .UpdateAsync(x => new TB_EmpleadoProyecto
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_update_empleado_proyecto;
+                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+
+
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateDiasDedicacion(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_timesheet_proyecto = Convert.ToInt32(registro["id_timesheet_proyecto"].ToString());
+            int num_dias = Convert.ToInt32(registro["num_dias"].ToString());
+            int num_dedicacion = Convert.ToInt32(registro["num_dedicacion"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdTimesheet_Proyecto == id_timesheet_proyecto)
+                                .UpdateAsync(x => new TB_Timesheet_Proyecto
+                                {
+                                    Dias = num_dias,
+                                    TDedicacion = num_dedicacion
+                                }) > 0;
+
+                resp.Success = res_update_timesheet_proyecto;
+                resp.Message = res_update_timesheet_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+
+
+            }
+
+            return resp;
         }
     }
 }

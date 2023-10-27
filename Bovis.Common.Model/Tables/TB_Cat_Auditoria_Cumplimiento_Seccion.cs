@@ -7,6 +7,7 @@ namespace Bovis.Common.Model.Tables
     {
         [Column("Nukidseccion"), NotNull, PrimaryKey, Identity] public int IdSeccion { get; set; }
         [Column("Chseccion"), Nullable] public string Seccion { get; set; }
+        [Column("Chtipo_auditoria"), Nullable] public string TipoAuditoria { get; set; }
 
     }
 }

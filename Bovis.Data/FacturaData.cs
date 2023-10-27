@@ -6,7 +6,9 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.Tools;
+using System.Text;
 using System.Text.Json.Nodes;
+using System.Xml;
 
 namespace Bovis.Data
 {
@@ -74,6 +76,8 @@ namespace Bovis.Data
 
         }
 
+        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
+
         public async Task<(bool existe, string mensaje)> AddFactura(TB_ProyectoFactura factura)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -111,7 +115,7 @@ namespace Bovis.Data
                 .Value(x => x.IdFactura, notaCredito.IdFactura)
                 .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
                 .Value(x => x.IdMoneda, notaCredito.IdMoneda)
-                .Value(x => x.IdTipoRelacion, notaCredito.IdMoneda)
+                .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
                 .Value(x => x.NotaCredito, notaCredito.NotaCredito)
                 .Value(x => x.Importe, notaCredito.Importe)
                 .Value(x => x.Iva, notaCredito.Iva)
@@ -125,6 +129,41 @@ namespace Bovis.Data
                 .InsertAsync() > 0;
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
+            }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["NumProyecto"].ToString());
+            var cfdi = await ExtraerDatos(registro["FacturaB64"].ToString());
+
+            var tryDate = default(DateTime);
+            DateTime.TryParse(cfdi.Fecha, out tryDate);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert = await db.tB_ProyectoFacturasNotaCredito
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.UuidNotaCredito, cfdi.UUID)
+                    .Value(x => x.IdMoneda, cfdi.Moneda)
+                    .Value(x => x.IdTipoRelacion, cfdi.TipoRelacion)
+                    .Value(x => x.NotaCredito, $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}")
+                    .Value(x => x.Importe, Convert.ToDecimal(cfdi.SubTotal ?? "-1"))
+                    .Value(x => x.Iva, cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0)
+                    .Value(x => x.Total, cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0)
+                    .Value(x => x.Concepto, string.Join("|", cfdi.Conceptos))
+                    .Value(x => x.Mes, Convert.ToByte(tryDate.Month))
+                    .Value(x => x.Anio, Convert.ToInt16(tryDate.Year))
+                    .Value(x => x.TipoCambio, cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null)
+                    .Value(x => x.FechaNotaCredito, tryDate)
+                    .Value(x => x.Xml, cfdi.XmlB64)
+                .InsertAsync() > 0;
+
+                resp.Success = insert;
+                resp.Message = insert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
             }
             return resp;
         }
@@ -1184,8 +1223,119 @@ namespace Bovis.Data
                 return res;
             }
         }
-        #endregion facturas por número
+        #endregion facturas por número        
 
-        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();        
+        #region Extraer Datos Cfdi
+        public async Task<BaseCFDI?> ExtraerDatos(string base64String)
+        {
+            var datosCFDI = default(BaseCFDI);
+
+            try
+            {
+                var base64EncodedBytes = Convert.FromBase64String(base64String);
+                var strXml = Encoding.UTF8.GetString(base64EncodedBytes);
+
+                var doc = new XmlDocument();
+                doc.LoadXml(strXml);
+                var nsm = new XmlNamespaceManager(doc.NameTable);
+                nsm.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/4");
+                nsm.AddNamespace("tfd", "http://www.sat.gob.mx/TimbreFiscalDigital");
+                nsm.AddNamespace("pago20", "http://www.sat.gob.mx/Pagos20");
+                var nodeComprobante = doc.SelectSingleNode("//cfdi:Comprobante", nsm);
+                if (nodeComprobante is null)
+                {
+                    nsm = new XmlNamespaceManager(doc.NameTable);
+                    nsm.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
+                    nsm.AddNamespace("tfd", "http://www.sat.gob.mx/TimbreFiscalDigital");
+                    nsm.AddNamespace("pago10", "http://www.sat.gob.mx/Pagos");
+                    nodeComprobante = doc.SelectSingleNode("//cfdi:Comprobante", nsm);
+                }
+
+                if (new List<string> { "3.3", "4.0" }.Contains(nodeComprobante?.Attributes["Version"]?.Value ?? string.Empty))
+                {
+                    datosCFDI = new BaseCFDI
+                    {
+                        Version = nodeComprobante.Attributes["Version"].Value,
+                        Serie = nodeComprobante.Attributes["Serie"].Value,
+                        Folio = nodeComprobante.Attributes["Folio"].Value,
+                        Fecha = nodeComprobante.Attributes["Fecha"].Value,
+                        Moneda = nodeComprobante.Attributes["Moneda"].Value,
+                        TipoCambio = nodeComprobante.Attributes["TipoCambio"] is not null ? nodeComprobante.Attributes["TipoCambio"].Value : null,
+                        SubTotal = nodeComprobante.Attributes["SubTotal"].Value,
+                        Total = nodeComprobante.Attributes["Total"].Value,
+                        TipoDeComprobante = nodeComprobante.Attributes["TipoDeComprobante"].Value,
+                        RfcEmisor = doc.SelectSingleNode("//cfdi:Comprobante/cfdi:Emisor/@Rfc", nsm).InnerText,
+                        RfcReceptor = doc.SelectSingleNode("//cfdi:Comprobante/cfdi:Receptor/@Rfc", nsm).InnerText,
+                        TotalImpuestosTrasladados = doc.SelectSingleNode("//cfdi:Comprobante/cfdi:Impuestos/@TotalImpuestosTrasladados", nsm) is not null ? doc.SelectSingleNode("//cfdi:Comprobante/cfdi:Impuestos/@TotalImpuestosTrasladados", nsm).InnerText : null,
+                        TotalImpuestosRetenidos = doc.SelectSingleNode("//cfdi:Comprobante/cfdi:Impuestos/@TotalImpuestosRetenidos", nsm) is not null ? doc.SelectSingleNode("//cfdi:Comprobante/cfdi:Impuestos/@TotalImpuestosRetenidos", nsm).InnerText : null,
+                        UUID = doc.SelectSingleNode("//cfdi:Comprobante//cfdi:Complemento//tfd:TimbreFiscalDigital", nsm)?.Attributes["UUID"].Value,
+                        IsVersionValida = true,
+                        XmlB64 = base64String
+                    };
+                    datosCFDI.Conceptos.AddRange(from XmlNode nc in doc.SelectNodes("//cfdi:Comprobante//cfdi:Conceptos//cfdi:Concepto", nsm) select nc.Attributes["Descripcion"].Value);
+                    if (datosCFDI.TipoDeComprobante.Equals("E"))
+                    {
+                        datosCFDI.TipoRelacion = doc.SelectSingleNode("//cfdi:Comprobante//cfdi:CfdiRelacionados", nsm)?.Attributes["TipoRelacion"]?.Value;
+                        datosCFDI.CfdiRelacionados.AddRange(from XmlNode nc in doc.SelectNodes("//cfdi:Comprobante//cfdi:CfdiRelacionados//cfdi:CfdiRelacionado", nsm) select nc.Attributes["UUID"].Value);
+                    }
+                    if (datosCFDI.TipoDeComprobante.Equals("P"))
+                    {
+                        XmlNodeList nodePagos = null;
+                        string strXPathImpuesto = string.Empty;
+
+                        if (datosCFDI.Version.Equals("3.3"))
+                            nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago10:Pagos//pago10:Pago", nsm);
+                        else
+                        {
+                            nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago20:Pagos//pago20:Pago", nsm);
+                            strXPathImpuesto = "pago20:ImpuestosDR//pago20:TrasladosDR//pago20:TrasladoDR";
+                        }
+
+                        datosCFDI.Pagos = new List<CfdiPagos>();
+                        foreach (XmlNode np in nodePagos)
+                        {
+                            CfdiPagos tPagos = new CfdiPagos();
+                            tPagos.FechaPago = np.Attributes["FechaPago"].Value;
+                            tPagos.TipoCambioP = np.Attributes["TipoCambioP"] != null ? np.Attributes["TipoCambioP"].Value : null;
+                            tPagos.DoctosRelacionados = new List<CfdiPagoDocto>();
+
+                            foreach (XmlNode childNode in np.ChildNodes)
+                            {
+                                if (childNode.Name != "pago20:ImpuestosP")
+                                {
+                                    CfdiPagoDocto tDoctoRel = new CfdiPagoDocto();
+                                    tDoctoRel.Uuid = childNode.Attributes["IdDocumento"].Value;
+                                    tDoctoRel.Serie = childNode.Attributes["Serie"] != null ? childNode.Attributes["Serie"].Value : null;
+                                    tDoctoRel.Folio = childNode.Attributes["Folio"] != null ? childNode.Attributes["Folio"].Value : null;
+                                    tDoctoRel.ImporteSaldoInsoluto = childNode.Attributes["ImpSaldoInsoluto"] != null ? childNode.Attributes["ImpSaldoInsoluto"].Value : null;
+                                    tDoctoRel.ImportePagado = childNode.Attributes["ImpPagado"] != null ? childNode.Attributes["ImpPagado"].Value : null;
+                                    tDoctoRel.ImporteSaldoAnt = childNode.Attributes["ImpSaldoAnt"] != null ? childNode.Attributes["ImpSaldoAnt"].Value : null;
+                                    tDoctoRel.MonedaDR = childNode.Attributes["MonedaDR"] != null ? childNode.Attributes["MonedaDR"].Value : null;
+                                    if (!string.IsNullOrEmpty(strXPathImpuesto))
+                                        tDoctoRel.ImporteDR = childNode.SelectSingleNode(strXPathImpuesto, nsm).Attributes["ImporteDR"] != null ?
+                                        childNode.SelectSingleNode(strXPathImpuesto, nsm).Attributes["ImporteDR"].Value : null;
+
+                                    tPagos.DoctosRelacionados.Add(tDoctoRel);
+                                }
+
+                            }
+
+                            datosCFDI.Pagos.Add(tPagos);
+
+
+                        }
+                    }
+                }
+                else datosCFDI.IsVersionValida = default;
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogError($"La factura no es una versión valida: {base64String}, error {ex.Message} || {ex.InnerException}");
+                datosCFDI = null;
+            }
+            return datosCFDI;
+        }
+
+        #endregion
     }
 }

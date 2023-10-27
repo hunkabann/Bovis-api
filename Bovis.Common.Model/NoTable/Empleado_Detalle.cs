@@ -67,7 +67,7 @@ namespace Bovis.Common.Model.NoTable
         public decimal? nusalario { get; set; }
         public int? nukidprofesion { get; set; }
         public string chprofesion { get; set; }
-        public int? nuantiguedad { get; set; }
+        public string? nuantiguedad { get; set; }
         public int? nukidturno { get; set; }
         public string? chturno { get; set; }
         public int? nuunidad_medica { get; set; }
@@ -102,6 +102,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chnombre { get; set; }
         public string? chap_paterno { get; set; }
         public string? chap_materno { get; set; }
+        public string? chpuesto { get; set; }
     }
 
     public class Experiencia_Detalle

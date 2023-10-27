@@ -7,6 +7,7 @@ using Bovis.Service.Queries.Dto.Request;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml;
@@ -212,6 +213,41 @@ namespace Bovis.Business
             return LstFacturas;
         }
 
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            var cfdi = await ExtraerDatos(registro["FacturaB64"].ToString());
+            var existeNC = await _facturaData.SearchNotaCredito(cfdi.UUID);
+
+            if(cfdi.TipoDeComprobante != "E")
+            {
+                resp.Success = true;
+                resp.Message = $@"El archivo seleccionado con el UUID {cfdi.UUID}, no es una nota de crédito.";
+                return resp;
+            }
+            if(cfdi.CfdiRelacionados != null && cfdi.CfdiRelacionados?.Count > 0)
+            {
+                resp.Success = true;
+                resp.Message = $@"Se han encontrado documentos relacionados a esta nota de crédito.";
+                return resp;
+            }
+            if (existeNC != null)
+            {
+                resp.Success = true;
+                resp.Message = $@"La nota de credito {cfdi.UUID} ya existe en la BD";
+                return resp;
+            }
+            else
+            {
+                var respData = await _facturaData.AddNotaCreditoSinFactura(registro);
+                if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+                else resp = respData;
+            }
+
+            return resp;
+        }
+
         //revisar datos de pagos
         public async Task<List<FacturaRevision>> AddPagos(AgregarPagos request)
         {
@@ -377,7 +413,6 @@ namespace Bovis.Business
         public Task<Factura_Proyecto> GetInfoProyecto(int numProyecto) => _facturaData.GetInfoProyecto(numProyecto);
 
         #region Extraer Datos Cfdi
-
         public async Task<BaseCFDI?> ExtraerDatos(string base64String)
         {
             var datosCFDI = default(BaseCFDI);

@@ -25,14 +25,15 @@ namespace Bovis.Data
         }
         #endregion base
 
-        public async Task<List<TB_Proyecto>> GetProyectos()
+        public async Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico)
         {
             //return await GetAllFromEntityAsync<TB_Proyecto>();
             using (var db = new ConnectionDB(dbConfig))
             {
-                var resp = await (from p in db.tB_Proyectos
-                              orderby p.Proyecto ascending
-                              select p).ToListAsync();
+                var query = from p in db.tB_Proyectos select p;
+                query = OrdenAlfabetico == true || OrdenAlfabetico == null ? query.OrderBy(p => p.Proyecto) : query.OrderBy(p => p.NumProyecto);
+
+                var resp = await query.ToListAsync();
 
                 return resp;
             }
