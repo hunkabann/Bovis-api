@@ -67,6 +67,7 @@ namespace Bovis.Data
                 var res = await (from a in db.tB_Dor_Empleados
                                  join b in db.tB_Cat_Dor_PuestoNivel on a.Puesto equals b.Puesto
                                  where a.JefeDirecto == name
+                                 orderby a.Nombre ascending
                                  select new Dor_Subordinados
                                  {
                                      Nombre = a.Nombre,
@@ -267,6 +268,7 @@ namespace Bovis.Data
                 var res = await (from a in db.tB_Dor_Gpm_Proyecto
                                  join c in db.tB_Dor_Tooltip on new { a.UnidadDeNegocio, a.Concepto, a.Descripcion } equals new { c.UnidadDeNegocio, c.Concepto, c.Descripcion }
                                  where a.Proyecto == proyecto
+                                 orderby a.Concepto ascending
                                  select new Dor_ObjetivosGenerales
                                  {
                                      Id = a.Id,

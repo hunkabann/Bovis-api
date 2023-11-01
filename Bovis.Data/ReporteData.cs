@@ -147,6 +147,7 @@ namespace Bovis.Data
                                       from eItem in eJoin.DefaultIfEmpty()
                                       where a.Activo == true
                                       && (IdReporte == 0 || a.IdReporte == IdReporte)
+                                      orderby a.FechaCreacion descending
                                       select new Reporte_Detalle
                                       {
                                           IdReporte = a.IdReporte,

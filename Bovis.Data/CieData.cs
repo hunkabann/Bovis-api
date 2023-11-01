@@ -164,6 +164,7 @@ namespace Bovis.Data
                                                                           join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
                                                                           from archivoItem in archivoJoin.DefaultIfEmpty()
                                                                           where cie.Activo == activo
+                                                                          orderby cie.IdCieData ascending
                                                                           select new Cie_Detalle
                                                                           {
                                                                               IdCie = cie.IdCieData,

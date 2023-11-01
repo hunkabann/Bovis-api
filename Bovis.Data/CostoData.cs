@@ -137,6 +137,7 @@ namespace Bovis.Data
             {
                 var resp = await (from costos in db.tB_Costo_Por_Empleados
                                   where (IdCosto == 0 || costos.IdCosto == IdCosto)
+                                  orderby costos.IdCosto ascending
                                   select new Costo_Detalle
                                   {
                                       IdCosto = costos.IdCosto,

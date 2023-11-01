@@ -47,7 +47,7 @@ namespace Bovis.Data
                                                                           from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
                                                                               //where per.Activo == activo
                                                                           where per.EsEmpleado == false
-                                                                          orderby per.IdPersona descending
+                                                                          orderby per.Nombre ascending
                                                                           select new Persona_Detalle
                                                                           {
                                                                               nukidpersona = per.IdPersona,

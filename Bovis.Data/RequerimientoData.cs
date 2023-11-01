@@ -40,7 +40,10 @@ namespace Bovis.Data
             if (idRequerimiento > 0)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimiento_Habilidades
-                                                                          where req.IdRequerimiento == idRequerimiento
+                                                                          join hab in db.tB_Cat_Habilidades on req.IdHabilidad equals hab.IdHabilidad into habJoin
+                                                                          from habItem in habJoin.DefaultIfEmpty()
+                                                                          orderby habItem.Habilidad ascending
+                                                                          where req.IdRequerimiento == idRequerimiento                                                                          
                                                                           select req).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento_Habilidad>();
@@ -53,6 +56,9 @@ namespace Bovis.Data
             if (idRequerimiento > 0)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimiento_Experiencias
+                                                                          join exp in db.tB_Cat_Experiencias on req.IdExperiencia equals exp.IdExperiencia into expJoin
+                                                                          from expItem in expJoin.DefaultIfEmpty()
+                                                                          orderby expItem.Experiencia ascending
                                                                           where req.IdRequerimiento == idRequerimiento
                                                                           select req).ToListAsync();
             }
@@ -635,7 +641,7 @@ namespace Bovis.Data
                               from puestoItem in puestoJoin.DefaultIfEmpty()
                               where puestoItem.Puesto == "Director Ejecutivo"
                               && emp.Activo == true
-                              orderby emp.NumEmpleadoRrHh descending
+                              orderby perItem.Nombre ascending
                               select new Empleado_Detalle
                               {
                                   nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
@@ -724,6 +730,7 @@ namespace Bovis.Data
             {
                 list = await (from proyectos in db.tB_Proyectos
                               where proyectos.IdDirectorEjecutivo == IdDirectorEjecutivo
+                              orderby proyectos.Proyecto ascending
                               select proyectos).ToListAsync();
             }
 
