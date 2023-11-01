@@ -358,6 +358,7 @@ namespace Bovis.Data
                 var res = await (from emp in db.tB_Empleados
                                  join per in db.tB_Personas on emp.IdPersona equals per.IdPersona
                                  where emp.EmailBovis == email
+                                 orderby per.Nombre ascending
                                  select new Empleado_BasicData
                                  {
                                      nukid_empleado = emp.NumEmpleadoRrHh,
