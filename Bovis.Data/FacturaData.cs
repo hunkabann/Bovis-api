@@ -359,6 +359,10 @@ namespace Bovis.Data
                                  from ab in factNC.DefaultIfEmpty()
                                  join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
                                  from ac in factC.DefaultIfEmpty()
+                                 join c in db.tB_Proyectos on a.NumProyecto equals c.NumProyecto into cJoin
+                                 from cItem in cJoin.DefaultIfEmpty()
+                                 join d in db.tB_Clientes on cItem.IdCliente equals d.IdCliente into dJoin
+                                 from dItem in dJoin.DefaultIfEmpty()
                                  where (idProyecto == null || a.NumProyecto == idProyecto)
                                  && (lstProyectosCliente == null || a.NumProyecto.In(lstProyectosCliente))
                                  && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
@@ -371,6 +375,8 @@ namespace Bovis.Data
                                      Id = a.Id,
                                      Uuid = a.Uuid,
                                      NumProyecto = a.NumProyecto,
+                                     Cliente = dItem.Cliente ?? string.Empty,
+                                     ClienteRFC = dItem.Rfc ?? string.Empty,
                                      IdTipoFactura = a.IdTipoFactura,
                                      IdMoneda = a.IdMoneda,
                                      Importe = a.Importe,

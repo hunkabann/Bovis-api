@@ -76,6 +76,8 @@ namespace Bovis.Common.Model.NoTable
         public int Id { get; set; }
         public string Uuid { get; set; }
         public int NumProyecto { get; set; }
+        public string Cliente { get; set; }
+        public string ClienteRFC {  get; set; }
         public string IdTipoFactura { get; set; }
         public string IdMoneda { get; set; }
         public decimal Importe { get; set; }
