@@ -15,8 +15,20 @@ namespace Bovis.Data
 			this.ConfigurationDB = dbConfig;
 		}
 
-		#region Beneficio
-		public async Task<List<TB_Cat_Beneficio>> GetBeneficio(bool? activo)
+        #region Destructor
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            GC.Collect();
+        }
+
+        #endregion
+
+
+
+        #region Beneficio
+        public async Task<List<TB_Cat_Beneficio>> GetBeneficio(bool? activo)
 		{
 			if (activo.HasValue)
 			{
@@ -1378,15 +1390,7 @@ namespace Bovis.Data
 
 		#endregion
 
-		#region Destructor
-
-		public void Dispose()
-		{
-			GC.SuppressFinalize(this);
-			GC.Collect();
-		}
-
-		#endregion
+		
 
 
 	}
