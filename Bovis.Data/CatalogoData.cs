@@ -456,28 +456,28 @@ namespace Bovis.Data
 
 		#endregion
 		
-		#region Modena
+		#region Moneda
 
-		public async Task<List<TB_Cat_Modena>> GetModena(bool? activo)
+		public async Task<List<TB_Cat_Moneda>> GetModena(bool? activo)
 		{
 			if (activo.HasValue)
 			{
-				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Modenas
+				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Monedas
 																		  where cat.Activo == activo
 																		  select cat).ToListAsync();
 			}
-			else return await GetAllFromEntityAsync<TB_Cat_Modena>();
+			else return await GetAllFromEntityAsync<TB_Cat_Moneda>();
 		}
 
-		public Task<bool> AddModena(TB_Cat_Modena modena) => InsertEntityIdAsync<TB_Cat_Modena>(modena);
+		public Task<bool> AddModena(TB_Cat_Moneda modena) => InsertEntityIdAsync<TB_Cat_Moneda>(modena);
 
-		public Task<bool> UpdateModena(TB_Cat_Modena modena) => UpdateEntityAsync<TB_Cat_Modena>(modena);
+		public Task<bool> UpdateModena(TB_Cat_Moneda modena) => UpdateEntityAsync<TB_Cat_Moneda>(modena);
 
-		public async Task<bool> DeleteModena(TB_Cat_Modena modena)
+		public async Task<bool> DeleteModena(TB_Cat_Moneda modena)
 		{
 			using (var db = new ConnectionDB(dbConfig))
 			{
-				var qry = db.tB_Cat_Modenas
+				var qry = db.tB_Cat_Monedas
 					   .Where(x => x.IdMoneda == modena.IdMoneda)
 					   .Set(x => x.Activo, false);
 				return await qry.UpdateAsync() >= 0;

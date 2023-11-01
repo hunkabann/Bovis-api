@@ -136,10 +136,10 @@ namespace Bovis.Business.Interface
 
 		#region Modena
 
-		Task<List<TB_Cat_Modena>> GetModena(bool? activo);
-		Task<(bool Success, string Message)> AddModena(TB_Cat_Modena modena);
-		Task<(bool Success, string Message)> UpdateModena(InsertMovApi MovAPI, TB_Cat_Modena modena);
-		Task<(bool Success, string Message)> DeleteModena(TB_Cat_Modena modena);
+		Task<List<TB_Cat_Moneda>> GetModena(bool? activo);
+		Task<(bool Success, string Message)> AddModena(TB_Cat_Moneda modena);
+		Task<(bool Success, string Message)> UpdateModena(InsertMovApi MovAPI, TB_Cat_Moneda modena);
+		Task<(bool Success, string Message)> DeleteModena(TB_Cat_Moneda modena);
 
 		#endregion
 

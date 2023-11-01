@@ -168,6 +168,46 @@ namespace Bovis.Data
             return resp;
         }
 
+        public async Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var notas_credito = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           join relaciones in db.tB_Cat_TipoRelacions on notas.IdTipoRelacion equals relaciones.IdTipoRelacion into relacionesJoin
+                                           from relacionesItem in relacionesJoin.DefaultIfEmpty()
+                                           join monedas in db.tB_Cat_Monedas on notas.IdMoneda equals monedas.IdMoneda into monedasJoin
+                                           from monedasItem in monedasJoin.DefaultIfEmpty()
+                                           join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
+                                           from proyectosItem in proyectosJoin.DefaultIfEmpty()
+                                           where notas.NumProyecto != null
+                                           select new NotaCredito_Detalle
+                                           {
+                                               nunum_proyecto = notas.NumProyecto,
+                                               chproyecto = proyectosItem.Proyecto ?? string.Empty,
+                                               chuuid_nota_credito = notas.UuidNotaCredito,
+                                               nukidmoneda = notas.IdMoneda,
+                                               chmoneda = monedasItem.Moneda ?? string.Empty,
+                                               nukidtipo_relacion = notas.IdTipoRelacion,
+                                               chtipo_relacion = relacionesItem.TipoRelacion ?? string.Empty,
+                                               chnota_credito = notas.NotaCredito,
+                                               nuimporte = notas.Importe,
+                                               nuiva = notas.Iva,
+                                               nutotal = notas.Total,
+                                               chconcepto = notas.Concepto,
+                                               numes = notas.Mes,
+                                               nuanio = notas.Anio,
+                                               nutipo_cambio = notas.TipoCambio,
+                                               dtfecha_nota_credito = notas.FechaNotaCredito,
+                                               chxml = notas.Xml,
+                                               dtfecha_cancelacion = notas.FechaCancelacion,
+                                               chmotivocancela = notas.MotivoCancelacion
+                                           }).ToListAsync();
+            
+                return notas_credito;
+            }
+        }
+
+
         public async Task<(bool Success, string Message)> AddPagos(TB_Proyecto_Factura_Cobranza pagos)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -1334,8 +1374,7 @@ namespace Bovis.Data
                 datosCFDI = null;
             }
             return datosCFDI;
-        }
-
+        }        
         #endregion
     }
 }

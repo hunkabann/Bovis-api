@@ -30,7 +30,7 @@ namespace Bovis.Common.Model
         public ITable<TB_Cat_Habilidad> tB_Cat_Habilidades { get { return this.GetTable<TB_Cat_Habilidad>(); } }
         public ITable<TB_Cat_Ingreso> tB_Cat_Ingresos { get { return this.GetTable<TB_Cat_Ingreso>(); } }
 		public ITable<TB_Cat_Jornada> tB_Cat_Jornadas { get { return this.GetTable<TB_Cat_Jornada>(); } }
-		public ITable<TB_Cat_Modena> tB_Cat_Modenas { get { return this.GetTable<TB_Cat_Modena>(); } }
+		public ITable<TB_Cat_Moneda> tB_Cat_Monedas { get { return this.GetTable<TB_Cat_Moneda>(); } }
 		public ITable<TB_Cat_NivelEstudios> tB_Cat_NivelEstudios { get { return this.GetTable<TB_Cat_NivelEstudios>(); } }
 		public ITable<TB_Cat_NivelPuesto> tB_Cat_NivelPuestos { get { return this.GetTable<TB_Cat_NivelPuesto>(); } }
 		public ITable<TB_Cat_Pcs> tB_Cat_Pcs { get { return this.GetTable<TB_Cat_Pcs>(); } }
@@ -55,6 +55,7 @@ namespace Bovis.Common.Model
         public ITable<TB_Cat_TipoPersona> tB_Cat_TipoPersonas { get { return this.GetTable<TB_Cat_TipoPersona>(); } }
         public ITable<TB_Cat_TipoPoliza> tB_Cat_TipoPolizas { get { return this.GetTable<TB_Cat_TipoPoliza>(); } }
 		public ITable<TB_Cat_TipoProyecto> tB_Cat_TipoProyectos { get { return this.GetTable<TB_Cat_TipoProyecto>(); } }
+		public ITable<TB_Cat_TipoRelacion> tB_Cat_TipoRelacions { get { return this.GetTable<TB_Cat_TipoRelacion>(); } }
 		public ITable<TB_Cat_TipoResultado> tB_Cat_TipoResultados { get { return this.GetTable<TB_Cat_TipoResultado>(); } }
 		public ITable<TB_Cat_TipoSangre> tB_Cat_TipoSangres { get { return this.GetTable<TB_Cat_TipoSangre>(); } }
         public ITable<TB_Cat_Turno> tB_Cat_Turnos { get { return this.GetTable<TB_Cat_Turno>(); } }

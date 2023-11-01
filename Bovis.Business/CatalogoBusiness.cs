@@ -464,8 +464,8 @@ namespace Bovis.Business
 
 		#region Modena
 
-		public Task<List<TB_Cat_Modena>> GetModena(bool? Actio) => _catalogoData.GetModena(Actio);
-		public async Task<(bool Success, string Message)> AddModena(TB_Cat_Modena modena)
+		public Task<List<TB_Cat_Moneda>> GetModena(bool? Actio) => _catalogoData.GetModena(Actio);
+		public async Task<(bool Success, string Message)> AddModena(TB_Cat_Moneda modena)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
 			var respData = await _catalogoData.AddModena(modena);
@@ -473,7 +473,7 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		public async Task<(bool Success, string Message)> DeleteModena(TB_Cat_Modena modena)
+		public async Task<(bool Success, string Message)> DeleteModena(TB_Cat_Moneda modena)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
 			var respData = await _catalogoData.DeleteModena(modena);
@@ -481,7 +481,7 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		public async Task<(bool Success, string Message)> UpdateModena(InsertMovApi MovAPI, TB_Cat_Modena modena)
+		public async Task<(bool Success, string Message)> UpdateModena(InsertMovApi MovAPI, TB_Cat_Moneda modena)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);
 			var respData = await _catalogoData.UpdateModena(modena);

@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
@@ -68,6 +69,14 @@ namespace Bovis.API.Controllers
         {
             var query = await _facturaQueryService.AddNotaCreditoSinFactura(registro);
             if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpGet, Route("NotaCredito")]
+        public async Task<IActionResult> GetNotaCreditoSinFactura()
+        {
+            var query = await _facturaQueryService.GetNotaCreditoSinFactura();
+            if (query.Message.IsNullOrEmpty()) return Ok(query);
             else return BadRequest(query.Message);
         }
 
