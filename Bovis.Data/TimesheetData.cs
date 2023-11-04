@@ -48,7 +48,7 @@ namespace Bovis.Data
                               feriados = timeS.Feriados,
                               sabados = timeS.Sabados,
                               anio = timeS.Anio,
-                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados,
+                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados - timeS.SabadosFeriados,
                               sabados_feriados = timeS.SabadosFeriados
                           }).FirstOrDefaultAsync();
 
@@ -274,7 +274,7 @@ namespace Bovis.Data
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
-                                            && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
+                                            && (mes == 0 || (currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
                                             orderby ts.IdEmpleado ascending
                                             group new TimeSheet_Detalle
                                             {
@@ -290,7 +290,7 @@ namespace Bovis.Data
                                                 coi_empresa = empr.Coi,
                                                 noi_empresa = empr.Noi,
                                                 noi_empleado = emp2.NoEmpleadoNoi,
-                                                num_empleado =ts.IdEmpleado
+                                                num_empleado = ts.IdEmpleado
                                             } by ts.IdTimesheet into g
                                             select new TimeSheet_Detalle
                                             {
