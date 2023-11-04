@@ -246,7 +246,7 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int mes)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
         {
             // Si idEmpleado == 0, no filtrar por empleado
             // Si idProyecto == 0, no filtrar por proyecto
@@ -273,6 +273,7 @@ namespace Bovis.Data
                                             && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
+                                            && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
                                             && ((currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
                                             orderby ts.IdEmpleado ascending
                                             group new TimeSheet_Detalle
@@ -323,7 +324,7 @@ namespace Bovis.Data
 
                     foreach(var proyecto in timesheet.proyectos)
                     {
-                        proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                        proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));                        
                     }
 
                     timesheets_summary.Add(timesheet);
