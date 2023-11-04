@@ -49,7 +49,6 @@ namespace Bovis.Data
                           };
 
                 return await res.FirstOrDefaultAsync();
-
             }
         }
 
@@ -65,7 +64,6 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasNotaCredito
                                                                       where a.UuidNotaCredito == uuid
                                                                       select a).FirstOrDefaultAsync();
-
         }
 
         public async Task<TB_Proyecto_Factura_Cobranza> SearchPagos(string uuid)
@@ -73,7 +71,6 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasCobranza
                                                                       where a.UuidCobranza == uuid
                                                                       select a).FirstOrDefaultAsync();
-
         }
 
         public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
@@ -84,25 +81,27 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var inseert = await db.tB_ProyectoFacturas
-                .Value(x => x.Uuid, factura.Uuid)
-                .Value(x => x.NumProyecto, factura.NumProyecto)
-                .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
-                .Value(x => x.IdMoneda, factura.IdMoneda)
-                .Value(x => x.Importe, factura.Importe)
-                .Value(x => x.Iva, factura.Iva)
-                .Value(x => x.IvaRet, factura.IvaRet)
-                .Value(x => x.Total, factura.Total)
-                .Value(x => x.Concepto, factura.Concepto)
-                .Value(x => x.Mes, factura.Mes)
-                .Value(x => x.Anio, factura.Anio)
-                .Value(x => x.FechaEmision, factura.FechaEmision)
-                .Value(x => x.NoFactura, factura.NoFactura)
-                .Value(x => x.TipoCambio, factura.TipoCambio)
-                .Value(x => x.XmlB64, factura.XmlB64)
-                .InsertAsync() > 0;
+                    .Value(x => x.Uuid, factura.Uuid)
+                    .Value(x => x.NumProyecto, factura.NumProyecto)
+                    .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
+                    .Value(x => x.IdMoneda, factura.IdMoneda)
+                    .Value(x => x.Importe, factura.Importe)
+                    .Value(x => x.Iva, factura.Iva)
+                    .Value(x => x.IvaRet, factura.IvaRet)
+                    .Value(x => x.Total, factura.Total)
+                    .Value(x => x.Concepto, factura.Concepto)
+                    .Value(x => x.Mes, factura.Mes)
+                    .Value(x => x.Anio, factura.Anio)
+                    .Value(x => x.FechaEmision, factura.FechaEmision)
+                    .Value(x => x.NoFactura, factura.NoFactura)
+                    .Value(x => x.TipoCambio, factura.TipoCambio)
+                    .Value(x => x.XmlB64, factura.XmlB64)
+                    .InsertAsync() > 0;
+
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar la factura." : string.Empty;
             }
+
             return resp;
         }
 
@@ -112,24 +111,26 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var inseert = await db.tB_ProyectoFacturasNotaCredito
-                .Value(x => x.IdFactura, notaCredito.IdFactura)
-                .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
-                .Value(x => x.IdMoneda, notaCredito.IdMoneda)
-                .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
-                .Value(x => x.NotaCredito, notaCredito.NotaCredito)
-                .Value(x => x.Importe, notaCredito.Importe)
-                .Value(x => x.Iva, notaCredito.Iva)
-                .Value(x => x.Total, notaCredito.Total)
-                .Value(x => x.Concepto, notaCredito.Concepto)
-                .Value(x => x.Mes, notaCredito.Mes)
-                .Value(x => x.Anio, notaCredito.Anio)
-                .Value(x => x.TipoCambio, notaCredito.TipoCambio)
-                .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
-                .Value(x => x.Xml, notaCredito.Xml)
-                .InsertAsync() > 0;
+                    .Value(x => x.IdFactura, notaCredito.IdFactura)
+                    .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
+                    .Value(x => x.IdMoneda, notaCredito.IdMoneda)
+                    .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
+                    .Value(x => x.NotaCredito, notaCredito.NotaCredito)
+                    .Value(x => x.Importe, notaCredito.Importe)
+                    .Value(x => x.Iva, notaCredito.Iva)
+                    .Value(x => x.Total, notaCredito.Total)
+                    .Value(x => x.Concepto, notaCredito.Concepto)
+                    .Value(x => x.Mes, notaCredito.Mes)
+                    .Value(x => x.Anio, notaCredito.Anio)
+                    .Value(x => x.TipoCambio, notaCredito.TipoCambio)
+                    .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
+                    .Value(x => x.Xml, notaCredito.Xml)
+                    .InsertAsync() > 0;
+
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
             }
+
             return resp;
         }
 
@@ -160,11 +161,12 @@ namespace Bovis.Data
                     .Value(x => x.TipoCambio, cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null)
                     .Value(x => x.FechaNotaCredito, tryDate)
                     .Value(x => x.Xml, cfdi.XmlB64)
-                .InsertAsync() > 0;
+                    .InsertAsync() > 0;
 
                 resp.Success = insert;
                 resp.Message = insert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
             }
+
             return resp;
         }
 
@@ -214,26 +216,31 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var inseert = await db.tB_ProyectoFacturasCobranza
-                .Value(x => x.IdFactura, pagos.IdFactura)
-                .Value(x => x.UuidCobranza, pagos.UuidCobranza)
-                .Value(x => x.IdMonedaP, pagos.IdMonedaP)
-                .Value(x => x.ImportePagado, pagos.ImportePagado)
-                .Value(x => x.ImpSaldoAnt, pagos.ImpSaldoAnt)
-                .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
-                .Value(x => x.IvaP, pagos.IvaP)
-                .Value(x => x.TipoCambioP, pagos.TipoCambioP)
-                .Value(x => x.FechaPago, pagos.FechaPago)
-                .Value(x => x.Xml, pagos.Xml)
-                .InsertAsync() > 0;
+                    .Value(x => x.IdFactura, pagos.IdFactura)
+                    .Value(x => x.UuidCobranza, pagos.UuidCobranza)
+                    .Value(x => x.IdMonedaP, pagos.IdMonedaP)
+                    .Value(x => x.ImportePagado, pagos.ImportePagado)
+                    .Value(x => x.ImpSaldoAnt, pagos.ImpSaldoAnt)
+                    .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
+                    .Value(x => x.IvaP, pagos.IvaP)
+                    .Value(x => x.TipoCambioP, pagos.TipoCambioP)
+                    .Value(x => x.FechaPago, pagos.FechaPago)
+                    .Value(x => x.Xml, pagos.Xml)
+                    .InsertAsync() > 0;
+
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar el pago." : string.Empty;
             }
+
             return resp;
         }
+
         //public Task<bool> CancelFactura( ) => UpdateEntityAsync<TB_ProyectoFactura>(factura);
+
         public async Task<(bool Success, string Message)> CancelFactura(TB_ProyectoFactura factura)
         {
             (bool Success, string Message) resp = (true, string.Empty);
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
@@ -254,11 +261,11 @@ namespace Bovis.Data
                 foreach (var nota in notas_factura)
                 {
                     var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
-                    .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
-                    {
-                        FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancelacion = factura.MotivoCancelacion
-                    })) > 0;
+                            .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
+                            {
+                                FechaCancelacion = factura.FechaCancelacion,
+                                MotivoCancelacion = factura.MotivoCancelacion
+                            })) > 0;
 
                     resp.Success = resp_nota;
                     resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
@@ -272,11 +279,11 @@ namespace Bovis.Data
                 foreach (var cobranza in cobranzas_factura)
                 {
                     var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
-                    .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
-                    {
-                        FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancelacion = factura.MotivoCancelacion
-                    })) > 0;
+                            .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
+                            {
+                                FechaCancelacion = factura.FechaCancelacion,
+                                MotivoCancelacion = factura.MotivoCancelacion
+                            })) > 0;
 
                     resp.Success = resp_cobranza;
                     resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
@@ -341,6 +348,7 @@ namespace Bovis.Data
             {
                 List<int> lstProyectosCliente = null;
                 List<int> lstProyectosEmpresa = null;
+
                 if (idCliente != null)
                 {
                     lstProyectosCliente = await (from a in db.tB_Proyectos

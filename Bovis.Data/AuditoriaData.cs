@@ -160,6 +160,7 @@ namespace Bovis.Data
                                                     where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoria
                                                     && documento.Fecha.Month == DateTime.Now.Month
                                                     && documento.Fecha.Year == DateTime.Now.Year
+                                                    && documento.Activo == true
                                                     select documento).ToListAsync();
 
                             doc.TieneDocumento = documentos.Count > 0 ? true : false;
@@ -171,6 +172,7 @@ namespace Bovis.Data
                             // Se obtiene la validación del último documento subido a la Auditoría
                             var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
                                                          where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoria
+                                                         && documento.Activo == true
                                                          orderby documento.Fecha descending
                                                          select documento).FirstOrDefaultAsync();
 
@@ -278,6 +280,7 @@ namespace Bovis.Data
                                                                 .Value(x => x.Fecha, DateTime.Now)
                                                                 .Value(x => x.DocumentoBase64, documento_base64)
                                                                 .Value(x => x.Valido, true)
+                                                                .Value(x => x.Activo, true)
                                                                 .InsertAsync() > 0;
 
                 resp.Success = insert_auditoriacumplimiento_documento;
@@ -293,6 +296,7 @@ namespace Bovis.Data
             {
                 var docs = await (from doc in db.tB_Auditoria_Cumplimiento_Documentos
                                   where doc.IdAuditoriaCumplimientoProyecto == IdAuditoria
+                                  && doc.Activo == true
                                   orderby doc.IdDocumento descending
                                   select doc)
                                   .Skip((offset - 1) * limit)
@@ -327,12 +331,22 @@ namespace Bovis.Data
                     int id_documento = Convert.ToInt32(r["id_documento"].ToString());
                     bool valido = Convert.ToBoolean(r["valido"].ToString());
 
-                    var res_valida_documento = await db.tB_Auditoria_Cumplimiento_Documentos
+                    var res_valida_documento = await (db.tB_Auditoria_Cumplimiento_Documentos
                                                 .Where(x => x.IdDocumento == id_documento)
                                                 .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Documento
                                                 {
                                                     Valido = valido
-                                                }) > 0;
+                                                })) > 0;
+
+                    if (valido == false)
+                    {
+                        var delete_documento = await (db.tB_Auditoria_Cumplimiento_Documentos
+                            .Where(x => x.IdDocumento == id_documento)
+                            .UpdateAsync(x => new TB_Auditoria_Cumplimiento_Documento
+                            {
+                                Activo = false
+                            })) > 0;
+                    }
 
                     resp.Success = res_valida_documento;
                     resp.Message = res_valida_documento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
