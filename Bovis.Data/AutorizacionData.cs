@@ -137,7 +137,7 @@ namespace Bovis.Data
                     perfiles.Add(perfil);
                 }
 
-                usuario_perfiles.Perfiles = perfiles;
+                usuario_perfiles.Perfiles = perfiles.OrderBy(x => x.Perfil).ToList();
 
                 return usuario_perfiles;
             }
@@ -233,7 +233,7 @@ namespace Bovis.Data
                     perfiles.Add(perfil);
                 }     
                 
-                modulo_perfiles.Perfiles = perfiles;               
+                modulo_perfiles.Perfiles = perfiles.OrderBy(x => x.Perfil).ToList();               
 
                 return modulo_perfiles;
             }
@@ -344,7 +344,7 @@ namespace Bovis.Data
                     permisos.Add(permiso);
                 }
 
-                perfil_permisos.Permisos = permisos;
+                perfil_permisos.Permisos = permisos.OrderBy(x => x.Permiso).ToList();
 
                 return perfil_permisos;
             }
@@ -377,13 +377,15 @@ namespace Bovis.Data
                                          {
                                              IdModulo = mod.IdModulo,
                                              Modulo = mod.Modulo,
+                                             SubModulo = mod.SubModulo,
+                                             IsTab = mod.IsTab,
                                              Activo = mod.Activo
                                          }).FirstOrDefaultAsync();
 
                     modulos.Add(modulo);
                 }
 
-                perfil_modulos.Modulos = modulos;
+                perfil_modulos.Modulos = modulos.OrderBy(x => x.Modulo).ToList();
 
                 return perfil_modulos;
             }

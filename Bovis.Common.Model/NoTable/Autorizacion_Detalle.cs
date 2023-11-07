@@ -35,8 +35,8 @@ namespace Bovis.Common.Model.NoTable
         public int IdModulo { get; set; }
         public string Modulo { get; set; }
         public string SubModulo { get; set; }
-        public bool Activo { get; set; }
         public bool IsTab { get; set; }
+        public bool Activo { get; set; }
     }
 
     public class Modulo_Perfiles_Detalle
