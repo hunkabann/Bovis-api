@@ -134,7 +134,8 @@ namespace Bovis.Data
                                             Activo = perf.Activo
                                         }).FirstOrDefaultAsync();
 
-                    perfiles.Add(perfil);
+                    if(perfil != null)
+                        perfiles.Add(perfil);
                 }
 
                 usuario_perfiles.Perfiles = perfiles.OrderBy(x => x.Perfil).ToList();
@@ -230,7 +231,8 @@ namespace Bovis.Data
                                           Activo = perf.Activo
                                       }).FirstOrDefaultAsync();
 
-                    perfiles.Add(perfil);
+                    if(perfil != null)
+                        perfiles.Add(perfil);
                 }     
                 
                 modulo_perfiles.Perfiles = perfiles.OrderBy(x => x.Perfil).ToList();               
@@ -341,7 +343,8 @@ namespace Bovis.Data
                                              Activo = perm.Activo
                                          }).FirstOrDefaultAsync();
 
-                    permisos.Add(permiso);
+                    if(permiso != null)
+                        permisos.Add(permiso);
                 }
 
                 perfil_permisos.Permisos = permisos.OrderBy(x => x.Permiso).ToList();
@@ -382,7 +385,8 @@ namespace Bovis.Data
                                              Activo = mod.Activo
                                          }).FirstOrDefaultAsync();
 
-                    modulos.Add(modulo);
+                    if(modulo != null)
+                        modulos.Add(modulo);
                 }
 
                 perfil_modulos.Modulos = modulos.OrderBy(x => x.Modulo).ToList();
