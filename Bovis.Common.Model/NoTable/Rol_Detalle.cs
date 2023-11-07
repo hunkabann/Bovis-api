@@ -23,6 +23,8 @@ namespace Bovis.Common.Model.NoTable
         public string chsub_modulo_slug { get; set; }
         public string chpermiso { get; set; }
         public string chpermiso_slug { get; set; }
+        public bool botab { get; set; }
+        public string chtab { get; set; }
         public List<string> perfiles { get; set; }
         public List<string> permisos { get; set; }
     }

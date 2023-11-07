@@ -168,9 +168,7 @@ namespace Bovis.Data
 
                     resp.Success = insert_perfil_usuario;
                     resp.Message = insert_perfil_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
-                }
-
-                
+                }                
             }
 
             return resp;
@@ -183,17 +181,74 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                //var modulos = await (from mod in db.tB_Modulos
+                //                      where mod.Activo == true
+                //                      orderby mod.Modulo ascending
+                //                      select new Modulo_Detalle
+                //                      {
+                //                          IdModulo = mod.IdModulo,
+                //                          Modulo = mod.Modulo,
+                //                          SubModulo = mod.SubModulo,
+                //                          Activo = mod.Activo,
+                //                          IsTab = mod.IsTab
+                //                      }).ToListAsync();
+
+                //return modulos;
+
                 var modulos = await (from mod in db.tB_Modulos
-                                      where mod.Activo == true
-                                      orderby mod.Modulo ascending
-                                      select new Modulo_Detalle
-                                      {
-                                          IdModulo = mod.IdModulo,
-                                          Modulo = mod.Modulo,
-                                          SubModulo = mod.SubModulo,
-                                          Activo = mod.Activo,
-                                          IsTab = mod.IsTab
-                                      }).ToListAsync();
+                                     where mod.Activo == true
+                                     orderby mod.Modulo ascending
+                                     select new Modulo_Detalle
+                                     {
+                                         IdModulo = mod.IdModulo,
+                                         Modulo = mod.Modulo,
+                                         Activo = mod.Activo
+                                     }).ToListAsync();
+
+                modulos = modulos.GroupBy(mod => mod.Modulo)
+                                            .Select(group => group.First())
+                                            .ToList();
+
+                foreach (var modulo in modulos)
+                {
+                    var submodulos = await (from sub in db.tB_Modulos
+                                            where sub.Activo == true
+                                            && sub.Modulo == modulo.Modulo
+                                            orderby sub.SubModulo ascending
+                                            select new Submodulo_Detalle
+                                            {
+                                                IdSubmodulo = sub.IdModulo,
+                                                SubModulo = sub.SubModulo,
+                                                Activo = sub.Activo
+                                            }).ToListAsync();
+
+                    submodulos = submodulos.GroupBy(sub => sub.SubModulo)
+                                                .Select(group => group.First())
+                                                .ToList();
+
+                    modulo.Submodulos = new List<Submodulo_Detalle>();
+                    modulo.Submodulos.AddRange(submodulos);
+
+                    foreach (var submodulo in submodulos)
+                    {
+                        var tabs = await (from tab in db.tB_Modulos
+                                          where tab.Activo == true
+                                          && tab.IsTab == true
+                                          && tab.SubModulo == submodulo.SubModulo
+                                          orderby tab.SubModulo ascending
+                                          select new Tab_Detalle
+                                          {
+                                              IdTab = tab.IdModulo,
+                                              Tab = tab.Tab,
+                                              IsTab = tab.IsTab,
+                                              Activo = tab.Activo
+                                          }).ToListAsync();                        
+
+                        submodulo.Tabs = new List<Tab_Detalle>();
+                        submodulo.Tabs.AddRange(tabs);
+                    }
+                }
+
 
                 return modulos;
             }
@@ -374,18 +429,67 @@ namespace Bovis.Data
 
                 foreach (var perf_modulo in perf_modulos)
                 {
-                    var modulo = await (from mod in db.tB_Modulos
-                                         where mod.IdModulo == perf_modulo.IdModulo
-                                         select new Modulo_Detalle
-                                         {
-                                             IdModulo = mod.IdModulo,
-                                             Modulo = mod.Modulo,
-                                             SubModulo = mod.SubModulo,
-                                             IsTab = mod.IsTab,
-                                             Activo = mod.Activo
-                                         }).FirstOrDefaultAsync();
+                    //var modulo = await (from mod in db.tB_Modulos
+                    //                     where mod.IdModulo == perf_modulo.IdModulo
+                    //                     select new Modulo_Detalle
+                    //                     {
+                    //                         IdModulo = mod.IdModulo,
+                    //                         Modulo = mod.Modulo,
+                    //                         SubModulo = mod.SubModulo,
+                    //                         IsTab = mod.IsTab,
+                    //                         Activo = mod.Activo
+                    //                     }).FirstOrDefaultAsync();
 
-                    if(modulo != null)
+                    var modulo = await (from mod in db.tB_Modulos
+                                        where mod.IdModulo == perf_modulo.IdModulo
+                                        select new Modulo_Detalle
+                                        {
+                                            IdModulo = mod.IdModulo,
+                                            Modulo = mod.Modulo,
+                                            Activo = mod.Activo
+                                        }).FirstOrDefaultAsync();
+
+                    var submodulos = await (from sub in db.tB_Modulos
+                                            where sub.Activo == true
+                                            && sub.Modulo == modulo.Modulo
+                                            orderby sub.SubModulo ascending
+                                            select new Submodulo_Detalle
+                                            {
+                                                IdSubmodulo = sub.IdModulo,
+                                                SubModulo = sub.SubModulo,
+                                                Activo = sub.Activo
+                                            }).ToListAsync();
+
+                    submodulos = submodulos.GroupBy(sub => sub.SubModulo)
+                                                .Select(group => group.First())
+                                                .ToList();
+
+                    modulo.Submodulos = new List<Submodulo_Detalle>();
+                    modulo.Submodulos.AddRange(submodulos);
+
+                    foreach (var submodulo in submodulos)
+                    {
+                        var tabs = await (from tab in db.tB_Modulos
+                                          where tab.Activo == true
+                                          && tab.IsTab == true
+                                          && tab.SubModulo == submodulo.SubModulo
+                                          orderby tab.SubModulo ascending
+                                          select new Tab_Detalle
+                                          {
+                                              IdTab = tab.IdModulo,
+                                              Tab = tab.Tab,
+                                              IsTab = tab.IsTab,
+                                              Activo = tab.Activo
+                                          }).ToListAsync();
+
+                        submodulo.Tabs = new List<Tab_Detalle>();
+                        submodulo.Tabs.AddRange(tabs);
+                    }
+
+
+                    ///
+                    ///
+                    if (modulo != null)
                         modulos.Add(modulo);
                 }
 

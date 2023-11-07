@@ -30,11 +30,35 @@ namespace Bovis.Common.Model.NoTable
 
 
     #region Módulos
+    //public class Modulo_Detalle
+    //{
+    //    public int IdModulo { get; set; }
+    //    public string Modulo { get; set; }
+    //    public string SubModulo { get; set; }
+    //    public bool IsTab { get; set; }
+    //    public bool Activo { get; set; }
+    //}
+
     public class Modulo_Detalle
     {
         public int IdModulo { get; set; }
-        public string Modulo { get; set; }
+        public string Modulo { get; set; }        
+        public bool Activo { get; set; }
+        public List<Submodulo_Detalle> Submodulos { get; set; }
+    }
+
+    public class Submodulo_Detalle
+    {
+        public int IdSubmodulo { get; set; }
         public string SubModulo { get; set; }
+        public bool Activo { get; set; }
+        public List<Tab_Detalle> Tabs { get; set; }
+    }
+
+    public class Tab_Detalle
+    {
+        public int IdTab { get; set; }
+        public string Tab { get; set; }
         public bool IsTab { get; set; }
         public bool Activo { get; set; }
     }
