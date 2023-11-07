@@ -39,6 +39,19 @@ namespace Bovis.Business
             return resp;
         }
         public Task<Usuario_Perfiles_Detalle> GetUsuarioPerfiles(int idUsuario) => _AutorizacionData.GetUsuarioPerfiles(idUsuario);
+        public async Task<(bool Success, string Message)> UpdateUsuarioPerfiles(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _AutorizacionData.UpdateUsuarioPerfiles((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+        public Task<(bool Success, string Message)> DeleteUsuario(int idUsuario) => _AutorizacionData.DeleteUsuario(idUsuario);
         #endregion Usuarios
 
         #region Módulos
@@ -49,6 +62,30 @@ namespace Bovis.Business
         #region Perfiles
         public Task<List<Perfil_Detalle>> GetPerfiles() => _AutorizacionData.GetPerfiles();
         public Task<Perfil_Permisos_Detalle> GetPerfilPermisos(int idPerfil) => _AutorizacionData.GetPerfilPermisos(idPerfil);
+        public async Task<(bool Success, string Message)> UpdatePerfilModulos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _AutorizacionData.UpdatePerfilModulos((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+        public async Task<(bool Success, string Message)> UpdatePerfilPermisos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _AutorizacionData.UpdatePerfilPermisos((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
         #endregion Perfiles
 
         #region Permisos

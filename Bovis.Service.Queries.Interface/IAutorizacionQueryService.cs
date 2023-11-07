@@ -15,6 +15,8 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Usuario_Detalle>>> GetUsuarios();
         Task<Response<(bool Success, string Message)>> AddUsuario(JsonObject registro);
         Task<Response<Usuario_Perfiles_Detalle>> GetUsuarioPerfiles(int idUsuario);
+        Task<Response<(bool Success, string Message)>> UpdateUsuarioPerfiles(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> DeleteUsuario(int idUsuario);
         #endregion Usuarios
 
         #region Módulos
@@ -25,6 +27,8 @@ namespace Bovis.Service.Queries.Interface
         #region Perfiles
         Task<Response<List<Perfil_Detalle>>> GetPerfiles();
         Task<Response<Perfil_Permisos_Detalle>> GetPerfilPermisos(int idPerfil);
+        Task<Response<(bool Success, string Message)>> UpdatePerfilModulos(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> UpdatePerfilPermisos(JsonObject registro);
         #endregion Perfiles
 
         #region Permisos

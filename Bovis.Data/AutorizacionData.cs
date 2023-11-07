@@ -123,6 +123,57 @@ namespace Bovis.Data
                 return usuario_perfiles;
             }
         }
+
+        public async Task<(bool Success, string Message)> UpdateUsuarioPerfiles(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_usuario = Convert.ToInt32(registro["id_usuario"].ToString());
+            JsonArray perfiles = registro["perfiles"].AsArray();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var delete_perfiles = await (db.tB_PerfilUsuarios.Where(x => x.IdUsuario == id_usuario)
+                                            .DeleteAsync()) > 0;
+
+                resp.Success = delete_perfiles;
+                resp.Message = delete_perfiles == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                foreach (var perfil in perfiles)
+                {
+                    var insert_perfil_usuario = await db.tB_PerfilUsuarios
+                        .Value(x => x.IdPerfil, Convert.ToInt32(perfil.ToString()))
+                        .Value(x => x.IdUsuario, id_usuario)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_perfil_usuario;
+                    resp.Message = insert_perfil_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+
+                
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteUsuario(int idUsuario)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_delete_usuario = await db.tB_Usuarios.Where(x => x.IdUsuario == idUsuario)
+                                .UpdateAsync(x => new TB_Usuario
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_delete_usuario;
+                resp.Message = res_delete_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
         #endregion Usuarios
 
         #region Módulos
@@ -245,6 +296,70 @@ namespace Bovis.Data
 
                 return perfil_permisos;
             }
+        }
+
+        public async Task<(bool Success, string Message)> UpdatePerfilModulos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_perfil = Convert.ToInt32(registro["id_perfil"].ToString());
+            JsonArray modulos = registro["modulos"].AsArray();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var delete_modulos = await (db.tB_PerfilModulos.Where(x => x.IdPerfil == id_perfil)
+                                            .DeleteAsync()) > 0;
+
+                resp.Success = delete_modulos;
+                resp.Message = delete_modulos == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                foreach (var modulo in modulos)
+                {
+                    var insert_modulo_perfil = await db.tB_PerfilModulos
+                        .Value(x => x.IdPerfil, id_perfil)
+                        .Value(x => x.IdModulo, Convert.ToInt32(modulo.ToString()))
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_modulo_perfil;
+                    resp.Message = insert_modulo_perfil == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+
+
+            }
+
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> UpdatePerfilPermisos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_perfil = Convert.ToInt32(registro["id_perfil"].ToString());
+            JsonArray permisos = registro["permisos"].AsArray();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var delete_permisos = await (db.tB_PerfilPermisos.Where(x => x.IdPerfil == id_perfil)
+                                            .DeleteAsync()) > 0;
+
+                resp.Success = delete_permisos;
+                resp.Message = delete_permisos == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                foreach (var permiso in permisos)
+                {
+                    var insert_permiso_perfil = await db.tB_PerfilPermisos
+                        .Value(x => x.IdPerfil, id_perfil)
+                        .Value(x => x.IdPermiso, Convert.ToInt32(permiso.ToString()))
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_permiso_perfil;
+                    resp.Message = insert_permiso_perfil == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+
+
+            }
+
+            return resp;
         }
         #endregion Perfiles
 

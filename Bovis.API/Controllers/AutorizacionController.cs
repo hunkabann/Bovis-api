@@ -78,6 +78,33 @@ namespace Bovis.API.Controllers
             if (query.Message.IsNullOrEmpty()) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpPut, Route("Usuario/Perfiles")]
+        public async Task<IActionResult> UpdateUsuarioPerfiles([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 1050);
+
+            var query = await _autorizacionQueryService.UpdateUsuarioPerfiles(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpDelete, Route("Usuarios/{idUsuario}")]
+        public async Task<IActionResult> DeleteUsuario(int idUsuario)
+        {
+            var query = await _autorizacionQueryService.DeleteUsuario(idUsuario);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Usuarios
 
         #region Módulos
@@ -128,6 +155,44 @@ namespace Bovis.API.Controllers
 
             var query = await _autorizacionQueryService.GetPerfilPermisos(idPerfil);
             if (query.Message.IsNullOrEmpty()) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpPut, Route("Perfil/Modulos")]
+        public async Task<IActionResult> UpdatePerfilModulos([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 1050);
+
+            var query = await _autorizacionQueryService.UpdatePerfilModulos(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpPut, Route("Perfil/Permisos")]
+        public async Task<IActionResult> UpdatePerfilPermisos([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 1050);
+
+            var query = await _autorizacionQueryService.UpdatePerfilPermisos(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
         #endregion Perfiles
