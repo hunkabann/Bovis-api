@@ -91,7 +91,7 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Usuario", email);
             registroJsonObject.Add("Roles", string.Empty);
             registroJsonObject.Add("TransactionId", TransactionId);
-            registroJsonObject.Add("Rel", 1050);
+            registroJsonObject.Add("Rel", 2055);
 
             var query = await _autorizacionQueryService.UpdateUsuarioPerfiles(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
@@ -170,7 +170,7 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Usuario", email);
             registroJsonObject.Add("Roles", string.Empty);
             registroJsonObject.Add("TransactionId", TransactionId);
-            registroJsonObject.Add("Rel", 1050);
+            registroJsonObject.Add("Rel", 2056);
 
             var query = await _autorizacionQueryService.UpdatePerfilModulos(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
@@ -189,7 +189,7 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Usuario", email);
             registroJsonObject.Add("Roles", string.Empty);
             registroJsonObject.Add("TransactionId", TransactionId);
-            registroJsonObject.Add("Rel", 1050);
+            registroJsonObject.Add("Rel", 2053);
 
             var query = await _autorizacionQueryService.UpdatePerfilPermisos(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
