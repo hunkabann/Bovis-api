@@ -81,6 +81,25 @@ namespace Bovis.Data
             return resp;
         }
 
+        public async Task<(bool Success, string Message)> DeleteUsuario(int idUsuario)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_delete_usuario = await db.tB_Usuarios.Where(x => x.IdUsuario == idUsuario)
+                                .UpdateAsync(x => new TB_Usuario
+                                {
+                                    Activo = false
+                                }) > 0;
+
+                resp.Success = res_delete_usuario;
+                resp.Message = res_delete_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
         public async Task<Usuario_Perfiles_Detalle> GetUsuarioPerfiles(int idUsuario)
         {
             Usuario_Perfiles_Detalle usuario_perfiles = new Usuario_Perfiles_Detalle();
@@ -155,26 +174,8 @@ namespace Bovis.Data
 
             return resp;
         }
-
-        public async Task<(bool Success, string Message)> DeleteUsuario(int idUsuario)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-
-            using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
-                var res_delete_usuario = await db.tB_Usuarios.Where(x => x.IdUsuario == idUsuario)
-                                .UpdateAsync(x => new TB_Usuario
-                                {
-                                    Activo = false
-                                }) > 0;
-
-                resp.Success = res_delete_usuario;
-                resp.Message = res_delete_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
-            }
-
-            return resp;
-        }
         #endregion Usuarios
+
 
         #region Módulos
         public async Task<List<Modulo_Detalle>> GetModulos()
@@ -239,6 +240,7 @@ namespace Bovis.Data
         }
         #endregion Módulos
 
+
         #region Perfiles
         public async Task<List<Perfil_Detalle>> GetPerfiles()
         {            
@@ -257,6 +259,56 @@ namespace Bovis.Data
 
                 return perfiles;
             }
+        }
+
+        public async Task<(bool Success, string Message)> AddPerfil(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            string perfil = registro["perfil"].ToString();
+            string descripcion = registro["descripcion"].ToString();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert_perfil = await db.tB_Perfils
+                        .Value(x => x.Perfil, perfil)
+                        .Value(x => x.Descripcion, descripcion)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
+
+                resp.Success = insert_perfil;
+                resp.Message = insert_perfil == default ? "Ocurrio un error al agregar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeletePerfil(int idPerfil)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var delete_perfil_modulo = await (db.tB_PerfilModulos.Where(x => x.IdPerfil == idPerfil)
+                                            .DeleteAsync()) > 0;
+
+                var delete_perfil_permiso = await (db.tB_PerfilPermisos.Where(x => x.IdPerfil == idPerfil)
+                                            .DeleteAsync()) > 0;
+
+                var delete_perfil_usuario = await (db.tB_PerfilUsuarios.Where(x => x.IdPerfil == idPerfil)
+                                            .DeleteAsync()) > 0;
+
+                var res_delete_perfil = await db.tB_Perfils.Where(x => x.IdPerfil == idPerfil)
+                                            .UpdateAsync(x => new TB_Perfil
+                                            {
+                                                Activo = false
+                                            }) > 0;
+
+                resp.Success = res_delete_perfil;
+                resp.Message = res_delete_perfil == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
         }
 
         public async Task<Perfil_Permisos_Detalle> GetPerfilPermisos(int idPerfil)
@@ -362,6 +414,7 @@ namespace Bovis.Data
             return resp;
         }
         #endregion Perfiles
+
 
         #region Permisos
         public async Task<List<Permiso_Detalle>> GetPermisos()

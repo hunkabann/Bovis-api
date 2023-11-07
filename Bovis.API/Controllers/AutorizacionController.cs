@@ -67,6 +67,14 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
+        [HttpDelete, Route("Usuarios/{idUsuario}")]
+        public async Task<IActionResult> DeleteUsuario(int idUsuario)
+        {
+            var query = await _autorizacionQueryService.DeleteUsuario(idUsuario);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
         [HttpGet, Route("Usuario/{idUsuario}/Perfiles")]
         public async Task<IActionResult> GetUsuarioPerfiles(int idUsuario)
         {
@@ -96,15 +104,7 @@ namespace Bovis.API.Controllers
             var query = await _autorizacionQueryService.UpdateUsuarioPerfiles(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
-        }
-
-        [HttpDelete, Route("Usuarios/{idUsuario}")]
-        public async Task<IActionResult> DeleteUsuario(int idUsuario)
-        {
-            var query = await _autorizacionQueryService.DeleteUsuario(idUsuario);
-            if (query.Message == string.Empty) return Ok(query);
-            else return BadRequest(query.Message);
-        }
+        }        
         #endregion Usuarios
 
         #region Módulos
@@ -143,6 +143,26 @@ namespace Bovis.API.Controllers
 
             var query = await _autorizacionQueryService.GetPerfiles();
             if (query.Message.IsNullOrEmpty()) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpPost, Route("Perfiles")]
+        public async Task<IActionResult> AddPerfil([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+
+            var query = await _autorizacionQueryService.AddPerfil(registro);
+            if (query.Message.IsNullOrEmpty()) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpDelete, Route("Perfiles/{idPerfil}")]
+        public async Task<IActionResult> DeletePerfil(int idPerfil)
+        {
+            var query = await _autorizacionQueryService.DeletePerfil(idPerfil);
+            if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
 
