@@ -29,6 +29,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> AddPerfil(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeletePerfil(int idPerfil);
         Task<Response<Perfil_Permisos_Detalle>> GetPerfilPermisos(int idPerfil);
+        Task<Response<Perfil_Modulos_Detalle>> GetPerfilModulos(int idPerfil);
         Task<Response<(bool Success, string Message)>> UpdatePerfilModulos(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdatePerfilPermisos(JsonObject registro);
         #endregion Perfiles

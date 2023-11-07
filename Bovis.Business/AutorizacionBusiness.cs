@@ -71,6 +71,7 @@ namespace Bovis.Business
         }
         public Task<(bool Success, string Message)> DeletePerfil(int idPerfil) => _AutorizacionData.DeletePerfil(idPerfil);
         public Task<Perfil_Permisos_Detalle> GetPerfilPermisos(int idPerfil) => _AutorizacionData.GetPerfilPermisos(idPerfil);
+        public Task<Perfil_Modulos_Detalle> GetPerfilModulos(int idPerfil) => _AutorizacionData.GetPerfilModulos(idPerfil);
         public async Task<(bool Success, string Message)> UpdatePerfilModulos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

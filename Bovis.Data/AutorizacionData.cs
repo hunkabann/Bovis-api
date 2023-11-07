@@ -350,6 +350,45 @@ namespace Bovis.Data
             }
         }
 
+        public async Task<Perfil_Modulos_Detalle> GetPerfilModulos(int idPerfil)
+        {
+            Perfil_Modulos_Detalle perfil_modulos = new Perfil_Modulos_Detalle();
+            List<Modulo_Detalle> modulos = new List<Modulo_Detalle>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var perfil = await (from perf in db.tB_Perfils
+                                    where perf.IdPerfil == idPerfil
+                                    select perf).FirstOrDefaultAsync();
+
+                perfil_modulos.IdPerfil = idPerfil;
+                perfil_modulos.Perfil = perfil.Perfil;
+                perfil_modulos.Descripcion = perfil.Descripcion;
+
+                var perf_modulos = await (from perf_mod in db.tB_PerfilModulos
+                                          where perf_mod.IdPerfil == idPerfil
+                                          select perf_mod).ToListAsync();
+
+                foreach (var perf_modulo in perf_modulos)
+                {
+                    var modulo = await (from mod in db.tB_Modulos
+                                         where mod.IdModulo == perf_modulo.IdModulo
+                                         select new Modulo_Detalle
+                                         {
+                                             IdModulo = mod.IdModulo,
+                                             Modulo = mod.Modulo,
+                                             Activo = mod.Activo
+                                         }).FirstOrDefaultAsync();
+
+                    modulos.Add(modulo);
+                }
+
+                perfil_modulos.Modulos = modulos;
+
+                return perfil_modulos;
+            }
+        }
+
         public async Task<(bool Success, string Message)> UpdatePerfilModulos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

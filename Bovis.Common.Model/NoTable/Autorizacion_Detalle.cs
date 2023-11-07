@@ -65,6 +65,14 @@ namespace Bovis.Common.Model.NoTable
         public string Descripcion { get; set; }
         public List<Permiso_Detalle> Permisos { get; set; }
     }
+
+    public class Perfil_Modulos_Detalle
+    {
+        public int IdPerfil { get; set; }
+        public string Perfil { get; set; }
+        public string Descripcion { get; set; }
+        public List<Modulo_Detalle> Modulos { get; set; }
+    }
     #endregion Perfiles
 
 

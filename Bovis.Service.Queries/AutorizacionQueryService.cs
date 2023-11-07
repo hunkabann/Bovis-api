@@ -105,6 +105,12 @@ namespace Bovis.Service.Queries
             var response = await _autorizacionBusiness.GetPerfilPermisos(idPerfil);
             return new Response<Perfil_Permisos_Detalle> { Data = _map.Map<Perfil_Permisos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+        
+        public async Task<Response<Perfil_Modulos_Detalle>> GetPerfilModulos(int idPerfil)
+        {
+            var response = await _autorizacionBusiness.GetPerfilModulos(idPerfil);
+            return new Response<Perfil_Modulos_Detalle> { Data = _map.Map<Perfil_Modulos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
 
         public async Task<Response<(bool Success, string Message)>> UpdatePerfilModulos(JsonObject registro)
         {

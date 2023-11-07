@@ -178,6 +178,18 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
+        [HttpGet, Route("Perfil/{idPerfil}/Modulos")]
+        public async Task<IActionResult> GetPerfilModulos(int idPerfil)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+
+            var query = await _autorizacionQueryService.GetPerfilModulos(idPerfil);
+            if (query.Message.IsNullOrEmpty()) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
         [HttpPut, Route("Perfil/Modulos")]
         public async Task<IActionResult> UpdatePerfilModulos([FromBody] JsonObject registro)
         {
