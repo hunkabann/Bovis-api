@@ -53,7 +53,7 @@ namespace Bovis.Data
         }
 
         public async Task<Rol_Detalle> GetRoles(string email)
-        {            
+        {
             using (var db = new ConnectionDB(dbConfig))
             {
                 var empleado = await (from emp in db.tB_Empleados
@@ -102,7 +102,7 @@ namespace Bovis.Data
                                     {
                                         var chpermiso = group.Any(item => item.chpermiso == "Administrador") ? "Administrador" : group.First().chpermiso;
 
-                                        return new Permiso_Detalle
+                                        return new Permiso_Modulo_Detalle
                                         {
                                             nukidmodulo = group.Key.nukidmodulo,
                                             chmodulo = group.Key.chmodulo,

@@ -11,10 +11,10 @@ namespace Bovis.Common.Model.NoTable
         public int nukidusuario { get; set; }
         public string chusuario { get; set; }
         public string chemail { get; set; }
-        public List<Permiso_Detalle> permisos { get; set; }
+        public List<Permiso_Modulo_Detalle> permisos { get; set; }
     }
 
-    public class Permiso_Detalle
+    public class Permiso_Modulo_Detalle
     {
         public int nukidmodulo { get; set; }
         public string chmodulo { get; set; }
