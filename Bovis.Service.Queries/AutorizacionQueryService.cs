@@ -64,8 +64,18 @@ namespace Bovis.Service.Queries
             var response = await _autorizacionBusiness.UpdateUsuarioPerfiles(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
-        
+
         #endregion Usuarios
+
+
+        #region Empleados
+        public async Task<Response<List<Empleado_BasicData>>> GetEmpleadosNoUsuarios()
+        {
+            var response = await _autorizacionBusiness.GetEmpleadosNoUsuarios();
+            return new Response<List<Empleado_BasicData>> { Data = _map.Map<List<Empleado_BasicData>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        #endregion Empleados
+
 
         #region Módulos
         public async Task<Response<List<Modulo_Detalle>>> GetModulos()
@@ -80,6 +90,7 @@ namespace Bovis.Service.Queries
             return new Response<Modulo_Perfiles_Detalle> { Data = _map.Map<Modulo_Perfiles_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         #endregion Módulos
+
 
         #region Perfiles
         public async Task<Response<List<Perfil_Detalle>>> GetPerfiles()
@@ -124,6 +135,7 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Perfiles
+
 
         #region Permisos
         public async Task<Response<List<Permiso_Detalle>>> GetPermisos()

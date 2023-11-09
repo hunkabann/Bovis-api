@@ -18,10 +18,17 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> UpdateUsuarioPerfiles(JsonObject registro);
         #endregion Usuarios
 
+
+        #region Empleados
+        Task<List<Empleado_BasicData>> GetEmpleadosNoUsuarios();
+        #endregion Empleados
+
+
         #region Módulos
         Task<List<Modulo_Detalle>> GetModulos();
         Task<Modulo_Perfiles_Detalle> GetModuloPerfiles(int idModulo);
         #endregion Módulos
+
 
         #region Perfiles
         Task<List<Perfil_Detalle>> GetPerfiles();
@@ -32,6 +39,7 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> UpdatePerfilModulos(JsonObject registro);
         Task<(bool Success, string Message)> UpdatePerfilPermisos(JsonObject registro);
         #endregion Perfiles
+
 
         #region Permisos
         Task<List<Permiso_Detalle>> GetPermisos();

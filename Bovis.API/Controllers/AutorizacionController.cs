@@ -104,8 +104,24 @@ namespace Bovis.API.Controllers
             var query = await _autorizacionQueryService.UpdateUsuarioPerfiles(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
-        }        
+        }
         #endregion Usuarios
+
+
+        #region Empleados
+        [HttpGet, Route("Empleados")]
+        public async Task<IActionResult> GetEmpleadosNoUsuarios()
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+
+            var query = await _autorizacionQueryService.GetEmpleadosNoUsuarios();
+            if (query.Message.IsNullOrEmpty()) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+        #endregion Empleados
+
 
         #region Módulos
         [HttpGet, Route("Modulos")]
@@ -132,6 +148,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
         #endregion Módulos
+
 
         #region Perfiles
         [HttpGet, Route("Perfiles")]
@@ -228,6 +245,7 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
         #endregion Perfiles
+
 
         #region Permisos
         [HttpGet, Route("Permisos")]

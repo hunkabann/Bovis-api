@@ -30,6 +30,7 @@ namespace Bovis.Business
 
         #region Usuarios
         public Task<List<Usuario_Detalle>> GetUsuarios() => _AutorizacionData.GetUsuarios();
+
         public async Task<(bool Success, string Message)> AddUsuario(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -38,8 +39,11 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+
         public Task<(bool Success, string Message)> DeleteUsuario(int idUsuario) => _AutorizacionData.DeleteUsuario(idUsuario);
+
         public Task<Usuario_Perfiles_Detalle> GetUsuarioPerfiles(int idUsuario) => _AutorizacionData.GetUsuarioPerfiles(idUsuario);
+
         public async Task<(bool Success, string Message)> UpdateUsuarioPerfiles(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -51,13 +55,21 @@ namespace Bovis.Business
                 _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
             }
             return resp;
-        }        
+        }
         #endregion Usuarios
+
+
+        #region Empleados
+        public Task<List<Empleado_BasicData>> GetEmpleadosNoUsuarios() => _AutorizacionData.GetEmpleadosNoUsuarios();
+        #endregion Empleados
+
 
         #region Módulos
         public Task<List<Modulo_Detalle>> GetModulos() => _AutorizacionData.GetModulos();
+
         public Task<Modulo_Perfiles_Detalle> GetModuloPerfiles(int idModulo) => _AutorizacionData.GetModuloPerfiles(idModulo);
         #endregion Módulos
+
 
         #region Perfiles
         public Task<List<Perfil_Detalle>> GetPerfiles() => _AutorizacionData.GetPerfiles();
@@ -70,8 +82,11 @@ namespace Bovis.Business
             return resp;
         }
         public Task<(bool Success, string Message)> DeletePerfil(int idPerfil) => _AutorizacionData.DeletePerfil(idPerfil);
+
         public Task<Perfil_Permisos_Detalle> GetPerfilPermisos(int idPerfil) => _AutorizacionData.GetPerfilPermisos(idPerfil);
+
         public Task<Perfil_Modulos_Detalle> GetPerfilModulos(int idPerfil) => _AutorizacionData.GetPerfilModulos(idPerfil);
+
         public async Task<(bool Success, string Message)> UpdatePerfilModulos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -84,6 +99,7 @@ namespace Bovis.Business
             }
             return resp;
         }
+
         public async Task<(bool Success, string Message)> UpdatePerfilPermisos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -97,6 +113,7 @@ namespace Bovis.Business
             return resp;
         }
         #endregion Perfiles
+
 
         #region Permisos
         public Task<List<Permiso_Detalle>> GetPermisos() => _AutorizacionData.GetPermisos();
