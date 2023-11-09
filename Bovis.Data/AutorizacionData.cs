@@ -88,6 +88,9 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
+                var delete_perfil_usuario = await (db.tB_PerfilUsuarios.Where(x => x.IdUsuario == idUsuario)
+                                            .DeleteAsync()) > 0;
+
                 var res_delete_usuario = await db.tB_Usuarios.Where(x => x.IdUsuario == idUsuario)
                                 .UpdateAsync(x => new TB_Usuario
                                 {
