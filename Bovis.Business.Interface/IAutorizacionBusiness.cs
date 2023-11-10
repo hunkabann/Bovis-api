@@ -33,7 +33,7 @@ namespace Bovis.Business.Interface
 
         #region Perfiles
         Task<List<Perfil_Detalle>> GetPerfiles();
-        Task<(bool Success, string Message)> AddPerfil(JsonObject registro);
+        Task<Perfil_Detalle> AddPerfil(JsonObject registro);
         Task<(bool Success, string Message)> DeletePerfil(int idPerfil);
         Task<Perfil_Permisos_Detalle> GetPerfilPermisos(int idPerfil);
         Task<Perfil_Modulos_Detalle> GetPerfilModulos(int idPerfil);

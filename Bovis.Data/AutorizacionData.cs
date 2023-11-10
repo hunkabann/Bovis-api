@@ -352,10 +352,8 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<(bool Success, string Message)> AddPerfil(JsonObject registro)
+        public async Task<Perfil_Detalle> AddPerfil(JsonObject registro)
         {
-            (bool Success, string Message) resp = (true, string.Empty);
-
             string perfil = registro["perfil"].ToString();
             string descripcion = registro["descripcion"].ToString();
 
@@ -365,13 +363,18 @@ namespace Bovis.Data
                         .Value(x => x.Perfil, perfil)
                         .Value(x => x.Descripcion, descripcion)
                         .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                        .InsertWithIdentityAsync();
 
-                resp.Success = insert_perfil;
-                resp.Message = insert_perfil == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                var newPerfil = new Perfil_Detalle
+                {
+                    IdPerfil = Convert.ToInt32(insert_perfil),
+                    Perfil = perfil,
+                    Descripcion = descripcion,
+                    Activo = true
+                };
+
+                return newPerfil;
             }
-
-            return resp;
         }
 
         public async Task<(bool Success, string Message)> DeletePerfil(int idPerfil)

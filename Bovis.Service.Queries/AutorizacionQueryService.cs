@@ -99,10 +99,10 @@ namespace Bovis.Service.Queries
             return new Response<List<Perfil_Detalle>> { Data = _map.Map<List<Perfil_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
-        public async Task<Response<(bool Success, string Message)>> AddPerfil(JsonObject registro)
+        public async Task<Response<Perfil_Detalle>> AddPerfil(JsonObject registro)
         {
             var response = await _autorizacionBusiness.AddPerfil(registro);
-            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+            return new Response<Perfil_Detalle> { Data = _map.Map<Perfil_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool Success, string Message)>> DeletePerfil(int idPerfil)

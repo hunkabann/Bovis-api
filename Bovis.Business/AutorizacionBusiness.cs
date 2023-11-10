@@ -73,14 +73,7 @@ namespace Bovis.Business
 
         #region Perfiles
         public Task<List<Perfil_Detalle>> GetPerfiles() => _AutorizacionData.GetPerfiles();
-        public async Task<(bool Success, string Message)> AddPerfil(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _AutorizacionData.AddPerfil(registro);
-            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
-            else resp = respData;
-            return resp;
-        }
+        public Task<Perfil_Detalle> AddPerfil(JsonObject registro) => _AutorizacionData.AddPerfil(registro);
         public Task<(bool Success, string Message)> DeletePerfil(int idPerfil) => _AutorizacionData.DeletePerfil(idPerfil);
 
         public Task<Perfil_Permisos_Detalle> GetPerfilPermisos(int idPerfil) => _AutorizacionData.GetPerfilPermisos(idPerfil);
