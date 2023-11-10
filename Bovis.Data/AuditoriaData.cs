@@ -135,7 +135,7 @@ namespace Bovis.Data
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
                                        where seccion.TipoAuditoria == TipoAuditoria
-                                       select seccion).ToListAsync();
+                                       select seccion).ToListAsync(); 
 
 
                 foreach (var seccion in secciones)
