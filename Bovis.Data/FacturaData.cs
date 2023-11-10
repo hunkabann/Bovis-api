@@ -185,6 +185,7 @@ namespace Bovis.Data
                                            && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
                                            && (Mes == 0 || notas.Mes == Mes)
                                            && (Anio == 0 || notas.Anio == Anio)
+                                           orderby notas.FechaNotaCredito descending
                                            select new NotaCredito_Detalle
                                            {
                                                nunum_proyecto = notas.NumProyecto,
