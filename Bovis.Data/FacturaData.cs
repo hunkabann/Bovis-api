@@ -170,7 +170,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura()
+        public async Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -182,6 +182,9 @@ namespace Bovis.Data
                                            join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
                                            from proyectosItem in proyectosJoin.DefaultIfEmpty()
                                            where notas.NumProyecto != null
+                                           && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
+                                           && (Mes == 0 || notas.Mes == Mes)
+                                           && (Anio == 0 || notas.Anio == Anio)
                                            select new NotaCredito_Detalle
                                            {
                                                nunum_proyecto = notas.NumProyecto,

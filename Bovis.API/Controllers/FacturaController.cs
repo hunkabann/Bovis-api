@@ -72,10 +72,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpGet, Route("NotaCredito")]
-        public async Task<IActionResult> GetNotaCreditoSinFactura()
+        [HttpGet, Route("NotaCredito/{NumProyecto}/{Mes}/{Anio}")]
+        public async Task<IActionResult> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio)
         {
-            var query = await _facturaQueryService.GetNotaCreditoSinFactura();
+            var query = await _facturaQueryService.GetNotaCreditoSinFactura(NumProyecto, Mes, Anio);
             if (query.Message.IsNullOrEmpty()) return Ok(query);
             else return BadRequest(query.Message);
         }
