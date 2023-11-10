@@ -12,8 +12,10 @@ namespace Bovis.Common.Model.Tables
         [Column("Dtfecha"), Nullable] public DateTime Fecha { get; set; }
         [Column("Chpunto"), Nullable] public string Punto { get; set; }
         [Column("Nukidseccion"), Nullable] public int IdSeccion { get; set; }
-        [Column("Chcumplimiento"), Nullable] public string Cumplimiento { get; set; }
+        [Column("Chcumplimiento_calidad"), Nullable] public string CumplimientoCalidad { get; set; }
+        [Column("Chcumplimiento_legal"), Nullable] public string CumplimientoLegal { get; set; }
         [Column("Chdocumento_ref"), Nullable] public string DocumentoRef { get; set; }
+        [Column("Chtipo_auditoria"), Nullable] public string TipoAuditoria { get; set; }
         [Column("Boaplica"), NotNull] public bool Aplica { get; set; }
         [Column("Chmotivo"), Nullable] public string Motivo { get; set; }
 

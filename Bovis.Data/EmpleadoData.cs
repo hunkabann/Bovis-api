@@ -576,6 +576,14 @@ namespace Bovis.Data
                     resp.Success = res_update_requerimiento;
                     resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
+
+                var insert_usuario = await db.tB_Usuarios
+                        .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
+
+                resp.Success = insert_usuario;
+                resp.Message = insert_usuario == default ? "Ocurrio un error al agregar registro." : string.Empty;
             }
             return resp;
         }

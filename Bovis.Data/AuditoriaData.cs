@@ -128,7 +128,7 @@ namespace Bovis.Data
                                       Fecha = catItem.Fecha,
                                       Punto = catItem.Punto,
                                       IdSeccion = catItem.IdSeccion,
-                                      Cumplimiento = catItem.Cumplimiento,
+                                      Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad : catItem.CumplimientoLegal,
                                       DocumentoRef = catItem.DocumentoRef,
                                       Aplica = doc.Aplica
                                   }).ToListAsync();
