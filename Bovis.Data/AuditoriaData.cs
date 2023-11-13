@@ -101,6 +101,7 @@ namespace Bovis.Data
 
                     var docs = await (from doc in db.tB_Cat_Auditoria_Cumplimientos
                                       where doc.IdSeccion == seccion.IdSeccion
+                                      && (doc.TipoAuditoria == TipoAuditoria || doc.TipoAuditoria == "ambos")
                                       select doc).ToListAsync();
 
                     auditoria.Auditorias.AddRange(docs);
