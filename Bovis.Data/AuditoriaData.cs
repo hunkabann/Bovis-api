@@ -126,6 +126,7 @@ namespace Bovis.Data
                                   join sec in db.tB_Cat_Auditoria_Cumplimiento_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
                                   from secItem in secJoin.DefaultIfEmpty()
                                   where audit.IdProyecto == IdProyecto
+                                  && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
                                   select new Auditoria_Detalle
                                   {
                                       IdAuditoriaProyecto = audit.IdAuditoriaCumplimientoProyecto,
