@@ -25,6 +25,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class Auditoria_Detalle
     {
+        public int? IdAuditoriaProyecto { get; set; }
         public int? IdAuditoria { get; set; }
         public int? IdProyecto { get; set; }
         public int? IdDirector { get; set; }
@@ -32,9 +33,11 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? Fecha { get; set; }
         public string? Punto { get; set; }
         public int? IdSeccion { get; set; }
+        public string ChSeccion { get; set; }
         public string? Cumplimiento { get; set; }
         public string DocumentoRef { get; set; }
         public bool? Aplica { get; set; }
+        public string TipoAuditoria { get; set; }
         public bool? TieneDocumento { get; set; }
         public int? IdDocumento { get; set; }
         public bool? UltimoDocumentoValido { get; set; }

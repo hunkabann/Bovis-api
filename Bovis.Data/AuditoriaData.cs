@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using static LinqToDB.Reflection.Methods.LinqToDB.Insert;
 
 namespace Bovis.Data
 {
@@ -77,6 +78,9 @@ namespace Bovis.Data
 
 
 
+
+
+
         #region Auditoria de Calidad (Cumplimiento)
         public async Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria)
         {
@@ -110,31 +114,84 @@ namespace Bovis.Data
 
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
-            List<Documentos_Auditoria_Proyecto_Detalle> auditorias = new List<Documentos_Auditoria_Proyecto_Detalle>();
+            List<Documentos_Auditoria_Proyecto_Detalle> documentos_auditoria = new List<Documentos_Auditoria_Proyecto_Detalle>();
+            Documentos_Auditoria_Proyecto_Detalle documento_auditoria = null;
             int totalDocumentos = 0;
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var docs = await (from doc in db.tB_Auditoria_Cumplimiento_Proyectos
-                                  join cat in db.tB_Cat_Auditoria_Cumplimientos on doc.IdAuditoriaCumplimiento equals cat.IdAuditoriaCumplimiento into catJoin
+                var audits = await (from audit in db.tB_Auditoria_Cumplimiento_Proyectos
+                                  join cat in db.tB_Cat_Auditoria_Cumplimientos on audit.IdAuditoriaCumplimiento equals cat.IdAuditoriaCumplimiento into catJoin
                                   from catItem in catJoin.DefaultIfEmpty()
-                                  where doc.IdProyecto == IdProyecto
+                                  join sec in db.tB_Cat_Auditoria_Cumplimiento_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                  from secItem in secJoin.DefaultIfEmpty()
+                                  where audit.IdProyecto == IdProyecto
                                   select new Auditoria_Detalle
                                   {
-                                      IdAuditoria = doc.IdAuditoriaCumplimientoProyecto,
-                                      IdProyecto = doc.IdProyecto,
+                                      IdAuditoriaProyecto = audit.IdAuditoriaCumplimientoProyecto,
+                                      IdAuditoria = audit.IdAuditoriaCumplimiento,
+                                      IdProyecto = audit.IdProyecto,
                                       IdDirector = catItem.IdDirector,
                                       Mes = catItem.Mes,
                                       Fecha = catItem.Fecha,
                                       Punto = catItem.Punto,
-                                      IdSeccion = catItem.IdSeccion,
+                                      IdSeccion = catItem != null ? catItem.IdSeccion : 0,
+                                      ChSeccion = secItem != null ? secItem.Seccion : string.Empty,
                                       Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad : catItem.CumplimientoLegal,
                                       DocumentoRef = catItem.DocumentoRef,
-                                      Aplica = doc.Aplica
+                                      TipoAuditoria = catItem.TipoAuditoria ?? string.Empty,
+                                      Aplica = audit.Aplica
                                   }).ToListAsync();
+
+
+                /*
+                foreach(var audit in audits)
+                {
+                    if(documento_auditoria == null)
+                        documento_auditoria = new Documentos_Auditoria_Proyecto_Detalle();
+                    int count_aplica = 0;      
+                    
+
+                    if (audit.Aplica == true)
+                        count_aplica++;
+
+                    var docs = await (from doc in db.tB_Auditoria_Cumplimiento_Documentos
+                                      where doc.IdAuditoriaCumplimientoProyecto == audit.IdAuditoriaProyecto
+                                      select doc).ToListAsync();
+
+                    audit.TieneDocumento = docs.Count > 0;
+                    audit.CantidadDocumentos = docs.Count;
+                    audit.CantidadDocumentosValidados = docs.Where(x => x.Valido == true).Count();
+                    totalDocumentos += docs.Count;
+                    documento_auditoria.TotalDocumentos = totalDocumentos;
+                    documento_auditoria.Auditorias = new List<Auditoria_Detalle>();
+                    documento_auditoria.Auditorias.Add(audit);
+
+                    // Se obtiene la validación del último documento subido a la Auditoría
+                    var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
+                                                 where documento.IdAuditoriaCumplimientoProyecto == audit.IdAuditoria
+                                                 && documento.Activo == true
+                                                 orderby documento.Fecha descending
+                                                 select documento).FirstOrDefaultAsync();
+
+                    if (ultimoDocumento != null)
+                    {
+                        audit.IdDocumento = ultimoDocumento.IdDocumento;
+                        audit.UltimoDocumentoValido = ultimoDocumento.Valido;
+                    }
+
+                    // Se obtiene el promedio de documentos
+                    decimal porcentaje = (count_aplica > 0) ? (((decimal)count_aplica / audits.Count) * 100) : 0;
+                    documento_auditoria.NuProcentaje = Math.Round(porcentaje);
+                    documentos_auditoria.Add(documento_auditoria);
+                }
+                */
+
+
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Cumplimiento_Seccions
                                        where seccion.TipoAuditoria == TipoAuditoria
+                                       || seccion.TipoAuditoria == "ambos"
                                        select seccion).ToListAsync(); 
 
 
@@ -147,55 +204,55 @@ namespace Bovis.Data
                     auditoria.ChSeccion = seccion.Seccion;
                     auditoria.Auditorias = new List<Auditoria_Detalle>();
 
-                    foreach (var doc in docs)
+                    foreach (var audit in audits)
                     {
-                        if (seccion.IdSeccion == doc.IdSeccion)
+                        if (seccion.IdSeccion == audit.IdSeccion)
                         {
                             if (auditoria.Auditorias == null)
                                 auditoria.Auditorias = new List<Auditoria_Detalle>();
-                            auditoria.Auditorias.Add(doc);
+                            auditoria.Auditorias.Add(audit);
 
                             // Se obtiene el conteo de documntos por Auditoría
                             var documentos = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
-                                                    where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoria
+                                                    where documento.IdAuditoriaCumplimientoProyecto == audit.IdAuditoria
                                                     && documento.Fecha.Month == DateTime.Now.Month
                                                     && documento.Fecha.Year == DateTime.Now.Year
                                                     && documento.Activo == true
                                                     select documento).ToListAsync();
 
-                            doc.TieneDocumento = documentos.Count > 0 ? true : false;
-                            doc.CantidadDocumentos = documentos.Count;
-                            doc.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
+                            audit.TieneDocumento = documentos.Count > 0 ? true : false;
+                            audit.CantidadDocumentos = documentos.Count;
+                            audit.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
                             totalDocumentos += documentos.Count;
                             auditoria.TotalDocumentos = totalDocumentos;
 
                             // Se obtiene la validación del último documento subido a la Auditoría
                             var ultimoDocumento = await (from documento in db.tB_Auditoria_Cumplimiento_Documentos
-                                                         where documento.IdAuditoriaCumplimientoProyecto == doc.IdAuditoria
+                                                         where documento.IdAuditoriaCumplimientoProyecto == audit.IdAuditoria
                                                          && documento.Activo == true
                                                          orderby documento.Fecha descending
                                                          select documento).FirstOrDefaultAsync();
 
                             if (ultimoDocumento != null)
                             {
-                                doc.IdDocumento = ultimoDocumento.IdDocumento;
-                                doc.UltimoDocumentoValido = ultimoDocumento.Valido;
+                                audit.IdDocumento = ultimoDocumento.IdDocumento;
+                                audit.UltimoDocumentoValido = ultimoDocumento.Valido;
                             }
 
                             count_auditorias_seccion++;
 
-                            if (doc.Aplica == true)
+                            if (audit.Aplica == true)
                                 count_aplica++;
                         }
                     }
 
                     decimal porcentaje = (count_aplica > 0 && count_auditorias_seccion > 0) ? (((decimal)count_aplica / count_auditorias_seccion) * 100) : 0;
                     auditoria.NuProcentaje = Math.Round(porcentaje);
-                    auditorias.Add(auditoria);
+                    documentos_auditoria.Add(auditoria);
                 }
             }
 
-            return auditorias;
+            return documentos_auditoria;
         }
 
         public async Task<(bool Success, string Message)> AddAuditorias(JsonObject registro)
