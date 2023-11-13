@@ -137,7 +137,9 @@ namespace Bovis.Data
                                       Punto = catItem.Punto,
                                       IdSeccion = catItem != null ? catItem.IdSeccion : 0,
                                       ChSeccion = secItem != null ? secItem.Seccion : string.Empty,
-                                      Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad : catItem.CumplimientoLegal,
+                                      Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad
+                                                                                : TipoAuditoria == "legal" ? catItem.CumplimientoLegal
+                                                                                : catItem.CumplimientoCalidad,
                                       DocumentoRef = catItem.DocumentoRef,
                                       TipoAuditoria = catItem.TipoAuditoria ?? string.Empty,
                                       Aplica = audit.Aplica
