@@ -276,7 +276,7 @@ namespace Bovis.Data
                 {
                     int id_auditoria = Convert.ToInt32(a["id_auditoria"].ToString());
                     bool aplica = Convert.ToBoolean(a["aplica"].ToString());
-                    string motivo = a["motivo"].ToString();
+                    string motivo = a["motivo"] != null ? a["motivo"].ToString() : string.Empty;
 
                     var insert_auditoriacumplimiento_proyecto = await db.tB_Auditoria_Cumplimiento_Proyectos
                                                                 .Value(x => x.IdAuditoriaCumplimiento, id_auditoria)
