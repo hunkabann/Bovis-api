@@ -11,7 +11,7 @@ namespace Bovis.Common.Model.NoTable
     {
         public int? IdSeccion { get; set; }
         public string? ChSeccion { get; set; }
-        public List<TB_Cat_Auditoria_Cumplimiento>? Auditorias { get; set; }
+        public List<TB_Cat_Auditoria>? Auditorias { get; set; }
     }
 
     public class Documentos_Auditoria_Proyecto_Detalle

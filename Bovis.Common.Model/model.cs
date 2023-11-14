@@ -5,16 +5,14 @@ using LinqToDB.Data;
 namespace Bovis.Common.Model
 {
 	public partial class ConnectionDB : DataConnection
-	{		
-        public ITable<TB_Auditoria_Contractual_Proyecto> tB_Auditoria_Contractual_Proyectos { get { return this.GetTable<TB_Auditoria_Contractual_Proyecto>(); } }
-        public ITable<TB_Auditoria_Cumplimiento> tB_Auditoria_Cumplimientos { get { return this.GetTable<TB_Auditoria_Cumplimiento>(); } }
-        public ITable<TB_Auditoria_Cumplimiento_Documento> tB_Auditoria_Cumplimiento_Documentos { get { return this.GetTable<TB_Auditoria_Cumplimiento_Documento>(); } }
-        public ITable<TB_Auditoria_Cumplimiento_Proyecto> tB_Auditoria_Cumplimiento_Proyectos { get { return this.GetTable<TB_Auditoria_Cumplimiento_Proyecto>(); } }
+	{		        
+        public ITable<TB_Auditoria> tB_Auditorias { get { return this.GetTable<TB_Auditoria>(); } }
+        public ITable<TB_Auditoria_Documento> tB_Auditoria_Documentos { get { return this.GetTable<TB_Auditoria_Documento>(); } }
+        public ITable<TB_Auditoria_Proyecto> tB_Auditoria_Proyectos { get { return this.GetTable<TB_Auditoria_Proyecto>(); } }
         public ITable<TB_Banco> tB_Bancos { get { return this.GetTable<TB_Banco>(); } }
-		public ITable<TB_Bitacora> tB_Bitacoras { get { return this.GetTable<TB_Bitacora>(); } }
-        public ITable<TB_Cat_Auditoria_Contractual> tB_Cat_Auditoria_Contractuals { get { return this.GetTable<TB_Cat_Auditoria_Contractual>(); } }
-        public ITable<TB_Cat_Auditoria_Cumplimiento> tB_Cat_Auditoria_Cumplimientos { get { return this.GetTable<TB_Cat_Auditoria_Cumplimiento>(); } }
-        public ITable<TB_Cat_Auditoria_Cumplimiento_Seccion> tB_Cat_Auditoria_Cumplimiento_Seccions { get { return this.GetTable<TB_Cat_Auditoria_Cumplimiento_Seccion>(); } }
+		public ITable<TB_Bitacora> tB_Bitacoras { get { return this.GetTable<TB_Bitacora>(); } }        
+        public ITable<TB_Cat_Auditoria> tB_Cat_Auditorias { get { return this.GetTable<TB_Cat_Auditoria>(); } }
+        public ITable<TB_Cat_Auditoria_Seccion> tB_Cat_Auditoria_Seccions { get { return this.GetTable<TB_Cat_Auditoria_Seccion>(); } }
 		public ITable<TB_Cat_Beneficio> tB_Cat_Beneficios { get { return this.GetTable<TB_Cat_Beneficio>(); } }
 		public ITable<TB_Cat_Categoria> tB_Cat_Categorias { get { return this.GetTable<TB_Cat_Categoria>(); } }
 		public ITable<TB_Cat_Clasificacion> tB_Cat_Clasificacions { get { return this.GetTable<TB_Cat_Clasificacion>(); } }
