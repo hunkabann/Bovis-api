@@ -3,6 +3,9 @@ using Bovis.Common.Model.Tables;
 using Bovis.Common.Model.NoTable;
 using Bovis.Data.Interface;
 using System.Text.Json.Nodes;
+using Bovis.Common.Model.DTO;
+using System.Security.Cryptography.X509Certificates;
+using Bovis.Common;
 
 namespace Bovis.Business
 {
@@ -22,8 +25,71 @@ namespace Bovis.Business
         }
         #endregion base
 
-        public Task<(bool Success, string Message)> AddCosto(JsonObject registro) => _costoData.AddCosto(registro);
-        public Task<List<Costo_Detalle>> GetCostos(int IdCosto) => _costoData.GetCostos(IdCosto);
+        #region AddCosto
+        public async Task<Response<decimal>> AddCosto(CostoPorEmpleadoDTO source)
+        {
+            TB_Costo_Por_Empleado destination = new(); 
+            destination = CostoBusinessUpdate.ValueFields(source);
+            var response = await _costoData.AddCosto(destination);
+            return response; 
+        }
+        #endregion
+
+        #region GetCostos
+        public async Task<List<TB_Costo_Por_Empleado>> GetCostos(bool hist) => await _costoData.GetCostos(hist);
+        #endregion
+
+        #region GetCosto
+        public Task<TB_Costo_Por_Empleado> GetCosto(int IdCosto) => _costoData.GetCosto(IdCosto);
+        #endregion
+
+        #region GetCostosEmpleado
+        public Task<Response<List<TB_Costo_Por_Empleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
+        {
+            return _costoData.GetCostosEmpleado(NumEmpleadoRrHh, hist);
+        }
+        #endregion
+
+        #region GetCostoEmpleado
+        public Task<Response<List<TB_Costo_Por_Empleado>>> GetCostoEmpleado(int NumEmpleado, int anno, int mes, bool hist = false)
+        {
+            return _costoData.GetCostoEmpleado(NumEmpleado, anno, mes, hist);
+        }
+        #endregion
+
+        #region GetCostosBetweenDates
+        public Task<Response<List<TB_Costo_Por_Empleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min,int anno_max,int mes_max, bool hist)
+        {
+            return _costoData.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, hist);
+           
+        }
+        #endregion
+
+        #region GetCostoLaborable
+        public Task<Response<decimal>> GetCostoLaborable(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
+        {
+            return _costoData.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max);
+        }
+        #endregion
+
+        #region UpdeateCostos
+
+        public async Task<Response<TB_Costo_Por_Empleado>> UpdateCostos(int costoId, CostoPorEmpleadoDTO source)
+        {
+            TB_Costo_Por_Empleado destination = new();
+            destination = CostoBusinessUpdate.ValueFields(source); 
+            var response = await _costoData.UpdateCostos(costoId, destination);
+            return response;
+        }
+        #endregion
+
+        #region DeleteCosto
+        public Task<Response<bool>> DeleteCosto(int costoId)
+        {
+            var response = _costoData.DeleteCosto(costoId);
+            return response;
+        }
+        #endregion 
 
     }
 }

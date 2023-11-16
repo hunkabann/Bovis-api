@@ -32,6 +32,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bovis.Business.Interface", "Bovis.Business.Interface\Bovis.Business.Interface.csproj", "{BCB52E65-2848-4724-A276-35F55A78BB68}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bovis.Business", "Bovis.Business\Bovis.Business.csproj", "{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A8A291C0-6485-492A-91B6-02098A50C03D} = {A8A291C0-6485-492A-91B6-02098A50C03D}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bovis.Service.EventHandlers", "Bovis.Service.EventHandlers\Bovis.Service.EventHandlers.csproj", "{1DB8E8A2-79E3-4A98-A1F9-7B3898BAAA1B}"
 EndProject
