@@ -588,8 +588,9 @@ namespace Bovis.Data
                 resp.Success = insert_usuario != null;
                 resp.Message = insert_usuario == default ? "Ocurrio un error al agregar registro." : string.Empty;
 
+                // Se le asigna por default el perfil Inicial.
                 var perfil_inicial = await (from perfil in db.tB_Perfils
-                                            where perfil.Perfil == "Inicial"
+                                            where perfil.Perfil == "General / TimeSheet / PEC"
                                             && perfil.Activo == true
                                             select perfil).FirstOrDefaultAsync();
 
