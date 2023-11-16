@@ -555,10 +555,10 @@ namespace Bovis.Data
                         int id_experiencia = Convert.ToInt32(experiencia.ToString());
 
                         var insert_experiencia = await db.tB_Empleado_Experiencias
-                            .Value(x => x.IdEmpleado, num_empleado_rr_hh)
-                            .Value(x => x.IdExperiencia, id_experiencia)
-                            .Value(x => x.Activo, true)
-                            .InsertAsync() > 0;
+                                                .Value(x => x.IdEmpleado, num_empleado_rr_hh)
+                                                .Value(x => x.IdExperiencia, id_experiencia)
+                                                .Value(x => x.Activo, true)
+                                                .InsertAsync() > 0;
 
                         resp.Success = insert_experiencia;
                         resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
@@ -577,13 +577,30 @@ namespace Bovis.Data
                     resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
 
+                //
+                // Se inserta también como nuevo usuario.
+                //
                 var insert_usuario = await db.tB_Usuarios
                         .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
                         .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                        .InsertWithIdentityAsync();
 
-                resp.Success = insert_usuario;
+                resp.Success = insert_usuario != null;
                 resp.Message = insert_usuario == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+                var perfil_inicial = await (from perfil in db.tB_Perfils
+                                            where perfil.Perfil == "Inicial"
+                                            && perfil.Activo == true
+                                            select perfil).FirstOrDefaultAsync();
+
+                var insert_perfil_usuario = await db.tB_PerfilUsuarios
+                                                    .Value(x => x.IdPerfil, perfil_inicial.IdPerfil)
+                                                    .Value(x => x.IdUsuario, Convert.ToInt32(insert_usuario))
+                                                    .InsertAsync() > 0;
+
+                resp.Success = insert_perfil_usuario;
+                resp.Message = insert_perfil_usuario == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+
             }
             return resp;
         }
