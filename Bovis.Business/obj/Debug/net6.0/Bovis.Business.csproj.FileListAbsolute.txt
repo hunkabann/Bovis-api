@@ -92,3 +92,5 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\obj\
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\obj\Debug\net6.0\ref\Bovis.Business.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
