@@ -156,48 +156,55 @@ namespace Bovis.Data
                 return res;
             }
         }
-        public async Task<List<Cie_Detalle>> GetRegistros(bool? activo, int offset, int limit)
+        public async Task<Cie_Registros> GetRegistros(bool? activo, int offset, int limit)
         {
-            if (activo.HasValue)
+            Cie_Registros registros = new Cie_Registros();
+
+            using (var db = new ConnectionDB(dbConfig))
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cie in db.tB_Cie_Datas
-                                                                          join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
-                                                                          from archivoItem in archivoJoin.DefaultIfEmpty()
-                                                                          where cie.Activo == activo
-                                                                          orderby cie.IdCieData ascending
-                                                                          select new Cie_Detalle
-                                                                          {
-                                                                              IdCie = cie.IdCieData,
-                                                                              NombreCuenta = cie.NombreCuenta,
-                                                                              Cuenta = cie.Cuenta,
-                                                                              TipoPoliza = cie.TipoPoliza,
-                                                                              Numero = cie.Numero,
-                                                                              Fecha = cie.Fecha,
-                                                                              Mes = cie.Mes,
-                                                                              Concepto = cie.Concepto,
-                                                                              CentroCostos = cie.CentroCostos,
-                                                                              Proyectos = cie.Proyectos,
-                                                                              SaldoInicial = cie.SaldoInicial,
-                                                                              Debe = cie.Debe,
-                                                                              Haber = cie.Haber,
-                                                                              Movimiento = cie.Movimiento,
-                                                                              Empresa = cie.Empresa,
-                                                                              NumProyecto = cie.NumProyecto,
-                                                                              TipoCuenta = cie.TipoCuenta,
-                                                                              EdoResultados = cie.EdoResultados,
-                                                                              Responsable = cie.Responsable,
-                                                                              TipoProyecto = cie.TipoProyecto,
-                                                                              TipoPy = cie.TipoPY,
-                                                                              ClasificacionPy = cie.ClasificacionPY,
-                                                                              Activo = cie.Activo,
-                                                                              IdArchivo = cie.IdArchivo,
-                                                                              NombreArchivo = archivoItem.NombreArchivo ?? null
-                                                                          })
-                                                                          .Skip((offset - 1) * limit)
-                                                                          .Take(limit)
-                                                                          .ToListAsync();
+                registros.Registros = await (from cie in db.tB_Cie_Datas
+                                             join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
+                                             from archivoItem in archivoJoin.DefaultIfEmpty()
+                                             where cie.Activo == activo
+                                             orderby cie.IdCieData ascending
+                                             select new Cie_Detalle
+                                             {
+                                                 IdCie = cie.IdCieData,
+                                                 NombreCuenta = cie.NombreCuenta,
+                                                 Cuenta = cie.Cuenta,
+                                                 TipoPoliza = cie.TipoPoliza,
+                                                 Numero = cie.Numero,
+                                                 Fecha = cie.Fecha,
+                                                 Mes = cie.Mes,
+                                                 Concepto = cie.Concepto,
+                                                 CentroCostos = cie.CentroCostos,
+                                                 Proyectos = cie.Proyectos,
+                                                 SaldoInicial = cie.SaldoInicial,
+                                                 Debe = cie.Debe,
+                                                 Haber = cie.Haber,
+                                                 Movimiento = cie.Movimiento,
+                                                 Empresa = cie.Empresa,
+                                                 NumProyecto = cie.NumProyecto,
+                                                 TipoCuenta = cie.TipoCuenta,
+                                                 EdoResultados = cie.EdoResultados,
+                                                 Responsable = cie.Responsable,
+                                                 TipoProyecto = cie.TipoProyecto,
+                                                 TipoPy = cie.TipoPY,
+                                                 ClasificacionPy = cie.ClasificacionPY,
+                                                 Activo = cie.Activo,
+                                                 IdArchivo = cie.IdArchivo,
+                                                 NombreArchivo = archivoItem.NombreArchivo ?? null
+                                             })
+                                     .Skip((offset - 1) * limit)
+                                     .Take(limit)
+                                     .ToListAsync();
+
+                registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
+                                                  where cie.Activo == activo
+                                                  select cie).CountAsync();
+
+                return registros;
             }
-            else return await GetAllFromEntityAsync<Cie_Detalle>();
         }
 
         public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)

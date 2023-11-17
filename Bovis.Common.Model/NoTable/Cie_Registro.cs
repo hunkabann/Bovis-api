@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace Bovis.Common.Model.NoTable
 {
+    public class Cie_Registros
+    {
+        public int TotalRegistros {  get; set; }
+        public List<Cie_Detalle> Registros { get; set;}
+    }
+
     public class Cie_Detalle
     {
         public int IdCie { get; set; }
