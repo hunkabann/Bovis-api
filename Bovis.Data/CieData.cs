@@ -321,7 +321,7 @@ namespace Bovis.Data
                         decimal haber = Convert.ToDecimal(registro["haber"].ToString());
                         decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
                         string empresa = registro["empresa"].ToString();
-                        int num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : 0;
+                        int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
                         string tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : string.Empty;
                         string edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : string.Empty;
                         string responsable = registro["responsable"] != null ? registro["responsable"].ToString() : string.Empty;
