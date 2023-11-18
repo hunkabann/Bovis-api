@@ -80,7 +80,7 @@ namespace Bovis.Data
 
             return list;
         }
-        #endregion Cuenta Data
+        #endregion Cuenta Data        
 
         #region Proyecto
         public async Task<List<ProyectoData_Detalle>> GetProyectoData(JsonObject proyectos)
@@ -114,6 +114,65 @@ namespace Bovis.Data
             return list;
         }
         #endregion Proyecto
+
+        #region Catálogos
+        public async Task<List<string>> GetNombresCuenta()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var nombres_cuenta = await (from cie in db.tB_Cie_Datas
+                                      where cie.Activo == true
+                                      orderby cie.NombreCuenta ascending
+                                      select cie.NombreCuenta)
+                                      .Distinct()
+                                      .ToListAsync();
+
+                return nombres_cuenta;
+            }
+        }
+        public async Task<List<string>> GetConceptos()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var conceptos = await (from cie in db.tB_Cie_Datas
+                                      where cie.Activo == true
+                                       orderby cie.Concepto ascending
+                                       select cie.Concepto)
+                                      .Distinct()
+                                      .ToListAsync();
+
+                return conceptos;
+            }
+        }
+        public async Task<List<int>> GetNumsProyecto()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var nums_proyecto = await (from cie in db.tB_Cie_Datas
+                                      where cie.Activo == true
+                                           orderby cie.NumProyecto ascending
+                                           select Convert.ToInt32(cie.NumProyecto))
+                                      .Distinct()
+                                      .ToListAsync();
+
+                return nums_proyecto;
+            }
+        }
+        public async Task<List<string>> GetResponsables()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var responsables = await (from cie in db.tB_Cie_Datas
+                                      where cie.Activo == true
+                                          orderby cie.Responsable ascending
+                                          select cie.Responsable)
+                                      .Distinct()
+                                      .ToListAsync();
+
+                return responsables;
+            }
+        }
+        #endregion Catálogos
 
         #region Registros CIE
         public async Task<Cie_Detalle> GetRegistro(int? idRegistro)
@@ -156,16 +215,9 @@ namespace Bovis.Data
                 return res;
             }
         }
-        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, string fecha, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
+        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
         {
-            Cie_Registros registros = new Cie_Registros();
-
-            DateTime? fechaFiltro = null;
-
-            if (fecha != "-")
-            {
-                fechaFiltro = Convert.ToDateTime(fecha);
-            }
+            Cie_Registros registros = new Cie_Registros();            
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -174,7 +226,8 @@ namespace Bovis.Data
                                              from archivoItem in archivoJoin.DefaultIfEmpty()
                                              where cie.Activo == activo
                                              && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
-                                             && (fechaFiltro == null || cie.Fecha == fechaFiltro)
+                                             && (mes == 0 || Convert.ToDateTime(cie.Fecha).Month == mes)
+                                             && (anio == 0 || Convert.ToDateTime(cie.Fecha).Year == anio)
                                              && (concepto == "-" || cie.Concepto == concepto)
                                              && (empresa == "-" || cie.Empresa == empresa)
                                              && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
@@ -215,7 +268,8 @@ namespace Bovis.Data
                 registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
                                                   where cie.Activo == activo
                                                   && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
-                                                  && (fechaFiltro == null || cie.Fecha == fechaFiltro)
+                                                  && (mes == 0 || Convert.ToDateTime(cie.Fecha).Month == mes)
+                                                  && (anio == 0 || Convert.ToDateTime(cie.Fecha).Year == anio)
                                                   && (concepto == "-" || cie.Concepto == concepto)
                                                   && (empresa == "-" || cie.Empresa == empresa)
                                                   && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)

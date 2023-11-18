@@ -61,12 +61,42 @@ namespace Bovis.API.Controllers
         }
         #endregion Proyecto
 
+        #region Catálogos
+        [HttpGet, Route("NombresCuenta")]
+        public async Task<IActionResult> GetNombresCuenta()
+        {
+            var query = await _cieQueryService.GetNombresCuenta();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Conceptos")]
+        public async Task<IActionResult> GetConceptos()
+        {
+            var query = await _cieQueryService.GetConceptos();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("NumsProyecto")]
+        public async Task<IActionResult> GetNumsProyecto()
+        {
+            var query = await _cieQueryService.GetNumsProyecto();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Responsables")]
+        public async Task<IActionResult> GetResponsables()
+        {
+            var query = await _cieQueryService.GetResponsables();
+            return Ok(query);
+        }
+        #endregion Catálogos
+
 
         #region Registros        
-        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{fecha}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{offset}/{limit}")]
-        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, string fecha, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
+        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{mes}/{anio}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{offset}/{limit}")]
+        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
         {
-            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, fecha, concepto, empresa, num_proyecto, responsable, offset, limit);
+            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, mes, anio, concepto, empresa, num_proyecto, responsable, offset, limit);
             return Ok(query);
         }
 
