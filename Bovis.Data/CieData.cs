@@ -156,9 +156,16 @@ namespace Bovis.Data
                 return res;
             }
         }
-        public async Task<Cie_Registros> GetRegistros(bool? activo, int offset, int limit)
+        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, string fecha, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
         {
             Cie_Registros registros = new Cie_Registros();
+
+            DateTime? fechaFiltro = null;
+
+            if (fecha != "-")
+            {
+                fechaFiltro = Convert.ToDateTime(fecha);
+            }
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -166,6 +173,12 @@ namespace Bovis.Data
                                              join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
                                              from archivoItem in archivoJoin.DefaultIfEmpty()
                                              where cie.Activo == activo
+                                             && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
+                                             && (fechaFiltro == null || cie.Fecha == fechaFiltro)
+                                             && (concepto == "-" || cie.Concepto == concepto)
+                                             && (empresa == "-" || cie.Empresa == empresa)
+                                             && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
+                                             && (responsable == "-" || cie.Responsable == responsable)
                                              orderby cie.IdCieData ascending
                                              select new Cie_Detalle
                                              {
@@ -201,7 +214,14 @@ namespace Bovis.Data
 
                 registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
                                                   where cie.Activo == activo
+                                                  && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
+                                                  && (fechaFiltro == null || cie.Fecha == fechaFiltro)
+                                                  && (concepto == "-" || cie.Concepto == concepto)
+                                                  && (empresa == "-" || cie.Empresa == empresa)
+                                                  && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
+                                                  && (responsable == "-" || cie.Responsable == responsable)
                                                   select cie).CountAsync();
+
 
                 return registros;
             }

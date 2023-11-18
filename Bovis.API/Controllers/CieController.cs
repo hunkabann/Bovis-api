@@ -41,6 +41,7 @@ namespace Bovis.API.Controllers
         }
         #endregion Empresas
 
+
         #region Cuenta Data
         [HttpPost("Cuentas")]
         public async Task<IActionResult> GetCuentaData([FromBody] JsonObject cuentas)
@@ -49,6 +50,7 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
         #endregion Cuenta Data
+
 
         #region Proyecto
         [HttpPost("Proyectos")]
@@ -59,11 +61,12 @@ namespace Bovis.API.Controllers
         }
         #endregion Proyecto
 
+
         #region Registros        
-        [HttpGet, Route("Registros/{Activo?}/{offset}/{limit}")]
-        public async Task<IActionResult> GetRegitros(bool? Activo, int offset, int limit)
+        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{fecha}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{offset}/{limit}")]
+        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, string fecha, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
         {
-            var query = await _cieQueryService.GetRegistros(Activo, offset, limit);
+            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, fecha, concepto, empresa, num_proyecto, responsable, offset, limit);
             return Ok(query);
         }
 
