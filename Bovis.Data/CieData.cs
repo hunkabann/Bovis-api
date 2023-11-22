@@ -262,8 +262,8 @@ namespace Bovis.Data
                                                  IdArchivo = cie.IdArchivo,
                                                  NombreArchivo = archivoItem.NombreArchivo ?? null
                                              })
-                                     .Skip((offset - 1) * limit)
-                                     .Take(limit)
+                                     //.Skip((offset - 1) * limit)
+                                     //.Take(limit)
                                      .ToListAsync();
 
                 //registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
@@ -391,7 +391,7 @@ namespace Bovis.Data
 
                 registros.Registros.AddRange(res_cobranzas);
 
-                registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).ToList();
+                registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
 
                 registros.TotalRegistros = registros.Registros.Count();
 
