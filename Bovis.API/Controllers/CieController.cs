@@ -90,7 +90,7 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("ClasificacionPY")]
+        [HttpGet, Route("ClasificacionesPY")]
         public async Task<IActionResult> GetClasificacionesPY()
         {
             var query = await _cieQueryService.GetClasificacionesPY();
