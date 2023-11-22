@@ -29,6 +29,7 @@ namespace Bovis.Business.Interface
         Task<List<string>> GetConceptos();
         Task<List<int>> GetNumsProyecto();
         Task<List<string>> GetResponsables();
+        Task<List<string>> GetClasificacionesPY();
         #endregion Catálogos
 
         #region Registros

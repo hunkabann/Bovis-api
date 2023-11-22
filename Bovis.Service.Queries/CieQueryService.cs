@@ -80,6 +80,11 @@ namespace Bovis.Service.Queries
             var response = await _cieBusiness.GetResponsables();
             return new Response<List<string>> { Data = _map.Map<List<string>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
+        public async Task<Response<List<string>>> GetClasificacionesPY()
+        {
+            var response = await _cieBusiness.GetClasificacionesPY();
+            return new Response<List<string>> { Data = _map.Map<List<string>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
         #endregion Catálogos
 
         #region Registros

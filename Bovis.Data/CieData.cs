@@ -151,8 +151,8 @@ namespace Bovis.Data
             {
                 var nums_proyecto = await (from cie in db.tB_Cie_Datas
                                       where cie.Activo == true
-                                           orderby cie.NumProyecto ascending
-                                           select Convert.ToInt32(cie.NumProyecto))
+                                      orderby cie.NumProyecto ascending
+                                      select Convert.ToInt32(cie.NumProyecto))
                                       .Distinct()
                                       .ToListAsync();
 
@@ -171,6 +171,20 @@ namespace Bovis.Data
                                       .ToListAsync();
 
                 return responsables;
+            }
+        }
+        public async Task<List<string>> GetClasificacionesPY()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var clasificacionesPY = await (from cie in db.tB_Cie_Datas
+                                      where cie.Activo == true
+                                      orderby cie.ClasificacionPY ascending
+                                      select cie.ClasificacionPY)
+                                      .Distinct()
+                                      .ToListAsync();
+
+                return clasificacionesPY;
             }
         }
         #endregion Catálogos
@@ -261,22 +275,7 @@ namespace Bovis.Data
                                                  Activo = cie.Activo,
                                                  IdArchivo = cie.IdArchivo,
                                                  NombreArchivo = archivoItem.NombreArchivo ?? null
-                                             })
-                                     //.Skip((offset - 1) * limit)
-                                     //.Take(limit)
-                                     .ToListAsync();
-
-                //registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
-                //                                  where cie.Activo == activo
-                //                                  && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
-                //                                  && (mes == 0 || Convert.ToDateTime(cie.Fecha).Month == mes)
-                //                                  && (anio == 0 || Convert.ToDateTime(cie.Fecha).Year == anio)
-                //                                  && (concepto == "-" || cie.Concepto == concepto)
-                //                                  && (empresa == "-" || cie.Empresa == empresa)
-                //                                  && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
-                //                                  && (responsable == "-" || cie.Responsable == responsable)
-                //                                  select cie).CountAsync();
-
+                                             }).ToListAsync();
 
                 ///
                 /// Registros de facturación
@@ -395,10 +394,7 @@ namespace Bovis.Data
 
                 registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
 
-
                 return registros;
-
-
             }
         }
 

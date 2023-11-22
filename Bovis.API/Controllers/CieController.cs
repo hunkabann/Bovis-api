@@ -89,6 +89,13 @@ namespace Bovis.API.Controllers
             var query = await _cieQueryService.GetResponsables();
             return Ok(query);
         }
+
+        [HttpGet, Route("ClasificacionPY")]
+        public async Task<IActionResult> GetClasificacionesPY()
+        {
+            var query = await _cieQueryService.GetClasificacionesPY();
+            return Ok(query);
+        }
         #endregion Catálogos
 
 
