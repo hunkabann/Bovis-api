@@ -57,6 +57,7 @@ namespace Bovis.Data
                                                                               chnombre = per.Nombre,
                                                                               chap_paterno = per.ApPaterno,
                                                                               chap_materno = per.ApMaterno,
+                                                                              chnombre_completo = per.Nombre + " " + per.ApPaterno + " " + per.ApMaterno,
                                                                               nukidsexo = per.IdSexo,
                                                                               chsexo = sexoItem != null ? sexoItem.Sexo : string.Empty,
                                                                               chrfc = per.Rfc,

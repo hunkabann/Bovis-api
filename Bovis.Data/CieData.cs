@@ -422,28 +422,28 @@ namespace Bovis.Data
                     bool insert = false;
                     foreach (var registro in registros["data"].AsArray())
                     {
-                        string nombre_cuenta = registro["nombre_cuenta"].ToString();
-                        string cuenta = registro["cuenta"].ToString();
-                        string tipo_poliza = registro["tipo_poliza"].ToString();
-                        int numero = Convert.ToInt32(registro["numero"].ToString());
+                        string? nombre_cuenta = registro["nombre_cuenta"] != null ? registro["nombre_cuenta"].ToString() : null;
+                        string? cuenta = registro["cuenta"] != null ? registro["cuenta"].ToString() : null;
+                        string? tipo_poliza = registro["tipo_poliza"].ToString();
+                        int? numero = registro["numero"] != null ? Convert.ToInt32(registro["numero"].ToString()) : null;
                         string fecha_str = registro["fecha"].ToString();
                         //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
-                        int mes = Convert.ToInt32(registro["mes"].ToString());
-                        string concepto = registro["concepto"].ToString();
-                        string centro_costos = registro["centro_costos"].ToString();
-                        string proyectos = registro["proyectos"].ToString();
-                        decimal saldo_inicial = Convert.ToDecimal(registro["saldo_inicial"].ToString());
-                        decimal debe = Convert.ToDecimal(registro["debe"].ToString());
-                        decimal haber = Convert.ToDecimal(registro["haber"].ToString());
-                        decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
-                        string empresa = registro["empresa"].ToString();
+                        int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
+                        string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
+                        string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
+                        string? proyectos = registro["proyectos"] != null ? registro["proyectos"].ToString() : null;
+                        decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
+                        decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
+                        decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
+                        decimal? movimiento = registro["movimiento"] != null ? Convert.ToDecimal(registro["movimiento"].ToString()) : null;
+                        string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
                         int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
-                        string tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : string.Empty;
-                        string edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : string.Empty;
-                        string responsable = registro["responsable"] != null ? registro["responsable"].ToString() : string.Empty;
-                        string tipo_proyecto = registro["tipo_proyecto"] != null ? registro["tipo_proyecto"].ToString() : string.Empty;
-                        string tipo_py = registro["tipo_py"] != null ? registro["tipo_py"].ToString() : string.Empty;
-                        string clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : string.Empty;
+                        string? tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : null;
+                        string? edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : null;
+                        string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
+                        string? tipo_proyecto = registro["tipo_proyecto"] != null ? registro["tipo_proyecto"].ToString() : null;
+                        string? tipo_py = registro["tipo_py"] != null ? registro["tipo_py"].ToString() : null;
+                        string? clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : null;
                         DateTime fecha;
 
                         if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
@@ -495,28 +495,28 @@ namespace Bovis.Data
             {
                 bool update = false;
                 int id_cie = Convert.ToInt32(registro["id_cie"].ToString());
-                string nombre_cuenta = registro["nombre_cuenta"].ToString();
-                string cuenta = registro["cuenta"].ToString();
-                string tipo_poliza = registro["tipo_poliza"].ToString();
-                int numero = Convert.ToInt32(registro["numero"].ToString());
+                string? nombre_cuenta = registro["nombre_cuenta"] != null ? registro["nombre_cuenta"].ToString() : null;
+                string? cuenta = registro["cuenta"] != null ? registro["cuenta"].ToString() : null;
+                string? tipo_poliza = registro["tipo_poliza"].ToString();
+                int? numero = registro["numero"] != null ? Convert.ToInt32(registro["numero"].ToString()) : null;
                 string fecha_str = registro["fecha"].ToString();
                 //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
-                int mes = Convert.ToInt32(registro["mes"].ToString());
-                string concepto = registro["concepto"].ToString();
-                string centro_costos = registro["centro_costos"].ToString();
-                string proyectos = registro["proyectos"].ToString();
-                decimal saldo_inicial = Convert.ToDecimal(registro["saldo_inicial"].ToString());
-                decimal debe = Convert.ToDecimal(registro["debe"].ToString());
-                decimal haber = Convert.ToDecimal(registro["haber"].ToString());
-                decimal movimiento = Convert.ToDecimal(registro["movimiento"].ToString());
-                string empresa = registro["empresa"].ToString();
-                int num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : 0;
-                string tipo_cuenta = registro["tipo_cuenta"].ToString();
-                string edo_resultados = registro["edo_resultados"].ToString();
-                string responsable = registro["responsable"].ToString();
-                string tipo_proyecto = registro["tipo_proyecto"].ToString();
-                string tipo_py = registro["tipo_py"].ToString();
-                string clasificacion_py = registro["clasificacion_py"].ToString();
+                int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
+                string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
+                string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
+                string? proyectos = registro["proyectos"] != null ? registro["proyectos"].ToString() : null;
+                decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
+                decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
+                decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
+                decimal? movimiento = registro["movimiento"] != null ? Convert.ToDecimal(registro["movimiento"].ToString()) : null;
+                string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
+                int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
+                string? tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : null;
+                string? edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : null;
+                string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
+                string? tipo_proyecto = registro["tipo_proyecto"] != null ? registro["tipo_proyecto"].ToString() : null;
+                string? tipo_py = registro["tipo_py"] != null ? registro["tipo_py"].ToString() : null;
+                string? clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : null;
                 DateTime fecha;
 
                 if (!DateTime.TryParseExact(fecha_str, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out fecha))
