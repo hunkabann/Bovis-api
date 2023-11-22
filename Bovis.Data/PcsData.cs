@@ -84,18 +84,18 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
             
-            string? nombre_proyecto = registro["nombre_proyecto"].ToString();
-            string? alcance = registro["alcance"].ToString();
-            string? codigo_postal = registro["codigo_postal"].ToString();
-            string? ciudad = registro["ciudad"].ToString();
+            string nombre_proyecto = registro["nombre_proyecto"].ToString();
+            string alcance = registro["alcance"].ToString();
+            string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
+            string ciudad = registro["ciudad"].ToString();
             int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
             int id_estatus = Convert.ToInt32(registro["id_estatus"].ToString());
             int id_sector = Convert.ToInt32(registro["id_sector"].ToString());
             int id_tipo_proyecto = Convert.ToInt32(registro["id_tipo_proyecto"].ToString());
-            int? id_responsable_preconstruccion = Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString());
-            int? id_responsable_construccion = Convert.ToInt32(registro["id_responsable_construccion"].ToString());
-            int? id_responsable_ehs = Convert.ToInt32(registro["id_responsable_ehs"].ToString());
-            int? id_responsable_supervisor = Convert.ToInt32(registro["id_responsable_supervisor"].ToString());
+            int? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString()) : null;
+            int? id_responsable_construccion = registro["id_responsable_construccion"] != null ? Convert.ToInt32(registro["id_responsable_construccion"].ToString()) : null;
+            int? id_responsable_ehs = registro["id_responsable_ehs"] != null ? Convert.ToInt32(registro["id_responsable_ehs"].ToString()) : null;
+            int? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? Convert.ToInt32(registro["id_responsable_supervisor"].ToString()) : null;
             int id_cliente = Convert.ToInt32(registro["id_cliente"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
             int id_director_ejecutivo = Convert.ToInt32(registro["id_director_ejecutivo"].ToString());
@@ -221,19 +221,19 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int? num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-            string? nombre_proyecto = registro["nombre_proyecto"].ToString();
-            string? alcance = registro["alcance"].ToString();
-            string? codigo_postal = registro["codigo_postal"].ToString();
-            string? ciudad = registro["ciudad"].ToString();
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            string nombre_proyecto = registro["nombre_proyecto"].ToString();
+            string alcance = registro["alcance"].ToString();
+            string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
+            string ciudad = registro["ciudad"].ToString();
             int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
             int id_estatus = Convert.ToInt32(registro["id_estatus"].ToString());
             int id_sector = Convert.ToInt32(registro["id_sector"].ToString());
             int id_tipo_proyecto = Convert.ToInt32(registro["id_tipo_proyecto"].ToString());
-            int? id_responsable_preconstruccion = Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString());
-            int? id_responsable_construccion = Convert.ToInt32(registro["id_responsable_construccion"].ToString());
-            int? id_responsable_ehs = Convert.ToInt32(registro["id_responsable_ehs"].ToString());
-            int? id_responsable_supervisor = Convert.ToInt32(registro["id_responsable_supervisor"].ToString());
+            int? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString()) : null;
+            int? id_responsable_construccion = registro["id_responsable_construccion"] != null ? Convert.ToInt32(registro["id_responsable_construccion"].ToString()) : null;
+            int? id_responsable_ehs = registro["id_responsable_ehs"] != null ? Convert.ToInt32(registro["id_responsable_ehs"].ToString()) : null;
+            int? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? Convert.ToInt32(registro["id_responsable_supervisor"].ToString()) : null;
             int id_cliente = Convert.ToInt32(registro["id_cliente"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
             int id_director_ejecutivo = Convert.ToInt32(registro["id_director_ejecutivo"].ToString());

@@ -179,9 +179,9 @@ namespace Bovis.Data
 
                 foreach (var a in auditorias)
                 {
-                    int id_auditoria = Convert.ToInt32(a["id_auditoria"].ToString());
-                    bool aplica = Convert.ToBoolean(a["aplica"].ToString());
-                    string motivo = a["motivo"] != null ? a["motivo"].ToString() : string.Empty;
+                    int? id_auditoria = a["id_auditoria"] != null ? Convert.ToInt32(a["id_auditoria"].ToString()) : null;
+                    bool? aplica = a["aplica"] != null ? Convert.ToBoolean(a["aplica"].ToString()) : null;
+                    string? motivo = a["motivo"] != null ? a["motivo"].ToString() : null;
 
                     var insert_auditoria_proyecto = await db.tB_Auditoria_Proyectos
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
@@ -212,9 +212,9 @@ namespace Bovis.Data
 
                 foreach (var a in auditorias)
                 {
-                    int id_auditoria = Convert.ToInt32(a["id_auditoria"].ToString());
-                    bool aplica = Convert.ToBoolean(a["aplica"].ToString());
-                    string motivo = a["motivo"].ToString();
+                    int? id_auditoria = a["id_auditoria"] != null ? Convert.ToInt32(a["id_auditoria"].ToString()) : null;
+                    bool? aplica = a["aplica"] != null ? Convert.ToBoolean(a["aplica"].ToString()) : null;
+                    string? motivo = a["motivo"] != null ? a["motivo"].ToString() : null;
 
                     var insert_auditoria_proyecto = await db.tB_Auditoria_Proyectos
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
@@ -235,7 +235,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_auditoria_proyecto = Convert.ToInt32(registro["id_auditoria_proyecto"].ToString());
-            string motivo = registro["motivo"].ToString();
+            string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() :  null;
             string documento_base64 = registro["documento_base64"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))

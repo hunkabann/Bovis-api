@@ -218,20 +218,6 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                //var modulos = await (from mod in db.tB_Modulos
-                //                      where mod.Activo == true
-                //                      orderby mod.Modulo ascending
-                //                      select new Modulo_Detalle
-                //                      {
-                //                          IdModulo = mod.IdModulo,
-                //                          Modulo = mod.Modulo,
-                //                          SubModulo = mod.SubModulo,
-                //                          Activo = mod.Activo,
-                //                          IsTab = mod.IsTab
-                //                      }).ToListAsync();
-
-                //return modulos;
-
                 var modulos = await (from mod in db.tB_Modulos
                                      where mod.Activo == true
                                      orderby mod.Modulo ascending
@@ -469,17 +455,6 @@ namespace Bovis.Data
 
                 foreach (var perf_modulo in perf_modulos)
                 {
-                    //var modulo = await (from mod in db.tB_Modulos
-                    //                     where mod.IdModulo == perf_modulo.IdModulo
-                    //                     select new Modulo_Detalle
-                    //                     {
-                    //                         IdModulo = mod.IdModulo,
-                    //                         Modulo = mod.Modulo,
-                    //                         SubModulo = mod.SubModulo,
-                    //                         IsTab = mod.IsTab,
-                    //                         Activo = mod.Activo
-                    //                     }).FirstOrDefaultAsync();
-
                     var modulo = await (from mod in db.tB_Modulos
                                         where mod.IdModulo == perf_modulo.IdModulo
                                         select new Modulo_Detalle
@@ -528,9 +503,6 @@ namespace Bovis.Data
                         submodulo.Tabs.AddRange(tabs);
                     }
 
-
-                    ///
-                    ///
                     if (modulo != null)
                         modulos.Add(modulo);
                 }
@@ -540,117 +512,6 @@ namespace Bovis.Data
                 return perfil_modulos;
             }
         }
-
-        //public async Task<Perfil_Modulos_Detalle> GetPerfilModulos(int idPerfil)
-        //{
-        //    using (var db = new ConnectionDB(dbConfig))
-        //    {
-        //        var perfil = new Perfil_Modulos_Detalle();
-
-        //        try
-        //        {
-        //            using (var connection = new SqlConnection(db.ConnectionString))
-        //            {
-        //                await connection.OpenAsync();
-
-        //                var query = @"SELECT p.nukidperfil, p.chperfil, p.chdescripcion, 
-        //                            m.nukidmodulo, m.chmodulo, m.boactivo
-        //                            FROM tb_perfil p 
-        //                            INNER JOIN tb_perfil_modulo pm ON p.nukidperfil = pm.nukidperfil 
-        //                            INNER JOIN tb_modulo m ON pm.nukidmodulo = m.nukidmodulo 
-        //                            WHERE p.nukidperfil = @id";
-
-        //                var command = new SqlCommand(query, connection);
-        //                command.Parameters.AddWithValue("@id", idPerfil);
-
-        //                connection.Open();
-        //                using (var reader = await command.ExecuteReaderAsync())
-        //                {
-        //                    while (await reader.ReadAsync())
-        //                    {
-        //                        if (perfil.IdPerfil == 0) // Si aún no se ha asignado la información principal del perfil
-        //                        {
-        //                            perfil.IdPerfil = reader.GetInt32(0);
-        //                            perfil.Perfil = reader.GetString(1);
-        //                            perfil.Descripcion = reader.GetString(2);
-        //                        }
-
-        //                        var modulo = new Modulo_Detalle
-        //                        {
-        //                            IdModulo = reader.GetInt32(3),
-        //                            Modulo = reader.GetString(4),
-        //                            Activo = reader.GetBoolean(5)
-        //                        };
-
-        //                        // Cargar submódulos para el módulo actual
-        //                        var submodulosQuery = @"SELECT sm.nukidmodulo, sm.chsub_modulo, sm.boactivo 
-        //                                            FROM tb_modulo sm 
-        //                                            WHERE sm.chmodulo = @modulo";
-
-        //                        var submodulosCommand = new SqlCommand(submodulosQuery, connection);
-        //                        submodulosCommand.Parameters.AddWithValue("@modulo", modulo.Modulo);
-
-        //                        using (var subReader = await submodulosCommand.ExecuteReaderAsync())
-        //                        {
-        //                            while (await subReader.ReadAsync())
-        //                            {
-        //                                var submodulo = new Submodulo_Detalle
-        //                                {
-        //                                    IdSubmodulo = subReader.GetInt32(0),
-        //                                    SubModulo = subReader.GetString(1),
-        //                                    Activo = subReader.GetBoolean(2)
-        //                                };
-
-        //                                // Cargar las pestañas (tabs) para el submódulo actual
-        //                                var tabsQuery = @"SELECT t.nukidmodulo, t.chtab, t.botab, t.boactivo 
-        //                                                FROM tb_modulo t 
-        //                                                WHERE t.chsub_modulo = @submodulo";
-
-        //                                var tabsCommand = new SqlCommand(tabsQuery, connection);
-        //                                tabsCommand.Parameters.AddWithValue("@submodulo", submodulo.SubModulo);
-
-        //                                using (var tabReader = await tabsCommand.ExecuteReaderAsync())
-        //                                {
-        //                                    while (await tabReader.ReadAsync())
-        //                                    {
-        //                                        var tab = new Tab_Detalle
-        //                                        {
-        //                                            IdTab = tabReader.GetInt32(0),
-        //                                            Tab = tabReader.GetString(1),
-        //                                            IsTab = tabReader.GetBoolean(2),
-        //                                            Activo = tabReader.GetBoolean(3)
-        //                                        };
-
-        //                                        submodulo.Tabs.Add(tab); // Agregar pestaña al submódulo
-        //                                    }
-        //                                }
-
-        //                                modulo.Submodulos.Add(submodulo); // Agregar submódulo al módulo
-        //                            }
-        //                        }
-
-        //                        perfil.Modulos.Add(modulo); // Agregar módulo al perfil
-        //                    }
-        //                }
-
-        //                connection.Close();
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            // Manejo de excepciones, registro de errores, etc.
-        //            Console.WriteLine("Error: " + ex.Message);
-        //            // También podrías lanzar la excepción si prefieres manejarla en un nivel superior
-        //            throw;
-        //        }
-
-        //        return perfil;
-        //    }
-        //}
-
-
-
-
 
 
 

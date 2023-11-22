@@ -305,24 +305,24 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
-            int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
-            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
-            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            decimal sueldo_min = Convert.ToDecimal(registro["sueldoMin"].ToString());
-            decimal sueldo_max = Convert.ToDecimal(registro["sueldoMax"].ToString());
-            decimal sueldo_real = Convert.ToDecimal(registro["sueldoReal"].ToString());
-            int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
-            int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
-            int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
-            int id_tipo_contrato = Convert.ToInt32(registro["idTipoContrato"].ToString());
-            int id_estado = Convert.ToInt32(registro["idEstado"].ToString());
-            int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
-            bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
-            int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
-            string nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : string.Empty;
-            string comentarios = registro["comentarios"].ToString();
+            int? id_categoria = registro["categoria"] != null ? Convert.ToInt32(registro["categoria"].ToString()) : null;
+            int? id_puesto = registro["puesto"] != null ? Convert.ToInt32(registro["puesto"].ToString()) : null;
+            int? id_nivel_estudios = registro["nivelEstudios"] != null ? Convert.ToInt32(registro["nivelEstudios"].ToString()) : null;
+            int? id_profesion = registro["profesion"] != null ? Convert.ToInt32(registro["profesion"].ToString()) : null;
+            int? id_jornada = registro["jornada"] != null ? Convert.ToInt32(registro["jornada"].ToString()) : null;
+            decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
+            decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
+            decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
+            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
+            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
+            int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
+            int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
+            bool? disponibilidad_viajar = registro["disponibilidadViajar"] != null ? Convert.ToBoolean(registro["disponibilidadViajar"].ToString()) : null;
+            int? anios_experiencia = registro["aniosExperiencia"] != null ? Convert.ToInt32(registro["aniosExperiencia"].ToString()) : null;
+            string? nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : null;
+            string? comentarios = registro["comentarios"] != null ? registro["comentarios"].ToString() : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -395,24 +395,24 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
-            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
-            int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
-            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
-            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            decimal sueldo_min = Convert.ToDecimal(registro["sueldoMin"].ToString());
-            decimal sueldo_max = Convert.ToDecimal(registro["sueldoMax"].ToString());
-            decimal sueldo_real = Convert.ToDecimal(registro["sueldoReal"].ToString());
-            int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
-            int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
-            int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
-            int id_tipo_contrato = Convert.ToInt32(registro["idTipoContrato"].ToString());
-            int id_estado = Convert.ToInt32(registro["idEstado"].ToString());
-            int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
-            bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
-            int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
-            string nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : string.Empty;
-            string comentarios = registro["comentarios"].ToString();
+            int? id_categoria = registro["categoria"] != null ? Convert.ToInt32(registro["categoria"].ToString()) : null;
+            int? id_puesto = registro["puesto"] != null ? Convert.ToInt32(registro["puesto"].ToString()) : null;
+            int? id_nivel_estudios = registro["nivelEstudios"] != null ? Convert.ToInt32(registro["nivelEstudios"].ToString()) : null;
+            int? id_profesion = registro["profesion"] != null ? Convert.ToInt32(registro["profesion"].ToString()) : null;
+            int? id_jornada = registro["jornada"] != null ? Convert.ToInt32(registro["jornada"].ToString()) : null;
+            decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
+            decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
+            decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
+            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
+            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
+            int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
+            int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
+            bool? disponibilidad_viajar = registro["disponibilidadViajar"] != null ? Convert.ToBoolean(registro["disponibilidadViajar"].ToString()) : null;
+            int? anios_experiencia = registro["aniosExperiencia"] != null ? Convert.ToInt32(registro["aniosExperiencia"].ToString()) : null;
+            string? nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : null;
+            string? comentarios = registro["comentarios"] != null ? registro["comentarios"].ToString() : null;
             int index = 0;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))

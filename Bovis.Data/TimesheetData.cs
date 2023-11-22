@@ -108,14 +108,14 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_empleado = Convert.ToInt32(registro["empleado"]["code"].ToString());
-            string nombre_empleado = registro["empleado"]["name"].ToString();
-            string fecha = registro["fecha"].ToString();
-            int mes = Convert.ToInt32(registro["mes"].ToString());
-            int anio = Convert.ToInt32(registro["anio"].ToString());
-            bool sabados = Convert.ToBoolean(registro["sabados"].ToString());
-            int id_responsable = Convert.ToInt32(registro["id_responsable"].ToString());
-            int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
+            int? id_empleado = registro["empleado"]["code"] != null ? Convert.ToInt32(registro["empleado"]["code"].ToString()) : null;
+            string? nombre_empleado = registro["empleado"]["name"] != null ? registro["empleado"]["name"].ToString() : null;
+            string? fecha = registro["fecha"] != null ? registro["fecha"].ToString() : null;
+            int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
+            int? anio = registro["anio"] != null ? Convert.ToInt32(registro["anio"].ToString()) : null;
+            bool? sabados = registro["sabados"] != null ? Convert.ToBoolean(registro["sabados"].ToString()) : null;
+            int? id_responsable = registro["id_responsable"] != null ? Convert.ToInt32(registro["id_responsable"].ToString()) : null;
+            int? dias_trabajo = registro["dias"] != null ? Convert.ToInt32(registro["dias"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {

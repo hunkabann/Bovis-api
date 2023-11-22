@@ -6,8 +6,8 @@ namespace Bovis.Common.Model.Tables
     public class TB_Auditoria_Proyecto
     {
         [Column("Nukidauditoria_proyecto"), NotNull, PrimaryKey, Identity] public int IdAuditoriaProyecto { get; set; }
-        [Column("Nukidauditoria"), Nullable] public int IdAuditoria { get; set; }
-        [Column("Nukidproyecto"), Nullable] public int IdProyecto { get; set; }
-        [Column("Boaplica"), Nullable] public bool Aplica { get; set; }
+        [Column("Nukidauditoria"), Nullable] public int? IdAuditoria { get; set; }
+        [Column("Nukidproyecto"), Nullable] public int? IdProyecto { get; set; }
+        [Column("Boaplica"), Nullable] public bool? Aplica { get; set; }
     }
 }
