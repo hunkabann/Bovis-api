@@ -266,16 +266,16 @@ namespace Bovis.Data
                                      .Take(limit)
                                      .ToListAsync();
 
-                registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
-                                                  where cie.Activo == activo
-                                                  && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
-                                                  && (mes == 0 || Convert.ToDateTime(cie.Fecha).Month == mes)
-                                                  && (anio == 0 || Convert.ToDateTime(cie.Fecha).Year == anio)
-                                                  && (concepto == "-" || cie.Concepto == concepto)
-                                                  && (empresa == "-" || cie.Empresa == empresa)
-                                                  && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
-                                                  && (responsable == "-" || cie.Responsable == responsable)
-                                                  select cie).CountAsync();
+                //registros.TotalRegistros = await (from cie in db.tB_Cie_Datas
+                //                                  where cie.Activo == activo
+                //                                  && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
+                //                                  && (mes == 0 || Convert.ToDateTime(cie.Fecha).Month == mes)
+                //                                  && (anio == 0 || Convert.ToDateTime(cie.Fecha).Year == anio)
+                //                                  && (concepto == "-" || cie.Concepto == concepto)
+                //                                  && (empresa == "-" || cie.Empresa == empresa)
+                //                                  && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
+                //                                  && (responsable == "-" || cie.Responsable == responsable)
+                //                                  select cie).CountAsync();
 
 
                 ///
@@ -328,7 +328,7 @@ namespace Bovis.Data
                                               ClasificacionPy = "Facturación"
                                           }).ToListAsync();
 
-                registros.Registros.AddRange(res_facturas);
+                registros.Registros.AddRange(res_facturas);                
 
 
                 var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
@@ -390,6 +390,8 @@ namespace Bovis.Data
                                            }).ToListAsync();
 
                 registros.Registros.AddRange(res_cobranzas);
+
+                registros.TotalRegistros = registros.Registros.Count();
 
                 return registros;
 
