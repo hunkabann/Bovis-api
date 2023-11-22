@@ -391,6 +391,8 @@ namespace Bovis.Data
 
                 registros.Registros.AddRange(res_cobranzas);
 
+                registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).ToList();
+
                 registros.TotalRegistros = registros.Registros.Count();
 
                 return registros;
