@@ -18,7 +18,7 @@ namespace Bovis.Common.Model.NoTable
         public string? NombreCuenta { get; set; }
         public string? Cuenta { get; set; }
         public string? TipoPoliza { get; set; }
-        public int? Numero { get; set; }
+        public string? Numero { get; set; }
         public DateTime? Fecha { get; set; }
         public int? Mes { get; set; }
         public string? Concepto { get; set; }  

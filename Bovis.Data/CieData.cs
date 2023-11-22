@@ -4,6 +4,7 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using LinqToDB.Tools;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -189,7 +190,7 @@ namespace Bovis.Data
                               NombreCuenta = cie.NombreCuenta,
                               Cuenta = cie.Cuenta,
                               TipoPoliza = cie.TipoPoliza,
-                              Numero = cie.Numero,
+                              Numero = cie.Numero.ToString(),
                               Fecha = cie.Fecha,
                               Mes = cie.Mes,
                               Concepto = cie.Concepto,
@@ -217,7 +218,7 @@ namespace Bovis.Data
         }
         public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
         {
-            Cie_Registros registros = new Cie_Registros();            
+            Cie_Registros registros = new Cie_Registros();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -239,7 +240,7 @@ namespace Bovis.Data
                                                  NombreCuenta = cie.NombreCuenta,
                                                  Cuenta = cie.Cuenta,
                                                  TipoPoliza = cie.TipoPoliza,
-                                                 Numero = cie.Numero,
+                                                 Numero = cie.Numero.ToString(),
                                                  Fecha = cie.Fecha,
                                                  Mes = cie.Mes,
                                                  Concepto = cie.Concepto,
@@ -277,7 +278,122 @@ namespace Bovis.Data
                                                   select cie).CountAsync();
 
 
+                ///
+                /// Registros de facturación
+                ///
+                List<int> lstProyectosEmpresa = null;
+
+
+                if (empresa != "-")
+                {
+                    lstProyectosEmpresa = await (from a in db.tB_Proyectos
+                                                 join b in db.tB_Empresas on a.IdEmpresa equals b.IdEmpresa into bJoin
+                                                 from bItem in bJoin.DefaultIfEmpty()
+                                                 where bItem.Empresa == empresa
+                                                 select a.NumProyecto).ToListAsync();
+                }
+
+                var res_facturas = await (from a in db.tB_ProyectoFacturas
+                                          join b in db.tB_ProyectoFacturasNotaCredito on a.Id equals b.IdFactura into factNC
+                                          from ab in factNC.DefaultIfEmpty()
+                                          join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
+                                          from ac in factC.DefaultIfEmpty()
+                                          join c in db.tB_Proyectos on a.NumProyecto equals c.NumProyecto into cJoin
+                                          from cItem in cJoin.DefaultIfEmpty()
+                                          join d in db.tB_Clientes on cItem.IdCliente equals d.IdCliente into dJoin
+                                          from dItem in dJoin.DefaultIfEmpty()
+                                          join e in db.tB_Empresas on cItem.IdEmpresa equals e.IdEmpresa into eJoin
+                                          from eItem in eJoin.DefaultIfEmpty()
+                                          where (num_proyecto == 0 || a.NumProyecto == num_proyecto)
+                                          && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
+                                          && (mes == 0 || a.FechaEmision.Month == mes)
+                                          && (anio == 0 || a.FechaEmision.Year == anio)
+                                          && (num_proyecto == 0 || a.NumProyecto == num_proyecto)
+                                          && (empresa == "-" || eItem.Empresa == empresa)
+                                          orderby a.Id descending
+                                          select new Cie_Detalle
+                                          {
+                                              IdCie = 0,
+                                              NombreCuenta = "Facturación",
+                                              Cuenta = "105001001",
+                                              Numero = a.NoFactura,
+                                              Fecha = a.FechaEmision,
+                                              Mes = a.FechaEmision.Month,
+                                              Concepto = a.Concepto,
+                                              Proyectos = cItem != null ? cItem.Proyecto : string.Empty,
+                                              Haber = a.Total,
+                                              Movimiento = a.Total * -1,
+                                              Empresa = eItem != null ? eItem.Empresa : string.Empty,
+                                              NumProyecto = a.NumProyecto,
+                                              ClasificacionPy = "Facturación"
+                                          }).ToListAsync();
+
+                registros.Registros.AddRange(res_facturas);
+
+
+                var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                       join facts in db.tB_ProyectoFacturas on notas.IdFactura equals facts.Id into factsJoin
+                                       from factsItem in factsJoin.DefaultIfEmpty()
+                                       join proys in db.tB_Proyectos on factsItem.NumProyecto equals proys.NumProyecto into proysJoin
+                                       from proysItem in proysJoin.DefaultIfEmpty()
+                                       join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
+                                       from emprItem in emprJoin.DefaultIfEmpty()
+                                       where notas.FechaCancelacion == null
+                                       && (mes == 0 || notas.FechaNotaCredito.Month == mes)
+                                       && (anio == 0 || notas.FechaNotaCredito.Year == anio)
+                                       && (num_proyecto == 0 || factsItem.NumProyecto == num_proyecto)
+                                       && (empresa == "-" || emprItem.Empresa == empresa)
+                                       select new Cie_Detalle
+                                       {
+                                           IdCie = 0,
+                                           NombreCuenta = "Facturación",
+                                           Cuenta = "105001001",
+                                           Numero = notas.NotaCredito,
+                                           Fecha = notas.FechaNotaCredito,
+                                           Mes = notas.FechaNotaCredito.Month,
+                                           Concepto = notas.Concepto,
+                                           Proyectos = proysItem != null ? proysItem.Proyecto : string.Empty,
+                                           Debe = notas.Total,
+                                           Movimiento = notas.Total,
+                                           Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
+                                           NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
+                                           ClasificacionPy = "Facturación"
+                                       }).ToListAsync();
+
+                registros.Registros.AddRange(res_notas);
+
+
+                var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                           join facts in db.tB_ProyectoFacturas on cobr.IdFactura equals facts.Id into factsJoin
+                                           from factsItem in factsJoin.DefaultIfEmpty()
+                                           join proys in db.tB_Proyectos on factsItem.NumProyecto equals proys.NumProyecto into proysJoin
+                                           from proysItem in proysJoin.DefaultIfEmpty()
+                                           join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
+                                           from emprItem in emprJoin.DefaultIfEmpty()
+                                           where cobr.FechaCancelacion == null
+                                           && (mes == 0 || cobr.FechaPago.Month == mes)
+                                           && (anio == 0 || cobr.FechaPago.Year == anio)
+                                           && (num_proyecto == 0 || factsItem.NumProyecto == num_proyecto)
+                                           && (empresa == "-" || emprItem.Empresa == empresa)
+                                           select new Cie_Detalle
+                                           {
+                                               IdCie = 0,
+                                               NombreCuenta = "Cobranza",
+                                               Fecha = cobr.FechaPago,
+                                               Mes = cobr.FechaPago.Month,
+                                               Proyectos = proysItem != null ? proysItem.Proyecto : string.Empty,
+                                               Haber = cobr.ImportePagado,
+                                               Movimiento = cobr.ImportePagado * -1,
+                                               Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
+                                               NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
+                                               ClasificacionPy = "Cobranza"
+                                           }).ToListAsync();
+
+                registros.Registros.AddRange(res_cobranzas);
+
                 return registros;
+
+
             }
         }
 
