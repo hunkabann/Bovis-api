@@ -28,7 +28,7 @@ namespace Bovis.Data.Interface
 
         #region Registros
         Task<Cie_Detalle> GetRegistro(int? idRegistro);
-        Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit);
+        Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit);
         Task<(bool Success, string Message)> AddRegistros(JsonObject registros);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         Task<(bool Success, string Message)> DeleteRegistro(int idRegistro);

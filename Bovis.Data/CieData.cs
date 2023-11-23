@@ -230,7 +230,7 @@ namespace Bovis.Data
                 return res;
             }
         }
-        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, int offset, int limit)
+        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
         {
             Cie_Registros registros = new Cie_Registros();
 
@@ -247,6 +247,7 @@ namespace Bovis.Data
                                              && (empresa == "-" || cie.Empresa == empresa)
                                              && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
                                              && (responsable == "-" || cie.Responsable == responsable)
+                                             && (clasificacionPY == "-" || cie.ClasificacionPY == clasificacionPY)
                                              orderby cie.IdCieData ascending
                                              select new Cie_Detalle
                                              {
