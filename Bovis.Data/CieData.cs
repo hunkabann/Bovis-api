@@ -537,7 +537,7 @@ namespace Bovis.Data
                 }
 
                 var res_update_cie = await db.tB_Cie_Datas.Where(x => x.IdCieData == id_cie)
-                    .UpdateAsync(x => new TB_Cie_Data
+                    .UpdateAsync(x => new TB_CieData
                     {
                         NombreCuenta = nombre_cuenta,
                         Cuenta = cuenta,
@@ -576,7 +576,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_timesheet = await db.tB_Cie_Datas.Where(x => x.IdCieData == idRegistro)
-                                .UpdateAsync(x => new TB_Cie_Data
+                                .UpdateAsync(x => new TB_CieData
                                 {
                                     Activo = false
                                 }) > 0;

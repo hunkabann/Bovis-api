@@ -105,7 +105,7 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_insert_etapa = await db.tB_Proyectos
+                var res_insert_proyecto = await db.tB_Proyectos
                     .Value(x => x.Proyecto, nombre_proyecto)
                     .Value(x => x.Alcance, alcance)
                     .Value(x => x.Cp, codigo_postal)
@@ -126,8 +126,8 @@ namespace Bovis.Data
                     .Value(x => x.FechaFin, fecha_fin)
                     .InsertAsync() > 0;
 
-                resp.Success = res_insert_etapa;
-                resp.Message = res_insert_etapa == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                resp.Success = res_insert_proyecto;
+                resp.Message = res_insert_proyecto == default ? "Ocurrio un error al insertar registro." : string.Empty;
             }
 
             return resp;
@@ -289,13 +289,27 @@ namespace Bovis.Data
         #endregion Proyectos
 
         #region Etapas
+        // Etapas se guardan en tb_proyecto_fase
+        // Los empleados de una etapa, habrá que generarse una nueva tabla de relación.
         public async Task<(bool Success, string Message)> AddEtapa(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            int orden = Convert.ToInt32(registro["orden"].ToString());
+            string nombre_fase = registro["nombre_fase"].ToString();
+            DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
+            DateTime fecha_fin = Convert.ToDateTime(registro["fecha_fin"].ToString());
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_insert_etapa = true;
+                var res_insert_etapa = await db.tB_ProyectoFases
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.Orden, orden)
+                    .Value(x => x.Fase, nombre_fase)
+                    .Value(x => x.FechaIni, fecha_inicio)
+                    .Value(x => x.FechaFin, fecha_fin)
+                    .InsertAsync() > 0;
 
                 resp.Success = res_insert_etapa;
                 resp.Message = res_insert_etapa == default ? "Ocurrio un error al insertar registro." : string.Empty;
@@ -307,7 +321,18 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var etapas = new List<PCS_Etapa_Detalle>();
+                var etapas = await (from p in db.tB_ProyectoFases
+                                    where p.NumProyecto == IdProyecto
+                                    orderby p.Fase ascending
+                                    select new PCS_Etapa_Detalle
+                                    {
+                                        IdFase = p.IdFase,
+                                        NumProyecto = p.NumProyecto,
+                                        Orden = p.Orden,
+                                        Fase = p.Fase,
+                                        FechaIni = p.FechaIni,
+                                        FechaFin = p.FechaFin
+                                    }).ToListAsync();
 
                 return etapas;
             }
@@ -316,9 +341,24 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int id_etapa = Convert.ToInt32(registro["id_etapa"].ToString());
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            int orden = Convert.ToInt32(registro["orden"].ToString());
+            string nombre_fase = registro["nombre_fase"].ToString();
+            DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
+            DateTime fecha_fin = Convert.ToDateTime(registro["fecha_fin"].ToString());
+
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_etapa = true;
+                var res_update_etapa = await db.tB_ProyectoFases.Where(x => x.IdFase == id_etapa)
+                    .UpdateAsync(x => new TB_ProyectoFase
+                    {
+                        NumProyecto = x.NumProyecto,
+                        Orden = x.Orden,
+                        Fase = x.Fase,
+                        FechaIni = fecha_inicio,
+                        FechaFin = fecha_fin
+                    }) > 0;
 
                 resp.Success = res_update_etapa;
                 resp.Message = res_update_etapa == default ? "Ocurrio un error al actualizar registro." : string.Empty;
@@ -332,10 +372,19 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_etapa = true;
+                // Borrado de empleados de etapa
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdEtapa)
+                    .DeleteAsync() > 0;
 
-                resp.Success = res_update_etapa;
-                resp.Message = res_update_etapa == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_delete_empleado;
+                resp.Message = res_delete_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
+                // Borrado de etapá
+                var res_delete_etapa = await db.tB_ProyectoFases.Where(x => x.IdFase == IdEtapa)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_etapa;
+                resp.Message = res_delete_etapa == default ? "Ocurrio un error al borrar registro." : string.Empty;
             }
 
             return resp;
@@ -347,9 +396,21 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int mes = Convert.ToInt32(registro["mes"].ToString());
+            int anio = Convert.ToInt32(registro["anio"].ToString());
+            int porcentaje = Convert.ToInt32(registro["porcentaje"].ToString());
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_insert_empleado = true;
+                var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
+                    .Value(x => x.IdFase, id_fase)
+                    .Value(x => x.NumEmpleado, num_empleado)
+                    .Value(x => x.Mes, mes)
+                    .Value(x => x.Anio, anio)
+                    .Value(x => x.Porcentaje, porcentaje)
+                    .InsertAsync() > 0;
 
                 resp.Success = res_insert_empleado;
                 resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
@@ -357,11 +418,27 @@ namespace Bovis.Data
 
             return resp;
         }
-        public async Task<List<PCS_Empleado_Detalle>> GetEmpleados(int IdProyecto)
+        public async Task<List<PCS_Empleado_Detalle>> GetEmpleados(int IdFase)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var empleados = new List<PCS_Empleado_Detalle>();
+                var empleados = await (from p in db.tB_ProyectoFaseEmpleados
+                                       join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                       from eItem in eJoin.DefaultIfEmpty()
+                                       join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                       from perItem in perJoin.DefaultIfEmpty()
+                                       where p.IdFase == IdFase
+                                       orderby p.NumEmpleado ascending
+                                       select new PCS_Empleado_Detalle
+                                       {
+                                           Id = p.Id,
+                                           IdFase = p.IdFase,
+                                           NumempleadoRrHh = p.NumEmpleado,
+                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                           Mes = p.Mes,
+                                           Anio = p.Anio,
+                                           Porcentaje = p.Porcentaje
+                                       }).ToListAsync();
 
                 return empleados;
             }
@@ -370,9 +447,16 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int id = Convert.ToInt32(registro["id"].ToString());
+            int porcentaje = Convert.ToInt32(registro["porcentaje"].ToString());
+
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_empleado = true;
+                var res_update_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.Id == id)
+                    .UpdateAsync(x => new TB_ProyectoFaseEmpleado
+                    {
+                        Porcentaje = x.Porcentaje
+                    }) > 0;
 
                 resp.Success = res_update_empleado;
                 resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
@@ -380,16 +464,17 @@ namespace Bovis.Data
 
             return resp;
         }
-        public async Task<(bool Success, string Message)> DeleteEmpleado(int IdEmpleado)
+        public async Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
-                var res_update_empleado = true;
+            {                
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado)
+                    .DeleteAsync() > 0;
 
-                resp.Success = res_update_empleado;
-                resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_delete_empleado;
+                resp.Message = res_delete_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
             }
 
             return resp;

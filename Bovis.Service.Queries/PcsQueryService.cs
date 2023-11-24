@@ -103,9 +103,9 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.AddEmpleado(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<List<PCS_Empleado_Detalle>>> GetEmpleados(int IdProyecto)
+        public async Task<Response<List<PCS_Empleado_Detalle>>> GetEmpleados(int IdFase)
         {
-            var response = await _pcsBusiness.GetEmpleados(IdProyecto);
+            var response = await _pcsBusiness.GetEmpleados(IdFase);
             return new Response<List<PCS_Empleado_Detalle>> { Data = _map.Map<List<PCS_Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<(bool Success, string Message)>> UpdateEmpleado(JsonObject registro)
@@ -113,9 +113,9 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.UpdateEmpleado(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdEmpleado)
+        public async Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdFase, int NumEmpleado)
         {
-            var response = await _pcsBusiness.DeleteEmpleado(IdEmpleado);
+            var response = await _pcsBusiness.DeleteEmpleado(IdFase, NumEmpleado);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Empleados

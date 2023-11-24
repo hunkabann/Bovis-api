@@ -24,11 +24,11 @@ public class MappingsProfile : Profile
             .ForMember(c => c.nusueldo_max, dto => dto.MapFrom(src => src.SueldoMax))
             .ForMember(c => c.boactivo, dto => dto.MapFrom(src => src.Activo));
 
-        CreateMap<TB_Requerimiento_Habilidad, Habilidad>()
+        CreateMap<TB_RequerimientoHabilidad, Habilidad>()
             .ForMember(c => c.nukidrequerimiento, dto => dto.MapFrom(src => src.IdRequerimiento))
             .ForMember(c => c.nukidhabilidad, dto => dto.MapFrom(src => src.IdHabilidad));
 
-        CreateMap<TB_Requerimiento_Experiencia, Experiencia>()
+        CreateMap<TB_RequerimientoExperiencia, Experiencia>()
             .ForMember(c => c.nukidrequerimiento, dto => dto.MapFrom(src => src.IdRequerimiento))
             .ForMember(c => c.nukidexperiencia, dto => dto.MapFrom(src => src.IdExperiencia));
         #endregion Requerimientos
@@ -290,7 +290,7 @@ public class MappingsProfile : Profile
         #endregion
 
         #region DOR
-        CreateMap<TB_Dor_Empleados, DorEmpleadoCorreo>()
+        CreateMap<TB_DorEmpleados, DorEmpleadoCorreo>()
             .ForMember(c => c.Proyecto, dto => dto.MapFrom(src => src.Proyecto))
             .ForMember(c => c.Puesto, dto => dto.MapFrom(src => src.Puesto))
             .ForMember(c => c.CentrosdeCostos, dto => dto.MapFrom(src => src.CentrosdeCostos))

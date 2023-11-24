@@ -66,16 +66,16 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<List<TB_Auditoria_Documento>>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
+        public async Task<Response<List<TB_AuditoriaDocumento>>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
         {
             var response = await _auditoriaBusiness.GetDocumentosAuditoria(IdAuditoria, offset, limit);
-            return new Response<List<TB_Auditoria_Documento>> { Data = _map.Map<List<TB_Auditoria_Documento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<List<TB_AuditoriaDocumento>> { Data = _map.Map<List<TB_AuditoriaDocumento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
-        public async Task<Response<TB_Auditoria_Documento>> GetDocumentoAuditoria(int IdDocumento)
+        public async Task<Response<TB_AuditoriaDocumento>> GetDocumentoAuditoria(int IdDocumento)
         {
             var response = await _auditoriaBusiness.GetDocumentoAuditoria(IdDocumento);
-            return new Response<TB_Auditoria_Documento> { Data = _map.Map<TB_Auditoria_Documento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<TB_AuditoriaDocumento> { Data = _map.Map<TB_AuditoriaDocumento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool Success, string Message)>> AddAuditoriaDocumentoValidacion(JsonObject registro)

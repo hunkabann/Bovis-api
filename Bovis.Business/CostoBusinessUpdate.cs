@@ -18,10 +18,10 @@ namespace Bovis.Business
 
         }
 
-        public static TB_Costo_Por_Empleado ValueFields(CostoPorEmpleadoDTO source)
+        public static TB_CostoPorEmpleado ValueFields(CostoPorEmpleadoDTO source)
         {
             
-            TB_Costo_Por_Empleado destination = new();
+            TB_CostoPorEmpleado destination = new();
 
             destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination); 
              
@@ -129,7 +129,7 @@ namespace Bovis.Business
 
         } 
 
-        private static CostoLaboral CostoTotalLaboral(TB_Costo_Por_Empleado costo)
+        private static CostoLaboral CostoTotalLaboral(TB_CostoPorEmpleado costo)
         {
             CostoLaboral costoLab = new();
             costoLab.CostoMensualEmpleado = costo.SueldoBruto + costo.AguinaldoMontoProvisionMensual + costo.PvProvisionMensual + costo.IndemProvisionMensual + costo.BonoAnualProvisionMensual + costo.SgmmCostoMensual + costo.SvCostoMensual + costo.VaidCostoMensual + costo.VaidComisionCostoMensual + costo.PtuProvision + costo.CargasSociales;
@@ -142,7 +142,7 @@ namespace Bovis.Business
             return costoLab; 
         }
         
-        private static TB_Costo_Por_Empleado MapToTbCostoEmpleado<TProfile>(CostoPorEmpleadoDTO source, TB_Costo_Por_Empleado destination) where TProfile : Profile, new()
+        private static TB_CostoPorEmpleado MapToTbCostoEmpleado<TProfile>(CostoPorEmpleadoDTO source, TB_CostoPorEmpleado destination) where TProfile : Profile, new()
         {
             var config = new MapperConfiguration(cfg =>
             {

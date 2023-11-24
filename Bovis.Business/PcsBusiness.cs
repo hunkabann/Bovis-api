@@ -75,7 +75,7 @@ namespace Bovis.Business
         #region Empleados
         public Task<(bool Success, string Message)> AddEmpleado(JsonObject registro) => _pcsData.AddEmpleado(registro);
 
-        public Task<List<PCS_Empleado_Detalle>> GetEmpleados(int IdProyecto) => _pcsData.GetEmpleados(IdProyecto);
+        public Task<List<PCS_Empleado_Detalle>> GetEmpleados(int IdFase) => _pcsData.GetEmpleados(IdFase);
 
         public async Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro)
         {
@@ -90,7 +90,7 @@ namespace Bovis.Business
             return resp;
         }
 
-        public Task<(bool Success, string Message)> DeleteEmpleado(int IdEmpleado) => _pcsData.DeleteEmpleado(IdEmpleado);
+        public Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado) => _pcsData.DeleteEmpleado(IdFase, NumEmpleado);
         #endregion Empleados
     }
 }

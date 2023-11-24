@@ -35,7 +35,7 @@ namespace Bovis.Data
         #endregion base
 
         #region Habilidades
-        public async Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento)
+        public async Task<List<TB_RequerimientoHabilidad>> GetHabilidades(int idRequerimiento)
         {
             if (idRequerimiento > 0)
             {
@@ -46,12 +46,12 @@ namespace Bovis.Data
                                                                           where req.IdRequerimiento == idRequerimiento                                                                          
                                                                           select req).ToListAsync();
             }
-            else return await GetAllFromEntityAsync<TB_Requerimiento_Habilidad>();
+            else return await GetAllFromEntityAsync<TB_RequerimientoHabilidad>();
         }
         #endregion #Habilidades
 
         #region Expereincias
-        public async Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento)
+        public async Task<List<TB_RequerimientoExperiencia>> GetExperiencias(int idRequerimiento)
         {
             if (idRequerimiento > 0)
             {
@@ -62,7 +62,7 @@ namespace Bovis.Data
                                                                           where req.IdRequerimiento == idRequerimiento
                                                                           select req).ToListAsync();
             }
-            else return await GetAllFromEntityAsync<TB_Requerimiento_Experiencia>();
+            else return await GetAllFromEntityAsync<TB_RequerimientoExperiencia>();
         }
         #endregion Experiencias
 
@@ -471,7 +471,7 @@ namespace Bovis.Data
                         {
                             // Se actualiza
                             var res_update_requerimiento_habilidad = await db.tB_Requerimiento_Habilidades.Where(x => x.IdHabilidad == id && x.IdRequerimiento == id_requerimiento)
-                                .UpdateAsync(x => new TB_Requerimiento_Habilidad
+                                .UpdateAsync(x => new TB_RequerimientoHabilidad
                                 {
                                     IdHabilidad = id,
                                     Activo = true
@@ -537,7 +537,7 @@ namespace Bovis.Data
                         {
                             // Se actualiza
                             var res_update_requerimiento_experiencia = await db.tB_Requerimiento_Experiencias.Where(x => x.IdExperiencia == id && x.IdRequerimiento == id_requerimiento)
-                                .UpdateAsync(x => new TB_Requerimiento_Experiencia
+                                .UpdateAsync(x => new TB_RequerimientoExperiencia
                                 {
                                     IdExperiencia = id,
                                     Activo = true

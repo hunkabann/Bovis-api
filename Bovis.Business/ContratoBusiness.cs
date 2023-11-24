@@ -27,8 +27,8 @@ namespace Bovis.Business
         #endregion base
 
         #region Templates
-        public Task<List<TB_Contrato_Template>> GetTemplates(string Estatus) => _contratoData.GetTemplates(Estatus);
-        public Task<TB_Contrato_Template> GetTemplate(int IdTemplate) => _contratoData.GetTemplate(IdTemplate);
+        public Task<List<TB_ContratoTemplate>> GetTemplates(string Estatus) => _contratoData.GetTemplates(Estatus);
+        public Task<TB_ContratoTemplate> GetTemplate(int IdTemplate) => _contratoData.GetTemplate(IdTemplate);
 
         public async Task<(bool Success, string Message)> AddTemplate(JsonObject registro)
         {
@@ -67,8 +67,8 @@ namespace Bovis.Business
         #endregion Templates
 
         #region Contratos Empleado
-        public Task<List<TB_Contrato_Empleado>> GetContratosEmpleado(int IdEmpleado) => _contratoData.GetContratosEmpleado(IdEmpleado);
-        public Task<TB_Contrato_Empleado> GetContratoEmpleado(int IdContratoEmpleado) => _contratoData.GetContratoEmpleado(IdContratoEmpleado);
+        public Task<List<TB_ContratoEmpleado>> GetContratosEmpleado(int IdEmpleado) => _contratoData.GetContratosEmpleado(IdEmpleado);
+        public Task<TB_ContratoEmpleado> GetContratoEmpleado(int IdContratoEmpleado) => _contratoData.GetContratoEmpleado(IdContratoEmpleado);
 
         public async Task<(bool Success, string Message)> AddContratoEmpleado(JsonObject registro)
         {

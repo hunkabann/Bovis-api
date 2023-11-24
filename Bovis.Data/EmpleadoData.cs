@@ -749,7 +749,7 @@ namespace Bovis.Data
                             {
                                 // Se actualiza
                                 var res_update_empleado_habilidad = await db.tB_Empleado_Habilidades.Where(x => x.IdHabilidad == id && x.IdEmpleado == num_empleado_rr_hh)
-                                    .UpdateAsync(x => new TB_Empleado_Habilidad
+                                    .UpdateAsync(x => new TB_EmpleadoHabilidad
                                     {
                                         IdHabilidad = id,
                                         Activo = true
@@ -817,7 +817,7 @@ namespace Bovis.Data
                             {
                                 // Se actualiza
                                 var res_update_empleado_experiencia = await db.tB_Empleado_Experiencias.Where(x => x.IdExperiencia == id && x.IdEmpleado == num_empleado_rr_hh)
-                                    .UpdateAsync(x => new TB_Empleado_Experiencia
+                                    .UpdateAsync(x => new TB_EmpleadoExperiencia
                                     {
                                         IdExperiencia = id,
                                         Activo = true

@@ -256,7 +256,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<List<TB_Auditoria_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
+        public async Task<List<TB_AuditoriaDocumento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -273,7 +273,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<TB_Auditoria_Documento> GetDocumentoAuditoria(int IdDocumento)
+        public async Task<TB_AuditoriaDocumento> GetDocumentoAuditoria(int IdDocumento)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -299,7 +299,7 @@ namespace Bovis.Data
 
                     var res_valida_documento = await (db.tB_Auditoria_Documentos
                                                 .Where(x => x.IdDocumento == id_documento)
-                                                .UpdateAsync(x => new TB_Auditoria_Documento
+                                                .UpdateAsync(x => new TB_AuditoriaDocumento
                                                 {
                                                     Valido = valido
                                                 })) > 0;
@@ -308,7 +308,7 @@ namespace Bovis.Data
                     {
                         var delete_documento = await (db.tB_Auditoria_Documentos
                             .Where(x => x.IdDocumento == id_documento)
-                            .UpdateAsync(x => new TB_Auditoria_Documento
+                            .UpdateAsync(x => new TB_AuditoriaDocumento
                             {
                                 Activo = false
                             })) > 0;

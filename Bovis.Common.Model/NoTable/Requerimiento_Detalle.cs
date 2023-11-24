@@ -42,8 +42,8 @@ namespace Bovis.Common.Model.NoTable
         public int? nuanios_experiencia { get; set; }
         public string? chnivel_ingles { get;set; }
         public string? chcomentarios { get; set; }
-        public List<TB_Requerimiento_Habilidad>? habilidades { get; set; }
-        public List<TB_Requerimiento_Experiencia>? experiencias { get; set; }
+        public List<TB_RequerimientoHabilidad>? habilidades { get; set; }
+        public List<TB_RequerimientoExperiencia>? experiencias { get; set; }
         public bool? boactivo { get; set; }
     }
 

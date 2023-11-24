@@ -186,7 +186,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_custom_query = await (db.tB_Reporte_Customs.Where(x => x.IdReporte == id_reporte)
-                    .UpdateAsync(x => new TB_Reporte_Custom
+                    .UpdateAsync(x => new TB_ReporteCustom
                     {
                         Nombre = nombre,
                         Descripcion = descripcion,
@@ -208,7 +208,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_custom_query = await (db.tB_Reporte_Customs.Where(x => x.IdReporte == IdReporte)
-                                .UpdateAsync(x => new TB_Reporte_Custom
+                                .UpdateAsync(x => new TB_ReporteCustom
                                 {
                                     Activo = false
                                 })) > 0;

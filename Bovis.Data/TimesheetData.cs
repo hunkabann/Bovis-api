@@ -91,7 +91,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_dias_timesheet = await db.tB_Dias_Timesheets.Where(x => x.Id == id_timesheet)
-                                .UpdateAsync(x => new TB_Dias_Timesheet
+                                .UpdateAsync(x => new TB_DiasTimesheet
                                 {
                                     Feriados = dias,
                                     SabadosFeriados = sabados_feriados
