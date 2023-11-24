@@ -100,10 +100,10 @@ namespace Bovis.API.Controllers
 
 
         #region Registros        
-        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{mes}/{anio}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{clasificacionPY}/{offset}/{limit}")]
-        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
+        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{mesInicio}/{anioInicio}/{mesFin}/{anioFin}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{clasificacionPY}/{offset}/{limit}")]
+        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
         {
-            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, mes, anio, concepto, empresa, num_proyecto, responsable, clasificacionPY, offset, limit);
+            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, mesInicio, anioInicio, mesFin, anioFin, concepto, empresa, num_proyecto, responsable, clasificacionPY, offset, limit);
             return Ok(query);
         }
 

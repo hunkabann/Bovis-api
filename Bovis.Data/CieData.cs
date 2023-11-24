@@ -230,7 +230,7 @@ namespace Bovis.Data
                 return res;
             }
         }
-        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
+        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin,  string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
         {
             Cie_Registros registros = new Cie_Registros();
 
@@ -241,8 +241,10 @@ namespace Bovis.Data
                                              from archivoItem in archivoJoin.DefaultIfEmpty()
                                              where cie.Activo == activo
                                              && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
-                                             && (mes == 0 || Convert.ToDateTime(cie.Fecha).Month == mes)
-                                             && (anio == 0 || Convert.ToDateTime(cie.Fecha).Year == anio)
+                                             && (mesInicio == 0 || Convert.ToDateTime(cie.Fecha).Month >= mesInicio)
+                                             && (anioInicio == 0 || Convert.ToDateTime(cie.Fecha).Year >= anioInicio)
+                                             && (mesFin == 0 || Convert.ToDateTime(cie.Fecha).Month <= mesFin)
+                                             && (anioFin == 0 || Convert.ToDateTime(cie.Fecha).Year <= anioFin)
                                              && (concepto == "-" || cie.Concepto == concepto)
                                              && (empresa == "-" || cie.Empresa == empresa)
                                              && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
@@ -306,8 +308,10 @@ namespace Bovis.Data
                                           from eItem in eJoin.DefaultIfEmpty()
                                           where (num_proyecto == 0 || a.NumProyecto == num_proyecto)
                                           && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
-                                          && (mes == 0 || a.FechaEmision.Month == mes)
-                                          && (anio == 0 || a.FechaEmision.Year == anio)
+                                          && (mesInicio == 0 || a.FechaEmision.Month >= mesInicio)
+                                          && (anioInicio == 0 || a.FechaEmision.Year >= anioInicio)
+                                          && (mesFin == 0 || a.FechaEmision.Month <= mesFin)
+                                          && (anioFin == 0 || a.FechaEmision.Year <= anioFin)
                                           && (num_proyecto == 0 || a.NumProyecto == num_proyecto)
                                           && (empresa == "-" || eItem.Empresa == empresa)
                                           orderby a.Id descending
@@ -339,8 +343,10 @@ namespace Bovis.Data
                                        join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                        from emprItem in emprJoin.DefaultIfEmpty()
                                        where notas.FechaCancelacion == null
-                                       && (mes == 0 || notas.FechaNotaCredito.Month == mes)
-                                       && (anio == 0 || notas.FechaNotaCredito.Year == anio)
+                                       && (mesInicio == 0 || notas.FechaNotaCredito.Month >= mesInicio)
+                                       && (anioInicio == 0 || notas.FechaNotaCredito.Year >= anioInicio)
+                                       && (mesFin == 0 || notas.FechaNotaCredito.Month <= mesFin)
+                                       && (anioFin == 0 || notas.FechaNotaCredito.Year <= anioFin)
                                        && (num_proyecto == 0 || factsItem.NumProyecto == num_proyecto)
                                        && (empresa == "-" || emprItem.Empresa == empresa)
                                        select new Cie_Detalle
@@ -371,8 +377,10 @@ namespace Bovis.Data
                                            join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                            from emprItem in emprJoin.DefaultIfEmpty()
                                            where cobr.FechaCancelacion == null
-                                           && (mes == 0 || cobr.FechaPago.Month == mes)
-                                           && (anio == 0 || cobr.FechaPago.Year == anio)
+                                           && (mesInicio == 0 || cobr.FechaPago.Month >= mesInicio)
+                                           && (anioInicio == 0 || cobr.FechaPago.Year >= anioInicio)
+                                           && (mesFin == 0 || cobr.FechaPago.Month <= mesFin)
+                                           && (anioFin == 0 || cobr.FechaPago.Year <= anioFin)
                                            && (num_proyecto == 0 || factsItem.NumProyecto == num_proyecto)
                                            && (empresa == "-" || emprItem.Empresa == empresa)
                                            select new Cie_Detalle
