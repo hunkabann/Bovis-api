@@ -32,6 +32,23 @@ F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Data.
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Data.Interface/obj/Debug/net6.0/refint/Bovis.Data.Interface.dll
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Data.Interface/obj/Debug/net6.0/Bovis.Data.Interface.pdb
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Data.Interface/obj/Debug/net6.0/ref/Bovis.Data.Interface.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.deps.json
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.csproj.AssemblyReference.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.AssemblyInfoInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.AssemblyInfo.cs
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.csproj.CoreCompileInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.csproj.CopyComplete
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\refint\Bovis.Data.Interface.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\ref\Bovis.Data.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.deps.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.pdb

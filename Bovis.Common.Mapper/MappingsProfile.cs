@@ -132,7 +132,7 @@ public class MappingsProfile : Profile
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Jornada))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));
 
-        CreateMap<TB_Cat_Modena, Catalogo>()
+        CreateMap<TB_Cat_Moneda, Catalogo>()
             .ForMember(c => c.id, dto => dto.MapFrom(src => src.IdMoneda))
             .ForMember(c => c.descripcion, dto => dto.MapFrom(src => src.Moneda))
             .ForMember(c => c.activo, dto => dto.MapFrom(src => src.Activo));

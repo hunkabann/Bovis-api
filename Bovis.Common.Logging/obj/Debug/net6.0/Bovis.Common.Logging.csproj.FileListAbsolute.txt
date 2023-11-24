@@ -1,0 +1,11 @@
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.deps.json
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfoInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfo.cs
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.csproj.CoreCompileInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll

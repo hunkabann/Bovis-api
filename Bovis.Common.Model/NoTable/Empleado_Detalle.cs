@@ -75,6 +75,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chcotizacion { get; set; }
         public int? nuduracion { get; set; }
         public bool? boactivo { get; set; }
+        public bool? boempleado { get; set; }
         public string? chporcentaje_pension { get; set; }
         public decimal? nudescuento_pension { get; set; }
         public decimal? nuporcentaje_pension { get; set; }
@@ -103,6 +104,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chap_paterno { get; set; }
         public string? chap_materno { get; set; }
         public string? chpuesto { get; set; }
+        public string? chemailbovis {  get; set; }
     }
 
     public class Experiencia_Detalle

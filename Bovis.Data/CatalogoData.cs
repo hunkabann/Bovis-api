@@ -15,13 +15,26 @@ namespace Bovis.Data
 			this.ConfigurationDB = dbConfig;
 		}
 
-		#region Beneficio
-		public async Task<List<TB_Cat_Beneficio>> GetBeneficio(bool? activo)
+        #region Destructor
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            GC.Collect();
+        }
+
+        #endregion
+
+
+
+        #region Beneficio
+        public async Task<List<TB_Cat_Beneficio>> GetBeneficio(bool? activo)
 		{
 			if (activo.HasValue)
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Beneficios
 																		  where cat.Activo == activo
+																		  orderby cat.Beneficio ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Beneficio>();
@@ -52,6 +65,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Categorias
 																		  where cat.Activo == activo
+																		  orderby cat.Categoria ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Categoria>();
@@ -82,6 +96,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Clasificacions
 																		  where cat.Activo == activo
+																		  orderby cat.Clasificacion ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Clasificacion>();
@@ -112,6 +127,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_CostoIndirectoSalarios
 																		  where cat.Activo == activo
+																		  orderby cat.CostoIndirecto ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_CostoIndirectoSalarios>();
@@ -142,6 +158,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Departamentos
 																		  where cat.Activo == activo
+																		  orderby cat.Departamento ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Departamento>();
@@ -172,6 +189,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Documentos
 																		  where cat.Activo == activo
+																		  orderby cat.Documento ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Documento>();
@@ -201,6 +219,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Estados
                                                                           where cat.Activo == activo
+																		  orderby cat.Estado ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Estado>();
@@ -230,6 +249,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_EdoCivils
 																		  where cat.Activo == activo
+																		  orderby cat.EdoCivil ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_EdoCivil>();
@@ -260,6 +280,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_EstatusProyectos
 																		  where cat.Activo == activo
+																		  orderby cat.Estatus ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_EstatusProyecto>();
@@ -289,6 +310,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Experiencias
                                                                           where cat.Activo == activo
+																		  orderby cat.Experiencia ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Experiencia>();
@@ -317,6 +339,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_FormaPagos
 																		  where cat.Activo == activo
+																		  orderby cat.TipoDocumento ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_FormaPago>();
@@ -347,6 +370,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Gastos
 																		  where cat.Activo == activo
+																		  orderby cat.Gasto ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Gasto>();
@@ -376,6 +400,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Habilidades
                                                                           where cat.Activo == activo
+																		  orderby cat.Habilidad ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Habilidad>();
@@ -404,6 +429,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Ingresos
 																		  where cat.Activo == activo
+																		  orderby cat.Ingreso ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Ingreso>();
@@ -434,6 +460,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Jornadas
 																		  where cat.Activo == activo
+																		  orderby cat.Jornada ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Jornada>();
@@ -456,28 +483,29 @@ namespace Bovis.Data
 
 		#endregion
 		
-		#region Modena
+		#region Moneda
 
-		public async Task<List<TB_Cat_Modena>> GetModena(bool? activo)
+		public async Task<List<TB_Cat_Moneda>> GetModena(bool? activo)
 		{
 			if (activo.HasValue)
 			{
-				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Modenas
+				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Monedas
 																		  where cat.Activo == activo
+																		  orderby cat.Moneda ascending
 																		  select cat).ToListAsync();
 			}
-			else return await GetAllFromEntityAsync<TB_Cat_Modena>();
+			else return await GetAllFromEntityAsync<TB_Cat_Moneda>();
 		}
 
-		public Task<bool> AddModena(TB_Cat_Modena modena) => InsertEntityIdAsync<TB_Cat_Modena>(modena);
+		public Task<bool> AddModena(TB_Cat_Moneda modena) => InsertEntityIdAsync<TB_Cat_Moneda>(modena);
 
-		public Task<bool> UpdateModena(TB_Cat_Modena modena) => UpdateEntityAsync<TB_Cat_Modena>(modena);
+		public Task<bool> UpdateModena(TB_Cat_Moneda modena) => UpdateEntityAsync<TB_Cat_Moneda>(modena);
 
-		public async Task<bool> DeleteModena(TB_Cat_Modena modena)
+		public async Task<bool> DeleteModena(TB_Cat_Moneda modena)
 		{
 			using (var db = new ConnectionDB(dbConfig))
 			{
-				var qry = db.tB_Cat_Modenas
+				var qry = db.tB_Cat_Monedas
 					   .Where(x => x.IdMoneda == modena.IdMoneda)
 					   .Set(x => x.Activo, false);
 				return await qry.UpdateAsync() >= 0;
@@ -494,6 +522,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_NivelEstudios
 																		  where cat.Activo == activo
+																		  orderby cat.NivelEstudios ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_NivelEstudios>();
@@ -524,6 +553,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_NivelPuestos
 																		  where cat.Activo == activo
+																		  orderby cat.NivelPuesto ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_NivelPuesto>();
@@ -554,6 +584,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Pais
                                                                           where cat.Activo == activo
+																		  orderby cat.Pais ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Pais>();
@@ -584,6 +615,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Pcs
 																		  where cat.Activo == activo
+																		  orderby cat.Pcs ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Pcs>();
@@ -614,6 +646,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Prestacions
 																		  where cat.Activo == activo
+																		  orderby cat.Viatico ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Prestacion>();
@@ -643,6 +676,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Profesiones
                                                                           where cat.Activo == activo
+																		  orderby cat.Profesion ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Profesion>();
@@ -710,6 +744,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_RubroIngresoReembolsables
 																		  where cat.Activo == activo
+																		  orderby cat.Rubro ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_RubroIngresoReembolsable>();
@@ -740,6 +775,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Sectors
 																		  where cat.Activo == activo
+																		  orderby cat.Sector ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Sector>();
@@ -769,6 +805,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Sexos
                                                                           where cat.Activo == activo
+																		  orderby cat.Sexo ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Sexo>();
@@ -799,6 +836,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoCies
 																		  where cat.Activo == activo
+																		  orderby cat.TipoCie ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoCie>();
@@ -829,6 +867,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from contrato in db.tB_Cat_TipoContratos
 																		  where contrato.Activo == activo
+																		  orderby contrato.Contrato ascending
 																		  select new TipoContrato_Detalle
 																		  {
 																			  nukid_contrato = contrato.IdTipoContrato,
@@ -865,6 +904,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoCtaContables
 																		  where cat.Activo == activo
+																		  orderby cat.CtaContable ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoCtaContable>();
@@ -895,6 +935,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoCuentas
 																		  where cat.Activo == activo
+																		  orderby cat.TipoCuenta ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoCuenta>();
@@ -925,6 +966,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoDocumentos
 																		  where cat.Activo == activo
+																		  orderby cat.TipoDocumento ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoDocumento>();
@@ -955,6 +997,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoEmpleados
 																		  where cat.Activo == activo
+																		  orderby cat.TipoEmpleado ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoEmpleado>();
@@ -985,6 +1028,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoFacturas
 																		  where cat.Activo == activo
+																		  orderby cat.TipoFactura ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoFactura>();
@@ -1015,6 +1059,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoGastos
 																		  where cat.Activo == activo
+																		  orderby cat.TipoGasto ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoGasto>();
@@ -1045,6 +1090,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoIngresos
 																		  where cat.Activo == activo
+																		  orderby cat.TipoIngreso ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoIngreso>();
@@ -1075,6 +1121,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoPcs
 																		  where cat.Activo == activo
+																		  orderby cat.TipoPcs ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoPcs>();
@@ -1104,6 +1151,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoPersonas
                                                                           where cat.Activo == activo
+																		  orderby cat.TipoPersona ascending
                                                                           select cat).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_TipoPersona>();
@@ -1134,6 +1182,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoPolizas
 																		  where cat.Activo == activo
+																		  orderby cat.TipoPoliza ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoPoliza>();
@@ -1164,6 +1213,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoProyectos
 																		  where cat.Activo == activo
+																		  orderby cat.TipoProyecto ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoProyecto>();
@@ -1194,6 +1244,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoResultados
 																		  where cat.Activo == activo
+																		  orderby cat.TipoResultado ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoResultado>();
@@ -1224,6 +1275,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_TipoSangres
 																		  where cat.Activo == activo
+																		  orderby cat.TipoSangre ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_TipoSangre>();
@@ -1253,6 +1305,7 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from turno in db.tB_Cat_Turnos
                                                                           where turno.Activo == activo
+																		  orderby turno.Turno ascending
                                                                           select turno).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Cat_Turno>();
@@ -1283,6 +1336,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_UnidadNegocios
 																		  where cat.Activo == activo
+																		  orderby cat.UnidadNegocio ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_UnidadNegocio>();
@@ -1305,7 +1359,7 @@ namespace Bovis.Data
 
 		#endregion
 
-		#region Vistico
+		#region Viatico
 
 		public async Task<List<TB_Cat_Viatico>> GetViatico(bool? activo)
 		{
@@ -1313,6 +1367,7 @@ namespace Bovis.Data
 			{
 				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Cat_Viaticos
 																		  where cat.Activo == activo
+																		  orderby cat.Viatico ascending
 																		  select cat).ToListAsync();
 			}
 			else return await GetAllFromEntityAsync<TB_Cat_Viatico>();
@@ -1335,15 +1390,7 @@ namespace Bovis.Data
 
 		#endregion
 
-		#region Destructor
-
-		public void Dispose()
-		{
-			GC.SuppressFinalize(this);
-			GC.Collect();
-		}
-
-		#endregion
+		
 
 
 	}

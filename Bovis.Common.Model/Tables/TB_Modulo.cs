@@ -8,6 +8,8 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidmodulo"), NotNull, PrimaryKey, Identity] public int IdModulo { get; set; }
 		[Column("Chmodulo"), NotNull] public string Modulo { get; set; }
 		[Column("Chsub_modulo"), NotNull] public string? SubModulo { get; set; }
+		[Column("Botab"), NotNull] public bool IsTab { get; set; }
+		[Column("Chtab"), NotNull] public string Tab { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
 	}
 }

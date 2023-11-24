@@ -149,6 +149,7 @@ namespace Bovis.Data
                                           chcotizacion = emp.Cotizacion,
                                           nuduracion = emp.Duracion,
                                           boactivo = emp.Activo,
+                                          boempleado = perItem != null ? perItem.EsEmpleado : false,
                                           nudescuento_pension = emp.DescuentoPension,
                                           chporcentaje_pension = emp.ChPorcentajePension,
                                           nufondo_fijo = emp.FondoFijo,
@@ -287,6 +288,7 @@ namespace Bovis.Data
                                      chcotizacion = emp.Cotizacion,
                                      nuduracion = emp.Duracion,
                                      boactivo = emp.Activo,
+                                     boempleado = perItem != null ? perItem.EsEmpleado : false,
                                      nudescuento_pension = emp.DescuentoPension,
                                      chporcentaje_pension = emp.ChPorcentajePension,
                                      nufondo_fijo = emp.FondoFijo,
@@ -358,6 +360,7 @@ namespace Bovis.Data
                 var res = await (from emp in db.tB_Empleados
                                  join per in db.tB_Personas on emp.IdPersona equals per.IdPersona
                                  where emp.EmailBovis == email
+                                 orderby per.Nombre ascending
                                  select new Empleado_BasicData
                                  {
                                      nukid_empleado = emp.NumEmpleadoRrHh,
@@ -369,7 +372,7 @@ namespace Bovis.Data
                 return res;
             }
         }
-        
+
         public async Task<List<Empleado_BasicData>> GetEmpleadoDetalle()
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -403,46 +406,46 @@ namespace Bovis.Data
             int id_tipo_contrato = Convert.ToInt32(registro["id_tipo_contrato"].ToString());
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
-            string calle = registro["calle"].ToString();
-            string numero_exterior = registro["numero_exterior"].ToString();
-            string numero_interior = registro["numero_interior"] != null ? registro["numero_interior"].ToString() : string.Empty;
-            string colonia = registro["colonia"].ToString();
-            string alcaldia = registro["alcaldia"].ToString();
+            string? calle = registro["calle"] != null ? registro["calle"].ToString() : null;
+            string? numero_exterior = registro["numero_exterior"] != null ? registro["numero_exterior"].ToString() : null;
+            string? numero_interior = registro["numero_interior"] != null ? registro["numero_interior"].ToString() : null;
+            string? colonia = registro["colonia"] != null ? registro["colonia"].ToString() : null;
+            string? alcaldia = registro["alcaldia"] != null ? registro["alcaldia"].ToString() : null;
             int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
-            int id_estado = Convert.ToInt32(registro["id_estado"].ToString());
-            string codigo_postal = registro["codigo_postal"].ToString();
-            int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
+            int? id_estado = registro["id_estado"] != null ? Convert.ToInt32(registro["id_estado"].ToString()) : null;
+            string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
+            int? id_pais = registro["id_pais"] != null ? Convert.ToInt32(registro["id_pais"].ToString()) : null;
             int id_nivel_estudios = registro["id_nivel_estudios"] != null ? Convert.ToInt32(registro["id_nivel_estudios"].ToString()) : 0;
             int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
-            int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
-            int id_departamento = Convert.ToInt32(registro["id_departamento"].ToString());
-            int id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : 0;
-            int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
-            int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
-            int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
-            int num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : 0;
+            int? id_jornada = registro["id_jornada"] != null ? Convert.ToInt32(registro["id_jornada"].ToString()) : null;
+            int? id_departamento = registro["id_departamento"] != null ? Convert.ToInt32(registro["id_departamento"].ToString()) : null;
+            int? id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : null;
+            int? id_jefe_directo = registro["id_jefe_directo"] != null ? Convert.ToInt32(registro["id_jefe_directo"].ToString()) : null;
+            int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null;
+            int? id_tipo_contrato_sat = registro["id_tipo_contrato_sat"] != null ? Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString()) : null;
+            int? num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : null;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
-            string nss = registro["nss"].ToString();
-            string email_bovis = registro["email_bovis"].ToString();
-            string url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : string.Empty;
+            string? nss = registro["nss"] != null ? registro["nss"].ToString() : null;
+            string? email_bovis = registro["email_bovis"] != null ? registro["email_bovis"].ToString() : null;
+            string? url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : null;
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
-            int id_profesion = registro["id_profesion"] != null ? Convert.ToInt32(registro["id_profesion"].ToString()) : 0;
+            int? id_profesion = registro["id_profesion"] != null ? Convert.ToInt32(registro["id_profesion"].ToString()) : null;
             int antiguedad = registro["antiguedad"] != null ? Convert.ToInt32(registro["antiguedad"].ToString()) : 0;
-            int id_turno = registro["id_turno"] != null ? Convert.ToInt32(registro["id_turno"].ToString()) : 0;
-            int unidad_medica = registro["unidad_medica"] != null ? Convert.ToInt32(registro["unidad_medica"].ToString()) : 0;
-            string registro_patronal = registro["registro_patronal"].ToString();
-            string cotizacion = registro["cotizacion"].ToString();
-            int duracion = registro["duracion"] != null ? Convert.ToInt32(registro["duracion"].ToString()) : 0;
+            int? id_turno = registro["id_turno"] != null ? Convert.ToInt32(registro["id_turno"].ToString()) : null;
+            int? unidad_medica = registro["unidad_medica"] != null ? Convert.ToInt32(registro["unidad_medica"].ToString()) : null;
+            string? registro_patronal = registro["registro_patronal"] != null ? registro["registro_patronal"].ToString() : null;
+            string? cotizacion = registro["cotizacion"] != null ? registro["cotizacion"].ToString() : null;
+            int? duracion = registro["duracion"] != null ? Convert.ToInt32(registro["duracion"].ToString()) : null;
             decimal descuento_pension = registro["descuento_pension"] != null ? Convert.ToDecimal(registro["descuento_pension"].ToString()) : 0;
-            string porcentaje_pension = registro["porcentaje_pension"] != null ? registro["porcentaje_pension"].ToString() : string.Empty;
-            decimal fondo_fijo = registro["fondo_fijo"] != null ? Convert.ToDecimal(registro["fondo_fijo"].ToString()) : 0;
-            string credito_infonavit = registro["credito_infonavit"] != null ? registro["credito_infonavit"].ToString() : string.Empty;
-            string tipo_descuento = registro["tipo_descuento"] != null ? registro["tipo_descuento"].ToString() : string.Empty;
-            decimal valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : 0;
-            string no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : string.Empty;
-            string rol = registro["rol"] != null ? registro["rol"].ToString() : string.Empty;
+            string? porcentaje_pension = registro["porcentaje_pension"] != null ? registro["porcentaje_pension"].ToString() : null;
+            decimal? fondo_fijo = registro["fondo_fijo"] != null ? Convert.ToDecimal(registro["fondo_fijo"].ToString()) : null;
+            string? credito_infonavit = registro["credito_infonavit"] != null ? registro["credito_infonavit"].ToString() : null;
+            string? tipo_descuento = registro["tipo_descuento"] != null ? registro["tipo_descuento"].ToString() : null;
+            decimal? valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : null;
+            string? no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : null;
+            string? rol = registro["rol"] != null ? registro["rol"].ToString() : null;
             int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
@@ -458,7 +461,7 @@ namespace Bovis.Data
                     return resp;
                 }
 
-                int last_inserted_id = 0;                
+                int last_inserted_id = 0;
 
                 var insert_empleado = await db.tB_Empleados
                     .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
@@ -530,7 +533,8 @@ namespace Bovis.Data
                 resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
-                if (registro["habilidades"] != null) {
+                if (registro["habilidades"] != null)
+                {
                     foreach (var habilidad in registro["habilidades"].AsArray())
                     {
                         int id_habilidad = Convert.ToInt32(habilidad.ToString());
@@ -553,17 +557,17 @@ namespace Bovis.Data
                         int id_experiencia = Convert.ToInt32(experiencia.ToString());
 
                         var insert_experiencia = await db.tB_Empleado_Experiencias
-                            .Value(x => x.IdEmpleado, num_empleado_rr_hh)
-                            .Value(x => x.IdExperiencia, id_experiencia)
-                            .Value(x => x.Activo, true)
-                            .InsertAsync() > 0;
+                                                .Value(x => x.IdEmpleado, num_empleado_rr_hh)
+                                                .Value(x => x.IdExperiencia, id_experiencia)
+                                                .Value(x => x.Activo, true)
+                                                .InsertAsync() > 0;
 
                         resp.Success = insert_experiencia;
                         resp.Message = insert_experiencia == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
                     }
                 }
 
-                if(id_requerimiento > 0)
+                if (id_requerimiento > 0)
                 {
                     var res_update_requerimiento = await db.tB_Requerimientos.Where(x => x.IdRequerimiento == id_requerimiento)
                     .UpdateAsync(x => new TB_Requerimiento
@@ -574,6 +578,32 @@ namespace Bovis.Data
                     resp.Success = res_update_requerimiento;
                     resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
+
+                //
+                // Se inserta también como nuevo usuario.
+                //
+                var insert_usuario = await db.tB_Usuarios
+                        .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
+                        .Value(x => x.Activo, true)
+                        .InsertWithIdentityAsync();
+
+                resp.Success = insert_usuario != null;
+                resp.Message = insert_usuario == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+                // Se le asigna por default el perfil Inicial.
+                var perfil_inicial = await (from perfil in db.tB_Perfils
+                                            where perfil.Perfil == "General / TimeSheet / PEC"
+                                            && perfil.Activo == true
+                                            select perfil).FirstOrDefaultAsync();
+
+                var insert_perfil_usuario = await db.tB_PerfilUsuarios
+                                                    .Value(x => x.IdPerfil, perfil_inicial.IdPerfil)
+                                                    .Value(x => x.IdUsuario, Convert.ToInt32(insert_usuario))
+                                                    .InsertAsync() > 0;
+
+                resp.Success = insert_perfil_usuario;
+                resp.Message = insert_perfil_usuario == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
+
             }
             return resp;
         }
@@ -589,46 +619,46 @@ namespace Bovis.Data
             int id_tipo_contrato = Convert.ToInt32(registro["id_tipo_contrato"].ToString());
             int cve_puesto = Convert.ToInt32(registro["cve_puesto"].ToString());
             int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
-            string calle = registro["calle"].ToString();
-            string numero_exterior = registro["numero_exterior"].ToString();
-            string numero_interior = registro["numero_interior"] != null ? registro["numero_interior"].ToString() : string.Empty;
-            string colonia = registro["colonia"].ToString();
-            string alcaldia = registro["alcaldia"].ToString();
+            string? calle = registro["calle"] != null ? registro["calle"].ToString() : null;
+            string? numero_exterior = registro["numero_exterior"] != null ? registro["numero_exterior"].ToString() : null;
+            string? numero_interior = registro["numero_interior"] != null ? registro["numero_interior"].ToString() : null;
+            string? colonia = registro["colonia"] != null ? registro["colonia"].ToString() : null;
+            string? alcaldia = registro["alcaldia"] != null ? registro["alcaldia"].ToString() : null;
             int id_ciudad = Convert.ToInt32(registro["id_ciudad"].ToString());
-            int id_estado = Convert.ToInt32(registro["id_estado"].ToString());
-            string codigo_postal = registro["codigo_postal"].ToString();
-            int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
+            int? id_estado = registro["id_estado"] != null ? Convert.ToInt32(registro["id_estado"].ToString()) : null;
+            string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
+            int? id_pais = registro["id_pais"] != null ? Convert.ToInt32(registro["id_pais"].ToString()) : null;
             int id_nivel_estudios = registro["id_nivel_estudios"] != null ? Convert.ToInt32(registro["id_nivel_estudios"].ToString()) : 0;
             int id_forma_pago = Convert.ToInt32(registro["id_forma_pago"].ToString());
-            int id_jornada = Convert.ToInt32(registro["id_jornada"].ToString());
-            int id_departamento = Convert.ToInt32(registro["id_departamento"].ToString());
-            int id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : 0;
-            int id_jefe_directo = Convert.ToInt32(registro["id_jefe_directo"].ToString());
-            int id_unidad_negocio = Convert.ToInt32(registro["id_unidad_negocio"].ToString());
-            int id_tipo_contrato_sat = Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString());
-            int num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : 0;
+            int? id_jornada = registro["id_jornada"] != null ? Convert.ToInt32(registro["id_jornada"].ToString()) : null;
+            int? id_departamento = registro["id_departamento"] != null ? Convert.ToInt32(registro["id_departamento"].ToString()) : null;
+            int? id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : null;
+            int? id_jefe_directo = registro["id_jefe_directo"] != null ? Convert.ToInt32(registro["id_jefe_directo"].ToString()) : null;
+            int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null;
+            int? id_tipo_contrato_sat = registro["id_tipo_contrato_sat"] != null ? Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString()) : null;
+            int? num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : null;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
-            string nss = registro["nss"].ToString();
-            string email_bovis = registro["email_bovis"].ToString();
-            string url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : string.Empty;
+            string? nss = registro["nss"] != null ? registro["nss"].ToString() : null;
+            string? email_bovis = registro["email_bovis"] != null ? registro["email_bovis"].ToString() : null;
+            string? url_repo = registro["url_repo"] != null ? registro["url_repo"].ToString() : null;
             decimal salario = Convert.ToDecimal(registro["salario"].ToString());
-            int id_profesion = registro["id_profesion"] != null ? Convert.ToInt32(registro["id_profesion"].ToString()) : 0;
+            int? id_profesion = registro["id_profesion"] != null ? Convert.ToInt32(registro["id_profesion"].ToString()) : null;
             int antiguedad = registro["antiguedad"] != null ? Convert.ToInt32(registro["antiguedad"].ToString()) : 0;
-            int id_turno = registro["id_turno"] != null ? Convert.ToInt32(registro["id_turno"].ToString()) : 0;
-            int unidad_medica = registro["unidad_medica"] != null ? Convert.ToInt32(registro["unidad_medica"].ToString()) : 0;
-            string registro_patronal = registro["registro_patronal"].ToString();
-            string cotizacion = registro["cotizacion"].ToString();
-            int duracion = registro["duracion"] != null ? Convert.ToInt32(registro["duracion"].ToString()) : 0;
+            int? id_turno = registro["id_turno"] != null ? Convert.ToInt32(registro["id_turno"].ToString()) : null;
+            int? unidad_medica = registro["unidad_medica"] != null ? Convert.ToInt32(registro["unidad_medica"].ToString()) : null;
+            string? registro_patronal = registro["registro_patronal"] != null ? registro["registro_patronal"].ToString() : null;
+            string? cotizacion = registro["cotizacion"] != null ? registro["cotizacion"].ToString() : null;
+            int? duracion = registro["duracion"] != null ? Convert.ToInt32(registro["duracion"].ToString()) : null;
             decimal descuento_pension = registro["descuento_pension"] != null ? Convert.ToDecimal(registro["descuento_pension"].ToString()) : 0;
-            string porcentaje_pension = registro["porcentaje_pension"] != null ? registro["porcentaje_pension"].ToString() : string.Empty;
-            decimal fondo_fijo = registro["fondo_fijo"] != null ? Convert.ToDecimal(registro["fondo_fijo"].ToString()) : 0;
-            string credito_infonavit = registro["credito_infonavit"] != null ? registro["credito_infonavit"].ToString() : string.Empty;
-            string tipo_descuento = registro["tipo_descuento"] != null ? registro["tipo_descuento"].ToString() : string.Empty;
-            decimal valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : 0;
-            string no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : string.Empty;
-            string rol = registro["rol"] != null ? registro["rol"].ToString() : string.Empty;
+            string? porcentaje_pension = registro["porcentaje_pension"] != null ? registro["porcentaje_pension"].ToString() : null;
+            decimal? fondo_fijo = registro["fondo_fijo"] != null ? Convert.ToDecimal(registro["fondo_fijo"].ToString()) : null;
+            string? credito_infonavit = registro["credito_infonavit"] != null ? registro["credito_infonavit"].ToString() : null;
+            string? tipo_descuento = registro["tipo_descuento"] != null ? registro["tipo_descuento"].ToString() : null;
+            decimal? valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : null;
+            string? no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : null;
+            string? rol = registro["rol"] != null ? registro["rol"].ToString() : null;
             int index = 0;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -824,14 +854,14 @@ namespace Bovis.Data
                     }
                 }
             }
-            
+
             return resp;
         }
 
         public async Task<(bool Success, string Message)> UpdateEstatus(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            
+
             int num_empleado_rr_hh = Convert.ToInt32(registro["id"].ToString());
             bool activo = Convert.ToBoolean(registro["boactivo"].ToString());
 
@@ -845,6 +875,15 @@ namespace Bovis.Data
 
                 resp.Success = res_update_empleado;
                 resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                var res_disable_usuario = await db.tB_Usuarios.Where(x => x.NumEmpleadoRrHh == num_empleado_rr_hh)
+                                .UpdateAsync(x => new TB_Usuario
+                                {
+                                    Activo = activo
+                                }) > 0;
+
+                resp.Success = res_disable_usuario;
+                resp.Message = res_disable_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
             return resp;
         }

@@ -34,6 +34,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chnombre { get; set; }
         public string? chap_paterno { get; set; }
         public string? chap_materno { get; set; }
+        public string? chnombre_completo { get; set; }
         public int? nukidsexo { get; set; }
         public string? chsexo { get; set; }
         public string? chrfc { get; set; }

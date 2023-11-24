@@ -34,6 +34,12 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
         }
 
+        public async Task<Response<List<NotaCredito_Detalle>>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio)
+        {
+            var response = await _facturaBusiness.GetNotaCreditoSinFactura(NumProyecto, Mes, Anio);
+            return new Response<List<NotaCredito_Detalle>> { Data = _map.Map<List<NotaCredito_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+
         public async Task<Response<FacturaProyecto>> GetInfoProyecto(int numProyecto)
 		{
 			//Factura_Proyecto response = null;

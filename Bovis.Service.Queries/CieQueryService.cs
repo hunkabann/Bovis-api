@@ -59,16 +59,44 @@ namespace Bovis.Service.Queries
         }
         #endregion Proyecto
 
+        #region Catálogos
+        public async Task<Response<List<string>>> GetNombresCuenta()
+        {
+            var response = await _cieBusiness.GetNombresCuenta();
+            return new Response<List<string>> { Data = _map.Map<List<string>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+        public async Task<Response<List<string>>> GetConceptos()
+        {
+            var response = await _cieBusiness.GetConceptos();
+            return new Response<List<string>> { Data = _map.Map<List<string>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+        public async Task<Response<List<int>>> GetNumsProyecto()
+        {
+            var response = await _cieBusiness.GetNumsProyecto();
+            return new Response<List<int>> { Data = _map.Map<List<int>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+        public async Task<Response<List<string>>> GetResponsables()
+        {
+            var response = await _cieBusiness.GetResponsables();
+            return new Response<List<string>> { Data = _map.Map<List<string>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+        public async Task<Response<List<string>>> GetClasificacionesPY()
+        {
+            var response = await _cieBusiness.GetClasificacionesPY();
+            return new Response<List<string>> { Data = _map.Map<List<string>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+        #endregion Catálogos
+
         #region Registros
         public async Task<Response<Cie_Detalle>> GetRegistro(int? idRegistro)
         {
             var response = await _cieBusiness.GetRegistro(idRegistro);
             return new Response<Cie_Detalle> { Data = _map.Map<Cie_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<List<Cie_Detalle>>> GetRegistros(bool? Activo, int offset, int limit)
+        public async Task<Response<Cie_Registros>> GetRegistros(bool? activo, string nombre_cuenta, int mes, int anio, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
         {
-            var response = await _cieBusiness.GetRegistros(Activo, offset, limit);
-            return new Response<List<Cie_Detalle>> { Data = _map.Map<List<Cie_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            var response = await _cieBusiness.GetRegistros(activo, nombre_cuenta, mes, anio, concepto, empresa, num_proyecto, responsable, clasificacionPY, offset, limit);
+            return new Response<Cie_Registros> { Data = _map.Map<Cie_Registros>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 
         public async Task<Response<(bool Success, string Message)>> AddRegistros(JsonObject registros)

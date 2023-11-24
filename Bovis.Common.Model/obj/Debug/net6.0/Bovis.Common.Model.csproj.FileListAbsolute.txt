@@ -22,6 +22,18 @@ F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Commo
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Model/obj/Debug/net6.0/refint/Bovis.Common.Model.dll
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Model/obj/Debug/net6.0/Bovis.Common.Model.pdb
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Model/obj/Debug/net6.0/ref/Bovis.Common.Model.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.deps.json
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.AssemblyReference.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfoInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfo.cs
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.CoreCompileInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.deps.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.pdb

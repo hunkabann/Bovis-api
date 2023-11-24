@@ -137,10 +137,10 @@ namespace Bovis.Data.Interface
 
 		#region Modena
 
-		Task<List<TB_Cat_Modena>> GetModena(bool? activo);
-		Task<bool> AddModena(TB_Cat_Modena modena);
-		Task<bool> UpdateModena(TB_Cat_Modena modena);
-		Task<bool> DeleteModena(TB_Cat_Modena modena);
+		Task<List<TB_Cat_Moneda>> GetModena(bool? activo);
+		Task<bool> AddModena(TB_Cat_Moneda modena);
+		Task<bool> UpdateModena(TB_Cat_Moneda modena);
+		Task<bool> DeleteModena(TB_Cat_Moneda modena);
 
 		#endregion
 

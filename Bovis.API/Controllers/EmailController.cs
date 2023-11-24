@@ -68,7 +68,11 @@ namespace Bovis.API.Controllers
                 bool enableSSL = Convert.ToBoolean(configuration["EmailSettings:enableSSL"]);
                 string senderEmailAddress = configuration["EmailSettings:senderEmailAddress"];
 
-                SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
+
+                SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort)
+                {
+                    EnableSsl = true
+                };
                 smtpClient.Credentials = new NetworkCredential(username, password);
                 smtpClient.EnableSsl = enableSSL;
                 smtpClient.Timeout = 5000;

@@ -53,7 +53,7 @@ namespace Bovis.Data
         }
 
         public async Task<Rol_Detalle> GetRoles(string email)
-        {            
+        {
             using (var db = new ConnectionDB(dbConfig))
             {
                 var empleado = await (from emp in db.tB_Empleados
@@ -82,6 +82,7 @@ namespace Bovis.Data
                                    join perfil_permiso in db.tB_PerfilPermisos on perfil_usuario.IdPerfil equals perfil_permiso.IdPerfil
                                    join permisos in db.tB_Permisos on perfil_permiso.IdPermiso equals permisos.IdPermiso
                                    where perfil_usuario.IdUsuario == id_usuario
+                                   orderby modulos.Modulo, modulos.SubModulo ascending
                                    select new
                                    {
                                        nukidmodulo = perfil_modulo.IdModulo,
@@ -95,6 +96,8 @@ namespace Bovis.Data
                                        nukidpermiso = perfil_permiso.IdPermiso,
                                        chpermiso = permisos.Permiso,
                                        chpermiso_slug = RemoverAcentos(permisos.Permiso.ToLower().Replace(" ", "-")),
+                                       botab = modulos.IsTab,
+                                       chtab = modulos.Tab
                                    }).ToListAsync();
 
                 rol.permisos = roles.GroupBy(item => new { item.nukidmodulo, item.chmodulo, item.chsub_modulo })
@@ -102,7 +105,7 @@ namespace Bovis.Data
                                     {
                                         var chpermiso = group.Any(item => item.chpermiso == "Administrador") ? "Administrador" : group.First().chpermiso;
 
-                                        return new Permiso_Detalle
+                                        return new Permiso_Modulo_Detalle
                                         {
                                             nukidmodulo = group.Key.nukidmodulo,
                                             chmodulo = group.Key.chmodulo,
@@ -111,6 +114,8 @@ namespace Bovis.Data
                                             chsub_modulo_slug = group.First().chsub_modulo_slug,
                                             chpermiso = chpermiso,
                                             chpermiso_slug = RemoverAcentos(chpermiso.ToLower().Replace(" ", "-")),
+                                            botab = group.First().botab,
+                                            chtab = group.First().chtab,
                                             //nukidperfil = group.Select(item => item.nukidperfil).ToList(),
                                             perfiles = group.Select(item => item.chperfil).Distinct().ToList(),
                                             permisos = group.Select(item => item.chpermiso).Distinct().ToList()

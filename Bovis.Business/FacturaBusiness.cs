@@ -248,6 +248,8 @@ namespace Bovis.Business
             return resp;
         }
 
+        public Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio) => _facturaData.GetNotaCreditoSinFactura(NumProyecto, Mes, Anio);
+
         //revisar datos de pagos
         public async Task<List<FacturaRevision>> AddPagos(AgregarPagos request)
         {

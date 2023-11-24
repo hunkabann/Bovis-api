@@ -49,7 +49,6 @@ namespace Bovis.Data
                           };
 
                 return await res.FirstOrDefaultAsync();
-
             }
         }
 
@@ -65,7 +64,6 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasNotaCredito
                                                                       where a.UuidNotaCredito == uuid
                                                                       select a).FirstOrDefaultAsync();
-
         }
 
         public async Task<TB_Proyecto_Factura_Cobranza> SearchPagos(string uuid)
@@ -73,7 +71,6 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasCobranza
                                                                       where a.UuidCobranza == uuid
                                                                       select a).FirstOrDefaultAsync();
-
         }
 
         public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
@@ -84,25 +81,27 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var inseert = await db.tB_ProyectoFacturas
-                .Value(x => x.Uuid, factura.Uuid)
-                .Value(x => x.NumProyecto, factura.NumProyecto)
-                .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
-                .Value(x => x.IdMoneda, factura.IdMoneda)
-                .Value(x => x.Importe, factura.Importe)
-                .Value(x => x.Iva, factura.Iva)
-                .Value(x => x.IvaRet, factura.IvaRet)
-                .Value(x => x.Total, factura.Total)
-                .Value(x => x.Concepto, factura.Concepto)
-                .Value(x => x.Mes, factura.Mes)
-                .Value(x => x.Anio, factura.Anio)
-                .Value(x => x.FechaEmision, factura.FechaEmision)
-                .Value(x => x.NoFactura, factura.NoFactura)
-                .Value(x => x.TipoCambio, factura.TipoCambio)
-                .Value(x => x.XmlB64, factura.XmlB64)
-                .InsertAsync() > 0;
+                    .Value(x => x.Uuid, factura.Uuid)
+                    .Value(x => x.NumProyecto, factura.NumProyecto)
+                    .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
+                    .Value(x => x.IdMoneda, factura.IdMoneda)
+                    .Value(x => x.Importe, factura.Importe)
+                    .Value(x => x.Iva, factura.Iva)
+                    .Value(x => x.IvaRet, factura.IvaRet)
+                    .Value(x => x.Total, factura.Total)
+                    .Value(x => x.Concepto, factura.Concepto)
+                    .Value(x => x.Mes, factura.Mes)
+                    .Value(x => x.Anio, factura.Anio)
+                    .Value(x => x.FechaEmision, factura.FechaEmision)
+                    .Value(x => x.NoFactura, factura.NoFactura)
+                    .Value(x => x.TipoCambio, factura.TipoCambio)
+                    .Value(x => x.XmlB64, factura.XmlB64)
+                    .InsertAsync() > 0;
+
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar la factura." : string.Empty;
             }
+
             return resp;
         }
 
@@ -112,24 +111,26 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var inseert = await db.tB_ProyectoFacturasNotaCredito
-                .Value(x => x.IdFactura, notaCredito.IdFactura)
-                .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
-                .Value(x => x.IdMoneda, notaCredito.IdMoneda)
-                .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
-                .Value(x => x.NotaCredito, notaCredito.NotaCredito)
-                .Value(x => x.Importe, notaCredito.Importe)
-                .Value(x => x.Iva, notaCredito.Iva)
-                .Value(x => x.Total, notaCredito.Total)
-                .Value(x => x.Concepto, notaCredito.Concepto)
-                .Value(x => x.Mes, notaCredito.Mes)
-                .Value(x => x.Anio, notaCredito.Anio)
-                .Value(x => x.TipoCambio, notaCredito.TipoCambio)
-                .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
-                .Value(x => x.Xml, notaCredito.Xml)
-                .InsertAsync() > 0;
+                    .Value(x => x.IdFactura, notaCredito.IdFactura)
+                    .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
+                    .Value(x => x.IdMoneda, notaCredito.IdMoneda)
+                    .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
+                    .Value(x => x.NotaCredito, notaCredito.NotaCredito)
+                    .Value(x => x.Importe, notaCredito.Importe)
+                    .Value(x => x.Iva, notaCredito.Iva)
+                    .Value(x => x.Total, notaCredito.Total)
+                    .Value(x => x.Concepto, notaCredito.Concepto)
+                    .Value(x => x.Mes, notaCredito.Mes)
+                    .Value(x => x.Anio, notaCredito.Anio)
+                    .Value(x => x.TipoCambio, notaCredito.TipoCambio)
+                    .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
+                    .Value(x => x.Xml, notaCredito.Xml)
+                    .InsertAsync() > 0;
+
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
             }
+
             return resp;
         }
 
@@ -160,13 +161,58 @@ namespace Bovis.Data
                     .Value(x => x.TipoCambio, cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null)
                     .Value(x => x.FechaNotaCredito, tryDate)
                     .Value(x => x.Xml, cfdi.XmlB64)
-                .InsertAsync() > 0;
+                    .InsertAsync() > 0;
 
                 resp.Success = insert;
                 resp.Message = insert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
             }
+
             return resp;
         }
+
+        public async Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var notas_credito = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           join relaciones in db.tB_Cat_TipoRelacions on notas.IdTipoRelacion equals relaciones.IdTipoRelacion into relacionesJoin
+                                           from relacionesItem in relacionesJoin.DefaultIfEmpty()
+                                           join monedas in db.tB_Cat_Monedas on notas.IdMoneda equals monedas.IdMoneda into monedasJoin
+                                           from monedasItem in monedasJoin.DefaultIfEmpty()
+                                           join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
+                                           from proyectosItem in proyectosJoin.DefaultIfEmpty()
+                                           where notas.NumProyecto != null
+                                           && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
+                                           && (Mes == 0 || notas.Mes == Mes)
+                                           && (Anio == 0 || notas.Anio == Anio)
+                                           orderby notas.FechaNotaCredito descending
+                                           select new NotaCredito_Detalle
+                                           {
+                                               nunum_proyecto = notas.NumProyecto,
+                                               chproyecto = proyectosItem.Proyecto ?? string.Empty,
+                                               chuuid_nota_credito = notas.UuidNotaCredito,
+                                               nukidmoneda = notas.IdMoneda,
+                                               chmoneda = monedasItem.Moneda ?? string.Empty,
+                                               nukidtipo_relacion = notas.IdTipoRelacion,
+                                               chtipo_relacion = relacionesItem.TipoRelacion ?? string.Empty,
+                                               chnota_credito = notas.NotaCredito,
+                                               nuimporte = notas.Importe,
+                                               nuiva = notas.Iva,
+                                               nutotal = notas.Total,
+                                               chconcepto = notas.Concepto,
+                                               numes = notas.Mes,
+                                               nuanio = notas.Anio,
+                                               nutipo_cambio = notas.TipoCambio,
+                                               dtfecha_nota_credito = notas.FechaNotaCredito,
+                                               chxml = notas.Xml,
+                                               dtfecha_cancelacion = notas.FechaCancelacion,
+                                               chmotivocancela = notas.MotivoCancelacion
+                                           }).ToListAsync();
+            
+                return notas_credito;
+            }
+        }
+
 
         public async Task<(bool Success, string Message)> AddPagos(TB_Proyecto_Factura_Cobranza pagos)
         {
@@ -174,26 +220,31 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var inseert = await db.tB_ProyectoFacturasCobranza
-                .Value(x => x.IdFactura, pagos.IdFactura)
-                .Value(x => x.UuidCobranza, pagos.UuidCobranza)
-                .Value(x => x.IdMonedaP, pagos.IdMonedaP)
-                .Value(x => x.ImportePagado, pagos.ImportePagado)
-                .Value(x => x.ImpSaldoAnt, pagos.ImpSaldoAnt)
-                .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
-                .Value(x => x.IvaP, pagos.IvaP)
-                .Value(x => x.TipoCambioP, pagos.TipoCambioP)
-                .Value(x => x.FechaPago, pagos.FechaPago)
-                .Value(x => x.Xml, pagos.Xml)
-                .InsertAsync() > 0;
+                    .Value(x => x.IdFactura, pagos.IdFactura)
+                    .Value(x => x.UuidCobranza, pagos.UuidCobranza)
+                    .Value(x => x.IdMonedaP, pagos.IdMonedaP)
+                    .Value(x => x.ImportePagado, pagos.ImportePagado)
+                    .Value(x => x.ImpSaldoAnt, pagos.ImpSaldoAnt)
+                    .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
+                    .Value(x => x.IvaP, pagos.IvaP)
+                    .Value(x => x.TipoCambioP, pagos.TipoCambioP)
+                    .Value(x => x.FechaPago, pagos.FechaPago)
+                    .Value(x => x.Xml, pagos.Xml)
+                    .InsertAsync() > 0;
+
                 resp.Success = inseert;
                 resp.Message = inseert == default ? "Ocurrio un error al agregar el pago." : string.Empty;
             }
+
             return resp;
         }
+
         //public Task<bool> CancelFactura( ) => UpdateEntityAsync<TB_ProyectoFactura>(factura);
+
         public async Task<(bool Success, string Message)> CancelFactura(TB_ProyectoFactura factura)
         {
             (bool Success, string Message) resp = (true, string.Empty);
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
@@ -214,11 +265,11 @@ namespace Bovis.Data
                 foreach (var nota in notas_factura)
                 {
                     var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
-                    .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
-                    {
-                        FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancelacion = factura.MotivoCancelacion
-                    })) > 0;
+                            .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
+                            {
+                                FechaCancelacion = factura.FechaCancelacion,
+                                MotivoCancelacion = factura.MotivoCancelacion
+                            })) > 0;
 
                     resp.Success = resp_nota;
                     resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
@@ -232,11 +283,11 @@ namespace Bovis.Data
                 foreach (var cobranza in cobranzas_factura)
                 {
                     var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
-                    .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
-                    {
-                        FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancelacion = factura.MotivoCancelacion
-                    })) > 0;
+                            .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
+                            {
+                                FechaCancelacion = factura.FechaCancelacion,
+                                MotivoCancelacion = factura.MotivoCancelacion
+                            })) > 0;
 
                     resp.Success = resp_cobranza;
                     resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
@@ -301,6 +352,7 @@ namespace Bovis.Data
             {
                 List<int> lstProyectosCliente = null;
                 List<int> lstProyectosEmpresa = null;
+
                 if (idCliente != null)
                 {
                     lstProyectosCliente = await (from a in db.tB_Proyectos
@@ -319,6 +371,10 @@ namespace Bovis.Data
                                  from ab in factNC.DefaultIfEmpty()
                                  join c in db.tB_ProyectoFacturasCobranza on a.Id equals c.IdFactura into factC
                                  from ac in factC.DefaultIfEmpty()
+                                 join c in db.tB_Proyectos on a.NumProyecto equals c.NumProyecto into cJoin
+                                 from cItem in cJoin.DefaultIfEmpty()
+                                 join d in db.tB_Clientes on cItem.IdCliente equals d.IdCliente into dJoin
+                                 from dItem in dJoin.DefaultIfEmpty()
                                  where (idProyecto == null || a.NumProyecto == idProyecto)
                                  && (lstProyectosCliente == null || a.NumProyecto.In(lstProyectosCliente))
                                  && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
@@ -331,6 +387,8 @@ namespace Bovis.Data
                                      Id = a.Id,
                                      Uuid = a.Uuid,
                                      NumProyecto = a.NumProyecto,
+                                     Cliente = dItem.Cliente ?? string.Empty,
+                                     ClienteRFC = dItem.Rfc ?? string.Empty,
                                      IdTipoFactura = a.IdTipoFactura,
                                      IdMoneda = a.IdMoneda,
                                      Importe = a.Importe,
@@ -1334,8 +1392,7 @@ namespace Bovis.Data
                 datosCFDI = null;
             }
             return datosCFDI;
-        }
-
+        }        
         #endregion
     }
 }

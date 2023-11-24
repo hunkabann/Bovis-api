@@ -24,24 +24,7 @@ namespace Bovis.Business
         }
         #endregion base
 
-        #region Auditoria Legal
-        public Task<List<TB_Cat_Auditoria_Contractual>> GetAuditoriasContractual() => _auditoriaData.GetAuditoriasContractual();
 
-        public async Task<(bool Success, string Message)> AddAuditoriasContractual(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.AddAuditoriasContractual(registro);
-            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
-            else resp = respData;
-            return resp;
-        }
-        #endregion Auditoria Legal
-
-
-
-
-
-        #region Auditoria de Calidad (Cumplimiento)
         public Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria) => _auditoriaData.GetAuditorias(TipoAuditoria);
         
         public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
@@ -77,9 +60,9 @@ namespace Bovis.Business
             return resp;
         }
 
-        public Task<List<TB_Auditoria_Cumplimiento_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit) => _auditoriaData.GetDocumentosAuditoria(IdAuditoria, offset, limit);
+        public Task<List<TB_Auditoria_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit) => _auditoriaData.GetDocumentosAuditoria(IdAuditoria, offset, limit);
 
-        public Task<TB_Auditoria_Cumplimiento_Documento> GetDocumentoAuditoria(int IdDocumento) => _auditoriaData.GetDocumentoAuditoria(IdDocumento);
+        public Task<TB_Auditoria_Documento> GetDocumentoAuditoria(int IdDocumento) => _auditoriaData.GetDocumentoAuditoria(IdDocumento);
 
         public async Task<(bool Success, string Message)> AddAuditoriaDocumentoValidacion(JsonObject registro)
         {
@@ -89,7 +72,5 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
-        
-        #endregion Auditoria de Calidad (Cumplimiento)
     }
 }

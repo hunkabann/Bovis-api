@@ -40,7 +40,10 @@ namespace Bovis.Data
             if (idRequerimiento > 0)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimiento_Habilidades
-                                                                          where req.IdRequerimiento == idRequerimiento
+                                                                          join hab in db.tB_Cat_Habilidades on req.IdHabilidad equals hab.IdHabilidad into habJoin
+                                                                          from habItem in habJoin.DefaultIfEmpty()
+                                                                          orderby habItem.Habilidad ascending
+                                                                          where req.IdRequerimiento == idRequerimiento                                                                          
                                                                           select req).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Requerimiento_Habilidad>();
@@ -53,6 +56,9 @@ namespace Bovis.Data
             if (idRequerimiento > 0)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from req in db.tB_Requerimiento_Experiencias
+                                                                          join exp in db.tB_Cat_Experiencias on req.IdExperiencia equals exp.IdExperiencia into expJoin
+                                                                          from expItem in expJoin.DefaultIfEmpty()
+                                                                          orderby expItem.Experiencia ascending
                                                                           where req.IdRequerimiento == idRequerimiento
                                                                           select req).ToListAsync();
             }
@@ -239,7 +245,7 @@ namespace Bovis.Data
                                        from estadoItem in estadoJoin.DefaultIfEmpty()
                                        join ciudad in db.tB_Ciudads on req.IdCiudad equals ciudad.IdCiudad into ciudadJoin
                                        from ciudadItem in ciudadJoin.DefaultIfEmpty()
-                                       where req.IdRequerimiento == idRequerimiento
+                                       where req.IdRequerimiento == idRequerimiento                                       
                                        select new Requerimiento_Detalle
                                        {
                                            nukidrequerimiento = req.IdRequerimiento,
@@ -299,24 +305,24 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
-            int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
-            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
-            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            decimal sueldo_min = Convert.ToDecimal(registro["sueldoMin"].ToString());
-            decimal sueldo_max = Convert.ToDecimal(registro["sueldoMax"].ToString());
-            decimal sueldo_real = Convert.ToDecimal(registro["sueldoReal"].ToString());
-            int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
-            int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
-            int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
-            int id_tipo_contrato = Convert.ToInt32(registro["idTipoContrato"].ToString());
-            int id_estado = Convert.ToInt32(registro["idEstado"].ToString());
-            int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
-            bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
-            int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
-            string nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : string.Empty;
-            string comentarios = registro["comentarios"].ToString();
+            int? id_categoria = registro["categoria"] != null ? Convert.ToInt32(registro["categoria"].ToString()) : null;
+            int? id_puesto = registro["puesto"] != null ? Convert.ToInt32(registro["puesto"].ToString()) : null;
+            int? id_nivel_estudios = registro["nivelEstudios"] != null ? Convert.ToInt32(registro["nivelEstudios"].ToString()) : null;
+            int? id_profesion = registro["profesion"] != null ? Convert.ToInt32(registro["profesion"].ToString()) : null;
+            int? id_jornada = registro["jornada"] != null ? Convert.ToInt32(registro["jornada"].ToString()) : null;
+            decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
+            decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
+            decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
+            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
+            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
+            int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
+            int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
+            bool? disponibilidad_viajar = registro["disponibilidadViajar"] != null ? Convert.ToBoolean(registro["disponibilidadViajar"].ToString()) : null;
+            int? anios_experiencia = registro["aniosExperiencia"] != null ? Convert.ToInt32(registro["aniosExperiencia"].ToString()) : null;
+            string? nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : null;
+            string? comentarios = registro["comentarios"] != null ? registro["comentarios"].ToString() : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -343,7 +349,7 @@ namespace Bovis.Data
                     .Value(x => x.Comentarios, comentarios)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
-
+                
                 resp.Success = insert_requerimiento;
                 resp.Message = insert_requerimiento == default ? "Ocurrio un error al agregar registro del requerimiento." : string.Empty;
 
@@ -389,24 +395,24 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
-            int id_categoria = Convert.ToInt32(registro["categoria"].ToString());
-            int id_puesto = Convert.ToInt32(registro["puesto"].ToString());
-            int id_nivel_estudios = Convert.ToInt32(registro["nivelEstudios"].ToString());
-            int id_profesion = Convert.ToInt32(registro["profesion"].ToString());
-            int id_jornada = Convert.ToInt32(registro["jornada"].ToString());
-            decimal sueldo_min = Convert.ToDecimal(registro["sueldoMin"].ToString());
-            decimal sueldo_max = Convert.ToDecimal(registro["sueldoMax"].ToString());
-            decimal sueldo_real = Convert.ToDecimal(registro["sueldoReal"].ToString());
-            int id_director_ejecutivo = Convert.ToInt32(registro["idDirectorEjecutivo"].ToString());
-            int id_proyecto = Convert.ToInt32(registro["idProyecto"].ToString());
-            int id_jefe_inmediato = Convert.ToInt32(registro["idJefeInmediato"].ToString());
-            int id_tipo_contrato = Convert.ToInt32(registro["idTipoContrato"].ToString());
-            int id_estado = Convert.ToInt32(registro["idEstado"].ToString());
-            int id_ciudad = Convert.ToInt32(registro["idCiudad"].ToString());
-            bool disponibilidad_viajar = Convert.ToBoolean(registro["disponibilidadViajar"].ToString());
-            int anios_experiencia = Convert.ToInt32(registro["aniosExperiencia"].ToString());
-            string nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : string.Empty;
-            string comentarios = registro["comentarios"].ToString();
+            int? id_categoria = registro["categoria"] != null ? Convert.ToInt32(registro["categoria"].ToString()) : null;
+            int? id_puesto = registro["puesto"] != null ? Convert.ToInt32(registro["puesto"].ToString()) : null;
+            int? id_nivel_estudios = registro["nivelEstudios"] != null ? Convert.ToInt32(registro["nivelEstudios"].ToString()) : null;
+            int? id_profesion = registro["profesion"] != null ? Convert.ToInt32(registro["profesion"].ToString()) : null;
+            int? id_jornada = registro["jornada"] != null ? Convert.ToInt32(registro["jornada"].ToString()) : null;
+            decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
+            decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
+            decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
+            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
+            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
+            int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
+            int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
+            bool? disponibilidad_viajar = registro["disponibilidadViajar"] != null ? Convert.ToBoolean(registro["disponibilidadViajar"].ToString()) : null;
+            int? anios_experiencia = registro["aniosExperiencia"] != null ? Convert.ToInt32(registro["aniosExperiencia"].ToString()) : null;
+            string? nivel_ingles = registro["nivelIngles"] != null ? registro["nivelIngles"].ToString() : null;
+            string? comentarios = registro["comentarios"] != null ? registro["comentarios"].ToString() : null;
             int index = 0;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
@@ -438,8 +444,8 @@ namespace Bovis.Data
                 resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
                 var res_requerimiento_habilidades = await (from req_hab in db.tB_Requerimiento_Habilidades
-                                                           where req_hab.IdRequerimiento == id_requerimiento
-                                                           select req_hab).ToListAsync();
+                                                     where req_hab.IdRequerimiento == id_requerimiento
+                                                     select req_hab).ToListAsync();
 
                 int[] ids_habilidades_db = new int[res_requerimiento_habilidades.Count()];
                 index = 0;
@@ -458,7 +464,7 @@ namespace Bovis.Data
                 HashSet<int> ids_habilidades = new HashSet<int>(ids_habilidades_db.Concat(ids_habilidades_request));
 
                 foreach (int id in ids_habilidades)
-                {
+                {                    
                     if (ids_habilidades_db.Contains(id))
                     {
                         if (ids_habilidades_request.Contains(id))
@@ -503,8 +509,8 @@ namespace Bovis.Data
 
 
                 var res_requerimiento_experiencias = await (from req_exp in db.tB_Requerimiento_Experiencias
-                                                            where req_exp.IdRequerimiento == id_requerimiento
-                                                            select req_exp)
+                                                           where req_exp.IdRequerimiento == id_requerimiento
+                                                           select req_exp)
                                                            .ToListAsync();
 
                 int[] ids_experiencias_db = new int[res_requerimiento_experiencias.Count()];
@@ -599,104 +605,104 @@ namespace Bovis.Data
 
 
                 var resp = await (from emp in db.tB_Empleados
-                                  join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into perJoin
-                                  from perItem in perJoin.DefaultIfEmpty()
-                                  join tipo_emp in db.tB_Cat_TipoEmpleados on emp.IdTipoEmpleado equals tipo_emp.IdTipoEmpleado into tipo_empJoin
-                                  from tipo_empItem in tipo_empJoin.DefaultIfEmpty()
-                                  join cat in db.tB_Cat_Categorias on emp.IdCategoria equals cat.IdCategoria into catJoin
-                                  from catItem in catJoin.DefaultIfEmpty()
-                                  join contrato in db.tB_Cat_TipoContratos on emp.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
-                                  from contratoItem in contratoJoin.DefaultIfEmpty()
-                                  join empresa in db.tB_Empresas on emp.IdEmpresa equals empresa.IdEmpresa into empresaJoin
-                                  from empresaItem in empresaJoin.DefaultIfEmpty()
-                                  join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
-                                  from ciudadItem in ciudadJoin.DefaultIfEmpty()
-                                  join estudios in db.tB_Cat_NivelEstudios on emp.IdNivelEstudios equals estudios.IdNivelEstudios into estudiosJoin
-                                  from estudiosItem in estudiosJoin.DefaultIfEmpty()
-                                  join pago in db.tB_Cat_FormaPagos on emp.IdFormaPago equals pago.IdFormaPago into pagoJoin
-                                  from pagoItem in pagoJoin.DefaultIfEmpty()
-                                  join jornada in db.tB_Cat_Jornadas on emp.IdJornada equals jornada.IdJornada into jornadaJoin
-                                  from jornadaItem in jornadaJoin.DefaultIfEmpty()
-                                  join depto in db.tB_Cat_Departamentos on emp.IdDepartamento equals depto.IdDepartamento into deptoJoin
-                                  from deptoItem in deptoJoin.DefaultIfEmpty()
-                                  join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
-                                  from clasifItem in clasifJoin.DefaultIfEmpty()
-                                  join jefe in db.tB_Personas on emp.IdJefeDirecto equals jefe.IdPersona into jefeJoin
-                                  from jefeItem in jefeJoin.DefaultIfEmpty()
-                                  join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
-                                  from unidadItem in unidadJoin.DefaultIfEmpty()
-                                  join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
-                                  from contrato_satItem in contrato_satJoin.DefaultIfEmpty()
-                                  join profesion in db.tB_Cat_Profesiones on emp.IdProfesion equals profesion.IdProfesion into profesionJoin
-                                  from profesionItem in profesionJoin.DefaultIfEmpty()
-                                  join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
-                                  from turnoItem in turnoJoin.DefaultIfEmpty()
-                                  join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
-                                  from puestoItem in puestoJoin.DefaultIfEmpty()
-                                  where puestoItem.Puesto == "Director Ejecutivo"
-                                  && emp.Activo == true
-                                  orderby emp.NumEmpleadoRrHh descending
-                                  select new Empleado_Detalle
-                                  {
-                                      nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
-                                      nukidpersona = emp.IdPersona,
-                                      nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
-                                      nukidtipo_empleado = emp.IdTipoEmpleado,
-                                      chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
-                                      nukidcategoria = emp.IdCategoria,
-                                      chcategoria = catItem != null ? catItem.Categoria : string.Empty,
-                                      nukidtipo_contrato = emp.IdTipoContrato,
-                                      chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
-                                      chcve_puesto = emp.CvePuesto,
-                                      nukidempresa = emp.IdEmpresa,
-                                      chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
-                                      nukidciudad = emp.IdCiudad,
-                                      chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
-                                      nukidnivel_estudios = emp.IdNivelEstudios,
-                                      chnivel_estudios = estudiosItem != null ? estudiosItem.NivelEstudios : string.Empty,
-                                      nukidforma_pago = emp.IdFormaPago,
-                                      chforma_pago = pagoItem != null ? pagoItem.TipoDocumento : string.Empty,
-                                      nukidjornada = emp.IdJornada,
-                                      chjornada = jornadaItem != null ? jornadaItem.Jornada : string.Empty,
-                                      nukiddepartamento = emp.IdDepartamento,
-                                      chdepartamento = deptoItem != null ? deptoItem.Departamento : string.Empty,
-                                      nukidclasificacion = emp.IdClasificacion,
-                                      chclasificacion = clasifItem != null ? clasifItem.Clasificacion : string.Empty,
-                                      nukidjefe_directo = emp.IdJefeDirecto,
-                                      chjefe_directo = jefeItem != null ? jefeItem.Nombre + " " + jefeItem.ApPaterno + " " + jefeItem.ApMaterno : string.Empty,
-                                      nukidunidad_negocio = emp.IdUnidadNegocio,
-                                      chunidad_negocio = unidadItem != null ? unidadItem.UnidadNegocio : string.Empty,
-                                      nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
-                                      chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
-                                      nunum_empleado = emp.NumEmpleado,
-                                      dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
-                                      dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
-                                      dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
-                                      chnss = emp.Nss,
-                                      chemail_bovis = emp.EmailBovis,
-                                      chexperiencias = emp.Experiencias,
-                                      chhabilidades = emp.Habilidades,
-                                      churl_repositorio = emp.UrlRepositorio,
-                                      nusalario = emp.Salario,
-                                      nukidprofesion = emp.IdProfesion,
-                                      chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
-                                      //nuantiguedad = emp.Antiguedad,
-                                      nukidturno = emp.IdTurno,
-                                      chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
-                                      nuunidad_medica = emp.UnidadMedica,
-                                      chregistro_patronal = emp.RegistroPatronal,
-                                      chcotizacion = emp.Cotizacion,
-                                      nuduracion = emp.Duracion,
-                                      boactivo = emp.Activo,
-                                      chporcentaje_pension = emp.ChPorcentajePension,
-                                      nudescuento_pension = emp.DescuentoPension,
-                                      nufondo_fijo = emp.FondoFijo,
-                                      nucredito_infonavit = emp.CreditoInfonavit,
-                                      chtipo_descuento = emp.TipoDescuento,
-                                      nuvalor_descuento = emp.ValorDescuento,
-                                      nuno_empleado_noi = emp.NoEmpleadoNoi,
-                                      chrol = emp.Rol
-                                  }).ToListAsync();
+                              join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into perJoin
+                              from perItem in perJoin.DefaultIfEmpty()
+                              join tipo_emp in db.tB_Cat_TipoEmpleados on emp.IdTipoEmpleado equals tipo_emp.IdTipoEmpleado into tipo_empJoin
+                              from tipo_empItem in tipo_empJoin.DefaultIfEmpty()
+                              join cat in db.tB_Cat_Categorias on emp.IdCategoria equals cat.IdCategoria into catJoin
+                              from catItem in catJoin.DefaultIfEmpty()
+                              join contrato in db.tB_Cat_TipoContratos on emp.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
+                              from contratoItem in contratoJoin.DefaultIfEmpty()
+                              join empresa in db.tB_Empresas on emp.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                              from empresaItem in empresaJoin.DefaultIfEmpty()
+                              join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                              from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                              join estudios in db.tB_Cat_NivelEstudios on emp.IdNivelEstudios equals estudios.IdNivelEstudios into estudiosJoin
+                              from estudiosItem in estudiosJoin.DefaultIfEmpty()
+                              join pago in db.tB_Cat_FormaPagos on emp.IdFormaPago equals pago.IdFormaPago into pagoJoin
+                              from pagoItem in pagoJoin.DefaultIfEmpty()
+                              join jornada in db.tB_Cat_Jornadas on emp.IdJornada equals jornada.IdJornada into jornadaJoin
+                              from jornadaItem in jornadaJoin.DefaultIfEmpty()
+                              join depto in db.tB_Cat_Departamentos on emp.IdDepartamento equals depto.IdDepartamento into deptoJoin
+                              from deptoItem in deptoJoin.DefaultIfEmpty()
+                              join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
+                              from clasifItem in clasifJoin.DefaultIfEmpty()
+                              join jefe in db.tB_Personas on emp.IdJefeDirecto equals jefe.IdPersona into jefeJoin
+                              from jefeItem in jefeJoin.DefaultIfEmpty()
+                              join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
+                              from unidadItem in unidadJoin.DefaultIfEmpty()
+                              join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
+                              from contrato_satItem in contrato_satJoin.DefaultIfEmpty()
+                              join profesion in db.tB_Cat_Profesiones on emp.IdProfesion equals profesion.IdProfesion into profesionJoin
+                              from profesionItem in profesionJoin.DefaultIfEmpty()
+                              join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
+                              from turnoItem in turnoJoin.DefaultIfEmpty()
+                              join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
+                              from puestoItem in puestoJoin.DefaultIfEmpty()
+                              where puestoItem.Puesto == "Director Ejecutivo"
+                              && emp.Activo == true
+                              orderby perItem.Nombre ascending
+                              select new Empleado_Detalle
+                              {
+                                  nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
+                                  nukidpersona = emp.IdPersona,
+                                  nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                  nukidtipo_empleado = emp.IdTipoEmpleado,
+                                  chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
+                                  nukidcategoria = emp.IdCategoria,
+                                  chcategoria = catItem != null ? catItem.Categoria : string.Empty,
+                                  nukidtipo_contrato = emp.IdTipoContrato,
+                                  chtipo_contrato = contratoItem != null ? contratoItem.Contrato : string.Empty,
+                                  chcve_puesto = emp.CvePuesto,
+                                  nukidempresa = emp.IdEmpresa,
+                                  chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                  nukidciudad = emp.IdCiudad,
+                                  chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                  nukidnivel_estudios = emp.IdNivelEstudios,
+                                  chnivel_estudios = estudiosItem != null ? estudiosItem.NivelEstudios : string.Empty,
+                                  nukidforma_pago = emp.IdFormaPago,
+                                  chforma_pago = pagoItem != null ? pagoItem.TipoDocumento : string.Empty,
+                                  nukidjornada = emp.IdJornada,
+                                  chjornada = jornadaItem != null ? jornadaItem.Jornada : string.Empty,
+                                  nukiddepartamento = emp.IdDepartamento,
+                                  chdepartamento = deptoItem != null ? deptoItem.Departamento : string.Empty,
+                                  nukidclasificacion = emp.IdClasificacion,
+                                  chclasificacion = clasifItem != null ? clasifItem.Clasificacion : string.Empty,
+                                  nukidjefe_directo = emp.IdJefeDirecto,
+                                  chjefe_directo = jefeItem != null ? jefeItem.Nombre + " " + jefeItem.ApPaterno + " " + jefeItem.ApMaterno : string.Empty,
+                                  nukidunidad_negocio = emp.IdUnidadNegocio,
+                                  chunidad_negocio = unidadItem != null ? unidadItem.UnidadNegocio : string.Empty,
+                                  nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
+                                  chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
+                                  nunum_empleado = emp.NumEmpleado,
+                                  dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                  dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
+                                  dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
+                                  chnss = emp.Nss,
+                                  chemail_bovis = emp.EmailBovis,
+                                  chexperiencias = emp.Experiencias,
+                                  chhabilidades = emp.Habilidades,
+                                  churl_repositorio = emp.UrlRepositorio,
+                                  nusalario = emp.Salario,
+                                  nukidprofesion = emp.IdProfesion,
+                                  chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
+                                  //nuantiguedad = emp.Antiguedad,
+                                  nukidturno = emp.IdTurno,
+                                  chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
+                                  nuunidad_medica = emp.UnidadMedica,
+                                  chregistro_patronal = emp.RegistroPatronal,
+                                  chcotizacion = emp.Cotizacion,
+                                  nuduracion = emp.Duracion,
+                                  boactivo = emp.Activo,
+                                  chporcentaje_pension = emp.ChPorcentajePension,
+                                  nudescuento_pension = emp.DescuentoPension,
+                                  nufondo_fijo = emp.FondoFijo,
+                                  nucredito_infonavit = emp.CreditoInfonavit,
+                                  chtipo_descuento = emp.TipoDescuento,
+                                  nuvalor_descuento = emp.ValorDescuento,
+                                  nuno_empleado_noi = emp.NoEmpleadoNoi,
+                                  chrol = emp.Rol
+                              }).ToListAsync();
 
                 // Se calcula la antigüedad
                 foreach (var emp in resp)
@@ -724,6 +730,7 @@ namespace Bovis.Data
             {
                 list = await (from proyectos in db.tB_Proyectos
                               where proyectos.IdDirectorEjecutivo == IdDirectorEjecutivo
+                              orderby proyectos.Proyecto ascending
                               select proyectos).ToListAsync();
             }
 

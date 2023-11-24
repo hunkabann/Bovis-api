@@ -963,7 +963,7 @@ public class AgregaModenaEventHandler : IRequestHandler<AgregarModenaCommand, Re
 	public async Task<Response<bool>> Handle(AgregarModenaCommand request, CancellationToken cancellationToken)
 	{
 		var resp = new Response<bool>();
-		(bool Success, string Message) tmpResp = await _business.AddModena(new TB_Cat_Modena { Activo = true, Moneda = request.descripcion });
+		(bool Success, string Message) tmpResp = await _business.AddModena(new TB_Cat_Moneda { Activo = true, Moneda = request.descripcion });
 		if (!tmpResp.Success) resp.AddError(tmpResp.Message);
 		else resp.Data = tmpResp.Success;
 		return resp;
@@ -982,7 +982,7 @@ public class EliminaModenaEventHandler : IRequestHandler<EliminarModenaCommand, 
 	public async Task<Response<bool>> Handle(EliminarModenaCommand request, CancellationToken cancellationToken)
 	{
 		var resp = new Response<bool>();
-		(bool Success, string Message) tmpResp = await _business.DeleteModena(new TB_Cat_Modena { IdMoneda = request.id });
+		(bool Success, string Message) tmpResp = await _business.DeleteModena(new TB_Cat_Moneda { IdMoneda = request.id.ToString() });
 		if (!tmpResp.Success) resp.AddError(tmpResp.Message);
 		else resp.Data = tmpResp.Success;
 		return resp;
@@ -1001,7 +1001,7 @@ public class ActualizaModenaEventHandler : IRequestHandler<ActualizarModenaComma
 	public async Task<Response<bool>> Handle(ActualizarModenaCommand request, CancellationToken cancellationToken)
 	{
 		var resp = new Response<bool>();
-		(bool Success, string Message) tmpResp = await _business.UpdateModena(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Modena { Moneda = request.descripcion, IdMoneda = request.id, Activo = true });
+		(bool Success, string Message) tmpResp = await _business.UpdateModena(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cat_Moneda { Moneda = request.descripcion, IdMoneda = request.id.ToString(), Activo = true });
 		if (!tmpResp.Success) resp.AddError(tmpResp.Message);
 		else resp.Data = tmpResp.Success;
 		return resp;

@@ -59,6 +59,10 @@ builder.Services.AddScoped<IAuditoriaQueryService, AuditoriaQueryService>();
 builder.Services.AddScoped<IAuditoriaBusiness, AuditoriaBusiness>();
 builder.Services.AddScoped<IAuditoriaData, AuditoriaData>();
 
+builder.Services.AddScoped<IAutorizacionQueryService, AutorizacionQueryService>();
+builder.Services.AddScoped<IAutorizacionBusiness, AutorizacionBusiness>();
+builder.Services.AddScoped<IAutorizacionData, AutorizacionData>();
+
 builder.Services.AddScoped<ICatalogoQueryService, CatalogoQueryService>();
 builder.Services.AddScoped<ICatalogoBusiness, CatalogoBusiness>();
 builder.Services.AddScoped<ICatalogoData, CatalogoData>();
