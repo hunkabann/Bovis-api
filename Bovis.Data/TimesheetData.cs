@@ -672,21 +672,33 @@ namespace Bovis.Data
                                        nunum_empleado_rr_hh = g.Key
                                    }).ToListAsync();
 
-
-                foreach (var empleado in empleados)
+                if (empleados.Count > 0)
                 {
-                    var id_persona = await (from emp in db.tB_Empleados
-                                            where emp.NumEmpleadoRrHh == empleado.nunum_empleado_rr_hh
-                                            select emp.IdPersona).FirstOrDefaultAsync();
+                    foreach (var empleado in empleados)
+                    {
+                        var id_persona = await (from emp in db.tB_Empleados
+                                                where emp.NumEmpleadoRrHh == empleado.nunum_empleado_rr_hh
+                                                select emp.IdPersona).FirstOrDefaultAsync();
 
-                    var persona = await (from p in db.tB_Personas
-                                         where p.IdPersona == id_persona
-                                         select p).FirstOrDefaultAsync();
+                        var persona = await (from p in db.tB_Personas
+                                             where p.IdPersona == id_persona
+                                             select p).FirstOrDefaultAsync();
 
-                    empleado.nombre_persona = persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno;
+                        empleado.nombre_persona = persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno;
+                    }
                 }
-
-
+                else
+                {
+                    empleados = await (from empleado in db.tB_Empleados
+                                       join persona in db.tB_Personas on empleado.IdPersona equals persona.IdPersona into personaJoin
+                                       from personaItem in personaJoin.DefaultIfEmpty()
+                                       where empleado.EmailBovis == EmailResponsable
+                                       select new Empleado_Detalle
+                                       {
+                                           nunum_empleado_rr_hh = empleado.NumEmpleadoRrHh,
+                                           nombre_persona = personaItem != null ? personaItem.Nombre + " " + personaItem.ApPaterno + " " + personaItem.ApMaterno : string.Empty
+                                       }).ToListAsync();
+                }
 
                 return empleados;
             }
