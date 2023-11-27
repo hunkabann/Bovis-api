@@ -34,17 +34,17 @@ namespace Bovis.Service.Queries
         #endregion base
 
         #region Templates
-        public async Task<Response<List<TB_Contrato_Template>>> GetTemplates(string Estatus)
+        public async Task<Response<List<TB_ContratoTemplate>>> GetTemplates(string Estatus)
         {
             var response = await _contratoBusiness.GetTemplates(Estatus);
-            return new Response<List<TB_Contrato_Template>> { Data = _map.Map<List<TB_Contrato_Template>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<List<TB_ContratoTemplate>> { Data = _map.Map<List<TB_ContratoTemplate>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
 
-        public async Task<Response<TB_Contrato_Template>> GetTemplate(int IdTemplate)
+        public async Task<Response<TB_ContratoTemplate>> GetTemplate(int IdTemplate)
         {
             var response = await _contratoBusiness.GetTemplate(IdTemplate);
-            return new Response<TB_Contrato_Template> { Data = _map.Map<TB_Contrato_Template>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<TB_ContratoTemplate> { Data = _map.Map<TB_ContratoTemplate>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
 
@@ -68,17 +68,17 @@ namespace Bovis.Service.Queries
         #endregion Templates
 
         #region Contratos Empleado
-        public async Task<Response<List<TB_Contrato_Empleado>>> GetContratosEmpleado(int IdEmpleado)
+        public async Task<Response<List<TB_ContratoEmpleado>>> GetContratosEmpleado(int IdEmpleado)
         {
             var response = await _contratoBusiness.GetContratosEmpleado(IdEmpleado);
-            return new Response<List<TB_Contrato_Empleado>> { Data = _map.Map<List<TB_Contrato_Empleado>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<List<TB_ContratoEmpleado>> { Data = _map.Map<List<TB_ContratoEmpleado>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
 
-        public async Task<Response<TB_Contrato_Empleado>> GetContratoEmpleado(int IdContratoEmpleado)
+        public async Task<Response<TB_ContratoEmpleado>> GetContratoEmpleado(int IdContratoEmpleado)
         {
             var response = await _contratoBusiness.GetContratoEmpleado(IdContratoEmpleado);
-            return new Response<TB_Contrato_Empleado> { Data = _map.Map<TB_Contrato_Empleado>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<TB_ContratoEmpleado> { Data = _map.Map<TB_ContratoEmpleado>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
 

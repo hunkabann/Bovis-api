@@ -60,9 +60,9 @@ namespace Bovis.Business
             return resp;
         }
 
-        public Task<List<TB_Auditoria_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit) => _auditoriaData.GetDocumentosAuditoria(IdAuditoria, offset, limit);
+        public Task<List<TB_AuditoriaDocumento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit) => _auditoriaData.GetDocumentosAuditoria(IdAuditoria, offset, limit);
 
-        public Task<TB_Auditoria_Documento> GetDocumentoAuditoria(int IdDocumento) => _auditoriaData.GetDocumentoAuditoria(IdDocumento);
+        public Task<TB_AuditoriaDocumento> GetDocumentoAuditoria(int IdDocumento) => _auditoriaData.GetDocumentoAuditoria(IdDocumento);
 
         public async Task<(bool Success, string Message)> AddAuditoriaDocumentoValidacion(JsonObject registro)
         {

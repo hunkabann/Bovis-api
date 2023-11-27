@@ -149,21 +149,21 @@ namespace Bovis.API.Controllers
         #endregion Etapas
 
         #region Empleados
-        [HttpPost, Route("Empleados")]
+        [HttpPost, Route("Empleados/Fase")]
         public async Task<IActionResult> AddEmpleado([FromBody] JsonObject registro)
         {
             var query = await _pcsQueryService.AddEmpleado(registro);
             return Ok(query);
         }
 
-        [HttpGet, Route("Empleados/{IdProyecto}")]
-        public async Task<IActionResult> GetEmpleados(int IdProyecto)
+        [HttpGet, Route("Empleados/Fase/{IdFase}")]
+        public async Task<IActionResult> GetEmpleados(int IdFase)
         {
-            var query = await _pcsQueryService.GetEmpleados(IdProyecto);
+            var query = await _pcsQueryService.GetEmpleados(IdFase);
             return Ok(query);
         }
 
-        [HttpPut, Route("Empleados")]
+        [HttpPut, Route("Empleados/Fase")]
         public async Task<IActionResult> UpdateEmpleado([FromBody] JsonObject registro)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
@@ -182,10 +182,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpDelete, Route("Empleados/{IdEmpleado}")]
-        public async Task<IActionResult> DeleteEmpleado(int IdEmpleado)
+        [HttpDelete, Route("Empleados/{NumEmpleado}/Fase/{IdFase}")]
+        public async Task<IActionResult> DeleteEmpleado(int IdFase, int NumEmpleado)
         {
-            var query = await _pcsQueryService.DeleteEmpleado(IdEmpleado);
+            var query = await _pcsQueryService.DeleteEmpleado(IdFase, NumEmpleado);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

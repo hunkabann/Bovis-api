@@ -59,14 +59,14 @@ namespace Bovis.Data
                                                                       select a).FirstOrDefaultAsync();
         }
 
-        public async Task<TB_Proyecto_Factura_Nota_Credito> SearchNotaCredito(string uuid)
+        public async Task<TB_ProyectoFacturaNotaCredito> SearchNotaCredito(string uuid)
         {
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasNotaCredito
                                                                       where a.UuidNotaCredito == uuid
                                                                       select a).FirstOrDefaultAsync();
         }
 
-        public async Task<TB_Proyecto_Factura_Cobranza> SearchPagos(string uuid)
+        public async Task<TB_ProyectoFacturaCobranza> SearchPagos(string uuid)
         {
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasCobranza
                                                                       where a.UuidCobranza == uuid
@@ -105,7 +105,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> AddNotaCredito(TB_Proyecto_Factura_Nota_Credito notaCredito)
+        public async Task<(bool Success, string Message)> AddNotaCredito(TB_ProyectoFacturaNotaCredito notaCredito)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -214,7 +214,7 @@ namespace Bovis.Data
         }
 
 
-        public async Task<(bool Success, string Message)> AddPagos(TB_Proyecto_Factura_Cobranza pagos)
+        public async Task<(bool Success, string Message)> AddPagos(TB_ProyectoFacturaCobranza pagos)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             using (var db = new ConnectionDB(dbConfig))
@@ -265,7 +265,7 @@ namespace Bovis.Data
                 foreach (var nota in notas_factura)
                 {
                     var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
-                            .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
+                            .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
                             {
                                 FechaCancelacion = factura.FechaCancelacion,
                                 MotivoCancelacion = factura.MotivoCancelacion
@@ -283,7 +283,7 @@ namespace Bovis.Data
                 foreach (var cobranza in cobranzas_factura)
                 {
                     var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
-                            .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
+                            .UpdateAsync(x => new TB_ProyectoFacturaCobranza
                             {
                                 FechaCancelacion = factura.FechaCancelacion,
                                 MotivoCancelacion = factura.MotivoCancelacion
@@ -308,7 +308,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
-                                .UpdateAsync(x => new TB_Proyecto_Factura_Nota_Credito
+                                .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
                                 {
                                     FechaCancelacion = fecha_cancelacion,
                                     MotivoCancelacion = motivo_cancelacion
@@ -332,7 +332,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
-                                .UpdateAsync(x => new TB_Proyecto_Factura_Cobranza
+                                .UpdateAsync(x => new TB_ProyectoFacturaCobranza
                                 {
                                     FechaCancelacion = fecha_cancelacion,
                                     MotivoCancelacion = motivo_cancelacion

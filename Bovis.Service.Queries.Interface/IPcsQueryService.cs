@@ -31,9 +31,9 @@ namespace Bovis.Service.Queries.Interface
 
         #region Empleados
         Task<Response<(bool Success, string Message)>> AddEmpleado(JsonObject registro);
-        Task<Response<List<PCS_Empleado_Detalle>>> GetEmpleados(int IdProyecto);
+        Task<Response<List<PCS_Empleado_Detalle>>> GetEmpleados(int IdFase);
         Task<Response<(bool Success, string Message)>> UpdateEmpleado(JsonObject registro);
-        Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdEmpleado);
+        Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdFase, int NumEmpleado);
         #endregion Empleados
     }
 }

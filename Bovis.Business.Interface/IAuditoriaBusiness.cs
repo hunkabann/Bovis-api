@@ -16,8 +16,8 @@ namespace Bovis.Business.Interface
         Task<(bool Success, string Message)> AddAuditorias(JsonObject registro);
         Task<(bool Success, string Message)> UpdateAuditoriaProyecto(JsonObject registro);
         Task<(bool Success, string Message)> AddAuditoriaDocumento(JsonObject registro);
-        Task<List<TB_Auditoria_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit);
-        Task<TB_Auditoria_Documento> GetDocumentoAuditoria(int IdDocumento);
+        Task<List<TB_AuditoriaDocumento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit);
+        Task<TB_AuditoriaDocumento> GetDocumentoAuditoria(int IdDocumento);
         Task<(bool Success, string Message)> AddAuditoriaDocumentoValidacion(JsonObject registro);
     }
 

@@ -45,30 +45,30 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region GetCostos
-        public async Task<Response<List<TB_Costo_Por_Empleado>>> GetCostos(bool hist)
+        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostos(bool hist)
         {
             var response = await _costoBusiness.GetCostos(hist);
-            return new Response<List<TB_Costo_Por_Empleado>> { Data = _map.Map<List<TB_Costo_Por_Empleado>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<List<TB_CostoPorEmpleado>> { Data = _map.Map<List<TB_CostoPorEmpleado>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion
 
         #region GetCosto
-        public async Task<Response<TB_Costo_Por_Empleado>> GetCosto(int IdCosto)
+        public async Task<Response<TB_CostoPorEmpleado>> GetCosto(int IdCosto)
         {
             var response = await _costoBusiness.GetCosto(IdCosto);
-            return new Response<TB_Costo_Por_Empleado> { Data = _map.Map<TB_Costo_Por_Empleado>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<TB_CostoPorEmpleado> { Data = _map.Map<TB_CostoPorEmpleado>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         #endregion
 
         #region GetCostosEmpleado
-        public async Task<Response<List<TB_Costo_Por_Empleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
+        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
         {
             return await _costoBusiness.GetCostosEmpleado(NumEmpleadoRrHh, hist);
         }
         #endregion
 
         #region GetCostoEmpleado
-        public async Task<Response<List<TB_Costo_Por_Empleado>>> GetCostoEmpleado(int NumEmpleadoRrHh, int anno, int mes, bool hist)
+        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(int NumEmpleadoRrHh, int anno, int mes, bool hist)
         {
             return await _costoBusiness.GetCostoEmpleado(NumEmpleadoRrHh, anno, mes, hist);
         }
@@ -82,7 +82,7 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region GetCostBetweenDates
-        public async Task<Response<List<TB_Costo_Por_Empleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
         {
             return await _costoBusiness.GetCostosBetweenDates(NumEmpleadoRrHh,anno_min,mes_min,anno_max,mes_max, hist); 
 
@@ -90,7 +90,7 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region UpdateCostos
-        public async Task<Response<TB_Costo_Por_Empleado>> UpdateCostos(int costoId, CostoPorEmpleadoDTO source)
+        public async Task<Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, CostoPorEmpleadoDTO source)
         {
             var response = await _costoBusiness.UpdateCostos(costoId, source);
             return response; 
