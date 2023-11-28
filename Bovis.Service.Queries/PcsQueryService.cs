@@ -80,10 +80,10 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.AddEtapa(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<List<PCS_Etapa_Detalle>>> GetEtapas(int IdProyecto)
+        public async Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto)
         {
             var response = await _pcsBusiness.GetEtapas(IdProyecto);
-            return new Response<List<PCS_Etapa_Detalle>> { Data = _map.Map<List<PCS_Etapa_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<PCS_Proyecto_Detalle> { Data = _map.Map<PCS_Proyecto_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<(bool Success, string Message)>> UpdateEtapa(JsonObject registro)
         {

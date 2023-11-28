@@ -318,22 +318,38 @@ namespace Bovis.Data
 
             return resp;
         }
-        public async Task<List<PCS_Etapa_Detalle>> GetEtapas(int IdProyecto)
+        public async Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto)
         {
+            PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+
             using (var db = new ConnectionDB(dbConfig))
             {
+
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_etapas.NumProyecto = IdProyecto;
+                proyecto_etapas.FechaIni = proyecto.FechaIni;
+                proyecto_etapas.FechaFin = proyecto.FechaFin;
+
+
                 var etapas = await (from p in db.tB_ProyectoFases
+                                    join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                    from proyItem in proyJoin.DefaultIfEmpty()
                                     where p.NumProyecto == IdProyecto
                                     orderby p.Fase ascending
                                     select new PCS_Etapa_Detalle
                                     {
                                         IdFase = p.IdFase,
-                                        NumProyecto = p.NumProyecto,
                                         Orden = p.Orden,
                                         Fase = p.Fase,
                                         FechaIni = p.FechaIni,
                                         FechaFin = p.FechaFin
                                     }).ToListAsync();
+
+                proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
+                proyecto_etapas.Etapas.AddRange(etapas);
 
                 foreach(var etapa in  etapas)
                 {
@@ -372,7 +388,7 @@ namespace Bovis.Data
                         empleado.Fechas.AddRange(fechas);                    }
                 }                
 
-                return etapas;
+                return proyecto_etapas;
             }
         }
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)

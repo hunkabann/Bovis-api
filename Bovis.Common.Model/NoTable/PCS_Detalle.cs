@@ -7,14 +7,17 @@ using System.Threading.Tasks;
 
 namespace Bovis.Common.Model.NoTable
 {
-    public class PCS_Detalle
+    public class PCS_Proyecto_Detalle
     {
+        public int NumProyecto { get; set; }
+        public DateTime? FechaIni { get; set; }
+        public DateTime? FechaFin { get; set; }
+        public List<PCS_Etapa_Detalle> Etapas { get; set; }
     }
 
     public class PCS_Etapa_Detalle
     {
-        public int IdFase { get; set; }
-        public int NumProyecto { get; set; }
+        public int IdFase { get; set; }        
         public int Orden { get; set; }
         public string Fase { get; set; }
         public DateTime FechaIni { get; set; }
