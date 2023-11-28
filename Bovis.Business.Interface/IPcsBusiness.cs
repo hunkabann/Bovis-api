@@ -19,7 +19,7 @@ namespace Bovis.Business.Interface
         #endregion Proyectos
 
         #region Etapas
-        Task<(bool Success, string Message)> AddEtapa(JsonObject registro);
+        Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro);
         Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto);
         Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro);
         Task<(bool Success, string Message)> DeleteEtapa(int IdEtapa);

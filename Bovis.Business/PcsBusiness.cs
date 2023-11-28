@@ -52,7 +52,7 @@ namespace Bovis.Business
         #endregion Proyectos
 
         #region Etapas
-        public Task<(bool Success, string Message)> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
+        public Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 
         public Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto) => _pcsData.GetEtapas(IdProyecto);
 

@@ -292,9 +292,9 @@ namespace Bovis.Data
         #region Etapas
         // Etapas se guardan en tb_proyecto_fase
         // Los empleados de una etapa, habrá que generarse una nueva tabla de relación.
-        public async Task<(bool Success, string Message)> AddEtapa(JsonObject registro)
+        public async Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro)
         {
-            (bool Success, string Message) resp = (true, string.Empty);
+            PCS_Etapa_Detalle etapa = new PCS_Etapa_Detalle();
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             int orden = Convert.ToInt32(registro["orden"].ToString());
@@ -304,19 +304,22 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_insert_etapa = await db.tB_ProyectoFases
-                    .Value(x => x.NumProyecto, num_proyecto)
-                    .Value(x => x.Orden, orden)
-                    .Value(x => x.Fase, nombre_fase)
-                    .Value(x => x.FechaIni, fecha_inicio)
-                    .Value(x => x.FechaFin, fecha_fin)
-                    .InsertAsync() > 0;
+                var id_etapa = await db.tB_ProyectoFases
+                                        .Value(x => x.NumProyecto, num_proyecto)
+                                        .Value(x => x.Orden, orden)
+                                        .Value(x => x.Fase, nombre_fase)
+                                        .Value(x => x.FechaIni, fecha_inicio)
+                                        .Value(x => x.FechaFin, fecha_fin)
+                                        .InsertWithIdentityAsync();
 
-                resp.Success = res_insert_etapa;
-                resp.Message = res_insert_etapa == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                etapa.IdFase = Convert.ToInt32(id_etapa);
+                etapa.Fase = nombre_fase;
+                etapa.Orden = orden;
+                etapa.FechaIni = fecha_inicio;
+                etapa.FechaFin = fecha_fin;
             }
 
-            return resp;
+            return etapa;
         }
         public async Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto)
         {
@@ -324,15 +327,13 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-
                 var proyecto = await (from p in db.tB_Proyectos
                                       where p.NumProyecto == IdProyecto
                                       select p).FirstOrDefaultAsync();
 
                 proyecto_etapas.NumProyecto = IdProyecto;
-                proyecto_etapas.FechaIni = proyecto.FechaIni;
-                proyecto_etapas.FechaFin = proyecto.FechaFin;
-
+                proyecto_etapas.FechaIni = proyecto?.FechaIni;
+                proyecto_etapas.FechaFin = proyecto?.FechaFin;
 
                 var etapas = await (from p in db.tB_ProyectoFases
                                     join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
