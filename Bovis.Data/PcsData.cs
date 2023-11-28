@@ -1,4 +1,5 @@
-﻿using Bovis.Common.Model;
+﻿using Azure;
+using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
@@ -334,6 +335,43 @@ namespace Bovis.Data
                                         FechaFin = p.FechaFin
                                     }).ToListAsync();
 
+                foreach(var etapa in  etapas)
+                {
+                    var empleados = await (from p in db.tB_ProyectoFaseEmpleados
+                                           join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                           from eItem in eJoin.DefaultIfEmpty()
+                                           join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                           from perItem in perJoin.DefaultIfEmpty()
+                                           where p.IdFase == etapa.IdFase
+                                           orderby p.NumEmpleado ascending
+                                           select new PCS_Empleado_Detalle
+                                           {
+                                               Id = p.Id,
+                                               IdFase = p.IdFase,
+                                               NumempleadoRrHh = p.NumEmpleado,
+                                               Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                           }).ToListAsync();
+
+                    etapa.Empleados = new List<PCS_Empleado_Detalle>();
+                    etapa.Empleados.AddRange(empleados);
+
+                    foreach(var empleado in empleados)
+                    {
+                        var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                            where p.NumEmpleado == empleado.Id
+                                            && p.IdFase == etapa.IdFase
+                                            select new PCS_Fecha_Detalle
+                                            {
+                                                Id = p.Id,
+                                                Mes = p.Mes,
+                                                Anio = p.Anio,
+                                                Porcentaje = p.Porcentaje
+                                            }).ToListAsync();
+
+                        empleado.Fechas = new List<PCS_Fecha_Detalle>();
+                        empleado.Fechas.AddRange(fechas);                    }
+                }                
+
                 return etapas;
             }
         }
@@ -398,22 +436,26 @@ namespace Bovis.Data
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
             int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
-            int mes = Convert.ToInt32(registro["mes"].ToString());
-            int anio = Convert.ToInt32(registro["anio"].ToString());
-            int porcentaje = Convert.ToInt32(registro["porcentaje"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
-                    .Value(x => x.IdFase, id_fase)
-                    .Value(x => x.NumEmpleado, num_empleado)
-                    .Value(x => x.Mes, mes)
-                    .Value(x => x.Anio, anio)
-                    .Value(x => x.Porcentaje, porcentaje)
-                    .InsertAsync() > 0;
+                foreach (var fecha in registro["fechas"].AsArray())
+                {
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
 
-                resp.Success = res_insert_empleado;
-                resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
+                        .Value(x => x.IdFase, id_fase)
+                        .Value(x => x.NumEmpleado, num_empleado)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcentaje)
+                        .InsertAsync() > 0;
+
+                    resp.Success = res_insert_empleado;
+                    resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                }
             }
 
             return resp;
@@ -434,13 +476,27 @@ namespace Bovis.Data
                                            Id = p.Id,
                                            IdFase = p.IdFase,
                                            NumempleadoRrHh = p.NumEmpleado,
-                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
-                                           Mes = p.Mes,
-                                           Anio = p.Anio,
-                                           Porcentaje = p.Porcentaje
+                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
                                        }).ToListAsync();
 
-                return empleados;
+                foreach (var empleado in empleados)
+                {
+                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                        where p.NumEmpleado == empleado.Id
+                                        && p.IdFase == IdFase
+                                        select new PCS_Fecha_Detalle
+                                        {
+                                            Id = p.Id,
+                                            Mes = p.Mes,
+                                            Anio = p.Anio,
+                                            Porcentaje = p.Porcentaje
+                                        }).ToListAsync();
+
+                    empleado.Fechas = new List<PCS_Fecha_Detalle>();
+                    empleado.Fechas.AddRange(fechas);
+                }
+
+                    return empleados;
             }
         }
         public async Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro)

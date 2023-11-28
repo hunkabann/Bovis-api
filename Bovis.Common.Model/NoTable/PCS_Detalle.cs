@@ -19,6 +19,7 @@ namespace Bovis.Common.Model.NoTable
         public string Fase { get; set; }
         public DateTime FechaIni { get; set; }
         public DateTime FechaFin { get; set; }
+        public List<PCS_Empleado_Detalle> Empleados {  get; set; } 
     }
 
     public class PCS_Empleado_Detalle
@@ -27,6 +28,12 @@ namespace Bovis.Common.Model.NoTable
         public int IdFase { set; get; }
         public int NumempleadoRrHh { get; set; }
         public string Empleado { get; set; }
+        public List<PCS_Fecha_Detalle> Fechas { get; set; }
+    }
+
+    public class PCS_Fecha_Detalle
+    {
+        public int Id { get; set; }
         public int Mes { get; set; }
         public int Anio { get; set; }
         public int Porcentaje { get; set; }
