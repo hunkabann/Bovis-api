@@ -30,28 +30,7 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
-        #region Auditoria Legal (Contractual)
-        [HttpGet, Route("Contractual")]
-        public async Task<IActionResult> GetAuditoriasContractual()
-        {
-            var query = await _auditoriaQueryService.GetAuditoriasContractual();
-            return Ok(query);
-        }
 
-        [HttpPost, Route("Contractual/Agregar")]
-        public async Task<IActionResult> AddAuditoriasContractual([FromBody] JsonObject registro)
-        {
-            var query = await _auditoriaQueryService.AddAuditoriasContractual(registro);
-            if (query.Message == string.Empty) return Ok(query);
-            else return BadRequest(query.Message);
-        }
-        #endregion Auditoria Legal (Contractual)
-
-
-
-
-
-        #region Auditoria de Calidad (Cumplimiento)
         [HttpGet, Route("{TipoAuditoria}")]
         public async Task<IActionResult> GetAuditorias(string TipoAuditoria)
         {
@@ -122,7 +101,6 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
-        #endregion Auditoria de Calidad (Cumplimiento)
 
     }
 }

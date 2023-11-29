@@ -35,26 +35,7 @@ namespace Bovis.Service.Queries
         }
         #endregion
 
-        #region Auditoria Legal
-        public async Task<Response<List<TB_Cat_Auditoria_Contractual>>> GetAuditoriasContractual()
-        {
-            var response = await _auditoriaBusiness.GetAuditoriasContractual();
-            return new Response<List<TB_Cat_Auditoria_Contractual>> { Data = _map.Map<List<TB_Cat_Auditoria_Contractual>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
-        }
 
-        public async Task<Response<(bool Success, string Message)>> AddAuditoriasContractual(JsonObject registro)
-        {
-            var response = await _auditoriaBusiness.AddAuditoriasContractual(registro);
-            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
-        }
-        #endregion Auditoria Legal
-
-
-
-
-
-
-        #region Auditoria de Calidad (Cumplimiento)
         public async Task<Response<List<Documentos_Auditoria_Detalle>>> GetAuditorias(string TipoAuditoria)
         {
             var response = await _auditoriaBusiness.GetAuditorias(TipoAuditoria);
@@ -85,16 +66,16 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
-        public async Task<Response<List<TB_Auditoria_Cumplimiento_Documento>>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
+        public async Task<Response<List<TB_Auditoria_Documento>>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
         {
             var response = await _auditoriaBusiness.GetDocumentosAuditoria(IdAuditoria, offset, limit);
-            return new Response<List<TB_Auditoria_Cumplimiento_Documento>> { Data = _map.Map<List<TB_Auditoria_Cumplimiento_Documento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<List<TB_Auditoria_Documento>> { Data = _map.Map<List<TB_Auditoria_Documento>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
-        public async Task<Response<TB_Auditoria_Cumplimiento_Documento>> GetDocumentoAuditoria(int IdDocumento)
+        public async Task<Response<TB_Auditoria_Documento>> GetDocumentoAuditoria(int IdDocumento)
         {
             var response = await _auditoriaBusiness.GetDocumentoAuditoria(IdDocumento);
-            return new Response<TB_Auditoria_Cumplimiento_Documento> { Data = _map.Map<TB_Auditoria_Cumplimiento_Documento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<TB_Auditoria_Documento> { Data = _map.Map<TB_Auditoria_Documento>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
         public async Task<Response<(bool Success, string Message)>> AddAuditoriaDocumentoValidacion(JsonObject registro)
@@ -102,7 +83,6 @@ namespace Bovis.Service.Queries
             var response = await _auditoriaBusiness.AddAuditoriaDocumentoValidacion(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        #endregion Auditoria de Calidad (Cumplimiento)
     }
 }
 

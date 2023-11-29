@@ -103,6 +103,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chap_paterno { get; set; }
         public string? chap_materno { get; set; }
         public string? chpuesto { get; set; }
+        public string? chemailbovis {  get; set; }
     }
 
     public class Experiencia_Detalle
