@@ -3,3 +3,5 @@
 *.cache
 *.v2
 *.bin
+*.dll
+*.suo

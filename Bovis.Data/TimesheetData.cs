@@ -246,11 +246,12 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
         {
             // Si idEmpleado == 0, no filtrar por empleado
             // Si idProyecto == 0, no filtrar por proyecto
             // Si mes == 0, devolver los del mes anterior
+
 
             List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
             TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
@@ -260,7 +261,21 @@ namespace Bovis.Data
             int targetYear = currentMonth == 1 && mes == 0 ? currentYear - 1 : currentYear;
 
             using (var db = new ConnectionDB(dbConfig))
-            {
+            { 
+                var rol_loged_user = await (from emp in db.tB_Empleados
+                                            join usr in db.tB_Usuarios on emp.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh
+                                            join perf_usr in db.tB_PerfilUsuarios on usr.IdUsuario equals perf_usr.IdUsuario
+                                            join perf in db.tB_Perfils on perf_usr.IdPerfil equals perf.IdPerfil
+                                            where emp.EmailBovis == email_loged_user
+                                            && perf.Perfil == "Administrador"
+                                            select perf).FirstOrDefaultAsync();
+
+                bool is_admin = rol_loged_user != null;
+
+                var num_empleado_loged = await (from emp in db.tB_Empleados
+                                                where emp.EmailBovis == email_loged_user
+                                                select emp.NumEmpleadoRrHh).FirstOrDefaultAsync();
+
                 var res_timesheets = await (from ts in db.tB_Timesheets
                                             join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
                                             join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
@@ -269,7 +284,10 @@ namespace Bovis.Data
                                             join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                             join proy in db.tB_Timesheet_Proyectos on ts.IdTimesheet equals proy.IdTimesheet into proyJoin
                                             from proyItem in proyJoin.DefaultIfEmpty()
+                                            join usr in db.tB_Usuario_Timesheets on emp1.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh into usrJoin
+                                            from usrItem in usrJoin.DefaultIfEmpty()
                                             where ts.Activo == true
+                                            && (is_admin == false || usrItem.NumEmpleadoRrHh == num_empleado_loged)
                                             && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
