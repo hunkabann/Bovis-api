@@ -700,6 +700,8 @@ namespace Bovis.Data
                                        }).ToListAsync();
                 }
 
+                empleados = empleados.OrderBy(x => x.nombre_persona).ToList();
+
                 return empleados;
             }
         }
@@ -711,12 +713,14 @@ namespace Bovis.Data
                 List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
 
                 proyectos = await (from empleado in db.tB_Empleados
-                                   join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh
-                                   join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
+                                   join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh into empProyJoin
+                                   from empProyItem in empProyJoin.DefaultIfEmpty()
+                                   join proyecto in db.tB_Proyectos on empProyItem.NumProyecto equals proyecto.NumProyecto into proyectoJoin
+                                   from proyectoItem in proyectoJoin.DefaultIfEmpty()
                                    where empleado.EmailBovis == EmailResponsable
-                                   && empleadoProyecto.Activo == true
-                                   orderby proyecto.Proyecto ascending
-                                   select proyecto).ToListAsync();
+                                   && empProyItem.Activo == true
+                                   orderby proyectoItem.Proyecto ascending
+                                   select proyectoItem).ToListAsync();
 
                 return proyectos;
             }
