@@ -23,9 +23,18 @@ namespace Bovis.Business.Interface
         Task<List<ProyectoData_Detalle>> GetProyectoData(JsonObject proyectos);
         #endregion Proyecto
 
+
+        #region Catálogos
+        Task<List<string>> GetNombresCuenta();
+        Task<List<string>> GetConceptos();
+        Task<List<int>> GetNumsProyecto();
+        Task<List<string>> GetResponsables();
+        Task<List<string>> GetClasificacionesPY();
+        #endregion Catálogos
+
         #region Registros
         Task<Cie_Detalle> GetRegistro(int? numProyecto);
-        Task<List<Cie_Detalle>> GetRegistros(bool? activo, int offset, int limit);
+        Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int anioFin, int mesFin, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit);
         Task<(bool Success, string Message)> AddRegistros(JsonObject registros);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         Task<(bool Success, string Message)> DeleteRegistro(int idRegistro);

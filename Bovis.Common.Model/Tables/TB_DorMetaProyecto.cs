@@ -3,7 +3,7 @@
 namespace Bovis.Common.Model.Tables
 {
     [Table(Schema = "dbo", Name = "tb_dor_meta_proyecto")]
-    public class TB_Dor_Meta_Proyecto
+    public class TB_DorMetaProyecto
     {
         [Column("idMETA_Proyecto"), NotNull, PrimaryKey, Identity] public int Id { get; set; }
         [Column("UnidadNegocio"), Nullable] public string? UnidadDeNegocio { get; set; }

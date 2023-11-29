@@ -10,12 +10,12 @@ namespace Bovis.Data.Interface
         Task<List<TB_Proyecto>> GetProyecto();
         Task<Factura_Proyecto> GetInfoProyecto(int numProyecto);
         Task<TB_ProyectoFactura> SearchFactura(string uuid);
-        Task<TB_Proyecto_Factura_Nota_Credito> SearchNotaCredito(string uuid);
-        Task<TB_Proyecto_Factura_Cobranza> SearchPagos(string uuid);
-        Task<(bool Success, string Message)> AddNotaCredito(TB_Proyecto_Factura_Nota_Credito notaCredito);
+        Task<TB_ProyectoFacturaNotaCredito> SearchNotaCredito(string uuid);
+        Task<TB_ProyectoFacturaCobranza> SearchPagos(string uuid);
+        Task<(bool Success, string Message)> AddNotaCredito(TB_ProyectoFacturaNotaCredito notaCredito);
         Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro);
         Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio);
-        Task<(bool Success, string Message)> AddPagos(TB_Proyecto_Factura_Cobranza pagos);
+        Task<(bool Success, string Message)> AddPagos(TB_ProyectoFacturaCobranza pagos);
         Task<(bool Success, string Message)> CancelFactura(TB_ProyectoFactura factura);
         Task<List<FacturaDetalles>> GetAllFacturas(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura);
         Task<List<FacturaDetalles>> GetFacturasProyecto(int? idProyecto);

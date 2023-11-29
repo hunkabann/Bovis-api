@@ -179,9 +179,9 @@ namespace Bovis.Data
 
                 foreach (var a in auditorias)
                 {
-                    int id_auditoria = Convert.ToInt32(a["id_auditoria"].ToString());
-                    bool aplica = Convert.ToBoolean(a["aplica"].ToString());
-                    string motivo = a["motivo"] != null ? a["motivo"].ToString() : string.Empty;
+                    int? id_auditoria = a["id_auditoria"] != null ? Convert.ToInt32(a["id_auditoria"].ToString()) : null;
+                    bool? aplica = a["aplica"] != null ? Convert.ToBoolean(a["aplica"].ToString()) : null;
+                    string? motivo = a["motivo"] != null ? a["motivo"].ToString() : null;
 
                     var insert_auditoria_proyecto = await db.tB_Auditoria_Proyectos
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
@@ -212,9 +212,9 @@ namespace Bovis.Data
 
                 foreach (var a in auditorias)
                 {
-                    int id_auditoria = Convert.ToInt32(a["id_auditoria"].ToString());
-                    bool aplica = Convert.ToBoolean(a["aplica"].ToString());
-                    string motivo = a["motivo"].ToString();
+                    int? id_auditoria = a["id_auditoria"] != null ? Convert.ToInt32(a["id_auditoria"].ToString()) : null;
+                    bool? aplica = a["aplica"] != null ? Convert.ToBoolean(a["aplica"].ToString()) : null;
+                    string? motivo = a["motivo"] != null ? a["motivo"].ToString() : null;
 
                     var insert_auditoria_proyecto = await db.tB_Auditoria_Proyectos
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
@@ -235,7 +235,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_auditoria_proyecto = Convert.ToInt32(registro["id_auditoria_proyecto"].ToString());
-            string motivo = registro["motivo"].ToString();
+            string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() :  null;
             string documento_base64 = registro["documento_base64"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
@@ -256,7 +256,7 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<List<TB_Auditoria_Documento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
+        public async Task<List<TB_AuditoriaDocumento>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -273,7 +273,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<TB_Auditoria_Documento> GetDocumentoAuditoria(int IdDocumento)
+        public async Task<TB_AuditoriaDocumento> GetDocumentoAuditoria(int IdDocumento)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -299,7 +299,7 @@ namespace Bovis.Data
 
                     var res_valida_documento = await (db.tB_Auditoria_Documentos
                                                 .Where(x => x.IdDocumento == id_documento)
-                                                .UpdateAsync(x => new TB_Auditoria_Documento
+                                                .UpdateAsync(x => new TB_AuditoriaDocumento
                                                 {
                                                     Valido = valido
                                                 })) > 0;
@@ -308,7 +308,7 @@ namespace Bovis.Data
                     {
                         var delete_documento = await (db.tB_Auditoria_Documentos
                             .Where(x => x.IdDocumento == id_documento)
-                            .UpdateAsync(x => new TB_Auditoria_Documento
+                            .UpdateAsync(x => new TB_AuditoriaDocumento
                             {
                                 Activo = false
                             })) > 0;

@@ -19,17 +19,17 @@ namespace Bovis.Business.Interface
         #endregion Proyectos
 
         #region Etapas
-        Task<(bool Success, string Message)> AddEtapa(JsonObject registro);
-        Task<List<PCS_Etapa_Detalle>> GetEtapas(int IdProyecto);
+        Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro);
+        Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto);
         Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro);
         Task<(bool Success, string Message)> DeleteEtapa(int IdEtapa);
         #endregion Etapas
 
         #region Empleados
         Task<(bool Success, string Message)> AddEmpleado(JsonObject registro);
-        Task<List<PCS_Empleado_Detalle>> GetEmpleados(int IdProyecto);
+        Task<List<PCS_Empleado_Detalle>> GetEmpleados(int IdFase);
         Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro);
-        Task<(bool Success, string Message)> DeleteEmpleado(int IdEmpleado);
+        Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado);
         #endregion Empleados
     }
 

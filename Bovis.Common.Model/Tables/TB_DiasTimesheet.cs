@@ -3,7 +3,7 @@
 namespace Bovis.Common.Model.Tables
 {
     [Table(Schema = "dbo", Name = "tb_dias_timesheet")]
-    public class TB_Dias_Timesheet
+    public class TB_DiasTimesheet
     {
         [Column("Id"), NotNull, PrimaryKey, Identity] public int Id { get; set; }
         [Column("Mes"), Nullable] public int Mes { get; set; }

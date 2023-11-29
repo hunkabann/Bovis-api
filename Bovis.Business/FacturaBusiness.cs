@@ -166,7 +166,7 @@ namespace Bovis.Business
                             {
                                 if ((DateTime.TryParse(cfdi.Fecha, out tryDate)) && (factura.Id > 0))
                                 {
-                                    var responseFactura = await _facturaData.AddNotaCredito(new TB_Proyecto_Factura_Nota_Credito
+                                    var responseFactura = await _facturaData.AddNotaCredito(new TB_ProyectoFacturaNotaCredito
                                     {
                                         IdFactura = factura.Id,
                                         UuidNotaCredito = cfdi.UUID,
@@ -295,7 +295,7 @@ namespace Bovis.Business
 
                                     if ((DateTime.TryParse(tmpPagos.FechaPago, out tryDate)) && (factura.Id > 0))
                                     {
-                                        var responseFactura = await _facturaData.AddPagos(new TB_Proyecto_Factura_Cobranza
+                                        var responseFactura = await _facturaData.AddPagos(new TB_ProyectoFacturaCobranza
                                         {
                                             IdFactura = factura.Id,
                                             UuidCobranza = cfdi.UUID,

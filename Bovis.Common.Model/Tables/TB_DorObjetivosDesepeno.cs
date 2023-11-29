@@ -3,7 +3,7 @@
 namespace Bovis.Common.Model.Tables
 {
     [Table(Schema = "dbo", Name = "tb_dor_objetivos_desepeno")]
-    public class TB_Dor_Objetivos_Desepeno
+    public class TB_DorObjetivosDesepeno
     {
         [Column("idEmpOb"), NotNull, PrimaryKey, Identity] public int IdEmpOb { get; set; }
         [Column("UnidadDeNegocio"), Nullable] public string? UnidadDeNegocio { get; set; }

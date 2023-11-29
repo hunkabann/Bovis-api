@@ -7,8 +7,8 @@ namespace Bovis.Common.Model
 	public partial class ConnectionDB : DataConnection
 	{		        
         public ITable<TB_Auditoria> tB_Auditorias { get { return this.GetTable<TB_Auditoria>(); } }
-        public ITable<TB_Auditoria_Documento> tB_Auditoria_Documentos { get { return this.GetTable<TB_Auditoria_Documento>(); } }
-        public ITable<TB_Auditoria_Proyecto> tB_Auditoria_Proyectos { get { return this.GetTable<TB_Auditoria_Proyecto>(); } }
+        public ITable<TB_AuditoriaDocumento> tB_Auditoria_Documentos { get { return this.GetTable<TB_AuditoriaDocumento>(); } }
+        public ITable<TB_AuditoriaProyecto> tB_Auditoria_Proyectos { get { return this.GetTable<TB_AuditoriaProyecto>(); } }
         public ITable<TB_Banco> tB_Bancos { get { return this.GetTable<TB_Banco>(); } }
 		public ITable<TB_Bitacora> tB_Bitacoras { get { return this.GetTable<TB_Bitacora>(); } }        
         public ITable<TB_Cat_Auditoria> tB_Cat_Auditorias { get { return this.GetTable<TB_Cat_Auditoria>(); } }
@@ -59,46 +59,46 @@ namespace Bovis.Common.Model
         public ITable<TB_Cat_Turno> tB_Cat_Turnos { get { return this.GetTable<TB_Cat_Turno>(); } }
         public ITable<TB_Cat_UnidadNegocio> tB_Cat_UnidadNegocios { get { return this.GetTable<TB_Cat_UnidadNegocio>(); } }
 		public ITable<TB_Cat_Viatico> tB_Cat_Viaticos { get { return this.GetTable<TB_Cat_Viatico>(); } }
-		public ITable<TB_Categ_Prestacion> tB_Categ_Prestacions { get { return this.GetTable<TB_Categ_Prestacion>(); } }
-		public ITable<TB_Cent_Costos> tB_Cent_Costos { get { return this.GetTable<TB_Cent_Costos>(); } }
+		public ITable<TB_CategPrestacion> tB_Categ_Prestacions { get { return this.GetTable<TB_CategPrestacion>(); } }
+		public ITable<TB_CentCostos> tB_Cent_Costos { get { return this.GetTable<TB_CentCostos>(); } }
 		public ITable<TB_Cie> tB_Cies { get { return this.GetTable<TB_Cie>(); } }
-        public ITable<TB_Cie_Archivo> tB_Cie_Archivos { get { return this.GetTable<TB_Cie_Archivo>(); } }
-        public ITable<TB_Cie_Data> tB_Cie_Datas { get { return this.GetTable<TB_Cie_Data>(); } }
+        public ITable<TB_CieArchivo> tB_Cie_Archivos { get { return this.GetTable<TB_CieArchivo>(); } }
+        public ITable<TB_CieData> tB_Cie_Datas { get { return this.GetTable<TB_CieData>(); } }
         public ITable<TB_Ciudad> tB_Ciudads { get { return this.GetTable<TB_Ciudad>(); } }
 		public ITable<TB_Cliente> tB_Clientes { get { return this.GetTable<TB_Cliente>(); } }
 		public ITable<TB_ClienteEmpresa> tB_ClienteEmpresas { get { return this.GetTable<TB_ClienteEmpresa>(); } }
 		public ITable<TB_Cobranza> tB_Cobranzas { get { return this.GetTable<TB_Cobranza>(); } }
 		public ITable<TB_Colonia> tB_Colonias { get { return this.GetTable<TB_Colonia>(); } }
 		public ITable<TB_Contacto> tB_Contactos { get { return this.GetTable<TB_Contacto>(); } }
-        public ITable<TB_Contrato_Empleado> tB_Contrato_Empleados { get { return this.GetTable<TB_Contrato_Empleado>(); } }
-        public ITable<TB_Contrato_Template> tB_Contrato_Templates { get { return this.GetTable<TB_Contrato_Template>(); } }
-        public ITable<TB_Costo_Por_Empleado> tB_Costo_Por_Empleados { get { return this.GetTable<TB_Costo_Por_Empleado>(); } }
+        public ITable<TB_ContratoEmpleado> tB_Contrato_Empleados { get { return this.GetTable<TB_ContratoEmpleado>(); } }
+        public ITable<TB_ContratoTemplate> tB_Contrato_Templates { get { return this.GetTable<TB_ContratoTemplate>(); } }
+        public ITable<TB_CostoPorEmpleado> tB_Costo_Por_Empleados { get { return this.GetTable<TB_CostoPorEmpleado>(); } }
         public ITable<TB_CuentaBanco> tB_CuentaBancos { get { return this.GetTable<TB_CuentaBanco>(); } }
-        public ITable<TB_Dias_Timesheet> tB_Dias_Timesheets { get { return this.GetTable<TB_Dias_Timesheet>(); } }
+        public ITable<TB_DiasTimesheet> tB_Dias_Timesheets { get { return this.GetTable<TB_DiasTimesheet>(); } }
         public ITable<TB_Direccion> tB_Direccions { get { return this.GetTable<TB_Direccion>(); } }
-        public ITable<TB_Dor_Empleados> tB_Dor_Empleados { get { return this.GetTable<TB_Dor_Empleados>(); } }
-        public ITable<TB_Dor_Gpm_Proyecto> tB_Dor_Gpm_Proyecto { get { return this.GetTable<TB_Dor_Gpm_Proyecto>(); } }
-        public ITable<TB_Dor_Meta_Proyecto> tB_Dor_Meta_Proyectos { get { return this.GetTable<TB_Dor_Meta_Proyecto>(); } }
-        public ITable<TB_Dor_Obj_Gral> tB_Dor_Objetivos_Gral { get { return this.GetTable<TB_Dor_Obj_Gral>(); } }
-        public ITable<TB_Dor_Objetivos_Nivel> tB_Dor_Objetivos_Nivel { get { return this.GetTable<TB_Dor_Objetivos_Nivel>(); } }
-        public ITable<TB_Dor_Objetivos_Desepeno> tB_Dor_Objetivos_Desepenos { get { return this.GetTable<TB_Dor_Objetivos_Desepeno>(); } }
-        public ITable<TB_Dor_Tooltip> tB_Dor_Tooltip { get { return this.GetTable<TB_Dor_Tooltip>(); } }
-        public ITable<TB_Dor_Real_Gasto_Ingreso_Proyecto_Gpm> tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms { get { return this.GetTable<TB_Dor_Real_Gasto_Ingreso_Proyecto_Gpm>(); } }
+        public ITable<TB_DorEmpleados> tB_Dor_Empleados { get { return this.GetTable<TB_DorEmpleados>(); } }
+        public ITable<TB_DorGpmProyecto> tB_Dor_Gpm_Proyecto { get { return this.GetTable<TB_DorGpmProyecto>(); } }
+        public ITable<TB_DorMetaProyecto> tB_Dor_Meta_Proyectos { get { return this.GetTable<TB_DorMetaProyecto>(); } }
+        public ITable<TB_DorObjGral> tB_Dor_Objetivos_Gral { get { return this.GetTable<TB_DorObjGral>(); } }
+        public ITable<TB_DorObjetivosNivel> tB_Dor_Objetivos_Nivel { get { return this.GetTable<TB_DorObjetivosNivel>(); } }
+        public ITable<TB_DorObjetivosDesepeno> tB_Dor_Objetivos_Desepenos { get { return this.GetTable<TB_DorObjetivosDesepeno>(); } }
+        public ITable<TB_DorTooltip> tB_Dor_Tooltip { get { return this.GetTable<TB_DorTooltip>(); } }
+        public ITable<TB_DorRealGastoIngresoProyectoGpm> tB_Dor_Real_Gasto_Ingreso_Proyecto_Gpms { get { return this.GetTable<TB_DorRealGastoIngresoProyectoGpm>(); } }
 		public ITable<TB_Empleado> tB_Empleados { get { return this.GetTable<TB_Empleado>(); } }
 		public ITable<TB_EmpleadoBeneficio> tB_EmpleadoBeneficios { get { return this.GetTable<TB_EmpleadoBeneficio>(); } }
 		public ITable<TB_EmpleadoContrato> tB_EmpleadoContratos { get { return this.GetTable<TB_EmpleadoContrato>(); } }
 		public ITable<TB_EmpleadoCorreos> tB_EmpleadoCorreos { get { return this.GetTable<TB_EmpleadoCorreos>(); } }
 		public ITable<TB_EmpleadoCuenta> tB_EmpleadoCuentas { get { return this.GetTable<TB_EmpleadoCuenta>(); } }
 		public ITable<TB_EmpleadoDocumento> tB_EmpleadoDocumentos { get { return this.GetTable<TB_EmpleadoDocumento>(); } }
-        public ITable<TB_Empleado_Experiencia> tB_Empleado_Experiencias { get { return this.GetTable<TB_Empleado_Experiencia>(); } }
-        public ITable<TB_Empleado_Habilidad> tB_Empleado_Habilidades { get { return this.GetTable<TB_Empleado_Habilidad>(); } }
+        public ITable<TB_EmpleadoExperiencia> tB_Empleado_Experiencias { get { return this.GetTable<TB_EmpleadoExperiencia>(); } }
+        public ITable<TB_EmpleadoHabilidad> tB_Empleado_Habilidades { get { return this.GetTable<TB_EmpleadoHabilidad>(); } }
         public ITable<TB_EmpleadoProyecto> tB_EmpleadoProyectos { get { return this.GetTable<TB_EmpleadoProyecto>(); } }
 		public ITable<TB_EmpleadoProyectoBeneficio> tB_EmpleadoProyectoBeneficios { get { return this.GetTable<TB_EmpleadoProyectoBeneficio>(); } }
 		public ITable<TB_Empresa> tB_Empresas { get { return this.GetTable<TB_Empresa>(); } }
 		public ITable<TB_EmpresaCuenta> tB_EmpresaCuentas { get { return this.GetTable<TB_EmpresaCuenta>(); } }
 		public ITable<TB_Estado> tB_Estados { get { return this.GetTable<TB_Estado>(); } }
 		public ITable<TB_EstimadoConstruccion> tB_EstimadoConstruccions { get { return this.GetTable<TB_EstimadoConstruccion>(); } }
-		public ITable<TB_Hist_EmpleadoPuesto> tB_Hist_EmpleadoPuestos { get { return this.GetTable<TB_Hist_EmpleadoPuesto>(); } }
+		public ITable<TB_HistEmpleadoPuesto> tB_Hist_EmpleadoPuestos { get { return this.GetTable<TB_HistEmpleadoPuesto>(); } }
 		public ITable<TB_Modulo> tB_Modulos { get { return this.GetTable<TB_Modulo>(); } }
 		public ITable<TB_Operacion> tB_Operacions { get { return this.GetTable<TB_Operacion>(); } }
 		public ITable<TB_Pais> tB_Pais { get { return this.GetTable<TB_Pais>(); } }
@@ -110,9 +110,10 @@ namespace Bovis.Common.Model
 		public ITable<TB_Persona> tB_Personas { get { return this.GetTable<TB_Persona>(); } }
 		public ITable<TB_Proyecto> tB_Proyectos { get { return this.GetTable<TB_Proyecto>(); } }
 		public ITable<TB_ProyectoFactura> tB_ProyectoFacturas { get { return this.GetTable<TB_ProyectoFactura>(); } }
-        public ITable<TB_Proyecto_Factura_Nota_Credito> tB_ProyectoFacturasNotaCredito { get { return this.GetTable<TB_Proyecto_Factura_Nota_Credito>(); } }
-        public ITable<TB_Proyecto_Factura_Cobranza> tB_ProyectoFacturasCobranza { get { return this.GetTable<TB_Proyecto_Factura_Cobranza>(); } }
+        public ITable<TB_ProyectoFacturaNotaCredito> tB_ProyectoFacturasNotaCredito { get { return this.GetTable<TB_ProyectoFacturaNotaCredito>(); } }
+        public ITable<TB_ProyectoFacturaCobranza> tB_ProyectoFacturasCobranza { get { return this.GetTable<TB_ProyectoFacturaCobranza>(); } }
         public ITable<TB_ProyectoFase> tB_ProyectoFases { get { return this.GetTable<TB_ProyectoFase>(); } }
+        public ITable<TB_ProyectoFaseEmpleado> tB_ProyectoFaseEmpleados { get { return this.GetTable<TB_ProyectoFaseEmpleado>(); } }
 		public ITable<TB_ProyectoGastos> tB_ProyectoGastos { get { return this.GetTable<TB_ProyectoGastos>(); } }
 		public ITable<TB_ProyectoGastosCostoDirectosSalarios> tB_ProyectoGastosCostoDirectosSalarios { get { return this.GetTable<TB_ProyectoGastosCostoDirectosSalarios>(); } }
 		public ITable<TB_ProyectoGastosCostoIndirectosSalarios> tB_ProyectoGastosCostoIndirectosSalarios { get { return this.GetTable<TB_ProyectoGastosCostoIndirectosSalarios>(); } }
@@ -123,15 +124,15 @@ namespace Bovis.Common.Model
 		public ITable<TB_ProyectoParticipacionPersonal> tB_ProyectoParticipacionPersonals { get { return this.GetTable<TB_ProyectoParticipacionPersonal>(); } }
 		public ITable<TB_ProyectoViatico> tB_ProyectoViaticos { get { return this.GetTable<TB_ProyectoViatico>(); } }
 		public ITable<TB_PuestoProyecto> tB_PuestoProyectos{ get { return this.GetTable<TB_PuestoProyecto>(); } }
-		public ITable<TB_Reporte_Custom> tB_Reporte_Customs { get { return this.GetTable<TB_Reporte_Custom>(); } }
+		public ITable<TB_ReporteCustom> tB_Reporte_Customs { get { return this.GetTable<TB_ReporteCustom>(); } }
 		public ITable<TB_Requerimiento> tB_Requerimientos { get { return this.GetTable<TB_Requerimiento>(); } }
-        public ITable<TB_Requerimiento_Experiencia> tB_Requerimiento_Experiencias { get { return this.GetTable<TB_Requerimiento_Experiencia>(); } }
-        public ITable<TB_Requerimiento_Habilidad> tB_Requerimiento_Habilidades { get { return this.GetTable<TB_Requerimiento_Habilidad>(); } }
+        public ITable<TB_RequerimientoExperiencia> tB_Requerimiento_Experiencias { get { return this.GetTable<TB_RequerimientoExperiencia>(); } }
+        public ITable<TB_RequerimientoHabilidad> tB_Requerimiento_Habilidades { get { return this.GetTable<TB_RequerimientoHabilidad>(); } }
         public ITable<TB_Timesheet> tB_Timesheets { get { return this.GetTable<TB_Timesheet>(); } }
         public ITable<TB_Timesheet_Otro> tB_Timesheet_Otros { get { return this.GetTable<TB_Timesheet_Otro>(); } }
         public ITable<TB_Timesheet_Proyecto> tB_Timesheet_Proyectos { get { return this.GetTable<TB_Timesheet_Proyecto>(); } }
         public ITable<TB_Usuario> tB_Usuarios { get { return this.GetTable<TB_Usuario>(); } }
-        public ITable<TB_Usuario_Timesheet> tB_Usuario_Timesheets { get { return this.GetTable<TB_Usuario_Timesheet>(); } }
+        public ITable<TB_UsuarioTimesheet> tB_Usuario_Timesheets { get { return this.GetTable<TB_UsuarioTimesheet>(); } }
 
 		public ConnectionDB()
 		{

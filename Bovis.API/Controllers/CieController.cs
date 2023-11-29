@@ -41,6 +41,7 @@ namespace Bovis.API.Controllers
         }
         #endregion Empresas
 
+
         #region Cuenta Data
         [HttpPost("Cuentas")]
         public async Task<IActionResult> GetCuentaData([FromBody] JsonObject cuentas)
@@ -49,6 +50,7 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
         #endregion Cuenta Data
+
 
         #region Proyecto
         [HttpPost("Proyectos")]
@@ -59,11 +61,49 @@ namespace Bovis.API.Controllers
         }
         #endregion Proyecto
 
-        #region Registros        
-        [HttpGet, Route("Registros/{Activo?}/{offset}/{limit}")]
-        public async Task<IActionResult> GetRegitros(bool? Activo, int offset, int limit)
+        #region Catálogos
+        [HttpGet, Route("NombresCuenta")]
+        public async Task<IActionResult> GetNombresCuenta()
         {
-            var query = await _cieQueryService.GetRegistros(Activo, offset, limit);
+            var query = await _cieQueryService.GetNombresCuenta();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Conceptos")]
+        public async Task<IActionResult> GetConceptos()
+        {
+            var query = await _cieQueryService.GetConceptos();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("NumsProyecto")]
+        public async Task<IActionResult> GetNumsProyecto()
+        {
+            var query = await _cieQueryService.GetNumsProyecto();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Responsables")]
+        public async Task<IActionResult> GetResponsables()
+        {
+            var query = await _cieQueryService.GetResponsables();
+            return Ok(query);
+        }
+
+        [HttpGet, Route("ClasificacionesPY")]
+        public async Task<IActionResult> GetClasificacionesPY()
+        {
+            var query = await _cieQueryService.GetClasificacionesPY();
+            return Ok(query);
+        }
+        #endregion Catálogos
+
+
+        #region Registros        
+        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{mesInicio}/{anioInicio}/{mesFin}/{anioFin}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{clasificacionPY}/{offset}/{limit}")]
+        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
+        {
+            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, mesInicio, anioInicio, mesFin, anioFin, concepto, empresa, num_proyecto, responsable, clasificacionPY, offset, limit);
             return Ok(query);
         }
 

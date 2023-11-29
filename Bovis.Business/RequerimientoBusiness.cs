@@ -27,11 +27,11 @@ namespace Bovis.Business
         #endregion base
 
         #region Habilidades
-        public Task<List<TB_Requerimiento_Habilidad>> GetHabilidades(int idRequerimiento) => _RequerimientoData.GetHabilidades(idRequerimiento);
+        public Task<List<TB_RequerimientoHabilidad>> GetHabilidades(int idRequerimiento) => _RequerimientoData.GetHabilidades(idRequerimiento);
         #endregion Habilidades
 
         #region Experiencias
-        public Task<List<TB_Requerimiento_Experiencia>> GetExperiencias(int idRequerimiento) => _RequerimientoData.GetExperiencias(idRequerimiento);
+        public Task<List<TB_RequerimientoExperiencia>> GetExperiencias(int idRequerimiento) => _RequerimientoData.GetExperiencias(idRequerimiento);
         #endregion Experiencias
 
         #region Registros

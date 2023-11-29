@@ -34,9 +34,9 @@ namespace Bovis.Data
 
 
         #region Templates
-        public async Task<List<TB_Contrato_Template>> GetTemplates(string Estatus)
+        public async Task<List<TB_ContratoTemplate>> GetTemplates(string Estatus)
         {
-            List<TB_Contrato_Template> list = new List<TB_Contrato_Template>();
+            List<TB_ContratoTemplate> list = new List<TB_ContratoTemplate>();
             using (var db = new ConnectionDB(dbConfig))
             {
                 switch (Estatus)
@@ -65,7 +65,7 @@ namespace Bovis.Data
             return list;
         }
 
-        public async Task<TB_Contrato_Template> GetTemplate(int IdTemplate)
+        public async Task<TB_ContratoTemplate> GetTemplate(int IdTemplate)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -110,7 +110,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_template = await db.tB_Contrato_Templates.Where(x => x.IdContratoTemplate == id_contrato_template)
-                    .UpdateAsync(x => new TB_Contrato_Template
+                    .UpdateAsync(x => new TB_ContratoTemplate
                     {
                         Titulo = titulo,
                         Template = template
@@ -133,7 +133,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res_update_template = await db.tB_Contrato_Templates.Where(x => x.IdContratoTemplate == id_contrato_template)
-                    .UpdateAsync(x => new TB_Contrato_Template
+                    .UpdateAsync(x => new TB_ContratoTemplate
                     {
                         Activo = activo
                     }) > 0;
@@ -146,11 +146,11 @@ namespace Bovis.Data
         #endregion Templates
 
         #region Contratos Empleado
-        public async Task<List<TB_Contrato_Empleado>> GetContratosEmpleado(int IdEmpleado)
+        public async Task<List<TB_ContratoEmpleado>> GetContratosEmpleado(int IdEmpleado)
         {
             if (IdEmpleado > 0)
             {
-                List<TB_Contrato_Empleado> list = new List<TB_Contrato_Empleado>();
+                List<TB_ContratoEmpleado> list = new List<TB_ContratoEmpleado>();
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     list = await (from contrato in db.tB_Contrato_Empleados
@@ -162,10 +162,10 @@ namespace Bovis.Data
 
                 return list;
             }
-            else return await GetAllFromEntityAsync<TB_Contrato_Empleado>();
+            else return await GetAllFromEntityAsync<TB_ContratoEmpleado>();
         }
 
-        public async Task<TB_Contrato_Empleado> GetContratoEmpleado(int IdContratoEmpleado)
+        public async Task<TB_ContratoEmpleado> GetContratoEmpleado(int IdContratoEmpleado)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -212,7 +212,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_template = await db.tB_Contrato_Empleados.Where(x => x.IdContratoEmpleado == id_contrato_empleado)
-                    .UpdateAsync(x => new TB_Contrato_Empleado
+                    .UpdateAsync(x => new TB_ContratoEmpleado
                     {
                         Titulo = titulo,
                         Contrato = contrato

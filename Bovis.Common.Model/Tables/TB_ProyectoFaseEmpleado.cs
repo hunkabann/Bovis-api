@@ -1,0 +1,16 @@
+﻿using LinqToDB.Mapping;
+
+namespace Bovis.Common.Model.Tables
+{
+    [Table(Schema = "dbo", Name = "tb_proyecto_fase_empleado")]
+    public class TB_ProyectoFaseEmpleado
+    {
+        [Column("Nukid"), NotNull, PrimaryKey, Identity] public int Id { get; set; }
+        [Column("Nukidfase"), NotNull] public int IdFase { get; set; }
+        [Column("Nunum_empleado_rr_hh"), NotNull] public int NumEmpleado { get; set; }
+        [Column("Numes"), NotNull] public int Mes { get; set; }
+        [Column("Nuanio"), NotNull] public int Anio { get; set; }
+        [Column("Nuporcentaje"), NotNull] public int Porcentaje { get; set; }
+       
+    }
+}

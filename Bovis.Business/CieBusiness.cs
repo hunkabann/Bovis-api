@@ -37,9 +37,17 @@ namespace Bovis.Business
         public Task<List<ProyectoData_Detalle>> GetProyectoData(JsonObject proyectos) => _cieData.GetProyectoData(proyectos);
         #endregion Proyecto
 
+        #region Catálogos
+        public Task<List<string>> GetNombresCuenta() => _cieData.GetNombresCuenta();
+        public Task<List<string>> GetConceptos() => _cieData.GetConceptos();
+        public Task<List<int>> GetNumsProyecto() => _cieData.GetNumsProyecto();
+        public Task<List<string>> GetResponsables() => _cieData.GetResponsables();
+        public Task<List<string>> GetClasificacionesPY() => _cieData.GetClasificacionesPY();
+        #endregion Catálogos
+
         #region Registros
         public Task<Cie_Detalle> GetRegistro(int? idRegistro) => _cieData.GetRegistro(idRegistro);
-        public Task<List<Cie_Detalle>> GetRegistros(bool? Activo, int offset, int limit) => _cieData.GetRegistros(Activo, offset, limit);
+        public Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit) => _cieData.GetRegistros(activo, nombre_cuenta, mesInicio, anioInicio, mesFin, anioFin, concepto, empresa, num_proyecto, responsable, clasificacionPY, offset, limit);
         public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
         {
             (bool Success, string Message) resp = (true, string.Empty);

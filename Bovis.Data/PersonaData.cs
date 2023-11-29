@@ -45,8 +45,7 @@ namespace Bovis.Data
                                                                           from sexoItem in sexoJoin.DefaultIfEmpty()
                                                                           join tipo_per in db.tB_Cat_TipoPersonas on per.IdTipoPersona equals tipo_per.IdTipoPersona into tipo_perJoin
                                                                           from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
-                                                                              //where per.Activo == activo
-                                                                          where per.EsEmpleado == false
+                                                                          //where per.Activo == activo                                                                          
                                                                           orderby per.Nombre ascending
                                                                           select new Persona_Detalle
                                                                           {
@@ -58,6 +57,7 @@ namespace Bovis.Data
                                                                               chnombre = per.Nombre,
                                                                               chap_paterno = per.ApPaterno,
                                                                               chap_materno = per.ApMaterno,
+                                                                              chnombre_completo = per.Nombre + " " + per.ApPaterno + " " + per.ApMaterno,
                                                                               nukidsexo = per.IdSexo,
                                                                               chsexo = sexoItem != null ? sexoItem.Sexo : string.Empty,
                                                                               chrfc = per.Rfc,
@@ -178,18 +178,18 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             string nombre = registro["nombre"].ToString();
-            string apellido_paterno = registro["apellido_paterno"].ToString();
-            string apellido_materno = registro["apellido_materno"] != null ? registro["apellido_materno"].ToString() : string.Empty;
-            int id_edo_civil = Convert.ToInt32(registro["id_edo_civil"].ToString());
+            string? apellido_paterno = registro["apellido_paterno"] != null ? registro["apellido_paterno"].ToString() : null;
+            string? apellido_materno = registro["apellido_materno"] != null ? registro["apellido_materno"].ToString() : null;
+            int? id_edo_civil = registro["id_edo_civil"] != null ? Convert.ToInt32(registro["id_edo_civil"].ToString()) : null;
             DateTime fecha_nacimiento = Convert.ToDateTime(registro["fecha_nacimiento"].ToString());
-            int id_tipo_sangre = Convert.ToInt32(registro["id_tipo_sangre"].ToString());
+            int? id_tipo_sangre = registro["id_tipo_sangre"] != null ? Convert.ToInt32(registro["id_tipo_sangre"].ToString()) : null;
             int id_sexo = Convert.ToInt32(registro["id_sexo"].ToString());
-            string rfc = registro["rfc"].ToString();
+            string? rfc = registro["rfc"] != null ? registro["rfc"].ToString() : null;
             int id_tipo_persona = Convert.ToInt32(registro["id_tipo_persona"].ToString());
-            string email = registro["email"].ToString();
-            string telefono = registro["telefono"].ToString();
-            string celular = registro["celular"].ToString();
-            string curp = registro["curp"].ToString();
+            string? email = registro["email"] != null ? registro["email"].ToString() : null;
+            string? telefono = registro["telefono"] != null ? registro["telefono"].ToString() : null;
+            string? celular = registro["celular"] != null ? registro["celular"].ToString() : null;
+            string? curp = registro["curp"] != null ? registro["curp"].ToString() : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -236,18 +236,18 @@ namespace Bovis.Data
 
             int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
             string nombre = registro["nombre"].ToString();
-            string apellido_paterno = registro["apellido_paterno"].ToString();
-            string apellido_materno = registro["apellido_materno"] != null ? registro["apellido_materno"].ToString() : string.Empty;
-            int id_edo_civil = Convert.ToInt32(registro["id_edo_civil"].ToString());
+            string? apellido_paterno = registro["apellido_paterno"] != null ? registro["apellido_paterno"].ToString() : null;
+            string? apellido_materno = registro["apellido_materno"] != null ? registro["apellido_materno"].ToString() : null;
+            int? id_edo_civil = registro["id_edo_civil"] != null ? Convert.ToInt32(registro["id_edo_civil"].ToString()) : null;
             DateTime fecha_nacimiento = Convert.ToDateTime(registro["fecha_nacimiento"].ToString());
-            int id_tipo_sangre = Convert.ToInt32(registro["id_tipo_sangre"].ToString());
+            int? id_tipo_sangre = registro["id_tipo_sangre"] != null ? Convert.ToInt32(registro["id_tipo_sangre"].ToString()) : null;
             int id_sexo = Convert.ToInt32(registro["id_sexo"].ToString());
-            string rfc = registro["rfc"].ToString();
+            string? rfc = registro["rfc"] != null ? registro["rfc"].ToString() : null;
             int id_tipo_persona = Convert.ToInt32(registro["id_tipo_persona"].ToString());
-            string email = registro["email"].ToString();
-            string telefono = registro["telefono"].ToString();
-            string celular = registro["celular"].ToString();
-            string curp = registro["curp"].ToString();
+            string? email = registro["email"] != null ? registro["email"].ToString() : null;
+            string? telefono = registro["telefono"] != null ? registro["telefono"].ToString() : null;
+            string? celular = registro["celular"] != null ? registro["celular"].ToString() : null;
+            string? curp = registro["curp"] != null ? registro["curp"].ToString() : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {

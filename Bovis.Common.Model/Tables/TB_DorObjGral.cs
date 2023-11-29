@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace Bovis.Common.Model.Tables
 {
     [Table(Schema = "dbo", Name = "tb_dor_obj_gral")]
-    public class TB_Dor_Obj_Gral
+    public class TB_DorObjGral
     {
         [Column("id"), NotNull, PrimaryKey, Identity] public int Id { get; set; }
         [Column("UnidadNegocio"), Nullable] public string? UnidadDeNegocio { get; set; }

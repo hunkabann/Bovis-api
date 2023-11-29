@@ -103,7 +103,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             string nombre = registro["nombre"].ToString();
-            string descripcion = registro["descripcion"].ToString();
+            string? descripcion = registro["descripcion"] != null ? registro["descripcion"].ToString() : null;
             string custom_query = registro["query"].ToString();
             int id_empleado_crea = Convert.ToInt32(registro["id_empleado_crea"].ToString());
 
@@ -117,9 +117,9 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var insert_custom_query = await db.tB_Reporte_Customs
-                    .Value(x => x.Query, custom_query)
                     .Value(x => x.Nombre, nombre)
                     .Value(x => x.Descripcion, descripcion)
+                    .Value(x => x.Query, custom_query)
                     .Value(x => x.FechaCreacion, DateTime.Now)
                     .Value(x => x.IdEmpleadoCrea, id_empleado_crea)
                     .Value(x => x.Activo, true)
@@ -172,9 +172,9 @@ namespace Bovis.Data
 
             int id_reporte = Convert.ToInt32(registro["id_reporte"].ToString());
             string nombre = registro["nombre"].ToString();
-            string descripcion = registro["descripcion"].ToString();
+            string? descripcion = registro["descripcion"] != null ? registro["descripcion"].ToString() : null;
             string custom_query = registro["query"].ToString();
-            int id_empleado_actualiza = Convert.ToInt32(registro["id_empleado_actualiza"].ToString());
+            int? id_empleado_actualiza = registro["id_empleado_actualiza"] != null ? Convert.ToInt32(registro["id_empleado_actualiza"].ToString()) : null;
 
             if (!custom_query.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
             {
@@ -186,7 +186,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_custom_query = await (db.tB_Reporte_Customs.Where(x => x.IdReporte == id_reporte)
-                    .UpdateAsync(x => new TB_Reporte_Custom
+                    .UpdateAsync(x => new TB_ReporteCustom
                     {
                         Nombre = nombre,
                         Descripcion = descripcion,
@@ -208,7 +208,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_custom_query = await (db.tB_Reporte_Customs.Where(x => x.IdReporte == IdReporte)
-                                .UpdateAsync(x => new TB_Reporte_Custom
+                                .UpdateAsync(x => new TB_ReporteCustom
                                 {
                                     Activo = false
                                 })) > 0;

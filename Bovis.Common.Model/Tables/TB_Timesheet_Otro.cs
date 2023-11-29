@@ -6,10 +6,10 @@ namespace Bovis.Common.Model.Tables
     public class TB_Timesheet_Otro
     {
         [Column("IdTs_Otro"), NotNull, PrimaryKey, Identity] public int IdTimesheet_Otro { get; set; }
-        [Column("NukidTs"), Nullable] public int IdTimeSheet { get; set; }
-        [Column("Chdescripcion"), Nullable] public string Descripcion { get; set; }
-        [Column("Numdias"), Nullable] public int Dias { get; set; }
-        [Column("NumTdedicacion"), Nullable] public decimal TDedicacion { get; set; }
-        [Column("Boactivo"), Nullable] public bool Activo { get; set; }
+        [Column("NukidTs"), NotNull] public int IdTimeSheet { get; set; }
+        [Column("Chdescripcion"), NotNull] public string Descripcion { get; set; }
+        [Column("Numdias"), NotNull] public int Dias { get; set; }
+        [Column("NumTdedicacion"), NotNull] public decimal TDedicacion { get; set; }
+        [Column("Boactivo"), NotNull] public bool Activo { get; set; }
     }
 }

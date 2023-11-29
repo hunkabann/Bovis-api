@@ -91,7 +91,7 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_dias_timesheet = await db.tB_Dias_Timesheets.Where(x => x.Id == id_timesheet)
-                                .UpdateAsync(x => new TB_Dias_Timesheet
+                                .UpdateAsync(x => new TB_DiasTimesheet
                                 {
                                     Feriados = dias,
                                     SabadosFeriados = sabados_feriados
@@ -108,14 +108,14 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_empleado = Convert.ToInt32(registro["empleado"]["code"].ToString());
-            string nombre_empleado = registro["empleado"]["name"].ToString();
-            string fecha = registro["fecha"].ToString();
-            int mes = Convert.ToInt32(registro["mes"].ToString());
-            int anio = Convert.ToInt32(registro["anio"].ToString());
-            bool sabados = Convert.ToBoolean(registro["sabados"].ToString());
-            int id_responsable = Convert.ToInt32(registro["id_responsable"].ToString());
-            int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
+            int? id_empleado = registro["empleado"]["code"] != null ? Convert.ToInt32(registro["empleado"]["code"].ToString()) : null;
+            string? nombre_empleado = registro["empleado"]["name"] != null ? registro["empleado"]["name"].ToString() : null;
+            string? fecha = registro["fecha"] != null ? registro["fecha"].ToString() : null;
+            int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
+            int? anio = registro["anio"] != null ? Convert.ToInt32(registro["anio"].ToString()) : null;
+            bool? sabados = registro["sabados"] != null ? Convert.ToBoolean(registro["sabados"].ToString()) : null;
+            int? id_responsable = registro["id_responsable"] != null ? Convert.ToInt32(registro["id_responsable"].ToString()) : null;
+            int? dias_trabajo = registro["dias"] != null ? Convert.ToInt32(registro["dias"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -246,11 +246,12 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
         {
             // Si idEmpleado == 0, no filtrar por empleado
             // Si idProyecto == 0, no filtrar por proyecto
             // Si mes == 0, devolver los del mes anterior
+
 
             List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
             TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
@@ -260,7 +261,21 @@ namespace Bovis.Data
             int targetYear = currentMonth == 1 && mes == 0 ? currentYear - 1 : currentYear;
 
             using (var db = new ConnectionDB(dbConfig))
-            {
+            { 
+                var rol_loged_user = await (from emp in db.tB_Empleados
+                                            join usr in db.tB_Usuarios on emp.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh
+                                            join perf_usr in db.tB_PerfilUsuarios on usr.IdUsuario equals perf_usr.IdUsuario
+                                            join perf in db.tB_Perfils on perf_usr.IdPerfil equals perf.IdPerfil
+                                            where emp.EmailBovis == email_loged_user
+                                            && perf.Perfil == "Administrador"
+                                            select perf).FirstOrDefaultAsync();
+
+                bool is_admin = rol_loged_user != null;
+
+                var num_empleado_loged = await (from emp in db.tB_Empleados
+                                                where emp.EmailBovis == email_loged_user
+                                                select emp.NumEmpleadoRrHh).FirstOrDefaultAsync();
+
                 var res_timesheets = await (from ts in db.tB_Timesheets
                                             join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
                                             join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
@@ -269,7 +284,10 @@ namespace Bovis.Data
                                             join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                             join proy in db.tB_Timesheet_Proyectos on ts.IdTimesheet equals proy.IdTimesheet into proyJoin
                                             from proyItem in proyJoin.DefaultIfEmpty()
+                                            join usr in db.tB_Usuario_Timesheets on emp1.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh into usrJoin
+                                            from usrItem in usrJoin.DefaultIfEmpty()
                                             where ts.Activo == true
+                                            && (is_admin == false || usrItem.NumEmpleadoRrHh == num_empleado_loged)
                                             && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
@@ -672,21 +690,35 @@ namespace Bovis.Data
                                        nunum_empleado_rr_hh = g.Key
                                    }).ToListAsync();
 
-
-                foreach (var empleado in empleados)
+                if (empleados.Count > 0)
                 {
-                    var id_persona = await (from emp in db.tB_Empleados
-                                            where emp.NumEmpleadoRrHh == empleado.nunum_empleado_rr_hh
-                                            select emp.IdPersona).FirstOrDefaultAsync();
+                    foreach (var empleado in empleados)
+                    {
+                        var id_persona = await (from emp in db.tB_Empleados
+                                                where emp.NumEmpleadoRrHh == empleado.nunum_empleado_rr_hh
+                                                select emp.IdPersona).FirstOrDefaultAsync();
 
-                    var persona = await (from p in db.tB_Personas
-                                         where p.IdPersona == id_persona
-                                         select p).FirstOrDefaultAsync();
+                        var persona = await (from p in db.tB_Personas
+                                             where p.IdPersona == id_persona
+                                             select p).FirstOrDefaultAsync();
 
-                    empleado.nombre_persona = persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno;
+                        empleado.nombre_persona = persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno;
+                    }
+                }
+                else
+                {
+                    empleados = await (from empleado in db.tB_Empleados
+                                       join persona in db.tB_Personas on empleado.IdPersona equals persona.IdPersona into personaJoin
+                                       from personaItem in personaJoin.DefaultIfEmpty()
+                                       where empleado.EmailBovis == EmailResponsable
+                                       select new Empleado_Detalle
+                                       {
+                                           nunum_empleado_rr_hh = empleado.NumEmpleadoRrHh,
+                                           nombre_persona = personaItem != null ? personaItem.Nombre + " " + personaItem.ApPaterno + " " + personaItem.ApMaterno : string.Empty
+                                       }).ToListAsync();
                 }
 
-
+                empleados = empleados.OrderBy(x => x.nombre_persona).ToList();
 
                 return empleados;
             }
@@ -699,12 +731,14 @@ namespace Bovis.Data
                 List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
 
                 proyectos = await (from empleado in db.tB_Empleados
-                                   join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh
-                                   join proyecto in db.tB_Proyectos on empleadoProyecto.NumProyecto equals proyecto.NumProyecto
+                                   join empleadoProyecto in db.tB_EmpleadoProyectos on empleado.NumEmpleadoRrHh equals empleadoProyecto.NumEmpleadoRrHh into empProyJoin
+                                   from empProyItem in empProyJoin.DefaultIfEmpty()
+                                   join proyecto in db.tB_Proyectos on empProyItem.NumProyecto equals proyecto.NumProyecto into proyectoJoin
+                                   from proyectoItem in proyectoJoin.DefaultIfEmpty()
                                    where empleado.EmailBovis == EmailResponsable
-                                   && empleadoProyecto.Activo == true
-                                   orderby proyecto.Proyecto ascending
-                                   select proyecto).ToListAsync();
+                                   && empProyItem.Activo == true
+                                   orderby proyectoItem.Proyecto ascending
+                                   select proyectoItem).ToListAsync();
 
                 return proyectos;
             }

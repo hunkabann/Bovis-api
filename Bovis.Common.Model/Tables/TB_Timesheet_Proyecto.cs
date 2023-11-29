@@ -6,12 +6,12 @@ namespace Bovis.Common.Model.Tables
     public class TB_Timesheet_Proyecto
     {
         [Column("IdTs_Proyecto"), NotNull, PrimaryKey, Identity] public int IdTimesheet_Proyecto { get; set; }
-        [Column("NukidTs"), Nullable] public int IdTimesheet { get; set; }
-        [Column("NukidProyecto"), Nullable] public int IdProyecto { get; set; }
-        [Column("Chdescripcion"), Nullable] public string Descripcion { get; set; }
-        [Column("Numdias"), Nullable] public int Dias { get; set; }
-        [Column("NumTdedicacion"), Nullable] public int TDedicacion { get; set; }
-        [Column("Numcosto"), Nullable] public int Costo { get; set; }
-        [Column("Boactivo"), Nullable] public bool Activo { get; set; }
+        [Column("NukidTs"), NotNull] public int IdTimesheet { get; set; }
+        [Column("NukidProyecto"), NotNull] public int IdProyecto { get; set; }
+        [Column("Chdescripcion"), NotNull] public string Descripcion { get; set; }
+        [Column("Numdias"), NotNull] public int Dias { get; set; }
+        [Column("NumTdedicacion"), NotNull] public int TDedicacion { get; set; }
+        [Column("Numcosto"), NotNull] public int Costo { get; set; }
+        [Column("Boactivo"), NotNull] public bool Activo { get; set; }
     }
 }

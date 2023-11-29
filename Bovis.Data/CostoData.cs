@@ -37,13 +37,13 @@ namespace Bovis.Data
         #endregion base
 
         #region AddCosto
-        public async Task<Common.Response<decimal>> AddCosto(TB_Costo_Por_Empleado registro)
+        public async Task<Common.Response<decimal>> AddCosto(TB_CostoPorEmpleado registro)
         {
             var registro_anterior = await GetCostoEmpleado(registro.NumEmpleadoRrHh, registro.NuAnno, registro.NuMes, false); //Verifica que no existe registro previo de costos para este empleado en el año y mes solicitados.
 
             if (!registro_anterior.Success) // Puede llevarse a cabo la inserción de un nuevo registro.
             {
-                var resultado = (decimal) await InsertEntityAsync<TB_Costo_Por_Empleado>(registro);
+                var resultado = (decimal) await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
                 return new Common.Response<decimal>()
                 {
                     Data = resultado,
@@ -63,9 +63,9 @@ namespace Bovis.Data
 
         #region GetCostos
 
-        public async Task<List<TB_Costo_Por_Empleado>> GetCostos(bool hist)
+        public async Task<List<TB_CostoPorEmpleado>> GetCostos(bool hist)
         {
-            var resp = await GetAllFromEntityAsync<TB_Costo_Por_Empleado>();
+            var resp = await GetAllFromEntityAsync<TB_CostoPorEmpleado>();
             if (hist)
             {
                 return resp.ToList();
@@ -77,22 +77,22 @@ namespace Bovis.Data
         #endregion
 
         #region GetCosto
-        public async Task<TB_Costo_Por_Empleado> GetCosto(int IdCosto)
+        public async Task<TB_CostoPorEmpleado> GetCosto(int IdCosto)
         {
-            var resp = await GetEntityByPKAsync<TB_Costo_Por_Empleado>(IdCosto);
+            var resp = await GetEntityByPKAsync<TB_CostoPorEmpleado>(IdCosto);
             return resp; 
         }
         #endregion
 
         #region GetCostoEmpleado
-        public async Task<Common.Response<List<TB_Costo_Por_Empleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
+        public async Task<Common.Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
         {
-            var resp = await GetAllEntititiesByPropertyValueAsync<TB_Costo_Por_Empleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
+            var resp = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
             if (hist)
             {
                 if (resp.Count > 0)
                 {
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = true,
                         Data = resp,
@@ -101,7 +101,7 @@ namespace Bovis.Data
 
                 }
                 else
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = false,
                         Message = $"No se encontraron históricos de costos del empleado: {NumEmpleadoRrHh}"
@@ -114,14 +114,14 @@ namespace Bovis.Data
             {
                 var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
                 if (listaCostos.Count != 0)
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = true,
                         Data = listaCostos,
                         Message = "Ok"
                     };
                 else
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = false,
                         Message = $"No se encontraron registros de costos para el empleado: {NumEmpleadoRrHh}"
@@ -133,15 +133,15 @@ namespace Bovis.Data
         #endregion
 
         #region GetCostosEmpleado
-        public async Task<Common.Response<List<TB_Costo_Por_Empleado>>> GetCostoEmpleado(int NumEmpleadoRrHh, int anno, int mes, bool hist)
+        public async Task<Common.Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(int NumEmpleadoRrHh, int anno, int mes, bool hist)
         {
-            var registros = await GetAllEntititiesByPropertyValueAsync<TB_Costo_Por_Empleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
+            var registros = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
             if (registros.Count > 0)
             {
                 if (hist)
                 {
                     var costosEmpleado = registros.Where(reg => reg.NuAnno == anno && reg.NuMes == mes).ToList();
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = true,
                         Data = costosEmpleado,
@@ -154,7 +154,7 @@ namespace Bovis.Data
                     var costoEmpleado = registros.Where(reg => reg.RegHistorico == false && reg.NuAnno == anno && reg.NuMes == mes).ToList();
                     if (costoEmpleado != null)
                     {
-                        return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                        return new Common.Response<List<TB_CostoPorEmpleado>>()
                         {
                             Success = true,
                             Data = costoEmpleado,
@@ -164,7 +164,7 @@ namespace Bovis.Data
 
                     }
                     else
-                        return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                        return new Common.Response<List<TB_CostoPorEmpleado>>()
                         {
                             Success = false,
                             Message = $"No existe registro de costo para el empleado {NumEmpleadoRrHh} en el año y mes solicitados"
@@ -175,7 +175,7 @@ namespace Bovis.Data
             }
             else
             {
-                return new Common.Response<List<TB_Costo_Por_Empleado>>() 
+                return new Common.Response<List<TB_CostoPorEmpleado>>() 
                 { Success = false, 
                   Message = $"No existen históricos de costos para el empleado: {NumEmpleadoRrHh}." 
                 };
@@ -186,7 +186,7 @@ namespace Bovis.Data
         #region GetCostoLaborable
         public async Task<Common.Response<decimal>> GetCostoLaborable(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
         {
-            var costos = await GetAllEntititiesByPropertyValueAsync<TB_Costo_Por_Empleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
+            var costos = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
 
             var costosEmpleado = costos.Where(reg => (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
 
@@ -215,15 +215,15 @@ namespace Bovis.Data
         #endregion
 
         #region GetCostosBetweenDates
-        public async Task<Common.Response<List<TB_Costo_Por_Empleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public async Task<Common.Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
         {
-            var costos = await GetAllEntititiesByPropertyValueAsync<TB_Costo_Por_Empleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
+            var costos = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
             if(costos.Count > 0)
             {
                 if (hist)
                 {
                     var costosEmpleado = costos.Where(reg => ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = true,
                         Data = costosEmpleado,
@@ -233,7 +233,7 @@ namespace Bovis.Data
                 else
                 {
                     var costosEmpleado = costos.Where(reg => (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
-                    return new Common.Response<List<TB_Costo_Por_Empleado>>()
+                    return new Common.Response<List<TB_CostoPorEmpleado>>()
                     {
                         Success = true,
                         Data = costosEmpleado,
@@ -243,7 +243,7 @@ namespace Bovis.Data
                
             }
 
-            return new Common.Response<List<TB_Costo_Por_Empleado>>()
+            return new Common.Response<List<TB_CostoPorEmpleado>>()
             {
                 Success = false,
                 Message = $"No se encontraron registros históricos de costos para el Empleado: {NumEmpleadoRrHh} en las fechas proporcionadas"
@@ -254,7 +254,7 @@ namespace Bovis.Data
         #endregion
 
         #region UpdateCostos
-        public async Task<Common.Response<TB_Costo_Por_Empleado>> UpdateCostos(int costoId, TB_Costo_Por_Empleado registro)
+        public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, TB_CostoPorEmpleado registro)
         {
             if(costoId == registro.IdCosto)
             {
@@ -263,22 +263,22 @@ namespace Bovis.Data
                 {
                     var registro_anterior = respuesta.Data[0];
                     registro_anterior.RegHistorico = true; //Actualiza el estatus del registro para ser histórico
-                    var resBool = await UpdateEntityAsync<TB_Costo_Por_Empleado>(registro_anterior);
-                    var resDecimal = (decimal) await InsertEntityAsync<TB_Costo_Por_Empleado>(registro);
-                    return new Common.Response<TB_Costo_Por_Empleado>
+                    var resBool = await UpdateEntityAsync<TB_CostoPorEmpleado>(registro_anterior);
+                    var resDecimal = (decimal) await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
+                    return new Common.Response<TB_CostoPorEmpleado>
                     {
                         Data = registro,
                         Success = true,
                         Message = $"Actualización del registro de costos: {costoId} por el {resDecimal}"
                     };
                 }
-                return new Common.Response<TB_Costo_Por_Empleado>
+                return new Common.Response<TB_CostoPorEmpleado>
                 {
                     Success = false,
                     Message = $"No se encontró el registro de costos: {costoId}."
                 };
             }
-            return new Common.Response<TB_Costo_Por_Empleado>()
+            return new Common.Response<TB_CostoPorEmpleado>()
             {
                 Success = false,
                 Message = $"Identificador del Costo {costoId} no coincide con registro {registro.IdCosto}!"
@@ -290,10 +290,10 @@ namespace Bovis.Data
         #region DeleteCosto
         public async Task<Common.Response<bool>> DeleteCosto(int costoId)
         {
-            var entity = await GetEntityByPKAsync<TB_Costo_Por_Empleado>(costoId);
+            var entity = await GetEntityByPKAsync<TB_CostoPorEmpleado>(costoId);
             if (entity != null)
             {
-                var respuesta = await DeleteEntityAsync<TB_Costo_Por_Empleado>(entity);
+                var respuesta = await DeleteEntityAsync<TB_CostoPorEmpleado>(entity);
                 if (respuesta)
                 {
                     return new Common.Response<bool>
@@ -325,7 +325,6 @@ namespace Bovis.Data
               
         }
         #endregion 
-
 
     }
 }

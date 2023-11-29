@@ -3,7 +3,7 @@
 namespace Bovis.Common.Model.Tables
 {
     [Table(Schema = "dbo", Name = "tb_contrato_empleado")]
-    public class TB_Contrato_Empleado
+    public class TB_ContratoEmpleado
     {
         [Column("Nukidcontrato_empleado"), NotNull, PrimaryKey, Identity] public int IdContratoEmpleado { get; set; }
         [Column("Chtitulo"), NotNull] public string Titulo { get; set; }

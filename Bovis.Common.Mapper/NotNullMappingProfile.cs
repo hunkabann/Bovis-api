@@ -15,7 +15,7 @@ namespace Bovis.Common.Mapper
     {
         public NotNullMappingProfile()
         {
-            CreateMap<CostoPorEmpleadoDTO, TB_Costo_Por_Empleado>()
+            CreateMap<CostoPorEmpleadoDTO, TB_CostoPorEmpleado>()
                 .ForAllMembers(opts =>
                 {
                     opts.Condition((src, dest, srcMember, destMember, contest) => srcMember != null);
