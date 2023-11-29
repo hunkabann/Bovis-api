@@ -272,6 +272,10 @@ namespace Bovis.Data
 
                 bool is_admin = rol_loged_user != null;
 
+                var num_empleado_loged = await (from emp in db.tB_Empleados
+                                                where emp.EmailBovis == email_loged_user
+                                                select emp.NumEmpleadoRrHh).FirstOrDefaultAsync();
+
                 var res_timesheets = await (from ts in db.tB_Timesheets
                                             join emp1 in db.tB_Empleados on ts.IdResponsable equals emp1.NumEmpleadoRrHh
                                             join per1 in db.tB_Personas on emp1.IdPersona equals per1.IdPersona
@@ -283,7 +287,7 @@ namespace Bovis.Data
                                             join usr in db.tB_Usuario_Timesheets on emp1.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh into usrJoin
                                             from usrItem in usrJoin.DefaultIfEmpty()
                                             where ts.Activo == true
-                                            && (is_admin == false || )
+                                            && (is_admin == false || usrItem.NumEmpleadoRrHh == num_empleado_loged)
                                             && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
