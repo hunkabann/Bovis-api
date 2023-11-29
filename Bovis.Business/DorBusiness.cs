@@ -38,57 +38,57 @@ namespace Bovis.Business
 
         public async Task<(bool Success, string Message)> UpdateReal(JsonObject registro)
         {
-            //(bool Success, string Message) resp = (true, string.Empty);
-            //var respData = await _dorData.UpdateReal((JsonObject)registro["Registro"]);
-            //if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
-            //else
-            //{
-            //    resp = respData;
-            //    _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
-            //}
-            //return resp;
-
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _dorData.UpdateReal(registro);
+            var respData = await _dorData.UpdateReal((JsonObject)registro["Registro"]);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
-            else resp = respData;
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
             return resp;
+
+            //(bool Success, string Message) resp = (true, string.Empty);
+            //var respData = await _dorData.UpdateReal(registro);
+            //if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
+            //else resp = respData;
+            //return resp;
         }
         public async Task<(bool Success, string Message)> UpdateObjetivoPersonal(JsonObject registro)
         {
-            //(bool Success, string Message) resp = (true, string.Empty);
-            //var respData = await _dorData.UpdateObjetivoPersonal((JsonObject)registro["Registro"]);
-            //if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
-            //else
-            //{
-            //    resp = respData;
-            //    _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
-            //}
-            //return resp;
-
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _dorData.UpdateObjetivoPersonal(registro);
+            var respData = await _dorData.UpdateObjetivoPersonal((JsonObject)registro["Registro"]);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
-            else resp = respData;
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
             return resp;
+
+            //(bool Success, string Message) resp = (true, string.Empty);
+            //var respData = await _dorData.UpdateObjetivoPersonal(registro);
+            //if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
+            //else resp = respData;
+            //return resp;
         }
         public async Task<(bool Success, string Message)> UpdateAcepto(JsonObject registro)
         {
-            //(bool Success, string Message) resp = (true, string.Empty);
-            //var respData = await _dorData.UpdateAcepto((JsonObject)registro["Registro"]);
-            //if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
-            //else
-            //{
-            //    resp = respData;
-            //    _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
-            //}
-            //return resp;
-
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _dorData.UpdateAcepto(registro);
+            var respData = await _dorData.UpdateAcepto((JsonObject)registro["Registro"]);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
-            else resp = respData;
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
             return resp;
+
+            //(bool Success, string Message) resp = (true, string.Empty);
+            //var respData = await _dorData.UpdateAcepto(registro);
+            //if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro de PEC"; return resp; }
+            //else resp = respData;
+            //return resp;
         }
     }
 }
