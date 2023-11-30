@@ -520,19 +520,31 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id = Convert.ToInt32(registro["id"].ToString());
-            int porcentaje = Convert.ToInt32(registro["porcentaje"].ToString());
+            int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.Id == id)
-                    .UpdateAsync(x => new TB_ProyectoFaseEmpleado
-                    {
-                        Porcentaje = x.Porcentaje
-                    }) > 0;
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
+                    .DeleteAsync() > 0;
 
-                resp.Success = res_update_empleado;
-                resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                foreach (var fecha in registro["fechas"].AsArray())
+                {
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
+
+                    var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
+                        .Value(x => x.IdFase, id_fase)
+                        .Value(x => x.NumEmpleado, num_empleado)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcentaje)
+                        .InsertAsync() > 0;
+
+                    resp.Success = res_insert_empleado;
+                    resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                }
             }
 
             return resp;
