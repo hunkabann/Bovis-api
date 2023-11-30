@@ -287,7 +287,7 @@ namespace Bovis.Data
                                             join usr in db.tB_Usuario_Timesheets on emp1.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh into usrJoin
                                             from usrItem in usrJoin.DefaultIfEmpty()
                                             where ts.Activo == true
-                                            && (is_admin == false || usrItem.NumEmpleadoRrHh == num_empleado_loged)
+                                            && (is_admin == true || usrItem.NumEmpleadoRrHh == num_empleado_loged)
                                             && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
