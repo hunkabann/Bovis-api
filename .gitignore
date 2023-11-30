@@ -5,3 +5,7 @@
 *.bin
 *.dll
 *.suo
+*.v2
+*.dll
+*.bin
+*.pdb
