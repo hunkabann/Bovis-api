@@ -481,22 +481,44 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                //var empleados = await (from p in db.tB_ProyectoFaseEmpleados
+                //                       join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                //                       from eItem in eJoin.DefaultIfEmpty()
+                //                       join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                //                       from perItem in perJoin.DefaultIfEmpty()
+                //                       where p.IdFase == IdFase
+                //                       orderby p.NumEmpleado ascending
+                //                       select new PCS_Empleado_Detalle
+                //                       {
+                //                           Id = p.Id,
+                //                           IdFase = p.IdFase,
+                //                           NumempleadoRrHh = p.NumEmpleado,
+                //                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                //                       }).ToListAsync();
+
+                //empleados = empleados.GroupBy(e => e.NumempleadoRrHh).Select(g => g.First()).ToList();
+
                 var empleados = await (from p in db.tB_ProyectoFaseEmpleados
                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
                                        from eItem in eJoin.DefaultIfEmpty()
                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                        from perItem in perJoin.DefaultIfEmpty()
-                                       where p.IdFase == IdFase                                       
-                                       orderby p.NumEmpleado ascending                                       
-                                       select new PCS_Empleado_Detalle
+                                       where p.IdFase == IdFase
+                                       orderby p.NumEmpleado ascending
+                                       group new PCS_Empleado_Detalle
                                        {
                                            Id = p.Id,
                                            IdFase = p.IdFase,
                                            NumempleadoRrHh = p.NumEmpleado,
                                            Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                       } by new { p.NumEmpleado } into g
+                                       select new PCS_Empleado_Detalle
+                                       {
+                                           Id = g.First().Id,
+                                           IdFase = g.First().IdFase,
+                                           NumempleadoRrHh = g.Key.NumEmpleado,
+                                           Empleado = g.First().Empleado
                                        }).ToListAsync();
-
-                empleados = empleados.GroupBy(e => e.NumempleadoRrHh).Select(g => g.First()).ToList();
 
                 foreach (var empleado in empleados)
                 {
@@ -515,7 +537,7 @@ namespace Bovis.Data
                     empleado.Fechas.AddRange(fechas);
                 }
 
-                    return empleados;
+                return empleados;
             }
         }
         public async Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro)
