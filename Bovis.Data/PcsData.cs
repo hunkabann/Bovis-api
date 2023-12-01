@@ -486,8 +486,8 @@ namespace Bovis.Data
                                        from eItem in eJoin.DefaultIfEmpty()
                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                        from perItem in perJoin.DefaultIfEmpty()
-                                       where p.IdFase == IdFase
-                                       orderby p.NumEmpleado ascending
+                                       where p.IdFase == IdFase                                       
+                                       orderby p.NumEmpleado ascending                                       
                                        select new PCS_Empleado_Detalle
                                        {
                                            Id = p.Id,
@@ -496,10 +496,12 @@ namespace Bovis.Data
                                            Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
                                        }).ToListAsync();
 
+                empleados = empleados.GroupBy(e => e.NumempleadoRrHh).Select(g => g.First()).ToList();
+
                 foreach (var empleado in empleados)
                 {
                     var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                        where p.NumEmpleado == empleado.Id
+                                        where p.NumEmpleado == empleado.NumempleadoRrHh
                                         && p.IdFase == IdFase
                                         select new PCS_Fecha_Detalle
                                         {
