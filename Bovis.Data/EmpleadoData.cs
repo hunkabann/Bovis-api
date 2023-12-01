@@ -47,6 +47,8 @@ namespace Bovis.Data
                     var resp = await (from emp in db.tB_Empleados
                                       join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into perJoin
                                       from perItem in perJoin.DefaultIfEmpty()
+                                      join sex in db.tB_Cat_Sexos on perItem.IdSexo equals sex.IdSexo into sexJoin
+                                      from sexItem in sexJoin.DefaultIfEmpty()
                                       join tipo_emp in db.tB_Cat_TipoEmpleados on emp.IdTipoEmpleado equals tipo_emp.IdTipoEmpleado into tipo_empJoin
                                       from tipo_empItem in tipo_empJoin.DefaultIfEmpty()
                                       join cat in db.tB_Cat_Categorias on emp.IdCategoria equals cat.IdCategoria into catJoin
@@ -91,6 +93,12 @@ namespace Bovis.Data
                                           nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
                                           nukidpersona = emp.IdPersona,
                                           nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                          dtfecha_nacimiento = perItem.FechaNacimiento,
+                                          nukidsexo = perItem.IdSexo,
+                                          chsexo = sexItem != null ? sexItem.Sexo : string.Empty,
+                                          chcurp = perItem.Curp,
+                                          chrfc = perItem.Rfc,
+                                          chnacionalidad = perItem.Nacionalidad,
                                           nukidtipo_empleado = emp.IdTipoEmpleado,
                                           chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
                                           nukidcategoria = emp.IdCategoria,
@@ -141,7 +149,6 @@ namespace Bovis.Data
                                           nusalario = emp.Salario,
                                           nukidprofesion = emp.IdProfesion,
                                           chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
-                                          //nuantiguedad = emp.Antiguedad,
                                           nukidturno = emp.IdTurno,
                                           chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
                                           nuunidad_medica = emp.UnidadMedica,
@@ -157,20 +164,24 @@ namespace Bovis.Data
                                           chtipo_descuento = emp.TipoDescuento,
                                           nuvalor_descuento = emp.ValorDescuento,
                                           nuno_empleado_noi = emp.NoEmpleadoNoi,
-                                          chrol = emp.Rol
+                                          chrol = emp.Rol,
+                                          dtvigencia = emp.FechaIngreso.AddDays(30)
                                       }).ToListAsync();
 
-                    // Se calcula la antigüedad
+                    // Se calcula la antigüedad y edad
                     foreach (var emp in resp)
                     {
                         DateTime fecha_ingreso = (emp.dtfecha_ultimo_reingreso.IsNullOrEmpty()) ? Convert.ToDateTime(emp.dtfecha_ingreso) : Convert.ToDateTime(emp.dtfecha_ultimo_reingreso);
                         DateTime fecha_salida = (emp.dtfecha_salida.IsNullOrEmpty()) ? DateTime.Now : Convert.ToDateTime(emp.dtfecha_salida);
                         TimeSpan diferencia = fecha_salida - fecha_ingreso;
-                        int años = diferencia.Days / 365;
-                        int meses = (diferencia.Days % 365) / 30;
-                        int dias = diferencia.Days % 30;
+                        int años_antiguedad = diferencia.Days / 365;
+                        int meses_antiguedad = (diferencia.Days % 365) / 30;
+                        int dias_antiguedad = diferencia.Days % 30;
+                        emp.nuantiguedad = $"{años_antiguedad} años, {meses_antiguedad} meses, {dias_antiguedad} días";
 
-                        emp.nuantiguedad = $"{años} años, {meses} meses, {dias} días";
+                        TimeSpan diferenciaEdad = DateTime.Now - emp.dtfecha_nacimiento;
+                        int años_edad = diferenciaEdad.Days / 365;
+                        emp.chedad = $"{años_edad} años";
                     }
 
                     return resp;
@@ -186,6 +197,8 @@ namespace Bovis.Data
                 var res = await (from emp in db.tB_Empleados
                                  join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into perJoin
                                  from perItem in perJoin.DefaultIfEmpty()
+                                 join sex in db.tB_Cat_Sexos on perItem.IdSexo equals sex.IdSexo into sexJoin
+                                 from sexItem in sexJoin.DefaultIfEmpty()
                                  join tipo_emp in db.tB_Cat_TipoEmpleados on emp.IdTipoEmpleado equals tipo_emp.IdTipoEmpleado into tipo_empJoin
                                  from tipo_empItem in tipo_empJoin.DefaultIfEmpty()
                                  join cat in db.tB_Cat_Categorias on emp.IdCategoria equals cat.IdCategoria into catJoin
@@ -230,6 +243,12 @@ namespace Bovis.Data
                                      nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
                                      nukidpersona = emp.IdPersona,
                                      nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                     dtfecha_nacimiento = perItem.FechaNacimiento,
+                                     nukidsexo = perItem.IdSexo,
+                                     chsexo = sexItem != null ? sexItem.Sexo : string.Empty,
+                                     chcurp = perItem.Curp,
+                                     chrfc = perItem.Rfc,
+                                     chnacionalidad = perItem.Nacionalidad,
                                      nukidtipo_empleado = emp.IdTipoEmpleado,
                                      chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
                                      nukidcategoria = emp.IdCategoria,
@@ -280,7 +299,6 @@ namespace Bovis.Data
                                      nusalario = emp.Salario,
                                      nukidprofesion = emp.IdProfesion,
                                      chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
-                                     //nuantiguedad = emp.Antiguedad,
                                      nukidturno = emp.IdTurno,
                                      chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
                                      nuunidad_medica = emp.UnidadMedica,
@@ -296,23 +314,26 @@ namespace Bovis.Data
                                      chtipo_descuento = emp.TipoDescuento,
                                      nuvalor_descuento = emp.ValorDescuento,
                                      nuno_empleado_noi = emp.NoEmpleadoNoi,
-                                     chrol = emp.Rol,
-                                     dtfecha_nacimiento = perItem != null ? perItem.FechaNacimiento.ToString("yyyy-MM-dd") : null,
-                                     nukidsexo = perItem != null ? perItem.IdSexo : null,
-                                     chsexo = sexoItem != null ? sexoItem.Sexo : null
+                                     chrol = emp.Rol,   
+                                     dtvigencia = emp.FechaIngreso.AddDays(30)
                                  }).FirstOrDefaultAsync();
 
                 if (res != null)
                 {
-                    // Se calcula la antigüedad
+                    // Se calcula la antigüedad y edad
                     DateTime fecha_ingreso = (res.dtfecha_ultimo_reingreso.IsNullOrEmpty()) ? Convert.ToDateTime(res.dtfecha_ingreso) : Convert.ToDateTime(res.dtfecha_ultimo_reingreso);
                     DateTime fecha_salida = (res.dtfecha_salida.IsNullOrEmpty()) ? DateTime.Now : Convert.ToDateTime(res.dtfecha_salida);
                     TimeSpan diferencia = fecha_salida - fecha_ingreso;
-                    int años = diferencia.Days / 365;
-                    int meses = (diferencia.Days % 365) / 30;
-                    int dias = diferencia.Days % 30;
+                    int años_antiguedad = diferencia.Days / 365;
+                    int meses_antiguedad = (diferencia.Days % 365) / 30;
+                    int dias_antiguedad = diferencia.Days % 30;
+                    res.nuantiguedad = $"{años_antiguedad} años, {meses_antiguedad} meses, {dias_antiguedad} días";
 
-                    res.nuantiguedad = $"{años} años, {meses} meses, {dias} días";
+                    TimeSpan diferenciaEdad = DateTime.Now - res.dtfecha_nacimiento;
+                    int años_edad = diferenciaEdad.Days / 365;
+                    res.chedad = $"{años_edad} años";
+
+                    
 
                     res.experiencias = await (from exp in db.tB_Empleado_Experiencias
                                               join cat in db.tB_Cat_Experiencias on exp.IdExperiencia equals cat.IdExperiencia
@@ -348,6 +369,18 @@ namespace Bovis.Data
                         res.chhabilidades += (res.chhabilidades == null) ? hab.Habilidad : ", " + hab.Habilidad;
                     }
                 }
+
+                res.proyecto = await (from proy in db.tB_Proyectos
+                                          join rel in db.tB_EmpleadoProyectos on proy.NumProyecto equals rel.NumProyecto
+                                          where rel.NumEmpleadoRrHh == res.nunum_empleado_rr_hh
+                                          select new Empleado_Proyecto_Info
+                                          {
+                                              NumProyecto = proy.NumProyecto,
+                                              Proyecto = proy.Proyecto,
+                                              FechaInicio = proy.FechaIni,
+                                              FechaFin = proy.FechaFin
+                                          }).FirstOrDefaultAsync();
+
                 return res;
 
             }

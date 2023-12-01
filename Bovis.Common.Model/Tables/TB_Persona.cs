@@ -18,6 +18,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Chtelefono"), Nullable] public string? Telefono { get; set; }
 		[Column("Chcelular"), Nullable] public string? Celular { get; set; }
 		[Column("Chcurp"), Nullable] public string? Curp { get; set; }
+		[Column("Chnacionalidad"), Nullable] public string? Nacionalidad { get; set; }
 		[Column("Nukidtipo_persona"), NotNull] public int IdTipoPersona { get; set; }
 		[Column("Boempleado"), Nullable] public bool? EsEmpleado { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
