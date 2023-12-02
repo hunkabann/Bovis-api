@@ -197,6 +197,70 @@ public class ActualizaClasificacionEventHandler : IRequestHandler<ActualizarClas
 
 #endregion
 
+#region Cliente
+
+public class AgregaClienteEventHandler : IRequestHandler<AgregarClienteCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+    private readonly IMapper _mapper;
+
+    public AgregaClienteEventHandler(ICatalogoBusiness _business, IMapper _mapper)
+    {
+        this._business = _business;
+        this._mapper = _mapper;
+    }
+
+    public async Task<Response<bool>> Handle(AgregarClienteCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.AddCliente(new TB_Cliente { Activo = true, Cliente = request.cliente });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class EliminaClienteEventHandler : IRequestHandler<EliminarClienteCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public EliminaClienteEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(EliminarClienteCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.DeleteCliente(new TB_Cliente { IdCliente = request.id });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+public class ActualizaClienteEventHandler : IRequestHandler<ActualizarClienteCommand, Response<bool>>
+{
+    private readonly ICatalogoBusiness _business;
+
+    public ActualizaClienteEventHandler(ICatalogoBusiness _business)
+    {
+        this._business = _business;
+    }
+
+    public async Task<Response<bool>> Handle(ActualizarClienteCommand request, CancellationToken cancellationToken)
+    {
+        var resp = new Response<bool>();
+        (bool Success, string Message) tmpResp = await _business.UpdateCliente(new InsertMovApi { Rel = request.Rel, Nombre = request.Nombre, Roles = request.Roles, TransactionId = request.TransactionId, Usuario = request.Usuario }, new TB_Cliente { Cliente = request.cliente, IdCliente = request.id, Activo = true });
+        if (!tmpResp.Success) resp.AddError(tmpResp.Message);
+        else resp.Data = tmpResp.Success;
+        return resp;
+    }
+}
+
+#endregion
+
+
 #region Costo Indirecto Salarios
 
 public class AgregaCostoIndirectoSalariosEventHandler : IRequestHandler<AgregarCostoIndirectoSalariosCommand, Response<bool>>

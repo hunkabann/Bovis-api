@@ -19,6 +19,7 @@ namespace Bovis.Service.Queries.Interface
 
         #region Cuenta Data
         Task<Response<List<CuentaContable_Detalle>>> GetCuentaData(JsonObject cuentas);
+        Task<Response<(bool Success, string Message)>> AddCuentas(JsonObject registros);
         #endregion Cuenta Data
 
         #region Proyecto

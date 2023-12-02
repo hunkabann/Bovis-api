@@ -105,11 +105,41 @@ namespace Bovis.Business
 			return resp;
 		}
 
-		#endregion
+        #endregion
 
-		#region Costo Indirecto Salarios
+        #region Cliente
 
-		public Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? Actio) => _catalogoData.GetCostoIndirectoSalarios(Actio);
+        public Task<List<TB_Cliente>> GetCliente(bool? Activo) => _catalogoData.GetCliente(Activo);
+		public async Task<(bool Success, string Message)> AddCliente(TB_Cliente cliente)
+		{
+			(bool Success, string Message) resp = (true, string.Empty);
+			var respData = await _catalogoData.AddCliente(cliente);
+			if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del catálogo a la base de datos"; return resp; }
+			return resp;
+		}
+
+		public async Task<(bool Success, string Message)> DeleteCliente(TB_Cliente cliente)
+		{
+			(bool Success, string Message) resp = (true, string.Empty);
+			var respData = await _catalogoData.DeleteCliente(cliente);
+			if (!respData) { resp.Success = false; resp.Message = "No se pudo eliminar el elemento del catálogo a la base de datos"; return resp; }
+			return resp;
+		}
+
+		public async Task<(bool Success, string Message)> UpdateCliente(InsertMovApi MovAPI, TB_Cliente cliente)
+		{
+			(bool Success, string Message) resp = (true, string.Empty);
+			var respData = await _catalogoData.UpdateCliente(cliente);
+			if (!respData) { resp.Success = false; resp.Message = "No se pudo actualizar el elemento del catálogo a la base de datos"; return resp; }
+			else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(cliente) });
+			return resp;
+		}
+
+        #endregion Cliente
+
+        #region Costo Indirecto Salarios
+
+        public Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? Actio) => _catalogoData.GetCostoIndirectoSalarios(Actio);
 		public async Task<(bool Success, string Message)> AddCostoIndirectoSalarios(TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios)
 		{
 			(bool Success, string Message) resp = (true, string.Empty);

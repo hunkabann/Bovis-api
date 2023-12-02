@@ -88,7 +88,7 @@ namespace Bovis.Data
 
 		#endregion
 
-		#region Clsificacion
+		#region Clasificacion
 
 		public async Task<List<TB_Cat_Clasificacion>> GetClasificacion(bool? activo)
 		{
@@ -117,11 +117,42 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Costo Indirecto Salarios
+        #region Cliente
 
-		public async Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo)
+        public async Task<List<TB_Cliente>> GetCliente(bool? activo)
+		{
+			if (activo.HasValue)
+			{
+				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Clientes
+																		  where cat.Activo == activo
+																		  orderby cat.Cliente ascending
+																		  select cat).ToListAsync();
+			}
+			else return await GetAllFromEntityAsync<TB_Cliente>();
+		}
+
+		public Task<bool> AddCliente(TB_Cliente cliente) => InsertEntityIdAsync<TB_Cliente>(cliente);
+
+		public Task<bool> UpdateCliente(TB_Cliente cliente) => UpdateEntityAsync<TB_Cliente>(cliente);
+
+		public async Task<bool> DeleteCliente(TB_Cliente cliente)
+		{
+			using (var db = new ConnectionDB(dbConfig))
+			{
+				var qry = db.tB_Clientes
+					   .Where(x => x.IdCliente == cliente.IdCliente)
+					   .Set(x => x.Activo, false);
+				return await qry.UpdateAsync() >= 0;
+			}
+		}
+
+        #endregion Cliente
+
+        #region Costo Indirecto Salarios
+
+        public async Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo)
 		{
 			if (activo.HasValue)
 			{

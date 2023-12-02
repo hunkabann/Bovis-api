@@ -49,6 +49,14 @@ namespace Bovis.API.Controllers
             var query = await _cieQueryService.GetCuentaData(cuentas);
             return Ok(query);
         }
+
+        [HttpPost("Cuentas/Agregar")]
+        public async Task<IActionResult> AddCuentas([FromBody] JsonObject registros)
+        {
+            var query = await _cieQueryService.AddCuentas(registros);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Cuenta Data
 
 

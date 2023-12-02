@@ -37,6 +37,12 @@ public class CatalogoQueryService : ICatalogoQueryService
 		var response = await _catalogoBusiness.GetClasificacion(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
+	
+	public async Task<Response<List<TB_Cliente>>> GetCliente(bool? Activo)
+	{
+		var response = await _catalogoBusiness.GetCliente(Activo);
+		return new Response<List<TB_Cliente>> { Data = _map.Map<List<TB_Cliente>>(response), Success = true };
+	}
 
 	public async Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo)
 	{

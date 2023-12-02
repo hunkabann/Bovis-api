@@ -49,6 +49,11 @@ namespace Bovis.Service.Queries
             var response = await _cieBusiness.GetCuentaData(cuentas);
             return new Response<List<CuentaContable_Detalle>> { Data = _map.Map<List<CuentaContable_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+        public async Task<Response<(bool Success, string Message)>> AddCuentas(JsonObject registros)
+        {
+            var response = await _cieBusiness.AddCuentas(registros);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
         #endregion Cuenta Data
 
         #region Proyecto

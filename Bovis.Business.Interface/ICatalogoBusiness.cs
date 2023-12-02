@@ -22,18 +22,27 @@ namespace Bovis.Business.Interface
 
 		#endregion
 
-		#region Clsificacion
+		#region Clasificacion
 
 		Task<List<TB_Cat_Clasificacion>> GetClasificacion(bool? activo);
 		Task<(bool Success, string Message)> AddClasificacion(TB_Cat_Clasificacion clasificacion);
 		Task<(bool Success, string Message)> UpdateClasificacion(InsertMovApi MovAPI, TB_Cat_Clasificacion clasificacion);
 		Task<(bool Success, string Message)> DeleteClasificacion(TB_Cat_Clasificacion clasificacion);
 
-		#endregion
+        #endregion
 
-		#region Costo Indirecto Salarios
+        #region Cliente
 
-		Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo);
+        Task<List<TB_Cliente>> GetCliente(bool? activo);
+		Task<(bool Success, string Message)> AddCliente(TB_Cliente cliente);
+		Task<(bool Success, string Message)> UpdateCliente(InsertMovApi MovAPI, TB_Cliente cliente);
+		Task<(bool Success, string Message)> DeleteCliente(TB_Cliente cliente);
+
+        #endregion Cliente
+
+        #region Costo Indirecto Salarios
+
+        Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo);
 		Task<(bool Success, string Message)> AddCostoIndirectoSalarios(TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios);
 		Task<(bool Success, string Message)> UpdateCostoIndirectoSalarios(InsertMovApi MovAPI, TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios);
 		Task<(bool Success, string Message)> DeleteCostoIndirectoSalarios(TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios);

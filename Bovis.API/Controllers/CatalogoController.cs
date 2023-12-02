@@ -178,10 +178,60 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Costo Indirecto Salarios
-	[HttpGet, Route("CostoIndirectoSalarios/{Activo?}")]
+    #region Cliente
+    [HttpGet, Route("Cliente/{Activo?}")]
+    public async Task<IActionResult> Cliente(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetCliente(Activo);
+        return Ok(query);
+    }
+
+    [HttpPut, Route("Cliente/Agregar")]
+    public async Task<IActionResult> AddCliente(AgregarClienteCommand Cliente)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Cliente);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Cliente/Borrar")]
+    public async Task<IActionResult> DeleteCliente(EliminarClienteCommand Cliente)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Cliente);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Cliente/Actualizar")]
+    public async Task<IActionResult> UpdateCliente(ActualizarClienteCommand Cliente)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        Cliente.Nombre = claimJWTModel.nombre;
+        Cliente.Usuario = claimJWTModel.correo;
+        Cliente.Roles = claimJWTModel.roles;
+        Cliente.TransactionId = claimJWTModel.transactionId;
+        Cliente.Rel = 3;
+        var response = await _mediator.Send(Cliente);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+    #endregion Cliente
+
+    #region Costo Indirecto Salarios
+    [HttpGet, Route("CostoIndirectoSalarios/{Activo?}")]
     public async Task<IActionResult> CostoIndirectoSalarios(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetCostoIndirectoSalarios(Activo);

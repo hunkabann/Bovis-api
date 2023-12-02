@@ -13,6 +13,8 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetClasificacion(bool? Activo);
 
+	Task<Response<List<TB_Cliente>>> GetCliente(bool? Activo);
+
 	Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetDepartamento(bool? Activo);

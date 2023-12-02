@@ -81,6 +81,50 @@ namespace Bovis.Data
 
             return list;
         }
+
+        public async Task<(bool Success, string Message)> AddCuentas(JsonObject registros)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                foreach (var registro in registros["data"].AsArray())
+                {
+                    string cuenta_contable = registro["cuenta"].ToString();
+                    string concepto = registro["concepto"].ToString();
+
+                    string cuenta_anterior = string.Empty;
+                    TB_Cat_TipoCtaContable? anterior = null;
+
+                    if (Convert.ToInt32(cuenta_contable) > 0)
+                        cuenta_anterior = (Convert.ToInt32(cuenta_contable) - 1).ToString().PadLeft(9, '0');
+
+                    if (cuenta_contable.Substring(0, 3) == cuenta_anterior.Substring(0, 3) && cuenta_contable.Substring(3, 3) == cuenta_anterior.Substring(3, 3))
+                        anterior = await (from cta in db.tB_Cat_TipoCtaContables
+                                          where cta.CtaContable == cuenta_anterior
+                                          select cta).FirstOrDefaultAsync();
+
+
+                    var insert = await db.tB_Cat_TipoCtaContables
+                            .Value(x => x.CtaContable, cuenta_contable)
+                            .Value(x => x.Concepto, concepto)
+                            .Value(x => x.TipoCtaContableMayor, cuenta_contable.Substring(0, 3))
+                            .Value(x => x.TipoCtaContablePrimerNivel, cuenta_contable.Substring(3, 3))
+                            .Value(x => x.TipoCtaContableSegundoNivel, cuenta_contable.Substring(6))
+                            .Value(x => x.IdTipoCuenta, anterior != null ? anterior.IdTipoCuenta : 0)
+                            .Value(x => x.IdTipoResultado, anterior != null ? anterior.IdTipoResultado : 0)
+                            .Value(x => x.IdPcs, anterior != null ? anterior.IdPcs : 0)
+                            .Value(x => x.IdPcs2, anterior != null ? anterior.IdPcs2 : 0)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
+
+                    resp.Success = insert;
+                    resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                }
+            }
+
+            return resp;
+        }
         #endregion Cuenta Data        
 
         #region Proyecto
