@@ -3,6 +3,7 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Newtonsoft.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace Bovis.Business
@@ -110,30 +111,29 @@ namespace Bovis.Business
         #region Cliente
 
         public Task<List<TB_Cliente>> GetCliente(bool? Activo) => _catalogoData.GetCliente(Activo);
-		public async Task<(bool Success, string Message)> AddCliente(TB_Cliente cliente)
+		public async Task<(bool Success, string Message)> AddCliente(JsonObject registro)
 		{
-			(bool Success, string Message) resp = (true, string.Empty);
-			var respData = await _catalogoData.AddCliente(cliente);
-			if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del catálogo a la base de datos"; return resp; }
-			return resp;
-		}
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddCliente(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro del Cliente a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
 
-		public async Task<(bool Success, string Message)> DeleteCliente(TB_Cliente cliente)
-		{
-			(bool Success, string Message) resp = (true, string.Empty);
-			var respData = await _catalogoData.DeleteCliente(cliente);
-			if (!respData) { resp.Success = false; resp.Message = "No se pudo eliminar el elemento del catálogo a la base de datos"; return resp; }
-			return resp;
-		}
+        public Task<(bool Success, string Message)> DeleteCliente(int idCliente) => _catalogoData.DeleteCliente(idCliente);
 
-		public async Task<(bool Success, string Message)> UpdateCliente(InsertMovApi MovAPI, TB_Cliente cliente)
+        public async Task<(bool Success, string Message)> UpdateCliente(JsonObject registro)
 		{
-			(bool Success, string Message) resp = (true, string.Empty);
-			var respData = await _catalogoData.UpdateCliente(cliente);
-			if (!respData) { resp.Success = false; resp.Message = "No se pudo actualizar el elemento del catálogo a la base de datos"; return resp; }
-			else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(cliente) });
-			return resp;
-		}
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateCliente((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro del Cliente"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
 
         #endregion Cliente
 

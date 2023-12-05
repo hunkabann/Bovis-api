@@ -4,6 +4,7 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data
 {
@@ -133,20 +134,69 @@ namespace Bovis.Data
 			else return await GetAllFromEntityAsync<TB_Cliente>();
 		}
 
-		public Task<bool> AddCliente(TB_Cliente cliente) => InsertEntityIdAsync<TB_Cliente>(cliente);
-
-		public Task<bool> UpdateCliente(TB_Cliente cliente) => UpdateEntityAsync<TB_Cliente>(cliente);
-
-		public async Task<bool> DeleteCliente(TB_Cliente cliente)
+		public async Task<(bool Success, string Message)> AddCliente(JsonObject registro)
 		{
-			using (var db = new ConnectionDB(dbConfig))
+			string cliente = registro["cliente"].ToString();
+			string rfc = registro["rfc"].ToString();
+
+            (bool Success, string Message) resp = (true, string.Empty);
+            using (var db = new ConnectionDB(dbConfig))
 			{
-				var qry = db.tB_Clientes
-					   .Where(x => x.IdCliente == cliente.IdCliente)
-					   .Set(x => x.Activo, false);
-				return await qry.UpdateAsync() >= 0;
-			}
-		}
+				var insert_cliente = await db.tB_Clientes
+					.Value(x => x.Cliente, cliente)
+					.Value(x => x.Rfc, rfc)
+					.Value(x => x.Activo, true)
+					.InsertAsync() > 0;
+
+                resp.Success = insert_cliente;
+                resp.Message = insert_cliente == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+				return resp;
+            }
+        }
+
+		public async Task<(bool Success, string Message)> UpdateCliente(JsonObject registro)
+		{
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_cliente = Convert.ToInt32(registro["id_cliente"].ToString());
+            string cliente = registro["cliente"].ToString();
+            string rfc = registro["rfc"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_cliente = await (db.tB_Clientes.Where(x => x.IdCliente == id_cliente)
+                    .UpdateAsync(x => new TB_Cliente
+                    {
+                        Cliente = cliente,
+						Rfc = rfc
+                    })) > 0;
+
+                resp.Success = res_update_cliente;
+                resp.Message = res_update_cliente == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
+		public async Task<(bool Success, string Message)> DeleteCliente(int idCliente)
+		{
+            (bool Success, string Message) resp = (true, string.Empty);
+
+			using (ConnectionDB db = new ConnectionDB(dbConfig))
+			{
+				var res_update_cliente = await (db.tB_Clientes.Where(x => x.IdCliente == idCliente)
+					.UpdateAsync(x => new TB_Cliente
+                    {
+                        Activo = false
+                    })) > 0;
+
+                resp.Success = res_update_cliente;
+                resp.Message = res_update_cliente == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
 
         #endregion Cliente
 

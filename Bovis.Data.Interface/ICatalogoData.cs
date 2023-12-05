@@ -1,5 +1,6 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data.Interface
 {
@@ -35,9 +36,9 @@ namespace Bovis.Data.Interface
         #region Cliente
 
         Task<List<TB_Cliente>> GetCliente(bool? activo);
-		Task<bool> AddCliente(TB_Cliente cliente);
-		Task<bool> UpdateCliente(TB_Cliente cliente);
-		Task<bool> DeleteCliente(TB_Cliente cliente);
+		Task<(bool Success, string Message)> AddCliente(JsonObject registro);
+		Task<(bool Success, string Message)> UpdateCliente(JsonObject registro);
+		Task<(bool Success, string Message)> DeleteCliente(int idCliente);
 
         #endregion Cliente
 
