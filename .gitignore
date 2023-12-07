@@ -4,8 +4,13 @@
 *.v2
 *.bin
 *.dll
+<<<<<<< HEAD
 *.suo
 *.v2
 *.dll
 *.bin
 *.pdb
+=======
+*.pdb
+
+>>>>>>> b9b6978ccab3c0bdc61c1bb9e365d8bc131a11a1
