@@ -8,11 +8,10 @@ using LinqToDB.Tools;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using static LinqToDB.Reflection.Methods.LinqToDB;
 
 namespace Bovis.Data
 {
@@ -290,6 +289,8 @@ namespace Bovis.Data
             string? clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : null;
             int limit = Convert.ToInt32(registro["limit"].ToString());
             int offset = Convert.ToInt32(registro["offset"].ToString());
+            string? sort_field = registro["sort_field"] != null ? registro["sort_field"].ToString() : null;
+            string? sort_order = registro["sort_order"] != null ? registro["sort_order"].ToString() : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -307,7 +308,6 @@ namespace Bovis.Data
                                              && (num_proyecto == null || cie.NumProyecto == num_proyecto)
                                              && (responsable == null || cie.Responsable == responsable)
                                              && (clasificacion_py == null || cie.ClasificacionPY == clasificacion_py)
-                                             orderby cie.IdCieData ascending
                                              select new Cie_Detalle
                                              {
                                                  IdCie = cie.IdCieData,
@@ -371,7 +371,7 @@ namespace Bovis.Data
                                           && (anio_fin == null || a.FechaEmision.Year <= anio_fin)
                                           && (num_proyecto == null || a.NumProyecto == num_proyecto)
                                           && (empresa == null || eItem.Empresa == empresa)
-                                          orderby a.Id descending
+                                          orderby a.FechaEmision descending
                                           select new Cie_Detalle
                                           {
                                               IdCie = 0,
@@ -389,7 +389,7 @@ namespace Bovis.Data
                                               ClasificacionPy = "Facturación"
                                           }).ToListAsync();
 
-                registros.Registros.AddRange(res_facturas);                
+                registros.Registros.AddRange(res_facturas);
 
 
                 var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
@@ -406,6 +406,7 @@ namespace Bovis.Data
                                        && (anio_fin == null || notas.FechaNotaCredito.Year <= anio_fin)
                                        && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                        && (empresa == null || emprItem.Empresa == empresa)
+                                       orderby notas.FechaNotaCredito descending
                                        select new Cie_Detalle
                                        {
                                            IdCie = 0,
@@ -440,6 +441,7 @@ namespace Bovis.Data
                                            && (anio_fin == null || cobr.FechaPago.Year <= anio_fin)
                                            && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                            && (empresa == null || emprItem.Empresa == empresa)
+                                           orderby cobr.FechaPago descending
                                            select new Cie_Detalle
                                            {
                                                IdCie = 0,
@@ -458,10 +460,26 @@ namespace Bovis.Data
 
                 registros.TotalRegistros = registros.Registros.Count();
 
-                registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
+                if (sort_field == null)
+                    registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
+                else
+                {
+                    string orderExpression = sort_order == "ASC" ? $"{sort_field} asc" : $"{sort_field} desc";
+
+                    registros.Registros = OrderByField(registros.Registros.AsQueryable(), sort_field, sort_order)
+                                                .Skip((offset - 1) * limit)
+                                                .Take(limit)
+                                                .ToList();
+                }
 
                 return registros;
             }
+        }
+
+        public static IQueryable<T> OrderByField<T>(IQueryable<T> source, string fieldName, string sortOrder)
+        {
+            string orderExpression = sortOrder == "ASC" ? $"{fieldName} asc" : $"{fieldName} desc";
+            return source.OrderBy(orderExpression);
         }
 
         public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
