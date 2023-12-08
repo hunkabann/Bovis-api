@@ -343,7 +343,7 @@ namespace Bovis.Data
                 List<int> lstProyectosEmpresa = null;
 
 
-                if (empresa != "-")
+                if (empresa != null)
                 {
                     lstProyectosEmpresa = await (from a in db.tB_Proyectos
                                                  join b in db.tB_Empresas on a.IdEmpresa equals b.IdEmpresa into bJoin
