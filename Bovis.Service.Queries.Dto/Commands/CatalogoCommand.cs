@@ -82,11 +82,35 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
 
-	#region Costo Indirecto Salarios
+    #region Cliente
 
-	public class AgregarCostoIndirectoSalariosCommand : IRequest<Response<bool>>
+    public class AgregarClienteCommand : IRequest<Response<bool>>
+	{
+		[Required(ErrorMessage = "El campo cliente es requerido")]
+		public string? cliente { get; set; }
+	}
+
+	public class ActualizarClienteCommand : UpdateBaseCommand, IRequest<Response<bool>>
+	{
+		[Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+		public int id { get; set; }
+		[Required(ErrorMessage = "El campo cliente es requerido")]
+		public string? cliente { get; set; }
+	}
+
+	public class EliminarClienteCommand : IRequest<Response<bool>>
+	{
+		[Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+		public int id { get; set; }
+	}
+
+    #endregion Cliente
+
+    #region Costo Indirecto Salarios
+
+    public class AgregarCostoIndirectoSalariosCommand : IRequest<Response<bool>>
 	{
 		[Required(ErrorMessage = "El campo descripcion es requerido")]
 		public string? descripcion { get; set; }

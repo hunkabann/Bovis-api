@@ -12,6 +12,7 @@ namespace Bovis.Data.Interface
 
         #region Cuenta Data
         Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas);
+        Task<(bool Success, string Message)> AddCuentas(JsonObject registros);
         #endregion Cuenta Data
 
         #region Proyecto
@@ -28,7 +29,7 @@ namespace Bovis.Data.Interface
 
         #region Registros
         Task<Cie_Detalle> GetRegistro(int? idRegistro);
-        Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit);
+        Task<Cie_Registros> GetRegistros(JsonObject registro);
         Task<(bool Success, string Message)> AddRegistros(JsonObject registros);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         Task<(bool Success, string Message)> DeleteRegistro(int idRegistro);

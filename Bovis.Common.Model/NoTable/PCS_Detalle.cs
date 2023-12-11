@@ -41,4 +41,10 @@ namespace Bovis.Common.Model.NoTable
         public int Anio { get; set; }
         public int Porcentaje { get; set; }
     }
+
+    public class Tipo_Proyecto
+    {
+        public int IdTipoProyecto { get; set; }
+        public string TipoProyecto { get; set; }
+    }
 }

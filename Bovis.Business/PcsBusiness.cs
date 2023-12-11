@@ -35,6 +35,8 @@ namespace Bovis.Business
 
         public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);
 
+        public Task<List<Tipo_Proyecto>> GetTipoProyectos() => _pcsData.GetTipoProyectos();
+
         public async Task<(bool Success, string Message)> UpdateProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

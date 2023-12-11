@@ -5,6 +5,7 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Service.Queries;
 public class CatalogoQueryService : ICatalogoQueryService
@@ -37,8 +38,32 @@ public class CatalogoQueryService : ICatalogoQueryService
 		var response = await _catalogoBusiness.GetClasificacion(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
 	}
+	
 
-	public async Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo)
+	public async Task<Response<List<TB_Cliente>>> GetCliente(bool? Activo)
+	{
+		var response = await _catalogoBusiness.GetCliente(Activo);
+		return new Response<List<TB_Cliente>> { Data = _map.Map<List<TB_Cliente>>(response), Success = true };
+	}
+    public async Task<Response<(bool Success, string Message)>> AddCliente(JsonObject registro)
+    {
+        var response = await _catalogoBusiness.AddCliente(registro);
+        return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+    }
+    public async Task<Response<(bool Success, string Message)>> UpdateCliente(JsonObject registro)
+    {
+        var response = await _catalogoBusiness.UpdateCliente(registro);
+        return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+    }
+    public async Task<Response<(bool Success, string Message)>> DeleteCliente(int IdReporte)
+    {
+        var response = await _catalogoBusiness.DeleteCliente(IdReporte);
+        return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+    }
+
+
+
+    public async Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetCostoIndirectoSalarios(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };

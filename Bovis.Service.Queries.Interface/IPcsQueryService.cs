@@ -18,6 +18,7 @@ namespace Bovis.Service.Queries.Interface
         #region Proyectos
         Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro);
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
+        Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos();
         Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteProyecto(int IdProyecto);
         #endregion Proyectos

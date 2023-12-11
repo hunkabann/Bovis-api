@@ -16,9 +16,13 @@ namespace Bovis.Common.Model.NoTable
         public int? nunum_empleado_rr_hh { get; set; }
         public int? nukidpersona { get; set; }
         public string? nombre_persona { get; set; }
-        public string? dtfecha_nacimiento { get; set; }
+        public DateTime dtfecha_nacimiento { get; set; }
+        public string? chedad { get; set; }
         public int? nukidsexo { get; set; }
         public string? chsexo { get; set; }
+        public string chcurp { get; set; }
+        public string chrfc { get; set; }
+        public string chnacionalidad { get; set; }
         public int? nukidtipo_empleado { get; set; }
         public string? chtipo_emplado { get; set; }
         public int? nukidcategoria { get; set; }
@@ -85,10 +89,20 @@ namespace Bovis.Common.Model.NoTable
         public decimal? nuvalor_descuento { get; set; }
         public string? nuno_empleado_noi { get; set; }
         public string? chrol { get; set; }
+        public DateTime dtvigencia { get; set; }
         public string? chexperiencias { get; set; }
         public string? chhabilidades { get; set; }
         public List<Experiencia_Detalle>? experiencias { get; set; }
-        public List<Habilidad_Detalle>? habilidades { get; set; }        
+        public List<Habilidad_Detalle>? habilidades { get; set; }
+        public Empleado_Proyecto_Info proyecto { get; set; }
+    }
+
+    public class Empleado_Proyecto_Info
+    {
+        public int NumProyecto { get; set; }
+        public string Proyecto { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime? FechaFin { get; set; }
     }
 
     public class Empleado_Responsable

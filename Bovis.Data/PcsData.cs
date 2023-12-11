@@ -218,6 +218,22 @@ namespace Bovis.Data
                 return proyectos;
             }
         }
+        public async Task<List<Tipo_Proyecto>> GetTipoProyectos()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var tipo_proyectos = await (from tipo in db.tB_Cat_TipoProyectos
+                                            where tipo.Activo == true
+                                            orderby tipo.TipoProyecto ascending
+                                            select new Tipo_Proyecto
+                                            {
+                                                IdTipoProyecto = tipo.IdTipoProyecto,
+                                                TipoProyecto = tipo.TipoProyecto
+                                            }).ToListAsync();
+
+                return tipo_proyectos;
+            }
+        }
         public async Task<(bool Success, string Message)> UpdateProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -352,7 +368,7 @@ namespace Bovis.Data
                 proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
                 proyecto_etapas.Etapas.AddRange(etapas);
 
-                foreach(var etapa in  etapas)
+                foreach (var etapa in etapas)
                 {
                     var empleados = await (from p in db.tB_ProyectoFaseEmpleados
                                            join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
@@ -361,21 +377,28 @@ namespace Bovis.Data
                                            from perItem in perJoin.DefaultIfEmpty()
                                            where p.IdFase == etapa.IdFase
                                            orderby p.NumEmpleado ascending
-                                           select new PCS_Empleado_Detalle
+                                           group new PCS_Empleado_Detalle
                                            {
                                                Id = p.Id,
                                                IdFase = p.IdFase,
                                                NumempleadoRrHh = p.NumEmpleado,
                                                Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                           } by new { p.NumEmpleado } into g
+                                           select new PCS_Empleado_Detalle
+                                           {
+                                               Id = g.First().Id,
+                                               IdFase = g.First().IdFase,
+                                               NumempleadoRrHh = g.Key.NumEmpleado,
+                                               Empleado = g.First().Empleado
                                            }).ToListAsync();
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
                     etapa.Empleados.AddRange(empleados);
 
-                    foreach(var empleado in empleados)
+                    foreach (var empleado in empleados)
                     {
                         var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                            where p.NumEmpleado == empleado.Id
+                                            where p.NumEmpleado == empleado.NumempleadoRrHh
                                             && p.IdFase == etapa.IdFase
                                             select new PCS_Fecha_Detalle
                                             {
@@ -386,8 +409,11 @@ namespace Bovis.Data
                                             }).ToListAsync();
 
                         empleado.Fechas = new List<PCS_Fecha_Detalle>();
-                        empleado.Fechas.AddRange(fechas);                    }
-                }                
+                        empleado.Fechas.AddRange(fechas);
+
+
+                    }
+                }
 
                 return proyecto_etapas;
             }
@@ -453,9 +479,25 @@ namespace Bovis.Data
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
             int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());
+            string nombre_contacto = registro["contacto"]["nombre"].ToString();
+            string posicion_contacto = registro["contacto"]["posicion"].ToString();
+            string telefono_contacto = registro["contacto"]["telefono"].ToString();
+            string correo_contacto = registro["contacto"]["correo"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res_insert_contacto = await db.tB_Contactos
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.Nombre, nombre_contacto)
+                    .Value(x => x.Posicion, posicion_contacto)
+                    .Value(x => x.Telefono, telefono_contacto)
+                    .Value(x => x.Correo, correo_contacto)
+                    .InsertAsync() > 0;
+
+                resp.Success = res_insert_contacto;
+                resp.Message = res_insert_contacto == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
@@ -481,6 +523,23 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
+                //var empleados = await (from p in db.tB_ProyectoFaseEmpleados
+                //                       join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                //                       from eItem in eJoin.DefaultIfEmpty()
+                //                       join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                //                       from perItem in perJoin.DefaultIfEmpty()
+                //                       where p.IdFase == IdFase
+                //                       orderby p.NumEmpleado ascending
+                //                       select new PCS_Empleado_Detalle
+                //                       {
+                //                           Id = p.Id,
+                //                           IdFase = p.IdFase,
+                //                           NumempleadoRrHh = p.NumEmpleado,
+                //                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                //                       }).ToListAsync();
+
+                //empleados = empleados.GroupBy(e => e.NumempleadoRrHh).Select(g => g.First()).ToList();
+
                 var empleados = await (from p in db.tB_ProyectoFaseEmpleados
                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
                                        from eItem in eJoin.DefaultIfEmpty()
@@ -488,18 +547,25 @@ namespace Bovis.Data
                                        from perItem in perJoin.DefaultIfEmpty()
                                        where p.IdFase == IdFase
                                        orderby p.NumEmpleado ascending
-                                       select new PCS_Empleado_Detalle
+                                       group new PCS_Empleado_Detalle
                                        {
                                            Id = p.Id,
                                            IdFase = p.IdFase,
                                            NumempleadoRrHh = p.NumEmpleado,
                                            Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                       } by new { p.NumEmpleado } into g
+                                       select new PCS_Empleado_Detalle
+                                       {
+                                           Id = g.First().Id,
+                                           IdFase = g.First().IdFase,
+                                           NumempleadoRrHh = g.Key.NumEmpleado,
+                                           Empleado = g.First().Empleado
                                        }).ToListAsync();
 
                 foreach (var empleado in empleados)
                 {
                     var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                        where p.NumEmpleado == empleado.Id
+                                        where p.NumEmpleado == empleado.NumempleadoRrHh
                                         && p.IdFase == IdFase
                                         select new PCS_Fecha_Detalle
                                         {
@@ -513,26 +579,57 @@ namespace Bovis.Data
                     empleado.Fechas.AddRange(fechas);
                 }
 
-                    return empleados;
+                return empleados;
             }
         }
         public async Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id = Convert.ToInt32(registro["id"].ToString());
-            int porcentaje = Convert.ToInt32(registro["porcentaje"].ToString());
+            int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());
+            string nombre_contacto = registro["contacto"]["nombre"].ToString();
+            string posicion_contacto = registro["contacto"]["posicion"].ToString();
+            string telefono_contacto = registro["contacto"]["telefono"].ToString();
+            string correo_contacto = registro["contacto"]["correo"].ToString();
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.Id == id)
-                    .UpdateAsync(x => new TB_ProyectoFaseEmpleado
+                var res_update_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == num_proyecto)
+                    .UpdateAsync(x => new TB_Contacto
                     {
-                        Porcentaje = x.Porcentaje
+                        NumProyecto = num_proyecto,
+                        Nombre = nombre_contacto,
+                        Posicion = posicion_contacto,
+                        Telefono = telefono_contacto,
+                        Correo = correo_contacto
                     }) > 0;
 
-                resp.Success = res_update_empleado;
-                resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_update_contacto;
+                resp.Message = res_update_contacto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
+                    .DeleteAsync() > 0;
+
+                foreach (var fecha in registro["fechas"].AsArray())
+                {
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
+
+                    var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
+                        .Value(x => x.IdFase, id_fase)
+                        .Value(x => x.NumEmpleado, num_empleado)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcentaje)
+                        .InsertAsync() > 0;
+
+                    resp.Success = res_insert_empleado;
+                    resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                }
             }
 
             return resp;

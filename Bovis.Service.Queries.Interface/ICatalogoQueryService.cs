@@ -2,6 +2,7 @@
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Service.Queries.Interface;
 
@@ -13,7 +14,12 @@ public interface ICatalogoQueryService : IDisposable
 
 	Task<Response<List<Catalogo>>> GetClasificacion(bool? Activo);
 
-	Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo);
+	Task<Response<List<TB_Cliente>>> GetCliente(bool? Activo);
+    Task<Response<(bool Success, string Message)>> AddCliente(JsonObject registro);
+    Task<Response<(bool Success, string Message)>> UpdateCliente(JsonObject registro);
+    Task<Response<(bool Success, string Message)>> DeleteCliente(int idCliente);
+
+    Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetDepartamento(bool? Activo);
 
