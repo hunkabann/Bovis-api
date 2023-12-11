@@ -38,7 +38,7 @@ namespace Bovis.Service.Queries
         {
             var response = await _pcsBusiness.GetProyecto(numProyecto);
             return new Response<Proyecto> { Data = _map.Map<Proyecto>(response), Success = true };
-        }
+        }        
 
         public async Task<Response<List<InfoCliente>>> GetClientes()
         {
@@ -61,6 +61,11 @@ namespace Bovis.Service.Queries
         {
             var response = await _pcsBusiness.GetProyectos(IdProyecto);
             return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos()
+        {
+            var response = await _pcsBusiness.GetTipoProyectos();
+            return new Response<List<Tipo_Proyecto>> { Data = _map.Map<List<Tipo_Proyecto>>(response), Success = true };
         }
         public async Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro)
         {

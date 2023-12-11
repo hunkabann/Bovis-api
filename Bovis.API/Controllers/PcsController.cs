@@ -77,6 +77,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("Proyectos/Tipo")]
+        public async Task<IActionResult> GetTipoProyectos()
+        {
+            var query = await _pcsQueryService.GetTipoProyectos();
+            return Ok(query);
+        }
+
         [HttpPut, Route("Proyectos")]
         public async Task<IActionResult> UpdateProyecto([FromBody] JsonObject registro)
         {
