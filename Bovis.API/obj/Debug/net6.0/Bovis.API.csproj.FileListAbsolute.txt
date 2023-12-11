@@ -478,3 +478,4 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\o
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.genruntimeconfig.cache
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\ref\Bovis.API.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cs
