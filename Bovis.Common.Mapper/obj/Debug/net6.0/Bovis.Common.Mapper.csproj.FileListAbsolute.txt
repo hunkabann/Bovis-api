@@ -36,25 +36,6 @@ F:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.Commo
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/refint/Bovis.Common.Mapper.dll
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/Bovis.Common.Mapper.pdb
 /Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common.Mapper/obj/Debug/net6.0/ref/Bovis.Common.Mapper.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.deps.json
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.pdb
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.pdb
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.AssemblyReference.cache
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfoInputs.cache
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfo.cs
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CopyComplete
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\refint\Bovis.Common.Mapper.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.pdb
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\ref\Bovis.Common.Mapper.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.deps.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
@@ -74,3 +55,22 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Commo
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\refint\Bovis.Common.Mapper.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\ref\Bovis.Common.Mapper.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.deps.json
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\bin\Debug\net6.0\Bovis.Common.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.AssemblyReference.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfoInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.AssemblyInfo.cs
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CoreCompileInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.csproj.CopyComplete
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\refint\Bovis.Common.Mapper.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\Bovis.Common.Mapper.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Mapper\obj\Debug\net6.0\ref\Bovis.Common.Mapper.dll
