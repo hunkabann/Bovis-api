@@ -27,10 +27,13 @@ namespace Bovis.Business
              
 
             #region Antiguedad
-            if (destination.FechaIngreso.HasValue)
+            if (!destination.FechaIngreso.HasValue)
             {
-                destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso.Value).TotalDays)/365);
+                destination.FechaIngreso = DateTime.Now; 
             }
+            //destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso).Days) / 365);
+            TimeSpan diferencia = (TimeSpan) (DateTime.Now - destination.FechaIngreso); 
+            destination.Antiguedad = diferencia.Days / 365;
             #endregion
 
             #region DescuentoMensualEmpleado
