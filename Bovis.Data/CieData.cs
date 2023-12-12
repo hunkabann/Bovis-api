@@ -103,6 +103,13 @@ namespace Bovis.Data
                                           where cta.CtaContable == cuenta_anterior
                                           select cta).FirstOrDefaultAsync();
 
+                    if (anterior == null)
+                    {
+                        anterior = await (from cta in db.tB_Cat_TipoCtaContables
+                                          where cta.CtaContable == cuenta_contable.Substring(0, 3) + cuenta_contable.Substring(3, 3) + "000"
+                                          select cta).FirstOrDefaultAsync();
+                    }
+
 
                     var insert = await db.tB_Cat_TipoCtaContables
                             .Value(x => x.CtaContable, cuenta_contable)
