@@ -20,15 +20,22 @@ using Serilog.Formatting.Json;
 using System.Reflection;
 using System.Text;
 
-Log.Logger = new LoggerConfiguration()
-	.Enrich.FromLogContext()
-	.WriteTo.Console()
-	.WriteTo.File(new JsonFormatter(),
-		"important-logs.json",
-		restrictedToMinimumLevel: LogEventLevel.Error)
-	.WriteTo.File(@"D:\home\LogFiles\http\RawLogs\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
-	.MinimumLevel.Debug()
-	.CreateLogger();
+try
+{
+    Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.File(new JsonFormatter(), "important-logs.json", restrictedToMinimumLevel: LogEventLevel.Error)
+    //.WriteTo.File(@"D:\home\LogFiles\http\RawLogs\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
+    .WriteTo.File(@"C:\Users\norberto_baltezar\Desktop\ImagesRefacciones\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
+    .MinimumLevel.Debug()
+    .CreateLogger();
+}
+catch(Exception ex)
+{
+	Console.WriteLine(ex.ToString());    
+}
+
 
 DataConnection.DefaultSettings = new DBSettings();
 
