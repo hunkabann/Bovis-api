@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bovis.Common.Model.DTO;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Both;
@@ -477,6 +478,10 @@ public class MappingsProfile : Profile
            .ForMember(c => c.TotalCobranzas, dto => dto.MapFrom(src => src.TotalCobranzas))
            .ForMember(c => c.TotalNotasCredito, dto => dto.MapFrom(src => src.TotalNotasCredito));
 
+        #endregion
+
+        #region Beneficios
+        CreateMap<TB_EmpleadoBeneficio, EmpleadoBeneficioDTO>().ReverseMap();
         #endregion
     }
 }

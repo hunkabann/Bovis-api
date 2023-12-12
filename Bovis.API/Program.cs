@@ -20,22 +20,15 @@ using Serilog.Formatting.Json;
 using System.Reflection;
 using System.Text;
 
-try
-{
-    Log.Logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.File(new JsonFormatter(), "important-logs.json", restrictedToMinimumLevel: LogEventLevel.Error)
-    //.WriteTo.File(@"D:\home\LogFiles\http\RawLogs\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
-    .WriteTo.File(@"C:\Users\norberto_baltezar\Desktop\ImagesRefacciones\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
-    .MinimumLevel.Debug()
-    .CreateLogger();
-}
-catch(Exception ex)
-{
-	Console.WriteLine(ex.ToString());    
-}
-
+Log.Logger = new LoggerConfiguration()
+	.Enrich.FromLogContext()
+	.WriteTo.Console()
+	.WriteTo.File(new JsonFormatter(),
+		"important-logs.json",
+		restrictedToMinimumLevel: LogEventLevel.Error)
+	.WriteTo.File(@"D:\home\LogFiles\http\RawLogs\LogBoviApi-.log", rollingInterval: RollingInterval.Day)
+	.MinimumLevel.Debug()
+	.CreateLogger();
 
 DataConnection.DefaultSettings = new DBSettings();
 
@@ -69,6 +62,10 @@ builder.Services.AddScoped<IAuditoriaData, AuditoriaData>();
 builder.Services.AddScoped<IAutorizacionQueryService, AutorizacionQueryService>();
 builder.Services.AddScoped<IAutorizacionBusiness, AutorizacionBusiness>();
 builder.Services.AddScoped<IAutorizacionData, AutorizacionData>();
+
+builder.Services.AddScoped<IBeneficiosQueryService, BeneficiosQueryService>();
+builder.Services.AddScoped<IBeneficiosBusiness, BeneficiosBusiness>();
+builder.Services.AddScoped<IBeneficiosData, BeneficiosData>(); 
 
 builder.Services.AddScoped<ICatalogoQueryService, CatalogoQueryService>();
 builder.Services.AddScoped<ICatalogoBusiness, CatalogoBusiness>();
