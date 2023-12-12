@@ -13,7 +13,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidpais"), NotNull] public int IdPais { get; set; }
 		[Column("Nukidestatus"), NotNull] public int IdEstatus { get; set; }
 		[Column("Nukidsector"), NotNull] public int IdSector { get; set; }
-		[Column("nukidtipo_proyecto"), NotNull] public int IdTipoProyecto { get; set; }
+		[Column("nukidtipo_proyecto"), Nullable] public int IdTipoProyecto { get; set; }
 		[Column("nukidresponsable_preconstruccion"), Nullable] public int? IdResponsablePreconstruccion { get; set; }
 		[Column("nukidresponsable_construccion"), Nullable] public int? IdResponsableConstruccion { get; set; }
 		[Column("nukidresponsable_ehs"), Nullable] public int? IdResponsableEhs { get; set; }
