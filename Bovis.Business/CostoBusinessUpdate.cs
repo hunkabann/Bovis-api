@@ -31,6 +31,9 @@ namespace Bovis.Business
             {
                 destination.FechaIngreso = DateTime.Now; 
             }
+            destination.NuMes = DateTime.Now.Month; 
+            destination.NuAnno = DateTime.Now.Year;
+
             //destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso).Days) / 365);
             TimeSpan diferencia = (TimeSpan) (DateTime.Now - destination.FechaIngreso); 
             destination.Antiguedad = diferencia.Days / 365;

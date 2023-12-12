@@ -152,7 +152,7 @@ namespace Bovis.Data
                 else
                 {
                     var costoEmpleado = registros.Where(reg => reg.RegHistorico == false && reg.NuAnno == anno && reg.NuMes == mes).ToList();
-                    if (costoEmpleado != null)
+                    if (costoEmpleado.Count > 0)
                     {
                         return new Common.Response<List<TB_CostoPorEmpleado>>()
                         {
