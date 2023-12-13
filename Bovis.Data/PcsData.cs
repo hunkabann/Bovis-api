@@ -84,7 +84,8 @@ namespace Bovis.Data
         public async Task<(bool Success, string Message)> AddProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string nombre_proyecto = registro["nombre_proyecto"].ToString();
             string alcance = registro["alcance"].ToString();
             string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
@@ -107,6 +108,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res_insert_proyecto = await db.tB_Proyectos
+                    .Value(x => x.NumProyecto, num_proyecto)
                     .Value(x => x.Proyecto, nombre_proyecto)
                     .Value(x => x.Alcance, alcance)
                     .Value(x => x.Cp, codigo_postal)
