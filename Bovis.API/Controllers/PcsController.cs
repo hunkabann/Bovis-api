@@ -32,6 +32,26 @@ namespace Bovis.API.Controllers
         }
         #endregion base
 
+
+        #region Clientes
+        [HttpGet, Route("Clientes")]
+        public async Task<IActionResult> ObtenerClientes()
+        {
+            var business = await _pcsQueryService.GetClientes();
+            return Ok(business);
+        }
+        #endregion Clientes
+
+        #region Empresas
+        [HttpGet, Route("Empresas")]
+        public async Task<IActionResult> ObtenerEmpresas()
+        {
+            var business = await _pcsQueryService.GetEmpresas();
+            return Ok(business);
+        }
+        #endregion Empresas
+
+        #region Proyectos
         [HttpGet, Route("Proyectos/{OrdenAlfabetico?}")]
         public async Task<IActionResult> ObtenerProyectos(bool? OrdenAlfabetico)
         {
@@ -46,23 +66,6 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet, Route("Clientes")]
-        public async Task<IActionResult> ObtenerClientes()
-        {
-            var business = await _pcsQueryService.GetClientes();
-            return Ok(business);
-        }
-
-        [HttpGet, Route("Empresas")]
-        public async Task<IActionResult> ObtenerEmpresas()
-        {
-            var business = await _pcsQueryService.GetEmpresas();
-            return Ok(business);
-        }
-
-
-
-        #region Proyectos
         [HttpPost, Route("Proyectos")]
         public async Task<IActionResult> AddProyecto([FromBody] JsonObject registro)
         {

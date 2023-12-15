@@ -24,13 +24,20 @@ namespace Bovis.Business
         }
         #endregion base
 
-        public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
-        public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
-        public Task<List<TB_Empresa>> GetEmpresas() => _pcsData.GetEmpresas();
-        public Task<List<TB_Cliente>> GetClientes() => _pcsData.GetClientes();
 
+        #region Clientes
+        public Task<List<TB_Empresa>> GetEmpresas() => _pcsData.GetEmpresas();
+        #endregion Clientes
+
+        #region Empresas
+        public Task<List<TB_Cliente>> GetClientes() => _pcsData.GetClientes();
+        #endregion Empresas
 
         #region Proyectos
+        public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
+
+        public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
+
         public Task<(bool Success, string Message)> AddProyecto(JsonObject registro) => _pcsData.AddProyecto(registro);
 
         public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);

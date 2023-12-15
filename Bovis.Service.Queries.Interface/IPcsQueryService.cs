@@ -10,12 +10,17 @@ namespace Bovis.Service.Queries.Interface
 {
     public interface IPcsQueryService
     {
-        Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico);
-        Task<Response<Proyecto>> GetProyecto(int numProyecto);
+        #region Clientes
         Task<Response<List<InfoCliente>>> GetClientes();
+        #endregion Clientes
+
+        #region Empresas
         Task<Response<List<InfoEmpresa>>> GetEmpresas();
+        #endregion Empresas
 
         #region Proyectos
+        Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico);
+        Task<Response<Proyecto>> GetProyecto(int numProyecto);
         Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro);
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
         Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos();

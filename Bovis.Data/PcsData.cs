@@ -26,6 +26,40 @@ namespace Bovis.Data
         }
         #endregion base
 
+
+        #region Clientes
+        public async Task<List<TB_Cliente>> GetClientes()
+        {
+            //return await GetAllFromEntityAsync<TB_Cliente>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var resp = await (from p in db.tB_Clientes
+                                  orderby p.Cliente ascending
+                                  select p).ToListAsync();
+
+                return resp;
+            }
+        }
+        #endregion Clientes
+
+        #region Empresas
+        public async Task<List<TB_Empresa>> GetEmpresas()
+        {
+            //return await GetAllFromEntityAsync<TB_Empresa>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var resp = await (from p in db.tB_Empresas
+                                  orderby p.Empresa ascending
+                                  select p).ToListAsync();
+
+                return resp;
+            }
+        }
+        #endregion Empresas
+
+        #region Proyectos
         public async Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico)
         {
             //return await GetAllFromEntityAsync<TB_Proyecto>();
@@ -45,42 +79,13 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var resp = await (from p in db.tB_Proyectos
-                              where p.NumProyecto == numProyecto
-                              select p).FirstOrDefaultAsync();
+                                  where p.NumProyecto == numProyecto
+                                  select p).FirstOrDefaultAsync();
 
                 return resp;
             }
         }
 
-        public async Task<List<TB_Cliente>> GetClientes()
-        {
-            //return await GetAllFromEntityAsync<TB_Cliente>();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var resp = await (from p in db.tB_Clientes
-                                  orderby p.Cliente ascending
-                                  select p).ToListAsync();
-
-                return resp;
-            }
-        }
-        public async Task<List<TB_Empresa>> GetEmpresas()
-        {
-            //return await GetAllFromEntityAsync<TB_Empresa>();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var resp = await (from p in db.tB_Empresas
-                                  orderby p.Empresa ascending
-                                  select p).ToListAsync();
-
-                return resp;
-            }
-        }
-
-
-        #region Proyectos
         public async Task<(bool Success, string Message)> AddProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
