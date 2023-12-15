@@ -524,8 +524,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
-            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());            
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());          
 
             using (var db = new ConnectionDB(dbConfig))
             {                
@@ -618,8 +617,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
-            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());            
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());         
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {                
