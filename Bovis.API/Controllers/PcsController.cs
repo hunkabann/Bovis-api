@@ -200,5 +200,14 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/{Tipo}")]
+        public async Task<IActionResult> GetGastosIngresos(int IdProyecto, string Tipo)
+        {
+            var query = await _pcsQueryService.GetGastosIngresos(IdProyecto, Tipo);
+            return Ok(query);
+        }
+        #endregion Gastos / Ingresos
     }
 }

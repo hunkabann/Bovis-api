@@ -101,5 +101,9 @@ namespace Bovis.Business
 
         public Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado) => _pcsData.DeleteEmpleado(IdFase, NumEmpleado);
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresos(IdProyecto, Tipo);
+        #endregion Gastos / Ingresos
     }
 }

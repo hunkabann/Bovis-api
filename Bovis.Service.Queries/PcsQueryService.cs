@@ -128,6 +128,14 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        public async Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo)
+        {
+            var response = await _pcsBusiness.GetGastosIngresos(IdProyecto, Tipo);
+            return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        #endregion Gastos / Ingresos
     }
 }
 

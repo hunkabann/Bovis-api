@@ -553,23 +553,6 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                //var empleados = await (from p in db.tB_ProyectoFaseEmpleados
-                //                       join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
-                //                       from eItem in eJoin.DefaultIfEmpty()
-                //                       join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
-                //                       from perItem in perJoin.DefaultIfEmpty()
-                //                       where p.IdFase == IdFase
-                //                       orderby p.NumEmpleado ascending
-                //                       select new PCS_Empleado_Detalle
-                //                       {
-                //                           Id = p.Id,
-                //                           IdFase = p.IdFase,
-                //                           NumempleadoRrHh = p.NumEmpleado,
-                //                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
-                //                       }).ToListAsync();
-
-                //empleados = empleados.GroupBy(e => e.NumempleadoRrHh).Select(g => g.First()).ToList();
-
                 var empleados = await (from p in db.tB_ProyectoFaseEmpleados
                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
                                        from eItem in eJoin.DefaultIfEmpty()
@@ -661,5 +644,72 @@ namespace Bovis.Data
             return resp;
         }
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo)
+        {
+            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
+                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
+                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
+
+                var secciones = await (from seccion in db.tB_GastoIngresoSeccions
+                                       where seccion.Tipo == Tipo
+                                       orderby seccion.Codigo ascending
+                                       select new Seccion_Detalle
+                                       {
+                                           IdSeccion = seccion.IdSeccion,
+                                           Codigo = seccion.Codigo,
+                                           Seccion = seccion.Seccion
+                                       })
+                                      .ToListAsync();
+
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+                proyecto_gastos_ingresos.Secciones.AddRange(secciones);
+
+                foreach (var seccion in secciones)
+                {
+                    var rubros = await (from rubro in db.tB_Rubros
+                                        where rubro.IdSeccion == seccion.IdSeccion
+                                        join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                        from rel1Item in rel1Join.DefaultIfEmpty()
+                                        select new Rubro_Detalle
+                                        {
+                                            IdRubro = rubro.IdRubro,
+                                            Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                            Unidad = rubro.Unidad,
+                                            Cantidad = rubro.Cantidad,
+                                            Reembolsable = rubro.Reembolsable,
+                                            AplicaTodosMeses = rubro.AplicaTodosMeses
+                                        }).ToListAsync();
+
+                    seccion.Rubros = new List<Rubro_Detalle>();
+                    seccion.Rubros.AddRange(rubros);
+
+                    foreach (var rubro in rubros)
+                    {
+                        var fechas = await (from valor in db.tB_RubroValors
+                                            where valor.IdRubro == rubro.IdRubro
+                                            select new PCS_Fecha_Detalle
+                                            {
+                                                Id = valor.Id,
+                                                Mes = valor.Mes,
+                                                Anio = valor.Anio,
+                                                Porcentaje = valor.Porcentaje
+                                            }).ToListAsync();
+                    }
+                }
+
+                return proyecto_gastos_ingresos;
+            }
+        }
+        #endregion Gastos / Ingresos
     }
 }

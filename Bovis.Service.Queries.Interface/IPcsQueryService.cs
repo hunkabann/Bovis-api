@@ -41,6 +41,10 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> UpdateEmpleado(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdFase, int NumEmpleado);
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo);
+        #endregion Gastos / Ingresos
     }
 }
 
