@@ -704,6 +704,9 @@ namespace Bovis.Data
                                                 Anio = valor.Anio,
                                                 Porcentaje = valor.Porcentaje
                                             }).ToListAsync();
+
+                        rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                        rubro.Fechas.AddRange(fechas);
                     }
                 }
 
