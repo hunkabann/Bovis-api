@@ -677,9 +677,10 @@ namespace Bovis.Data
                 foreach (var seccion in secciones)
                 {
                     var rubros = await (from rubro in db.tB_Rubros
-                                        where rubro.IdSeccion == seccion.IdSeccion
                                         join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
                                         from rel1Item in rel1Join.DefaultIfEmpty()
+                                        where rubro.IdSeccion == seccion.IdSeccion
+                                        && rubro.NumProyecto == IdProyecto
                                         select new Rubro_Detalle
                                         {
                                             IdRubro = rubro.IdRubro,
