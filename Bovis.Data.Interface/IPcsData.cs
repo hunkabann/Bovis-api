@@ -40,6 +40,7 @@ namespace Bovis.Data.Interface
 
         #region Gastos / Ingresos
         Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo);
+        Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
         #endregion Gastos / Ingresos
     }
 }

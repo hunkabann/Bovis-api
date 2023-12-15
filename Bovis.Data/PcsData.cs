@@ -714,6 +714,50 @@ namespace Bovis.Data
                 return proyecto_gastos_ingresos;
             }
         }
+
+        public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_rubro = Convert.ToInt32(registro["idRubro"].ToString());
+            string unidad = registro["unidad"].ToString();
+            decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
+            bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
+            bool aplica_todos_meses = Convert.ToBoolean(registro["aplicaTodosMeses"].ToString());
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_rubro = await db.tB_Rubros.Where(x => x.Id == id_rubro)
+                    .UpdateAsync(x => new TB_Rubro
+                    {
+                        Unidad = unidad,
+                        Cantidad = cantidad,
+                        Reembolsable = reembolsable,
+                        AplicaTodosMeses = aplica_todos_meses
+                    }) > 0;
+
+                resp.Success = res_update_rubro;
+                resp.Message = res_update_rubro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+                foreach (var fecha in registro["fechas"].AsArray())
+                {
+                    int id_fecha = Convert.ToInt32(fecha["id"].ToString());
+                    decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
+
+                    var res_update_fechas = await db.tB_RubroValors.Where(x => x.Id == id_fecha)
+                            .UpdateAsync(x => new TB_RubroValor
+                            {
+                                Porcentaje = porcentaje                                
+                            }) > 0;
+
+                    resp.Success = res_update_fechas;
+                    resp.Message = res_update_fechas == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+            }
+
+            return resp;
+        }
         #endregion Gastos / Ingresos
     }
 }

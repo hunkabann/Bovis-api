@@ -208,6 +208,25 @@ namespace Bovis.API.Controllers
             var query = await _pcsQueryService.GetGastosIngresos(IdProyecto, Tipo);
             return Ok(query);
         }
+
+        [HttpPut, Route("GastosIngresos")]
+        public async Task<IActionResult> UpdateGastosIngresos([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 1053);
+
+            var query = await _pcsQueryService.UpdateGastosIngresos(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Gastos / Ingresos
     }
 }

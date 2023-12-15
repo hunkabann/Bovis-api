@@ -104,6 +104,18 @@ namespace Bovis.Business
 
         #region Gastos / Ingresos
         public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresos(IdProyecto, Tipo);
+        public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateGastosIngresos((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
         #endregion Gastos / Ingresos
     }
 }
