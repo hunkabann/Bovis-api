@@ -104,9 +104,24 @@ namespace Bovis.Data
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
+            string nombre_contacto = registro["contacto"]["nombre"].ToString();
+            string posicion_contacto = registro["contacto"]["posicion"].ToString();
+            string telefono_contacto = registro["contacto"]["telefono"].ToString();
+            string correo_contacto = registro["contacto"]["correo"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res_insert_contacto = await db.tB_Contactos
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.Nombre, nombre_contacto)
+                    .Value(x => x.Posicion, posicion_contacto)
+                    .Value(x => x.Telefono, telefono_contacto)
+                    .Value(x => x.Correo, correo_contacto)
+                    .InsertAsync() > 0;
+
+                resp.Success = res_insert_contacto;
+                resp.Message = res_insert_contacto == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
                 var res_insert_proyecto = await db.tB_Proyectos
                     .Value(x => x.NumProyecto, num_proyecto)
                     .Value(x => x.Proyecto, nombre_proyecto)
@@ -259,9 +274,26 @@ namespace Bovis.Data
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
+            string nombre_contacto = registro["contacto"]["nombre"].ToString();
+            string posicion_contacto = registro["contacto"]["posicion"].ToString();
+            string telefono_contacto = registro["contacto"]["telefono"].ToString();
+            string correo_contacto = registro["contacto"]["correo"].ToString();
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
+                var res_update_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == num_proyecto)
+                    .UpdateAsync(x => new TB_Contacto
+                    {
+                        NumProyecto = num_proyecto,
+                        Nombre = nombre_contacto,
+                        Posicion = posicion_contacto,
+                        Telefono = telefono_contacto,
+                        Correo = correo_contacto
+                    }) > 0;
+
+                resp.Success = res_update_contacto;
+                resp.Message = res_update_contacto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
                 var res_update_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == num_proyecto)
                     .UpdateAsync(x => new TB_Proyecto
                     {
@@ -297,10 +329,17 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_etapa = true;
+                var res_delete_proyecto_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == IdProyecto)
+                    .DeleteAsync() > 0;
 
-                resp.Success = res_update_etapa;
-                resp.Message = res_update_etapa == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_delete_proyecto_contacto;
+                resp.Message = res_delete_proyecto_contacto == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
+                var res_delete_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == IdProyecto)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_proyecto;
+                resp.Message = res_delete_proyecto == default ? "Ocurrio un error al borrar registro." : string.Empty;
             }
 
             return resp;
@@ -481,25 +520,10 @@ namespace Bovis.Data
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
             int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
-            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());
-            string nombre_contacto = registro["contacto"]["nombre"].ToString();
-            string posicion_contacto = registro["contacto"]["posicion"].ToString();
-            string telefono_contacto = registro["contacto"]["telefono"].ToString();
-            string correo_contacto = registro["contacto"]["correo"].ToString();
+            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());            
 
             using (var db = new ConnectionDB(dbConfig))
-            {
-                var res_insert_contacto = await db.tB_Contactos
-                    .Value(x => x.NumProyecto, num_proyecto)
-                    .Value(x => x.Nombre, nombre_contacto)
-                    .Value(x => x.Posicion, posicion_contacto)
-                    .Value(x => x.Telefono, telefono_contacto)
-                    .Value(x => x.Correo, correo_contacto)
-                    .InsertAsync() > 0;
-
-                resp.Success = res_insert_contacto;
-                resp.Message = res_insert_contacto == default ? "Ocurrio un error al insertar registro." : string.Empty;
-
+            {                
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
@@ -590,28 +614,10 @@ namespace Bovis.Data
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
             int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
-            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());
-            string nombre_contacto = registro["contacto"]["nombre"].ToString();
-            string posicion_contacto = registro["contacto"]["posicion"].ToString();
-            string telefono_contacto = registro["contacto"]["telefono"].ToString();
-            string correo_contacto = registro["contacto"]["correo"].ToString();
+            int num_proyecto = Convert.ToInt32(registro["contacto"]["nombre"].ToString());            
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
-                var res_update_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == num_proyecto)
-                    .UpdateAsync(x => new TB_Contacto
-                    {
-                        NumProyecto = num_proyecto,
-                        Nombre = nombre_contacto,
-                        Posicion = posicion_contacto,
-                        Telefono = telefono_contacto,
-                        Correo = correo_contacto
-                    }) > 0;
-
-                resp.Success = res_update_contacto;
-                resp.Message = res_update_contacto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
-
-
+            {                
                 var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
                     .DeleteAsync() > 0;
 
