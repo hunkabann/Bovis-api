@@ -740,19 +740,29 @@ namespace Bovis.Data
                 resp.Message = res_update_rubro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
+
+                var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == id_rubro)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_valores;
+                resp.Message = res_delete_valores == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
-                    int id_fecha = Convert.ToInt32(fecha["id"].ToString());
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
                     decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
 
-                    var res_update_fechas = await db.tB_RubroValors.Where(x => x.Id == id_fecha)
-                            .UpdateAsync(x => new TB_RubroValor
-                            {
-                                Porcentaje = porcentaje                                
-                            }) > 0;
+                    var res_insert_valor = await db.tB_RubroValors
+                        .Value(x => x.IdRubro, id_rubro)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcentaje)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
 
-                    resp.Success = res_update_fechas;
-                    resp.Message = res_update_fechas == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    resp.Success = res_insert_valor;
+                    resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
             }
 
