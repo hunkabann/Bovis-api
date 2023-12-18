@@ -259,7 +259,7 @@ namespace Bovis.Data
                               Mes = cie.Mes,
                               Concepto = cie.Concepto,
                               CentroCostos = cie.CentroCostos,
-                              Proyectos = cie.Proyectos,
+                              Proyecto = cie.Proyecto,
                               SaldoInicial = cie.SaldoInicial,
                               Debe = cie.Debe,
                               Haber = cie.Haber,
@@ -304,6 +304,8 @@ namespace Bovis.Data
                 registros.Registros = await (from cie in db.tB_Cie_Datas
                                              join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
                                              from archivoItem in archivoJoin.DefaultIfEmpty()
+                                             join proyecto in db.tB_Proyectos on new { cie.NumProyecto, cie.Proyecto } equals new { proyecto.NumProyecto, proyecto.Proyecto } into proyectoJoin
+                                             from proyectoItem in proyectoJoin.DefaultIfEmpty()
                                              where cie.Activo == true
                                              && (nombre_cuenta == null || cie.NombreCuenta == nombre_cuenta)
                                              && (mes_inicio == null || Convert.ToDateTime(cie.Fecha).Month >= mes_inicio)
@@ -326,7 +328,7 @@ namespace Bovis.Data
                                                  Mes = cie.Mes,
                                                  Concepto = cie.Concepto,
                                                  CentroCostos = cie.CentroCostos,
-                                                 Proyectos = cie.Proyectos,
+                                                 Proyecto = cie.Proyecto,
                                                  SaldoInicial = cie.SaldoInicial,
                                                  Debe = cie.Debe,
                                                  Haber = cie.Haber,
@@ -341,8 +343,10 @@ namespace Bovis.Data
                                                  ClasificacionPy = cie.ClasificacionPY,
                                                  Activo = cie.Activo,
                                                  IdArchivo = cie.IdArchivo,
-                                                 NombreArchivo = archivoItem.NombreArchivo ?? null
+                                                 NombreArchivo = archivoItem.NombreArchivo ?? null,
+                                                 Inconsistente = proyectoItem == null
                                              }).ToListAsync();
+
 
                 ///
                 /// Registros de facturación
@@ -388,7 +392,7 @@ namespace Bovis.Data
                                               Fecha = a.FechaEmision,
                                               Mes = a.FechaEmision.Month,
                                               Concepto = a.Concepto,
-                                              Proyectos = cItem != null ? cItem.Proyecto : string.Empty,
+                                              Proyecto = cItem != null ? cItem.Proyecto : string.Empty,
                                               Haber = a.Total,
                                               Movimiento = a.Total * -1,
                                               Empresa = eItem != null ? eItem.Empresa : string.Empty,
@@ -423,7 +427,7 @@ namespace Bovis.Data
                                            Fecha = notas.FechaNotaCredito,
                                            Mes = notas.FechaNotaCredito.Month,
                                            Concepto = notas.Concepto,
-                                           Proyectos = proysItem != null ? proysItem.Proyecto : string.Empty,
+                                           Proyecto = proysItem != null ? proysItem.Proyecto : string.Empty,
                                            Debe = notas.Total,
                                            Movimiento = notas.Total,
                                            Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
@@ -455,7 +459,7 @@ namespace Bovis.Data
                                                NombreCuenta = "Cobranza",
                                                Fecha = cobr.FechaPago,
                                                Mes = cobr.FechaPago.Month,
-                                               Proyectos = proysItem != null ? proysItem.Proyecto : string.Empty,
+                                               Proyecto = proysItem != null ? proysItem.Proyecto : string.Empty,
                                                Haber = cobr.ImportePagado,
                                                Movimiento = cobr.ImportePagado * -1,
                                                Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
@@ -523,13 +527,13 @@ namespace Bovis.Data
                         int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                         string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                         string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
-                        string? proyectos = registro["proyectos"] != null ? registro["proyectos"].ToString() : null;
+                        string proyectos = registro["proyectos"].ToString();
                         decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
                         decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
                         decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
                         decimal? movimiento = registro["movimiento"] != null ? Convert.ToDecimal(registro["movimiento"].ToString()) : null;
                         string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
-                        int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
+                        int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
                         string? tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : null;
                         string? edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : null;
                         string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
@@ -554,7 +558,7 @@ namespace Bovis.Data
                             .Value(x => x.Mes, mes)
                             .Value(x => x.Concepto, concepto)
                             .Value(x => x.CentroCostos, centro_costos)
-                            .Value(x => x.Proyectos, proyectos)
+                            .Value(x => x.Proyecto, proyectos)
                             .Value(x => x.SaldoInicial, saldo_inicial)
                             .Value(x => x.Debe, debe)
                             .Value(x => x.Haber, haber)
@@ -596,13 +600,13 @@ namespace Bovis.Data
                 int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                 string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                 string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
-                string? proyectos = registro["proyectos"] != null ? registro["proyectos"].ToString() : null;
+                string proyectos = registro["proyectos"].ToString();
                 decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
                 decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
                 decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
                 decimal? movimiento = registro["movimiento"] != null ? Convert.ToDecimal(registro["movimiento"].ToString()) : null;
                 string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
-                int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
+                int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
                 string? tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : null;
                 string? edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : null;
                 string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
@@ -629,7 +633,7 @@ namespace Bovis.Data
                         Mes = mes,
                         Concepto = concepto,
                         CentroCostos = centro_costos,
-                        Proyectos = proyectos,
+                        Proyecto = proyectos,
                         SaldoInicial = saldo_inicial,
                         Debe = debe,
                         Haber = haber,

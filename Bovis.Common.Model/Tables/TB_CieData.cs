@@ -14,13 +14,13 @@ namespace Bovis.Common.Model.Tables
         [Column("Nummes"), Nullable] public int? Mes { get; set; }
         [Column("Chconcepto"), Nullable] public string? Concepto { get; set; }
         [Column("Chcentro_costos"), Nullable] public string? CentroCostos { get; set; }
-        [Column("Chproyectos"), Nullable] public string? Proyectos { get; set; }
+        [Column("Chproyecto"), NotNull] public string Proyecto { get; set; }
         [Column("Nusaldo_inicial"), Nullable] public decimal? SaldoInicial { get; set; }
         [Column("Nudebe"), Nullable] public decimal? Debe { get; set; }
         [Column("Nuhaber"), Nullable] public decimal? Haber { get; set; }
         [Column("Numovimiento"), Nullable] public decimal? Movimiento { get; set; }
         [Column("Chempresa"), Nullable] public string? Empresa { get; set; }
-        [Column("Nunum_proyecto"), Nullable] public int? NumProyecto { get; set; }
+        [Column("Nunum_proyecto"), NotNull] public int NumProyecto { get; set; }
         [Column("Chtipo_cuenta"), Nullable] public string? TipoCuenta { get; set; }
         [Column("Chedo_resultados"), Nullable] public string? EdoResultados { get; set; }
         [Column("Chresponsable"), Nullable] public string? Responsable { get; set; }
