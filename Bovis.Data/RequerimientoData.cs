@@ -302,7 +302,7 @@ namespace Bovis.Data
         }
 
         public async Task<(bool Success, string Message)> AddRegistro(JsonObject registro)
-        {
+        {                        
             (bool Success, string Message) resp = (true, string.Empty);
 
             int? id_categoria = registro["categoria"] != null ? Convert.ToInt32(registro["categoria"].ToString()) : null;
