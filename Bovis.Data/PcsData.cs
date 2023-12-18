@@ -152,7 +152,7 @@ namespace Bovis.Data
                 resp.Success = res_insert_proyecto;
                 resp.Message = res_insert_proyecto == default ? "Ocurrio un error al insertar registro." : string.Empty;
 
-                // Se agregan las seccionesy rubros para gastos e ingresos.
+                // Se agregan las secciones y rubros para gastos e ingresos.
                 var secciones = await (from secc in db.tB_GastoIngresoSeccions
                                        where secc.Activo == true
                                        select secc).ToListAsync();
@@ -403,7 +403,7 @@ namespace Bovis.Data
                 etapa.Fase = nombre_fase;
                 etapa.Orden = orden;
                 etapa.FechaIni = fecha_inicio;
-                etapa.FechaFin = fecha_fin;
+                etapa.FechaFin = fecha_fin;                
             }
 
             return etapa;
@@ -569,6 +569,27 @@ namespace Bovis.Data
 
                     resp.Success = res_insert_empleado;
                     resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
+
+
+                    // Se insertan los valores de los rubros, para gastos e ingresos.
+                    var rubros = await (from rub in db.tB_CatRubros
+                                        where rub.Activo == true
+                                        select rub).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var res_insert_rubro_valor = await db.tB_RubroValors
+                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.Mes, mes)
+                                        .Value(x => x.Anio, anio)
+                                        //.Value(x => x.Porcentaje, porcentaje)
+                                        .Value(x => x.Activo, true)
+                                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_rubro_valor;
+                        resp.Message = res_insert_rubro_valor == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }
                 }
             }
 
