@@ -746,11 +746,10 @@ namespace Bovis.Data
                     foreach (var rubro in rubros)
                     {
                         var fechas = await (from valor in db.tB_RubroValors
-                                            join rub in db.tB_Rubros on valor.IdRubro equals rub.Id
+                                            join rub in db.tB_Rubros on valor.IdRubro equals rubro.IdRubro
                                             join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                             join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
-                                            where rub.Id == rubro.IdRubro
-                                            && rub.NumProyecto == IdProyecto
+                                            where rub.NumProyecto == IdProyecto
                                             && sec.Tipo == Tipo
                                             select new PCS_Fecha_Detalle
                                             {
