@@ -725,8 +725,10 @@ namespace Bovis.Data
                     var rubros = await (from rubro in db.tB_Rubros
                                         join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
                                         from rel1Item in rel1Join.DefaultIfEmpty()
+                                        join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                         where rubro.IdSeccion == seccion.IdSeccion
                                         && rubro.NumProyecto == IdProyecto
+                                        && rel2.Tipo == Tipo
                                         select new Rubro_Detalle
                                         {
                                             IdRubro = rubro.IdRubro,
@@ -743,7 +745,10 @@ namespace Bovis.Data
                     foreach (var rubro in rubros)
                     {
                         var fechas = await (from valor in db.tB_RubroValors
+                                            join cat in db.tB_CatRubros on valor.IdRubro equals cat.IdRubro
+                                            join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                             where valor.IdRubro == rubro.IdRubro
+                                            && sec.Tipo == Tipo
                                             select new PCS_Fecha_Detalle
                                             {
                                                 Id = valor.Id,
