@@ -117,10 +117,10 @@ namespace Bovis.Data
                             .Value(x => x.TipoCtaContableMayor, cuenta_contable.Substring(0, 3))
                             .Value(x => x.TipoCtaContablePrimerNivel, cuenta_contable.Substring(3, 3))
                             .Value(x => x.TipoCtaContableSegundoNivel, cuenta_contable.Substring(6))
-                            .Value(x => x.IdTipoCuenta, anterior != null ? anterior.IdTipoCuenta : 0)
-                            .Value(x => x.IdTipoResultado, anterior != null ? anterior.IdTipoResultado : 0)
-                            .Value(x => x.IdPcs, anterior != null ? anterior.IdPcs : 0)
-                            .Value(x => x.IdPcs2, anterior != null ? anterior.IdPcs2 : 0)
+                            .Value(x => x.IdTipoCuenta, anterior != null ? anterior.IdTipoCuenta : 1)
+                            .Value(x => x.IdTipoResultado, anterior != null ? anterior.IdTipoResultado : 1)
+                            .Value(x => x.IdPcs, anterior != null ? anterior.IdPcs : 1)
+                            .Value(x => x.IdPcs2, anterior != null ? anterior.IdPcs2 : 1)
                             .Value(x => x.Activo, true)
                             .InsertAsync() > 0;
 
