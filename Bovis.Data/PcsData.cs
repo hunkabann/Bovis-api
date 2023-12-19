@@ -109,10 +109,10 @@ namespace Bovis.Data
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
-            string nombre_contacto = registro["contacto"]["nombre"].ToString();
-            string posicion_contacto = registro["contacto"]["posicion"].ToString();
-            string telefono_contacto = registro["contacto"]["telefono"].ToString();
-            string correo_contacto = registro["contacto"]["correo"].ToString();
+            string nombre_contacto = registro["nombre_contacto"].ToString();
+            string posicion_contacto = registro["posicion_contacto"].ToString();
+            string telefono_contacto = registro["telefono_contacto"].ToString();
+            string correo_contacto = registro["correo_contacto"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -304,10 +304,10 @@ namespace Bovis.Data
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
-            string nombre_contacto = registro["contacto"]["nombre"].ToString();
-            string posicion_contacto = registro["contacto"]["posicion"].ToString();
-            string telefono_contacto = registro["contacto"]["telefono"].ToString();
-            string correo_contacto = registro["contacto"]["correo"].ToString();
+            string nombre_contacto = registro["nombre_contacto"].ToString();
+            string posicion_contacto = registro["posicion_contacto"].ToString();
+            string telefono_contacto = registro["telefono_contacto"].ToString();
+            string correo_contacto = registro["correo_contacto"].ToString();
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
