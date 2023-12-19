@@ -549,7 +549,8 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());          
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());        
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {                
@@ -573,14 +574,14 @@ namespace Bovis.Data
 
 
                     // Se insertan los valores de los rubros, para gastos e ingresos.
-                    var rubros = await (from rub in db.tB_CatRubros
-                                        where rub.Activo == true
+                    var rubros = await (from rub in db.tB_Rubros
+                                        where rub.NumProyecto == num_proyecto
                                         select rub).ToListAsync();
 
                     foreach (var rubro in rubros)
                     {
                         var res_insert_rubro_valor = await db.tB_RubroValors
-                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.IdRubro, rubro.Id)
                                         .Value(x => x.Mes, mes)
                                         .Value(x => x.Anio, anio)
                                         //.Value(x => x.Porcentaje, porcentaje)
