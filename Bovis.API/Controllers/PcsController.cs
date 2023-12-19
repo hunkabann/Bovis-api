@@ -32,6 +32,26 @@ namespace Bovis.API.Controllers
         }
         #endregion base
 
+
+        #region Clientes
+        [HttpGet, Route("Clientes")]
+        public async Task<IActionResult> ObtenerClientes()
+        {
+            var business = await _pcsQueryService.GetClientes();
+            return Ok(business);
+        }
+        #endregion Clientes
+
+        #region Empresas
+        [HttpGet, Route("Empresas")]
+        public async Task<IActionResult> ObtenerEmpresas()
+        {
+            var business = await _pcsQueryService.GetEmpresas();
+            return Ok(business);
+        }
+        #endregion Empresas
+
+        #region Proyectos
         [HttpGet, Route("Proyectos/{OrdenAlfabetico?}")]
         public async Task<IActionResult> ObtenerProyectos(bool? OrdenAlfabetico)
         {
@@ -46,23 +66,6 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
-        [HttpGet, Route("Clientes")]
-        public async Task<IActionResult> ObtenerClientes()
-        {
-            var business = await _pcsQueryService.GetClientes();
-            return Ok(business);
-        }
-
-        [HttpGet, Route("Empresas")]
-        public async Task<IActionResult> ObtenerEmpresas()
-        {
-            var business = await _pcsQueryService.GetEmpresas();
-            return Ok(business);
-        }
-
-
-
-        #region Proyectos
         [HttpPost, Route("Proyectos")]
         public async Task<IActionResult> AddProyecto([FromBody] JsonObject registro)
         {
@@ -74,6 +77,13 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> GetProyectos(int IdProyecto)
         {
             var query = await _pcsQueryService.GetProyectos(IdProyecto);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Proyectos/Tipo")]
+        public async Task<IActionResult> GetTipoProyectos()
+        {
+            var query = await _pcsQueryService.GetTipoProyectos();
             return Ok(query);
         }
 
@@ -190,5 +200,33 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/{Tipo}")]
+        public async Task<IActionResult> GetGastosIngresos(int IdProyecto, string Tipo)
+        {
+            var query = await _pcsQueryService.GetGastosIngresos(IdProyecto, Tipo);
+            return Ok(query);
+        }
+
+        [HttpPut, Route("GastosIngresos")]
+        public async Task<IActionResult> UpdateGastosIngresos([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 1053);
+
+            var query = await _pcsQueryService.UpdateGastosIngresos(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+        #endregion Gastos / Ingresos
     }
 }

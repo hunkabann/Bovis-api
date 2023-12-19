@@ -36,7 +36,7 @@ namespace Bovis.Business
         #endregion
 
         #region GetCostos
-        public async Task<List<TB_CostoPorEmpleado>> GetCostos(bool hist) => await _costoData.GetCostos(hist);
+        public async Task<List<CostoEmpleado_Detalle>> GetCostos(bool? hist) => await _costoData.GetCostos(hist);
         #endregion
 
         #region GetCosto

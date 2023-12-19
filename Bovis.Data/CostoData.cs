@@ -63,16 +63,96 @@ namespace Bovis.Data
 
         #region GetCostos
 
-        public async Task<List<TB_CostoPorEmpleado>> GetCostos(bool hist)
+        public async Task<List<CostoEmpleado_Detalle>> GetCostos(bool? hist)
         {
-            var resp = await GetAllFromEntityAsync<TB_CostoPorEmpleado>();
-            if (hist)
+            //var resp = await GetAllFromEntityAsync<TB_CostoPorEmpleado>();
+            //if (hist)
+            //{
+            //    return resp.ToList();
+            //}
+            //else
+            //    return resp.Where(reg => reg.RegHistorico == false).ToList();
+
+            using (var db = new ConnectionDB(dbConfig))
             {
-                return resp.ToList();
+                var result = await (from costos in db.tB_Costo_Por_Empleados
+                                    join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
+                                    from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
+                                    join puesto in db.tB_Cat_Puestos on costos.IdPuesto equals puesto.IdPuesto into puestoJoin
+                                    from puestoItem in puestoJoin.DefaultIfEmpty()
+                                    join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
+                                    from proyectoItem in proyectoJoin.DefaultIfEmpty()
+                                    join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                    from unidadNItem in unidadNJoin.DefaultIfEmpty()
+                                    join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                                    from empresaItem in empresaJoin.DefaultIfEmpty()
+                                    join empleado in db.tB_Empleados on costos.IdEmpleadoJefe equals empleado.NumEmpleadoRrHh into empleadoJoin
+                                    from empleadoItem in empleadoJoin.DefaultIfEmpty()
+                                    join personaJefe in db.tB_Personas on empleadoItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
+                                    from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
+                                    where (hist == null || costos.RegHistorico == hist)
+                                    select new CostoEmpleado_Detalle
+                                    {
+                                        IdCosto = costos.IdCosto,
+                                        Anio = costos.NuAnno,
+                                        Mes = costos.NuMes,
+                                        NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
+                                        NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                        IdPersona = costos.IdPersona,
+                                        NombrePersona = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
+                                        Reubicacion = costos.Reubicacion,
+                                        IdPuesto = costos.IdPuesto,
+                                        Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
+                                        NumProyecto = costos.NumProyecto,
+                                        Proyecto = proyectoItem != null ? proyectoItem.Proyecto : string.Empty,
+                                        IdUnidadNegocio = costos.IdUnidadNegocio,
+                                        UnidadNegocio = unidadNItem != null ? unidadNItem.UnidadNegocio : string.Empty,
+                                        IdEmpresa = costos.IdEmpresa,
+                                        Empresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                        Timesheet = costos.Timesheet,
+                                        IdEmpleadoJefe = costos.IdEmpleadoJefe,
+                                        NombreJefe = personaJefeItem != null ? personaJefeItem.Nombre + " " + personaJefeItem.ApPaterno + " " + personaJefeItem.ApMaterno : string.Empty,
+                                        FechaIngreso = costos.FechaIngreso,
+                                        Antiguedad = costos.Antiguedad,
+                                        AvgDescuentoEmpleado = costos.AvgDescuentoEmpleado,
+                                        MontoDescuentoMensual = costos.MontoDescuentoMensual,
+                                        SueldoNetoMensual = costos.SueldoNetoPercibidoMensual,
+                                        RetencionImss = costos.RetencionImss,
+                                        Ispt = costos.Ispt,
+                                        SueldoBruto = costos.SueldoBruto,
+                                        Anual = costos.Anual,
+                                        AguinaldoCantidadMeses = costos.AguinaldoCantMeses,
+                                        AguinaldoMontoProvisionMensual = costos.AguinaldoMontoProvisionMensual,
+                                        PvDiasVacasAnuales = costos.PvDiasVacasAnuales,
+                                        PvProvisionMensual = costos.PvProvisionMensual,
+                                        IndemProvisionMensual = costos.IndemProvisionMensual,
+                                        AvgBonoAnualEstimado = costos.AvgBonoAnualEstimado,
+                                        BonoAnualProvisionMensual = costos.BonoAnualProvisionMensual,
+                                        SgmmCostoTotalAnual = costos.SgmmCostoTotalAnual,
+                                        SgmmCostoMensual = costos.SgmmCostoMensual,
+                                        SvCostoTotalAnual = costos.SvCostoTotalAnual,
+                                        SvCostoMensual = costos.SvCostoMensual,
+                                        VaidCostoMensual = costos.VaidCostoMensual,
+                                        VaidComisionCostoMensual = costos.VaidComisionCostoMensual,
+                                        PtuProvision = costos.PtuProvision,
+                                        Beneficios = costos.Beneficios,
+                                        Impuesto3sNomina = costos.Impuesto3sNomina,
+                                        Imss = costos.Imss,
+                                        Retiro2 = costos.Retiro2,
+                                        CesantesVejez = costos.CesantesVejez,
+                                        Infonavit = costos.Infonavit,
+                                        CargasSociales = costos.CargasSociales,
+                                        CostoMensualEmpleado = costos.CostoMensualEmpleado,
+                                        CostoMensualProyecto = costos.CostoMensualProyecto,
+                                        CostoAnualEmpleado = costos.CostoAnualEmpleado,
+                                        IndiceCostoLaboral = costos.IndiceCostoLaboral,
+                                        IndiceCargaLaboral = costos.IndiceCargaLaboral,
+                                        FechaActualizacion = costos.FechaActualizacion,
+                                        RegHistorico = costos.RegHistorico
+                                    }).ToListAsync();
+
+                return result;
             }
-            else
-                return resp.Where(reg => reg.RegHistorico == false).ToList();
-           
         }
         #endregion
 
@@ -152,7 +232,7 @@ namespace Bovis.Data
                 else
                 {
                     var costoEmpleado = registros.Where(reg => reg.RegHistorico == false && reg.NuAnno == anno && reg.NuMes == mes).ToList();
-                    if (costoEmpleado != null)
+                    if (costoEmpleado.Count > 0)
                     {
                         return new Common.Response<List<TB_CostoPorEmpleado>>()
                         {

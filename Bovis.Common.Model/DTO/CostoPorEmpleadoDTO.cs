@@ -11,8 +11,8 @@ namespace Bovis.Common.Model.DTO
     {
         public int IdCosto { get; set; }
         public int NumEmpleadoRrHh { get; set; }
-        public int NuAnno { get; set; }
-        public int NuMes { get; set; }
+        public int? NuAnno { get; set; }
+        public int? NuMes { get; set; }
         public int? NumEmpleadoNoi { get; set; } = 0;
         public int? IdPersona { get; set; } = 0;
         public string? Reubicacion { get; set; }
@@ -57,7 +57,7 @@ namespace Bovis.Common.Model.DTO
         public decimal? CostoAnualEmpleado { get; set; } = 0M;
         public decimal? IndiceCostoLaboral { get; set; } = 0M;
         public decimal? IndiceCargaLaboral { get; set; } = 0M;
-        public DateTime FechaActualizacion { get; set; }
-        public bool RegHistorico { get; set; } = false;
+        public DateTime? FechaActualizacion { get; set; }
+        public bool? RegHistorico { get; set; } = false;
     }
 }

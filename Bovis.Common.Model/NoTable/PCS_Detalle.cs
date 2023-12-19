@@ -37,8 +37,45 @@ namespace Bovis.Common.Model.NoTable
     public class PCS_Fecha_Detalle
     {
         public int Id { get; set; }
-        public int Mes { get; set; }
-        public int Anio { get; set; }
-        public int Porcentaje { get; set; }
+        public int? Mes { get; set; }
+        public int? Anio { get; set; }
+        public decimal? Porcentaje { get; set; }
+    }
+
+    public class Tipo_Proyecto
+    {
+        public int IdTipoProyecto { get; set; }
+        public string TipoProyecto { get; set; }
+    }
+
+
+
+
+
+    public class GastosIngresos_Detalle
+    {
+        public int NumProyecto { get; set; }
+        public DateTime? FechaIni { get; set; }
+        public DateTime? FechaFin { get; set; }
+        public List<Seccion_Detalle> Secciones { get; set; }
+    }
+
+    public class Seccion_Detalle
+    {
+        public int IdSeccion { get; set; }
+        public string Codigo { get; set; }
+        public string Seccion { get; set; }
+        public List<Rubro_Detalle> Rubros { get; set; }
+    }
+
+    public class Rubro_Detalle
+    {
+        public int IdRubro { get; set; }
+        public string Rubro { get; set; }
+        public string? Unidad { get; set; }
+        public decimal? Cantidad { get; set; }
+        public bool? Reembolsable { get; set; }
+        public bool? AplicaTodosMeses { get; set; }
+        public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }
 }

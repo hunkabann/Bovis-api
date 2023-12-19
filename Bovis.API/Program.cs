@@ -63,6 +63,10 @@ builder.Services.AddScoped<IAutorizacionQueryService, AutorizacionQueryService>(
 builder.Services.AddScoped<IAutorizacionBusiness, AutorizacionBusiness>();
 builder.Services.AddScoped<IAutorizacionData, AutorizacionData>();
 
+builder.Services.AddScoped<IBeneficiosQueryService, BeneficiosQueryService>();
+builder.Services.AddScoped<IBeneficiosBusiness, BeneficiosBusiness>();
+builder.Services.AddScoped<IBeneficiosData, BeneficiosData>(); 
+
 builder.Services.AddScoped<ICatalogoQueryService, CatalogoQueryService>();
 builder.Services.AddScoped<ICatalogoBusiness, CatalogoBusiness>();
 builder.Services.AddScoped<ICatalogoData, CatalogoData>();

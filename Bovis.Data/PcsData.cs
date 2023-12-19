@@ -26,6 +26,40 @@ namespace Bovis.Data
         }
         #endregion base
 
+
+        #region Clientes
+        public async Task<List<TB_Cliente>> GetClientes()
+        {
+            //return await GetAllFromEntityAsync<TB_Cliente>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var resp = await (from p in db.tB_Clientes
+                                  orderby p.Cliente ascending
+                                  select p).ToListAsync();
+
+                return resp;
+            }
+        }
+        #endregion Clientes
+
+        #region Empresas
+        public async Task<List<TB_Empresa>> GetEmpresas()
+        {
+            //return await GetAllFromEntityAsync<TB_Empresa>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var resp = await (from p in db.tB_Empresas
+                                  orderby p.Empresa ascending
+                                  select p).ToListAsync();
+
+                return resp;
+            }
+        }
+        #endregion Empresas
+
+        #region Proyectos
         public async Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico)
         {
             //return await GetAllFromEntityAsync<TB_Proyecto>();
@@ -45,68 +79,56 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var resp = await (from p in db.tB_Proyectos
-                              where p.NumProyecto == numProyecto
-                              select p).FirstOrDefaultAsync();
+                                  where p.NumProyecto == numProyecto
+                                  select p).FirstOrDefaultAsync();
 
                 return resp;
             }
         }
 
-        public async Task<List<TB_Cliente>> GetClientes()
-        {
-            //return await GetAllFromEntityAsync<TB_Cliente>();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var resp = await (from p in db.tB_Clientes
-                                  orderby p.Cliente ascending
-                                  select p).ToListAsync();
-
-                return resp;
-            }
-        }
-        public async Task<List<TB_Empresa>> GetEmpresas()
-        {
-            //return await GetAllFromEntityAsync<TB_Empresa>();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var resp = await (from p in db.tB_Empresas
-                                  orderby p.Empresa ascending
-                                  select p).ToListAsync();
-
-                return resp;
-            }
-        }
-
-
-        #region Proyectos
         public async Task<(bool Success, string Message)> AddProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string nombre_proyecto = registro["nombre_proyecto"].ToString();
             string alcance = registro["alcance"].ToString();
             string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
-            string ciudad = registro["ciudad"].ToString();
-            int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
-            int id_estatus = Convert.ToInt32(registro["id_estatus"].ToString());
-            int id_sector = Convert.ToInt32(registro["id_sector"].ToString());
-            int id_tipo_proyecto = Convert.ToInt32(registro["id_tipo_proyecto"].ToString());
+            string? ciudad = registro["ciudad"] != null ? registro["ciudad"].ToString() : null;
+            int? id_pais = registro["id_pais"] != null ? Convert.ToInt32(registro["id_pais"].ToString()) : null;
+            int? id_estatus = registro["id_estatus"] != null ? Convert.ToInt32(registro["id_estatus"].ToString()) : null;
+            int? id_sector = registro["id_sector"] != null ? Convert.ToInt32(registro["id_sector"].ToString()) : null;
+            int? id_tipo_proyecto = registro["id_tipo_proyecto"] != null ? Convert.ToInt32(registro["id_tipo_proyecto"].ToString()) : null;
             int? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString()) : null;
             int? id_responsable_construccion = registro["id_responsable_construccion"] != null ? Convert.ToInt32(registro["id_responsable_construccion"].ToString()) : null;
             int? id_responsable_ehs = registro["id_responsable_ehs"] != null ? Convert.ToInt32(registro["id_responsable_ehs"].ToString()) : null;
             int? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? Convert.ToInt32(registro["id_responsable_supervisor"].ToString()) : null;
-            int id_cliente = Convert.ToInt32(registro["id_cliente"].ToString());
-            int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
-            int id_director_ejecutivo = Convert.ToInt32(registro["id_director_ejecutivo"].ToString());
-            decimal costo_promedio_m2 = Convert.ToDecimal(registro["costo_promedio_m2"].ToString());
+            int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
+            int? id_empresa = registro["id_empresa"] != null ? Convert.ToInt32(registro["id_empresa"].ToString()) : null;
+            int? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? Convert.ToInt32(registro["id_director_ejecutivo"].ToString()) : null;
+            decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
+            string nombre_contacto = registro["nombre_contacto"].ToString();
+            string posicion_contacto = registro["posicion_contacto"].ToString();
+            string telefono_contacto = registro["telefono_contacto"].ToString();
+            string correo_contacto = registro["correo_contacto"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                var res_insert_contacto = await db.tB_Contactos
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.Nombre, nombre_contacto)
+                    .Value(x => x.Posicion, posicion_contacto)
+                    .Value(x => x.Telefono, telefono_contacto)
+                    .Value(x => x.Correo, correo_contacto)
+                    .InsertAsync() > 0;
+
+                resp.Success = res_insert_contacto;
+                resp.Message = res_insert_contacto == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
                 var res_insert_proyecto = await db.tB_Proyectos
+                    .Value(x => x.NumProyecto, num_proyecto)
                     .Value(x => x.Proyecto, nombre_proyecto)
                     .Value(x => x.Alcance, alcance)
                     .Value(x => x.Cp, codigo_postal)
@@ -129,6 +151,31 @@ namespace Bovis.Data
 
                 resp.Success = res_insert_proyecto;
                 resp.Message = res_insert_proyecto == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
+                // Se agregan las secciones y rubros para gastos e ingresos.
+                var secciones = await (from secc in db.tB_GastoIngresoSeccions
+                                       where secc.Activo == true
+                                       select secc).ToListAsync();
+
+                foreach (var seccion in secciones)
+                {
+                    var rubros = await (from rub in db.tB_CatRubros
+                                        where rub.IdSeccion == seccion.IdSeccion
+                                        select rub).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var res_insert_rubro = await db.tB_Rubros
+                                        .Value(x => x.IdSeccion, seccion.IdSeccion)
+                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.NumProyecto, num_proyecto)
+                                        .Value(x => x.Activo, true)
+                                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_rubro;
+                        resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }                    
+                }
             }
 
             return resp;
@@ -218,6 +265,22 @@ namespace Bovis.Data
                 return proyectos;
             }
         }
+        public async Task<List<Tipo_Proyecto>> GetTipoProyectos()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var tipo_proyectos = await (from tipo in db.tB_Cat_TipoProyectos
+                                            where tipo.Activo == true
+                                            orderby tipo.TipoProyecto ascending
+                                            select new Tipo_Proyecto
+                                            {
+                                                IdTipoProyecto = tipo.IdTipoProyecto,
+                                                TipoProyecto = tipo.TipoProyecto
+                                            }).ToListAsync();
+
+                return tipo_proyectos;
+            }
+        }
         public async Task<(bool Success, string Message)> UpdateProyecto(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -226,24 +289,41 @@ namespace Bovis.Data
             string nombre_proyecto = registro["nombre_proyecto"].ToString();
             string alcance = registro["alcance"].ToString();
             string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
-            string ciudad = registro["ciudad"].ToString();
-            int id_pais = Convert.ToInt32(registro["id_pais"].ToString());
-            int id_estatus = Convert.ToInt32(registro["id_estatus"].ToString());
-            int id_sector = Convert.ToInt32(registro["id_sector"].ToString());
-            int id_tipo_proyecto = Convert.ToInt32(registro["id_tipo_proyecto"].ToString());
+            string? ciudad = registro["ciudad"] != null ? registro["ciudad"].ToString() : null;
+            int? id_pais = registro["id_pais"] != null ? Convert.ToInt32(registro["id_pais"].ToString()) : null;
+            int? id_estatus = registro["id_estatus"] != null ? Convert.ToInt32(registro["id_estatus"].ToString()) : null;
+            int? id_sector = registro["id_sector"] != null ? Convert.ToInt32(registro["id_sector"].ToString()) : null;
+            int? id_tipo_proyecto = registro["id_tipo_proyecto"] != null ? Convert.ToInt32(registro["id_tipo_proyecto"].ToString()) : null;
             int? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString()) : null;
             int? id_responsable_construccion = registro["id_responsable_construccion"] != null ? Convert.ToInt32(registro["id_responsable_construccion"].ToString()) : null;
             int? id_responsable_ehs = registro["id_responsable_ehs"] != null ? Convert.ToInt32(registro["id_responsable_ehs"].ToString()) : null;
             int? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? Convert.ToInt32(registro["id_responsable_supervisor"].ToString()) : null;
-            int id_cliente = Convert.ToInt32(registro["id_cliente"].ToString());
-            int id_empresa = Convert.ToInt32(registro["id_empresa"].ToString());
-            int id_director_ejecutivo = Convert.ToInt32(registro["id_director_ejecutivo"].ToString());
-            decimal costo_promedio_m2 = Convert.ToDecimal(registro["costo_promedio_m2"].ToString());
+            int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
+            int? id_empresa = registro["id_empresa"] != null ? Convert.ToInt32(registro["id_empresa"].ToString()) : null;
+            int? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? Convert.ToInt32(registro["id_director_ejecutivo"].ToString()) : null;
+            decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
+            string nombre_contacto = registro["nombre_contacto"].ToString();
+            string posicion_contacto = registro["posicion_contacto"].ToString();
+            string telefono_contacto = registro["telefono_contacto"].ToString();
+            string correo_contacto = registro["correo_contacto"].ToString();
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
+                var res_update_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == num_proyecto)
+                    .UpdateAsync(x => new TB_Contacto
+                    {
+                        NumProyecto = num_proyecto,
+                        Nombre = nombre_contacto,
+                        Posicion = posicion_contacto,
+                        Telefono = telefono_contacto,
+                        Correo = correo_contacto
+                    }) > 0;
+
+                resp.Success = res_update_contacto;
+                resp.Message = res_update_contacto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
                 var res_update_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == num_proyecto)
                     .UpdateAsync(x => new TB_Proyecto
                     {
@@ -279,10 +359,17 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_etapa = true;
+                var res_delete_proyecto_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == IdProyecto)
+                    .DeleteAsync() > 0;
 
-                resp.Success = res_update_etapa;
-                resp.Message = res_update_etapa == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_delete_proyecto_contacto;
+                resp.Message = res_delete_proyecto_contacto == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
+                var res_delete_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == IdProyecto)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_proyecto;
+                resp.Message = res_delete_proyecto == default ? "Ocurrio un error al borrar registro." : string.Empty;
             }
 
             return resp;
@@ -316,7 +403,7 @@ namespace Bovis.Data
                 etapa.Fase = nombre_fase;
                 etapa.Orden = orden;
                 etapa.FechaIni = fecha_inicio;
-                etapa.FechaFin = fecha_fin;
+                etapa.FechaFin = fecha_fin;                
             }
 
             return etapa;
@@ -352,7 +439,7 @@ namespace Bovis.Data
                 proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
                 proyecto_etapas.Etapas.AddRange(etapas);
 
-                foreach(var etapa in  etapas)
+                foreach (var etapa in etapas)
                 {
                     var empleados = await (from p in db.tB_ProyectoFaseEmpleados
                                            join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
@@ -361,21 +448,28 @@ namespace Bovis.Data
                                            from perItem in perJoin.DefaultIfEmpty()
                                            where p.IdFase == etapa.IdFase
                                            orderby p.NumEmpleado ascending
-                                           select new PCS_Empleado_Detalle
+                                           group new PCS_Empleado_Detalle
                                            {
                                                Id = p.Id,
                                                IdFase = p.IdFase,
                                                NumempleadoRrHh = p.NumEmpleado,
                                                Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                           } by new { p.NumEmpleado } into g
+                                           select new PCS_Empleado_Detalle
+                                           {
+                                               Id = g.First().Id,
+                                               IdFase = g.First().IdFase,
+                                               NumempleadoRrHh = g.Key.NumEmpleado,
+                                               Empleado = g.First().Empleado
                                            }).ToListAsync();
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
                     etapa.Empleados.AddRange(empleados);
 
-                    foreach(var empleado in empleados)
+                    foreach (var empleado in empleados)
                     {
                         var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                            where p.NumEmpleado == empleado.Id
+                                            where p.NumEmpleado == empleado.NumempleadoRrHh
                                             && p.IdFase == etapa.IdFase
                                             select new PCS_Fecha_Detalle
                                             {
@@ -386,8 +480,11 @@ namespace Bovis.Data
                                             }).ToListAsync();
 
                         empleado.Fechas = new List<PCS_Fecha_Detalle>();
-                        empleado.Fechas.AddRange(fechas);                    }
-                }                
+                        empleado.Fechas.AddRange(fechas);
+
+
+                    }
+                }
 
                 return proyecto_etapas;
             }
@@ -452,10 +549,10 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());          
 
             using (var db = new ConnectionDB(dbConfig))
-            {
+            {                
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
@@ -472,6 +569,27 @@ namespace Bovis.Data
 
                     resp.Success = res_insert_empleado;
                     resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
+
+
+                    // Se insertan los valores de los rubros, para gastos e ingresos.
+                    var rubros = await (from rub in db.tB_CatRubros
+                                        where rub.Activo == true
+                                        select rub).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var res_insert_rubro_valor = await db.tB_RubroValors
+                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.Mes, mes)
+                                        .Value(x => x.Anio, anio)
+                                        //.Value(x => x.Porcentaje, porcentaje)
+                                        .Value(x => x.Activo, true)
+                                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_rubro_valor;
+                        resp.Message = res_insert_rubro_valor == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }
                 }
             }
 
@@ -488,18 +606,25 @@ namespace Bovis.Data
                                        from perItem in perJoin.DefaultIfEmpty()
                                        where p.IdFase == IdFase
                                        orderby p.NumEmpleado ascending
-                                       select new PCS_Empleado_Detalle
+                                       group new PCS_Empleado_Detalle
                                        {
                                            Id = p.Id,
                                            IdFase = p.IdFase,
                                            NumempleadoRrHh = p.NumEmpleado,
                                            Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                       } by new { p.NumEmpleado } into g
+                                       select new PCS_Empleado_Detalle
+                                       {
+                                           Id = g.First().Id,
+                                           IdFase = g.First().IdFase,
+                                           NumempleadoRrHh = g.Key.NumEmpleado,
+                                           Empleado = g.First().Empleado
                                        }).ToListAsync();
 
                 foreach (var empleado in empleados)
                 {
                     var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                        where p.NumEmpleado == empleado.Id
+                                        where p.NumEmpleado == empleado.NumempleadoRrHh
                                         && p.IdFase == IdFase
                                         select new PCS_Fecha_Detalle
                                         {
@@ -513,7 +638,7 @@ namespace Bovis.Data
                     empleado.Fechas.AddRange(fechas);
                 }
 
-                    return empleados;
+                return empleados;
             }
         }
         public async Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro)
@@ -521,10 +646,10 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());         
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
+            {                
                 var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
                     .DeleteAsync() > 0;
 
@@ -565,5 +690,135 @@ namespace Bovis.Data
             return resp;
         }
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo)
+        {
+            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
+                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
+                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
+
+                var secciones = await (from seccion in db.tB_GastoIngresoSeccions
+                                       where seccion.Tipo == Tipo
+                                       orderby seccion.Codigo ascending
+                                       select new Seccion_Detalle
+                                       {
+                                           IdSeccion = seccion.IdSeccion,
+                                           Codigo = seccion.Codigo,
+                                           Seccion = seccion.Seccion
+                                       })
+                                      .ToListAsync();
+
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+                proyecto_gastos_ingresos.Secciones.AddRange(secciones);
+
+                foreach (var seccion in secciones)
+                {
+                    var rubros = await (from rubro in db.tB_Rubros
+                                        join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                        from rel1Item in rel1Join.DefaultIfEmpty()
+                                        join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                        where rubro.IdSeccion == seccion.IdSeccion
+                                        && rubro.NumProyecto == IdProyecto
+                                        && rel2.Tipo == Tipo
+                                        select new Rubro_Detalle
+                                        {
+                                            IdRubro = rubro.IdRubro,
+                                            Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                            Unidad = rubro.Unidad,
+                                            Cantidad = rubro.Cantidad,
+                                            Reembolsable = rubro.Reembolsable,
+                                            AplicaTodosMeses = rubro.AplicaTodosMeses
+                                        }).ToListAsync();
+
+                    seccion.Rubros = new List<Rubro_Detalle>();
+                    seccion.Rubros.AddRange(rubros);
+
+                    foreach (var rubro in rubros)
+                    {
+                        var fechas = await (from valor in db.tB_RubroValors
+                                            join cat in db.tB_CatRubros on valor.IdRubro equals cat.IdRubro
+                                            join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                            where valor.IdRubro == rubro.IdRubro
+                                            && sec.Tipo == Tipo
+                                            select new PCS_Fecha_Detalle
+                                            {
+                                                Id = valor.Id,
+                                                Mes = valor.Mes,
+                                                Anio = valor.Anio,
+                                                Porcentaje = valor.Porcentaje
+                                            }).ToListAsync();
+
+                        rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                        rubro.Fechas.AddRange(fechas);
+                    }
+                }
+
+                return proyecto_gastos_ingresos;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_rubro = Convert.ToInt32(registro["idRubro"].ToString());
+            string unidad = registro["unidad"].ToString();
+            decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
+            bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
+            bool aplica_todos_meses = Convert.ToBoolean(registro["aplicaTodosMeses"].ToString());
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_rubro = await db.tB_Rubros.Where(x => x.Id == id_rubro)
+                    .UpdateAsync(x => new TB_Rubro
+                    {
+                        Unidad = unidad,
+                        Cantidad = cantidad,
+                        Reembolsable = reembolsable,
+                        AplicaTodosMeses = aplica_todos_meses
+                    }) > 0;
+
+                resp.Success = res_update_rubro;
+                resp.Message = res_update_rubro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+
+                var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == id_rubro)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_valores;
+                resp.Message = res_delete_valores == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
+                foreach (var fecha in registro["fechas"].AsArray())
+                {
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
+                    decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
+
+                    var res_insert_valor = await db.tB_RubroValors
+                        .Value(x => x.IdRubro, id_rubro)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcentaje)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
+
+                    resp.Success = res_insert_valor;
+                    resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+            }
+
+            return resp;
+        }
+        #endregion Gastos / Ingresos
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data.Interface
 {
@@ -23,18 +24,27 @@ namespace Bovis.Data.Interface
 
 		#endregion
 
-		#region Clsificacion
+		#region Clasificacion
 
 		Task<List<TB_Cat_Clasificacion>> GetClasificacion(bool? activo);
 		Task<bool> AddClasificacion(TB_Cat_Clasificacion clasificacion);
 		Task<bool> UpdateClasificacion(TB_Cat_Clasificacion clasificacion);
 		Task<bool> DeleteClasificacion(TB_Cat_Clasificacion clasificacion);
 
-		#endregion
+        #endregion
 
-		#region Costo Indirecto Salarios
+        #region Cliente
 
-		Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo);
+        Task<List<TB_Cliente>> GetCliente(bool? activo);
+		Task<(bool Success, string Message)> AddCliente(JsonObject registro);
+		Task<(bool Success, string Message)> UpdateCliente(JsonObject registro);
+		Task<(bool Success, string Message)> DeleteCliente(int idCliente);
+
+        #endregion Cliente
+
+        #region Costo Indirecto Salarios
+
+        Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo);
 		Task<bool> AddCostoIndirectoSalarios(TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios);
 		Task<bool> UpdateCostoIndirectoSalarios(TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios);
 		Task<bool> DeleteCostoIndirectoSalarios(TB_Cat_CostoIndirectoSalarios costoIndirectoSalarios);

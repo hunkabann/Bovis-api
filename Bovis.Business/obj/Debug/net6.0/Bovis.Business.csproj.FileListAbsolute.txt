@@ -49,10 +49,12 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.Interface.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Model.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Data.Interface.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.Interface.pdb
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Data.Interface.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.pdb
@@ -67,8 +69,6 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\obj\
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\obj\Debug\net6.0\refint\Bovis.Business.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\obj\Debug\net6.0\ref\Bovis.Business.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.dll
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.deps.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.pdb

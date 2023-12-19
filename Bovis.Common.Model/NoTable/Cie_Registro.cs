@@ -23,7 +23,7 @@ namespace Bovis.Common.Model.NoTable
         public int? Mes { get; set; }
         public string? Concepto { get; set; }  
         public string? CentroCostos { get; set; }
-        public string? Proyectos { get; set; }
+        public string? Proyecto { get; set; }
         public decimal? SaldoInicial { get; set; }
         public decimal? Debe { get; set; }
         public decimal? Haber { get; set; }
@@ -39,6 +39,7 @@ namespace Bovis.Common.Model.NoTable
         public bool? Activo { get; set; }
         public int? IdArchivo { get; set; }
         public string? NombreArchivo { get; set; }
+        public bool Inconsistente { get; set; }
     }
 
     public class CieRegistro

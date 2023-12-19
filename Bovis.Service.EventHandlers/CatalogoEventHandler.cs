@@ -197,6 +197,7 @@ public class ActualizaClasificacionEventHandler : IRequestHandler<ActualizarClas
 
 #endregion
 
+
 #region Costo Indirecto Salarios
 
 public class AgregaCostoIndirectoSalariosEventHandler : IRequestHandler<AgregarCostoIndirectoSalariosCommand, Response<bool>>

@@ -49,6 +49,14 @@ namespace Bovis.API.Controllers
             var query = await _cieQueryService.GetCuentaData(cuentas);
             return Ok(query);
         }
+
+        [HttpPost("Cuentas/Agregar")]
+        public async Task<IActionResult> AddCuentas([FromBody] JsonObject registros)
+        {
+            var query = await _cieQueryService.AddCuentas(registros);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Cuenta Data
 
 
@@ -100,10 +108,10 @@ namespace Bovis.API.Controllers
 
 
         #region Registros        
-        [HttpGet, Route("Registros/{Activo?}/{nombre_cuenta}/{mesInicio}/{anioInicio}/{mesFin}/{anioFin}/{concepto}/{empresa}/{num_proyecto}/{responsable}/{clasificacionPY}/{offset}/{limit}")]
-        public async Task<IActionResult> GetRegitros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin, string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
+        [HttpPost, Route("Registros")]
+        public async Task<IActionResult> GetRegitros([FromBody] JsonObject registro)
         {
-            var query = await _cieQueryService.GetRegistros(activo, nombre_cuenta, mesInicio, anioInicio, mesFin, anioFin, concepto, empresa, num_proyecto, responsable, clasificacionPY, offset, limit);
+            var query = await _cieQueryService.GetRegistros(registro);
             return Ok(query);
         }
 

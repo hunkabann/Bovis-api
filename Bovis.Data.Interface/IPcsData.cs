@@ -6,15 +6,20 @@ namespace Bovis.Data.Interface
 {
     public interface IPcsData : IDisposable
     {
-        Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico);
-        Task<TB_Proyecto> GetProyecto(int numProyecto);        
+        #region Clientes
         Task<List<TB_Cliente>> GetClientes();
-        Task<List<TB_Empresa>> GetEmpresas();
+        #endregion Clientes
 
+        #region Empresas
+        Task<List<TB_Empresa>> GetEmpresas();
+        #endregion Empresas
 
         #region Proyectos
+        Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico);
+        Task<TB_Proyecto> GetProyecto(int numProyecto);
         Task<(bool Success, string Message)> AddProyecto(JsonObject registro);
         Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto);
+        Task<List<Tipo_Proyecto>> GetTipoProyectos();
         Task<(bool Success, string Message)> UpdateProyecto(JsonObject registro);
         Task<(bool Success, string Message)> DeleteProyecto(int IdProyecto);
         #endregion Proyectos
@@ -32,5 +37,10 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> UpdateEmpleado(JsonObject registro);
         Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado);
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo);
+        Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
+        #endregion Gastos / Ingresos
     }
 }

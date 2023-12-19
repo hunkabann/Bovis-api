@@ -358,6 +358,7 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.genruntimeconfig.cache
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\ref\Bovis.API.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Linq.Dynamic.Core.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.Development.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\important-logs.json
@@ -415,6 +416,7 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\b
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Drawing.Common.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Linq.Dynamic.Core.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Memory.Data.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Runtime.Caching.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\System.Security.Cryptography.Pkcs.dll

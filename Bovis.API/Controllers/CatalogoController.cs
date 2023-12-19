@@ -1,4 +1,5 @@
 ﻿using Bovis.API.Helper;
+using Bovis.Service.Queries;
 using Bovis.Service.Queries.Dto.Commands;
 using Bovis.Service.Queries.Interface;
 using MediatR;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers;
 
@@ -178,10 +180,53 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
 
-	#region Costo Indirecto Salarios
-	[HttpGet, Route("CostoIndirectoSalarios/{Activo?}")]
+    #region Cliente
+    [HttpGet, Route("Cliente/{Activo?}")]
+    public async Task<IActionResult> Cliente(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetCliente(Activo);
+        return Ok(query);
+    }
+
+    [HttpPost, Route("Cliente/Agregar")]
+    public async Task<IActionResult> AddCliente([FromBody] JsonObject registro)
+    {
+        var query = await _catalogoQueryService.AddCliente(registro);
+        return Ok(query);
+    }
+
+    [HttpDelete, Route("Cliente/Borrar/{idCliente}")]
+    public async Task<IActionResult> DeleteCliente(int idCliente)
+    {
+        var query = await _catalogoQueryService.DeleteCliente(idCliente);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
+    }
+
+    [HttpPut, Route("Cliente/Actualizar")]
+    public async Task<IActionResult> UpdateCliente([FromBody] JsonObject registro)
+    {
+        IHeaderDictionary headers = HttpContext.Request.Headers;
+        string email = headers["email"];
+        string nombre = headers["nombre"];
+        JsonObject registroJsonObject = new JsonObject();
+        registroJsonObject.Add("Registro", registro);
+        registroJsonObject.Add("Nombre", nombre);
+        registroJsonObject.Add("Usuario", email);
+        registroJsonObject.Add("Roles", string.Empty);
+        registroJsonObject.Add("TransactionId", TransactionId);
+        registroJsonObject.Add("Rel", 1053);
+
+        var query = await _catalogoQueryService.UpdateCliente(registroJsonObject);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
+    }
+    #endregion Cliente
+
+    #region Costo Indirecto Salarios
+    [HttpGet, Route("CostoIndirectoSalarios/{Activo?}")]
     public async Task<IActionResult> CostoIndirectoSalarios(bool? Activo)
 	{
 		var query = await _catalogoQueryService.GetCostoIndirectoSalarios(Activo);

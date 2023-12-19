@@ -8,11 +8,10 @@ using LinqToDB.Tools;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using static LinqToDB.Reflection.Methods.LinqToDB;
 
 namespace Bovis.Data
 {
@@ -80,6 +79,57 @@ namespace Bovis.Data
             }
 
             return list;
+        }
+
+        public async Task<(bool Success, string Message)> AddCuentas(JsonObject registros)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                foreach (var registro in registros["data"].AsArray())
+                {
+                    string cuenta_contable = registro["cuenta"].ToString();
+                    string concepto = registro["concepto"].ToString();
+
+                    string cuenta_anterior = string.Empty;
+                    TB_Cat_TipoCtaContable? anterior = null;
+
+                    if (Convert.ToInt32(cuenta_contable) > 0)
+                        cuenta_anterior = (Convert.ToInt32(cuenta_contable) - 1).ToString().PadLeft(9, '0');
+
+                    if (cuenta_contable.Substring(0, 3) == cuenta_anterior.Substring(0, 3) && cuenta_contable.Substring(3, 3) == cuenta_anterior.Substring(3, 3))
+                        anterior = await (from cta in db.tB_Cat_TipoCtaContables
+                                          where cta.CtaContable == cuenta_anterior
+                                          select cta).FirstOrDefaultAsync();
+
+                    if (anterior == null)
+                    {
+                        anterior = await (from cta in db.tB_Cat_TipoCtaContables
+                                          where cta.CtaContable == cuenta_contable.Substring(0, 3) + cuenta_contable.Substring(3, 3) + "000"
+                                          select cta).FirstOrDefaultAsync();
+                    }
+
+
+                    var insert = await db.tB_Cat_TipoCtaContables
+                            .Value(x => x.CtaContable, cuenta_contable)
+                            .Value(x => x.Concepto, concepto)
+                            .Value(x => x.TipoCtaContableMayor, cuenta_contable.Substring(0, 3))
+                            .Value(x => x.TipoCtaContablePrimerNivel, cuenta_contable.Substring(3, 3))
+                            .Value(x => x.TipoCtaContableSegundoNivel, cuenta_contable.Substring(6))
+                            .Value(x => x.IdTipoCuenta, anterior != null ? anterior.IdTipoCuenta : 1)
+                            .Value(x => x.IdTipoResultado, anterior != null ? anterior.IdTipoResultado : 1)
+                            .Value(x => x.IdPcs, anterior != null ? anterior.IdPcs : 1)
+                            .Value(x => x.IdPcs2, anterior != null ? anterior.IdPcs2 : 1)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
+
+                    resp.Success = insert;
+                    resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                }
+            }
+
+            return resp;
         }
         #endregion Cuenta Data        
 
@@ -209,7 +259,7 @@ namespace Bovis.Data
                               Mes = cie.Mes,
                               Concepto = cie.Concepto,
                               CentroCostos = cie.CentroCostos,
-                              Proyectos = cie.Proyectos,
+                              Proyecto = cie.Proyecto,
                               SaldoInicial = cie.SaldoInicial,
                               Debe = cie.Debe,
                               Haber = cie.Haber,
@@ -230,27 +280,43 @@ namespace Bovis.Data
                 return res;
             }
         }
-        public async Task<Cie_Registros> GetRegistros(bool? activo, string nombre_cuenta, int mesInicio, int anioInicio, int mesFin, int anioFin,  string concepto, string empresa, int num_proyecto, string responsable, string clasificacionPY, int offset, int limit)
+        public async Task<Cie_Registros> GetRegistros(JsonObject registro)
         {
             Cie_Registros registros = new Cie_Registros();
+
+            string? nombre_cuenta = registro["nombre_cuenta"] != null ? registro["nombre_cuenta"].ToString() : null;
+            int? mes_inicio = registro["mes_inicio"] != null ? Convert.ToInt32(registro["mes_inicio"].ToString()) : null;
+            int? anio_inicio = registro["anio_inicio"] != null ? Convert.ToInt32(registro["anio_inicio"].ToString()) : null;
+            int? mes_fin = registro["mes_fin"] != null ? Convert.ToInt32(registro["mes_fin"].ToString()) : null;
+            int? anio_fin = registro["anio_fin"] != null ? Convert.ToInt32(registro["anio_fin"].ToString()) : null;
+            string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
+            string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
+            int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
+            string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
+            string? clasificacion_py = registro["clasificacion_py"] != null ? registro["clasificacion_py"].ToString() : null;
+            int limit = Convert.ToInt32(registro["limit"].ToString());
+            int offset = Convert.ToInt32(registro["offset"].ToString());
+            string? sort_field = registro["sort_field"] != null ? registro["sort_field"].ToString() : null;
+            string? sort_order = registro["sort_order"] != null ? registro["sort_order"].ToString() : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
                 registros.Registros = await (from cie in db.tB_Cie_Datas
                                              join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
                                              from archivoItem in archivoJoin.DefaultIfEmpty()
-                                             where cie.Activo == activo
-                                             && (nombre_cuenta == "-" || cie.NombreCuenta == nombre_cuenta)
-                                             && (mesInicio == 0 || Convert.ToDateTime(cie.Fecha).Month >= mesInicio)
-                                             && (anioInicio == 0 || Convert.ToDateTime(cie.Fecha).Year >= anioInicio)
-                                             && (mesFin == 0 || Convert.ToDateTime(cie.Fecha).Month <= mesFin)
-                                             && (anioFin == 0 || Convert.ToDateTime(cie.Fecha).Year <= anioFin)
-                                             && (concepto == "-" || cie.Concepto == concepto)
-                                             && (empresa == "-" || cie.Empresa == empresa)
-                                             && (num_proyecto == 0 || cie.NumProyecto == num_proyecto)
-                                             && (responsable == "-" || cie.Responsable == responsable)
-                                             && (clasificacionPY == "-" || cie.ClasificacionPY == clasificacionPY)
-                                             orderby cie.IdCieData ascending
+                                             join proyecto in db.tB_Proyectos on new { cie.NumProyecto, cie.Proyecto } equals new { proyecto.NumProyecto, proyecto.Proyecto } into proyectoJoin
+                                             from proyectoItem in proyectoJoin.DefaultIfEmpty()
+                                             where cie.Activo == true
+                                             && (nombre_cuenta == null || cie.NombreCuenta == nombre_cuenta)
+                                             && (mes_inicio == null || Convert.ToDateTime(cie.Fecha).Month >= mes_inicio)
+                                             && (anio_inicio == null || Convert.ToDateTime(cie.Fecha).Year >= anio_inicio)
+                                             && (mes_fin == null || Convert.ToDateTime(cie.Fecha).Month <= mes_fin)
+                                             && (anio_fin == null || Convert.ToDateTime(cie.Fecha).Year <= anio_fin)
+                                             && (concepto == null || cie.Concepto == concepto)
+                                             && (empresa == null || cie.Empresa == empresa)
+                                             && (num_proyecto == null || cie.NumProyecto == num_proyecto)
+                                             && (responsable == null || cie.Responsable == responsable)
+                                             && (clasificacion_py == null || cie.ClasificacionPY == clasificacion_py)
                                              select new Cie_Detalle
                                              {
                                                  IdCie = cie.IdCieData,
@@ -262,7 +328,7 @@ namespace Bovis.Data
                                                  Mes = cie.Mes,
                                                  Concepto = cie.Concepto,
                                                  CentroCostos = cie.CentroCostos,
-                                                 Proyectos = cie.Proyectos,
+                                                 Proyecto = cie.Proyecto,
                                                  SaldoInicial = cie.SaldoInicial,
                                                  Debe = cie.Debe,
                                                  Haber = cie.Haber,
@@ -277,8 +343,10 @@ namespace Bovis.Data
                                                  ClasificacionPy = cie.ClasificacionPY,
                                                  Activo = cie.Activo,
                                                  IdArchivo = cie.IdArchivo,
-                                                 NombreArchivo = archivoItem.NombreArchivo ?? null
+                                                 NombreArchivo = archivoItem.NombreArchivo ?? null,
+                                                 Inconsistente = proyectoItem == null
                                              }).ToListAsync();
+
 
                 ///
                 /// Registros de facturación
@@ -286,7 +354,7 @@ namespace Bovis.Data
                 List<int> lstProyectosEmpresa = null;
 
 
-                if (empresa != "-")
+                if (empresa != null)
                 {
                     lstProyectosEmpresa = await (from a in db.tB_Proyectos
                                                  join b in db.tB_Empresas on a.IdEmpresa equals b.IdEmpresa into bJoin
@@ -306,15 +374,15 @@ namespace Bovis.Data
                                           from dItem in dJoin.DefaultIfEmpty()
                                           join e in db.tB_Empresas on cItem.IdEmpresa equals e.IdEmpresa into eJoin
                                           from eItem in eJoin.DefaultIfEmpty()
-                                          where (num_proyecto == 0 || a.NumProyecto == num_proyecto)
+                                          where (num_proyecto == null || a.NumProyecto == num_proyecto)
                                           && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
-                                          && (mesInicio == 0 || a.FechaEmision.Month >= mesInicio)
-                                          && (anioInicio == 0 || a.FechaEmision.Year >= anioInicio)
-                                          && (mesFin == 0 || a.FechaEmision.Month <= mesFin)
-                                          && (anioFin == 0 || a.FechaEmision.Year <= anioFin)
-                                          && (num_proyecto == 0 || a.NumProyecto == num_proyecto)
-                                          && (empresa == "-" || eItem.Empresa == empresa)
-                                          orderby a.Id descending
+                                          && (mes_inicio == null || a.FechaEmision.Month >= mes_inicio)
+                                          && (anio_inicio == null || a.FechaEmision.Year >= anio_inicio)
+                                          && (mes_fin == null || a.FechaEmision.Month <= mes_fin)
+                                          && (anio_fin == null || a.FechaEmision.Year <= anio_fin)
+                                          && (num_proyecto == null || a.NumProyecto == num_proyecto)
+                                          && (empresa == null || eItem.Empresa == empresa)
+                                          orderby a.FechaEmision descending
                                           select new Cie_Detalle
                                           {
                                               IdCie = 0,
@@ -324,7 +392,7 @@ namespace Bovis.Data
                                               Fecha = a.FechaEmision,
                                               Mes = a.FechaEmision.Month,
                                               Concepto = a.Concepto,
-                                              Proyectos = cItem != null ? cItem.Proyecto : string.Empty,
+                                              Proyecto = cItem != null ? cItem.Proyecto : string.Empty,
                                               Haber = a.Total,
                                               Movimiento = a.Total * -1,
                                               Empresa = eItem != null ? eItem.Empresa : string.Empty,
@@ -332,7 +400,7 @@ namespace Bovis.Data
                                               ClasificacionPy = "Facturación"
                                           }).ToListAsync();
 
-                registros.Registros.AddRange(res_facturas);                
+                registros.Registros.AddRange(res_facturas);
 
 
                 var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
@@ -343,12 +411,13 @@ namespace Bovis.Data
                                        join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                        from emprItem in emprJoin.DefaultIfEmpty()
                                        where notas.FechaCancelacion == null
-                                       && (mesInicio == 0 || notas.FechaNotaCredito.Month >= mesInicio)
-                                       && (anioInicio == 0 || notas.FechaNotaCredito.Year >= anioInicio)
-                                       && (mesFin == 0 || notas.FechaNotaCredito.Month <= mesFin)
-                                       && (anioFin == 0 || notas.FechaNotaCredito.Year <= anioFin)
-                                       && (num_proyecto == 0 || factsItem.NumProyecto == num_proyecto)
-                                       && (empresa == "-" || emprItem.Empresa == empresa)
+                                       && (mes_inicio == null || notas.FechaNotaCredito.Month >= mes_inicio)
+                                       && (anio_inicio == null || notas.FechaNotaCredito.Year >= anio_inicio)
+                                       && (mes_fin == null || notas.FechaNotaCredito.Month <= mes_fin)
+                                       && (anio_fin == null || notas.FechaNotaCredito.Year <= anio_fin)
+                                       && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
+                                       && (empresa == null || emprItem.Empresa == empresa)
+                                       orderby notas.FechaNotaCredito descending
                                        select new Cie_Detalle
                                        {
                                            IdCie = 0,
@@ -358,7 +427,7 @@ namespace Bovis.Data
                                            Fecha = notas.FechaNotaCredito,
                                            Mes = notas.FechaNotaCredito.Month,
                                            Concepto = notas.Concepto,
-                                           Proyectos = proysItem != null ? proysItem.Proyecto : string.Empty,
+                                           Proyecto = proysItem != null ? proysItem.Proyecto : string.Empty,
                                            Debe = notas.Total,
                                            Movimiento = notas.Total,
                                            Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
@@ -377,19 +446,20 @@ namespace Bovis.Data
                                            join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                            from emprItem in emprJoin.DefaultIfEmpty()
                                            where cobr.FechaCancelacion == null
-                                           && (mesInicio == 0 || cobr.FechaPago.Month >= mesInicio)
-                                           && (anioInicio == 0 || cobr.FechaPago.Year >= anioInicio)
-                                           && (mesFin == 0 || cobr.FechaPago.Month <= mesFin)
-                                           && (anioFin == 0 || cobr.FechaPago.Year <= anioFin)
-                                           && (num_proyecto == 0 || factsItem.NumProyecto == num_proyecto)
-                                           && (empresa == "-" || emprItem.Empresa == empresa)
+                                           && (mes_inicio == null || cobr.FechaPago.Month >= mes_inicio)
+                                           && (anio_inicio == null || cobr.FechaPago.Year >= anio_inicio)
+                                           && (mes_fin == null || cobr.FechaPago.Month <= mes_fin)
+                                           && (anio_fin == null || cobr.FechaPago.Year <= anio_fin)
+                                           && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
+                                           && (empresa == null || emprItem.Empresa == empresa)
+                                           orderby cobr.FechaPago descending
                                            select new Cie_Detalle
                                            {
                                                IdCie = 0,
                                                NombreCuenta = "Cobranza",
                                                Fecha = cobr.FechaPago,
                                                Mes = cobr.FechaPago.Month,
-                                               Proyectos = proysItem != null ? proysItem.Proyecto : string.Empty,
+                                               Proyecto = proysItem != null ? proysItem.Proyecto : string.Empty,
                                                Haber = cobr.ImportePagado,
                                                Movimiento = cobr.ImportePagado * -1,
                                                Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
@@ -401,10 +471,26 @@ namespace Bovis.Data
 
                 registros.TotalRegistros = registros.Registros.Count();
 
-                registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
+                if (sort_field == null)
+                    registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
+                else
+                {
+                    string orderExpression = sort_order == "ASC" ? $"{sort_field} asc" : $"{sort_field} desc";
+
+                    registros.Registros = OrderByField(registros.Registros.AsQueryable(), sort_field, sort_order)
+                                                .Skip((offset - 1) * limit)
+                                                .Take(limit)
+                                                .ToList();
+                }
 
                 return registros;
             }
+        }
+
+        public static IQueryable<T> OrderByField<T>(IQueryable<T> source, string fieldName, string sortOrder)
+        {
+            string orderExpression = sortOrder == "ASC" ? $"{fieldName} asc" : $"{fieldName} desc";
+            return source.OrderBy(orderExpression);
         }
 
         public async Task<(bool Success, string Message)> AddRegistros(JsonObject registros)
@@ -441,13 +527,13 @@ namespace Bovis.Data
                         int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                         string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                         string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
-                        string? proyectos = registro["proyectos"] != null ? registro["proyectos"].ToString() : null;
+                        string proyectos = registro["proyectos"].ToString().Trim();
                         decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
                         decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
                         decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
                         decimal? movimiento = registro["movimiento"] != null ? Convert.ToDecimal(registro["movimiento"].ToString()) : null;
                         string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
-                        int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
+                        int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
                         string? tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : null;
                         string? edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : null;
                         string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
@@ -472,7 +558,7 @@ namespace Bovis.Data
                             .Value(x => x.Mes, mes)
                             .Value(x => x.Concepto, concepto)
                             .Value(x => x.CentroCostos, centro_costos)
-                            .Value(x => x.Proyectos, proyectos)
+                            .Value(x => x.Proyecto, proyectos)
                             .Value(x => x.SaldoInicial, saldo_inicial)
                             .Value(x => x.Debe, debe)
                             .Value(x => x.Haber, haber)
@@ -514,13 +600,13 @@ namespace Bovis.Data
                 int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                 string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                 string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
-                string? proyectos = registro["proyectos"] != null ? registro["proyectos"].ToString() : null;
+                string proyectos = registro["proyectos"].ToString().Trim();
                 decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
                 decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
                 decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
                 decimal? movimiento = registro["movimiento"] != null ? Convert.ToDecimal(registro["movimiento"].ToString()) : null;
                 string? empresa = registro["empresa"] != null ? registro["empresa"].ToString() : null;
-                int? num_proyecto = registro["num_proyecto"] != null ? Convert.ToInt32(registro["num_proyecto"].ToString()) : null;
+                int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
                 string? tipo_cuenta = registro["tipo_cuenta"] != null ? registro["tipo_cuenta"].ToString() : null;
                 string? edo_resultados = registro["edo_resultados"] != null ? registro["edo_resultados"].ToString() : null;
                 string? responsable = registro["responsable"] != null ? registro["responsable"].ToString() : null;
@@ -547,7 +633,7 @@ namespace Bovis.Data
                         Mes = mes,
                         Concepto = concepto,
                         CentroCostos = centro_costos,
-                        Proyectos = proyectos,
+                        Proyecto = proyectos,
                         SaldoInicial = saldo_inicial,
                         Debe = debe,
                         Haber = haber,

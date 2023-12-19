@@ -4,6 +4,7 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using System.Text.Json.Nodes;
 
 namespace Bovis.Data
 {
@@ -88,7 +89,7 @@ namespace Bovis.Data
 
 		#endregion
 
-		#region Clsificacion
+		#region Clasificacion
 
 		public async Task<List<TB_Cat_Clasificacion>> GetClasificacion(bool? activo)
 		{
@@ -117,11 +118,91 @@ namespace Bovis.Data
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region Costo Indirecto Salarios
+        #region Cliente
 
-		public async Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo)
+        public async Task<List<TB_Cliente>> GetCliente(bool? activo)
+		{
+			if (activo.HasValue)
+			{
+				using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Clientes
+																		  where cat.Activo == activo
+																		  orderby cat.Cliente ascending
+																		  select cat).ToListAsync();
+			}
+			else return await GetAllFromEntityAsync<TB_Cliente>();
+		}
+
+		public async Task<(bool Success, string Message)> AddCliente(JsonObject registro)
+		{
+			string cliente = registro["cliente"].ToString();
+			string rfc = registro["rfc"].ToString();
+
+            (bool Success, string Message) resp = (true, string.Empty);
+            using (var db = new ConnectionDB(dbConfig))
+			{
+				var insert_cliente = await db.tB_Clientes
+					.Value(x => x.Cliente, cliente)
+					.Value(x => x.Rfc, rfc)
+					.Value(x => x.Activo, true)
+					.InsertAsync() > 0;
+
+                resp.Success = insert_cliente;
+                resp.Message = insert_cliente == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+				return resp;
+            }
+        }
+
+		public async Task<(bool Success, string Message)> UpdateCliente(JsonObject registro)
+		{
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_cliente = Convert.ToInt32(registro["id_cliente"].ToString());
+            string cliente = registro["cliente"].ToString();
+            string rfc = registro["rfc"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_cliente = await (db.tB_Clientes.Where(x => x.IdCliente == id_cliente)
+                    .UpdateAsync(x => new TB_Cliente
+                    {
+                        Cliente = cliente,
+						Rfc = rfc
+                    })) > 0;
+
+                resp.Success = res_update_cliente;
+                resp.Message = res_update_cliente == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
+		public async Task<(bool Success, string Message)> DeleteCliente(int idCliente)
+		{
+            (bool Success, string Message) resp = (true, string.Empty);
+
+			using (ConnectionDB db = new ConnectionDB(dbConfig))
+			{
+				var res_update_cliente = await (db.tB_Clientes.Where(x => x.IdCliente == idCliente)
+					.UpdateAsync(x => new TB_Cliente
+                    {
+                        Activo = false
+                    })) > 0;
+
+                resp.Success = res_update_cliente;
+                resp.Message = res_update_cliente == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        #endregion Cliente
+
+        #region Costo Indirecto Salarios
+
+        public async Task<List<TB_Cat_CostoIndirectoSalarios>> GetCostoIndirectoSalarios(bool? activo)
 		{
 			if (activo.HasValue)
 			{
