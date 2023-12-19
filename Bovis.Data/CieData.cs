@@ -527,7 +527,7 @@ namespace Bovis.Data
                         int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                         string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                         string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
-                        string proyectos = registro["proyectos"].ToString();
+                        string proyectos = registro["proyectos"].ToString().Trim();
                         decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
                         decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
                         decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
@@ -600,7 +600,7 @@ namespace Bovis.Data
                 int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                 string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                 string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
-                string proyectos = registro["proyectos"].ToString();
+                string proyectos = registro["proyectos"].ToString().Trim();
                 decimal? saldo_inicial = registro["saldo_inicial"] != null ? Convert.ToDecimal(registro["saldo_inicial"].ToString()) : null;
                 decimal? debe = registro["debe"] != null ? Convert.ToDecimal(registro["debe"].ToString()) : null;
                 decimal? haber = registro["haber"] != null ? Convert.ToDecimal(registro["haber"].ToString()) : null;
