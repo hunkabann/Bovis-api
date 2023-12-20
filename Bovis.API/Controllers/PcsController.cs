@@ -193,7 +193,7 @@ namespace Bovis.API.Controllers
         }
 
         [HttpDelete, Route("Empleados/{NumEmpleado}/Fase/{IdFase}")]
-        public async Task<IActionResult> DeleteEmpleado(int IdFase, int NumEmpleado)
+        public async Task<IActionResult> DeleteEmpleado(int IdFase, string NumEmpleado)
         {
             var query = await _pcsQueryService.DeleteEmpleado(IdFase, NumEmpleado);
             if (query.Message == string.Empty) return Ok(query);

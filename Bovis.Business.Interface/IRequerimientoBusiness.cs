@@ -13,12 +13,12 @@ namespace Bovis.Business.Interface
     {
         Task<List<TB_RequerimientoHabilidad>> GetHabilidades(int idRequerimiento);
         Task<List<TB_RequerimientoExperiencia>> GetExperiencias(int idRequerimiento);
-        Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto);
+        Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto);
         Task<Requerimiento_Detalle> GetRequerimiento(int idRequerimiento);
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         Task<(bool Success, string Message)> DeleteRequerimiento(int idRequerimiento);
         Task<List<Empleado_Detalle>> GetDirectoresEjecutivos();
-        Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo);
+        Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo);
     }
 }

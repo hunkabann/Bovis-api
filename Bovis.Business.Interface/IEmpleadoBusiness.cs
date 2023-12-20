@@ -13,7 +13,7 @@ namespace Bovis.Business.Interface
     {
         #region Empleados
         Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
-        Task<Empleado_Detalle> GetEmpleado(int idEmpleado);
+        Task<Empleado_Detalle> GetEmpleado(string idEmpleado);
         Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
         Task<List<Empleado_BasicData>> GetEmpleadoDetalle();
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
@@ -22,7 +22,7 @@ namespace Bovis.Business.Interface
         #endregion Empleados
 
         #region Proyectos
-        Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado);
+        Task<List<Proyecto_Detalle>> GetProyectos(string idEmpleado);
         #endregion Proyectos
 
         #region Ciudades

@@ -99,7 +99,7 @@ namespace Bovis.Business
             return resp;
         }
 
-        public Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado) => _pcsData.DeleteEmpleado(IdFase, NumEmpleado);
+        public Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado) => _pcsData.DeleteEmpleado(IdFase, NumEmpleado);
         #endregion Empleados
 
         #region Gastos / Ingresos

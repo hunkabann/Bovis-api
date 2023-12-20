@@ -67,7 +67,7 @@ namespace Bovis.Data
         #endregion Experiencias
 
         #region Registros
-        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
+        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto)
         {
             List<Requerimiento_Detalle> requerimientos = new List<Requerimiento_Detalle>();
             Requerimiento_Detalle requerimiento = new Requerimiento_Detalle();
@@ -88,17 +88,17 @@ namespace Bovis.Data
                                                     from jorItem in jorJoin.DefaultIfEmpty()
                                                     join emp1 in db.tB_Empleados on req.NumEmpleadoRrHh equals emp1.NumEmpleadoRrHh into emp1Join
                                                     from emp1Item in emp1Join.DefaultIfEmpty()
-                                                    join per1 in db.tB_Personas on emp1Item.NumEmpleadoRrHh equals per1.IdPersona into per1Join
+                                                    join per1 in db.tB_Personas on emp1Item.IdPersona equals per1.IdPersona into per1Join
                                                     from per1Item in per1Join.DefaultIfEmpty()
                                                     join emp2 in db.tB_Empleados on req.IdDirectorEjecutivo equals emp2.NumEmpleadoRrHh into emp2Join
                                                     from emp2Item in emp2Join.DefaultIfEmpty()
-                                                    join per2 in db.tB_Personas on emp2Item.NumEmpleadoRrHh equals per2.IdPersona into per2Join
+                                                    join per2 in db.tB_Personas on emp2Item.IdPersona equals per2.IdPersona into per2Join
                                                     from per2Item in per2Join.DefaultIfEmpty()
                                                     join proy in db.tB_Proyectos on req.IdProyecto equals proy.NumProyecto into proyJoin
                                                     from proyItem in proyJoin.DefaultIfEmpty()
                                                     join emp3 in db.tB_Empleados on req.IdJefeInmediato equals emp3.NumEmpleadoRrHh into emp3Join
                                                     from emp3Item in emp3Join.DefaultIfEmpty()
-                                                    join per3 in db.tB_Personas on emp3Item.NumEmpleadoRrHh equals per3.IdPersona into per3Join
+                                                    join per3 in db.tB_Personas on emp3Item.IdPersona equals per3.IdPersona into per3Join
                                                     from per3Item in per3Join.DefaultIfEmpty()
                                                     join contrato in db.tB_Cat_TipoContratos on req.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
                                                     from contratoItem in contratoJoin.DefaultIfEmpty()
@@ -107,7 +107,7 @@ namespace Bovis.Data
                                                     join ciudad in db.tB_Ciudads on req.IdCiudad equals ciudad.IdCiudad into ciudadJoin
                                                     from ciudadItem in ciudadJoin.DefaultIfEmpty()
                                                     where (Asignados == false ? req.NumEmpleadoRrHh == null : req.NumEmpleadoRrHh != null)
-                                                      && (idDirector == 0 || req.IdDirectorEjecutivo == idDirector)
+                                                      && (idDirector == "0" || req.IdDirectorEjecutivo == idDirector)
                                                       && (idProyecto == 0 || req.IdProyecto == idProyecto)
                                                       && (idPuesto == 0 || req.IdPuesto == idPuesto)
                                                       && req.Activo == true
@@ -227,17 +227,17 @@ namespace Bovis.Data
                                        from jorItem in jorJoin.DefaultIfEmpty()
                                        join emp1 in db.tB_Empleados on req.NumEmpleadoRrHh equals emp1.NumEmpleadoRrHh into emp1Join
                                        from emp1Item in emp1Join.DefaultIfEmpty()
-                                       join per1 in db.tB_Personas on emp1Item.NumEmpleadoRrHh equals per1.IdPersona into per1Join
+                                       join per1 in db.tB_Personas on emp1Item.IdPersona equals per1.IdPersona into per1Join
                                        from per1Item in per1Join.DefaultIfEmpty()
                                        join emp2 in db.tB_Empleados on req.IdDirectorEjecutivo equals emp2.NumEmpleadoRrHh into emp2Join
                                        from emp2Item in emp2Join.DefaultIfEmpty()
-                                       join per2 in db.tB_Personas on emp2Item.NumEmpleadoRrHh equals per2.IdPersona into per2Join
+                                       join per2 in db.tB_Personas on emp2Item.IdPersona equals per2.IdPersona into per2Join
                                        from per2Item in per2Join.DefaultIfEmpty()
                                        join proy in db.tB_Proyectos on req.IdProyecto equals proy.NumProyecto into proyJoin
                                        from proyItem in proyJoin.DefaultIfEmpty()
                                        join emp3 in db.tB_Empleados on req.IdJefeInmediato equals emp3.NumEmpleadoRrHh into emp3Join
                                        from emp3Item in emp3Join.DefaultIfEmpty()
-                                       join per3 in db.tB_Personas on emp3Item.NumEmpleadoRrHh equals per3.IdPersona into per3Join
+                                       join per3 in db.tB_Personas on emp3Item.IdPersona equals per3.IdPersona into per3Join
                                        from per3Item in per3Join.DefaultIfEmpty()
                                        join contrato in db.tB_Cat_TipoContratos on req.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
                                        from contratoItem in contratoJoin.DefaultIfEmpty()
@@ -313,9 +313,9 @@ namespace Bovis.Data
             decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
             decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
             decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
-            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            string? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? registro["idDirectorEjecutivo"].ToString() : null;
             int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
-            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            string? id_jefe_inmediato = registro["idJefeInmediato"] != null ? registro["idJefeInmediato"].ToString() : null;
             int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
             int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
             int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
@@ -403,9 +403,9 @@ namespace Bovis.Data
             decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
             decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
             decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
-            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            string? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? registro["idDirectorEjecutivo"].ToString() : null;
             int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
-            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            string? id_jefe_inmediato = registro["idJefeInmediato"] != null ? registro["idJefeInmediato"].ToString() : null;
             int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
             int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
             int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
@@ -627,7 +627,8 @@ namespace Bovis.Data
                               from deptoItem in deptoJoin.DefaultIfEmpty()
                               join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
                               from clasifItem in clasifJoin.DefaultIfEmpty()
-                              join jefe in db.tB_Personas on emp.IdJefeDirecto equals jefe.IdPersona into jefeJoin
+                              join emp1 in db.tB_Empleados on emp.IdJefeDirecto equals emp1.NumEmpleadoRrHh
+                              join jefe in db.tB_Personas on emp1.IdPersona equals jefe.IdPersona into jefeJoin
                               from jefeItem in jefeJoin.DefaultIfEmpty()
                               join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
                               from unidadItem in unidadJoin.DefaultIfEmpty()
@@ -723,7 +724,7 @@ namespace Bovis.Data
         #endregion Director Ejecutivo
 
         #region Proyectos
-        public async Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        public async Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo)
         {
             List<TB_Proyecto> list = null;
             using (var db = new ConnectionDB(dbConfig))

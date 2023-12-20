@@ -17,7 +17,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Nukid_unidad_negocio"), NotNull] public int IdUnidadNegocio { get; set; } = 0;
         [Column("Nukid_empresa"), NotNull] public int IdEmpresa { get; set; } = 0;
         [Column("Chtimesheet"), Nullable] public string? Timesheet { get; set; }
-        [Column("Nukid_empleado_jefe"), NotNull] public int IdEmpleadoJefe { get; set; } = 0;     
+        [Column("Nukid_empleado_jefe"), NotNull] public string IdEmpleadoJefe { get; set; } = string.Empty;     
         [Column("Dtfecha_ingreso"), NotNull] public DateTime FechaIngreso { get; set; }
         [Column("Nuantiguedad"), Nullable] public decimal? Antiguedad { get; set; } = 0M;
         [Column("Nuavg_descuento_empleado"), Nullable] public decimal? AvgDescuentoEmpleado { get; set; } = 0M;

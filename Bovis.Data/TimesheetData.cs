@@ -108,13 +108,13 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int? id_empleado = registro["empleado"]["code"] != null ? Convert.ToInt32(registro["empleado"]["code"].ToString()) : null;
+            string? id_empleado = registro["empleado"]["code"] != null ? registro["empleado"]["code"].ToString() : null;
             string? nombre_empleado = registro["empleado"]["name"] != null ? registro["empleado"]["name"].ToString() : null;
             string? fecha = registro["fecha"] != null ? registro["fecha"].ToString() : null;
             int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
             int? anio = registro["anio"] != null ? Convert.ToInt32(registro["anio"].ToString()) : null;
             bool? sabados = registro["sabados"] != null ? Convert.ToBoolean(registro["sabados"].ToString()) : null;
-            int? id_responsable = registro["id_responsable"] != null ? Convert.ToInt32(registro["id_responsable"].ToString()) : null;
+            string? id_responsable = registro["id_responsable"] != null ? registro["id_responsable"].ToString() : null;
             int? dias_trabajo = registro["dias"] != null ? Convert.ToInt32(registro["dias"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -246,7 +246,7 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
         {
             // Si idEmpleado == 0, no filtrar por empleado
             // Si idProyecto == 0, no filtrar por proyecto
@@ -288,7 +288,7 @@ namespace Bovis.Data
                                             from usrItem in usrJoin.DefaultIfEmpty()
                                             where ts.Activo == true
                                             && (is_admin == true || usrItem.NumEmpleadoRrHh == num_empleado_loged)
-                                            && (idEmpleado == 0 || ts.IdEmpleado == idEmpleado)
+                                            && (idEmpleado == "0" || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
@@ -468,13 +468,13 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_time_sheet = Convert.ToInt32(registro["id_time_sheet"].ToString());
-            int id_empleado = Convert.ToInt32(registro["empleado"]["code"].ToString());
+            string id_empleado = registro["empleado"]["code"].ToString();
             string nombre_empleado = registro["empleado"]["name"].ToString();
             string fecha = registro["fecha"].ToString();
             int mes = Convert.ToInt32(registro["mes"].ToString());
             int anio = Convert.ToInt32(registro["anio"].ToString());
             bool sabados = Convert.ToBoolean(registro["sabados"].ToString());
-            int id_responsable = Convert.ToInt32(registro["id_responsable"].ToString());
+            string id_responsable = registro["id_responsable"].ToString();
             int dias_trabajo = Convert.ToInt32(registro["dias"].ToString());
             int index = 0;
 
@@ -744,7 +744,7 @@ namespace Bovis.Data
             }
         }
 
-        public async Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(int IdEmpleado)
+        public async Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(string IdEmpleado)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -809,7 +809,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            string id_empleado = registro["id_empleado"].ToString();
             int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
@@ -837,7 +837,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_empleado = Convert.ToInt32(registro["id_empleado"].ToString());
+            string id_empleado = registro["id_empleado"].ToString();
             int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))

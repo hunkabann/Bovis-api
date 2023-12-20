@@ -29,7 +29,7 @@ namespace Bovis.Common.Model.NoTable
     {
         public int Id { get; set; }
         public int IdFase { set; get; }
-        public int NumempleadoRrHh { get; set; }
+        public string NumempleadoRrHh { get; set; }
         public string Empleado { get; set; }
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }

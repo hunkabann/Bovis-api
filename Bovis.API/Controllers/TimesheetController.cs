@@ -86,7 +86,7 @@ namespace Bovis.API.Controllers
         }
 
         [HttpGet, Route("TimeSheets/Filtro/{idEmpleado}/{idProyecto}/{idUnidadNegocio}/{idEmpresa}/{mes}")]
-        public async Task<IActionResult> GetTimeSheetsByFiltro(int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
+        public async Task<IActionResult> GetTimeSheetsByFiltro(string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
         {
             IHeaderDictionary headers = HttpContext.Request.Headers;
             string email = headers["email"];
@@ -151,7 +151,7 @@ namespace Bovis.API.Controllers
         }
 
         [HttpGet, Route("NotProyectosByEmpleado/{IdEmpleado}")]
-        public async Task<IActionResult> GetNotProyectosByEmpleado(int IdEmpleado)
+        public async Task<IActionResult> GetNotProyectosByEmpleado(string IdEmpleado)
         {
             var query = await _timesheetQueryService.GetNotProyectosByEmpleado(IdEmpleado);
             return Ok(query);

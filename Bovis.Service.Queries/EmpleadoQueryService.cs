@@ -42,7 +42,7 @@ namespace Bovis.Service.Queries
             return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 
-        public async Task<Response<Empleado_Detalle>> GetEmpleado(int idEmpleado)
+        public async Task<Response<Empleado_Detalle>> GetEmpleado(string idEmpleado)
         {
             var response = await _empleadoBusiness.GetEmpleado(idEmpleado);
             return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
@@ -80,7 +80,7 @@ namespace Bovis.Service.Queries
         #endregion Empleados
 
         #region Proyectos
-        public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(int idEmpleado)
+        public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(string idEmpleado)
         {
             var response = await _empleadoBusiness.GetProyectos(idEmpleado);
             return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };

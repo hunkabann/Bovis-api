@@ -25,7 +25,7 @@ namespace Bovis.Common.Model.NoTable
         public int IdEmpresa { get; set; }
         public string Empresa { get; set; }
         public string? Timesheet {  get; set; }
-        public int IdEmpleadoJefe {  get; set; }
+        public string IdEmpleadoJefe {  get; set; }
         public string NombreJefe {  get; set; }
         public DateTime FechaIngreso { get; set; }
         public decimal? Antiguedad {  get; set; }
