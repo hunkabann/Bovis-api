@@ -32,3 +32,21 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\refint\Bovis.Data.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\ref\Bovis.Data.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Data.Interface.deps.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Data.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Data.Interface.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Common.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Common.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\bin\Release\net6.0\Bovis.Common.Model.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.csproj.AssemblyReference.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.GeneratedMSBuildEditorConfig.editorconfig
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.AssemblyInfoInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.AssemblyInfo.cs
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.csproj.CoreCompileInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.sourcelink.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.csproj.CopyComplete
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\refint\Bovis.Data.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\Bovis.Data.Interface.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Data.Interface\obj\Release\net6.0\ref\Bovis.Data.Interface.dll

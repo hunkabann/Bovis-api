@@ -20,3 +20,15 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Commo
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.deps.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.GeneratedMSBuildEditorConfig.editorconfig
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfoInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfo.cs
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.csproj.CoreCompileInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.sourcelink.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll

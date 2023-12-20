@@ -13,7 +13,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class Empleado_Detalle
     {
-        public int? nunum_empleado_rr_hh { get; set; }
+        public string? nunum_empleado_rr_hh { get; set; }
         public int? nukidpersona { get; set; }
         public string? nombre_persona { get; set; }
         public DateTime dtfecha_nacimiento { get; set; }
@@ -55,7 +55,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chdepartamento { get; set; }
         public int? nukidclasificacion { get; set; }
         public string? chclasificacion { get; set; }
-        public int? nukidjefe_directo { get; set; }
+        public string? nukidjefe_directo { get; set; }
         public string? chjefe_directo { get; set; }
         public int? nukidunidad_negocio { get; set; }
         public string? chunidad_negocio { get; set; }
@@ -107,13 +107,13 @@ namespace Bovis.Common.Model.NoTable
 
     public class Empleado_Responsable
     {
-        public int? nunum_empleado_rr_hh { get; set; }
+        public string? nunum_empleado_rr_hh { get; set; }
         public string? nombre_persona { get; set; }
     }
 
     public class Empleado_BasicData
     {
-        public int? nukid_empleado { get; set; }
+        public string? nukid_empleado { get; set; }
         public string? chnombre { get; set; }
         public string? chap_paterno { get; set; }
         public string? chap_materno { get; set; }
@@ -123,7 +123,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class Experiencia_Detalle
     {
-        public int? IdEmpleado { get; set; }
+        public string? IdEmpleado { get; set; }
         public int? IdExperiencia { get; set; }
         public string? Experiencia { get;set; }
         public bool? Activo { get; set; }
@@ -131,7 +131,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class Habilidad_Detalle
     {
-        public int? IdEmpleado { get; set; }
+        public string? IdEmpleado { get; set; }
         public int? IdHabilidad { get; set; }
         public string? Habilidad { get; set; }
         public bool? Activo { get; set; }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bovis.Service.EventHandlers")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1ab8caf4a4a318bcaea1bfb99f313c815917073")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bovis.Service.EventHandlers")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bovis.Service.EventHandlers")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

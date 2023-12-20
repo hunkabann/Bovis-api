@@ -94,3 +94,29 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Busin
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\obj\Debug\net6.0\refint\Bovis.Business.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business\obj\Debug\net6.0\ref\Bovis.Business.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.deps.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Data.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Business.Interface.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Data.Interface.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\bin\Debug\net6.0\Bovis.Common.Model.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.csproj.AssemblyReference.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.GeneratedMSBuildEditorConfig.editorconfig
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.AssemblyInfoInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.AssemblyInfo.cs
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.csproj.CoreCompileInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.sourcelink.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.csproj.CopyComplete
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\refint\Bovis.Business.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\Bovis.Business.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Business\obj\Debug\net6.0\ref\Bovis.Business.dll

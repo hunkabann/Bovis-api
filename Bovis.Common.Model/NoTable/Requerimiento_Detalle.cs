@@ -24,13 +24,13 @@ namespace Bovis.Common.Model.NoTable
         public decimal? nusueldo_min { get; set; }
         public decimal? nusueldo_max { get; set; }
         public decimal? nusueldo_real { get; set; }
-        public int? nunumempleado_rr_hh { get; set; }
+        public string? nunumempleado_rr_hh { get; set; }
         public string? chempleado_rr_hh { get; set; }
-        public int? nukiddirector_ejecutivo { get; set; }
+        public string? nukiddirector_ejecutivo { get; set; }
         public string? chdirector_ejecutivo { get; set; }
         public int? nukidproyecto { get; set; }
         public string? chproyecto { get; set; }
-        public int? nukidjefe_inmediato { get; set; }
+        public string? nukidjefe_inmediato { get; set; }
         public string? chjefe_inmediato { get; set; }
         public int? nukidtipo_contrato { get; set; }
         public string? chtipo_contrato { get; set; }

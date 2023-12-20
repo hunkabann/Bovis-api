@@ -46,3 +46,16 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Commo
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.deps.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.AssemblyReference.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.GeneratedMSBuildEditorConfig.editorconfig
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfoInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfo.cs
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.CoreCompileInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.sourcelink.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll

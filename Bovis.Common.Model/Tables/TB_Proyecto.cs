@@ -14,13 +14,13 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidestatus"), Nullable] public int? IdEstatus { get; set; }
 		[Column("Nukidsector"), Nullable] public int? IdSector { get; set; }
 		[Column("nukidtipo_proyecto"), Nullable] public int? IdTipoProyecto { get; set; }
-		[Column("nukidresponsable_preconstruccion"), Nullable] public int? IdResponsablePreconstruccion { get; set; }
-		[Column("nukidresponsable_construccion"), Nullable] public int? IdResponsableConstruccion { get; set; }
-		[Column("nukidresponsable_ehs"), Nullable] public int? IdResponsableEhs { get; set; }
-		[Column("nukidresponsable_supervisor"), Nullable] public int? IdResponsableSupervisor { get; set; }
+		[Column("nukidresponsable_preconstruccion"), Nullable] public string? IdResponsablePreconstruccion { get; set; }
+		[Column("nukidresponsable_construccion"), Nullable] public string? IdResponsableConstruccion { get; set; }
+		[Column("nukidresponsable_ehs"), Nullable] public string? IdResponsableEhs { get; set; }
+		[Column("nukidresponsable_supervisor"), Nullable] public string? IdResponsableSupervisor { get; set; }
 		[Column("Nukidcliente"), Nullable] public int? IdCliente { get; set; }
 		[Column("Nukidempresa"), Nullable] public int? IdEmpresa { get; set; }
-		[Column("nukiddirector_ejecutivo"), Nullable] public int? IdDirectorEjecutivo { get; set; }
+		[Column("nukiddirector_ejecutivo"), Nullable] public string? IdDirectorEjecutivo { get; set; }
 		[Column("nucosto_promedio_m2"), Nullable] public decimal? CostoPromedioM2 { get; set; }
 		[Column("dtfecha_ini"), Nullable] public DateTime FechaIni { get; set; }
 		[Column("dtfecha_fin"), Nullable] public DateTime? FechaFin { get; set; }

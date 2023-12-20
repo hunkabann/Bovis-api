@@ -66,7 +66,8 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            // string num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());
+            string num_empleado = (string)registro["num_empleado"];
 
             using (var db = new ConnectionDB(dbConfig))
             {

@@ -105,7 +105,7 @@ namespace Bovis.Data
             string nombre = registro["nombre"].ToString();
             string? descripcion = registro["descripcion"] != null ? registro["descripcion"].ToString() : null;
             string custom_query = registro["query"].ToString();
-            int id_empleado_crea = Convert.ToInt32(registro["id_empleado_crea"].ToString());
+            int id_empleado_crea = Convert.ToInt32(registro["id_empleado_crea"].ToString);
 
             if (!custom_query.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
             {
@@ -175,6 +175,7 @@ namespace Bovis.Data
             string? descripcion = registro["descripcion"] != null ? registro["descripcion"].ToString() : null;
             string custom_query = registro["query"].ToString();
             int? id_empleado_actualiza = registro["id_empleado_actualiza"] != null ? Convert.ToInt32(registro["id_empleado_actualiza"].ToString()) : null;
+            //string? id_empleado_actualiza = registro["id_empleado_actualiza"] != null ? (string)(registro["id_empleado_actualiza"]) : null;
 
             if (!custom_query.TrimStart().StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
             {

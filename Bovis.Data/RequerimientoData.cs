@@ -67,7 +67,7 @@ namespace Bovis.Data
         #endregion Experiencias
 
         #region Registros
-        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
+        public async Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto)
         {
             List<Requerimiento_Detalle> requerimientos = new List<Requerimiento_Detalle>();
             Requerimiento_Detalle requerimiento = new Requerimiento_Detalle();
@@ -107,7 +107,7 @@ namespace Bovis.Data
                                                     join ciudad in db.tB_Ciudads on req.IdCiudad equals ciudad.IdCiudad into ciudadJoin
                                                     from ciudadItem in ciudadJoin.DefaultIfEmpty()
                                                     where (Asignados == false ? req.NumEmpleadoRrHh == null : req.NumEmpleadoRrHh != null)
-                                                      && (idDirector == 0 || req.IdDirectorEjecutivo == idDirector)
+                                                      && (idDirector == "0" || req.IdDirectorEjecutivo == idDirector)
                                                       && (idProyecto == 0 || req.IdProyecto == idProyecto)
                                                       && (idPuesto == 0 || req.IdPuesto == idPuesto)
                                                       && req.Activo == true
@@ -313,9 +313,11 @@ namespace Bovis.Data
             decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
             decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
             decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
-            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            //int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            string? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? (string)(registro["idDirectorEjecutivo"]) : null;
             int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
-            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            //int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            string? id_jefe_inmediato = registro["idJefeInmediato"] != null ? (string)(registro["idJefeInmediato"]) : null;
             int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
             int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
             int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
@@ -403,9 +405,11 @@ namespace Bovis.Data
             decimal? sueldo_min = registro["sueldoMin"] != null ? Convert.ToDecimal(registro["sueldoMin"].ToString()) : null;
             decimal? sueldo_max = registro["sueldoMax"] != null ? Convert.ToDecimal(registro["sueldoMax"].ToString()) : null;
             decimal? sueldo_real = registro["sueldoReal"] != null ? Convert.ToDecimal(registro["sueldoReal"].ToString()) : null;
-            int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            //int? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? Convert.ToInt32(registro["idDirectorEjecutivo"].ToString()) : null;
+            string? id_director_ejecutivo = registro["idDirectorEjecutivo"] != null ? (string)(registro["idDirectorEjecutivo"]) : null;
             int? id_proyecto = registro["idProyecto"] != null ? Convert.ToInt32(registro["idProyecto"].ToString()) : null;
-            int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            //int? id_jefe_inmediato = registro["idJefeInmediato"] != null ? Convert.ToInt32(registro["idJefeInmediato"].ToString()) : null;
+            string? id_jefe_inmediato = registro["idJefeInmediato"] != null ? (string)(registro["idJefeInmediato"]) : null;
             int? id_tipo_contrato = registro["idTipoContrato"] != null ? Convert.ToInt32(registro["idTipoContrato"].ToString()) : null;
             int? id_estado = registro["idEstado"] != null ? Convert.ToInt32(registro["idEstado"].ToString()) : null;
             int? id_ciudad = registro["idCiudad"] != null ? Convert.ToInt32(registro["idCiudad"].ToString()) : null;
@@ -723,7 +727,7 @@ namespace Bovis.Data
         #endregion Director Ejecutivo
 
         #region Proyectos
-        public async Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        public async Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo)
         {
             List<TB_Proyecto> list = null;
             using (var db = new ConnectionDB(dbConfig))
@@ -735,6 +739,16 @@ namespace Bovis.Data
             }
 
             return list;
+        }
+
+        public Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
+        {
+            throw new NotImplementedException();
         }
         #endregion Proyectos
     }

@@ -74,3 +74,23 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Servi
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\refint\Bovis.Service.Queries.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\ref\Bovis.Service.Queries.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Service.Queries.Interface.deps.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Service.Queries.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Common.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Common.Model.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Common.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\bin\Debug\net6.0\Bovis.Common.Model.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.csproj.AssemblyReference.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.GeneratedMSBuildEditorConfig.editorconfig
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.AssemblyInfoInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.AssemblyInfo.cs
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.csproj.CoreCompileInputs.cache
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.sourcelink.json
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.csproj.CopyComplete
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\refint\Bovis.Service.Queries.Interface.dll
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
+E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\ref\Bovis.Service.Queries.Interface.dll
