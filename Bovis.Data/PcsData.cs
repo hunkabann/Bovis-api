@@ -732,6 +732,7 @@ namespace Bovis.Data
                                         && rel2.Tipo == Tipo
                                         select new Rubro_Detalle
                                         {
+                                            Id = rubro.Id,
                                             IdRubro = rubro.IdRubro,
                                             Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
                                             Unidad = rubro.Unidad,
@@ -746,7 +747,7 @@ namespace Bovis.Data
                     foreach (var rubro in rubros)
                     {
                         var fechas = await (from valor in db.tB_RubroValors
-                                            join rub in db.tB_Rubros on valor.IdRubro equals rubro.IdRubro
+                                            join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                             join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                             join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                             where rub.NumProyecto == IdProyecto

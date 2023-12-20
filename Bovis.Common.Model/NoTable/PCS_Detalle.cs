@@ -70,6 +70,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class Rubro_Detalle
     {
+        public int Id { get; set; }
         public int IdRubro { get; set; }
         public string Rubro { get; set; }
         public string? Unidad { get; set; }
