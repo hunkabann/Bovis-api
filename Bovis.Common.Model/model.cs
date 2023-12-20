@@ -35,6 +35,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cat_Prestacion> tB_Cat_Prestacions { get { return this.GetTable<TB_Cat_Prestacion>(); } }
         public ITable<TB_Cat_Profesion> tB_Cat_Profesiones { get { return this.GetTable<TB_Cat_Profesion>(); } }
         public ITable<TB_Cat_Puesto> tB_Cat_Puestos { get { return this.GetTable<TB_Cat_Puesto>(); } }
+        public ITable<TB_Cat_Rubro> tB_CatRubros { get { return this.GetTable<TB_Cat_Rubro>(); } }
 		public ITable<TB_Cat_RubroIngresoReembolsable> tB_Cat_RubroIngresoReembolsables { get { return this.GetTable<TB_Cat_RubroIngresoReembolsable>(); } }
 		public ITable<TB_Cat_Sector> tB_Cat_Sectors { get { return this.GetTable<TB_Cat_Sector>(); } }
         public ITable<TB_Cat_Sexo> tB_Cat_Sexos { get { return this.GetTable<TB_Cat_Sexo>(); } }
@@ -98,6 +99,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_EmpresaCuenta> tB_EmpresaCuentas { get { return this.GetTable<TB_EmpresaCuenta>(); } }
 		public ITable<TB_Estado> tB_Estados { get { return this.GetTable<TB_Estado>(); } }
 		public ITable<TB_EstimadoConstruccion> tB_EstimadoConstruccions { get { return this.GetTable<TB_EstimadoConstruccion>(); } }
+		public ITable<TB_GastoIngresoSeccion> tB_GastoIngresoSeccions { get { return this.GetTable<TB_GastoIngresoSeccion>(); } }
 		public ITable<TB_HistEmpleadoPuesto> tB_Hist_EmpleadoPuestos { get { return this.GetTable<TB_HistEmpleadoPuesto>(); } }
 		public ITable<TB_Modulo> tB_Modulos { get { return this.GetTable<TB_Modulo>(); } }
 		public ITable<TB_Operacion> tB_Operacions { get { return this.GetTable<TB_Operacion>(); } }
@@ -128,6 +130,8 @@ namespace Bovis.Common.Model
 		public ITable<TB_Requerimiento> tB_Requerimientos { get { return this.GetTable<TB_Requerimiento>(); } }
         public ITable<TB_RequerimientoExperiencia> tB_Requerimiento_Experiencias { get { return this.GetTable<TB_RequerimientoExperiencia>(); } }
         public ITable<TB_RequerimientoHabilidad> tB_Requerimiento_Habilidades { get { return this.GetTable<TB_RequerimientoHabilidad>(); } }
+        public ITable<TB_Rubro> tB_Rubros { get { return this.GetTable<TB_Rubro>(); } }
+        public ITable<TB_RubroValor> tB_RubroValors { get { return this.GetTable<TB_RubroValor>(); } }
         public ITable<TB_Timesheet> tB_Timesheets { get { return this.GetTable<TB_Timesheet>(); } }
         public ITable<TB_Timesheet_Otro> tB_Timesheet_Otros { get { return this.GetTable<TB_Timesheet_Otro>(); } }
         public ITable<TB_Timesheet_Proyecto> tB_Timesheet_Proyectos { get { return this.GetTable<TB_Timesheet_Proyecto>(); } }

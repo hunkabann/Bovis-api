@@ -28,30 +28,34 @@ namespace Bovis.Service.Queries
         }
         #endregion base
 
-        public async Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico)
-        {
-            var response = await _pcsBusiness.GetProyectos(OrdenAlfabetico);
-            return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
-        }
 
-        public async Task<Response<Proyecto>> GetProyecto(int numProyecto)
-        {
-            var response = await _pcsBusiness.GetProyecto(numProyecto);
-            return new Response<Proyecto> { Data = _map.Map<Proyecto>(response), Success = true };
-        }        
-
+        #region Clientes
         public async Task<Response<List<InfoCliente>>> GetClientes()
         {
             var response = await _pcsBusiness.GetClientes();
             return new Response<List<InfoCliente>> { Data = _map.Map<List<InfoCliente>>(response), Success = true };
         }
+        #endregion Clientes
+
+        #region Empresas
         public async Task<Response<List<InfoEmpresa>>> GetEmpresas()
         {
             var response = await _pcsBusiness.GetEmpresas();
             return new Response<List<InfoEmpresa>> { Data = _map.Map<List<InfoEmpresa>>(response), Success = true };
         }
+        #endregion Empresas
 
         #region Proyectos
+        public async Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico)
+        {
+            var response = await _pcsBusiness.GetProyectos(OrdenAlfabetico);
+            return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
+        }
+        public async Task<Response<Proyecto>> GetProyecto(int numProyecto)
+        {
+            var response = await _pcsBusiness.GetProyecto(numProyecto);
+            return new Response<Proyecto> { Data = _map.Map<Proyecto>(response), Success = true };
+        }
         public async Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro)
         {
             var response = await _pcsBusiness.AddProyecto(registro);
@@ -124,6 +128,19 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        public async Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo)
+        {
+            var response = await _pcsBusiness.GetGastosIngresos(IdProyecto, Tipo);
+            return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<(bool Success, string Message)>> UpdateGastosIngresos(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateGastosIngresos(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+        #endregion Gastos / Ingresos
     }
 }
 

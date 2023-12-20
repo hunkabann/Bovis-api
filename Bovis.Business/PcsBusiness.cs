@@ -24,13 +24,20 @@ namespace Bovis.Business
         }
         #endregion base
 
-        public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
-        public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
-        public Task<List<TB_Empresa>> GetEmpresas() => _pcsData.GetEmpresas();
-        public Task<List<TB_Cliente>> GetClientes() => _pcsData.GetClientes();
 
+        #region Clientes
+        public Task<List<TB_Empresa>> GetEmpresas() => _pcsData.GetEmpresas();
+        #endregion Clientes
+
+        #region Empresas
+        public Task<List<TB_Cliente>> GetClientes() => _pcsData.GetClientes();
+        #endregion Empresas
 
         #region Proyectos
+        public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
+
+        public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
+
         public Task<(bool Success, string Message)> AddProyecto(JsonObject registro) => _pcsData.AddProyecto(registro);
 
         public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);
@@ -94,5 +101,21 @@ namespace Bovis.Business
 
         public Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado) => _pcsData.DeleteEmpleado(IdFase, NumEmpleado);
         #endregion Empleados
+
+        #region Gastos / Ingresos
+        public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresos(IdProyecto, Tipo);
+        public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateGastosIngresos((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+        #endregion Gastos / Ingresos
     }
 }

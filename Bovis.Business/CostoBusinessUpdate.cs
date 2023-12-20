@@ -27,7 +27,7 @@ namespace Bovis.Business
              
 
             #region Antiguedad
-            if (!destination.FechaIngreso.HasValue)
+            if (destination.FechaIngreso == null)
             {
                 destination.FechaIngreso = DateTime.Now; 
             }
@@ -74,22 +74,22 @@ namespace Bovis.Business
             {
                 if (Math.Round(destination.Antiguedad ?? 0.0M) > 4.15M)
                 {
-                    destination.PvDiasVacasAnuales = 14;
+                    destination.PvDiasVacasAnuales = 20;
                 }
                 else if (Math.Round(destination.Antiguedad ?? 0.0M) == 4.0M)
                 {
-                    destination.PvDiasVacasAnuales = 12;
+                    destination.PvDiasVacasAnuales = 18;
                 }
                 else if (Math.Round(destination.Antiguedad ?? 0.0M) == 3.0M)
                 {
-                    destination.PvDiasVacasAnuales = 10;
+                    destination.PvDiasVacasAnuales = 16;
                 }
                 else if (Math.Round(destination.Antiguedad ?? 0.0M) == 2.0M)
                 {
-                    destination.PvDiasVacasAnuales = 8;
+                    destination.PvDiasVacasAnuales = 14;
                 }
                 else
-                    destination.PvDiasVacasAnuales = 6;
+                    destination.PvDiasVacasAnuales = 12;
             }
 
             if (destination.SueldoBruto > 0)
