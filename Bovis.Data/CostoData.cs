@@ -44,6 +44,7 @@ namespace Bovis.Data
             if (!registro_anterior.Success) // Puede llevarse a cabo la inserción de un nuevo registro.
             {
 
+                // Se calcula el valor del ISTP.
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
