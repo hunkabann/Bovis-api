@@ -51,7 +51,7 @@ namespace Bovis.Service.Queries
         #endregion Experiencias
 
         #region Registros
-        public async Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
+        public async Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto)
         {
             var response = await _requerimientoBussines.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
             return new Response<List<Requerimiento_Detalle>> { Data = _map.Map<List<Requerimiento_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
@@ -89,7 +89,7 @@ namespace Bovis.Service.Queries
         #endregion Director Ejecutivo
 
         #region Proyectos
-        public async Task<Response<List<TB_Proyecto>>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+        public async Task<Response<List<TB_Proyecto>>> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo)
         {
             var response = await _requerimientoBussines.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
             return new Response<List<TB_Proyecto>> { Data = _map.Map<List<TB_Proyecto>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };

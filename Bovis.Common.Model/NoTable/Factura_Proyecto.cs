@@ -135,6 +135,7 @@ namespace Bovis.Common.Model.NoTable
         public short NC_Anio { set; get; }
         public decimal? NC_TipoCambio { set; get; }
         public DateTime? NC_FechaNotaCredito { set; get; }
+        public string? Cliente { set; get; }
     }
 
     public class CobranzaDetalle
@@ -147,6 +148,9 @@ namespace Bovis.Common.Model.NoTable
         public decimal? C_IvaP { set; get; }
         public decimal? C_TipoCambioP { set; get; }
         public DateTime? C_FechaPago { set; get; }
+        public string? CRP { set; get; }
+        public decimal? Base { set; get; }
+        public string? Cliente { set; get; }
     }
 
 }

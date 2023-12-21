@@ -12,7 +12,7 @@ namespace Bovis.Data.Interface
 
         #region Cuenta Data
         Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas);
-        Task<(bool Success, string Message)> AddCuentas(JsonObject registros);
+        Task<List<CtaContableRespuesta_Detalle>> AddCuentas(JsonObject registros);
         #endregion Cuenta Data
 
         #region Proyecto

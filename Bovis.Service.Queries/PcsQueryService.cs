@@ -122,7 +122,7 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.UpdateEmpleado(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdFase, int NumEmpleado)
+        public async Task<Response<(bool Success, string Message)>> DeleteEmpleado(int IdFase, string NumEmpleado)
         {
             var response = await _pcsBusiness.DeleteEmpleado(IdFase, NumEmpleado);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };

@@ -4,6 +4,7 @@
     {
         public string FechaPago { get; set; }
         public string? TipoCambioP { get; set; }
+        public CfdiTrasladoP? TrasladoP { get; set; }
         public List<CfdiPagoDocto> DoctosRelacionados { get; set; }
     }
 
@@ -17,5 +18,11 @@
         public string? ImporteSaldoAnt { get; set; }
         public string? ImporteSaldoInsoluto { get; set; }        
         public string? ImporteDR { get; set; }
+    }
+
+    public class CfdiTrasladoP
+    {
+        public string? BaseP { get; set; }
+
     }
 }

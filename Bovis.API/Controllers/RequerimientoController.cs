@@ -49,7 +49,7 @@ public class RequerimientoController : ControllerBase
 
     #region Registros
     [HttpGet, Route("Requerimientos/{Asignados?}/{idDirector?}/{idProyecto?}/{idPuesto?}")]
-    public async Task<IActionResult> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto)
+    public async Task<IActionResult> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto)
     {
         var query = await _requerimientoQueryService.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
         return Ok(query);
@@ -109,7 +109,7 @@ public class RequerimientoController : ControllerBase
 
     #region Proyectos
     [HttpGet, Route("Proyectos/DirectorEjecutivo/{IdDirectorEjecutivo}")]
-    public async Task<IActionResult> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo)
+    public async Task<IActionResult> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo)
     {
         var query = await _requerimientoQueryService.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
         return Ok(query);

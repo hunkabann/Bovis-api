@@ -10,9 +10,9 @@ namespace Bovis.Common.Model.Tables
         [Column("Chdescripcion"), Nullable] public string? Descripcion { get; set; }
         [Column("Chquery"), NotNull] public string Query { get; set; }
         [Column("Dtfecha_creacion"), NotNull] public DateTime FechaCreacion { get; set; }
-        [Column("Nukid_empleado_crea"), NotNull] public int IdEmpleadoCrea { get; set; }
+        [Column("Nukid_empleado_crea"), NotNull] public string IdEmpleadoCrea { get; set; }
         [Column("Dtfecha_actualizacion"), Nullable] public DateTime? FechaActualizacion { get; set; }
-        [Column("Nukid_empleado_actualiza"), Nullable] public int? IdEmpleadoActualiza { get; set; }
+        [Column("Nukid_empleado_actualiza"), Nullable] public string? IdEmpleadoActualiza { get; set; }
         [Column("Boactivo"), NotNull] public bool Activo { get; set; }
     }
 }

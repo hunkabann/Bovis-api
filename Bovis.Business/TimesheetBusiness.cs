@@ -53,7 +53,7 @@ namespace Bovis.Business
 
         public Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
-        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email, int idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes) => _timesheetData.GetTimeSheetsByFiltro(email, idEmpleado, idProyecto, idUnidadNegocio, idEmpresa, mes);
+        public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes) => _timesheetData.GetTimeSheetsByFiltro(email, idEmpleado, idProyecto, idUnidadNegocio, idEmpresa, mes);
 
         public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio) => _timesheetData.GetTimeSheetsByFecha(mes, anio);
 
@@ -76,7 +76,7 @@ namespace Bovis.Business
 
         public Task<List<Empleado_Detalle>> GetEmpleadosByResponsable(string EmailResponsable) => _timesheetData.GetEmpleadosByResponsable(EmailResponsable);
         public Task<List<TB_Proyecto>> GetProyectosByResponsable(string EmailResponsable) => _timesheetData.GetProyectosByResponsable(EmailResponsable);
-        public Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(int IdEmpleado) => _timesheetData.GetNotProyectosByEmpleado(IdEmpleado);
+        public Task<List<TB_Proyecto>> GetNotProyectosByEmpleado(string IdEmpleado) => _timesheetData.GetNotProyectosByEmpleado(IdEmpleado);
         public async Task<(bool Success, string Message)> AddProyectoEmpleado(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

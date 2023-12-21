@@ -31,14 +31,7 @@ namespace Bovis.Business
 
         #region Cuenta Data
         public Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas) => _cieData.GetCuentaData(cuentas);
-        public async Task<(bool Success, string Message)> AddCuentas(JsonObject registros)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _cieData.AddCuentas(registros);
-            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudieron agregar los registros Cie a la base de datos"; return resp; }
-            else resp = respData;
-            return resp;
-        }
+        public Task<List<CtaContableRespuesta_Detalle>> AddCuentas(JsonObject registros) => _cieData.AddCuentas(registros);
         #endregion Cuenta Data
 
         #region Proyecto

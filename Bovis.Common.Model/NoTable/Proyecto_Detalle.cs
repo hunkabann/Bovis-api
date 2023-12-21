@@ -44,24 +44,24 @@ namespace Bovis.Common.Model.NoTable
         public string? chsector { get; set; }
         public int? nukidtipo_proyecto { get; set; }
         public string? chtipo_proyecto { get; set; }
-        public int? nukidresponsable_preconstruccion { get; set; }
+        public string? nukidresponsable_preconstruccion { get; set; }
         public string? chresponsable_preconstruccion { get; set; }
-        public int? nukidresponsable_construccion { get; set; }
+        public string? nukidresponsable_construccion { get; set; }
         public string? chresponsable_construccion { get; set; }
-        public int? nukidresponsable_ehs { get; set; }
+        public string? nukidresponsable_ehs { get; set; }
         public string? chresponsable_ehs { get; set; }
-        public int? nukidresponsable_supervisor { get; set; }
+        public string? nukidresponsable_supervisor { get; set; }
         public string? chresponsable_supervisor { get;set; }
         public int? nukidcliente { get; set; }
         public string? chcliente { get; set; }
         public int? nukidempresa { get; set; }
         public string? chempresa { get; set; }
-        public int? nukiddirector_ejecutivo { get; set; }
+        public string? nukiddirector_ejecutivo { get; set; }
         public string? chdirector_ejecutivo { get; set; }
         public decimal? nucosto_promedio_m2 { get; set; }
         public DateTime? dtfecha_ini { get; set; }
         public DateTime? dtfecha_fin { get; set; }
-        public int? nunum_empleado_rr_hh { get; set; }
+        public string? nunum_empleado_rr_hh { get; set; }
         public string? empleado { get; set; }
         public decimal? nuporcantaje_participacion { get; set; }
         public string? chalias_puesto { get; set; }

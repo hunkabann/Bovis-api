@@ -91,4 +91,22 @@ namespace Bovis.Common.Model.NoTable
         public string? Responsable { get; set; }
         public string? TipoProyecto { get; set; }
     }
+
+    public class CtaContableRespuesta_Detalle
+    {
+        public string? CtaContable { get; set; }
+        public string? NombreCtaContable { get; set; }
+        public string? Concepto { get; set; }
+        public string? TipoCtaContableMayor { get; set; }
+        public string? TipoCtaContablePrimerNivel { get; set; }
+        public string? TipoCtaContableSegundoNivel { get; set; }
+        public int? IdTipoCuenta { get; set; }
+        public string? TipoCuenta { get; set; }
+        public int? IdTipoResultado { get; set; }
+        public string? TipoResultado { get; set; }
+        public int? IdPcs { get; set; }
+        public string? Pcs { get; set; }
+        public int? IdPcs2 { get; set; }
+        public string? Pcs2 { get; set; }
+    }
 }

@@ -7,7 +7,7 @@ namespace Bovis.Common.Model.Tables
     {
         [Column("Nukid"), NotNull, PrimaryKey, Identity] public int Id { get; set; }
         [Column("Nukidfase"), NotNull] public int IdFase { get; set; }
-        [Column("Nunum_empleado_rr_hh"), NotNull] public int NumEmpleado { get; set; }
+        [Column("Nunum_empleado_rr_hh"), NotNull] public string NumEmpleado { get; set; }
         [Column("Numes"), NotNull] public int Mes { get; set; }
         [Column("Nuanio"), NotNull] public int Anio { get; set; }
         [Column("Nuporcentaje"), NotNull] public int Porcentaje { get; set; }
