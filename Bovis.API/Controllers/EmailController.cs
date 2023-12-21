@@ -67,12 +67,13 @@ namespace Bovis.API.Controllers
                 string password = configuration["EmailSettings:password"];
                 bool enableSSL = Convert.ToBoolean(configuration["EmailSettings:enableSSL"]);
                 string senderEmailAddress = configuration["EmailSettings:senderEmailAddress"];
-
+                string senderName = configuration["EmailSettings:senderName"];
 
                 SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort)
                 {
                     EnableSsl = true
                 };
+                smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new NetworkCredential(username, password);
                 smtpClient.EnableSsl = enableSSL;
                 smtpClient.Timeout = 5000;
@@ -85,7 +86,7 @@ namespace Bovis.API.Controllers
                 mailMessage.SubjectEncoding = Encoding.UTF8;
                 mailMessage.Subject = subject;
                 mailMessage.Body = body;
-                mailMessage.From = new MailAddress(senderEmailAddress);
+                mailMessage.From = new MailAddress(senderEmailAddress, senderName);
 
                 foreach (string emailTo in emailsTo)
                 {

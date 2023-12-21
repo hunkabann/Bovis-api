@@ -225,7 +225,8 @@ namespace Bovis.Data
                                  from deptoItem in deptoJoin.DefaultIfEmpty()
                                  join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
                                  from clasifItem in clasifJoin.DefaultIfEmpty()
-                                 join jefe in db.tB_Personas on emp.IdJefeDirecto equals jefe.IdPersona into jefeJoin
+                                 join emp1 in db.tB_Empleados on emp.IdJefeDirecto equals emp1.NumEmpleadoRrHh
+                                 join jefe in db.tB_Personas on emp1.IdPersona equals jefe.IdPersona into jefeJoin
                                  from jefeItem in jefeJoin.DefaultIfEmpty()
                                  join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
                                  from unidadItem in unidadJoin.DefaultIfEmpty()
@@ -432,8 +433,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            // int num_empleado_rr_hh = Convert.ToInt32(registro["num_empleado_rr_hh"].ToString());
-            string num_empleado_rr_hh = (string)registro["num_empleado"];
+            string num_empleado_rr_hh = registro["num_empleado_rr_hh"].ToString();
             int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
             int id_tipo_empleado = Convert.ToInt32(registro["id_tipo_empleado"].ToString());
             int id_categoria = Convert.ToInt32(registro["id_categoria"].ToString());
@@ -454,11 +454,10 @@ namespace Bovis.Data
             int? id_jornada = registro["id_jornada"] != null ? Convert.ToInt32(registro["id_jornada"].ToString()) : null;
             int? id_departamento = registro["id_departamento"] != null ? Convert.ToInt32(registro["id_departamento"].ToString()) : null;
             int? id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : null;
-            //int? id_jefe_directo = registro["id_jefe_directo"] != null ? Convert.ToInt32(registro["id_jefe_directo"].ToString()) : null;
-            string? id_jefe_directo = (string)registro["id_jefe_directo"] != null ? registro["id_jefe_directo"].ToString() : null;
+            string? id_jefe_directo = registro["id_jefe_directo"] != null ? registro["id_jefe_directo"].ToString() : null;
             int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null;
             int? id_tipo_contrato_sat = registro["id_tipo_contrato_sat"] != null ? Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString()) : null;
-            int? num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : null;
+            string? num_empleado = registro["num_empleado"] != null ? registro["num_empleado"].ToString() : null;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
@@ -496,7 +495,7 @@ namespace Bovis.Data
                     return resp;
                 }
 
-                int last_inserted_id = 0;
+                string last_inserted_id = string.Empty;
 
                 var insert_empleado = await db.tB_Empleados
                     .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
@@ -520,8 +519,7 @@ namespace Bovis.Data
                     .Value(x => x.IdJornada, id_jornada)
                     .Value(x => x.IdDepartamento, id_departamento)
                     .Value(x => x.IdClasificacion, id_clasificacion)
-                    //.Value(x => x.IdJefeDirecto, id_jefe_directo != 0 ? id_jefe_directo : (int?)null)
-                    .Value(x => x.IdJefeDirecto, id_jefe_directo) 
+                    .Value(x => x.IdJefeDirecto, id_jefe_directo)
                     .Value(x => x.IdUnidadNegocio, id_unidad_negocio)
                     .Value(x => x.IdTipoContrato_sat, id_tipo_contrato_sat != 0 ? id_tipo_contrato_sat : (int?)null)
                     .Value(x => x.NumEmpleado, num_empleado)
@@ -553,11 +551,11 @@ namespace Bovis.Data
                 resp.Success = insert_empleado;
                 resp.Message = insert_empleado == default ? "Ocurrio un error al agregar registro de Empleado." : string.Empty;
 
-               // if (insert_empleado != null)
-               // {
-               //     var lastInsertedRecord = db.tB_Empleados.OrderByDescending(x => x.NumEmpleadoRrHh).FirstOrDefault();
-               //     last_inserted_id = lastInsertedRecord.NumEmpleadoRrHh;
-               // }
+                if (insert_empleado != null)
+                {
+                    var lastInsertedRecord = db.tB_Empleados.OrderByDescending(x => x.NumEmpleadoRrHh).FirstOrDefault();
+                    last_inserted_id = lastInsertedRecord.NumEmpleadoRrHh;
+                }
 
                 var res_update_persona = await db.tB_Personas.Where(x => x.IdPersona == id_persona)
                     .UpdateAsync(x => new TB_Persona
@@ -648,8 +646,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            //int num_empleado_rr_hh = Convert.ToInt32(registro["num_empleado_rr_hh"].ToString());
-            string num_empleado_rr_hh = (string)(registro["num_empleado_rr_hh"]);
+            string num_empleado_rr_hh = registro["num_empleado_rr_hh"].ToString();
             int id_persona = Convert.ToInt32(registro["id_persona"].ToString());
             int id_tipo_empleado = Convert.ToInt32(registro["id_tipo_empleado"].ToString());
             int id_categoria = Convert.ToInt32(registro["id_categoria"].ToString());
@@ -670,11 +667,10 @@ namespace Bovis.Data
             int? id_jornada = registro["id_jornada"] != null ? Convert.ToInt32(registro["id_jornada"].ToString()) : null;
             int? id_departamento = registro["id_departamento"] != null ? Convert.ToInt32(registro["id_departamento"].ToString()) : null;
             int? id_clasificacion = registro["id_clasificacion"] != null ? Convert.ToInt32(registro["id_clasificacion"].ToString()) : null;
-            //int? id_jefe_directo = registro["id_jefe_directo"] != null ? Convert.ToInt32(registro["id_jefe_directo"].ToString()) : null;
-            string? id_jefe_directo = (string)registro["id_jefe_directo"] != null ? (string)(registro["id_jefe_directo"]) : null;
+            string? id_jefe_directo = registro["id_jefe_directo"] != null ? registro["id_jefe_directo"].ToString() : null;
             int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null;
             int? id_tipo_contrato_sat = registro["id_tipo_contrato_sat"] != null ? Convert.ToInt32(registro["id_tipo_contrato_sat"].ToString()) : null;
-            int? num_empleado = registro["num_empleado"] != null ? Convert.ToInt32(registro["num_empleado"].ToString()) : null;
+            string? num_empleado = registro["num_empleado"] != null ? registro["num_empleado"].ToString() : null;
             DateTime fecha_ingreso = Convert.ToDateTime(registro["fecha_ingreso"].ToString());
             DateTime? fecha_salida = registro["fecha_salida"] != null ? Convert.ToDateTime(registro["fecha_salida"].ToString()) : null;
             DateTime? fecha_ultimo_reingreso = registro["fecha_ultimo_reingreso"] != null ? Convert.ToDateTime(registro["fecha_ultimo_reingreso"].ToString()) : null;
@@ -900,8 +896,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            //int num_empleado_rr_hh = Convert.ToInt32(registro["id"].ToString());
-            string num_empleado_rr_hh = (string)(registro["id"]);
+            string num_empleado_rr_hh = registro["id"].ToString();
             bool activo = Convert.ToBoolean(registro["boactivo"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
@@ -931,7 +926,7 @@ namespace Bovis.Data
         #region Proyectos
         public async Task<List<Proyecto_Detalle>> GetProyectos(string idEmpleado)
         {
-            if (idEmpleado != "")
+            if (idEmpleado.Length > 0)
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from emp_proj in db.tB_EmpleadoProyectos
                                                                           join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto
@@ -979,16 +974,6 @@ namespace Bovis.Data
                                                                           select ciudad).ToListAsync();
             }
             else return await GetAllFromEntityAsync<TB_Ciudad>();
-        }
-
-        public Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Empleado_Detalle> GetEmpleado(int idEmpleado)
-        {
-            throw new NotImplementedException();
         }
         #endregion Ciudades
     }

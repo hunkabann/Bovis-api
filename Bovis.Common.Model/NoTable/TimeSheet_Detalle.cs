@@ -21,7 +21,7 @@ namespace Bovis.Common.Model.NoTable
         public int? coi_empresa { get; set; }
         public int? noi_empresa { get; set; }
         public string? noi_empleado { get; set; }
-        public int? num_empleado { get; set; }
+        public string? num_empleado { get; set; }
         public List<TB_Timesheet_Otro>? otros { get; set; }
         public List<TB_Timesheet_Proyecto>? proyectos { get; set; }
     }

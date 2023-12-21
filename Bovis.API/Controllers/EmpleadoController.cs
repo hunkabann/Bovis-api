@@ -42,7 +42,7 @@ namespace Bovis.API.Controllers
         }
 
         [HttpGet, Route("Registro/{idEmpleado}")]
-        public async Task<IActionResult> GetEmpleado(int idEmpleado)
+        public async Task<IActionResult> GetEmpleado(string idEmpleado)
         {
             var query = await _empleadoQueryService.GetEmpleado(idEmpleado);
             return Ok(query);
@@ -111,7 +111,7 @@ namespace Bovis.API.Controllers
 
         #region Proyectos
         [HttpGet, Route("Proyectos/{idEmpleado}")]
-        public async Task<IActionResult> GetProyectos(int idEmpleado)
+        public async Task<IActionResult> GetProyectos(string idEmpleado)
         {
             var query = await _empleadoQueryService.GetProyectos(idEmpleado);
             return Ok(query);

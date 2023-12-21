@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
@@ -92,14 +93,20 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> CancelFactura(CancelFacturaCommand factura)
         {
             if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
-            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-            factura.Nombre = claimJWTModel.nombre;
-            factura.Usuario = claimJWTModel.correo;
-            factura.Roles = claimJWTModel.roles;
-            factura.TransactionId = claimJWTModel.transactionId;
+
+
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+            JsonObject registroJsonObject = new JsonObject();
+
+            factura.Nombre = email;
+            factura.Usuario = nombre;
+            factura.Roles = string.Empty;
+            factura.TransactionId = TransactionId;
             factura.Rel = 37;
             var response = await _mediator.Send(factura);
-            if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+            if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(factura)}");
             return Ok(response);
         }
 

@@ -5,7 +5,7 @@ namespace Bovis.Common.Model.Tables
 	[Table(Schema = "dbo", Name = "tb_empleado")]
 	public class TB_Empleado
 	{
-		[Column("Nunum_empleado_rr_hh"), NotNull, PrimaryKey, Identity] public string? NumEmpleadoRrHh { get; set; }
+		[Column("Nunum_empleado_rr_hh"), NotNull, PrimaryKey, Identity] public string NumEmpleadoRrHh { get; set; }
 		[Column("Nukidpersona"), NotNull] public int IdPersona { get; set; }
 		[Column("Nukidtipo_empleado"), NotNull] public int IdTipoEmpleado { get; set; }
 		[Column("Nukidcategoria"), NotNull] public int IdCategoria { get; set; }
@@ -29,7 +29,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidjefe_directo"), Nullable] public string? IdJefeDirecto { get; set; }
 		[Column("Nukidunidad_negocio"), Nullable] public int? IdUnidadNegocio { get; set; }
 		[Column("Nukidtipo_contrato_sat"), Nullable] public int? IdTipoContrato_sat { get; set; }
-		[Column("Nunum_empleado"), Nullable] public int? NumEmpleado { get; set; }
+		[Column("Nunum_empleado"), Nullable] public string? NumEmpleado { get; set; }
 		[Column("Dtfecha_ingreso"), NotNull] public DateTime FechaIngreso { get; set; }
 		[Column("Dtfecha_salida"), Nullable] public DateTime? FechaSalida { get; set; }
 		[Column("Dtfecha_ultimo_reingreso"), Nullable] public DateTime? FechaUltimoReingreso { get; set; }

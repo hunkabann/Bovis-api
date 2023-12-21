@@ -30,7 +30,7 @@ namespace Bovis.Business
         #region Empleados
         public Task<List<Empleado_Detalle>> GetEmpleados(bool? Activo) => _empleadoData.GetEmpleados(Activo);
 
-        public Task<Empleado_Detalle> GetEmpleado(int idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
+        public Task<Empleado_Detalle> GetEmpleado(string idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
 
         public Task<Empleado_BasicData> GetEmpleadoByEmail(string email) => _empleadoData.GetEmpleadoByEmail(email);
 
@@ -73,7 +73,7 @@ namespace Bovis.Business
         #endregion Empleados
 
         #region Proyectos
-        public Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado) => _empleadoData.GetProyectos(idEmpleado);
+        public Task<List<Proyecto_Detalle>> GetProyectos(string idEmpleado) => _empleadoData.GetProyectos(idEmpleado);
         #endregion Proyectos
 
         #region Ciudades

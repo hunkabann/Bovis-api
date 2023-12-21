@@ -27,7 +27,7 @@ namespace Bovis.Business
              
 
             #region Antiguedad
-            if (!destination.FechaIngreso.HasValue)
+            if (destination.FechaIngreso == null)
             {
                 destination.FechaIngreso = DateTime.Now; 
             }

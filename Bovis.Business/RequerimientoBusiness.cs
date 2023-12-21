@@ -35,7 +35,7 @@ namespace Bovis.Business
         #endregion Experiencias
 
         #region Registros
-        public Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto) => _RequerimientoData.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
+        public Task<List<Requerimiento_Detalle>> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto) => _RequerimientoData.GetRequerimientos(Asignados, idDirector, idProyecto, idPuesto);
 
         public Task<Requerimiento_Detalle> GetRequerimiento(int idRequerimiento) => _RequerimientoData.GetRequerimiento(idRequerimiento);
 
@@ -69,7 +69,7 @@ namespace Bovis.Business
         #endregion Director Ejecutivo
 
         #region Proyectos
-        public Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo) => _RequerimientoData.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
+        public Task<List<TB_Proyecto>> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo) => _RequerimientoData.GetProyectosByDirectorEjecutivo(IdDirectorEjecutivo);
         #endregion Proyectos
     }
 }

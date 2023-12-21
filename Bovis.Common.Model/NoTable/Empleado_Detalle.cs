@@ -61,7 +61,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chunidad_negocio { get; set; }
         public int? nukidtipo_contrato_sat { get; set; }
         public string? chtipo_contrato_sat { get; set; }
-        public int? nunum_empleado { get; set; }
+        public string? nunum_empleado { get; set; }
         public string dtfecha_ingreso { get; set; }
         public string? dtfecha_salida { get; set; }
         public string? dtfecha_ultimo_reingreso { get; set; }

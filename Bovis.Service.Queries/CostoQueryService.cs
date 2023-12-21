@@ -45,10 +45,10 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region GetCostos
-        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostos(bool hist)
+        public async Task<Response<List<CostoEmpleado_Detalle>>> GetCostos(bool? hist)
         {
             var response = await _costoBusiness.GetCostos(hist);
-            return new Response<List<TB_CostoPorEmpleado>> { Data = _map.Map<List<TB_CostoPorEmpleado>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+            return new Response<List<CostoEmpleado_Detalle>> { Data = _map.Map<List<CostoEmpleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
         #endregion
 

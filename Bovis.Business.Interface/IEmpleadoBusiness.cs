@@ -22,7 +22,7 @@ namespace Bovis.Business.Interface
         #endregion Empleados
 
         #region Proyectos
-        Task<List<Proyecto_Detalle>> GetProyectos(int idEmpleado);
+        Task<List<Proyecto_Detalle>> GetProyectos(string idEmpleado);
         #endregion Proyectos
 
         #region Ciudades

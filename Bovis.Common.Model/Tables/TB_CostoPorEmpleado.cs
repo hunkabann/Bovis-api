@@ -6,19 +6,19 @@ namespace Bovis.Common.Model.Tables
     public class TB_CostoPorEmpleado
     {
         [Column("Nukid_costo"), NotNull, PrimaryKey, Identity] public int IdCosto { get; set; }
-        [Column("Nunum_empleado_rr_hh"), NotNull] public int NumEmpleadoRrHh { get; set; }
         [Column("Nuanno"), NotNull] public int NuAnno { get; set; }
         [Column("Numes"), NotNull] public int NuMes { get; set; }
+        [Column("Nunum_empleado_rr_hh"), NotNull] public int NumEmpleadoRrHh { get; set; }
         [Column("Nunum_empleado_noi"), Nullable] public int? NumEmpleadoNoi { get; set; } = 0;
         [Column("Nukid_persona"), Nullable] public int? IdPersona { get; set; } = 0;
         [Column("Chreubicacion"), Nullable] public string? Reubicacion { get; set; }
         [Column("Nukid_puesto"), Nullable] public int? IdPuesto { get; set; } = 0;
-        [Column("Nunum_proyecto"), Nullable] public int? NumProyecto { get; set; } = 0;
-        [Column("Nukid_unidad_negocio"), Nullable] public int? IdUnidadNegocio { get; set; } = 0;
-        [Column("Nukid_empresa"), Nullable] public int? IdEmpresa { get; set; } = 0;
+        [Column("Nunum_proyecto"), NotNull] public int NumProyecto { get; set; } = 0;
+        [Column("Nukid_unidad_negocio"), NotNull] public int IdUnidadNegocio { get; set; } = 0;
+        [Column("Nukid_empresa"), NotNull] public int IdEmpresa { get; set; } = 0;
         [Column("Chtimesheet"), Nullable] public string? Timesheet { get; set; }
-        [Column("Nukid_empleado_jefe"), Nullable] public int? IdEmpleadoJefe { get; set; } = 0;     
-        [Column("Dtfecha_ingreso"), Nullable] public DateTime? FechaIngreso { get; set; }
+        [Column("Nukid_empleado_jefe"), NotNull] public string IdEmpleadoJefe { get; set; } = string.Empty;     
+        [Column("Dtfecha_ingreso"), NotNull] public DateTime FechaIngreso { get; set; }
         [Column("Nuantiguedad"), Nullable] public decimal? Antiguedad { get; set; } = 0M;
         [Column("Nuavg_descuento_empleado"), Nullable] public decimal? AvgDescuentoEmpleado { get; set; } = 0M;
         [Column("Numonto_descuento_mensual"), Nullable] public decimal? MontoDescuentoMensual { get; set; } = 0M;

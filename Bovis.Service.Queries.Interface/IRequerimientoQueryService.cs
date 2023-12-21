@@ -15,12 +15,12 @@ namespace Bovis.Service.Queries.Interface
     {
         Task<Response<List<Habilidad>>> GetHabilidades(int idRequerimiento);
         Task<Response<List<Experiencia>>> GetExperiencias(int idRequerimiento);
-        Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Asignados, int? idDirector, int? idProyecto, int? idPuesto);
+        Task<Response<List<Requerimiento_Detalle>>> GetRequerimientos(bool? Asignados, string? idDirector, int? idProyecto, int? idPuesto);
         Task<Response<Requerimiento_Detalle>> GetRequerimiento(int idRequerimiento);
         Task<Response<(bool Success, string Message)>> AddRegistro(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdateRegistro(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteRequerimiento(int idRequerimiento);
         Task<Response<List<Empleado_Detalle>>> GetDirectoresEjecutivos();
-        Task<Response<List<TB_Proyecto>>> GetProyectosByDirectorEjecutivo(int IdDirectorEjecutivo);
+        Task<Response<List<TB_Proyecto>>> GetProyectosByDirectorEjecutivo(string IdDirectorEjecutivo);
     }
 }
