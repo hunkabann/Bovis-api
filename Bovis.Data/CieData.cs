@@ -600,7 +600,6 @@ namespace Bovis.Data
                             .Value(x => x.Activo, true)
                             .Value(x => x.IdArchivo, last_inserted_id)
                             .InsertAsync() > 0;
-
                     }
 
                     resp.Success = insert;

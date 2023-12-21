@@ -134,47 +134,46 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty)
             {
                 // Se hace envío de una notificación por Email, indicando que ya se realizó la carga completa.
-                using (HttpClient client = new HttpClient())
-                {
-                    try
-                    {
-                        var baseUrl = $"{Request.Scheme}://{Request.Host}/api/Email";
+                //using (HttpClient client = new HttpClient())
+                //{
+                //    try
+                //    {
+                //        var baseUrl = $"{Request.Scheme}://{Request.Host}/api/Email";
 
-                        var postData = new
-                        {
-                            subject = "Registros de CIE cargados",
-                            body = $"Hola {nombre}.<p>Se han cargado satisfactoriamente al sistema, todos los registros desde archivo Excel.</p>",
-                            emailsTo = new[] { email }
-                        };
-                        var content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
+                //        var postData = new
+                //        {
+                //            subject = "Registros de CIE cargados",
+                //            body = $"Hola {nombre}.<p>Se han cargado satisfactoriamente al sistema, todos los registros desde archivo Excel.</p>",
+                //            emailsTo = new[] { email }
+                //        };
+                //        var content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
 
-                        // Clonar la solicitud original para conservar las credenciales de autorización
-                        var request = new HttpRequestMessage(HttpMethod.Post, baseUrl);
-                        request.Content = content;
+                //        // Clonar la solicitud original para conservar las credenciales de autorización
+                //        var request = new HttpRequestMessage(HttpMethod.Post, baseUrl);
+                //        request.Content = content;
 
-                        foreach (var header in Request.Headers)
-                        {
-                            request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
-                        }
+                //        foreach (var header in Request.Headers)
+                //        {
+                //            request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                //        }
 
-                        HttpResponseMessage response = await client.SendAsync(request);
-
-                        // Verificar si la solicitud fue exitosa (código de estado 200)
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string apiResponse = await response.Content.ReadAsStringAsync();
-                            query.Message = apiResponse;
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error en la solicitud: {response.StatusCode} - {response.ReasonPhrase}");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error: {ex.Message}");
-                    }
-                }
+                //        HttpResponseMessage response = await client.SendAsync(request);
+                        
+                //        if (response.IsSuccessStatusCode) // Verificar si la solicitud fue exitosa (código de estado 200)
+                //        {
+                //            string apiResponse = await response.Content.ReadAsStringAsync();
+                //            query.Message = apiResponse;
+                //        }
+                //        else
+                //        {
+                //            Console.WriteLine($"Error en la solicitud: {response.StatusCode} - {response.ReasonPhrase}");
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Console.WriteLine($"Error: {ex.Message}");
+                //    }
+                //}
 
                 return Ok(query);
             }
