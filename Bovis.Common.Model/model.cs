@@ -39,6 +39,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cat_RubroIngresoReembolsable> tB_Cat_RubroIngresoReembolsables { get { return this.GetTable<TB_Cat_RubroIngresoReembolsable>(); } }
 		public ITable<TB_Cat_Sector> tB_Cat_Sectors { get { return this.GetTable<TB_Cat_Sector>(); } }
         public ITable<TB_Cat_Sexo> tB_Cat_Sexos { get { return this.GetTable<TB_Cat_Sexo>(); } }
+        public ITable<TB_Cat_Tabla_ISR> tB_Cat_Tabla_ISRs { get { return this.GetTable<TB_Cat_Tabla_ISR>(); } }
         public ITable<TB_Cat_TipoCie> tB_Cat_TipoCies { get { return this.GetTable<TB_Cat_TipoCie>(); } }
 		public ITable<TB_Cat_TipoContrato> tB_Cat_TipoContratos { get { return this.GetTable<TB_Cat_TipoContrato>(); } }
         public ITable<TB_Cat_TipoContrato_Sat> tB_Cat_TipoContrato_Sats { get { return this.GetTable<TB_Cat_TipoContrato_Sat>(); } }

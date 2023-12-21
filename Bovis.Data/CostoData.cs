@@ -43,6 +43,23 @@ namespace Bovis.Data
 
             if (!registro_anterior.Success) // Puede llevarse a cabo la inserción de un nuevo registro.
             {
+
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+                                            where isr.Anio == registro.NuAnno
+                                            && isr.Mes == registro.NuMes
+                                            && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
+                                            select isr).FirstOrDefaultAsync();
+
+                    if(isr_record != null)
+                    {
+                        registro.Ispt = ((registro.SueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                    }
+                }
+
+
+
                 var resultado = (decimal) await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
                 return new Common.Response<decimal>()
                 {
