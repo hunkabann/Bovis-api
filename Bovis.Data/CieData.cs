@@ -1,4 +1,5 @@
-﻿using Bovis.Common.Model;
+﻿using Azure.Core;
+using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
@@ -604,7 +605,8 @@ namespace Bovis.Data
                         resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
                     }
                 }
-            }
+            }            
+
             return resp;
         }
 

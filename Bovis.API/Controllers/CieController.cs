@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
 using Microsoft.Win32;
+using System.Text;
 
 namespace Bovis.API.Controllers
 {
@@ -124,8 +125,52 @@ namespace Bovis.API.Controllers
         [HttpPost("Registros/Agregar")]
         public async Task<IActionResult> AddRegistros([FromBody] JsonObject registros)
         {
-            var query = await _cieQueryService.AddRegistros(registros);
-            if (query.Message == string.Empty) return Ok(query);
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+
+            var query = await _cieQueryService.AddRegistros(registros);                            
+
+            if (query.Message == string.Empty)
+            {
+                // Se hace envío de una notificación por Email, indicando que ya se realizó la carga completa.
+                using (HttpClient client = new HttpClient())
+                {
+                    try
+                    {
+                        var baseUrl = $"{Request.Scheme}://{Request.Host}/api/Email";
+
+                        var postData = new
+                        {
+                            subject = "Registros de CIE cargados",
+                            body = "Se han cargado satisfactoriamente todos los registros del archivo Excel.",
+                            emailsTo = new[] { email }
+                        };
+                        var content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
+
+                        // Realizar una solicitud POST al API
+                        HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+
+                        // Verificar si la solicitud fue exitosa (código de estado 200)
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string apiResponse = await response.Content.ReadAsStringAsync();
+                            query.Message = apiResponse;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error en la solicitud: {response.StatusCode} - {response.ReasonPhrase}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
+                }
+
+
+                return Ok(query);
+            }
             else return BadRequest(query.Message);
         }
 
