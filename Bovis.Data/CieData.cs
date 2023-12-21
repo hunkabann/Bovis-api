@@ -549,7 +549,6 @@ namespace Bovis.Data
                         string? tipo_poliza = registro["tipo_poliza"].ToString();
                         int? numero = registro["numero"] != null ? Convert.ToInt32(registro["numero"].ToString()) : null;
                         string fecha_str = registro["fecha"].ToString();
-                        //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
                         int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                         string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                         string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
@@ -622,7 +621,6 @@ namespace Bovis.Data
                 string? tipo_poliza = registro["tipo_poliza"].ToString();
                 int? numero = registro["numero"] != null ? Convert.ToInt32(registro["numero"].ToString()) : null;
                 string fecha_str = registro["fecha"].ToString();
-                //DateTime fecha = Convert.ToDateTime(registro["fecha"].ToString());
                 int? mes = registro["mes"] != null ? Convert.ToInt32(registro["mes"].ToString()) : null;
                 string? concepto = registro["concepto"] != null ? registro["concepto"].ToString() : null;
                 string? centro_costos = registro["centro_costos"] != null ? registro["centro_costos"].ToString() : null;
