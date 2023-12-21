@@ -17,6 +17,8 @@ namespace Bovis.Common.Model.Tables
 		[Column("chxml"), NotNull] public string Xml { set; get; }
         [Column("dtfecha_cancelacion"), Nullable] public DateTime? FechaCancelacion { set; get; }
         [Column("chmotivocancela"), Nullable] public string? MotivoCancelacion { set; get; }
+        [Column("chcrp"), Nullable] public string? CRP { set; get; }
+		[Column("nubase"), Nullable] public decimal? Base { set; get; }
 
     }
 }

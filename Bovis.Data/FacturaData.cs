@@ -230,6 +230,8 @@ namespace Bovis.Data
                     .Value(x => x.TipoCambioP, pagos.TipoCambioP)
                     .Value(x => x.FechaPago, pagos.FechaPago)
                     .Value(x => x.Xml, pagos.Xml)
+                    .Value(x => x.CRP, pagos.CRP)
+                    .Value(x => x.Base, pagos.Base)
                     .InsertAsync() > 0;
 
                 resp.Success = inseert;
@@ -465,7 +467,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -576,7 +580,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -685,7 +691,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -803,7 +811,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -919,7 +929,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1037,7 +1049,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1152,7 +1166,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1265,7 +1281,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1282,6 +1300,8 @@ namespace Bovis.Data
             }
         }
         #endregion facturas por número        
+
+
 
         #region Extraer Datos Cfdi
         public async Task<BaseCFDI?> ExtraerDatos(string base64String)

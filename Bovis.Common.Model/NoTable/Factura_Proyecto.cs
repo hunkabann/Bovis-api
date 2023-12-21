@@ -147,6 +147,8 @@ namespace Bovis.Common.Model.NoTable
         public decimal? C_IvaP { set; get; }
         public decimal? C_TipoCambioP { set; get; }
         public DateTime? C_FechaPago { set; get; }
+        public string? CRP { set; get; }
+        public decimal? Base { set; get; }
     }
 
 }

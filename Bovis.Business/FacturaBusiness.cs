@@ -200,7 +200,7 @@ namespace Bovis.Business
                     var tmpError = string.Empty;
 
                     if (cfdi is not null && !cfdi.TipoDeComprobante.Equals("E"))
-                        tmpError = $@", el tipipo de comprobante es {cfdi.TipoDeComprobante}";
+                        tmpError = $@", el tipo de comprobante es {cfdi.TipoDeComprobante}";
 
                     LstFacturas.Add(new FacturaRevision
                     {
@@ -286,7 +286,8 @@ namespace Bovis.Business
                             {
                                 var existePago = await _facturaData.SearchPagos(cfdi.UUID);
 
-                                if (existePago != null) {
+                                if (existePago != null)
+                                {
                                     tmpFactura.Almacenada = false;
                                     tmpFactura.Error = $@"El pago {cfdi.UUID} ya existe en la BD.";
                                 }
@@ -306,7 +307,9 @@ namespace Bovis.Business
                                             IvaP = Convert.ToDecimal(docto.ImporteDR ?? "-1"),
                                             TipoCambioP = Convert.ToDecimal(tmpPagos.TipoCambioP),
                                             FechaPago = tryDate,
-                                            Xml = cfdi.XmlB64
+                                            Xml = cfdi.XmlB64,
+                                            CRP = cfdi.Serie + cfdi.Folio,
+                                            Base = tmpPagos.TrasladoP != null && !string.IsNullOrEmpty(tmpPagos.TrasladoP.BaseP) ? Convert.ToDecimal(tmpPagos.TrasladoP.BaseP) : 0
                                         });
                                         tmpFactura.Almacenada = responseFactura.Success;
                                         tmpFactura.Error = responseFactura.Message;
@@ -470,14 +473,16 @@ namespace Bovis.Business
                     if (datosCFDI.TipoDeComprobante.Equals("P"))
                     {
                         XmlNodeList nodePagos = null;
-                        string strXPathImpuesto = string.Empty;
+                        string strXPathImpuestoDR = string.Empty;
+                        string strXPathImpuestoP = string.Empty;
 
                         if (datosCFDI.Version.Equals("3.3"))
                             nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago10:Pagos//pago10:Pago", nsm);
                         else
                         {
                             nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago20:Pagos//pago20:Pago", nsm);
-                            strXPathImpuesto = "pago20:ImpuestosDR//pago20:TrasladosDR//pago20:TrasladoDR";
+                            strXPathImpuestoDR = "pago20:ImpuestosDR//pago20:TrasladosDR//pago20:TrasladoDR";
+                            strXPathImpuestoP = "pago20:ImpuestosP//pago20:TrasladosP//pago20:TrasladoP";
                         }
 
                         datosCFDI.Pagos = new List<CfdiPagos>();
@@ -500,11 +505,16 @@ namespace Bovis.Business
                                     tDoctoRel.ImportePagado = childNode.Attributes["ImpPagado"] != null ? childNode.Attributes["ImpPagado"].Value : null;
                                     tDoctoRel.ImporteSaldoAnt = childNode.Attributes["ImpSaldoAnt"] != null ? childNode.Attributes["ImpSaldoAnt"].Value : null;
                                     tDoctoRel.MonedaDR = childNode.Attributes["MonedaDR"] != null ? childNode.Attributes["MonedaDR"].Value : null;
-                                    if (!string.IsNullOrEmpty(strXPathImpuesto))
-                                        tDoctoRel.ImporteDR = childNode.SelectSingleNode(strXPathImpuesto, nsm).Attributes["ImporteDR"] != null ?
-                                        childNode.SelectSingleNode(strXPathImpuesto, nsm).Attributes["ImporteDR"].Value : null;
+                                    if (!string.IsNullOrEmpty(strXPathImpuestoDR))
+                                        tDoctoRel.ImporteDR = childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["ImporteDR"] != null ? childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["ImporteDR"].Value : null;
 
                                     tPagos.DoctosRelacionados.Add(tDoctoRel);
+                                }
+                                else
+                                {
+                                    tPagos.TrasladoP = new CfdiTrasladoP();
+                                    if (!string.IsNullOrEmpty(strXPathImpuestoP))
+                                        tPagos.TrasladoP.BaseP = childNode.SelectSingleNode(strXPathImpuestoP, nsm).Attributes["BaseP"] != null ? childNode.SelectSingleNode(strXPathImpuestoP, nsm).Attributes["BaseP"].Value : null;                                    
                                 }
 
                             }
