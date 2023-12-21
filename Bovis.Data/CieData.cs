@@ -531,7 +531,7 @@ namespace Bovis.Data
                 int last_inserted_id = 0;
 
                 var insert_archivo = await db.tB_Cie_Archivos
-                    .Value(x => x.NombreArchivo, nombre_archivo)                    
+                    .Value(x => x.NombreArchivo, nombre_archivo)
                     .InsertAsync() > 0;
 
                 resp.Success = insert_archivo;
@@ -601,11 +601,12 @@ namespace Bovis.Data
                             .Value(x => x.IdArchivo, last_inserted_id)
                             .InsertAsync() > 0;
 
-                        resp.Success = insert;
-                        resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
                     }
+
+                    resp.Success = insert;
+                    resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
                 }
-            }            
+            } 
 
             return resp;
         }

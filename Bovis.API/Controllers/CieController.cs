@@ -143,7 +143,7 @@ namespace Bovis.API.Controllers
                         var postData = new
                         {
                             subject = "Registros de CIE cargados",
-                            body = "Se han cargado satisfactoriamente todos los registros del archivo Excel.",
+                            body = $"Hola {nombre}.<p>Se han cargado satisfactoriamente al sistema, todos los registros desde archivo Excel.</p>",
                             emailsTo = new[] { email }
                         };
                         var content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
