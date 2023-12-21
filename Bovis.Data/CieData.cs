@@ -81,9 +81,10 @@ namespace Bovis.Data
             return list;
         }
 
-        public async Task<(bool Success, string Message)> AddCuentas(JsonObject registros)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
+        public async Task<List<TB_Cat_TipoCtaContable>> AddCuentas(JsonObject registros)
+        {            
+            TB_Cat_TipoCtaContable cuenta = new TB_Cat_TipoCtaContable();
+            List<TB_Cat_TipoCtaContable> cuentas = new List<TB_Cat_TipoCtaContable>();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -124,12 +125,21 @@ namespace Bovis.Data
                             .Value(x => x.Activo, true)
                             .InsertAsync() > 0;
 
-                    resp.Success = insert;
-                    resp.Message = insert == default ? "Ocurrio un error al agregar registro Cie." : string.Empty;
+                    cuenta = new TB_Cat_TipoCtaContable();
+                    cuenta.CtaContable = cuenta_contable;
+                    cuenta.Concepto = concepto;
+                    cuenta.TipoCtaContableMayor = cuenta_contable.Substring(0, 3);
+                    cuenta.TipoCtaContablePrimerNivel = cuenta_contable.Substring(3, 3);
+                    cuenta.TipoCtaContableSegundoNivel = cuenta_contable.Substring(6);
+                    cuenta.IdTipoCuenta = anterior != null ? anterior.IdTipoCuenta : 1;
+                    cuenta.IdTipoResultado = anterior != null ? anterior.IdTipoResultado : 1;
+                    cuenta.IdPcs = anterior != null ? anterior.IdPcs : 1;
+                    cuenta.IdPcs2 = anterior != null ? anterior.IdPcs2 : 1;
+                    cuentas.Add(cuenta);                    
                 }
             }
 
-            return resp;
+            return cuentas;
         }
         #endregion Cuenta Data        
 
