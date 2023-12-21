@@ -129,7 +129,7 @@ namespace Bovis.API.Controllers
             string email = headers["email"];
             string nombre = headers["nombre"];
 
-            var query = await _cieQueryService.AddRegistros(registros);                            
+            var query = await _cieQueryService.AddRegistros(registros);
 
             if (query.Message == string.Empty)
             {
@@ -148,8 +148,16 @@ namespace Bovis.API.Controllers
                         };
                         var content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
 
-                        // Realizar una solicitud POST al API
-                        HttpResponseMessage response = await client.PostAsync(baseUrl, content);
+                        // Clonar la solicitud original para conservar las credenciales de autorización
+                        var request = new HttpRequestMessage(HttpMethod.Post, baseUrl);
+                        request.Content = content;
+
+                        foreach (var header in Request.Headers)
+                        {
+                            request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                        }
+
+                        HttpResponseMessage response = await client.SendAsync(request);
 
                         // Verificar si la solicitud fue exitosa (código de estado 200)
                         if (response.IsSuccessStatusCode)
@@ -168,11 +176,14 @@ namespace Bovis.API.Controllers
                     }
                 }
 
-
                 return Ok(query);
             }
-            else return BadRequest(query.Message);
+            else
+            {
+                return BadRequest(query.Message);
+            }
         }
+
 
         [HttpPut("Registro/Actualizar")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)
