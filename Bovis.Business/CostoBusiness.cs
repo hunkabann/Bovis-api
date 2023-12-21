@@ -36,7 +36,7 @@ namespace Bovis.Business
         #endregion
 
         #region GetCostos
-        public async Task<List<CostoEmpleado_Detalle>> GetCostos(bool? hist) => await _costoData.GetCostos(hist);
+        public async Task<List<Costo_Detalle>> GetCostos(bool? hist) => await _costoData.GetCostos(hist);
         #endregion
 
         #region GetCosto
@@ -44,21 +44,21 @@ namespace Bovis.Business
         #endregion
 
         #region GetCostosEmpleado
-        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
+        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
             return _costoData.GetCostosEmpleado(NumEmpleadoRrHh, hist);
         }
         #endregion
 
         #region GetCostoEmpleado
-        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(int NumEmpleado, int anno, int mes, bool hist = false)
+        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(string NumEmpleado, int anno, int mes, bool hist = false)
         {
             return _costoData.GetCostoEmpleado(NumEmpleado, anno, mes, hist);
         }
         #endregion
 
         #region GetCostosBetweenDates
-        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min,int anno_max,int mes_max, bool hist)
+        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min,int anno_max,int mes_max, bool hist)
         {
             return _costoData.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, hist);
            
@@ -66,7 +66,7 @@ namespace Bovis.Business
         #endregion
 
         #region GetCostoLaborable
-        public Task<Response<decimal>> GetCostoLaborable(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
+        public Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
         {
             return _costoData.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max);
         }

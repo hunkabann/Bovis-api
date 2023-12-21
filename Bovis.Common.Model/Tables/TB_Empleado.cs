@@ -5,7 +5,7 @@ namespace Bovis.Common.Model.Tables
 	[Table(Schema = "dbo", Name = "tb_empleado")]
 	public class TB_Empleado
 	{
-		[Column("Nunum_empleado_rr_hh"), NotNull, PrimaryKey, Identity] public int NumEmpleadoRrHh { get; set; }
+		[Column("Nunum_empleado_rr_hh"), NotNull, PrimaryKey, Identity] public string NumEmpleadoRrHh { get; set; } = string.Empty;
 		[Column("Nukidpersona"), NotNull] public int IdPersona { get; set; }
 		[Column("Nukidtipo_empleado"), NotNull] public int IdTipoEmpleado { get; set; }
 		[Column("Nukidcategoria"), NotNull] public int IdCategoria { get; set; }

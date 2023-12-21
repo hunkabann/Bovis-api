@@ -10,7 +10,7 @@ namespace Bovis.Common.Model.DTO
     public class CostoPorEmpleadoDTO
     {
         public int IdCosto { get; set; }
-        public int NumEmpleadoRrHh { get; set; }
+        public string NumEmpleadoRrHh { get; set; } = string.Empty;
         public int? NuAnno { get; set; }
         public int? NuMes { get; set; }
         public int? NumEmpleadoNoi { get; set; } = 0;

@@ -8,7 +8,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Nukid_costo"), NotNull, PrimaryKey, Identity] public int IdCosto { get; set; }
         [Column("Nuanno"), NotNull] public int NuAnno { get; set; }
         [Column("Numes"), NotNull] public int NuMes { get; set; }
-        [Column("Nunum_empleado_rr_hh"), NotNull] public int NumEmpleadoRrHh { get; set; }
+        [Column("Nunum_empleado_rr_hh"), NotNull] public string NumEmpleadoRrHh { get; set; } = string.Empty;
         [Column("Nunum_empleado_noi"), Nullable] public int? NumEmpleadoNoi { get; set; } = 0;
         [Column("Nukid_persona"), Nullable] public int? IdPersona { get; set; } = 0;
         [Column("Chreubicacion"), Nullable] public string? Reubicacion { get; set; }
