@@ -81,16 +81,16 @@ namespace Bovis.Data
             return list;
         }
 
-        public async Task<List<TB_Cat_TipoCtaContable>> AddCuentas(JsonObject registros)
-        {            
-            TB_Cat_TipoCtaContable cuenta = new TB_Cat_TipoCtaContable();
-            List<TB_Cat_TipoCtaContable> cuentas = new List<TB_Cat_TipoCtaContable>();
+        public async Task<List<CtaContableRespuesta_Detalle>> AddCuentas(JsonObject registros)
+        {
+            List<CtaContableRespuesta_Detalle> cuentas = new List<CtaContableRespuesta_Detalle>();
 
             using (var db = new ConnectionDB(dbConfig))
             {
                 foreach (var registro in registros["data"].AsArray())
                 {
                     string cuenta_contable = registro["cuenta"].ToString();
+                    string nombre_cuenta = registro["nombre_cuenta"].ToString();
                     string concepto = registro["concepto"].ToString();
 
                     string cuenta_anterior = string.Empty;
@@ -112,7 +112,7 @@ namespace Bovis.Data
                     }
 
 
-                    var insert = await db.tB_Cat_TipoCtaContables
+                    var insertedId = await db.tB_Cat_TipoCtaContables
                             .Value(x => x.CtaContable, cuenta_contable)
                             .Value(x => x.Concepto, concepto)
                             .Value(x => x.TipoCtaContableMayor, cuenta_contable.Substring(0, 3))
@@ -123,19 +123,35 @@ namespace Bovis.Data
                             .Value(x => x.IdPcs, anterior != null ? anterior.IdPcs : 1)
                             .Value(x => x.IdPcs2, anterior != null ? anterior.IdPcs2 : 1)
                             .Value(x => x.Activo, true)
-                            .InsertAsync() > 0;
+                            .InsertWithIdentityAsync();
 
-                    cuenta = new TB_Cat_TipoCtaContable();
-                    cuenta.CtaContable = cuenta_contable;
-                    cuenta.Concepto = concepto;
-                    cuenta.TipoCtaContableMayor = cuenta_contable.Substring(0, 3);
-                    cuenta.TipoCtaContablePrimerNivel = cuenta_contable.Substring(3, 3);
-                    cuenta.TipoCtaContableSegundoNivel = cuenta_contable.Substring(6);
-                    cuenta.IdTipoCuenta = anterior != null ? anterior.IdTipoCuenta : 1;
-                    cuenta.IdTipoResultado = anterior != null ? anterior.IdTipoResultado : 1;
-                    cuenta.IdPcs = anterior != null ? anterior.IdPcs : 1;
-                    cuenta.IdPcs2 = anterior != null ? anterior.IdPcs2 : 1;
-                    cuentas.Add(cuenta);                    
+                    var cuenta = await (from cta in db.tB_Cat_TipoCtaContables
+                                         join tipocta in db.tB_Cat_TipoCuentas on cta.IdTipoCuenta equals tipocta.IdTipoCuenta into tipoctaJoin
+                                         from tipoctaItem in tipoctaJoin.DefaultIfEmpty()
+                                         join tipores in db.tB_Cat_TipoResultados on cta.IdTipoResultado equals tipores.IdTipoResultado into tiporesJoin
+                                         from tiporesItem in tiporesJoin.DefaultIfEmpty()
+                                         join pcs in db.tB_Cat_TipoPcs on cta.IdPcs equals pcs.IdTipoPcs into pcsJoin
+                                         from pcsItem in pcsJoin.DefaultIfEmpty()
+                                         join pcs2 in db.tB_Cat_TipoPcs2 on cta.IdPcs2 equals pcs2.IdTipoPcs2 into pcs2Join
+                                         from pcs2Item in pcsJoin.DefaultIfEmpty()
+                                         where cta.IdTipoCtaContable == Convert.ToInt32(insertedId)
+                                         select new CtaContableRespuesta_Detalle
+                                         {
+                                             CtaContable = cta.CtaContable,
+                                             NombreCtaContable = nombre_cuenta,
+                                             Concepto = cta.Concepto,
+                                             TipoCtaContableMayor = cta.TipoCtaContableMayor,
+                                             TipoCtaContablePrimerNivel = cta.TipoCtaContablePrimerNivel,
+                                             TipoCtaContableSegundoNivel = cta.TipoCtaContableSegundoNivel,
+                                             IdTipoCuenta = cta.IdTipoCuenta,
+                                             TipoCuenta = tipoctaItem != null ? tipoctaItem.TipoCuenta : string.Empty,
+                                             IdTipoResultado = cta.IdTipoResultado,
+                                             TipoResultado = tiporesItem != null ? tiporesItem.TipoResultado : string.Empty,
+                                             Pcs = pcsItem != null ? pcsItem.TipoPcs : string.Empty,
+                                             Pcs2 = pcs2Item != null ? pcs2Item.TipoPcs : string.Empty
+                                         }).FirstOrDefaultAsync();
+
+                    cuentas.Add(cuenta);
                 }
             }
 

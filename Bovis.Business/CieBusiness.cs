@@ -31,7 +31,7 @@ namespace Bovis.Business
 
         #region Cuenta Data
         public Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas) => _cieData.GetCuentaData(cuentas);
-        public Task<List<TB_Cat_TipoCtaContable>> AddCuentas(JsonObject registros) => _cieData.AddCuentas(registros);
+        public Task<List<CtaContableRespuesta_Detalle>> AddCuentas(JsonObject registros) => _cieData.AddCuentas(registros);
         #endregion Cuenta Data
 
         #region Proyecto
