@@ -375,6 +375,16 @@ namespace Bovis.Data
                                              }).ToListAsync();
 
 
+
+                foreach(var reg in registros.Registros)
+                {
+                    if (!string.IsNullOrEmpty(reg.CentroCostos) && reg.CentroCostos.Contains("."))
+                        reg.Inconsistente = reg.NumProyecto != Convert.ToInt32(reg.CentroCostos.Split('.')[0]);
+                    else
+                        reg.Inconsistente = true;
+                }
+
+
                 ///
                 /// Registros de facturación
                 ///
