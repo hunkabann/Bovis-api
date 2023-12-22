@@ -359,6 +359,12 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\o
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.genruntimeconfig.cache
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\ref\Bovis.API.dll
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.AssemblyReference.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfoInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfo.cs
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CoreCompileInputs.cache
+C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\appsettings.json
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\important-logs.json
@@ -459,13 +465,6 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Business.Interface.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Data.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.Common.Mapper.pdb
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.AssemblyReference.cache
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfoInputs.cache
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfo.cs
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CoreCompileInputs.cache
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssets.props
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.build.Bovis.API.props
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.Bovis.API.props
