@@ -66,7 +66,7 @@ namespace Bovis.API.Controllers
 
         #region GetCostosEmpleado
         [HttpGet("Empleado/{NumEmpleadoRrHh:int}")]
-        public async Task<IActionResult> GetCostosEmpleado(int NumEmpleadoRrHh, [FromQuery] bool hist = false)
+        public async Task<IActionResult> GetCostosEmpleado(string NumEmpleadoRrHh, [FromQuery] bool hist = false)
         {
             var query = await _costoQueryService.GetCostosEmpleado(NumEmpleadoRrHh, hist);
             return Ok(query);
@@ -75,7 +75,7 @@ namespace Bovis.API.Controllers
 
         #region GetCostoEmpleado
         [HttpGet("Empleado/{NumEmpleadoRrHh:int}/{anno:int}/{mes:int}")]
-        public async Task<IActionResult> GetCostoEmpleado(int NumEmpleadoRrHh, int anno, int mes, bool hist = false)
+        public async Task<IActionResult> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist = false)
         {
             var query = await _costoQueryService.GetCostoEmpleado(NumEmpleadoRrHh, anno, mes, hist);
             return Ok(query);
@@ -84,8 +84,8 @@ namespace Bovis.API.Controllers
 
         #region GetCostosBetweenDates
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("Empleado/{NumEmpleadoRrHh:int}/{anno_min:int}/{mes_min:int}/{anno_max:int}/{mes_max:int}")]
-        public async Task<IActionResult> GetCostosBetweenDates([FromRoute] int NumEmpleadoRrHh, [FromRoute] int anno_min, [FromRoute] int mes_min, [FromRoute] int anno_max, [FromRoute] int mes_max, [FromQuery] bool hist=false)
+        [HttpGet("Empleado/{NumEmpleadoRrHh:string}/{anno_min:int}/{mes_min:int}/{anno_max:int}/{mes_max:int}")]
+        public async Task<IActionResult> GetCostosBetweenDates([FromRoute] string NumEmpleadoRrHh, [FromRoute] int anno_min, [FromRoute] int mes_min, [FromRoute] int anno_max, [FromRoute] int mes_max, [FromQuery] bool hist=false)
         {
             var respuesta = await _costoQueryService.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, hist);
 
@@ -95,8 +95,8 @@ namespace Bovis.API.Controllers
 
         #region GetCostoLaborable
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [HttpGet("Empleado/tlc/{NumEmpleadoRrHh:int}/{anno_min:int}/{mes_min:int}/{anno_max:int}/{mes_max:int}")]
-        public async Task<IActionResult> GetCostoLaborable([FromRoute] int NumEmpleadoRrHh, [FromRoute] int anno_min, [FromRoute] int mes_min, [FromRoute] int anno_max, [FromRoute] int mes_max)
+        [HttpGet("Empleado/tlc/{NumEmpleadoRrHh:string}/{anno_min:int}/{mes_min:int}/{anno_max:int}/{mes_max:int}")]
+        public async Task<IActionResult> GetCostoLaborable([FromRoute] string NumEmpleadoRrHh, [FromRoute] int anno_min, [FromRoute] int mes_min, [FromRoute] int anno_max, [FromRoute] int mes_max)
         {
             var respuesta = await _costoQueryService.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max);
 
