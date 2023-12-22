@@ -61,8 +61,8 @@ namespace Bovis.Business
                         Almacenada = true
                     };
 
-                    //if (cfdi.RfcReceptor.Equals(request.RfcReceptor) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
-                    //{
+                    if (cfdi.RfcReceptor.Equals(request.RfcReceptor) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
+                    {
                         var existeF = await _facturaData.SearchFactura(cfdi.UUID);
 
                         if (existeF != null)
@@ -99,15 +99,15 @@ namespace Bovis.Business
                                 tmpFactura.Almacenada = responseFactura.existe;
                                 tmpFactura.Error = responseFactura.mensaje;
                             }
-                        }                        
-                    //}
-                    //else
-                    //{
-                    //    tmpFactura.Almacenada = false;
-                    //    tmpFactura.Error = $@"La factura {factura.FacturaNombre} no coincide con los RFCs esperados";
-                    //}
+                    }
+                }
+                else
+                {
+                    tmpFactura.Almacenada = false;
+                    tmpFactura.Error = $@"La factura {factura.FacturaNombre} no coincide con los RFCs esperados";
+                }
 
-                    LstFacturas.Add(tmpFactura);                  
+                LstFacturas.Add(tmpFactura);                  
                 }
                 else
                 {
