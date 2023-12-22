@@ -40,25 +40,25 @@ namespace Bovis.Business
         #endregion
 
         #region GetCosto
-        public Task<TB_CostoPorEmpleado> GetCosto(int IdCosto) => _costoData.GetCosto(IdCosto);
+        public Task<Costo_Detalle> GetCosto(int IdCosto) => _costoData.GetCosto(IdCosto);
         #endregion
 
         #region GetCostosEmpleado
-        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
             return _costoData.GetCostosEmpleado(NumEmpleadoRrHh, hist);
         }
         #endregion
 
         #region GetCostoEmpleado
-        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(string NumEmpleado, int anno, int mes, bool hist = false)
+        public Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleado, int anno, int mes, bool hist = false)
         {
             return _costoData.GetCostoEmpleado(NumEmpleado, anno, mes, hist);
         }
         #endregion
 
         #region GetCostosBetweenDates
-        public Task<Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min,int anno_max,int mes_max, bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min,int anno_max,int mes_max, bool hist)
         {
             return _costoData.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, hist);
            

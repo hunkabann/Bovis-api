@@ -53,22 +53,22 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region GetCosto
-        public async Task<Response<TB_CostoPorEmpleado>> GetCosto(int IdCosto)
+        public async Task<Response<Costo_Detalle>> GetCosto(int IdCosto)
         {
             var response = await _costoBusiness.GetCosto(IdCosto);
-            return new Response<TB_CostoPorEmpleado> { Data = _map.Map<TB_CostoPorEmpleado>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<Costo_Detalle> { Data = response, Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         #endregion
 
         #region GetCostosEmpleado
-        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
             return await _costoBusiness.GetCostosEmpleado(NumEmpleadoRrHh, hist);
         }
         #endregion
 
         #region GetCostoEmpleado
-        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist)
         {
             return await _costoBusiness.GetCostoEmpleado(NumEmpleadoRrHh, anno, mes, hist);
         }
@@ -82,7 +82,7 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region GetCostBetweenDates
-        public async Task<Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
         {
             return await _costoBusiness.GetCostosBetweenDates(NumEmpleadoRrHh,anno_min,mes_min,anno_max,mes_max, hist); 
 
