@@ -482,7 +482,7 @@ namespace Bovis.Business
                         {
                             nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago20:Pagos//pago20:Pago", nsm);
                             strXPathImpuestoDR = "pago20:ImpuestosDR//pago20:TrasladosDR//pago20:TrasladoDR";
-                            strXPathImpuestoP = "pago20:ImpuestosP//pago20:TrasladosP//pago20:TrasladoP";
+                            strXPathImpuestoP = "pago20:TrasladosP//pago20:TrasladoP";
                         }
 
                         datosCFDI.Pagos = new List<CfdiPagos>();
