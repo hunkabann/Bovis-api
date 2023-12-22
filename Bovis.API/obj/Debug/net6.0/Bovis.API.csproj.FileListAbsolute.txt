@@ -585,7 +585,6 @@ E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\D
 E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfoInputs.cache
 E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.AssemblyInfo.cs
 E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CoreCompileInputs.cache
-E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cs
 E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.MvcApplicationPartsAssemblyInfo.cache
 E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.sourcelink.json
 E:\OneDrive - Hunkabann, S.A. de C.V\Documentos\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.build.json
