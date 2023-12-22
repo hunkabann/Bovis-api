@@ -379,9 +379,17 @@ namespace Bovis.Data
                 foreach(var reg in registros.Registros)
                 {
                     if (!string.IsNullOrEmpty(reg.CentroCostos) && reg.CentroCostos.Contains("."))
+                    {
                         reg.Inconsistente = reg.NumProyecto != Convert.ToInt32(reg.CentroCostos.Split('.')[0]);
+
+                        if ((reg.NumProyecto == 110 && Convert.ToInt32(reg.CentroCostos.Split('.')[0]) == 236)
+                            || (reg.NumProyecto == 112 && Convert.ToInt32(reg.CentroCostos.Split('.')[0]) == 261))
+                        {
+                            reg.Inconsistente = false;
+                        }
+                    }
                     else
-                        reg.Inconsistente = true;
+                        reg.Inconsistente = true;                    
                 }
 
 
