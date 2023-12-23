@@ -181,7 +181,7 @@ namespace Bovis.Data
                                            from monedasItem in monedasJoin.DefaultIfEmpty()
                                            join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
                                            from proyectosItem in proyectosJoin.DefaultIfEmpty()
-                                           where notas.NumProyecto != null
+                                           where (notas.NumProyecto != null && notas.IdFactura == null)
                                            && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
                                            && (Mes == 0 || notas.Mes == Mes)
                                            && (Anio == 0 || notas.Anio == Anio)
@@ -211,6 +211,28 @@ namespace Bovis.Data
             
                 return notas_credito;
             }
+        }
+
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_factura = Convert.ToInt32(registro["id_factura"].ToString());
+            string uuid_nota_credito = registro["uuid_nota_credito"].ToString();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var update_add_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota_credito)
+                    .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                    {
+                        IdFactura = id_factura
+                    })) > 0;
+
+                resp.Success = update_add_nota;
+                resp.Message = update_add_nota == default ? "Ocurrio un error al relacionar la nota de credito a la factura." : string.Empty;
+            }
+
+            return resp;
         }
 
 

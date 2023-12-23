@@ -32,6 +32,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<int>>> GetNumsProyecto();
         Task<Response<List<string>>> GetResponsables();
         Task<Response<List<string>>> GetClasificacionesPY();
+        Task<Response<List<string>>> GetTiposPY();
         #endregion Catálogos
 
         #region Registros

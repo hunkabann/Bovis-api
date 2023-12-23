@@ -428,6 +428,7 @@ namespace Bovis.Data
                                        join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
                                        join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
                                        where ts.IdTimesheet == idTimeSheet
+                                       && ts.Activo == true
                                        select new TimeSheet_Detalle
                                        {
                                            id = ts.IdTimesheet,
@@ -680,6 +681,8 @@ namespace Bovis.Data
                                    join usuarioTimesheet in db.tB_Usuario_Timesheets on empleado.NumEmpleadoRrHh equals usuarioTimesheet.NumEmpleadoRrHh
                                    join empleadoProyecto in db.tB_EmpleadoProyectos on usuarioTimesheet.NumProyecto equals empleadoProyecto.NumProyecto
                                    where empleado.EmailBovis == EmailResponsable
+                                   && empleado.Activo == true
+                                   && empleadoProyecto.Activo == true
                                    orderby empleado.NumEmpleadoRrHh ascending
                                    group new Empleado_Detalle
                                    {

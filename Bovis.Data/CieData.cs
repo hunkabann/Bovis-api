@@ -112,8 +112,9 @@ namespace Bovis.Data
                                           select cta).FirstOrDefaultAsync();
                     }
 
-
-                    var insertedId = await db.tB_Cat_TipoCtaContables
+                    if (cuenta_contable != "703002003")
+                    {
+                        var insertedId = await db.tB_Cat_TipoCtaContables
                             .Value(x => x.CtaContable, cuenta_contable)
                             .Value(x => x.Concepto, concepto)
                             .Value(x => x.TipoCtaContableMayor, cuenta_contable.Substring(0, 3))
@@ -126,33 +127,34 @@ namespace Bovis.Data
                             .Value(x => x.Activo, true)
                             .InsertWithIdentityAsync();
 
-                    var cuenta = await (from cta in db.tB_Cat_TipoCtaContables
-                                         join tipocta in db.tB_Cat_TipoCuentas on cta.IdTipoCuenta equals tipocta.IdTipoCuenta into tipoctaJoin
-                                         from tipoctaItem in tipoctaJoin.DefaultIfEmpty()
-                                         join tipores in db.tB_Cat_TipoResultados on cta.IdTipoResultado equals tipores.IdTipoResultado into tiporesJoin
-                                         from tiporesItem in tiporesJoin.DefaultIfEmpty()
-                                         join pcs in db.tB_Cat_TipoPcs on cta.IdPcs equals pcs.IdTipoPcs into pcsJoin
-                                         from pcsItem in pcsJoin.DefaultIfEmpty()
-                                         join pcs2 in db.tB_Cat_TipoPcs2 on cta.IdPcs2 equals pcs2.IdTipoPcs2 into pcs2Join
-                                         from pcs2Item in pcsJoin.DefaultIfEmpty()
-                                         where cta.IdTipoCtaContable == Convert.ToInt32(insertedId)
-                                         select new CtaContableRespuesta_Detalle
-                                         {
-                                             CtaContable = cta.CtaContable,
-                                             NombreCtaContable = nombre_cuenta,
-                                             Concepto = cta.Concepto,
-                                             TipoCtaContableMayor = cta.TipoCtaContableMayor,
-                                             TipoCtaContablePrimerNivel = cta.TipoCtaContablePrimerNivel,
-                                             TipoCtaContableSegundoNivel = cta.TipoCtaContableSegundoNivel,
-                                             IdTipoCuenta = cta.IdTipoCuenta,
-                                             TipoCuenta = tipoctaItem != null ? tipoctaItem.TipoCuenta : string.Empty,
-                                             IdTipoResultado = cta.IdTipoResultado,
-                                             TipoResultado = tiporesItem != null ? tiporesItem.TipoResultado : string.Empty,
-                                             Pcs = pcsItem != null ? pcsItem.TipoPcs : string.Empty,
-                                             Pcs2 = pcs2Item != null ? pcs2Item.TipoPcs : string.Empty
-                                         }).FirstOrDefaultAsync();
+                        var cuenta = await (from cta in db.tB_Cat_TipoCtaContables
+                                            join tipocta in db.tB_Cat_TipoCuentas on cta.IdTipoCuenta equals tipocta.IdTipoCuenta into tipoctaJoin
+                                            from tipoctaItem in tipoctaJoin.DefaultIfEmpty()
+                                            join tipores in db.tB_Cat_TipoResultados on cta.IdTipoResultado equals tipores.IdTipoResultado into tiporesJoin
+                                            from tiporesItem in tiporesJoin.DefaultIfEmpty()
+                                            join pcs in db.tB_Cat_TipoPcs on cta.IdPcs equals pcs.IdTipoPcs into pcsJoin
+                                            from pcsItem in pcsJoin.DefaultIfEmpty()
+                                            join pcs2 in db.tB_Cat_TipoPcs2 on cta.IdPcs2 equals pcs2.IdTipoPcs2 into pcs2Join
+                                            from pcs2Item in pcsJoin.DefaultIfEmpty()
+                                            where cta.IdTipoCtaContable == Convert.ToInt32(insertedId)
+                                            select new CtaContableRespuesta_Detalle
+                                            {
+                                                CtaContable = cta.CtaContable,
+                                                NombreCtaContable = nombre_cuenta,
+                                                Concepto = cta.Concepto,
+                                                TipoCtaContableMayor = cta.TipoCtaContableMayor,
+                                                TipoCtaContablePrimerNivel = cta.TipoCtaContablePrimerNivel,
+                                                TipoCtaContableSegundoNivel = cta.TipoCtaContableSegundoNivel,
+                                                IdTipoCuenta = cta.IdTipoCuenta,
+                                                TipoCuenta = tipoctaItem != null ? tipoctaItem.TipoCuenta : string.Empty,
+                                                IdTipoResultado = cta.IdTipoResultado,
+                                                TipoResultado = tiporesItem != null ? tiporesItem.TipoResultado : string.Empty,
+                                                Pcs = pcsItem != null ? pcsItem.TipoPcs : string.Empty,
+                                                Pcs2 = pcs2Item != null ? pcs2Item.TipoPcs : string.Empty
+                                            }).FirstOrDefaultAsync();
 
-                    cuentas.Add(cuenta);
+                        cuentas.Add(cuenta);
+                    }
                 }
             }
 
@@ -256,8 +258,24 @@ namespace Bovis.Data
             {
                 var clasificacionesPY = await (from cie in db.tB_Cie_Datas
                                       where cie.Activo == true
+                                      && !string.IsNullOrEmpty(cie.ClasificacionPY)
                                       orderby cie.ClasificacionPY ascending
                                       select cie.ClasificacionPY)
+                                      .Distinct()
+                                      .ToListAsync();
+
+                return clasificacionesPY;
+            }
+        }
+        public async Task<List<string>> GetTiposPY()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var clasificacionesPY = await (from cie in db.tB_Cie_Datas
+                                      where cie.Activo == true
+                                      && !string.IsNullOrEmpty(cie.TipoPY)
+                                      orderby cie.TipoPY ascending
+                                      select cie.TipoPY)
                                       .Distinct()
                                       .ToListAsync();
 
@@ -375,7 +393,7 @@ namespace Bovis.Data
                                              }).ToListAsync();
 
 
-
+                // Omisión de filtro de inconsistencia para cuentas específicas.
                 foreach(var reg in registros.Registros)
                 {
                     if (!string.IsNullOrEmpty(reg.CentroCostos) && reg.CentroCostos.Contains("."))
@@ -603,31 +621,34 @@ namespace Bovis.Data
                             return resp;
                         }
 
-                        insert = await db.tB_Cie_Datas
-                            .Value(x => x.NombreCuenta, nombre_cuenta)
-                            .Value(x => x.Cuenta, cuenta)
-                            .Value(x => x.TipoPoliza, tipo_poliza)
-                            .Value(x => x.Numero, numero)
-                            .Value(x => x.Fecha, fecha)
-                            .Value(x => x.Mes, mes)
-                            .Value(x => x.Concepto, concepto)
-                            .Value(x => x.CentroCostos, centro_costos)
-                            .Value(x => x.Proyecto, proyectos)
-                            .Value(x => x.SaldoInicial, saldo_inicial)
-                            .Value(x => x.Debe, debe)
-                            .Value(x => x.Haber, haber)
-                            .Value(x => x.Movimiento, movimiento)
-                            .Value(x => x.Empresa, empresa)
-                            .Value(x => x.NumProyecto, num_proyecto)
-                            .Value(x => x.TipoCuenta, tipo_cuenta)
-                            .Value(x => x.EdoResultados, edo_resultados)
-                            .Value(x => x.Responsable, responsable)
-                            .Value(x => x.TipoProyecto, tipo_proyecto)
-                            .Value(x => x.TipoPY, tipo_py)
-                            .Value(x => x.ClasificacionPY, clasificacion_py)
-                            .Value(x => x.Activo, true)
-                            .Value(x => x.IdArchivo, last_inserted_id)
-                            .InsertAsync() > 0;
+                        if (cuenta != "703002003")
+                        {
+                            insert = await db.tB_Cie_Datas
+                                .Value(x => x.NombreCuenta, nombre_cuenta)
+                                .Value(x => x.Cuenta, cuenta)
+                                .Value(x => x.TipoPoliza, tipo_poliza)
+                                .Value(x => x.Numero, numero)
+                                .Value(x => x.Fecha, fecha)
+                                .Value(x => x.Mes, mes)
+                                .Value(x => x.Concepto, concepto)
+                                .Value(x => x.CentroCostos, centro_costos)
+                                .Value(x => x.Proyecto, proyectos)
+                                .Value(x => x.SaldoInicial, saldo_inicial)
+                                .Value(x => x.Debe, debe)
+                                .Value(x => x.Haber, haber)
+                                .Value(x => x.Movimiento, movimiento)
+                                .Value(x => x.Empresa, empresa)
+                                .Value(x => x.NumProyecto, num_proyecto)
+                                .Value(x => x.TipoCuenta, tipo_cuenta)
+                                .Value(x => x.EdoResultados, edo_resultados)
+                                .Value(x => x.Responsable, responsable)
+                                .Value(x => x.TipoProyecto, tipo_proyecto)
+                                .Value(x => x.TipoPY, tipo_py)
+                                .Value(x => x.ClasificacionPY, clasificacion_py)
+                                .Value(x => x.Activo, true)
+                                .Value(x => x.IdArchivo, last_inserted_id)
+                                .InsertAsync() > 0;
+                        }
                     }
 
                     resp.Success = insert;

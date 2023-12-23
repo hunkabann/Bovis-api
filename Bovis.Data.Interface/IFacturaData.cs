@@ -15,6 +15,7 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> AddNotaCredito(TB_ProyectoFacturaNotaCredito notaCredito);
         Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro);
         Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio);
+        Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro);
         Task<(bool Success, string Message)> AddPagos(TB_ProyectoFacturaCobranza pagos);
         Task<(bool Success, string Message)> CancelFactura(TB_ProyectoFactura factura);
         Task<List<FacturaDetalles>> GetAllFacturas(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura);

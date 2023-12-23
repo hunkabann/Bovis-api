@@ -44,6 +44,7 @@ namespace Bovis.Business
         public Task<List<int>> GetNumsProyecto() => _cieData.GetNumsProyecto();
         public Task<List<string>> GetResponsables() => _cieData.GetResponsables();
         public Task<List<string>> GetClasificacionesPY() => _cieData.GetClasificacionesPY();
+        public Task<List<string>> GetTiposPY() => _cieData.GetTiposPY();
         #endregion Catálogos
 
         #region Registros

@@ -39,6 +39,11 @@ namespace Bovis.Service.Queries
             var response = await _facturaBusiness.GetNotaCreditoSinFactura(NumProyecto, Mes, Anio);
             return new Response<List<NotaCredito_Detalle>> { Data = _map.Map<List<NotaCredito_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+		public async Task<Response<(bool Success, string Message)>> AddNotaCreditoSinFacturaToFactura(JsonObject registro)
+        {
+            var response = await _facturaBusiness.AddNotaCreditoSinFacturaToFactura(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
 
         public async Task<Response<FacturaProyecto>> GetInfoProyecto(int numProyecto)
 		{

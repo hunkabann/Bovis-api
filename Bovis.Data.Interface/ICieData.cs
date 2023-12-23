@@ -25,6 +25,7 @@ namespace Bovis.Data.Interface
         Task<List<int>> GetNumsProyecto();
         Task<List<string>> GetResponsables();
         Task<List<string>> GetClasificacionesPY();
+        Task<List<string>> GetTiposPY();
         #endregion Catálogos
 
         #region Registros
