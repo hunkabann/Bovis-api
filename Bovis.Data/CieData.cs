@@ -517,12 +517,22 @@ namespace Bovis.Data
                 registros.TotalRegistros = registros.Registros.Count();
 
                 if (sort_field == null)
-                    registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
+                {
+                    if (limit == -1)
+                        registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).ToList();
+                    else
+                        registros.Registros = registros.Registros.OrderByDescending(x => x.IdCie).Skip((offset - 1) * limit).Take(limit).ToList();
+                }
                 else
                 {
                     string orderExpression = sort_order == "ASC" ? $"{sort_field} asc" : $"{sort_field} desc";
 
-                    registros.Registros = OrderByField(registros.Registros.AsQueryable(), sort_field, sort_order)
+                    if (limit == -1)
+                        registros.Registros = OrderByField(registros.Registros.AsQueryable(), sort_field, sort_order)
+                                                    .ToList();
+
+                    else
+                        registros.Registros = OrderByField(registros.Registros.AsQueryable(), sort_field, sort_order)
                                                 .Skip((offset - 1) * limit)
                                                 .Take(limit)
                                                 .ToList();
