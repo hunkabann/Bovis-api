@@ -75,6 +75,13 @@ namespace Bovis.Business
                             tryDate = default;
                             if (DateTime.TryParse(cfdi.Fecha, out tryDate))
                             {
+                                decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                                decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
+
+                                if (cfdi.Moneda != "MXN") {
+                                    total = total * tipoCambio;
+                                }
+
                                 var responseFactura = await _facturaData.AddFactura(new TB_ProyectoFactura
                                 {
                                     NumProyecto = request.NumProyecto,
@@ -89,10 +96,10 @@ namespace Bovis.Business
                                     NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
                                     Iva = cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0,
                                     IvaRet = cfdi.TotalImpuestosRetenidos is not null ? Convert.ToDecimal(cfdi.TotalImpuestosRetenidos) : 0,
-                                    Total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0,
+                                    Total = total,
                                     Mes = Convert.ToByte(tryDate.Month),
                                     Uuid = cfdi.UUID,
-                                    TipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null,
+                                    TipoCambio = tipoCambio,
                                     XmlB64 = cfdi.XmlB64,
                                     IdTipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS"
                                 });
@@ -166,6 +173,14 @@ namespace Bovis.Business
                             {
                                 if ((DateTime.TryParse(cfdi.Fecha, out tryDate)) && (factura.Id > 0))
                                 {
+                                    decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                                    decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
+
+                                    if (cfdi.Moneda != "MXN")
+                                    {
+                                        total = total * tipoCambio;
+                                    }
+
                                     var responseFactura = await _facturaData.AddNotaCredito(new TB_ProyectoFacturaNotaCredito
                                     {
                                         IdFactura = factura.Id,
@@ -177,9 +192,9 @@ namespace Bovis.Business
                                         Importe = Convert.ToDecimal(cfdi.SubTotal ?? "-1"),
                                         NotaCredito = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
                                         Iva = cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0,
-                                        Total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0,
+                                        Total = total,
                                         Mes = Convert.ToByte(tryDate.Month),
-                                        TipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null,
+                                        TipoCambio = tipoCambio,
                                         Xml = cfdi.XmlB64
                                     });
 
@@ -266,6 +281,13 @@ namespace Bovis.Business
                 {
                     foreach (CfdiPagos tmpPagos in cfdi.Pagos)
                     {
+                        decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                        decimal tipoCambio = tmpPagos.TipoCambioP is not null ? Convert.ToDecimal(tmpPagos.TipoCambioP) : 0;
+
+                        if (cfdi.Moneda != "MXN")
+                        {
+                            total = total * tipoCambio;
+                        }
 
                         foreach (var docto in tmpPagos.DoctosRelacionados)
                         {
@@ -275,7 +297,7 @@ namespace Bovis.Business
                                 RfcEmisor = cfdi.RfcEmisor,
                                 RfcReceptor = cfdi.RfcReceptor,
                                 FechaEmision = cfdi.Fecha,
-                                Total = cfdi.Total,
+                                Total = total.ToString(),
                                 Conceptos = string.Join("|", cfdi.Conceptos),
                                 //TipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS",
                                 NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
@@ -297,7 +319,7 @@ namespace Bovis.Business
                                 {
 
                                     if ((DateTime.TryParse(tmpPagos.FechaPago, out tryDate)) && (factura.Id > 0))
-                                    {
+                                    {                                        
                                         var responseFactura = await _facturaData.AddPagos(new TB_ProyectoFacturaCobranza
                                         {
                                             IdFactura = factura.Id,
@@ -307,7 +329,7 @@ namespace Bovis.Business
                                             ImpSaldoAnt = Convert.ToDecimal(docto.ImporteSaldoAnt ?? "-1"),
                                             ImporteSaldoInsoluto = Convert.ToDecimal(docto.ImporteSaldoInsoluto ?? "-1"),
                                             IvaP = Convert.ToDecimal(docto.ImporteDR ?? "-1"),
-                                            TipoCambioP = Convert.ToDecimal(tmpPagos.TipoCambioP),
+                                            TipoCambioP = tipoCambio,
                                             FechaPago = tryDate,
                                             Xml = cfdi.XmlB64,
                                             CRP = cfdi.Serie + cfdi.Folio,
