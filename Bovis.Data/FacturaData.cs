@@ -437,7 +437,7 @@ namespace Bovis.Data
                 {
                     var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.IdFactura == facturaDetalle.Id
-                                           && notas.FechaCancelacion == null
+                                           //&& notas.FechaCancelacion == null
                                            select new NotaDetalle
                                            {
                                                NC_UuidNotaCredito = notas.UuidNotaCredito,
@@ -464,7 +464,7 @@ namespace Bovis.Data
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
                                                where cobr.IdFactura == facturaDetalle.Id
-                                               && cobr.FechaCancelacion == null
+                                               //&& cobr.FechaCancelacion == null
                                                select new CobranzaDetalle
                                                {
                                                    C_UuidCobranza = cobr.UuidCobranza,

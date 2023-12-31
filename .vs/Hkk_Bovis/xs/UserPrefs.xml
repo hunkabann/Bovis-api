@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="Varios proyectos">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.0_220Api.Bovis.API PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MultiItemStartupConfigurations>
     <MultiItemSolutionRunConfiguration Id="Varios proyectos" Name="Varios proyectos">
       <Items>
@@ -7,19 +7,21 @@
       </Items>
     </MultiItemSolutionRunConfiguration>
   </MultiItemStartupConfigurations>
-  <MonoDevelop.Ide.ItemProperties.0_220Api.Bovis.API PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Bovis.Data/CostoData.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Bovis.Data/FacturaData.cs">
     <Files>
-      <File FileName="Bovis.Data/CostoData.cs" Line="96" Column="1" />
+      <File FileName="Bovis.Data/FacturaData.cs" Line="448" Column="67" />
+      <File FileName="Bovis.Common.Model/NoTable/Factura_Proyecto.cs" Line="152" Column="56" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="Hkk_Bovis" expanded="True">
-            <Node name="0 Api" expanded="True">
+          <Node name="Hkk_Bovis">
+            <Node name="0 Api">
               <Node name="Bovis.API" expanded="True">
                 <Node name="Controllers" expanded="True" />
               </Node>
@@ -27,17 +29,16 @@
             <Node name="1 Service" expanded="True" />
             <Node name="2 Business" expanded="True" />
             <Node name="3 Data" expanded="True">
-              <Node name="Bovis.Data">
-                <Node name="CostoData.cs" selected="True" />
-              </Node>
+              <Node name="Bovis.Data" expanded="True" />
             </Node>
             <Node name="4 Common" expanded="True">
-              <Node name="Bovis.Common.Model" expanded="True" />
+              <Node name="Bovis.Common.Model" expanded="True">
+                <Node name="NoTable" expanded="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
