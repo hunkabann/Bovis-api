@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {}
+    "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/Bovis.Common.csproj": {}
   },
   "projects": {
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+    "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/Bovis.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj",
+        "projectUniqueName": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/Bovis.Common.csproj",
         "projectName": "Bovis.Common",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\obj\\",
+        "projectPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/Bovis.Common.csproj",
+        "packagesPath": "/Users/liveproductionsdj/.nuget/packages/",
+        "outputPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/liveproductionsdj/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -60,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.311/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -452,6 +452,7 @@ namespace Bovis.Data
                                                NC_Anio = notas.Anio,
                                                NC_TipoCambio = notas.TipoCambio,
                                                NC_FechaNotaCredito = notas.FechaNotaCredito,
+                                               NC_FechaCancelacion = notas.FechaCancelacion,
                                                Cliente = facturaDetalle.Cliente
                                            }).ToListAsync();
 
@@ -474,6 +475,7 @@ namespace Bovis.Data
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
                                                    C_FechaPago = cobr.FechaPago,
+                                                   C_FechaCancelacion = cobr.FechaCancelacion,
                                                    CRP = cobr.CRP,
                                                    Base = cobr.Base,
                                                    Cliente = facturaDetalle.Cliente
