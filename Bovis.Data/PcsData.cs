@@ -426,7 +426,7 @@ namespace Bovis.Data
                                     join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
                                     from proyItem in proyJoin.DefaultIfEmpty()
                                     where p.NumProyecto == IdProyecto
-                                    orderby p.Fase ascending
+                                    orderby p.FechaIni ascending
                                     select new PCS_Etapa_Detalle
                                     {
                                         IdFase = p.IdFase,
