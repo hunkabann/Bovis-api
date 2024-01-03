@@ -11,12 +11,14 @@ using LinqToDB.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Identity.Web;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Json;
+using System.IO.Compression;
 using System.Reflection;
 using System.Text;
 
@@ -54,6 +56,11 @@ builder.Services.AddCors(options => options.AddPolicy("policyAPI",
 				builder => builder.WithOrigins("*")
 								  .AllowAnyHeader()
 								  .AllowAnyMethod()));
+
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Fastest;	
+});
 
 builder.Services.AddScoped<IAuditoriaQueryService, AuditoriaQueryService>();
 builder.Services.AddScoped<IAuditoriaBusiness, AuditoriaBusiness>();

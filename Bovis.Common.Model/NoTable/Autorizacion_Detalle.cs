@@ -14,7 +14,7 @@ namespace Bovis.Common.Model.NoTable
     public class Usuario_Detalle
     {
         public int IdUsuario { get; set; }
-        public int NumEmpleado { get; set; }
+        public string NumEmpleado { get; set; }
         public string Empleado { get; set; }
         public bool Activo { get; set; }
         public DateTime? UltimaSesion { get; set; }

@@ -99,13 +99,13 @@ namespace Bovis.Data
             int? id_estatus = registro["id_estatus"] != null ? Convert.ToInt32(registro["id_estatus"].ToString()) : null;
             int? id_sector = registro["id_sector"] != null ? Convert.ToInt32(registro["id_sector"].ToString()) : null;
             int? id_tipo_proyecto = registro["id_tipo_proyecto"] != null ? Convert.ToInt32(registro["id_tipo_proyecto"].ToString()) : null;
-            int? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString()) : null;
-            int? id_responsable_construccion = registro["id_responsable_construccion"] != null ? Convert.ToInt32(registro["id_responsable_construccion"].ToString()) : null;
-            int? id_responsable_ehs = registro["id_responsable_ehs"] != null ? Convert.ToInt32(registro["id_responsable_ehs"].ToString()) : null;
-            int? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? Convert.ToInt32(registro["id_responsable_supervisor"].ToString()) : null;
+            string? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? registro["id_responsable_preconstruccion"].ToString() : null;
+            string? id_responsable_construccion = registro["id_responsable_construccion"] != null ? registro["id_responsable_construccion"].ToString() : null;
+            string? id_responsable_ehs = registro["id_responsable_ehs"] != null ? registro["id_responsable_ehs"].ToString() : null;
+            string? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? registro["id_responsable_supervisor"].ToString() : null;
             int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
             int? id_empresa = registro["id_empresa"] != null ? Convert.ToInt32(registro["id_empresa"].ToString()) : null;
-            int? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? Convert.ToInt32(registro["id_director_ejecutivo"].ToString()) : null;
+            string? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? registro["id_director_ejecutivo"].ToString() : null;
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
@@ -294,13 +294,13 @@ namespace Bovis.Data
             int? id_estatus = registro["id_estatus"] != null ? Convert.ToInt32(registro["id_estatus"].ToString()) : null;
             int? id_sector = registro["id_sector"] != null ? Convert.ToInt32(registro["id_sector"].ToString()) : null;
             int? id_tipo_proyecto = registro["id_tipo_proyecto"] != null ? Convert.ToInt32(registro["id_tipo_proyecto"].ToString()) : null;
-            int? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? Convert.ToInt32(registro["id_responsable_preconstruccion"].ToString()) : null;
-            int? id_responsable_construccion = registro["id_responsable_construccion"] != null ? Convert.ToInt32(registro["id_responsable_construccion"].ToString()) : null;
-            int? id_responsable_ehs = registro["id_responsable_ehs"] != null ? Convert.ToInt32(registro["id_responsable_ehs"].ToString()) : null;
-            int? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? Convert.ToInt32(registro["id_responsable_supervisor"].ToString()) : null;
+            string? id_responsable_preconstruccion = registro["id_responsable_preconstruccion"] != null ? registro["id_responsable_preconstruccion"].ToString() : null;
+            string? id_responsable_construccion = registro["id_responsable_construccion"] != null ? registro["id_responsable_construccion"].ToString() : null;
+            string? id_responsable_ehs = registro["id_responsable_ehs"] != null ? registro["id_responsable_ehs"].ToString() : null;
+            string? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? registro["id_responsable_supervisor"].ToString() : null;
             int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
             int? id_empresa = registro["id_empresa"] != null ? Convert.ToInt32(registro["id_empresa"].ToString()) : null;
-            int? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? Convert.ToInt32(registro["id_director_ejecutivo"].ToString()) : null;
+            string? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? registro["id_director_ejecutivo"].ToString() : null;
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
             DateTime? fecha_fin = registro["fecha_fin"] != null ? Convert.ToDateTime(registro["fecha_fin"].ToString()) : null;
@@ -426,7 +426,7 @@ namespace Bovis.Data
                                     join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
                                     from proyItem in proyJoin.DefaultIfEmpty()
                                     where p.NumProyecto == IdProyecto
-                                    orderby p.Fase ascending
+                                    orderby p.FechaIni ascending
                                     select new PCS_Etapa_Detalle
                                     {
                                         IdFase = p.IdFase,
@@ -549,7 +549,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());        
+            string num_empleado = registro["num_empleado"].ToString();        
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
@@ -647,7 +647,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            int num_empleado = Convert.ToInt32(registro["num_empleado"].ToString());         
+            string num_empleado = registro["num_empleado"].ToString();         
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {                
@@ -675,7 +675,7 @@ namespace Bovis.Data
 
             return resp;
         }
-        public async Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, int NumEmpleado)
+        public async Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
@@ -732,6 +732,7 @@ namespace Bovis.Data
                                         && rel2.Tipo == Tipo
                                         select new Rubro_Detalle
                                         {
+                                            Id = rubro.Id,
                                             IdRubro = rubro.IdRubro,
                                             Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
                                             Unidad = rubro.Unidad,
@@ -746,11 +747,10 @@ namespace Bovis.Data
                     foreach (var rubro in rubros)
                     {
                         var fechas = await (from valor in db.tB_RubroValors
-                                            join rub in db.tB_Rubros on valor.IdRubro equals rub.Id
+                                            join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                             join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                             join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
-                                            where rub.Id == rubro.IdRubro
-                                            && rub.NumProyecto == IdProyecto
+                                            where rub.NumProyecto == IdProyecto
                                             && sec.Tipo == Tipo
                                             select new PCS_Fecha_Detalle
                                             {

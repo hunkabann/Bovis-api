@@ -1,25 +1,40 @@
-﻿<Properties StartupConfiguration="{BA6985DE-E940-423F-928B-EC36499D2716}|Default">
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Bovis.Data/DorData.cs">
+﻿<Properties StartupConfiguration="Varios proyectos">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.0_220Api.Bovis.API PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations>
+    <MultiItemSolutionRunConfiguration Id="Varios proyectos" Name="Varios proyectos">
+      <Items>
+        <StartupItem ItemId="{BA6985DE-E940-423F-928B-EC36499D2716}" ItemName="Bovis.API" ConfigurationId="Default" />
+      </Items>
+    </MultiItemSolutionRunConfiguration>
+  </MultiItemStartupConfigurations>
+  <MonoDevelop.Ide.Workbench ActiveDocument="Bovis.API/Controllers/CostoController.cs">
     <Files>
-      <File FileName="Bovis.Data/DorData.cs" Line="268" Column="679" />
+      <File FileName="Bovis.API/Controllers/CostoController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Hkk_Bovis">
-            <Node name="3 Data">
-              <Node name="Bovis.Data" expanded="True" />
+            <Node name="0 Api" expanded="True">
+              <Node name="Bovis.API" expanded="True">
+                <Node name="Controllers" expanded="True">
+                  <Node name="CostoController.cs" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+            <Node name="4 Common">
+              <Node name="Bovis.Common.Model" expanded="True">
+                <Node name="NoTable" expanded="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.0_220Api.Bovis.API PreferredExecutionTarget="/Applications/Safari.app" />
 </Properties>

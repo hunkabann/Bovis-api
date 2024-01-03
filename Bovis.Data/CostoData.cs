@@ -11,6 +11,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -43,7 +44,21 @@ namespace Bovis.Data
 
             if (!registro_anterior.Success) // Puede llevarse a cabo la inserción de un nuevo registro.
             {
-                var resultado = (decimal) await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+                                            where isr.Anio == registro.NuAnno
+                                                                    && isr.Mes == registro.NuMes
+                                            && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
+                                            select isr).FirstOrDefaultAsync();
+
+                    if (isr_record != null)
+                    {
+                        registro.Ispt = ((registro.SueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                    }
+                }
+
+                var resultado = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
                 return new Common.Response<decimal>()
                 {
                     Data = resultado,
@@ -63,116 +78,44 @@ namespace Bovis.Data
 
         #region GetCostos
 
-        public async Task<List<CostoEmpleado_Detalle>> GetCostos(bool? hist)
+        public async Task<List<Costo_Detalle>> GetCostos(bool? hist)
         {
-            //var resp = await GetAllFromEntityAsync<TB_CostoPorEmpleado>();
-            //if (hist)
-            //{
-            //    return resp.ToList();
-            //}
-            //else
-            //    return resp.Where(reg => reg.RegHistorico == false).ToList();
+            CostoQueries QueryBase = new(dbConfig);
+            var costos = await QueryBase.CostosEmpleados();
 
-            using (var db = new ConnectionDB(dbConfig))
+            if ((bool)hist)
             {
-                var result = await (from costos in db.tB_Costo_Por_Empleados
-                                    join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
-                                    from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
-                                    join puesto in db.tB_Cat_Puestos on costos.IdPuesto equals puesto.IdPuesto into puestoJoin
-                                    from puestoItem in puestoJoin.DefaultIfEmpty()
-                                    join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
-                                    from proyectoItem in proyectoJoin.DefaultIfEmpty()
-                                    join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
-                                    from unidadNItem in unidadNJoin.DefaultIfEmpty()
-                                    join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
-                                    from empresaItem in empresaJoin.DefaultIfEmpty()
-                                    join empleado in db.tB_Empleados on costos.IdEmpleadoJefe equals empleado.NumEmpleadoRrHh into empleadoJoin
-                                    from empleadoItem in empleadoJoin.DefaultIfEmpty()
-                                    join personaJefe in db.tB_Personas on empleadoItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
-                                    from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
-                                    where (hist == null || costos.RegHistorico == hist)
-                                    select new CostoEmpleado_Detalle
-                                    {
-                                        IdCosto = costos.IdCosto,
-                                        Anio = costos.NuAnno,
-                                        Mes = costos.NuMes,
-                                        NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
-                                        NumEmpleadoNoi = costos.NumEmpleadoNoi,
-                                        IdPersona = costos.IdPersona,
-                                        NombrePersona = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
-                                        Reubicacion = costos.Reubicacion,
-                                        IdPuesto = costos.IdPuesto,
-                                        Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
-                                        NumProyecto = costos.NumProyecto,
-                                        Proyecto = proyectoItem != null ? proyectoItem.Proyecto : string.Empty,
-                                        IdUnidadNegocio = costos.IdUnidadNegocio,
-                                        UnidadNegocio = unidadNItem != null ? unidadNItem.UnidadNegocio : string.Empty,
-                                        IdEmpresa = costos.IdEmpresa,
-                                        Empresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
-                                        Timesheet = costos.Timesheet,
-                                        IdEmpleadoJefe = costos.IdEmpleadoJefe,
-                                        NombreJefe = personaJefeItem != null ? personaJefeItem.Nombre + " " + personaJefeItem.ApPaterno + " " + personaJefeItem.ApMaterno : string.Empty,
-                                        FechaIngreso = costos.FechaIngreso,
-                                        Antiguedad = costos.Antiguedad,
-                                        AvgDescuentoEmpleado = costos.AvgDescuentoEmpleado,
-                                        MontoDescuentoMensual = costos.MontoDescuentoMensual,
-                                        SueldoNetoMensual = costos.SueldoNetoPercibidoMensual,
-                                        RetencionImss = costos.RetencionImss,
-                                        Ispt = costos.Ispt,
-                                        SueldoBruto = costos.SueldoBruto,
-                                        Anual = costos.Anual,
-                                        AguinaldoCantidadMeses = costos.AguinaldoCantMeses,
-                                        AguinaldoMontoProvisionMensual = costos.AguinaldoMontoProvisionMensual,
-                                        PvDiasVacasAnuales = costos.PvDiasVacasAnuales,
-                                        PvProvisionMensual = costos.PvProvisionMensual,
-                                        IndemProvisionMensual = costos.IndemProvisionMensual,
-                                        AvgBonoAnualEstimado = costos.AvgBonoAnualEstimado,
-                                        BonoAnualProvisionMensual = costos.BonoAnualProvisionMensual,
-                                        SgmmCostoTotalAnual = costos.SgmmCostoTotalAnual,
-                                        SgmmCostoMensual = costos.SgmmCostoMensual,
-                                        SvCostoTotalAnual = costos.SvCostoTotalAnual,
-                                        SvCostoMensual = costos.SvCostoMensual,
-                                        VaidCostoMensual = costos.VaidCostoMensual,
-                                        VaidComisionCostoMensual = costos.VaidComisionCostoMensual,
-                                        PtuProvision = costos.PtuProvision,
-                                        Beneficios = costos.Beneficios,
-                                        Impuesto3sNomina = costos.Impuesto3sNomina,
-                                        Imss = costos.Imss,
-                                        Retiro2 = costos.Retiro2,
-                                        CesantesVejez = costos.CesantesVejez,
-                                        Infonavit = costos.Infonavit,
-                                        CargasSociales = costos.CargasSociales,
-                                        CostoMensualEmpleado = costos.CostoMensualEmpleado,
-                                        CostoMensualProyecto = costos.CostoMensualProyecto,
-                                        CostoAnualEmpleado = costos.CostoAnualEmpleado,
-                                        IndiceCostoLaboral = costos.IndiceCostoLaboral,
-                                        IndiceCargaLaboral = costos.IndiceCargaLaboral,
-                                        FechaActualizacion = costos.FechaActualizacion,
-                                        RegHistorico = costos.RegHistorico
-                                    }).ToListAsync();
-
-                return result;
+                return costos;
             }
+            else
+                return costos.Where(reg => reg.RegHistorico == false).ToList();
+
         }
         #endregion
 
         #region GetCosto
-        public async Task<TB_CostoPorEmpleado> GetCosto(int IdCosto)
+        public async Task<Costo_Detalle> GetCosto(int IdCosto)
         {
-            var resp = await GetEntityByPKAsync<TB_CostoPorEmpleado>(IdCosto);
-            return resp; 
+            CostoQueries QueryBase = new(dbConfig);
+            var costos = await QueryBase.CostosEmpleados();
+            var resp = costos.SingleOrDefault(costo => costo.IdCosto == IdCosto);
+
+            return resp;
         }
         #endregion
 
-        #region GetCostoEmpleado
-        public async Task<Common.Response<List<TB_CostoPorEmpleado>>> GetCostosEmpleado(int NumEmpleadoRrHh, bool hist)
+        #region GetCostosEmpleado
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
-            var resp = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
+            CostoQueries QueryBase = new(dbConfig);
+            var costos = await QueryBase.CostosEmpleados();
+            var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
             if (hist)
             {
                 if (resp.Count > 0)
                 {
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
                         Data = resp,
@@ -181,60 +124,62 @@ namespace Bovis.Data
 
                 }
                 else
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = false,
                         Message = $"No se encontraron históricos de costos del empleado: {NumEmpleadoRrHh}"
 
                     };
-                
+
 
             }
             else
             {
                 var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
-                if (listaCostos.Count != 0)
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                if (listaCostos.Count > 0)
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
                         Data = listaCostos,
                         Message = "Ok"
                     };
                 else
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = false,
                         Message = $"No se encontraron registros de costos para el empleado: {NumEmpleadoRrHh}"
                     };
             }
-            
-             
+
+
         }
         #endregion
 
-        #region GetCostosEmpleado
-        public async Task<Common.Response<List<TB_CostoPorEmpleado>>> GetCostoEmpleado(int NumEmpleadoRrHh, int anno, int mes, bool hist)
+        #region GetCostoEmpleado
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist)
         {
-            var registros = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
-            if (registros.Count > 0)
+            CostoQueries QueryBase = new(dbConfig);
+            var costos = await QueryBase.CostosEmpleados();
+            var result = costos.Where(costo => costo.NumEmpleadoRrHh ==  NumEmpleadoRrHh && costo.NuAnno == anno && costo.NuMes == mes).ToList();
+
+            if (result.Count > 0)
             {
                 if (hist)
                 {
-                    var costosEmpleado = registros.Where(reg => reg.NuAnno == anno && reg.NuMes == mes).ToList();
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
-                        Data = costosEmpleado,
+                        Data = result,
                         Message = "Ok"
                     };
 
                 }
                 else
                 {
-                    var costoEmpleado = registros.Where(reg => reg.RegHistorico == false && reg.NuAnno == anno && reg.NuMes == mes).ToList();
+                    var costoEmpleado = result.Where(reg => reg.RegHistorico == false).ToList();
                     if (costoEmpleado.Count > 0)
                     {
-                        return new Common.Response<List<TB_CostoPorEmpleado>>()
+                        return new Common.Response<List<Costo_Detalle>>()
                         {
                             Success = true,
                             Data = costoEmpleado,
@@ -244,31 +189,33 @@ namespace Bovis.Data
 
                     }
                     else
-                        return new Common.Response<List<TB_CostoPorEmpleado>>()
+                        return new Common.Response<List<Costo_Detalle>>()
                         {
                             Success = false,
                             Message = $"No existe registro de costo para el empleado {NumEmpleadoRrHh} en el año y mes solicitados"
 
                         };
-                    
+
                 }
             }
             else
             {
-                return new Common.Response<List<TB_CostoPorEmpleado>>() 
-                { Success = false, 
-                  Message = $"No existen históricos de costos para el empleado: {NumEmpleadoRrHh}." 
+                return new Common.Response<List<Costo_Detalle>>()
+                {
+                    Success = false,
+                    Message = $"No existen históricos de costos para el empleado: {NumEmpleadoRrHh}."
                 };
             }
         }
         #endregion
 
         #region GetCostoLaborable
-        public async Task<Common.Response<decimal>> GetCostoLaborable(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
+        public async Task<Common.Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
         {
-            var costos = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
+            CostoQueries QueryBase = new(dbConfig);
+            var result = await QueryBase.CostosEmpleados();
 
-            var costosEmpleado = costos.Where(reg => (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
+            var costosEmpleado = result.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) &&  (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
 
             if (costosEmpleado.Count > 0)
             {
@@ -280,7 +227,7 @@ namespace Bovis.Data
                 {
                     Success = true,
                     Data = (decimal)costoTotalLaborable,
-                    Message = "Ok"
+                    Message = $"El CTL - Costo Total Laborable es de: {costoTotalLaborable.ToString("C2")}"
                 };
             }
             else
@@ -295,15 +242,16 @@ namespace Bovis.Data
         #endregion
 
         #region GetCostosBetweenDates
-        public async Task<Common.Response<List<TB_CostoPorEmpleado>>> GetCostosBetweenDates(int NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
         {
-            var costos = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, int>(nameof(NumEmpleadoRrHh), NumEmpleadoRrHh);
-            if(costos.Count > 0)
+            CostoQueries QueryBase = new(dbConfig);
+            var costos = await QueryBase.CostosEmpleados();
+            if (costos.Count > 0)
             {
                 if (hist)
                 {
-                    var costosEmpleado = costos.Where(reg => ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                    var costosEmpleado = costos.Where(reg => ((reg.NumEmpleadoRrHh == NumEmpleadoRrHh) && (reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
                         Data = costosEmpleado,
@@ -312,23 +260,23 @@ namespace Bovis.Data
                 }
                 else
                 {
-                    var costosEmpleado = costos.Where(reg => (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
-                    return new Common.Response<List<TB_CostoPorEmpleado>>()
+                    var costosEmpleado = costos.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) &&(reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
+                    return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
                         Data = costosEmpleado,
                         Message = "Ok"
                     };
                 }
-               
+
             }
 
-            return new Common.Response<List<TB_CostoPorEmpleado>>()
+            return new Common.Response<List<Costo_Detalle>>()
             {
                 Success = false,
                 Message = $"No se encontraron registros históricos de costos para el Empleado: {NumEmpleadoRrHh} en las fechas proporcionadas"
             };
-            
+
 
         }
         #endregion
@@ -336,15 +284,16 @@ namespace Bovis.Data
         #region UpdateCostos
         public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, TB_CostoPorEmpleado registro)
         {
-            if(costoId == registro.IdCosto)
+            if (costoId == registro.IdCosto)
             {
-                var respuesta = await GetCostoEmpleado(registro.NumEmpleadoRrHh,registro.NuAnno, registro.NuMes,false);
-                if (respuesta.Success)
+                //var respuesta = await GetCostoEmpleado(registro.NumEmpleadoRrHh, registro.NuAnno, registro.NuMes, false);
+                var registros = await GetAllEntititiesByPropertyValueAsync<TB_CostoPorEmpleado, string>(nameof(registro.NumEmpleadoRrHh), registro.NumEmpleadoRrHh);
+                var registro_anterior = registros.Where(costo => costo.NuAnno == registro.NuAnno && costo.NuMes == registro.NuMes && costo.RegHistorico == false).SingleOrDefault(); 
+                if(registro_anterior != null)
                 {
-                    var registro_anterior = respuesta.Data[0];
-                    registro_anterior.RegHistorico = true; //Actualiza el estatus del registro para ser histórico
+                    registro_anterior.RegHistorico = true; //Actualiza el estatus del registro para convertirse en histórico.
                     var resBool = await UpdateEntityAsync<TB_CostoPorEmpleado>(registro_anterior);
-                    var resDecimal = (decimal) await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
+                    var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
                     return new Common.Response<TB_CostoPorEmpleado>
                     {
                         Data = registro,
@@ -352,18 +301,22 @@ namespace Bovis.Data
                         Message = $"Actualización del registro de costos: {costoId} por el {resDecimal}"
                     };
                 }
-                return new Common.Response<TB_CostoPorEmpleado>
+                else
                 {
-                    Success = false,
-                    Message = $"No se encontró el registro de costos: {costoId}."
-                };
+                    return new Common.Response<TB_CostoPorEmpleado>
+                    {
+                        Success = false,
+                        Message = $"No se encontró el registro de costos: {costoId}."
+                    };
+                }
+                
             }
             return new Common.Response<TB_CostoPorEmpleado>()
             {
                 Success = false,
                 Message = $"Identificador del Costo {costoId} no coincide con registro {registro.IdCosto}!"
             };
-                
+
         }
         #endregion
 
@@ -402,9 +355,103 @@ namespace Bovis.Data
                     Message = "Error: Registro de costo no existe!"
                 };
             }
-              
+
         }
         #endregion 
 
     }
 }
+public class CostoQueries :  RepositoryLinq2DB<ConnectionDB>
+{
+    private readonly string _dbConfig = "DBConfig";
+    public CostoQueries(string dbConfig)
+    {
+        _dbConfig = dbConfig;
+    }
+    public async Task<List<Costo_Detalle>> CostosEmpleados()
+    {
+        using (var db = new ConnectionDB(_dbConfig))
+        {
+            var result = await (from costos in db.tB_Costo_Por_Empleados
+                                join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
+                                from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
+                                join puesto in db.tB_Cat_Puestos on costos.IdPuesto equals puesto.IdPuesto into puestoJoin
+                                from puestoItem in puestoJoin.DefaultIfEmpty()
+                                join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
+                                from proyectoItem in proyectoJoin.DefaultIfEmpty()
+                                join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                from unidadNItem in unidadNJoin.DefaultIfEmpty()
+                                join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                                from empresaItem in empresaJoin.DefaultIfEmpty()
+                                join empleado in db.tB_Empleados on costos.IdEmpleadoJefe equals empleado.NumEmpleadoRrHh into empleadoJoin
+                                from empleadoItem in empleadoJoin.DefaultIfEmpty()
+                                join personaJefe in db.tB_Personas on empleadoItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
+                                from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
+                                select new Costo_Detalle
+                                {
+                                    IdCosto = costos.IdCosto,
+                                    NuAnno = costos.NuAnno,
+                                    NuMes = costos.NuMes,
+                                    NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
+                                    NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    IdPersona = costos.IdPersona,
+                                    NombrePersona = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
+                                    Reubicacion = costos.Reubicacion,
+                                    IdPuesto = costos.IdPuesto,
+                                    Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
+                                    NumProyecto = costos.NumProyecto,
+                                    Proyecto = proyectoItem != null ? proyectoItem.Proyecto : string.Empty,
+                                    IdUnidadNegocio = costos.IdUnidadNegocio,
+                                    UnidadNegocio = unidadNItem != null ? unidadNItem.UnidadNegocio : string.Empty,
+                                    IdEmpresa = costos.IdEmpresa,
+                                    Empresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                    Timesheet = costos.Timesheet,
+                                    IdEmpleadoJefe = costos.IdEmpleadoJefe,
+                                    NombreJefe = personaJefeItem != null ? personaJefeItem.Nombre + " " + personaJefeItem.ApPaterno + " " + personaJefeItem.ApMaterno : string.Empty,
+                                    FechaIngreso = costos.FechaIngreso,
+                                    Antiguedad = costos.Antiguedad,
+                                    AvgDescuentoEmpleado = costos.AvgDescuentoEmpleado,
+                                    MontoDescuentoMensual = costos.MontoDescuentoMensual,
+                                    SueldoNetoMensual = costos.SueldoNetoPercibidoMensual,
+                                    RetencionImss = costos.RetencionImss,
+                                    Ispt = costos.Ispt,
+                                    SueldoBruto = costos.SueldoBruto,
+                                    Anual = costos.Anual,
+                                    AguinaldoCantidadMeses = costos.AguinaldoCantMeses,
+                                    AguinaldoMontoProvisionMensual = costos.AguinaldoMontoProvisionMensual,
+                                    PvDiasVacasAnuales = costos.PvDiasVacasAnuales,
+                                    PvProvisionMensual = costos.PvProvisionMensual,
+                                    IndemProvisionMensual = costos.IndemProvisionMensual,
+                                    AvgBonoAnualEstimado = costos.AvgBonoAnualEstimado,
+                                    BonoAnualProvisionMensual = costos.BonoAnualProvisionMensual,
+                                    SgmmCostoTotalAnual = costos.SgmmCostoTotalAnual,
+                                    SgmmCostoMensual = costos.SgmmCostoMensual,
+                                    SvCostoTotalAnual = costos.SvCostoTotalAnual,
+                                    SvCostoMensual = costos.SvCostoMensual,
+                                    VaidCostoMensual = costos.VaidCostoMensual,
+                                    VaidComisionCostoMensual = costos.VaidComisionCostoMensual,
+                                    PtuProvision = costos.PtuProvision,
+                                    Beneficios = costos.Beneficios,
+                                    Impuesto3sNomina = costos.Impuesto3sNomina,
+                                    Imss = costos.Imss,
+                                    Retiro2 = costos.Retiro2,
+                                    CesantesVejez = costos.CesantesVejez,
+                                    Infonavit = costos.Infonavit,
+                                    CargasSociales = costos.CargasSociales,
+                                    CostoMensualEmpleado = costos.CostoMensualEmpleado,
+                                    CostoMensualProyecto = costos.CostoMensualProyecto,
+                                    CostoAnualEmpleado = costos.CostoAnualEmpleado,
+                                    IndiceCostoLaboral = costos.IndiceCostoLaboral,
+                                    IndiceCargaLaboral = costos.IndiceCargaLaboral,
+                                    FechaActualizacion = costos.FechaActualizacion,
+                                    RegHistorico = costos.RegHistorico
+                                }).ToListAsync();
+
+            return result;
+
+        }
+
+    }
+    
+}
+

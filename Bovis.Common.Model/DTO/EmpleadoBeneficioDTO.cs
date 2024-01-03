@@ -10,7 +10,7 @@ namespace Bovis.Common.Model.DTO
     {
         public int Id { get; set; }
         public int IdBeneficio { get; set; }
-        public int NumEmpleadoRrHh { get; set; }
+        public string NumEmpleadoRrHh { get; set; } = string.Empty;
         public decimal Costo { get; set; }
         public int Mes { get; set; }
         public int Anno { get; set; } 

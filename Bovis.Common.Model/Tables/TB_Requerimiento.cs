@@ -14,10 +14,10 @@ namespace Bovis.Common.Model.Tables
         [Column("Nusueldo_min"), Nullable] public decimal? SueldoMin { get; set; }
         [Column("Nusueldo_max"), Nullable] public decimal? SueldoMax { get; set; }
         [Column("Nusueldo_real"), Nullable] public decimal? SueldoReal { get; set; }
-        [Column("Nunumempleado_rr_hh"), Nullable] public int? NumEmpleadoRrHh { get; set; }
-        [Column("Nukiddirector_ejecutivo"), Nullable] public int? IdDirectorEjecutivo { get; set; }
+        [Column("Nunumempleado_rr_hh"), Nullable] public string? NumEmpleadoRrHh { get; set; }
+        [Column("Nukiddirector_ejecutivo"), Nullable] public string? IdDirectorEjecutivo { get; set; }
         [Column("Nukidproyecto"), Nullable] public int? IdProyecto { get; set; }
-        [Column("Nukidjefe_inmediato"), Nullable] public int? IdJefeInmediato { get; set; }
+        [Column("Nukidjefe_inmediato"), Nullable] public string? IdJefeInmediato { get; set; }
         [Column("Nukidtipo_contrato"), Nullable] public int? IdTipoContrato { get; set; }
         [Column("Nukidestado"), Nullable] public int? IdEstado { get; set; }
         [Column("Nukidciudad"), Nullable] public int? IdCiudad { get; set; }

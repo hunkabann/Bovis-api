@@ -181,7 +181,7 @@ namespace Bovis.Data
                                            from monedasItem in monedasJoin.DefaultIfEmpty()
                                            join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
                                            from proyectosItem in proyectosJoin.DefaultIfEmpty()
-                                           where notas.NumProyecto != null
+                                           where (notas.NumProyecto != null && notas.IdFactura == null)
                                            && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
                                            && (Mes == 0 || notas.Mes == Mes)
                                            && (Anio == 0 || notas.Anio == Anio)
@@ -213,6 +213,28 @@ namespace Bovis.Data
             }
         }
 
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_factura = Convert.ToInt32(registro["id_factura"].ToString());
+            string uuid_nota_credito = registro["uuid_nota_credito"].ToString();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var update_add_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota_credito)
+                    .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                    {
+                        IdFactura = id_factura
+                    })) > 0;
+
+                resp.Success = update_add_nota;
+                resp.Message = update_add_nota == default ? "Ocurrio un error al relacionar la nota de credito a la factura." : string.Empty;
+            }
+
+            return resp;
+        }
+
 
         public async Task<(bool Success, string Message)> AddPagos(TB_ProyectoFacturaCobranza pagos)
         {
@@ -230,6 +252,8 @@ namespace Bovis.Data
                     .Value(x => x.TipoCambioP, pagos.TipoCambioP)
                     .Value(x => x.FechaPago, pagos.FechaPago)
                     .Value(x => x.Xml, pagos.Xml)
+                    .Value(x => x.CRP, pagos.CRP)
+                    .Value(x => x.Base, pagos.Base)
                     .InsertAsync() > 0;
 
                 resp.Success = inseert;
@@ -250,6 +274,7 @@ namespace Bovis.Data
                 var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
                     .UpdateAsync(x => new TB_ProyectoFactura
                     {
+                        Total = 0,
                         FechaCancelacion = factura.FechaCancelacion,
                         MotivoCancelacion = factura.MotivoCancelacion
                     })) > 0;
@@ -267,6 +292,7 @@ namespace Bovis.Data
                     var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
                             .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
                             {
+                                Total = 0,
                                 FechaCancelacion = factura.FechaCancelacion,
                                 MotivoCancelacion = factura.MotivoCancelacion
                             })) > 0;
@@ -310,6 +336,7 @@ namespace Bovis.Data
                 var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
                                 .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
                                 {
+                                    Total = 0,
                                     FechaCancelacion = fecha_cancelacion,
                                     MotivoCancelacion = motivo_cancelacion
                                 }) > 0;
@@ -404,33 +431,13 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
                 {
                     var res_notas = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.IdFactura == facturaDetalle.Id
-                                           && notas.FechaCancelacion == null
+                                           //&& notas.FechaCancelacion == null
                                            select new NotaDetalle
                                            {
                                                NC_UuidNotaCredito = notas.UuidNotaCredito,
@@ -444,7 +451,9 @@ namespace Bovis.Data
                                                NC_Mes = notas.Mes,
                                                NC_Anio = notas.Anio,
                                                NC_TipoCambio = notas.TipoCambio,
-                                               NC_FechaNotaCredito = notas.FechaNotaCredito
+                                               NC_FechaNotaCredito = notas.FechaNotaCredito,
+                                               NC_FechaCancelacion = notas.FechaCancelacion,
+                                               Cliente = facturaDetalle.Cliente
                                            }).ToListAsync();
 
                     facturaDetalle.Notas = new List<NotaDetalle>();
@@ -455,7 +464,7 @@ namespace Bovis.Data
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
                                                where cobr.IdFactura == facturaDetalle.Id
-                                               && cobr.FechaCancelacion == null
+                                               //&& cobr.FechaCancelacion == null
                                                select new CobranzaDetalle
                                                {
                                                    C_UuidCobranza = cobr.UuidCobranza,
@@ -465,7 +474,11 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   C_FechaCancelacion = cobr.FechaCancelacion,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base,
+                                                   Cliente = facturaDetalle.Cliente
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -514,27 +527,7 @@ namespace Bovis.Data
                                      FechaPago = a.FechaPago,
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
-                                     MotivoCancelacion = a.MotivoCancelacion,
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
+                                     MotivoCancelacion = a.MotivoCancelacion
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -576,7 +569,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -624,26 +619,6 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -685,7 +660,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -742,26 +719,6 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -803,7 +760,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -857,27 +816,7 @@ namespace Bovis.Data
                                      FechaPago = a.FechaPago,
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
-                                     MotivoCancelacion = a.MotivoCancelacion,
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
+                                     MotivoCancelacion = a.MotivoCancelacion
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -919,7 +858,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -976,26 +917,6 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -1037,7 +958,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1091,26 +1014,6 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -1152,7 +1055,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1204,26 +1109,6 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                     //NC_UuidNotaCredito = ab.UuidNotaCredito,
-                                     //NC_IdMoneda = ab.IdMoneda,
-                                     //NC_IdTipoRelacion = ab.IdTipoRelacion,
-                                     //NC_NotaCredito = ab.NotaCredito,
-                                     //NC_Importe = ab.Importe,
-                                     //NC_Iva = ab.Iva,
-                                     //NC_Total = ab.Total,
-                                     //NC_Concepto = ab.Concepto,
-                                     //NC_Mes = ab.Mes,
-                                     //NC_Anio = ab.Anio,
-                                     //NC_TipoCambio = ab.TipoCambio,
-                                     //NC_FechaNotaCredito = ab.FechaNotaCredito,
-                                     //C_UuidCobranza = ac.UuidCobranza,
-                                     //C_IdMonedaP = ac.IdMonedaP,
-                                     //C_ImportePagado = ac.ImportePagado,
-                                     //C_ImpSaldoAnt = ac.ImpSaldoAnt,
-                                     //C_ImporteSaldoInsoluto = ac.ImporteSaldoInsoluto,
-                                     //C_IvaP = ac.IvaP,
-                                     //C_TipoCambioP = ac.TipoCambioP,
-                                     //C_FechaPago = ac.FechaPago
                                  }).ToListAsync();
 
                 foreach (var facturaDetalle in res)
@@ -1265,7 +1150,9 @@ namespace Bovis.Data
                                                    C_ImporteSaldoInsoluto = cobr.ImporteSaldoInsoluto,
                                                    C_IvaP = cobr.IvaP,
                                                    C_TipoCambioP = cobr.TipoCambioP,
-                                                   C_FechaPago = cobr.FechaPago
+                                                   C_FechaPago = cobr.FechaPago,
+                                                   CRP = cobr.CRP,
+                                                   Base = cobr.Base
                                                }).ToListAsync();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
@@ -1282,6 +1169,10 @@ namespace Bovis.Data
             }
         }
         #endregion facturas por número        
+
+
+
+
 
         #region Extraer Datos Cfdi
         public async Task<BaseCFDI?> ExtraerDatos(string base64String)

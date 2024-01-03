@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
 using Microsoft.Win32;
+using System.Text;
 
 namespace Bovis.API.Controllers
 {
@@ -54,8 +55,7 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> AddCuentas([FromBody] JsonObject registros)
         {
             var query = await _cieQueryService.AddCuentas(registros);
-            if (query.Message == string.Empty) return Ok(query);
-            else return BadRequest(query.Message);
+            return Ok(query);
         }
         #endregion Cuenta Data
 
@@ -104,6 +104,13 @@ namespace Bovis.API.Controllers
             var query = await _cieQueryService.GetClasificacionesPY();
             return Ok(query);
         }
+
+        [HttpGet, Route("TiposPY")]
+        public async Task<IActionResult> GetTiposPY()
+        {
+            var query = await _cieQueryService.GetTiposPY();
+            return Ok(query);
+        }
         #endregion Catálogos
 
 
@@ -125,10 +132,64 @@ namespace Bovis.API.Controllers
         [HttpPost("Registros/Agregar")]
         public async Task<IActionResult> AddRegistros([FromBody] JsonObject registros)
         {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+
             var query = await _cieQueryService.AddRegistros(registros);
-            if (query.Message == string.Empty) return Ok(query);
-            else return BadRequest(query.Message);
+
+            if (query.Message == string.Empty)
+            {
+                // Se hace envío de una notificación por Email, indicando que ya se realizó la carga completa.
+                //using (HttpClient client = new HttpClient())
+                //{
+                //    try
+                //    {
+                //        var baseUrl = $"{Request.Scheme}://{Request.Host}/api/Email";
+
+                //        var postData = new
+                //        {
+                //            subject = "Registros de CIE cargados",
+                //            body = $"Hola {nombre}.<p>Se han cargado satisfactoriamente al sistema, todos los registros desde archivo Excel.</p>",
+                //            emailsTo = new[] { email }
+                //        };
+                //        var content = new StringContent(JsonConvert.SerializeObject(postData), Encoding.UTF8, "application/json");
+
+                //        // Clonar la solicitud original para conservar las credenciales de autorización
+                //        var request = new HttpRequestMessage(HttpMethod.Post, baseUrl);
+                //        request.Content = content;
+
+                //        foreach (var header in Request.Headers)
+                //        {
+                //            request.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                //        }
+
+                //        HttpResponseMessage response = await client.SendAsync(request);
+                        
+                //        if (response.IsSuccessStatusCode) // Verificar si la solicitud fue exitosa (código de estado 200)
+                //        {
+                //            string apiResponse = await response.Content.ReadAsStringAsync();
+                //            query.Message = apiResponse;
+                //        }
+                //        else
+                //        {
+                //            Console.WriteLine($"Error en la solicitud: {response.StatusCode} - {response.ReasonPhrase}");
+                //        }
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        Console.WriteLine($"Error: {ex.Message}");
+                //    }
+                //}
+
+                return Ok(query);
+            }
+            else
+            {
+                return BadRequest(query.Message);
+            }
         }
+
 
         [HttpPut("Registro/Actualizar")]
         public async Task<IActionResult> UpdateRegistro([FromBody] JsonObject registro)

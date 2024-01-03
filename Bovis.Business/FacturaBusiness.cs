@@ -61,8 +61,8 @@ namespace Bovis.Business
                         Almacenada = true
                     };
 
-                    //if (cfdi.RfcReceptor.Equals(request.RfcReceptor) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
-                    //{
+                    if (cfdi.RfcReceptor.Equals(request.RfcReceptor) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
+                    {
                         var existeF = await _facturaData.SearchFactura(cfdi.UUID);
 
                         if (existeF != null)
@@ -75,6 +75,13 @@ namespace Bovis.Business
                             tryDate = default;
                             if (DateTime.TryParse(cfdi.Fecha, out tryDate))
                             {
+                                decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                                decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
+
+                                if (cfdi.Moneda != "MXN") {
+                                    total = total * tipoCambio;
+                                }
+
                                 var responseFactura = await _facturaData.AddFactura(new TB_ProyectoFactura
                                 {
                                     NumProyecto = request.NumProyecto,
@@ -89,25 +96,25 @@ namespace Bovis.Business
                                     NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
                                     Iva = cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0,
                                     IvaRet = cfdi.TotalImpuestosRetenidos is not null ? Convert.ToDecimal(cfdi.TotalImpuestosRetenidos) : 0,
-                                    Total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0,
+                                    Total = total,
                                     Mes = Convert.ToByte(tryDate.Month),
                                     Uuid = cfdi.UUID,
-                                    TipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null,
+                                    TipoCambio = tipoCambio,
                                     XmlB64 = cfdi.XmlB64,
                                     IdTipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS"
                                 });
                                 tmpFactura.Almacenada = responseFactura.existe;
                                 tmpFactura.Error = responseFactura.mensaje;
                             }
-                        }                        
-                    //}
-                    //else
-                    //{
-                    //    tmpFactura.Almacenada = false;
-                    //    tmpFactura.Error = $@"La factura {factura.FacturaNombre} no coincide con los RFCs esperados";
-                    //}
+                    }
+                }
+                else
+                {
+                    tmpFactura.Almacenada = false;
+                    tmpFactura.Error = $@"La factura {factura.FacturaNombre} no coincide con los RFCs esperados";
+                }
 
-                    LstFacturas.Add(tmpFactura);                  
+                LstFacturas.Add(tmpFactura);                  
                 }
                 else
                 {
@@ -166,6 +173,14 @@ namespace Bovis.Business
                             {
                                 if ((DateTime.TryParse(cfdi.Fecha, out tryDate)) && (factura.Id > 0))
                                 {
+                                    decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                                    decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
+
+                                    if (cfdi.Moneda != "MXN")
+                                    {
+                                        total = total * tipoCambio;
+                                    }
+
                                     var responseFactura = await _facturaData.AddNotaCredito(new TB_ProyectoFacturaNotaCredito
                                     {
                                         IdFactura = factura.Id,
@@ -177,9 +192,9 @@ namespace Bovis.Business
                                         Importe = Convert.ToDecimal(cfdi.SubTotal ?? "-1"),
                                         NotaCredito = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
                                         Iva = cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0,
-                                        Total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0,
+                                        Total = total,
                                         Mes = Convert.ToByte(tryDate.Month),
-                                        TipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null,
+                                        TipoCambio = tipoCambio,
                                         Xml = cfdi.XmlB64
                                     });
 
@@ -200,7 +215,7 @@ namespace Bovis.Business
                     var tmpError = string.Empty;
 
                     if (cfdi is not null && !cfdi.TipoDeComprobante.Equals("E"))
-                        tmpError = $@", el tipipo de comprobante es {cfdi.TipoDeComprobante}";
+                        tmpError = $@", el tipo de comprobante es {cfdi.TipoDeComprobante}";
 
                     LstFacturas.Add(new FacturaRevision
                     {
@@ -250,6 +265,8 @@ namespace Bovis.Business
 
         public Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio) => _facturaData.GetNotaCreditoSinFactura(NumProyecto, Mes, Anio);
 
+        public Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro) => _facturaData.AddNotaCreditoSinFacturaToFactura(registro);
+
         //revisar datos de pagos
         public async Task<List<FacturaRevision>> AddPagos(AgregarPagos request)
         {
@@ -264,6 +281,13 @@ namespace Bovis.Business
                 {
                     foreach (CfdiPagos tmpPagos in cfdi.Pagos)
                     {
+                        decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                        decimal tipoCambio = tmpPagos.TipoCambioP is not null ? Convert.ToDecimal(tmpPagos.TipoCambioP) : 0;
+
+                        if (cfdi.Moneda != "MXN")
+                        {
+                            total = total * tipoCambio;
+                        }
 
                         foreach (var docto in tmpPagos.DoctosRelacionados)
                         {
@@ -273,7 +297,7 @@ namespace Bovis.Business
                                 RfcEmisor = cfdi.RfcEmisor,
                                 RfcReceptor = cfdi.RfcReceptor,
                                 FechaEmision = cfdi.Fecha,
-                                Total = cfdi.Total,
+                                Total = total.ToString(),
                                 Conceptos = string.Join("|", cfdi.Conceptos),
                                 //TipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS",
                                 NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
@@ -286,7 +310,8 @@ namespace Bovis.Business
                             {
                                 var existePago = await _facturaData.SearchPagos(cfdi.UUID);
 
-                                if (existePago != null) {
+                                if (existePago != null)
+                                {
                                     tmpFactura.Almacenada = false;
                                     tmpFactura.Error = $@"El pago {cfdi.UUID} ya existe en la BD.";
                                 }
@@ -294,7 +319,7 @@ namespace Bovis.Business
                                 {
 
                                     if ((DateTime.TryParse(tmpPagos.FechaPago, out tryDate)) && (factura.Id > 0))
-                                    {
+                                    {                                        
                                         var responseFactura = await _facturaData.AddPagos(new TB_ProyectoFacturaCobranza
                                         {
                                             IdFactura = factura.Id,
@@ -304,9 +329,11 @@ namespace Bovis.Business
                                             ImpSaldoAnt = Convert.ToDecimal(docto.ImporteSaldoAnt ?? "-1"),
                                             ImporteSaldoInsoluto = Convert.ToDecimal(docto.ImporteSaldoInsoluto ?? "-1"),
                                             IvaP = Convert.ToDecimal(docto.ImporteDR ?? "-1"),
-                                            TipoCambioP = Convert.ToDecimal(tmpPagos.TipoCambioP),
+                                            TipoCambioP = tipoCambio,
                                             FechaPago = tryDate,
-                                            Xml = cfdi.XmlB64
+                                            Xml = cfdi.XmlB64,
+                                            CRP = cfdi.Serie + cfdi.Folio,
+                                            Base = tmpPagos.TrasladoP != null && !string.IsNullOrEmpty(tmpPagos.TrasladoP.BaseP) ? Convert.ToDecimal(tmpPagos.TrasladoP.BaseP) : 0
                                         });
                                         tmpFactura.Almacenada = responseFactura.Success;
                                         tmpFactura.Error = responseFactura.Message;
@@ -470,14 +497,16 @@ namespace Bovis.Business
                     if (datosCFDI.TipoDeComprobante.Equals("P"))
                     {
                         XmlNodeList nodePagos = null;
-                        string strXPathImpuesto = string.Empty;
+                        string strXPathImpuestoDR = string.Empty;
+                        string strXPathImpuestoP = string.Empty;
 
                         if (datosCFDI.Version.Equals("3.3"))
                             nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago10:Pagos//pago10:Pago", nsm);
                         else
                         {
                             nodePagos = doc.SelectNodes("//cfdi:Comprobante//cfdi:Complemento//pago20:Pagos//pago20:Pago", nsm);
-                            strXPathImpuesto = "pago20:ImpuestosDR//pago20:TrasladosDR//pago20:TrasladoDR";
+                            strXPathImpuestoDR = "pago20:ImpuestosDR//pago20:TrasladosDR//pago20:TrasladoDR";
+                            strXPathImpuestoP = "pago20:TrasladosP//pago20:TrasladoP";
                         }
 
                         datosCFDI.Pagos = new List<CfdiPagos>();
@@ -500,11 +529,16 @@ namespace Bovis.Business
                                     tDoctoRel.ImportePagado = childNode.Attributes["ImpPagado"] != null ? childNode.Attributes["ImpPagado"].Value : null;
                                     tDoctoRel.ImporteSaldoAnt = childNode.Attributes["ImpSaldoAnt"] != null ? childNode.Attributes["ImpSaldoAnt"].Value : null;
                                     tDoctoRel.MonedaDR = childNode.Attributes["MonedaDR"] != null ? childNode.Attributes["MonedaDR"].Value : null;
-                                    if (!string.IsNullOrEmpty(strXPathImpuesto))
-                                        tDoctoRel.ImporteDR = childNode.SelectSingleNode(strXPathImpuesto, nsm).Attributes["ImporteDR"] != null ?
-                                        childNode.SelectSingleNode(strXPathImpuesto, nsm).Attributes["ImporteDR"].Value : null;
+                                    if (!string.IsNullOrEmpty(strXPathImpuestoDR))
+                                        tDoctoRel.ImporteDR = childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["ImporteDR"] != null ? childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["ImporteDR"].Value : null;
 
                                     tPagos.DoctosRelacionados.Add(tDoctoRel);
+                                }
+                                else
+                                {
+                                    tPagos.TrasladoP = new CfdiTrasladoP();
+                                    if (!string.IsNullOrEmpty(strXPathImpuestoP))
+                                        tPagos.TrasladoP.BaseP = childNode.SelectSingleNode(strXPathImpuestoP, nsm).Attributes["BaseP"] != null ? childNode.SelectSingleNode(strXPathImpuestoP, nsm).Attributes["BaseP"].Value : null;                                    
                                 }
 
                             }

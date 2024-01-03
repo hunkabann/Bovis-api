@@ -17,7 +17,7 @@ namespace Bovis.Business.Interface
 
         #region Cuenta Data
         Task<List<CuentaContable_Detalle>> GetCuentaData(JsonObject cuentas);
-        Task<(bool Success, string Message)> AddCuentas(JsonObject registros);
+        Task<List<CtaContableRespuesta_Detalle>> AddCuentas(JsonObject registros);
         #endregion Cuenta Data
 
         #region Proyecto
@@ -31,6 +31,7 @@ namespace Bovis.Business.Interface
         Task<List<int>> GetNumsProyecto();
         Task<List<string>> GetResponsables();
         Task<List<string>> GetClasificacionesPY();
+        Task<List<string>> GetTiposPY();
         #endregion Catálogos
 
         #region Registros
