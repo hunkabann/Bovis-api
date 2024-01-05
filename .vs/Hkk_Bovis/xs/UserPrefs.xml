@@ -9,25 +9,19 @@
       </Items>
     </MultiItemSolutionRunConfiguration>
   </MultiItemStartupConfigurations>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Bovis.API/Controllers/CostoController.cs">
-    <Files>
-      <File FileName="Bovis.API/Controllers/CostoController.cs" Line="1" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="Hkk_Bovis">
             <Node name="0 Api" expanded="True">
               <Node name="Bovis.API" expanded="True">
-                <Node name="Controllers" expanded="True">
-                  <Node name="CostoController.cs" selected="True" />
-                </Node>
+                <Node name="Controllers" expanded="True" />
+                <Node name="appsettings.json" selected="True" />
               </Node>
             </Node>
-            <Node name="4 Common">
-              <Node name="Bovis.Common.Model" expanded="True">
-                <Node name="NoTable" expanded="True" />
-              </Node>
+            <Node name="3 Data">
+              <Node name="Bovis.Data" expanded="True" />
             </Node>
           </Node>
         </State>
