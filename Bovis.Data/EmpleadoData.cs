@@ -86,7 +86,8 @@ namespace Bovis.Data
                                       from profesionItem in profesionJoin.DefaultIfEmpty()
                                       join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
                                       from turnoItem in turnoJoin.DefaultIfEmpty()
-                                          //where emp.Activo == activo
+                                      join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
+                                      from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
                                       orderby perItem.Nombre ascending
                                       select new Empleado_Detalle
                                       {
@@ -165,6 +166,8 @@ namespace Bovis.Data
                                           nuvalor_descuento = emp.ValorDescuento,
                                           nuno_empleado_noi = emp.NoEmpleadoNoi,
                                           chrol = emp.Rol,
+                                          nuproyecto_principal = emp.NumProyectoPrincipal,
+                                          chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30)
                                       }).ToListAsync();
 
@@ -238,6 +241,8 @@ namespace Bovis.Data
                                  from turnoItem in turnoJoin.DefaultIfEmpty()
                                  join sexo in db.tB_Cat_Sexos on perItem.IdSexo equals sexo.IdSexo into sexoJoin
                                  from sexoItem in sexoJoin.DefaultIfEmpty()
+                                 join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
+                                 from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
                                  where emp.NumEmpleadoRrHh == idEmpleado
                                  select new Empleado_Detalle
                                  {
@@ -315,7 +320,9 @@ namespace Bovis.Data
                                      chtipo_descuento = emp.TipoDescuento,
                                      nuvalor_descuento = emp.ValorDescuento,
                                      nuno_empleado_noi = emp.NoEmpleadoNoi,
-                                     chrol = emp.Rol,   
+                                     chrol = emp.Rol,
+                                     nuproyecto_principal = emp.NumProyectoPrincipal,
+                                     chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                      dtvigencia = emp.FechaIngreso.AddDays(30)
                                  }).FirstOrDefaultAsync();
 
@@ -481,6 +488,7 @@ namespace Bovis.Data
             string? no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : null;
             string? rol = registro["rol"] != null ? registro["rol"].ToString() : null;
             int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
+            int num_proyecto_principal = Convert.ToInt32(registro["num_proyecto_principal"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -545,6 +553,7 @@ namespace Bovis.Data
                     .Value(x => x.ValorDescuento, valor_descuento)
                     .Value(x => x.NoEmpleadoNoi, no_empleado_noi)
                     .Value(x => x.Rol, rol)
+                    .Value(x => x.NumProyectoPrincipal, num_proyecto_principal)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
@@ -739,6 +748,7 @@ namespace Bovis.Data
             decimal? valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : null;
             string? no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : null;
             string? rol = registro["rol"] != null ? registro["rol"].ToString() : null;
+            int num_proyecto_principal = Convert.ToInt32(registro["num_proyecto_principal"].ToString());
             int index = 0;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -792,7 +802,8 @@ namespace Bovis.Data
                         TipoDescuento = tipo_descuento,
                         ValorDescuento = valor_descuento,
                         NoEmpleadoNoi = no_empleado_noi,
-                        Rol = rol
+                        Rol = rol,
+                        NumProyectoPrincipal = num_proyecto_principal
                     }) > 0;
 
                 resp.Success = res_update_empleado;

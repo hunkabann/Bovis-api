@@ -55,5 +55,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nuvalor_descuento"), Nullable] public decimal? ValorDescuento { get; set; }
 		[Column("Nuno_empleado_noi"), Nullable] public string? NoEmpleadoNoi { get; set; }
 		[Column("Chrol"), Nullable] public string? Rol { get; set; }
-	}
+        [Column("Numproyecto"), NotNull] public int NumProyectoPrincipal { get; set; }
+    }
 }
