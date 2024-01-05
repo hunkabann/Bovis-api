@@ -600,6 +600,7 @@ namespace Bovis.Data
                     .Value(x => x.NoEmpleado, num_empleado_rr_hh)
                     .Value(x => x.CorreoElec, email_bovis)
                     .Value(x => x.Puesto, puesto != null ? puesto.Puesto : string.Empty)
+                    .Value(x => x.FechaIngreso, fecha_ingreso.ToString("dd/MM/yyyy"))
                     .Value(x => x.JefeDirecto, id_jefe_directo)
                     .Value(x => x.UnidadDeNegocio, unidad_negocio != null ? unidad_negocio.UnidadNegocio : string.Empty)
                     .Value(x => x.Proyecto, proyecto != null ? proyecto.Proyecto : string.Empty)
@@ -832,6 +833,7 @@ namespace Bovis.Data
                         NoEmpleado = num_empleado_rr_hh,
                         CorreoElec = email_bovis,
                         Puesto = puesto != null ? puesto.Puesto : string.Empty,
+                        FechaIngreso = fecha_ingreso.ToString("dd/MM/yyyy"),
                         JefeDirecto = id_jefe_directo,
                         UnidadDeNegocio = unidad_negocio != null ? unidad_negocio.UnidadNegocio : string.Empty,
                         Proyecto = proyecto != null ? proyecto.Proyecto : string.Empty
