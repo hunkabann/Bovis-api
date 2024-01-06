@@ -237,6 +237,7 @@ namespace Bovis.Data
             int id_auditoria_proyecto = Convert.ToInt32(registro["id_auditoria_proyecto"].ToString());
             string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() :  null;
             string documento_base64 = registro["documento_base64"].ToString();
+            string nombre_documento = registro["nombre_documento"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -245,6 +246,7 @@ namespace Bovis.Data
                                                                 .Value(x => x.Motivo, motivo)
                                                                 .Value(x => x.Fecha, DateTime.Now)
                                                                 .Value(x => x.DocumentoBase64, documento_base64)
+                                                                .Value(x => x.NombreDocumento, nombre_documento)
                                                                 .Value(x => x.Valido, true)
                                                                 .Value(x => x.Activo, true)
                                                                 .InsertAsync() > 0;

@@ -10,7 +10,8 @@ namespace Bovis.Common.Model.Tables
         [Column("Chmotivo"), Nullable] public string? Motivo { get; set; }
         [Column("Dtfecha"), NotNull] public DateTime Fecha { get; set; }
         [Column("Chdocumento_base64"), NotNull] public string DocumentoBase64 { get; set; }
+        [Column("chnombre_doc"), NotNull] public string NombreDocumento { get; set; }
         [Column("Bovalido"), Nullable] public bool? Valido { get; set; }
-        [Column("Boactivo"), NotNull] public bool Activo { get; set; }
+        [Column("Boactivo"), NotNull] public bool Activo { get; set; }        
     }
 }
