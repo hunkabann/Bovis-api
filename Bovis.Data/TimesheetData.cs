@@ -246,19 +246,14 @@ namespace Bovis.Data
             else return await GetAllFromEntityAsync<TimeSheet_Detalle>();
         }
 
-        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes)
+        public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes, int anio)
         {
-            // Si idEmpleado == 0, no filtrar por empleado
-            // Si idProyecto == 0, no filtrar por proyecto
-            // Si mes == 0, devolver los del mes anterior
-
-
             List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
             TimeSheet_Detalle timesheetDetalle = new TimeSheet_Detalle();
-            int currentYear = DateTime.Now.Year;
-            int currentMonth = DateTime.Now.Month;
-            int targetMonth = mes == 0 ? currentMonth == 1 ? 12 : currentMonth - 1 : mes;
-            int targetYear = currentMonth == 1 && mes == 0 ? currentYear - 1 : currentYear;
+            //int currentYear = DateTime.Now.Year;
+            //int currentMonth = DateTime.Now.Month;
+            //int targetMonth = mes == 0 ? currentMonth == 1 ? 12 : currentMonth - 1 : mes;
+            //int targetYear = currentMonth == 1 && mes == 0 ? currentYear - 1 : currentYear;
 
             using (var db = new ConnectionDB(dbConfig))
             { 
@@ -292,7 +287,9 @@ namespace Bovis.Data
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
                                             && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
                                             && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
-                                            && (mes == 0 || (currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
+                                            //&& (mes == 0 || (currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
+                                            && (mes == 0 || ts.Mes == mes)
+                                            && (anio == 0 || ts.Anio == anio)
                                             orderby ts.IdEmpleado ascending
                                             group new TimeSheet_Detalle
                                             {
