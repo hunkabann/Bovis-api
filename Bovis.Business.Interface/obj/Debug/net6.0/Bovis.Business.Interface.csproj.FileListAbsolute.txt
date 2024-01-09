@@ -66,3 +66,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Inte
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\refint\Bovis.Business.Interface.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\ref\Bovis.Business.Interface.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.sourcelink.json

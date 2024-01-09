@@ -100,7 +100,8 @@ namespace Bovis.Data
                                   join tipo_per in db.tB_Cat_TipoPersonas on per.IdTipoPersona equals tipo_per.IdTipoPersona into tipo_perJoin
                                   from tipo_perItem in tipo_perJoin.DefaultIfEmpty()
                                   where per.Activo == true
-                                  && !excludePersonas.Contains(per.IdPersona)
+                                  && per.EsEmpleado == false
+                                  //&& !excludePersonas.Contains(per.IdPersona)
                                   orderby per.Nombre ascending
                                   select new Persona_Detalle
                                   {

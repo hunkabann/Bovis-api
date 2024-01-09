@@ -82,3 +82,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Event
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\refint\Bovis.Service.EventHandlers.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\ref\Bovis.Service.EventHandlers.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.EventHandlers\obj\Debug\net6.0\Bovis.Service.EventHandlers.sourcelink.json

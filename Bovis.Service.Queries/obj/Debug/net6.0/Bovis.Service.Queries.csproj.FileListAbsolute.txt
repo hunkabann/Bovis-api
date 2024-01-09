@@ -90,3 +90,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queri
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\refint\Bovis.Service.Queries.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\ref\Bovis.Service.Queries.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.sourcelink.json

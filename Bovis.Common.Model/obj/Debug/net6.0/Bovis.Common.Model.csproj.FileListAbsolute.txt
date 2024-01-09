@@ -46,3 +46,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.sourcelink.json
