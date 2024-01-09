@@ -48,7 +48,7 @@ namespace Bovis.Data
                 {
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                             where isr.Anio == registro.NuAnno
-                                                                    && isr.Mes == registro.NuMes
+                                            && isr.Mes == registro.NuMes
                                             && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
                                             select isr).FirstOrDefaultAsync();
 
@@ -291,6 +291,20 @@ namespace Bovis.Data
                 var registro_anterior = registros.Where(costo => costo.NuAnno == registro.NuAnno && costo.NuMes == registro.NuMes && costo.RegHistorico == false).SingleOrDefault(); 
                 if(registro_anterior != null)
                 {
+                    using (var db = new ConnectionDB(dbConfig))
+                    {
+                        var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+                                                where isr.Anio == registro.NuAnno
+                                                && isr.Mes == registro.NuMes
+                                                && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
+                                                select isr).FirstOrDefaultAsync();
+
+                        if (isr_record != null)
+                        {
+                            registro.Ispt = ((registro.SueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                        }
+                    }
+
                     registro_anterior.RegHistorico = true; //Actualiza el estatus del registro para convertirse en histórico.
                     var resBool = await UpdateEntityAsync<TB_CostoPorEmpleado>(registro_anterior);
                     var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);

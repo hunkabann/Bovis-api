@@ -39,10 +39,6 @@ namespace Bovis.Business
             destination.Antiguedad = diferencia.Days / 365;
             #endregion
 
-            #region DescuentoMensualEmpleado
-            destination.MontoDescuentoMensual = destination.RetencionImss + destination.Ispt;
-            #endregion
-
             if (destination.Antiguedad != 0)
             {
                 if (destination.Antiguedad < 5)
@@ -55,17 +51,30 @@ namespace Bovis.Business
 
             if (destination.SueldoBruto.HasValue && destination.SueldoBruto > 1)
             {
+                #region Sueldo Neto Mensual
                 destination.AvgDescuentoEmpleado = destination.MontoDescuentoMensual / destination.SueldoBruto;
+                destination.MontoDescuentoMensual = destination.RetencionImss + destination.Ispt;
                 destination.SueldoNetoPercibidoMensual = destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion + CostoBusinessConstants.ViaticosAComprobar - destination.MontoDescuentoMensual;
-                destination.Anual = destination.SueldoBruto * 12;
-                destination.AguinaldoMontoProvisionMensual = destination.AguinaldoCantMeses * destination.SueldoBruto / 30M;
-                destination.IndemProvisionMensual = destination.SueldoBruto / 30M * 20M / 12M;
-                destination.PtuProvision = destination.SueldoBruto * 1116000M / 8053945M / 12M;
+                #endregion Sueldo Neto Mensual
 
+                destination.Anual = destination.SueldoBruto * 12;
+
+                #region Aguinaldo
+                destination.AguinaldoMontoProvisionMensual = destination.AguinaldoCantMeses * destination.SueldoBruto / 30M;
+                #endregion Aguinaldo
+
+                #region Indemnizacion
+                destination.IndemProvisionMensual = ((destination.SueldoBruto / 30M) * 20M) / 12M;
+                #endregion Indemnizacion
+
+                #region PTU
+                destination.PtuProvision = destination.SueldoBruto * 1116000M / 8053945M / 12M;
+                #endregion PTU
             }
 
-           
 
+
+            #region Prima Vacacional
             if (destination.SueldoBruto == 0)
             {
                 destination.PvDiasVacasAnuales = 0;
@@ -94,29 +103,36 @@ namespace Bovis.Business
 
             if (destination.SueldoBruto > 0)
             {
-                destination.PvProvisionMensual = destination.SueldoBruto / 30 * destination.PvDiasVacasAnuales * 0.25M / 12;
+                destination.PvProvisionMensual = (destination.SueldoBruto / 30 * destination.PvDiasVacasAnuales * 0.25M / 12) * 0.75M;
             }
             else
                 destination.PvProvisionMensual = 0.0M;
+            #endregion Prima Vacacional
 
+            #region Seguro de Gastos Médicos Mayores
             if (destination.SgmmCostoTotalAnual.HasValue)
             {
                 destination.SgmmCostoMensual = destination.SgmmCostoTotalAnual / 12.0M;
             }
+            #endregion Seguro de Gastos Médicos Mayores
 
+            #region Seguro de Vida
             if (destination.SvCostoTotalAnual.HasValue && destination.SvCostoTotalAnual != 0)
             {
                 destination.SvCostoMensual = destination.SvCostoTotalAnual / 12.0M;
             }
             else
                 destination.SvCostoMensual = 0.0M;
+            #endregion Seguro de Vida
 
+            #region Vales de Despensa
             if (destination.VaidCostoMensual.HasValue && destination.VaidCostoMensual != 0)
             {
                 destination.VaidComisionCostoMensual = destination.VaidCostoMensual * 0.015M;
             }
             else
                 destination.VaidComisionCostoMensual = 0.0M;
+            #endregion Vales de Despensa
 
             destination.Impuesto3sNomina = destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual * 0.03M;
 
@@ -129,7 +145,8 @@ namespace Bovis.Business
             destination.IndiceCargaLaboral = costoLab.IndiceCargaLaboral;
 
             destination.FechaActualizacion = DateTime.Now;
-            destination.RegHistorico = false; 
+            destination.RegHistorico = false;
+
 
             return destination;
 
