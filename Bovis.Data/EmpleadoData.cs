@@ -587,13 +587,14 @@ namespace Bovis.Data
                                     where p.IdNivel == cve_puesto
                                     select p).FirstOrDefaultAsync();
 
+                var jefe_directo = await (from e in db.tB_Empleados
+                                          join p in db.tB_Personas on e.IdPersona equals p.IdPersona into pJoin
+                                          from pItem in pJoin.DefaultIfEmpty()
+                                          select pItem).FirstOrDefaultAsync();
+
                 var unidad_negocio = await (from u in db.tB_Cat_UnidadNegocios
                                             where u.IdUnidadNegocio == id_unidad_negocio
                                             select u).FirstOrDefaultAsync();
-
-                var empleado_proyecto = await (from ep in db.tB_EmpleadoProyectos
-                                               where ep.NumEmpleadoRrHh == num_empleado_rr_hh
-                                               select ep).FirstOrDefaultAsync();
 
                 var proyecto = await (from ep in db.tB_EmpleadoProyectos
                                       join p in db.tB_Proyectos on ep.NumProyecto equals p.NumProyecto into pJoin
@@ -610,9 +611,10 @@ namespace Bovis.Data
                     .Value(x => x.CorreoElec, email_bovis)
                     .Value(x => x.Puesto, puesto != null ? puesto.Puesto : string.Empty)
                     .Value(x => x.FechaIngreso, fecha_ingreso.ToString("dd/MM/yyyy"))
-                    .Value(x => x.JefeDirecto, id_jefe_directo)
+                    .Value(x => x.JefeDirecto, jefe_directo != null ? jefe_directo.ApPaterno + " " + jefe_directo.ApMaterno + " " + jefe_directo.Nombre : string.Empty)
                     .Value(x => x.UnidadDeNegocio, unidad_negocio != null ? unidad_negocio.UnidadNegocio : string.Empty)
                     .Value(x => x.Proyecto, proyecto != null ? proyecto.Proyecto : string.Empty)
+                    .Value(x => x.CentrosdeCostos, proyecto != null ? proyecto.NumProyecto.ToString() : string.Empty)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
@@ -821,13 +823,14 @@ namespace Bovis.Data
                                     where p.IdNivel == cve_puesto
                                     select p).FirstOrDefaultAsync();
 
+                var jefe_directo = await (from e in db.tB_Empleados
+                                          join p in db.tB_Personas on e.IdPersona equals p.IdPersona into pJoin
+                                          from pItem in pJoin.DefaultIfEmpty()
+                                          select pItem).FirstOrDefaultAsync();
+
                 var unidad_negocio = await (from u in db.tB_Cat_UnidadNegocios
                                             where u.IdUnidadNegocio == id_unidad_negocio
                                             select u).FirstOrDefaultAsync();
-
-                var empleado_proyecto = await (from ep in db.tB_EmpleadoProyectos
-                                               where ep.NumEmpleadoRrHh == num_empleado_rr_hh
-                                               select ep).FirstOrDefaultAsync();
 
                 var proyecto = await (from ep in db.tB_EmpleadoProyectos
                                       join p in db.tB_Proyectos on ep.NumProyecto equals p.NumProyecto into pJoin
@@ -845,9 +848,10 @@ namespace Bovis.Data
                         CorreoElec = email_bovis,
                         Puesto = puesto != null ? puesto.Puesto : string.Empty,
                         FechaIngreso = fecha_ingreso.ToString("dd/MM/yyyy"),
-                        JefeDirecto = id_jefe_directo,
+                        JefeDirecto = jefe_directo != null ? jefe_directo.ApPaterno + " " + jefe_directo.ApMaterno + " " + jefe_directo.Nombre : string.Empty,
                         UnidadDeNegocio = unidad_negocio != null ? unidad_negocio.UnidadNegocio : string.Empty,
-                        Proyecto = proyecto != null ? proyecto.Proyecto : string.Empty
+                        Proyecto = proyecto != null ? proyecto.Proyecto : string.Empty,
+                        CentrosdeCostos = proyecto != null ? proyecto.NumProyecto.ToString() : string.Empty
                     }) > 0;
 
 
