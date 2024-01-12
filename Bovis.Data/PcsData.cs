@@ -319,18 +319,38 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == num_proyecto)
-                    .UpdateAsync(x => new TB_Contacto
-                    {
-                        NumProyecto = num_proyecto,
-                        Nombre = nombre_contacto,
-                        Posicion = posicion_contacto,
-                        Telefono = telefono_contacto,
-                        Correo = correo_contacto
-                    }) > 0;
+                var contacto = await (from c in db.tB_Contactos
+                                  where c.NumProyecto == num_proyecto
+                                  select c).FirstOrDefaultAsync();
 
-                resp.Success = res_update_contacto;
-                resp.Message = res_update_contacto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                if (contacto != null)
+                {
+                    var res_update_contacto = await db.tB_Contactos.Where(x => x.NumProyecto == num_proyecto)
+                        .UpdateAsync(x => new TB_Contacto
+                        {
+                            NumProyecto = num_proyecto,
+                            Nombre = nombre_contacto,
+                            Posicion = posicion_contacto,
+                            Telefono = telefono_contacto,
+                            Correo = correo_contacto
+                        }) > 0;
+
+                    resp.Success = res_update_contacto;
+                    resp.Message = res_update_contacto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+                else
+                {
+                    var res_insert_contacto = await db.tB_Contactos
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.Nombre, nombre_contacto)
+                    .Value(x => x.Posicion, posicion_contacto)
+                    .Value(x => x.Telefono, telefono_contacto)
+                    .Value(x => x.Correo, correo_contacto)
+                    .InsertAsync() > 0;
+
+                    resp.Success = res_insert_contacto;
+                    resp.Message = res_insert_contacto == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                }
 
                 var res_update_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == num_proyecto)
                     .UpdateAsync(x => new TB_Proyecto
