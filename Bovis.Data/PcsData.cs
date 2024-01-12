@@ -226,6 +226,10 @@ namespace Bovis.Data
                                    from empleado_directorItem in empleado_directorJoin.DefaultIfEmpty()
                                    join persona_director in db.tB_Personas on empleado_directorItem.IdPersona equals persona_director.IdPersona into persona_directorJoin
                                    from persona_directorItem in persona_directorJoin.DefaultIfEmpty()
+
+                                   join contacto in db.tB_Contactos on proy.NumProyecto equals contacto.NumProyecto into contactoJoin
+                                   from contactoItem in contactoJoin.DefaultIfEmpty()
+
                                    where (IdProyecto == 0 || proy.NumProyecto == IdProyecto)
                                    orderby proy.Proyecto ascending
                                    select new Proyecto_Detalle
@@ -259,7 +263,11 @@ namespace Bovis.Data
                                        chdirector_ejecutivo = persona_directorItem != null ? persona_directorItem.Nombre + " " + persona_directorItem.ApPaterno + " " + persona_resp_supItem.ApMaterno : null,
                                        nucosto_promedio_m2 = proy.CostoPromedioM2,
                                        dtfecha_ini = proy.FechaIni,
-                                       dtfecha_fin = proy.FechaFin
+                                       dtfecha_fin = proy.FechaFin,
+                                       chcontacto_nombre = contactoItem != null ? contactoItem.Nombre : string.Empty,
+                                       chcontacto_posicion = contactoItem != null ? contactoItem.Posicion : string.Empty,
+                                       chcontacto_telefono = contactoItem != null ? contactoItem.Telefono : string.Empty,
+                                       chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty
                                    }).ToListAsync();
 
                 return proyectos;

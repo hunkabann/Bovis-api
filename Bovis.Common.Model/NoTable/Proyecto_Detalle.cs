@@ -66,6 +66,10 @@ namespace Bovis.Common.Model.NoTable
         public decimal? nuporcantaje_participacion { get; set; }
         public string? chalias_puesto { get; set; }
         public string? chgrupo_proyecto { get; set; }
+        public string? chcontacto_nombre { get; set; }
+        public string? chcontacto_posicion { get; set; }
+        public string? chcontacto_telefono { get; set; }
+        public string? chcontacto_correo { get; set; }
     }
 
     public class InfoCliente
