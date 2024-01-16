@@ -622,7 +622,9 @@ namespace Bovis.Data
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
             string num_empleado = registro["num_empleado"].ToString();        
-            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());            
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
+            bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {                
@@ -630,9 +632,7 @@ namespace Bovis.Data
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
-                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
-                    decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
-                    bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());                    
 
                     var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
                         .Value(x => x.IdFase, id_fase)
@@ -727,7 +727,9 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            string num_empleado = registro["num_empleado"].ToString();         
+            string num_empleado = registro["num_empleado"].ToString();
+            decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
+            bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {                
@@ -738,9 +740,7 @@ namespace Bovis.Data
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
-                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
-                    decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
-                    bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());                    
 
                     var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
                         .Value(x => x.IdFase, id_fase)
