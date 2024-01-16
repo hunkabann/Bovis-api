@@ -525,14 +525,18 @@ namespace Bovis.Data
                                                Id = p.Id,
                                                IdFase = p.IdFase,
                                                NumempleadoRrHh = p.NumEmpleado,
-                                               Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                               Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                               Cantidad = p.Cantidad,
+                                               AplicaTodosMeses = p.AplicaTodosMeses
                                            } by new { p.NumEmpleado } into g
                                            select new PCS_Empleado_Detalle
                                            {
                                                Id = g.First().Id,
                                                IdFase = g.First().IdFase,
                                                NumempleadoRrHh = g.Key.NumEmpleado,
-                                               Empleado = g.First().Empleado
+                                               Empleado = g.First().Empleado,
+                                               Cantidad = g.First().Cantidad,
+                                               AplicaTodosMeses = g.First().AplicaTodosMeses
                                            }).ToListAsync();
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
