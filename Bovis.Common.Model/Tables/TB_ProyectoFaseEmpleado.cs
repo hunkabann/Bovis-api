@@ -11,6 +11,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Numes"), NotNull] public int Mes { get; set; }
         [Column("Nuanio"), NotNull] public int Anio { get; set; }
         [Column("Nuporcentaje"), NotNull] public int Porcentaje { get; set; }
-       
+        [Column("Nucantidad"), Nullable] public decimal? Cantidad { get; set; }
+        [Column("Boaplica_todos_meses"), Nullable] public bool? AplicaTodosMeses { get; set; }
     }
 }

@@ -6,8 +6,7 @@ namespace Bovis.Common.Model
 {
 	public partial class ConnectionDB : DataConnection
 	{		        
-        public ITable<TB_Auditoria> tB_Auditorias { get { return this.GetTable<TB_Auditoria>(); } }
-        public ITable<TB_AuditoriaDocumento> tB_Auditoria_Documentos { get { return this.GetTable<TB_AuditoriaDocumento>(); } }
+       public ITable<TB_AuditoriaDocumento> tB_Auditoria_Documentos { get { return this.GetTable<TB_AuditoriaDocumento>(); } }
         public ITable<TB_AuditoriaProyecto> tB_Auditoria_Proyectos { get { return this.GetTable<TB_AuditoriaProyecto>(); } }
         public ITable<TB_Banco> tB_Bancos { get { return this.GetTable<TB_Banco>(); } }
 		public ITable<TB_Bitacora> tB_Bitacoras { get { return this.GetTable<TB_Bitacora>(); } }        

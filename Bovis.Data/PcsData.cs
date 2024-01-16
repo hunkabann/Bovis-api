@@ -6,6 +6,7 @@ using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
 using System.Text.Json.Nodes;
+using Newtonsoft.Json.Linq;
 
 namespace Bovis.Data
 {
@@ -152,7 +153,9 @@ namespace Bovis.Data
                 resp.Success = res_insert_proyecto;
                 resp.Message = res_insert_proyecto == default ? "Ocurrio un error al insertar registro." : string.Empty;
 
-                // Se agregan las secciones y rubros para gastos e ingresos.
+                /*
+                 * Se agregan las secciones y rubros para gastos e ingresos.
+                 */
                 var secciones = await (from secc in db.tB_GastoIngresoSeccions
                                        where secc.Activo == true
                                        select secc).ToListAsync();
@@ -174,8 +177,49 @@ namespace Bovis.Data
 
                         resp.Success = res_insert_rubro;
                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
-                    }                    
+                    }
                 }
+
+                /*
+                 * Se agregan sus documentos de auditorías, default.
+                 */
+                AuditoriaData audit = new AuditoriaData();
+                JsonObject json = new JsonObject
+                {
+                    ["id_proyecto"] = num_proyecto,
+                    ["auditorias"] = new JsonArray()
+                };
+                JsonArray jsonArray = new JsonArray();
+                HashSet<string> uniqueIds = new HashSet<string>();
+
+                var auditorias = await audit.GetAuditorias("ambos");
+                auditorias.AddRange(await audit.GetAuditorias("calidad"));
+                auditorias.AddRange(await audit.GetAuditorias("legal"));
+
+                foreach (var sections in auditorias)
+                {
+                    foreach (var documento in sections.Auditorias)
+                    {
+                        string idAuditoria = documento.IdAuditoria.ToString();
+
+                        if (uniqueIds.Add(idAuditoria))
+                        {
+                            jsonArray.Add(new JsonObject
+                            {
+                                ["id_auditoria"] = documento.IdAuditoria,
+                                ["aplica"] = (documento.Punto == "Reportes Mensuales" ||
+                                          documento.Punto == "Certificación mensual de Servicios:" ||
+                                          documento.Punto == "Comunicación escrita y/o electrónica con el Cliente" ||
+                                          documento.Punto == "Contrato de Bovis"),
+                                ["motivo"] = "Documento por default"
+                            });
+                        }
+                    }
+                }
+
+                json["auditorias"] = jsonArray;
+
+                await audit.AddAuditorias(json);
             }
 
             return resp;
@@ -415,7 +459,7 @@ namespace Bovis.Data
             int orden = Convert.ToInt32(registro["orden"].ToString());
             string nombre_fase = registro["nombre_fase"].ToString();
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
-            DateTime fecha_fin = Convert.ToDateTime(registro["fecha_fin"].ToString());
+            DateTime fecha_fin = Convert.ToDateTime(registro["fecha_fin"].ToString());            
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -578,7 +622,7 @@ namespace Bovis.Data
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
             string num_empleado = registro["num_empleado"].ToString();        
-            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());            
 
             using (var db = new ConnectionDB(dbConfig))
             {                
@@ -587,6 +631,8 @@ namespace Bovis.Data
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
                     int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
+                    decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
+                    bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
 
                     var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
                         .Value(x => x.IdFase, id_fase)
@@ -594,6 +640,8 @@ namespace Bovis.Data
                         .Value(x => x.Mes, mes)
                         .Value(x => x.Anio, anio)
                         .Value(x => x.Porcentaje, porcentaje)
+                        .Value(x => x.Cantidad, cantidad)
+                        .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -640,14 +688,18 @@ namespace Bovis.Data
                                            Id = p.Id,
                                            IdFase = p.IdFase,
                                            NumempleadoRrHh = p.NumEmpleado,
-                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty
+                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                           Cantidad = p.Cantidad,
+                                           AplicaTodosMeses = p.AplicaTodosMeses
                                        } by new { p.NumEmpleado } into g
                                        select new PCS_Empleado_Detalle
                                        {
                                            Id = g.First().Id,
                                            IdFase = g.First().IdFase,
                                            NumempleadoRrHh = g.Key.NumEmpleado,
-                                           Empleado = g.First().Empleado
+                                           Empleado = g.First().Empleado,
+                                           Cantidad = g.First().Cantidad,
+                                           AplicaTodosMeses = g.First().AplicaTodosMeses
                                        }).ToListAsync();
 
                 foreach (var empleado in empleados)
@@ -687,6 +739,8 @@ namespace Bovis.Data
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
                     int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
+                    decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
+                    bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
 
                     var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
                         .Value(x => x.IdFase, id_fase)
@@ -694,6 +748,8 @@ namespace Bovis.Data
                         .Value(x => x.Mes, mes)
                         .Value(x => x.Anio, anio)
                         .Value(x => x.Porcentaje, porcentaje)
+                        .Value(x => x.Cantidad, cantidad)
+                        .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
