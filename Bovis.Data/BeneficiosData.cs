@@ -54,9 +54,9 @@ namespace Bovis.Data
         #endregion
 
         #region GetBeneficios
-        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficios(int NumEmpleado)
+        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficios(string NumEmpleado)
         {
-            var respuesta = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoBeneficio, int>(nameof(TB_EmpleadoBeneficio.NumEmpleadoRrHh), NumEmpleado);
+            var respuesta = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoBeneficio, string>(nameof(TB_EmpleadoBeneficio.NumEmpleadoRrHh), NumEmpleado);
 
 
             if (respuesta.Count != 0)
@@ -84,9 +84,9 @@ namespace Bovis.Data
         #endregion
 
         #region GetBeneficio
-        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficio(int idBeneficio, int NumEmpleado, int Mes, int Anno)
+        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficio(int idBeneficio, string NumEmpleado, int Mes, int Anno)
         {
-            var listaBeneficios = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoBeneficio, int>(nameof(TB_EmpleadoBeneficio.NumEmpleadoRrHh), NumEmpleado);
+            var listaBeneficios = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoBeneficio, string>(nameof(TB_EmpleadoBeneficio.NumEmpleadoRrHh), NumEmpleado);
            
             if (listaBeneficios.Count > 0)
             {
@@ -117,7 +117,7 @@ namespace Bovis.Data
 
 
         #region UpdateBeneficio
-        public async Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, int numEmpleado)
+        public async Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, string numEmpleado)
         {
             TB_EmpleadoBeneficio regBeneficioAnt = new();
             if (registro.IdBeneficio == idBeneficio)
@@ -125,7 +125,7 @@ namespace Bovis.Data
                 if(registro.NumEmpleadoRrHh == numEmpleado)
                 {
                     //Checar si el registro existe en la base de datos.
-                    var resultado = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoBeneficio, int>(nameof(TB_EmpleadoBeneficio.NumEmpleadoRrHh), numEmpleado);
+                    var resultado = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoBeneficio, string>(nameof(TB_EmpleadoBeneficio.NumEmpleadoRrHh), numEmpleado);
                     resultado = resultado.Where(s => s.IdBeneficio == idBeneficio && s.RegHistorico == false).ToList();
                     
                     if(resultado.Count > 0)

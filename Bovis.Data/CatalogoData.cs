@@ -792,7 +792,8 @@ namespace Bovis.Data
 																		  chpuesto = puesto.Puesto,
 																		  nusalario_min = puesto.SalarioMin,
 																		  nusalario_max = puesto.SalarioMax,
-																		  nusalario_prom = puesto.SalarioProm
+																		  nusalario_prom = puesto.SalarioProm,
+																		  boactivo = puesto.Activo
 																	  }).ToListAsync();
 		}
 

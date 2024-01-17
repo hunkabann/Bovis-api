@@ -35,14 +35,14 @@ namespace Bovis.API.Controllers
         }
 
         [HttpGet ("{numEmpleado:int}")]
-        public async Task<IActionResult> GetBeneficios([FromRoute] int numEmpleado)
+        public async Task<IActionResult> GetBeneficios([FromRoute] string numEmpleado)
         {
             var resultado = await _beneficiosQueryService.GetBeneficios(numEmpleado);
             return Ok(resultado);
         }
 
         [HttpGet ("{idBeneficio:int}/{numEmpleado:int}")]
-        public async Task<IActionResult> GetBeneficio([FromRoute] int idBeneficio, [FromRoute] int numEmpleado, [FromQuery] int mes, [FromQuery] int anno)
+        public async Task<IActionResult> GetBeneficio([FromRoute] int idBeneficio, [FromRoute] string numEmpleado, [FromQuery] int mes, [FromQuery] int anno)
         {
             var resultado = await _beneficiosQueryService.GetBeneficio(idBeneficio, numEmpleado, mes, anno);
             return Ok(resultado);
@@ -50,7 +50,7 @@ namespace Bovis.API.Controllers
 
         [HttpPut ("{idBeneficio:int}/{numEmpleado:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateBeneficio([FromBody] EmpleadoBeneficioDTO source, [FromRoute] int idBeneficio, [FromRoute] int numEmpleado)
+        public async Task<IActionResult> UpdateBeneficio([FromBody] EmpleadoBeneficioDTO source, [FromRoute] int idBeneficio, [FromRoute] string numEmpleado)
         {
             TB_EmpleadoBeneficio registro = new();
             registro = _mapper.Map<TB_EmpleadoBeneficio>(source); 

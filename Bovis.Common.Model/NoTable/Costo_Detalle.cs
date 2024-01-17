@@ -77,11 +77,13 @@ namespace Bovis.Common.Model.NoTable
         public string? NombrePersona { get; set; }
         public string? Reubicacion { get; set; }
         public int? IdPuesto { get; set; } = 0;
+        public string? Puesto { get; set; }
         public int? NumProyecto { get; set; } = 0;
         public string? Proyecto { get; set; }
         public int? IdUnidadNegocio { get; set; } = 0;
         public string? UnidadNegocio { get; set; }
         public int? IdEmpresa { get; set; } = 0;
+        public string? Empresa { get; set; }
         public string? Timesheet { get; set; }
         public string? IdEmpleadoJefe { get; set; } = string.Empty;
         public string? NombreJefe { get; set; }
@@ -109,7 +111,7 @@ namespace Bovis.Common.Model.NoTable
         public decimal? VaidCostoMensual { get; set; } = 0M;
         public decimal? VaidComisionCostoMensual { get; set; } = 0M;
         public decimal? PtuProvision { get; set; } = 0M;
-        public bool? Beneficios { get; set; }
+        public List<Beneficio_Costo_Detalle>? Beneficios { get; set; }
         public decimal? Impuesto3sNomina { get; set; } = 0M;
         public decimal? Imss { get; set; } = 0M;
         public decimal? Retiro2 { get; set; } = 0M;
@@ -125,12 +127,20 @@ namespace Bovis.Common.Model.NoTable
         public bool? RegHistorico { get; set; } = false;
 
         //Propiedades de Navegación 
-        public string? Nombre { get; set; }
-        public string? Ap_Paterno { get; set; }
-        public string? Ap_Materno { get; set; }
-        public string? Ciudad { get; set; }
-        public string? Empresa { get; set; }
-        public string? Puesto { get; set; }
+        public int? IdCiudad { get; set; }
+        public string? Ciudad { get; set; }        
+    }
 
+    public class Beneficio_Costo_Detalle
+    {
+        public int Id { get; set; }
+        public int IdBeneficio { get; set; }
+        public string Beneficio { get; set; }
+        public string NumEmpleadoRrHh { get; set; }
+        public decimal Costo { get; set; }
+        public int Mes { get; set; }
+        public int Anio { get; set; }
+        public DateTime FechaActualizacion { get; set; }
+        public bool RegHistorico { get; set; }
     }
 }
