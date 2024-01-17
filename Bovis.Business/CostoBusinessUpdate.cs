@@ -52,7 +52,7 @@ namespace Bovis.Business
             if (destination.SueldoBruto.HasValue && destination.SueldoBruto > 1)
             {
                 #region Sueldo Neto Mensual
-                destination.AvgDescuentoEmpleado = destination.MontoDescuentoMensual / destination.SueldoBruto;
+                destination.AvgDescuentoEmpleado = destination.SueldoBruto > 0 ? destination.MontoDescuentoMensual / destination.SueldoBruto : 0;
                 destination.MontoDescuentoMensual = destination.RetencionImss + destination.Ispt;
                 destination.SueldoNetoPercibidoMensual = destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion + CostoBusinessConstants.ViaticosAComprobar - destination.MontoDescuentoMensual;
                 #endregion Sueldo Neto Mensual
@@ -70,6 +70,10 @@ namespace Bovis.Business
                 #region PTU
                 destination.PtuProvision = destination.SueldoBruto * 1116000M / 8053945M / 12M;
                 #endregion PTU
+            }
+            else
+            {
+                destination.AvgDescuentoEmpleado = 0;
             }
 
 
@@ -103,7 +107,7 @@ namespace Bovis.Business
 
             if (destination.SueldoBruto > 0)
             {
-                destination.PvProvisionMensual = (destination.SueldoBruto / 30 * destination.PvDiasVacasAnuales * 0.25M / 12) * 0.75M;
+                destination.PvProvisionMensual = destination.PvDiasVacasAnuales > 0 ? (destination.SueldoBruto / 30 * destination.PvDiasVacasAnuales * 0.25M / 12) * 0.75M : 0;
             }
             else
                 destination.PvProvisionMensual = 0.0M;
@@ -159,8 +163,8 @@ namespace Bovis.Business
 
             costoLab.CostoMensualProyecto = 0.0M;
             costoLab.CostoAnualEmpleado = costoLab.CostoMensualEmpleado * 12;
-            costoLab.IndiceCostoLaboral = costoLab.CostoMensualEmpleado / costo.SueldoBruto;
-            costoLab.IndiceCargaLaboral = costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual;
+            costoLab.IndiceCostoLaboral = costo.SueldoBruto > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoBruto : 0;
+            costoLab.IndiceCargaLaboral = costo.SueldoNetoPercibidoMensual > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual : 0;
 
             return costoLab; 
         }
