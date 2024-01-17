@@ -112,7 +112,7 @@ namespace Bovis.Data
                                           select cta).FirstOrDefaultAsync();
                     }
 
-                    if (cuenta_contable != "703002003")
+                    //if (cuenta_contable != "703002003")
                     {
                         var insertedId = await db.tB_Cat_TipoCtaContables
                             .Value(x => x.CtaContable, cuenta_contable)
