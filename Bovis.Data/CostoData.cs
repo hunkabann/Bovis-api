@@ -287,6 +287,7 @@ namespace Bovis.Data
             if (costoId == registro.IdCosto)
             {
                 decimal? sueldo_bruto = registro.SueldoBruto;
+                int numero_proyecto = registro.NumProyecto;
 
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -304,6 +305,10 @@ namespace Bovis.Data
                         registro = registro_anterior;
                         registro.RegHistorico = false;
                         registro.SueldoBruto = sueldo_bruto;
+                        registro.NumProyecto = numero_proyecto;
+                        registro.NuMes = DateTime.Now.Month;
+                        registro.NuAnno = DateTime.Now.Year;
+                        registro.FechaActualizacion = DateTime.Now;
 
                         var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
 
@@ -409,9 +414,9 @@ public class CostoQueries :  RepositoryLinq2DB<ConnectionDB>
                                 from unidadNItem in unidadNJoin.DefaultIfEmpty()
                                 join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
                                 from empresaItem in empresaJoin.DefaultIfEmpty()
-                                join empleado in db.tB_Empleados on costos.IdEmpleadoJefe equals empleado.NumEmpleadoRrHh into empleadoJoin
-                                from empleadoItem in empleadoJoin.DefaultIfEmpty()
-                                join personaJefe in db.tB_Personas on empleadoItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
+                                join empleadoJefe in db.tB_Empleados on costos.IdEmpleadoJefe equals empleadoJefe.NumEmpleadoRrHh into empleadoJefeJoin
+                                from empleadoJefeItem in empleadoJefeJoin.DefaultIfEmpty()
+                                join personaJefe in db.tB_Personas on empleadoJefeItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
                                 from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
                                 join empleadoCosto in db.tB_Empleados on costos.NumEmpleadoRrHh equals empleadoCosto.NumEmpleadoRrHh into empleadoCostoJoin
                                 from empleadoCostoItem in empleadoCostoJoin.DefaultIfEmpty()
