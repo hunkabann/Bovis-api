@@ -291,6 +291,17 @@ namespace Bovis.Business
 
                         foreach (var docto in tmpPagos.DoctosRelacionados)
                         {
+                            decimal importe_pagado = Convert.ToDecimal(docto.ImportePagado ?? "-1");
+                            decimal importe_saldo_anterior = Convert.ToDecimal(docto.ImporteSaldoAnt ?? "-1");
+                            decimal importe_saldo_insoluto = Convert.ToDecimal(docto.ImporteSaldoInsoluto ?? "-1");
+
+                            if(cfdi.Moneda != "MXN")
+                            {
+                                importe_pagado = importe_pagado * tipoCambio;
+                                importe_saldo_anterior = importe_saldo_anterior * tipoCambio;
+                                importe_saldo_insoluto = importe_saldo_insoluto * tipoCambio;
+                            }
+
                             var factura = await _facturaData.SearchFactura(docto.Uuid);
                             var tmpFactura = new FacturaRevision
                             {
@@ -325,9 +336,9 @@ namespace Bovis.Business
                                             IdFactura = factura.Id,
                                             UuidCobranza = cfdi.UUID,
                                             IdMonedaP = docto.MonedaDR,
-                                            ImportePagado = Convert.ToDecimal(docto.ImportePagado ?? "-1"),
-                                            ImpSaldoAnt = Convert.ToDecimal(docto.ImporteSaldoAnt ?? "-1"),
-                                            ImporteSaldoInsoluto = Convert.ToDecimal(docto.ImporteSaldoInsoluto ?? "-1"),
+                                            ImportePagado = importe_pagado,
+                                            ImpSaldoAnt = importe_saldo_anterior,
+                                            ImporteSaldoInsoluto = importe_saldo_insoluto,
                                             IvaP = Convert.ToDecimal(docto.ImporteDR ?? "-1"),
                                             TipoCambioP = tipoCambio,
                                             FechaPago = tryDate,
