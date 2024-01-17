@@ -603,7 +603,6 @@ namespace Bovis.Data
                                       select pItem).FirstOrDefaultAsync();
 
                 var insert_dor_empleado = await db.tB_Dor_Empleados
-                    .Value(x => x.IdEmp, last_inserted_id)
                     .Value(x => x.Usuario, email_bovis)
                     .Value(x => x.Rol, rol)
                     .Value(x => x.Nombre, persona != null ? persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno : string.Empty)
@@ -617,6 +616,9 @@ namespace Bovis.Data
                     .Value(x => x.CentrosdeCostos, proyecto != null ? proyecto.NumProyecto.ToString() : string.Empty)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
+
+                resp.Success = insert_dor_empleado;
+                resp.Message = insert_dor_empleado == default ? "Ocurrio un error al agregar registro de Empleado." : string.Empty;
 
 
                 /*
