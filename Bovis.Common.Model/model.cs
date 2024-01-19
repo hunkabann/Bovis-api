@@ -68,6 +68,7 @@ namespace Bovis.Common.Model
         public ITable<TB_Ciudad> tB_Ciudads { get { return this.GetTable<TB_Ciudad>(); } }
 		public ITable<TB_Cliente> tB_Clientes { get { return this.GetTable<TB_Cliente>(); } }
 		public ITable<TB_ClienteEmpresa> tB_ClienteEmpresas { get { return this.GetTable<TB_ClienteEmpresa>(); } }
+		public ITable<TB_ClienteProyecto> tB_ClienteProyectos { get { return this.GetTable<TB_ClienteProyecto>(); } }
 		public ITable<TB_Cobranza> tB_Cobranzas { get { return this.GetTable<TB_Cobranza>(); } }
 		public ITable<TB_Colonia> tB_Colonias { get { return this.GetTable<TB_Colonia>(); } }
 		public ITable<TB_Contacto> tB_Contactos { get { return this.GetTable<TB_Contacto>(); } }

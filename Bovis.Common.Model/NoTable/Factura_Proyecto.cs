@@ -9,7 +9,7 @@ namespace Bovis.Common.Model.NoTable
         public int NumProyecto { get; set; }
         public string Nombre { get; set; }
         public string RfcBaseEmisor { get; set; }
-        public string RfcBaseReceptor { get; set; }
+        public List<string> RfcBaseReceptor { get; set; }
     }
 
     public class AgregarFactura
@@ -20,7 +20,7 @@ namespace Bovis.Common.Model.NoTable
         }
         public int NumProyecto { get; set; }
         public string RfcEmisor { get; set; }
-        public string RfcReceptor { get; set; }
+        public List<string> RfcReceptor { get; set; }
         public List<Factura> LstFacturas { get; set; }
     }
 

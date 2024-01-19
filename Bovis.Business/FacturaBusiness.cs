@@ -40,7 +40,7 @@ namespace Bovis.Business
         public async Task<List<FacturaRevision>> AddFacturas(AgregarFactura request)
         {
             var LstFacturas = new List<FacturaRevision>();
-            //(bool Success, string Message) response = (false, string.Empty);
+            
             var tryDate = default(DateTime);
             foreach (var factura in request.LstFacturas)
             {
@@ -61,7 +61,10 @@ namespace Bovis.Business
                         Almacenada = true
                     };
 
-                    if (cfdi.RfcReceptor.Equals(request.RfcReceptor) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
+                    string rfcReceptor = request.RfcReceptor.Where(x => x == cfdi.RfcReceptor).FirstOrDefault();
+
+                    //if (cfdi.RfcReceptor.Equals(request.RfcReceptor) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
+                    if ((!string.IsNullOrEmpty(rfcReceptor) && cfdi.RfcReceptor.Equals(rfcReceptor)) && cfdi.RfcEmisor.Equals(request.RfcEmisor))
                     {
                         var existeF = await _facturaData.SearchFactura(cfdi.UUID);
 
@@ -70,7 +73,7 @@ namespace Bovis.Business
                             tmpFactura.Almacenada = false;
                             tmpFactura.Error = $@"La factura {factura.FacturaNombre} ya existe en la BD";
                         }
-                        else 
+                        else
                         {
                             tryDate = default;
                             if (DateTime.TryParse(cfdi.Fecha, out tryDate))
@@ -78,7 +81,8 @@ namespace Bovis.Business
                                 decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
                                 decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
 
-                                if (cfdi.Moneda != "MXN") {
+                                if (cfdi.Moneda != "MXN")
+                                {
                                     total = total * tipoCambio;
                                 }
 
@@ -106,15 +110,15 @@ namespace Bovis.Business
                                 tmpFactura.Almacenada = responseFactura.existe;
                                 tmpFactura.Error = responseFactura.mensaje;
                             }
+                        }
                     }
-                }
-                else
-                {
-                    tmpFactura.Almacenada = false;
-                    tmpFactura.Error = $@"La factura {factura.FacturaNombre} no coincide con los RFCs esperados";
-                }
+                    else
+                    {
+                        tmpFactura.Almacenada = false;
+                        tmpFactura.Error = $@"La factura {factura.FacturaNombre} no coincide con los RFCs esperados";
+                    }
 
-                LstFacturas.Add(tmpFactura);                  
+                    LstFacturas.Add(tmpFactura);
                 }
                 else
                 {
@@ -124,10 +128,9 @@ namespace Bovis.Business
                         Almacenada = false,
                         Error = $@"La factura {factura.FacturaNombre} no se pudo procesar"
                     });
-                }//response.Message = $@"{response.Message} La factura {factura.FacturaNombre} no se pudo procesar ||";
+                }
             }
-            //if (string.IsNullOrEmpty(response.Message)) response.Success = true;
-            //return (response.Success, response.Message);
+
             return LstFacturas;
         }
 
@@ -451,6 +454,9 @@ namespace Bovis.Business
         }
 
         public Task<Factura_Proyecto> GetInfoProyecto(int numProyecto) => _facturaData.GetInfoProyecto(numProyecto);
+
+
+
 
         #region Extraer Datos Cfdi
         public async Task<BaseCFDI?> ExtraerDatos(string base64String)

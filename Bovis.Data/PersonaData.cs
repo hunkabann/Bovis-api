@@ -125,7 +125,7 @@ namespace Bovis.Data
                                       chtipo_persona = tipo_perItem != null ? tipo_perItem.TipoPersona : string.Empty,
                                       boempleado = per.EsEmpleado,
                                       boactivo = per.Activo
-                                  }).ToListAsync();
+                                  }).Distinct().ToListAsync();
             }
 
             return personas;

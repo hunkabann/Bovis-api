@@ -27,13 +27,13 @@ namespace Bovis.Service.EventHandlers
         public async Task<Response<List<FacturaRevision>>> Handle(AddFacturasCommand request, CancellationToken cancellationToken)
         {
             var resp = new Response<List<FacturaRevision>>();
-            var facturas = new AgregarFactura { NumProyecto = request.NumProyecto, RfcEmisor = request.RfcEmisor, RfcReceptor=request.RfcReceptor };
-            request.LstFacturas?.ForEach(x=>  { facturas.LstFacturas.Add(new Common.Model.NoTable.Factura { FacturaB64 = x.FacturaB64, FacturaNombre = x.NombreFactura }); });
+            var facturas = new AgregarFactura { NumProyecto = request.NumProyecto, RfcEmisor = request.RfcEmisor, RfcReceptor = request.RfcReceptor };
+            request.LstFacturas?.ForEach(x => { facturas.LstFacturas.Add(new Common.Model.NoTable.Factura { FacturaB64 = x.FacturaB64, FacturaNombre = x.NombreFactura }); });
             //			(bool Success, string Message) tmpResp = await _business.AddFacturas(facturas);
             List<FacturaRevision> lstFacturas = await _business.AddFacturas(facturas);
             resp.Data = lstFacturas;
             //if (!tmpResp.Success) resp.AddError(tmpResp.Message);
-                //resp.Data = lista
+            //resp.Data = lista
             //else 
             return resp;
         }

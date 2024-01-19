@@ -7,7 +7,7 @@ namespace Bovis.Service.Queries.Dto.Responses
         public int NumProyecto { get; set; }
         public string Nombre { get; set; }
         public string RfcBaseEmisor { get; set;}
-        public string RfcBaseReceptor { get; set;}
+        public List<string> RfcBaseReceptor { get; set;}
 
     }
     public class DetallesFactura

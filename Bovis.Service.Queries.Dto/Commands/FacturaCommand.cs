@@ -12,7 +12,7 @@ namespace Bovis.Service.Queries.Dto.Commands
         [Required(ErrorMessage = "El campo RfcEmisor es requerido")]
         public string RfcEmisor { get; set; }
         [Required(ErrorMessage = "El campo RfcReceptor es requerido")]
-        public string RfcReceptor { get; set; }
+        public List<string> RfcReceptor { get; set; }
 
         [Required(ErrorMessage = "Es requerida la factura")]
 		public List<Factura> LstFacturas { get; set; }

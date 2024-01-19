@@ -34,21 +34,44 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
 
-                var res = from a in db.tB_Proyectos
-                          from b in db.tB_Clientes
-                          from c in db.tB_Empresas
-                          where a.IdCliente == b.IdCliente &&
-                            a.IdEmpresa == c.IdEmpresa &&
-                            a.NumProyecto == numProyecto
-                          select new Factura_Proyecto
-                          {
-                              NumProyecto = a.NumProyecto,
-                              Nombre = a.Proyecto,
-                              RfcBaseEmisor = c.Rfc,
-                              RfcBaseReceptor = b.Rfc
-                          };
+                //var res = await(from a in db.tB_Proyectos
+                //          from b in db.tB_Clientes
+                //          from c in db.tB_Empresas
+                //          where a.IdCliente == b.IdCliente &&
+                //            a.IdEmpresa == c.IdEmpresa &&
+                //            a.NumProyecto == numProyecto
+                //          select new Factura_Proyecto
+                //          {
+                //              NumProyecto = a.NumProyecto,
+                //              Nombre = a.Proyecto,
+                //              RfcBaseEmisor = c.Rfc,
+                //              RfcBaseReceptor = b.Rfc
+                //          }).FirstOrDefaultAsync();
 
-                return await res.FirstOrDefaultAsync();
+                var res = await (from p in db.tB_Proyectos
+                                 join e in db.tB_Empresas on p.IdEmpresa equals e.IdEmpresa into eJoin
+                                 from eItem in eJoin.DefaultIfEmpty()
+                                 join cp in db.tB_ClienteProyectos on p.NumProyecto equals cp.NumProyecto into cpJoin
+                                 from cpItem in cpJoin.DefaultIfEmpty()
+                                 join c in db.tB_Clientes on cpItem.IdCliente equals c.IdCliente into cJoin
+                                 from cItem in cJoin.DefaultIfEmpty()
+                                 where p.NumProyecto == numProyecto
+                                 select new Factura_Proyecto
+                                 {
+                                     NumProyecto = p.NumProyecto,
+                                     Nombre = p.Proyecto,
+                                     RfcBaseEmisor = eItem.Rfc ?? string.Empty
+                                 }).FirstOrDefaultAsync();
+                
+                res.RfcBaseReceptor = new List<string>();
+
+                res.RfcBaseReceptor.AddRange(await (from cp in db.tB_ClienteProyectos
+                                  join c in db.tB_Clientes on cp.IdCliente equals c.IdCliente into cJoin
+                                  from cItem in cJoin.DefaultIfEmpty()
+                                  where cp.NumProyecto == numProyecto
+                                  select cItem.Rfc).ToListAsync());
+
+                return res;
             }
         }
 

@@ -140,13 +140,5 @@ namespace Bovis.API.Controllers
             var business = await _facturaQueryService.Search(request);
             return Ok(business);
         }
-
-
-        //[HttpPut("Almacenar")]
-        //public async Task<IActionResult> AlmacenarInfoFactura(InfoFactura request)
-        //{
-        //    var business = await _facturaQueryService.AgregarFactura(request);
-        //    return Ok(business);
-        //}
     }
 }
