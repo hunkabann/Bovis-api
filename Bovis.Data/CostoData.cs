@@ -70,7 +70,7 @@ namespace Bovis.Data
             return new Common.Response<decimal>()
             {
                 Success = false,
-                Message = $"Error: Ya existe el registro: {registro_anterior.Data[0].IdCosto} en tabla costos para el empleado {registro.NumEmpleadoRrHh}."
+                Message = $"Error: Ya existe el registro: {registro_anterior.Data[0].IdCostoEmpleado} en tabla costos para el empleado {registro.NumEmpleadoRrHh}."
             };
 
         }
@@ -89,7 +89,6 @@ namespace Bovis.Data
             }
             else
                 return costos.Where(reg => reg.RegHistorico == false).ToList();
-
         }
         #endregion
 
@@ -98,7 +97,7 @@ namespace Bovis.Data
         {
             CostoQueries QueryBase = new(dbConfig);
             var costos = await QueryBase.CostosEmpleados();
-            var resp = costos.SingleOrDefault(costo => costo.IdCosto == IdCosto);
+            var resp = costos.SingleOrDefault(costo => costo.IdCostoEmpleado == IdCosto);
 
             return resp;
         }
@@ -284,7 +283,7 @@ namespace Bovis.Data
         #region UpdateCostos
         public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, TB_CostoPorEmpleado registro)
         {
-            if (costoId == registro.IdCosto)
+            if (costoId == registro.IdCostoEmpleado)
             {
                 decimal? sueldo_bruto = registro.SueldoBruto;
                 int numero_proyecto = registro.NumProyecto;
@@ -292,7 +291,7 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var registro_anterior = await (from c in db.tB_Costo_Por_Empleados
-                                                   where c.IdCosto == registro.IdCosto
+                                                   where c.IdCostoEmpleado == registro.IdCostoEmpleado
                                                    && c.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
                                                    && c.RegHistorico == false
                                                    select c).FirstOrDefaultAsync();
@@ -345,7 +344,7 @@ namespace Bovis.Data
             return new Common.Response<TB_CostoPorEmpleado>()
             {
                 Success = false,
-                Message = $"Identificador del Costo {costoId} no coincide con registro {registro.IdCosto}!"
+                Message = $"Identificador del Costo {costoId} no coincide con registro {registro.IdCostoEmpleado}!"
             };
 
         }
@@ -392,7 +391,7 @@ namespace Bovis.Data
 
     }
 }
-public class CostoQueries :  RepositoryLinq2DB<ConnectionDB>
+public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
 {
     private readonly string _dbConfig = "DBConfig";
     public CostoQueries(string dbConfig)
@@ -406,6 +405,10 @@ public class CostoQueries :  RepositoryLinq2DB<ConnectionDB>
             var result = await (from costos in db.tB_Costo_Por_Empleados
                                 join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
                                 from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
+                                join empleadoCosto in db.tB_Empleados on costos.NumEmpleadoRrHh equals empleadoCosto.NumEmpleadoRrHh into empleadoCostoJoin
+                                from empleadoCostoItem in empleadoCostoJoin.DefaultIfEmpty()
+                                join ciudad in db.tB_Ciudads on empleadoCostoItem.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                from ciudadItem in ciudadJoin.DefaultIfEmpty()
                                 join puesto in db.tB_Cat_Puestos on costos.IdPuesto equals puesto.IdPuesto into puestoJoin
                                 from puestoItem in puestoJoin.DefaultIfEmpty()
                                 join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
@@ -418,19 +421,19 @@ public class CostoQueries :  RepositoryLinq2DB<ConnectionDB>
                                 from empleadoJefeItem in empleadoJefeJoin.DefaultIfEmpty()
                                 join personaJefe in db.tB_Personas on empleadoJefeItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
                                 from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
-                                join empleadoCosto in db.tB_Empleados on costos.NumEmpleadoRrHh equals empleadoCosto.NumEmpleadoRrHh into empleadoCostoJoin
-                                from empleadoCostoItem in empleadoCostoJoin.DefaultIfEmpty()
-                                join ciudad in db.tB_Ciudads on empleadoCostoItem.IdCiudad equals ciudad.IdCiudad into ciudadJoin
-                                from ciudadItem in ciudadJoin.DefaultIfEmpty()
                                 select new Costo_Detalle
                                 {
-                                    IdCosto = costos.IdCosto,
-                                    NuAnno = costos.NuAnno,
-                                    NuMes = costos.NuMes,
+                                    IdCostoEmpleado = costos.IdCostoEmpleado,
+                                    // Empleado
+                                    IdPersona = costos.IdPersona,
                                     NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
                                     NumEmpleadoNoi = costos.NumEmpleadoNoi,
-                                    IdPersona = costos.IdPersona,
-                                    NombrePersona = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
+                                    NombreCompletoEmpleado = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
+                                    ApellidoPaterno = personaEmpItem != null ? personaEmpItem.ApPaterno : string.Empty,
+                                    ApellidoMaterno = personaEmpItem != null ? personaEmpItem.ApMaterno : string.Empty,
+                                    NombreEmpleado = personaEmpItem != null ? personaEmpItem.Nombre : string.Empty,
+                                    IdCiudad = ciudadItem != null ? ciudadItem.IdCiudad : 0,
+                                    Ciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
                                     Reubicacion = costos.Reubicacion,
                                     IdPuesto = costos.IdPuesto,
                                     Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
@@ -443,44 +446,59 @@ public class CostoQueries :  RepositoryLinq2DB<ConnectionDB>
                                     Timesheet = costos.Timesheet,
                                     IdEmpleadoJefe = costos.IdEmpleadoJefe,
                                     NombreJefe = personaJefeItem != null ? personaJefeItem.Nombre + " " + personaJefeItem.ApPaterno + " " + personaJefeItem.ApMaterno : string.Empty,
+                                    // Seniority
                                     FechaIngreso = costos.FechaIngreso,
                                     Antiguedad = costos.Antiguedad,
+                                    // Sueldo neto mensual (MN)
                                     AvgDescuentoEmpleado = costos.AvgDescuentoEmpleado,
                                     MontoDescuentoMensual = costos.MontoDescuentoMensual,
-                                    SueldoNetoMensual = costos.SueldoNetoPercibidoMensual,
+                                    SueldoNetoPercibidoMensual = costos.SueldoNetoPercibidoMensual,
                                     RetencionImss = costos.RetencionImss,
                                     Ispt = costos.Ispt,
-                                    SueldoBruto = costos.SueldoBruto,
+                                    // Sueldo bruto MN/USD
+                                    SueldoBrutoInflacion = costos.SueldoBruto,
                                     Anual = costos.Anual,
+                                    // Aguinaldo
                                     AguinaldoCantidadMeses = costos.AguinaldoCantMeses,
                                     AguinaldoMontoProvisionMensual = costos.AguinaldoMontoProvisionMensual,
+                                    // Prima vacacional
                                     PvDiasVacasAnuales = costos.PvDiasVacasAnuales,
                                     PvProvisionMensual = costos.PvProvisionMensual,
+                                    // Indemnización
                                     IndemProvisionMensual = costos.IndemProvisionMensual,
+                                    // Provisión bono anual
                                     AvgBonoAnualEstimado = costos.AvgBonoAnualEstimado,
                                     BonoAnualProvisionMensual = costos.BonoAnualProvisionMensual,
+                                    // GMM
                                     SgmmCostoTotalAnual = costos.SgmmCostoTotalAnual,
                                     SgmmCostoMensual = costos.SgmmCostoMensual,
+                                    // Seguro de vida
                                     SvCostoTotalAnual = costos.SvCostoTotalAnual,
                                     SvCostoMensual = costos.SvCostoMensual,
+                                    // Vales de despensa
                                     VaidCostoMensual = costos.VaidCostoMensual,
                                     VaidComisionCostoMensual = costos.VaidComisionCostoMensual,
+                                    // PTU
                                     PtuProvision = costos.PtuProvision,
+                                    // Cargas sociales e impuestos laborales
                                     Impuesto3sNomina = costos.Impuesto3sNomina,
                                     Imss = costos.Imss,
                                     Retiro2 = costos.Retiro2,
                                     CesantesVejez = costos.CesantesVejez,
                                     Infonavit = costos.Infonavit,
                                     CargasSociales = costos.CargasSociales,
+                                    // Costo total laboral BLL
                                     CostoMensualEmpleado = costos.CostoMensualEmpleado,
                                     CostoMensualProyecto = costos.CostoMensualProyecto,
                                     CostoAnualEmpleado = costos.CostoAnualEmpleado,
-                                    IndiceCostoLaboral = costos.IndiceCostoLaboral,
-                                    IndiceCargaLaboral = costos.IndiceCargaLaboral,
+                                    CostoSalarioBruto = costos.CostoSalarioBruto,
+                                    CostoSalarioNeto = costos.CostoSalarioBruto,
+
+                                    NuAnno = costos.NuAnno,
+                                    NuMes = costos.NuMes,
                                     FechaActualizacion = costos.FechaActualizacion,
                                     RegHistorico = costos.RegHistorico,
-                                    IdCiudad = ciudadItem != null ? ciudadItem.IdCiudad : 0,
-                                    Ciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty
+                                    
                                 }).ToListAsync();
 
             foreach(var r in result)

@@ -13,8 +13,8 @@ namespace Bovis.Business
             public decimal? CostoMensualEmpleado { get; set; }
             public decimal? CostoMensualProyecto { get; set; }
             public decimal? CostoAnualEmpleado { get; set; }
-            public decimal? IndiceCostoLaboral { get; set; } // CostoMensualEmpleado/SueldoBruto
-            public decimal? IndiceCargaLaboral { get; set; } // CostoMensualEmpleado/SueldoNeto
+            public decimal? CostoSalarioBruto { get; set; } // CostoMensualEmpleado/SueldoBruto
+            public decimal? CostoSalarioNeto { get; set; } // CostoMensualEmpleado/SueldoNeto
 
         }
 
@@ -145,8 +145,8 @@ namespace Bovis.Business
             CostoLaboral costoLab = CostoTotalLaboral(destination);
             destination.CostoMensualEmpleado = costoLab.CostoMensualEmpleado;
             destination.CostoAnualEmpleado = costoLab.CostoAnualEmpleado;
-            destination.IndiceCostoLaboral = costoLab.IndiceCostoLaboral;
-            destination.IndiceCargaLaboral = costoLab.IndiceCargaLaboral;
+            destination.CostoSalarioBruto = costoLab.CostoSalarioBruto;
+            destination.CostoSalarioNeto = costoLab.CostoSalarioNeto;
 
             destination.FechaActualizacion = DateTime.Now;
             destination.RegHistorico = false;
@@ -160,11 +160,10 @@ namespace Bovis.Business
         {
             CostoLaboral costoLab = new();
             costoLab.CostoMensualEmpleado = costo.SueldoBruto + costo.AguinaldoMontoProvisionMensual + costo.PvProvisionMensual + costo.IndemProvisionMensual + costo.BonoAnualProvisionMensual + costo.SgmmCostoMensual + costo.SvCostoMensual + costo.VaidCostoMensual + costo.VaidComisionCostoMensual + costo.PtuProvision + costo.CargasSociales;
-
             costoLab.CostoMensualProyecto = 0.0M;
             costoLab.CostoAnualEmpleado = costoLab.CostoMensualEmpleado * 12;
-            costoLab.IndiceCostoLaboral = costo.SueldoBruto > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoBruto : 0;
-            costoLab.IndiceCargaLaboral = costo.SueldoNetoPercibidoMensual > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual : 0;
+            costoLab.CostoSalarioBruto = costo.SueldoBruto > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoBruto : 0;
+            costoLab.CostoSalarioNeto = costo.SueldoNetoPercibidoMensual > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual : 0;
 
             return costoLab; 
         }
