@@ -19,8 +19,7 @@ namespace Bovis.Business
         }
 
         public static TB_CostoPorEmpleado ValueFields(CostoPorEmpleadoDTO source)
-        {
-            
+        {            
             TB_CostoPorEmpleado destination = new();
 
             destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination); 
@@ -33,12 +32,12 @@ namespace Bovis.Business
             }
             destination.NuMes = DateTime.Now.Month; 
             destination.NuAnno = DateTime.Now.Year;
-
             //destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso).Days) / 365);
             TimeSpan diferencia = (TimeSpan) (DateTime.Now - destination.FechaIngreso); 
             destination.Antiguedad = diferencia.Days / 365;
-            #endregion
+            #endregion Antigüedad
 
+            #region Aguinaldo
             if (destination.Antiguedad != 0)
             {
                 if (destination.Antiguedad < 5)
@@ -48,6 +47,7 @@ namespace Bovis.Business
                 else
                     destination.AguinaldoCantMeses = 1.0M;
             }
+            #endregion Aguinaldo
 
             if (destination.SueldoBruto.HasValue && destination.SueldoBruto > 1)
             {
@@ -73,9 +73,10 @@ namespace Bovis.Business
             }
             else
             {
+                #region Sueldo Neto Mensual
                 destination.AvgDescuentoEmpleado = 0;
+                #endregion Sueldo Neto Mensual
             }
-
 
 
             #region Prima Vacacional
@@ -138,15 +139,25 @@ namespace Bovis.Business
                 destination.VaidComisionCostoMensual = 0.0M;
             #endregion Vales de Despensa
 
+            #region Cargas sociales e impuestos laborales
             destination.Impuesto3sNomina = destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual * 0.03M;
-
             destination.CargasSociales = destination.Impuesto3sNomina + destination.RetencionImss + destination.Retiro2 + destination.CesantesVejez + destination.Infonavit;
+            #endregion Cargas sociales e impuestos laborales
 
-            CostoLaboral costoLab = CostoTotalLaboral(destination);
-            destination.CostoMensualEmpleado = costoLab.CostoMensualEmpleado;
-            destination.CostoAnualEmpleado = costoLab.CostoAnualEmpleado;
-            destination.CostoSalarioBruto = costoLab.CostoSalarioBruto;
-            destination.CostoSalarioNeto = costoLab.CostoSalarioNeto;
+            //CostoLaboral costoLab = CostoTotalLaboral(destination);
+            //destination.CostoMensualEmpleado = costoLab.CostoMensualEmpleado;
+            //destination.CostoAnualEmpleado = costoLab.CostoAnualEmpleado;
+            //destination.CostoSalarioBruto = costoLab.CostoSalarioBruto;
+            //destination.CostoSalarioNeto = costoLab.CostoSalarioNeto;
+
+            #region Costo total laboral BLL
+            destination.CostoMensualEmpleado = destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + destination.IndemProvisionMensual + destination.BonoAnualProvisionMensual + destination.SgmmCostoMensual + destination.SvCostoMensual + destination.VaidCostoMensual + destination.VaidComisionCostoMensual + destination.PtuProvision + destination.CargasSociales;
+            destination.CostoMensualProyecto = 0.0M;
+            destination.CostoAnualEmpleado = destination.CostoMensualEmpleado * 12;
+            destination.CostoSalarioBruto = destination.SueldoBruto > 0 ? destination.CostoMensualEmpleado / destination.SueldoBruto : 0;
+            destination.CostoSalarioNeto = destination.SueldoNetoPercibidoMensual > 0 ? destination.CostoMensualEmpleado / destination.SueldoNetoPercibidoMensual : 0;
+            #endregion Costo total laboral BLL
+
 
             destination.FechaActualizacion = DateTime.Now;
             destination.RegHistorico = false;
@@ -156,17 +167,17 @@ namespace Bovis.Business
 
         } 
 
-        private static CostoLaboral CostoTotalLaboral(TB_CostoPorEmpleado costo)
-        {
-            CostoLaboral costoLab = new();
-            costoLab.CostoMensualEmpleado = costo.SueldoBruto + costo.AguinaldoMontoProvisionMensual + costo.PvProvisionMensual + costo.IndemProvisionMensual + costo.BonoAnualProvisionMensual + costo.SgmmCostoMensual + costo.SvCostoMensual + costo.VaidCostoMensual + costo.VaidComisionCostoMensual + costo.PtuProvision + costo.CargasSociales;
-            costoLab.CostoMensualProyecto = 0.0M;
-            costoLab.CostoAnualEmpleado = costoLab.CostoMensualEmpleado * 12;
-            costoLab.CostoSalarioBruto = costo.SueldoBruto > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoBruto : 0;
-            costoLab.CostoSalarioNeto = costo.SueldoNetoPercibidoMensual > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual : 0;
+        //private static CostoLaboral CostoTotalLaboral(TB_CostoPorEmpleado costo)
+        //{
+        //    CostoLaboral costoLab = new();
+        //    costoLab.CostoMensualEmpleado = costo.SueldoBruto + costo.AguinaldoMontoProvisionMensual + costo.PvProvisionMensual + costo.IndemProvisionMensual + costo.BonoAnualProvisionMensual + costo.SgmmCostoMensual + costo.SvCostoMensual + costo.VaidCostoMensual + costo.VaidComisionCostoMensual + costo.PtuProvision + costo.CargasSociales;
+        //    costoLab.CostoMensualProyecto = 0.0M;
+        //    costoLab.CostoAnualEmpleado = costoLab.CostoMensualEmpleado * 12;
+        //    costoLab.CostoSalarioBruto = costo.SueldoBruto > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoBruto : 0;
+        //    costoLab.CostoSalarioNeto = costo.SueldoNetoPercibidoMensual > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual : 0;
 
-            return costoLab; 
-        }
+        //    return costoLab; 
+        //}
         
         private static TB_CostoPorEmpleado MapToTbCostoEmpleado<TProfile>(CostoPorEmpleadoDTO source, TB_CostoPorEmpleado destination) where TProfile : Profile, new()
         {
