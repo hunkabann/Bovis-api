@@ -573,7 +573,7 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            TB_CieData registroCie = null;
+            int? inserted_file_id = 0;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -582,55 +582,30 @@ namespace Bovis.Data
                 /*
                  * Se inserta el registro del nombre del archivo.
                  */
-                var archivo = await (from file in db.tB_Cie_Archivos
+                inserted_file_id = await (from file in db.tB_Cie_Archivos
                                      where file.NombreArchivo == nombre_archivo
-                                     select file).FirstOrDefaultAsync();
+                                     select file.IdArchivo).FirstOrDefaultAsync();
 
-                if (archivo != null)
+                if (inserted_file_id == 0)
                 {
-                    resp.Success = true;
-                    resp.Message = "Ya se ha cargado previamente la información del archivo seleccionado.";
-                    return resp;
+                    inserted_file_id = await db.tB_Cie_Archivos
+                        .Value(x => x.NombreArchivo, nombre_archivo)
+                        .InsertWithInt32IdentityAsync();
+
+                    resp.Success = inserted_file_id.HasValue;
+                    resp.Message = inserted_file_id == default ? "Ocurrio un error al agregar registro." : string.Empty;
                 }
 
-                var inserted_file_id = await db.tB_Cie_Archivos
-                    .Value(x => x.NombreArchivo, nombre_archivo)
-                    .InsertWithInt32IdentityAsync();
-
-                resp.Success = inserted_file_id.HasValue;
-                resp.Message = inserted_file_id == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                
 
                 /*
                  * Se consultan todos los registros guardados en la tabla tb_cie_data y se almacenan en un HashSet.
                  */
-                List<TB_CieData> registrosCie = await (from records in db.tB_Cie_Datas
-                                                       select new TB_CieData
-                                                       {
-                                                           NombreCuenta = (records.NombreCuenta ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           Cuenta = (records.Cuenta ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           TipoPoliza = (records.TipoPoliza ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           Numero = records.Numero,
-                                                           Fecha = records.Fecha,
-                                                           Mes = records.Mes,
-                                                           Concepto = (records.Concepto ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           CentroCostos = (records.CentroCostos ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           Proyecto = (records.Proyecto ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           SaldoInicial = records.SaldoInicial,
-                                                           Debe = records.Debe,
-                                                           Haber = records.Haber,
-                                                           Movimiento = records.Movimiento,
-                                                           Empresa = (records.Empresa ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           NumProyecto = records.NumProyecto,
-                                                           TipoCuenta = (records.TipoCuenta ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           EdoResultados = (records.EdoResultados ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           Responsable = (records.Responsable ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           TipoProyecto = (records.TipoProyecto ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           TipoPY = (records.TipoPY ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           ClasificacionPY = (records.ClasificacionPY ?? "").TrimEnd().Replace("\r\n", ""),
-                                                           Activo = records.Activo
-                                                       }).ToListAsync();
+                List<string> registrosCie = await (from records in db.tB_Cie_Datas
+                                                   select records.Fecha + "¨" + records.Concepto).ToListAsync();
 
-                HashSet<TB_CieData> hashs = new HashSet<TB_CieData>(registrosCie);
+                HashSet<string> hashs = new HashSet<string>(registrosCie);
+
 
 
                 bool insert = false;
@@ -669,33 +644,11 @@ namespace Bovis.Data
                     /*
                      * Se crea un objeto de tipo TB_CieData para luego compararlo con los Hashs y verificar si no hay duplicidad de datos.
                      */
-                    registroCie = new TB_CieData();
-                    registroCie.NombreCuenta = (nombre_cuenta ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.Cuenta = (cuenta ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.TipoPoliza = (tipo_poliza ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.Numero = numero;
-                    registroCie.Fecha = fecha;
-                    registroCie.Mes = mes;
-                    registroCie.Concepto = (concepto ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.CentroCostos = (centro_costos ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.Proyecto = (proyectos ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.SaldoInicial = saldo_inicial;
-                    registroCie.Debe = debe;
-                    registroCie.Haber = haber;
-                    registroCie.Movimiento = movimiento;
-                    registroCie.Empresa = (empresa ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.NumProyecto = num_proyecto;
-                    registroCie.TipoCuenta = (tipo_cuenta ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.EdoResultados = (edo_resultados ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.Responsable = (responsable ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.TipoProyecto = (tipo_proyecto ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.TipoPY = (tipo_py ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.ClasificacionPY = (clasificacion_py ?? "").TrimEnd().Replace("\r\n", "");
-                    registroCie.Activo = true;
+                    string cta = fecha.ToString() + "¨" + concepto;
 
-                    if (!hashs.Contains(registroCie)) // && cuenta != "703002003")
+                    if (!hashs.Contains(cta)) // && cuenta != "703002003")
                     {
-                        hashs.Add(registroCie);
+                        hashs.Add(cta);
 
                         insert = await db.tB_Cie_Datas
                             .Value(x => x.NombreCuenta, nombre_cuenta)
