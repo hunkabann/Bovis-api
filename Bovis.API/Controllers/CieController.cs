@@ -217,6 +217,14 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpDelete, Route("Archivo")]
+        public async Task<IActionResult> DeleteArchivo([FromBody] JsonObject registro)
+        {
+            var query = await _cieQueryService.DeleteArchivo(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
         #endregion Registros
     }
 }

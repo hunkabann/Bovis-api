@@ -618,25 +618,30 @@ namespace Bovis.Data
                                      where file.NombreArchivo == nombre_archivo
                                      select file.IdArchivo).FirstOrDefaultAsync();
 
-                if (inserted_file_id == 0)
+                if (inserted_file_id != 0)
                 {
-                    inserted_file_id = await db.tB_Cie_Archivos
+                    resp.Success = true;
+                    resp.Message = $"El archivo \"{nombre_archivo}\" ya fue cargado anteriormente.";
+                    return resp;
+                }
+
+
+                inserted_file_id = await db.tB_Cie_Archivos
                         .Value(x => x.NombreArchivo, nombre_archivo)
                         .InsertWithInt32IdentityAsync();
 
-                    resp.Success = inserted_file_id.HasValue;
-                    resp.Message = inserted_file_id == default ? "Ocurrio un error al agregar registro." : string.Empty;
-                }
+                resp.Success = inserted_file_id.HasValue;
+                resp.Message = inserted_file_id == default ? "Ocurrio un error al agregar registro." : string.Empty;
 
-                
+
 
                 /*
                  * Se consultan todos los registros guardados en la tabla tb_cie_data y se almacenan en un HashSet.
                  */
-                List<string> registrosCie = await (from records in db.tB_Cie_Datas
-                                                   select records.Fecha + "¨" + records.Concepto).ToListAsync();
+                //List<string> registrosCie = await (from records in db.tB_Cie_Datas
+                //                                   select records.Numero + "¨" + records.Fecha + "¨" + records.Concepto.Trim()).ToListAsync();
 
-                HashSet<string> hashs = new HashSet<string>(registrosCie);
+                //HashSet<string> hashs = new HashSet<string>(registrosCie);
 
 
 
@@ -676,11 +681,11 @@ namespace Bovis.Data
                     /*
                      * Se crea un objeto de tipo TB_CieData para luego compararlo con los Hashs y verificar si no hay duplicidad de datos.
                      */
-                    string cta = fecha.ToString() + "¨" + concepto;
+                    //string cta = numero.ToString() + "¨" + fecha.ToString() + "¨" + concepto.Trim();
 
-                    if (!hashs.Contains(cta)) // && cuenta != "703002003")
+                    //if (!hashs.Contains(cta)) // && cuenta != "703002003")
                     {
-                        hashs.Add(cta);
+                        //hashs.Add(cta);
 
                         insert = await db.tB_Cie_Datas
                             .Value(x => x.NombreCuenta, nombre_cuenta)
@@ -802,6 +807,37 @@ namespace Bovis.Data
 
                 resp.Success = res_update_timesheet;
                 resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> DeleteArchivo(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                string nombre_archivo = registro["nombre_archivo"].ToString();
+
+                int? file_id = await (from file in db.tB_Cie_Archivos
+                                          where file.NombreArchivo == nombre_archivo
+                                          select file.IdArchivo).FirstOrDefaultAsync();
+
+                resp.Success = file_id.HasValue;
+                resp.Message = file_id == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                var delete_records = await db.tB_Cie_Datas.Where(x => x.IdArchivo == file_id)
+                                .DeleteAsync() > 0;
+
+                resp.Success = delete_records;
+                resp.Message = delete_records == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                var delete_file = await db.tB_Cie_Archivos.Where(x => x.IdArchivo == file_id)
+                                .DeleteAsync() > 0;
+
+                resp.Success = delete_file;
+                resp.Message = delete_file == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
 
             return resp;

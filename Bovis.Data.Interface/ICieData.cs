@@ -34,6 +34,7 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> AddRegistros(JsonObject registros);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
         Task<(bool Success, string Message)> DeleteRegistro(int idRegistro);
+        Task<(bool Success, string Message)> DeleteArchivo(JsonObject registro);
 
         #endregion Registros
     }
