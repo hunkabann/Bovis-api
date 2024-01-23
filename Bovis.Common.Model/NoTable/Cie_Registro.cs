@@ -40,6 +40,7 @@ namespace Bovis.Common.Model.NoTable
         public int? IdArchivo { get; set; }
         public string? NombreArchivo { get; set; }
         public bool Inconsistente { get; set; }
+        public DateTime? FechaCancelacion { get; set; }
     }
 
     public class CieRegistro

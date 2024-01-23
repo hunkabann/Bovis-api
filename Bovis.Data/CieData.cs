@@ -460,7 +460,8 @@ namespace Bovis.Data
                                               Movimiento = a.Total * -1,
                                               Empresa = eItem != null ? eItem.Empresa : string.Empty,
                                               NumProyecto = a.NumProyecto,
-                                              ClasificacionPy = "Facturación"
+                                              ClasificacionPy = "Facturación",
+                                              FechaCancelacion = a.FechaCancelacion
                                           }).ToListAsync();
 
                 registros.Registros.AddRange(res_facturas);
@@ -495,7 +496,8 @@ namespace Bovis.Data
                                            Movimiento = notas.Total,
                                            Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
                                            NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
-                                           ClasificacionPy = "Facturación"
+                                           ClasificacionPy = "Facturación",
+                                           FechaCancelacion = notas.FechaCancelacion
                                        }).ToListAsync();
 
                 registros.Registros.AddRange(res_notas);
@@ -527,7 +529,8 @@ namespace Bovis.Data
                                                Movimiento = cobr.ImportePagado * -1,
                                                Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
                                                NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
-                                               ClasificacionPy = "Cobranza"
+                                               ClasificacionPy = "Cobranza",
+                                               FechaCancelacion = cobr.FechaCancelacion
                                            }).ToListAsync();
 
                 registros.Registros.AddRange(res_cobranzas);
