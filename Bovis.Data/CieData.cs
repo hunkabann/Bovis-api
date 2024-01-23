@@ -394,7 +394,7 @@ namespace Bovis.Data
 
 
                 // Omisión de filtro de inconsistencia para cuentas específicas.
-                foreach(var reg in registros.Registros)
+                foreach (var reg in registros.Registros)
                 {
                     if (!string.IsNullOrEmpty(reg.CentroCostos) && reg.CentroCostos.Contains("."))
                     {
@@ -407,7 +407,7 @@ namespace Bovis.Data
                         }
                     }
                     else
-                        reg.Inconsistente = true;                    
+                        reg.Inconsistente = true;
                 }
 
 
@@ -439,10 +439,22 @@ namespace Bovis.Data
                                           from eItem in eJoin.DefaultIfEmpty()
                                           where (num_proyecto == null || a.NumProyecto == num_proyecto)
                                           && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
-                                          && (mes_inicio == null || a.FechaEmision.Month >= mes_inicio)
-                                          && (anio_inicio == null || a.FechaEmision.Year >= anio_inicio)
-                                          && (mes_fin == null || a.FechaEmision.Month <= mes_fin)
-                                          && (anio_fin == null || a.FechaEmision.Year <= anio_fin)
+                                          &&
+                                          (
+                                          ((mes_inicio == null || a.FechaEmision.Month >= mes_inicio) && (anio_inicio == null || a.FechaEmision.Year >= anio_inicio))
+                                          ||
+                                          ((mes_inicio == null || a.FechaCancelacion.Value.Month >= mes_inicio) && (anio_inicio == null || a.FechaCancelacion.Value.Year >= anio_inicio))
+                                          )
+                                          &&
+                                          (
+                                          ((mes_fin == null || a.FechaEmision.Month <= mes_fin) && (anio_fin == null || a.FechaEmision.Year <= anio_fin))
+                                          ||
+                                          ((mes_fin == null || a.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || a.FechaCancelacion.Value.Year <= anio_fin))
+                                          )
+                                          //&& (mes_inicio == null || a.FechaEmision.Month >= mes_inicio)
+                                          //&& (anio_inicio == null || a.FechaEmision.Year >= anio_inicio)
+                                          //&& ((mes_fin == null || a.FechaEmision.Month <= mes_fin)
+                                          //&& (anio_fin == null || a.FechaEmision.Year <= anio_fin))
                                           && (num_proyecto == null || a.NumProyecto == num_proyecto)
                                           && (empresa == null || eItem.Empresa == empresa)
                                           orderby a.FechaEmision descending
@@ -475,10 +487,18 @@ namespace Bovis.Data
                                        join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                        from emprItem in emprJoin.DefaultIfEmpty()
                                        where notas.FechaCancelacion == null
-                                       && (mes_inicio == null || notas.FechaNotaCredito.Month >= mes_inicio)
-                                       && (anio_inicio == null || notas.FechaNotaCredito.Year >= anio_inicio)
-                                       && (mes_fin == null || notas.FechaNotaCredito.Month <= mes_fin)
-                                       && (anio_fin == null || notas.FechaNotaCredito.Year <= anio_fin)
+                                       &&
+                                       (
+                                       ((mes_inicio == null || notas.FechaNotaCredito.Month >= mes_inicio) && (anio_inicio == null || notas.FechaNotaCredito.Year >= anio_inicio))
+                                       ||
+                                       ((mes_inicio == null || notas.FechaCancelacion.Value.Month >= mes_inicio) && (anio_inicio == null || notas.FechaCancelacion.Value.Year >= anio_inicio))
+                                       )
+                                       &&
+                                       (
+                                       ((mes_fin == null || notas.FechaNotaCredito.Month <= mes_fin) && (anio_fin == null || notas.FechaNotaCredito.Year <= anio_fin))
+                                       ||
+                                       ((mes_fin == null || notas.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || notas.FechaCancelacion.Value.Year <= anio_fin))
+                                       )
                                        && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                        && (empresa == null || emprItem.Empresa == empresa)
                                        orderby notas.FechaNotaCredito descending
@@ -511,10 +531,22 @@ namespace Bovis.Data
                                            join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                            from emprItem in emprJoin.DefaultIfEmpty()
                                            where cobr.FechaCancelacion == null
-                                           && (mes_inicio == null || cobr.FechaPago.Month >= mes_inicio)
-                                           && (anio_inicio == null || cobr.FechaPago.Year >= anio_inicio)
-                                           && (mes_fin == null || cobr.FechaPago.Month <= mes_fin)
-                                           && (anio_fin == null || cobr.FechaPago.Year <= anio_fin)
+                                           &&
+                                           (
+                                           ((mes_inicio == null || cobr.FechaPago.Month >= mes_inicio) && (anio_inicio == null || cobr.FechaPago.Year >= anio_inicio))
+                                           ||
+                                           ((mes_inicio == null || cobr.FechaCancelacion.Value.Month >= mes_inicio) && (anio_inicio == null || cobr.FechaCancelacion.Value.Year >= anio_inicio))
+                                           )
+                                           &&
+                                           (
+                                           ((mes_fin == null || cobr.FechaPago.Month <= mes_fin) && (anio_fin == null || cobr.FechaPago.Year <= anio_fin))
+                                           ||
+                                           ((mes_fin == null || cobr.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || cobr.FechaCancelacion.Value.Year <= anio_fin))
+                                           )
+                                           //&& (mes_inicio == null || cobr.FechaPago.Month >= mes_inicio)
+                                           //&& (anio_inicio == null || cobr.FechaPago.Year >= anio_inicio)
+                                           //&& ((mes_fin == null || cobr.FechaPago.Month <= mes_fin)
+                                           //&& (anio_fin == null || cobr.FechaPago.Year <= anio_fin))
                                            && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                            && (empresa == null || emprItem.Empresa == empresa)
                                            orderby cobr.FechaPago descending
