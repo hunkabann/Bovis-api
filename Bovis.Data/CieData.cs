@@ -610,28 +610,33 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 string nombre_archivo = registros["nombre_archivo"].ToString();
+                bool paquete_inicial = Convert.ToBoolean(registros["paquete_inicial"].ToString());
 
                 /*
                  * Se inserta el registro del nombre del archivo.
                  */
+                // Busca si ya existe el archivo.
                 inserted_file_id = await (from file in db.tB_Cie_Archivos
-                                     where file.NombreArchivo == nombre_archivo
-                                     select file.IdArchivo).FirstOrDefaultAsync();
+                                          where file.NombreArchivo == nombre_archivo
+                                          select file.IdArchivo).FirstOrDefaultAsync();
 
                 if (inserted_file_id != 0)
                 {
                     resp.Success = true;
                     resp.Message = $"El archivo \"{nombre_archivo}\" ya fue cargado anteriormente.";
-                    //return resp;
+
+                    if (paquete_inicial == true)
+                        return resp;
                 }
+                else
+                {
+                    inserted_file_id = await db.tB_Cie_Archivos
+                            .Value(x => x.NombreArchivo, nombre_archivo)
+                            .InsertWithInt32IdentityAsync();
 
-
-                inserted_file_id = await db.tB_Cie_Archivos
-                        .Value(x => x.NombreArchivo, nombre_archivo)
-                        .InsertWithInt32IdentityAsync();
-
-                resp.Success = inserted_file_id.HasValue;
-                resp.Message = inserted_file_id == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    resp.Success = inserted_file_id.HasValue;
+                    resp.Message = inserted_file_id == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                }
 
 
 
@@ -820,24 +825,25 @@ namespace Bovis.Data
             {
                 string nombre_archivo = registro["nombre_archivo"].ToString();
 
-                int? file_id = await (from file in db.tB_Cie_Archivos
+                var files_id = await (from file in db.tB_Cie_Archivos
                                           where file.NombreArchivo == nombre_archivo
-                                          select file.IdArchivo).FirstOrDefaultAsync();
+                                          select file.IdArchivo).ToListAsync();
 
-                resp.Success = file_id.HasValue;
-                resp.Message = file_id == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                foreach (var id in files_id)
+                {
 
-                var delete_records = await db.tB_Cie_Datas.Where(x => x.IdArchivo == file_id)
-                                .DeleteAsync() > 0;
+                    var delete_records = await db.tB_Cie_Datas.Where(x => x.IdArchivo == id)
+                                    .DeleteAsync() > 0;
 
-                resp.Success = delete_records;
-                resp.Message = delete_records == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    resp.Success = delete_records;
+                    resp.Message = delete_records == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
-                var delete_file = await db.tB_Cie_Archivos.Where(x => x.IdArchivo == file_id)
-                                .DeleteAsync() > 0;
+                    var delete_file = await db.tB_Cie_Archivos.Where(x => x.IdArchivo == id)
+                                    .DeleteAsync() > 0;
 
-                resp.Success = delete_file;
-                resp.Message = delete_file == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    resp.Success = delete_file;
+                    resp.Message = delete_file == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
             }
 
             return resp;
