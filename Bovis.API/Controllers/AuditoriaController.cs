@@ -53,6 +53,14 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
+        //[HttpPost, Route("Comentario")]
+        //public async Task<IActionResult> AddComentarios([FromBody] JsonObject registro)
+        //{
+        //    var query = await _auditoriaQueryService.AddComentarios(registro);
+        //    if (query.Message == string.Empty) return Ok(query);
+        //    else return BadRequest(query.Message);
+        //}
+
         [HttpPut]
         public async Task<IActionResult> UpdateAuditoriaProyecto([FromBody] JsonObject registro)
         {

@@ -207,6 +207,8 @@ namespace Bovis.Data
                                       .Distinct()
                                       .ToListAsync();
 
+                nombres_cuenta.Add("Facturación / Cobranza");
+
                 return nombres_cuenta;
             }
         }
@@ -346,68 +348,72 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                registros.Registros = await (from cie in db.tB_Cie_Datas
-                                             join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
-                                             from archivoItem in archivoJoin.DefaultIfEmpty()
-                                             join proyecto in db.tB_Proyectos on new { cie.NumProyecto, cie.Proyecto } equals new { proyecto.NumProyecto, proyecto.Proyecto } into proyectoJoin
-                                             from proyectoItem in proyectoJoin.DefaultIfEmpty()
-                                             where cie.Activo == true
-                                             && (nombre_cuenta == null || cie.NombreCuenta == nombre_cuenta)
-                                             && (mes_inicio == null || Convert.ToDateTime(cie.Fecha).Month >= mes_inicio)
-                                             && (anio_inicio == null || Convert.ToDateTime(cie.Fecha).Year >= anio_inicio)
-                                             && (mes_fin == null || Convert.ToDateTime(cie.Fecha).Month <= mes_fin)
-                                             && (anio_fin == null || Convert.ToDateTime(cie.Fecha).Year <= anio_fin)
-                                             && (concepto == null || cie.Concepto == concepto)
-                                             && (empresa == null || cie.Empresa == empresa)
-                                             && (num_proyecto == null || cie.NumProyecto == num_proyecto)
-                                             && (responsable == null || cie.Responsable == responsable)
-                                             && (clasificacion_py == null || cie.ClasificacionPY == clasificacion_py)
-                                             select new Cie_Detalle
-                                             {
-                                                 IdCie = cie.IdCieData,
-                                                 NombreCuenta = cie.NombreCuenta,
-                                                 Cuenta = cie.Cuenta,
-                                                 TipoPoliza = cie.TipoPoliza,
-                                                 Numero = cie.Numero.ToString(),
-                                                 Fecha = cie.Fecha,
-                                                 Mes = cie.Mes,
-                                                 Concepto = cie.Concepto,
-                                                 CentroCostos = cie.CentroCostos,
-                                                 Proyecto = cie.Proyecto,
-                                                 SaldoInicial = cie.SaldoInicial,
-                                                 Debe = cie.Debe,
-                                                 Haber = cie.Haber,
-                                                 Movimiento = cie.Movimiento,
-                                                 Empresa = cie.Empresa,
-                                                 NumProyecto = cie.NumProyecto,
-                                                 TipoCuenta = cie.TipoCuenta,
-                                                 EdoResultados = cie.EdoResultados,
-                                                 Responsable = cie.Responsable,
-                                                 TipoProyecto = cie.TipoProyecto,
-                                                 TipoPy = cie.TipoPY,
-                                                 ClasificacionPy = cie.ClasificacionPY,
-                                                 Activo = cie.Activo,
-                                                 IdArchivo = cie.IdArchivo,
-                                                 NombreArchivo = archivoItem.NombreArchivo ?? null,
-                                                 Inconsistente = proyectoItem == null
-                                             }).ToListAsync();
-
-
-                // Omisión de filtro de inconsistencia para cuentas específicas.
-                foreach (var reg in registros.Registros)
+                if (nombre_cuenta != "Facturación / Cobranza")
                 {
-                    if (!string.IsNullOrEmpty(reg.CentroCostos) && reg.CentroCostos.Contains("."))
-                    {
-                        reg.Inconsistente = reg.NumProyecto != Convert.ToInt32(reg.CentroCostos.Split('.')[0]);
 
-                        if ((reg.NumProyecto == 110 && Convert.ToInt32(reg.CentroCostos.Split('.')[0]) == 236)
-                            || (reg.NumProyecto == 112 && Convert.ToInt32(reg.CentroCostos.Split('.')[0]) == 261))
+                    registros.Registros = await (from cie in db.tB_Cie_Datas
+                                                 join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
+                                                 from archivoItem in archivoJoin.DefaultIfEmpty()
+                                                 join proyecto in db.tB_Proyectos on new { cie.NumProyecto, cie.Proyecto } equals new { proyecto.NumProyecto, proyecto.Proyecto } into proyectoJoin
+                                                 from proyectoItem in proyectoJoin.DefaultIfEmpty()
+                                                 where cie.Activo == true
+                                                 && (nombre_cuenta == null || cie.NombreCuenta == nombre_cuenta)
+                                                 && (mes_inicio == null || Convert.ToDateTime(cie.Fecha).Month >= mes_inicio)
+                                                 && (anio_inicio == null || Convert.ToDateTime(cie.Fecha).Year >= anio_inicio)
+                                                 && (mes_fin == null || Convert.ToDateTime(cie.Fecha).Month <= mes_fin)
+                                                 && (anio_fin == null || Convert.ToDateTime(cie.Fecha).Year <= anio_fin)
+                                                 && (concepto == null || cie.Concepto == concepto)
+                                                 && (empresa == null || cie.Empresa == empresa)
+                                                 && (num_proyecto == null || cie.NumProyecto == num_proyecto)
+                                                 && (responsable == null || cie.Responsable == responsable)
+                                                 && (clasificacion_py == null || cie.ClasificacionPY == clasificacion_py)
+                                                 select new Cie_Detalle
+                                                 {
+                                                     IdCie = cie.IdCieData,
+                                                     NombreCuenta = cie.NombreCuenta,
+                                                     Cuenta = cie.Cuenta,
+                                                     TipoPoliza = cie.TipoPoliza,
+                                                     Numero = cie.Numero.ToString(),
+                                                     Fecha = cie.Fecha,
+                                                     Mes = cie.Mes,
+                                                     Concepto = cie.Concepto,
+                                                     CentroCostos = cie.CentroCostos,
+                                                     Proyecto = cie.Proyecto,
+                                                     SaldoInicial = cie.SaldoInicial,
+                                                     Debe = cie.Debe,
+                                                     Haber = cie.Haber,
+                                                     Movimiento = cie.Movimiento,
+                                                     Empresa = cie.Empresa,
+                                                     NumProyecto = cie.NumProyecto,
+                                                     TipoCuenta = cie.TipoCuenta,
+                                                     EdoResultados = cie.EdoResultados,
+                                                     Responsable = cie.Responsable,
+                                                     TipoProyecto = cie.TipoProyecto,
+                                                     TipoPy = cie.TipoPY,
+                                                     ClasificacionPy = cie.ClasificacionPY,
+                                                     Activo = cie.Activo,
+                                                     IdArchivo = cie.IdArchivo,
+                                                     NombreArchivo = archivoItem.NombreArchivo ?? null,
+                                                     Inconsistente = proyectoItem == null
+                                                 }).ToListAsync();
+
+
+                    // Omisión de filtro de inconsistencia para cuentas específicas.
+                    foreach (var reg in registros.Registros)
+                    {
+                        if (!string.IsNullOrEmpty(reg.CentroCostos) && reg.CentroCostos.Contains("."))
                         {
-                            reg.Inconsistente = false;
+                            reg.Inconsistente = reg.NumProyecto != Convert.ToInt32(reg.CentroCostos.Split('.')[0]);
+
+                            if ((reg.NumProyecto == 110 && Convert.ToInt32(reg.CentroCostos.Split('.')[0]) == 236)
+                                || (reg.NumProyecto == 112 && Convert.ToInt32(reg.CentroCostos.Split('.')[0]) == 261))
+                            {
+                                reg.Inconsistente = false;
+                            }
                         }
+                        else
+                            reg.Inconsistente = true;
                     }
-                    else
-                        reg.Inconsistente = true;
                 }
 
 
