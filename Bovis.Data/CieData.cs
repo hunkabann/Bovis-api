@@ -350,7 +350,6 @@ namespace Bovis.Data
             {
                 if (nombre_cuenta != "Facturación / Cobranza")
                 {
-
                     registros.Registros = await (from cie in db.tB_Cie_Datas
                                                  join archivo in db.tB_Cie_Archivos on cie.IdArchivo equals archivo.IdArchivo into archivoJoin
                                                  from archivoItem in archivoJoin.DefaultIfEmpty()
@@ -415,6 +414,8 @@ namespace Bovis.Data
                             reg.Inconsistente = true;
                     }
                 }
+                else
+                    registros.Registros = new List<Cie_Detalle>();
 
 
                 ///
