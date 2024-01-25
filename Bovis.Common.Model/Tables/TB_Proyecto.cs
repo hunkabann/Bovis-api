@@ -7,7 +7,7 @@ namespace Bovis.Common.Model.Tables
 	{
 		[Column("nunum_proyecto"), NotNull, PrimaryKey, Identity] public int NumProyecto { get; set; }
 		[Column("Chproyecto"), NotNull] public string Proyecto { get; set; }
-		[Column("Chalcance"), NotNull] public string Alcance { get; set; }
+		[Column("Chalcance"), Nullable] public string? Alcance { get; set; }
 		[Column("Chcp"), Nullable] public string? Cp { get; set; }
 		[Column("Chciudad"), Nullable] public string? Ciudad { get; set; }
 		[Column("Nukidpais"), Nullable] public int? IdPais { get; set; }

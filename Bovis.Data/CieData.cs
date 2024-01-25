@@ -415,7 +415,9 @@ namespace Bovis.Data
                     }
                 }
                 else
+                {
                     registros.Registros = new List<Cie_Detalle>();
+                }
 
 
                 ///

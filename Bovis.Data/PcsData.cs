@@ -93,7 +93,7 @@ namespace Bovis.Data
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string nombre_proyecto = registro["nombre_proyecto"].ToString();
-            string alcance = registro["alcance"].ToString();
+            string? alcance = registro["alcance"].ToString() != null ? registro["alcance"].ToString() : null;
             string? codigo_postal = registro["codigo_postal"] != null ? registro["codigo_postal"].ToString() : null;
             string? ciudad = registro["ciudad"] != null ? registro["ciudad"].ToString() : null;
             int? id_pais = registro["id_pais"] != null ? Convert.ToInt32(registro["id_pais"].ToString()) : null;

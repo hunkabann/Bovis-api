@@ -28,11 +28,24 @@ namespace Bovis.Business
         public Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria) => _auditoriaData.GetAuditorias(TipoAuditoria);
         
         public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
+        
+        public Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios() => _auditoriaData.GetTipoComentarios();
+
+        public Task<List<Comentario_Detalle>> GetComentarios(int numProyecto) => _auditoriaData.GetComentarios(numProyecto);
 
         public async Task<(bool Success, string Message)> AddAuditorias(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _auditoriaData.AddAuditorias(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _auditoriaData.AddComentarios(registro);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;

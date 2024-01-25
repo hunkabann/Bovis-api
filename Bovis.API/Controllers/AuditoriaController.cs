@@ -45,6 +45,20 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("TipoComentarios")]
+        public async Task<IActionResult> GetTipoComentarios()
+        {
+            var query = await _auditoriaQueryService.GetTipoComentarios();
+            return Ok(query);
+        }
+        
+        [HttpGet, Route("Comentarios/{NumProyecto}")]
+        public async Task<IActionResult> GetComentarios(int numProyecto)
+        {
+            var query = await _auditoriaQueryService.GetComentarios(numProyecto);
+            return Ok(query);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddAuditorias([FromBody] JsonObject registro)
         {
@@ -53,13 +67,13 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        //[HttpPost, Route("Comentario")]
-        //public async Task<IActionResult> AddComentarios([FromBody] JsonObject registro)
-        //{
-        //    var query = await _auditoriaQueryService.AddComentarios(registro);
-        //    if (query.Message == string.Empty) return Ok(query);
-        //    else return BadRequest(query.Message);
-        //}
+        [HttpPost, Route("Comentarios")]
+        public async Task<IActionResult> AddComentarios([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.AddComentarios(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
 
         [HttpPut]
         public async Task<IActionResult> UpdateAuditoriaProyecto([FromBody] JsonObject registro)

@@ -164,6 +164,41 @@ namespace Bovis.Data
             return documentos_auditoria;
         }
 
+        public async Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var tipo_comentarios = await (from t in db.tB_Cat_AuditoriaTipoComentarios
+                                              select t).ToListAsync();
+            
+                return tipo_comentarios;
+            }
+        }
+
+        public async Task<List<Comentario_Detalle>> GetComentarios(int numProyecto)
+        {
+            List<Comentario_Detalle> comentarios = new List<Comentario_Detalle>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                comentarios = await (from c in db.tB_AuditoriaComentarios
+                                     join t in db.tB_Cat_AuditoriaTipoComentarios on c.IdTipoComentario equals t.IdTipoComentario into tJoin
+                                     from tItem in tJoin.DefaultIfEmpty()
+                                     where c.NumProyecto == numProyecto
+                                     select new Comentario_Detalle
+                                     {
+                                         IdComentario = c.IdComentario,
+                                         NumProyecto = c.NumProyecto,
+                                         Comentario = c.Comentario,
+                                         Fecha = c.Fecha,
+                                         IdTipoComentario = c.IdTipoComentario,
+                                         TipoComentario = tItem != null ? tItem.TipoComentario : string.Empty
+                                     }).ToListAsync();
+            }
+
+            return comentarios;
+        }
+
         public async Task<(bool Success, string Message)> AddAuditorias(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -192,6 +227,31 @@ namespace Bovis.Data
                     resp.Success = insert_auditoria_proyecto;
                     resp.Message = insert_auditoria_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
                 }
+            }
+
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            string comentario = registro["comentario"].ToString();
+            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert_auditoria_proyecto = await db.tB_AuditoriaComentarios
+                                                            .Value(x => x.NumProyecto, num_proyecto)
+                                                            .Value(x => x.Comentario, comentario)
+                                                            .Value(x => x.Fecha, DateTime.Now)
+                                                            .Value(x => x.IdTipoComentario, id_tipo_comentario)
+                                                            .InsertAsync() > 0;
+
+                resp.Success = insert_auditoria_proyecto;
+                resp.Message = insert_auditoria_proyecto == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
             }
 
             return resp;

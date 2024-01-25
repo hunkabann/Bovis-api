@@ -44,4 +44,14 @@ namespace Bovis.Common.Model.NoTable
         public int? CantidadDocumentos { get; set; }
         public int? CantidadDocumentosValidados { get; set; }
     }
+
+    public class Comentario_Detalle
+    {
+        public int IdComentario { get; set; }
+        public int NumProyecto { get; set; }
+        public string Comentario { get; set; }
+        public DateTime Fecha { get; set; }
+        public int IdTipoComentario { get; set; }
+        public string TipoComentario { get; set; }
+    }
 }

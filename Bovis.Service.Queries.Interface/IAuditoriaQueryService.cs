@@ -14,7 +14,10 @@ namespace Bovis.Service.Queries.Interface
     {
         Task<Response<List<Documentos_Auditoria_Detalle>>> GetAuditorias(string TipoAuditoria);
         Task<Response<List<Documentos_Auditoria_Proyecto_Detalle>>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria);
+        Task<Response<List<TB_Cat_AuditoriaTipoComentario>>> GetTipoComentarios();
+        Task<Response<List<Comentario_Detalle>>> GetComentarios(int numProyecto);
         Task<Response<(bool Success, string Message)>> AddAuditorias(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> AddComentarios(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdateAuditoriaProyecto(JsonObject registro);
         Task<Response<(bool Success, string Message)>> AddAuditoriaDocumento(JsonObject registro);
         Task<Response<List<TB_AuditoriaDocumento>>> GetDocumentosAuditoria(int IdAuditoria, int offset, int limit);
