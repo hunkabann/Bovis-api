@@ -53,6 +53,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cat_TipoIngreso> tB_Cat_TipoIngresos { get { return this.GetTable<TB_Cat_TipoIngreso>(); } }
 		public ITable<TB_Cat_TipoPcs> tB_Cat_TipoPcs { get { return this.GetTable<TB_Cat_TipoPcs>(); } }
         public ITable<TB_Cat_TipoPcs2> tB_Cat_TipoPcs2 { get { return this.GetTable<TB_Cat_TipoPcs2>(); } }
+        public ITable<TB_Cat_TipoPcs3> tB_Cat_TipoPcs3 { get { return this.GetTable<TB_Cat_TipoPcs3>(); } }
         public ITable<TB_Cat_TipoPersona> tB_Cat_TipoPersonas { get { return this.GetTable<TB_Cat_TipoPersona>(); } }
         public ITable<TB_Cat_TipoPoliza> tB_Cat_TipoPolizas { get { return this.GetTable<TB_Cat_TipoPoliza>(); } }
 		public ITable<TB_Cat_TipoProyecto> tB_Cat_TipoProyectos { get { return this.GetTable<TB_Cat_TipoProyecto>(); } }

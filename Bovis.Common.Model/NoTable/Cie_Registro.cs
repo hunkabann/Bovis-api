@@ -109,5 +109,7 @@ namespace Bovis.Common.Model.NoTable
         public string? Pcs { get; set; }
         public int? IdPcs2 { get; set; }
         public string? Pcs2 { get; set; }
+        public int? IdPcs3 { get; set; }
+        public string? Pcs3 { get; set; }
     }
 }

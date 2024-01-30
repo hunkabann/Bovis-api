@@ -60,18 +60,18 @@ namespace Bovis.Data
                                      from ctaItem in ctaJoin.DefaultIfEmpty()
                                      join result in db.tB_Cat_TipoResultados on cta_c.IdTipoResultado equals result.IdTipoResultado into resultJoin
                                      from resultItem in resultJoin.DefaultIfEmpty()
-                                     join pcs in db.tB_Cat_TipoPcs on cta_c.IdPcs equals pcs.IdTipoPcs into pcsJoin
-                                     from pcsItem in pcsJoin.DefaultIfEmpty()
-                                     join pcs2 in db.tB_Cat_TipoPcs2 on cta_c.IdPcs2 equals pcs2.IdTipoPcs2 into pcsJoin2
-                                     from pcsItem2 in pcsJoin2.DefaultIfEmpty()
+                                     join pcs2 in db.tB_Cat_TipoPcs2 on cta_c.IdPcs2 equals pcs2.IdTipoPcs2 into pcs2Join
+                                     from pcs2Item in pcs2Join.DefaultIfEmpty()
+                                     join pcs3 in db.tB_Cat_TipoPcs3 on cta_c.IdPcs3 equals pcs3.IdTipoPcs3 into pcs3Join
+                                     from pcs3Item in pcs3Join.DefaultIfEmpty()
                                      where cta_c.CtaContable == cuenta.ToString()
                                      select new CuentaContable_Detalle
                                      {
                                          Cuenta = cuenta.ToString(),
                                          TipoCuenta = ctaItem != null ? ctaItem.TipoCuenta : string.Empty,
                                          TipoResultado = resultItem != null ? resultItem.TipoResultado : string.Empty,
-                                         TipoPY = pcsItem != null ? pcsItem.TipoPcs : string.Empty,
-                                         ClasificacionPY = pcsItem2 != null ? pcsItem2.TipoPcs2 : string.Empty
+                                         TipoPY = pcs2Item != null ? pcs2Item.TipoPcs2 : string.Empty,
+                                         ClasificacionPY = pcs3Item != null ? pcs3Item.TipoPcs3 : string.Empty
                                      }).FirstOrDefaultAsync();
 
                     if (res != null)
@@ -124,6 +124,7 @@ namespace Bovis.Data
                             .Value(x => x.IdTipoResultado, anterior != null ? anterior.IdTipoResultado : 1)
                             .Value(x => x.IdPcs, anterior != null ? anterior.IdPcs : 1)
                             .Value(x => x.IdPcs2, anterior != null ? anterior.IdPcs2 : 1)
+                            .Value(x => x.IdPcs3, anterior != null ? anterior.IdPcs3 : 1)
                             .Value(x => x.Activo, true)
                             .InsertWithIdentityAsync();
 
@@ -135,7 +136,9 @@ namespace Bovis.Data
                                             join pcs in db.tB_Cat_TipoPcs on cta.IdPcs equals pcs.IdTipoPcs into pcsJoin
                                             from pcsItem in pcsJoin.DefaultIfEmpty()
                                             join pcs2 in db.tB_Cat_TipoPcs2 on cta.IdPcs2 equals pcs2.IdTipoPcs2 into pcs2Join
-                                            from pcs2Item in pcsJoin.DefaultIfEmpty()
+                                            from pcs2Item in pcs2Join.DefaultIfEmpty()
+                                            join pcs3 in db.tB_Cat_TipoPcs3 on cta.IdPcs3 equals pcs3.IdTipoPcs3 into pcs3Join
+                                            from pcs3Item in pcs3Join.DefaultIfEmpty()
                                             where cta.IdTipoCtaContable == Convert.ToInt32(insertedId)
                                             select new CtaContableRespuesta_Detalle
                                             {
@@ -150,7 +153,8 @@ namespace Bovis.Data
                                                 IdTipoResultado = cta.IdTipoResultado,
                                                 TipoResultado = tiporesItem != null ? tiporesItem.TipoResultado : string.Empty,
                                                 Pcs = pcsItem != null ? pcsItem.TipoPcs : string.Empty,
-                                                Pcs2 = pcs2Item != null ? pcs2Item.TipoPcs : string.Empty
+                                                Pcs2 = pcs2Item != null ? pcs2Item.TipoPcs2 : string.Empty,
+                                                Pcs3 = pcs3Item != null ? pcs3Item.TipoPcs3 : string.Empty
                                             }).FirstOrDefaultAsync();
 
                         cuentas.Add(cuenta);

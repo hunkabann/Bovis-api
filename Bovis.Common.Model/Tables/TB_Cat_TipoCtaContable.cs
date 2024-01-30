@@ -15,6 +15,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("nukidtipo_resultado"), Nullable] public int? IdTipoResultado { get; set; }
 		[Column("Nukidpcs"), Nullable] public int? IdPcs { get; set; }
         [Column("Nukidpcs2"), Nullable] public int? IdPcs2 { get; set; }
+        [Column("Nukidpcs3"), Nullable] public int? IdPcs3 { get; set; }
         [Column("Boactivo"), NotNull] public bool Activo { get; set; }
 	}
 }
