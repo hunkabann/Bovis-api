@@ -36,6 +36,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var resp = await (from p in db.tB_Clientes
+                                  where p.Activo == true
                                   orderby p.Cliente ascending
                                   select p).ToListAsync();
 
@@ -330,6 +331,7 @@ namespace Bovis.Data
                                                       join cp in db.tB_ClienteProyectos on c.IdCliente equals cp.IdCliente into cpJoin
                                                       from cpItem in cpJoin.DefaultIfEmpty()
                                                       where cpItem.NumProyecto == proyecto.nunum_proyecto
+                                                      && c.Activo == true
                                                       select new InfoCliente
                                                       {
                                                           IdCliente = cpItem.IdCliente,
