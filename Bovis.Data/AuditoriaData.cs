@@ -73,35 +73,35 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var audits = await (from audit in db.tB_Auditoria_Proyectos
-                                  join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
-                                  from catItem in catJoin.DefaultIfEmpty()
-                                  join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
-                                  from secItem in secJoin.DefaultIfEmpty()
-                                  where audit.IdProyecto == IdProyecto
-                                  && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
-                                  select new Auditoria_Detalle
-                                  {
-                                      IdAuditoriaProyecto = audit.IdAuditoriaProyecto,
-                                      IdAuditoria = audit.IdAuditoria,
-                                      IdProyecto = audit.IdProyecto,
-                                      IdDirector = catItem.IdDirector,
-                                      Mes = catItem.Mes,
-                                      Fecha = catItem.Fecha,
-                                      Punto = catItem.Punto,
-                                      IdSeccion = catItem != null ? catItem.IdSeccion : 0,
-                                      ChSeccion = secItem != null ? secItem.Seccion : string.Empty,
-                                      Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad
-                                                                                : TipoAuditoria == "legal" ? catItem.CumplimientoLegal
-                                                                                : catItem.CumplimientoCalidad,
-                                      DocumentoRef = catItem.DocumentoRef,
-                                      TipoAuditoria = catItem.TipoAuditoria ?? string.Empty,
-                                      Aplica = audit.Aplica
-                                  }).ToListAsync();
+                                    join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
+                                    from catItem in catJoin.DefaultIfEmpty()
+                                    join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                    from secItem in secJoin.DefaultIfEmpty()
+                                    where audit.IdProyecto == IdProyecto
+                                    && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
+                                    select new Auditoria_Detalle
+                                    {
+                                        IdAuditoriaProyecto = audit.IdAuditoriaProyecto,
+                                        IdAuditoria = audit.IdAuditoria,
+                                        IdProyecto = audit.IdProyecto,
+                                        IdDirector = catItem.IdDirector,
+                                        Mes = catItem.Mes,
+                                        Fecha = catItem.Fecha,
+                                        Punto = catItem.Punto,
+                                        IdSeccion = catItem != null ? catItem.IdSeccion : 0,
+                                        ChSeccion = secItem != null ? secItem.Seccion : string.Empty,
+                                        Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad
+                                                                                  : TipoAuditoria == "legal" ? catItem.CumplimientoLegal
+                                                                                  : catItem.CumplimientoCalidad,
+                                        DocumentoRef = catItem.DocumentoRef,
+                                        TipoAuditoria = catItem.TipoAuditoria ?? string.Empty,
+                                        Aplica = audit.Aplica
+                                    }).ToListAsync();
 
                 var secciones = await (from seccion in db.tB_Cat_Auditoria_Seccions
                                        where seccion.TipoAuditoria == TipoAuditoria
                                        || seccion.TipoAuditoria == "ambos"
-                                       select seccion).ToListAsync(); 
+                                       select seccion).ToListAsync();
 
 
                 foreach (var seccion in secciones)
@@ -119,7 +119,11 @@ namespace Bovis.Data
                         {
                             if (auditoria.Auditorias == null)
                                 auditoria.Auditorias = new List<Auditoria_Detalle>();
-                            auditoria.Auditorias.Add(audit);
+                            if (audit.Aplica == true)
+                            {
+                                auditoria.Aplica = true;
+                                auditoria.Auditorias.Add(audit);
+                            }
 
                             // Se obtiene el conteo de documntos por Auditoría
                             var documentos = await (from documento in db.tB_Auditoria_Documentos
@@ -129,7 +133,7 @@ namespace Bovis.Data
                                                     && documento.Activo == true
                                                     select documento).ToListAsync();
 
-                            audit.TieneDocumento = documentos.Count > 0 ? true : false;
+                            audit.TieneDocumento = documentos.Count > 0;
                             audit.CantidadDocumentos = documentos.Count;
                             audit.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
                             totalDocumentos += documentos.Count;
@@ -152,13 +156,17 @@ namespace Bovis.Data
 
                             if (audit.Aplica == true)
                                 count_aplica++;
+
                         }
                     }
 
                     decimal porcentaje = (count_aplica > 0 && count_auditorias_seccion > 0) ? (((decimal)count_aplica / count_auditorias_seccion) * 100) : 0;
                     auditoria.NuProcentaje = Math.Round(porcentaje);
-                    documentos_auditoria.Add(auditoria);
+                    
+                    if(auditoria.Auditorias.Count > 0)
+                        documentos_auditoria.Add(auditoria);
                 }
+
             }
 
             return documentos_auditoria;
