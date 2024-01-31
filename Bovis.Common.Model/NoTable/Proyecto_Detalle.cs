@@ -52,8 +52,6 @@ namespace Bovis.Common.Model.NoTable
         public string? chresponsable_ehs { get; set; }
         public string? nukidresponsable_supervisor { get; set; }
         public string? chresponsable_supervisor { get;set; }
-        public int? nukidcliente { get; set; }
-        public string? chcliente { get; set; }
         public int? nukidempresa { get; set; }
         public string? chempresa { get; set; }
         public string? nukiddirector_ejecutivo { get; set; }
@@ -70,6 +68,7 @@ namespace Bovis.Common.Model.NoTable
         public string? chcontacto_posicion { get; set; }
         public string? chcontacto_telefono { get; set; }
         public string? chcontacto_correo { get; set; }
+        public List<InfoCliente> Clientes { get; set; }
     }
 
     public class InfoCliente

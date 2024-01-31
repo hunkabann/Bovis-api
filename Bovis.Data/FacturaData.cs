@@ -405,9 +405,9 @@ namespace Bovis.Data
 
                 if (idCliente != null)
                 {
-                    lstProyectosCliente = await (from a in db.tB_Proyectos
-                                        where a.IdEmpresa == idCliente
-                                        select a.NumProyecto).ToListAsync();
+                    lstProyectosCliente = await (from a in db.tB_ClienteProyectos
+                                        where a.IdCliente == idCliente
+                                        select a.NumProyecto.GetValueOrDefault()).ToListAsync();
                 }
                 if (idEmpresa != null)
                 {
@@ -423,7 +423,9 @@ namespace Bovis.Data
                                  from ac in factC.DefaultIfEmpty()
                                  join c in db.tB_Proyectos on a.NumProyecto equals c.NumProyecto into cJoin
                                  from cItem in cJoin.DefaultIfEmpty()
-                                 join d in db.tB_Clientes on cItem.IdCliente equals d.IdCliente into dJoin
+                                 join cp in db.tB_ClienteProyectos on a.NumProyecto equals cp.NumProyecto into cpJoin
+                                 from cpItem in cpJoin.DefaultIfEmpty()
+                                 join d in db.tB_Clientes on cpItem.IdCliente equals d.IdCliente into dJoin
                                  from dItem in dJoin.DefaultIfEmpty()
                                  where (idProyecto == null || a.NumProyecto == idProyecto)
                                  && (lstProyectosCliente == null || a.NumProyecto.In(lstProyectosCliente))

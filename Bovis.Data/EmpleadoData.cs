@@ -1068,7 +1068,6 @@ namespace Bovis.Data
                                                                               nukidresponsable_construccion = proj.IdResponsableConstruccion,
                                                                               nukidresponsable_ehs = proj.IdResponsableEhs,
                                                                               nukidresponsable_supervisor = proj.IdResponsableSupervisor,
-                                                                              nukidcliente = proj.IdCliente,
                                                                               nukidempresa = proj.IdEmpresa,
                                                                               nukidpais = proj.IdPais,
                                                                               nukiddirector_ejecutivo = proj.IdDirectorEjecutivo,

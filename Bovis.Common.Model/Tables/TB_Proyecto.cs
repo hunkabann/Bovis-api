@@ -18,7 +18,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("nukidresponsable_construccion"), Nullable] public string? IdResponsableConstruccion { get; set; }
 		[Column("nukidresponsable_ehs"), Nullable] public string? IdResponsableEhs { get; set; }
 		[Column("nukidresponsable_supervisor"), Nullable] public string? IdResponsableSupervisor { get; set; }
-		[Column("Nukidcliente"), Nullable] public int? IdCliente { get; set; }
 		[Column("Nukidempresa"), Nullable] public int? IdEmpresa { get; set; }
 		[Column("nukiddirector_ejecutivo"), Nullable] public string? IdDirectorEjecutivo { get; set; }
 		[Column("nucosto_promedio_m2"), Nullable] public decimal? CostoPromedioM2 { get; set; }

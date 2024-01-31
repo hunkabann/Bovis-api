@@ -446,8 +446,6 @@ namespace Bovis.Data
                                           from ac in factC.DefaultIfEmpty()
                                           join c in db.tB_Proyectos on a.NumProyecto equals c.NumProyecto into cJoin
                                           from cItem in cJoin.DefaultIfEmpty()
-                                          join d in db.tB_Clientes on cItem.IdCliente equals d.IdCliente into dJoin
-                                          from dItem in dJoin.DefaultIfEmpty()
                                           join e in db.tB_Empresas on cItem.IdEmpresa equals e.IdEmpresa into eJoin
                                           from eItem in eJoin.DefaultIfEmpty()
                                           where (num_proyecto == null || a.NumProyecto == num_proyecto)

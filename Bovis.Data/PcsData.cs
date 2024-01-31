@@ -104,7 +104,7 @@ namespace Bovis.Data
             string? id_responsable_construccion = registro["id_responsable_construccion"] != null ? registro["id_responsable_construccion"].ToString() : null;
             string? id_responsable_ehs = registro["id_responsable_ehs"] != null ? registro["id_responsable_ehs"].ToString() : null;
             string? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? registro["id_responsable_supervisor"].ToString() : null;
-            int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
+            //int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
             int? id_empresa = registro["id_empresa"] != null ? Convert.ToInt32(registro["id_empresa"].ToString()) : null;
             string? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? registro["id_director_ejecutivo"].ToString() : null;
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
@@ -142,7 +142,6 @@ namespace Bovis.Data
                     .Value(x => x.IdResponsableConstruccion, id_responsable_construccion)
                     .Value(x => x.IdResponsableEhs, id_responsable_ehs)
                     .Value(x => x.IdResponsableSupervisor, id_responsable_supervisor)
-                    .Value(x => x.IdCliente, id_cliente)
                     .Value(x => x.IdEmpresa, id_empresa)
                     .Value(x => x.IdDirectorEjecutivo, id_director_ejecutivo)
                     .Value(x => x.CostoPromedioM2, costo_promedio_m2)
@@ -152,6 +151,21 @@ namespace Bovis.Data
 
                 resp.Success = res_insert_proyecto;
                 resp.Message = res_insert_proyecto == default ? "Ocurrio un error al insertar registro." : string.Empty;
+
+                /*
+                 * Se agregan los clientes del proyecto.
+                 */
+                foreach (var id_cliente in registro["ids_clientes"].AsArray())
+                {                    
+                    var res_insert_cliente = await db.tB_ClienteProyectos
+                        .Value(x => x.IdCliente, Convert.ToInt32(id_cliente.ToString()))
+                        .Value(x => x.NumProyecto, num_proyecto)
+                    .InsertAsync() > 0;
+
+                    resp.Success = res_insert_cliente;
+                    resp.Message = res_insert_cliente == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                }
+
 
                 /*
                  * Se agregan las secciones y rubros para gastos e ingresos.
@@ -260,9 +274,6 @@ namespace Bovis.Data
                                    join persona_resp_sup in db.tB_Personas on empleado_resp_supItem.IdPersona equals persona_resp_sup.IdPersona into persona_resp_supJoin
                                    from persona_resp_supItem in persona_resp_supJoin.DefaultIfEmpty()
 
-                                   join cliente in db.tB_Clientes on proy.IdCliente equals cliente.IdCliente into clienteJoin
-                                   from clienteItem in clienteJoin.DefaultIfEmpty()
-
                                    join empresa in db.tB_Empresas on proy.IdEmpresa equals empresa.IdEmpresa into empresaJoin
                                    from empresaItem in empresaJoin.DefaultIfEmpty()
 
@@ -299,8 +310,6 @@ namespace Bovis.Data
                                        chresponsable_ehs = persona_resp_ehsItem != null ? persona_resp_ehsItem.Nombre + " " + persona_resp_ehsItem.ApPaterno + " " + persona_resp_ehsItem.ApMaterno : null,
                                        nukidresponsable_supervisor = proy.IdResponsableSupervisor,
                                        chresponsable_supervisor = persona_resp_supItem != null ? persona_resp_supItem.Nombre + " " + persona_resp_supItem.ApPaterno + " " + persona_resp_supItem.ApMaterno : null,
-                                       nukidcliente = proy.IdCliente,
-                                       chcliente = clienteItem.Cliente ?? null,
                                        nukidempresa = proy.IdEmpresa,
                                        chempresa = empresaItem.Empresa ?? null,
                                        nukiddirector_ejecutivo = proy.IdDirectorEjecutivo,
@@ -313,6 +322,21 @@ namespace Bovis.Data
                                        chcontacto_telefono = contactoItem != null ? contactoItem.Telefono : string.Empty,
                                        chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty
                                    }).ToListAsync();
+
+                foreach(var proyecto in proyectos)
+                {
+                    proyecto.Clientes = new List<InfoCliente>();
+                    proyecto.Clientes.AddRange(await (from c in db.tB_Clientes
+                                                      join cp in db.tB_ClienteProyectos on c.IdCliente equals cp.IdCliente into cpJoin
+                                                      from cpItem in cpJoin.DefaultIfEmpty()
+                                                      where cpItem.NumProyecto == proyecto.nunum_proyecto
+                                                      select new InfoCliente
+                                                      {
+                                                          IdCliente = cpItem.IdCliente,
+                                                          Cliente = c.Cliente,
+                                                          Rfc = c.Rfc
+                                                      }).ToListAsync());
+                }
 
                 return proyectos;
             }
@@ -350,7 +374,6 @@ namespace Bovis.Data
             string? id_responsable_construccion = registro["id_responsable_construccion"] != null ? registro["id_responsable_construccion"].ToString() : null;
             string? id_responsable_ehs = registro["id_responsable_ehs"] != null ? registro["id_responsable_ehs"].ToString() : null;
             string? id_responsable_supervisor = registro["id_responsable_supervisor"] != null ? registro["id_responsable_supervisor"].ToString() : null;
-            int? id_cliente = registro["id_cliente"] != null ? Convert.ToInt32(registro["id_cliente"].ToString()) : null;
             int? id_empresa = registro["id_empresa"] != null ? Convert.ToInt32(registro["id_empresa"].ToString()) : null;
             string? id_director_ejecutivo = registro["id_director_ejecutivo"] != null ? registro["id_director_ejecutivo"].ToString() : null;
             decimal? costo_promedio_m2 = registro["costo_promedio_m2"] != null ? Convert.ToDecimal(registro["costo_promedio_m2"].ToString()) : null;
@@ -411,7 +434,6 @@ namespace Bovis.Data
                         IdResponsableConstruccion = id_responsable_construccion,
                         IdResponsableEhs = id_responsable_ehs,
                         IdResponsableSupervisor = id_responsable_supervisor,
-                        IdCliente = id_cliente,
                         IdEmpresa = id_empresa,
                         IdDirectorEjecutivo = id_director_ejecutivo,
                         CostoPromedioM2 = costo_promedio_m2,
@@ -421,6 +443,27 @@ namespace Bovis.Data
 
                 resp.Success = res_update_proyecto;
                 resp.Message = res_update_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+                /*
+                 * Se actualizan los clientes del proyecto.
+                 */
+                var res_delete_clientes_proyecto = await db.tB_ClienteProyectos.Where(x => x.NumProyecto == num_proyecto)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_clientes_proyecto;
+                resp.Message = res_delete_clientes_proyecto == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
+                foreach (var id_cliente in registro["ids_clientes"].AsArray())
+                {
+                    var res_insert_cliente = await db.tB_ClienteProyectos
+                        .Value(x => x.IdCliente, Convert.ToInt32(id_cliente.ToString()))
+                        .Value(x => x.NumProyecto, num_proyecto)
+                    .InsertAsync() > 0;
+
+                    resp.Success = res_insert_cliente;
+                    resp.Message = res_insert_cliente == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                }
             }
 
             return resp;
