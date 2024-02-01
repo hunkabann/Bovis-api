@@ -25,6 +25,7 @@ namespace Bovis.Business
         #endregion base
 
 
+        public Task<List<TB_Proyecto>> GetProyectos(string email_loged_user, string TipoAuditoria) => _auditoriaData.GetProyectos(email_loged_user, TipoAuditoria);
         public Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria) => _auditoriaData.GetAuditorias(TipoAuditoria);
         
         public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);

@@ -36,6 +36,12 @@ namespace Bovis.Service.Queries
         #endregion
 
 
+        public async Task<Response<List<TB_Proyecto>>> GetProyectos(string email_loged_user, string TipoAuditoria)
+        {
+            var response = await _auditoriaBusiness.GetProyectos(email_loged_user, TipoAuditoria);
+            return new Response<List<TB_Proyecto>> { Data = _map.Map<List<TB_Proyecto>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+
         public async Task<Response<List<Documentos_Auditoria_Detalle>>> GetAuditorias(string TipoAuditoria)
         {
             var response = await _auditoriaBusiness.GetAuditorias(TipoAuditoria);

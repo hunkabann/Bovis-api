@@ -485,7 +485,8 @@ namespace Bovis.Data
                                               Empresa = eItem != null ? eItem.Empresa : string.Empty,
                                               NumProyecto = a.NumProyecto,
                                               ClasificacionPy = "Facturación",
-                                              FechaCancelacion = a.FechaCancelacion
+                                              FechaCancelacion = a.FechaCancelacion,
+                                              NoFactura = a.NoFactura
                                           }).ToListAsync();
 
                 registros.Registros.AddRange(res_facturas);
@@ -530,7 +531,8 @@ namespace Bovis.Data
                                            Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
                                            NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
                                            ClasificacionPy = "Facturación",
-                                           FechaCancelacion = notas.FechaCancelacion
+                                           FechaCancelacion = notas.FechaCancelacion,
+                                           NoFactura = notas.NotaCredito
                                        }).ToListAsync();
 
                 registros.Registros.AddRange(res_notas);
@@ -576,7 +578,8 @@ namespace Bovis.Data
                                                Empresa = emprItem != null ? emprItem.Empresa : string.Empty,
                                                NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
                                                ClasificacionPy = "Cobranza",
-                                               FechaCancelacion = cobr.FechaCancelacion
+                                               FechaCancelacion = cobr.FechaCancelacion,
+                                               NoFactura = cobr.CRP
                                            }).ToListAsync();
 
                 registros.Registros.AddRange(res_cobranzas);

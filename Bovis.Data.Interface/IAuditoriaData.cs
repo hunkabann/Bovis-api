@@ -6,6 +6,7 @@ namespace Bovis.Data.Interface
 {
     public interface IAuditoriaData : IDisposable
     {
+        Task<List<TB_Proyecto>> GetProyectos(string email_loged_user, string TipoAuditoria);
         Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria);
         Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria);
         Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios();

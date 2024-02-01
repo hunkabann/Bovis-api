@@ -30,6 +30,17 @@ namespace Bovis.API.Controllers
             this._mediator = _mediator;
         }
 
+        [HttpGet, Route("Proyectos/{TipoAuditoria}")]
+        public async Task<IActionResult> GetProyectos(string TipoAuditoria)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+
+            var business = await _auditoriaQueryService.GetProyectos(email, TipoAuditoria);
+            return Ok(business);
+        }
+
 
         [HttpGet, Route("{TipoAuditoria}")]
         public async Task<IActionResult> GetAuditorias(string TipoAuditoria)
@@ -40,7 +51,7 @@ namespace Bovis.API.Controllers
 
         [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}")]
         public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
-        {
+        {            
             var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
             return Ok(query);
         }

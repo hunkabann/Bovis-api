@@ -32,6 +32,47 @@ namespace Bovis.Data
         }
         #endregion
 
+        public async Task<List<TB_Proyecto>> GetProyectos(string email_loged_user, string TipoAuditoria)
+        {
+            List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var rol_loged_user = await (from emp in db.tB_Empleados
+                                            join usr in db.tB_Usuarios on emp.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh
+                                            join perf_usr in db.tB_PerfilUsuarios on usr.IdUsuario equals perf_usr.IdUsuario
+                                            join perf in db.tB_Perfils on perf_usr.IdPerfil equals perf.IdPerfil
+                                            where emp.EmailBovis == email_loged_user
+                                            && perf.Perfil == "Administrador"
+                                            select perf).FirstOrDefaultAsync();
+
+                bool is_admin = rol_loged_user != null;
+
+
+                if (TipoAuditoria == "calidad" || (is_admin == true || TipoAuditoria == "legal"))
+                {
+                    proyectos = await (from p in db.tB_Proyectos
+                                       orderby p.Proyecto ascending
+                                       select p).ToListAsync();
+                }
+                else if (is_admin == false && TipoAuditoria == "legal")
+                {
+                    var num_empleado_loged = await (from emp in db.tB_Empleados
+                                                    where emp.EmailBovis == email_loged_user
+                                                    select emp.NumEmpleadoRrHh).FirstOrDefaultAsync();
+
+                    proyectos = await (from p in db.tB_Proyectos
+                                       join e in db.tB_Empleados on p.NumProyecto equals e.NumProyectoPrincipal into eJoin
+                                       from eItem in eJoin.DefaultIfEmpty()
+                                       where eItem.NumEmpleadoRrHh == num_empleado_loged
+                                       orderby p.Proyecto ascending
+                                       select p).ToListAsync();
+                }
+
+                return proyectos;
+            }
+        }
+
 
         public async Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria)
         {
@@ -71,7 +112,7 @@ namespace Bovis.Data
             int totalDocumentos = 0;
 
             using (var db = new ConnectionDB(dbConfig))
-            {
+            {               
                 var audits = await (from audit in db.tB_Auditoria_Proyectos
                                     join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
                                     from catItem in catJoin.DefaultIfEmpty()
