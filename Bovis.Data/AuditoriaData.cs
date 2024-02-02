@@ -49,7 +49,7 @@ namespace Bovis.Data
                 bool is_admin = rol_loged_user != null;
 
 
-                if (TipoAuditoria == "calidad" || (is_admin == true || TipoAuditoria == "legal"))
+                if (TipoAuditoria == "calidad" || (is_admin == true && TipoAuditoria == "legal"))
                 {
                     proyectos = await (from p in db.tB_Proyectos
                                        orderby p.Proyecto ascending
