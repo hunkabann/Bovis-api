@@ -499,8 +499,7 @@ namespace Bovis.Data
                                        from proysItem in proysJoin.DefaultIfEmpty()
                                        join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                        from emprItem in emprJoin.DefaultIfEmpty()
-                                       where notas.FechaCancelacion == null
-                                       &&
+                                       where
                                        (
                                        ((mes_inicio == null || notas.FechaNotaCredito.Month >= mes_inicio) && (anio_inicio == null || notas.FechaNotaCredito.Year >= anio_inicio))
                                        ||
@@ -545,8 +544,7 @@ namespace Bovis.Data
                                            from proysItem in proysJoin.DefaultIfEmpty()
                                            join empr in db.tB_Empresas on proysItem.IdEmpresa equals empr.IdEmpresa into emprJoin
                                            from emprItem in emprJoin.DefaultIfEmpty()
-                                           where cobr.FechaCancelacion == null
-                                           &&
+                                           where
                                            (
                                            ((mes_inicio == null || cobr.FechaPago.Month >= mes_inicio) && (anio_inicio == null || cobr.FechaPago.Year >= anio_inicio))
                                            ||
