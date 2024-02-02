@@ -12,7 +12,7 @@ namespace Bovis.Service.Queries.Interface
 {
     public interface IAuditoriaQueryService
     {
-        Task<Response<List<TB_Proyecto>>> GetProyectos(string email_loged_user, string TipoAuditoria);
+        Task<Response<List<Proyecto>>> GetProyectos(string email_loged_user, string TipoAuditoria);
         Task<Response<List<Documentos_Auditoria_Detalle>>> GetAuditorias(string TipoAuditoria);
         Task<Response<List<Documentos_Auditoria_Proyecto_Detalle>>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria);
         Task<Response<List<TB_Cat_AuditoriaTipoComentario>>> GetTipoComentarios();
