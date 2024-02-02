@@ -397,7 +397,7 @@ namespace Bovis.Data
                                                      Activo = cie.Activo,
                                                      IdArchivo = cie.IdArchivo,
                                                      NombreArchivo = archivoItem.NombreArchivo ?? null,
-                                                     Inconsistente = proyectoItem == null
+                                                     Inconsistente = proyectoItem == null                                                     
                                                  }).ToListAsync();
 
 
@@ -569,6 +569,7 @@ namespace Bovis.Data
                                            {
                                                IdCie = 0,
                                                NombreCuenta = "Cobranza",
+                                               Numero = cobr.CRP,
                                                Fecha = cobr.FechaCancelacion == null ? cobr.FechaPago : cobr.FechaCancelacion,
                                                Mes = cobr.FechaCancelacion == null ? cobr.FechaPago.Month : cobr.FechaCancelacion.Value.Month,
                                                Proyecto = proysItem != null ? proysItem.Proyecto : string.Empty,
