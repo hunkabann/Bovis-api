@@ -297,7 +297,7 @@ namespace Bovis.Data
                 var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
                     .UpdateAsync(x => new TB_ProyectoFactura
                     {
-                        Total = 0,
+                        //Total = 0,
                         FechaCancelacion = factura.FechaCancelacion,
                         MotivoCancelacion = factura.MotivoCancelacion
                     })) > 0;
@@ -315,7 +315,7 @@ namespace Bovis.Data
                     var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
                             .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
                             {
-                                Total = 0,
+                                //Total = 0,
                                 FechaCancelacion = factura.FechaCancelacion,
                                 MotivoCancelacion = factura.MotivoCancelacion
                             })) > 0;
@@ -359,7 +359,7 @@ namespace Bovis.Data
                 var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
                                 .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
                                 {
-                                    Total = 0,
+                                    //Total = 0,
                                     FechaCancelacion = fecha_cancelacion,
                                     MotivoCancelacion = motivo_cancelacion
                                 }) > 0;
