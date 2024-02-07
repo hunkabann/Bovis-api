@@ -433,7 +433,7 @@ namespace Bovis.Data
                                  && (fechaIni == null || a.FechaEmision >= fechaIni)
                                  && (fechaFin == null || a.FechaEmision <= fechaFin)
                                  && (noFactura == null || a.NoFactura == noFactura)
-                                 orderby a.Id descending
+                                 orderby a.Id descending                                 
                                  select new FacturaDetalles
                                  {
                                      Id = a.Id,
@@ -456,7 +456,10 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                 }).ToListAsync();
+                                 })
+                                 .ToListAsync();
+
+                res = res.DistinctBy(x => x.Id).ToList();
 
                 foreach (var facturaDetalle in res)
                 {

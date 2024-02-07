@@ -296,38 +296,46 @@
     ]
   },
   "packageFolders": {
-    "/Users/liveproductionsdj/.nuget/packages/": {}
+    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/Bovis.Service.EventHandlers.csproj",
+      "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
       "projectName": "Bovis.Service.EventHandlers",
-      "projectPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/Bovis.Service.EventHandlers.csproj",
-      "packagesPath": "/Users/liveproductionsdj/.nuget/packages/",
-      "outputPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.EventHandlers/obj/",
+      "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
+      "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
+      "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/liveproductionsdj/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Business.Interface/Bovis.Business.Interface.csproj": {
-              "projectPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Business.Interface/Bovis.Business.Interface.csproj"
+            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
             },
-            "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/Bovis.Common.csproj": {
-              "projectPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Common/Bovis.Common.csproj"
+            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
             },
-            "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries.Dto/Bovis.Service.Queries.Dto.csproj": {
-              "projectPath": "/Users/liveproductionsdj/Documents/Develop Projects/LP Solutions/Hunkabann/Bovis-api/Bovis.Service.Queries.Dto/Bovis.Service.Queries.Dto.csproj"
+            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
             }
           }
         }
@@ -363,7 +371,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.312/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
