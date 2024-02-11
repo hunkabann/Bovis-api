@@ -20,6 +20,7 @@ namespace Bovis.Common.Model.NoTable
         public string? ChSeccion { get; set; }
         public decimal NuProcentaje { get; set; }       
         public int TotalDocumentos { get; set; }
+        public int TotalDocumentosValidados { get; set; }
         public bool Aplica { get; set; }
         public List<Auditoria_Detalle>? Auditorias { get; set; }
     }

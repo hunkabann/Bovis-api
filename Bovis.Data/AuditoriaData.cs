@@ -4,6 +4,7 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using LinqToDB.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -108,8 +109,7 @@ namespace Bovis.Data
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
             List<Documentos_Auditoria_Proyecto_Detalle> documentos_auditoria = new List<Documentos_Auditoria_Proyecto_Detalle>();
-            Documentos_Auditoria_Proyecto_Detalle documento_auditoria = null;
-            int totalDocumentos = 0;
+            Documentos_Auditoria_Proyecto_Detalle documento_auditoria = null;            
 
             using (var db = new ConnectionDB(dbConfig))
             {               
@@ -147,6 +147,8 @@ namespace Bovis.Data
 
                 foreach (var seccion in secciones)
                 {
+                    int totalDocumentos = 0;
+                    int totalDocumentosValidados = 0;
                     int count_aplica = 0;
                     int count_auditorias_seccion = 0;
                     Documentos_Auditoria_Proyecto_Detalle auditoria = new Documentos_Auditoria_Proyecto_Detalle();
@@ -166,11 +168,10 @@ namespace Bovis.Data
                                 auditoria.Auditorias.Add(audit);
                             }
 
-                            // Se obtiene el conteo de documntos por Auditoría
                             var documentos = await (from documento in db.tB_Auditoria_Documentos
                                                     where documento.IdAuditoriaProyecto == audit.IdAuditoria
-                                                    && documento.Fecha.Month == DateTime.Now.Month
-                                                    && documento.Fecha.Year == DateTime.Now.Year
+                                                    //&& documento.Fecha.Month == DateTime.Now.Month
+                                                    //&& documento.Fecha.Year == DateTime.Now.Year
                                                     && documento.Activo == true
                                                     select documento).ToListAsync();
 
@@ -179,6 +180,8 @@ namespace Bovis.Data
                             audit.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
                             totalDocumentos += documentos.Count;
                             auditoria.TotalDocumentos = totalDocumentos;
+                            totalDocumentosValidados += (int)audit.CantidadDocumentosValidados;
+                            auditoria.TotalDocumentosValidados = totalDocumentosValidados;
 
                             // Se obtiene la validación del último documento subido a la Auditoría
                             var ultimoDocumento = await (from documento in db.tB_Auditoria_Documentos
@@ -373,6 +376,8 @@ namespace Bovis.Data
             {
                 var docs = await (from doc in db.tB_Auditoria_Documentos
                                   where doc.IdAuditoriaProyecto == IdAuditoria
+                                  //&& doc.Fecha.Month == DateTime.Now.Month
+                                  //&& doc.Fecha.Year == DateTime.Now.Year
                                   && doc.Activo == true
                                   orderby doc.IdDocumento descending
                                   select doc)
