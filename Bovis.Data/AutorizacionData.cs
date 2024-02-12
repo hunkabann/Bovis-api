@@ -507,7 +507,7 @@ namespace Bovis.Data
                         modulos.Add(modulo);
                 }
 
-                perfil_modulos.Modulos = modulos.OrderBy(x => x.Modulo).ToList();
+                perfil_modulos.Modulos = modulos.OrderBy(x => x.Modulo).DistinctBy(x => x.IdModulo).ToList();
 
                 return perfil_modulos;
             }
