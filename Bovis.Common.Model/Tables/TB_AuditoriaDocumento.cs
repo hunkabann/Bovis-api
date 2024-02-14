@@ -11,6 +11,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Dtfecha"), NotNull] public DateTime Fecha { get; set; }
         [Column("Chdocumento_base64"), NotNull] public string DocumentoBase64 { get; set; }
         [Column("chnombre_doc"), NotNull] public string NombreDocumento { get; set; }
+        //[Column("chcomentario_rechazo"), Nullable] public string? ComentarioRechazo { get; set; }
         [Column("Bovalido"), Nullable] public bool? Valido { get; set; }
         [Column("Boactivo"), NotNull] public bool Activo { get; set; }        
     }

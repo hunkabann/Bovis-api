@@ -412,11 +412,14 @@ namespace Bovis.Data
                 {
                     int id_documento = Convert.ToInt32(r["id_documento"].ToString());
                     bool valido = Convert.ToBoolean(r["valido"].ToString());
+                    //string? comentario_rechazo = r["comentario_rechazo"] != null ? r["comentario_rechazo"].ToString() : null;
+     
 
                     var res_valida_documento = await (db.tB_Auditoria_Documentos
                                                 .Where(x => x.IdDocumento == id_documento)
                                                 .UpdateAsync(x => new TB_AuditoriaDocumento
                                                 {
+                                                    //ComentarioRechazo = comentario_rechazo,
                                                     Valido = valido
                                                 })) > 0;
 
