@@ -26,6 +26,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos();
         Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteProyecto(int IdProyecto);
+        Task<Response<(bool Success, string Message)>> UpdateProyectoFechaAuditoria(JsonObject registro);
         #endregion Proyectos
 
         #region Etapas

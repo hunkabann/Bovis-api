@@ -236,6 +236,8 @@ namespace Bovis.Data
                 comentarios = await (from c in db.tB_AuditoriaComentarios
                                      join t in db.tB_Cat_AuditoriaTipoComentarios on c.IdTipoComentario equals t.IdTipoComentario into tJoin
                                      from tItem in tJoin.DefaultIfEmpty()
+                                     join p in db.tB_Proyectos on c.NumProyecto equals p.NumProyecto into pJoin
+                                     from pItem in pJoin.DefaultIfEmpty()
                                      where c.NumProyecto == numProyecto
                                      select new Comentario_Detalle
                                      {
@@ -244,7 +246,8 @@ namespace Bovis.Data
                                          Comentario = c.Comentario,
                                          Fecha = c.Fecha,
                                          IdTipoComentario = c.IdTipoComentario,
-                                         TipoComentario = tItem != null ? tItem.TipoComentario : string.Empty
+                                         TipoComentario = tItem != null ? tItem.TipoComentario : string.Empty,
+                                         FechaAuditoria = pItem.FechaAuditoria
                                      }).ToListAsync();
             }
 

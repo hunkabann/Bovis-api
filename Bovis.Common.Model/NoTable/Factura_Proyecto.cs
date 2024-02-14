@@ -78,6 +78,9 @@ namespace Bovis.Common.Model.NoTable
         public int NumProyecto { get; set; }
         public string Cliente { get; set; }
         public string ClienteRFC {  get; set; }
+        public int IdEmpresa { get; set; }
+        public string Empresa {  get; set; }
+        public string EmpresaRFC { get; set; }
         public string IdTipoFactura { get; set; }
         public string IdMoneda { get; set; }
         public decimal Importe { get; set; }
@@ -137,6 +140,9 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? NC_FechaNotaCredito { set; get; }
         public DateTime? NC_FechaCancelacion { set; get; }
         public string? Cliente { set; get; }
+        public int IdEmpresa { get; set; }
+        public string Empresa { get; set; }
+        public string EmpresaRFC { get; set; }
     }
 
     public class CobranzaDetalle
@@ -153,6 +159,9 @@ namespace Bovis.Common.Model.NoTable
         public string? CRP { set; get; }
         public decimal? Base { set; get; }
         public string? Cliente { set; get; }
+        public int IdEmpresa { get; set; }
+        public string Empresa { get; set; }
+        public string EmpresaRFC { get; set; }
     }
 
 }

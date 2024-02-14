@@ -23,5 +23,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("nucosto_promedio_m2"), Nullable] public decimal? CostoPromedioM2 { get; set; }
 		[Column("dtfecha_ini"), Nullable] public DateTime FechaIni { get; set; }
 		[Column("dtfecha_fin"), Nullable] public DateTime? FechaFin { get; set; }
+		[Column("dtfecha_prox_auditoria"), Nullable] public DateTime? FechaAuditoria { get; set; }
 	}
 }

@@ -550,6 +550,8 @@ namespace Bovis.Data
                                  from cpItem in cpJoin.DefaultIfEmpty()
                                  join d in db.tB_Clientes on cpItem.IdCliente equals d.IdCliente into dJoin
                                  from dItem in dJoin.DefaultIfEmpty()
+                                 join e in db.tB_Empresas on cItem.IdEmpresa equals e.IdEmpresa into eJoin
+                                 from eItem in eJoin.DefaultIfEmpty()
                                  where (idProyecto == null || a.NumProyecto == idProyecto)
                                  && (lstProyectosCliente == null || a.NumProyecto.In(lstProyectosCliente))
                                  && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
@@ -564,6 +566,9 @@ namespace Bovis.Data
                                      NumProyecto = a.NumProyecto,
                                      Cliente = dItem.Cliente ?? string.Empty,
                                      ClienteRFC = dItem.Rfc ?? string.Empty,
+                                     IdEmpresa = (int)cItem.IdEmpresa,
+                                     Empresa = eItem.Empresa,
+                                     EmpresaRFC = eItem.Rfc,
                                      IdTipoFactura = a.IdTipoFactura,
                                      IdMoneda = a.IdMoneda,
                                      Importe = a.Importe,
@@ -607,7 +612,10 @@ namespace Bovis.Data
                                                NC_TipoCambio = notas.TipoCambio,
                                                NC_FechaNotaCredito = notas.FechaNotaCredito,
                                                NC_FechaCancelacion = notas.FechaCancelacion,
-                                               Cliente = facturaDetalle.Cliente
+                                               Cliente = facturaDetalle.Cliente,
+                                               IdEmpresa = facturaDetalle.IdEmpresa,
+                                               Empresa = facturaDetalle.Empresa,
+                                               EmpresaRFC = facturaDetalle.EmpresaRFC
                                            }).ToListAsync();
 
                     //res_notas = res_notas.DistinctBy(x => x.NC_UuidNotaCredito).ToList();
@@ -633,7 +641,10 @@ namespace Bovis.Data
                                                    C_FechaCancelacion = cobr.FechaCancelacion,
                                                    CRP = cobr.CRP,
                                                    Base = cobr.Base,
-                                                   Cliente = facturaDetalle.Cliente
+                                                   Cliente = facturaDetalle.Cliente,
+                                                   IdEmpresa = facturaDetalle.IdEmpresa,
+                                                   Empresa = facturaDetalle.Empresa,
+                                                   EmpresaRFC = facturaDetalle.EmpresaRFC
                                                }).ToListAsync();
 
                     //res_cobranzas = res_cobranzas.DistinctBy(x => x.C_UuidCobranza).ToList();

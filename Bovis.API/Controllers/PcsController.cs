@@ -113,6 +113,13 @@ namespace Bovis.API.Controllers
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }
+
+        [HttpPut, Route("Proyectos/FechaAuditoria")]
+        public async Task<IActionResult> UpdateProyectoFechaAuditoria([FromBody] JsonObject registro)
+        {
+            var query = await _pcsQueryService.UpdateProyectoFechaAuditoria(registro);
+            return Ok(query);
+        }
         #endregion Proyectos
 
         #region Etapas

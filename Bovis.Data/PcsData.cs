@@ -491,6 +491,28 @@ namespace Bovis.Data
 
             return resp;
         }
+
+        public async Task<(bool Success, string Message)> UpdateProyectoFechaAuditoria(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["numProyecto"].ToString());
+            DateTime? fecha_auditoria = registro["fechaAuditoria"] != null ? Convert.ToDateTime(registro["fechaAuditoria"].ToString()) : null;
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == num_proyecto)
+                    .UpdateAsync(x => new TB_Proyecto
+                    {
+                        FechaAuditoria = fecha_auditoria
+                    }) > 0;
+
+                resp.Success = res_update_proyecto;
+                resp.Message = res_update_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
         #endregion Proyectos
 
         #region Etapas

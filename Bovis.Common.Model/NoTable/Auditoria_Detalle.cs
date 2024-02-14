@@ -55,5 +55,6 @@ namespace Bovis.Common.Model.NoTable
         public DateTime Fecha { get; set; }
         public int IdTipoComentario { get; set; }
         public string TipoComentario { get; set; }
+        public DateTime? FechaAuditoria { get; set; }
     }
 }
