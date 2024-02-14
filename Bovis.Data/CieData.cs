@@ -462,13 +462,11 @@ namespace Bovis.Data
                                           //||
                                           //((mes_fin == null || a.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || a.FechaCancelacion.Value.Year <= anio_fin))
                                           //)
-                                          && (mes_inicio == null || a.FechaEmision.Month >= mes_inicio)
-                                          && (anio_inicio == null || a.FechaEmision.Year >= anio_inicio)
-                                          && ((mes_fin == null || a.FechaEmision.Month <= mes_fin)
-                                          && (anio_fin == null || a.FechaEmision.Year <= anio_fin))
+                                          && ((mes_inicio == null && anio_inicio == null) || (a.FechaEmision.Month >= mes_inicio && a.FechaEmision.Year >= anio_inicio))
+                                          && ((mes_fin == null && anio_fin == null) || (a.FechaEmision.Month <= mes_inicio && a.FechaEmision.Year <= anio_inicio))
                                           && (num_proyecto == null || a.NumProyecto == num_proyecto)
                                           && (empresa == null || eItem.Empresa == empresa)
-                                          orderby a.FechaEmision descending
+                                          orderby a.FechaEmision ascending
                                           select new Cie_Detalle
                                           {
                                               IdCie = 0,
@@ -511,13 +509,11 @@ namespace Bovis.Data
                                        //||
                                        //((mes_fin == null || notas.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || notas.FechaCancelacion.Value.Year <= anio_fin))
                                        //)
-                                       (mes_inicio == null || notas.FechaNotaCredito.Month >= mes_inicio)
-                                       && (anio_inicio == null || notas.FechaNotaCredito.Year >= anio_inicio)
-                                       && ((mes_fin == null || notas.FechaNotaCredito.Month <= mes_fin)
-                                       && (anio_fin == null || notas.FechaNotaCredito.Year <= anio_fin))
+                                       ((mes_inicio == null && anio_inicio == null) || (notas.FechaNotaCredito.Month >= mes_inicio && notas.FechaNotaCredito.Year >= anio_inicio))
+                                       && ((mes_fin == null && anio_fin == null) || (notas.FechaNotaCredito.Month <= mes_inicio && notas.FechaNotaCredito.Year <= anio_inicio))
                                        && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                        && (empresa == null || emprItem.Empresa == empresa)
-                                       orderby notas.FechaNotaCredito descending
+                                       orderby notas.FechaNotaCredito ascending
                                        select new Cie_Detalle
                                        {
                                            IdCie = 0,
@@ -560,13 +556,11 @@ namespace Bovis.Data
                                            //||
                                            //((mes_fin == null || cobr.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || cobr.FechaCancelacion.Value.Year <= anio_fin))
                                            //)
-                                           (mes_inicio == null || cobr.FechaPago.Month >= mes_inicio)
-                                           && (anio_inicio == null || cobr.FechaPago.Year >= anio_inicio)
-                                           && ((mes_fin == null || cobr.FechaPago.Month <= mes_fin)
-                                           && (anio_fin == null || cobr.FechaPago.Year <= anio_fin))
+                                           ((mes_inicio == null && anio_inicio == null) || (cobr.FechaPago.Month >= mes_inicio && cobr.FechaPago.Year >= anio_inicio))
+                                           && ((mes_fin == null && anio_fin == null) || (cobr.FechaPago.Month <= mes_inicio && cobr.FechaPago.Year <= anio_inicio))
                                            && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                            && (empresa == null || emprItem.Empresa == empresa)
-                                           orderby cobr.FechaPago descending
+                                           orderby cobr.FechaPago ascending
                                            select new Cie_Detalle
                                            {
                                                IdCie = 0,
