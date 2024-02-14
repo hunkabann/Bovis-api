@@ -462,7 +462,7 @@ namespace Bovis.Data
                                           //||
                                           //((mes_fin == null || a.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || a.FechaCancelacion.Value.Year <= anio_fin))
                                           //)
-                                          && ((mes_inicio == null && anio_inicio == null && mes_fin == null && anio_fin == null) || (a.FechaEmision.Month >= mes_inicio && a.FechaEmision.Year >= anio_inicio) && (a.FechaEmision.Month <= mes_inicio && a.FechaEmision.Year <= anio_inicio))
+                                          && ((mes_inicio == null && anio_inicio == null && mes_fin == null && anio_fin == null) || (a.FechaEmision.Month >= mes_inicio && a.FechaEmision.Year >= anio_inicio) && (a.FechaEmision.Month <= mes_fin && a.FechaEmision.Year <= anio_fin))
                                           && (num_proyecto == null || a.NumProyecto == num_proyecto)
                                           && (empresa == null || eItem.Empresa == empresa)
                                           orderby a.FechaEmision ascending
@@ -508,7 +508,7 @@ namespace Bovis.Data
                                        //||
                                        //((mes_fin == null || notas.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || notas.FechaCancelacion.Value.Year <= anio_fin))
                                        //)
-                                       ((mes_inicio == null && anio_inicio == null && mes_fin == null && anio_fin == null) || (notas.FechaNotaCredito.Month >= mes_inicio && notas.FechaNotaCredito.Year >= anio_inicio) && (notas.FechaNotaCredito.Month <= mes_inicio && notas.FechaNotaCredito.Year <= anio_inicio))
+                                       ((mes_inicio == null && anio_inicio == null && mes_fin == null && anio_fin == null) || (notas.FechaNotaCredito.Month >= mes_inicio && notas.FechaNotaCredito.Year >= anio_inicio) && (notas.FechaNotaCredito.Month <= mes_fin && notas.FechaNotaCredito.Year <= anio_fin))
                                        && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                        && (empresa == null || emprItem.Empresa == empresa)
                                        orderby notas.FechaNotaCredito ascending
@@ -554,7 +554,7 @@ namespace Bovis.Data
                                            //||
                                            //((mes_fin == null || cobr.FechaCancelacion.Value.Month <= mes_fin) && (anio_fin == null || cobr.FechaCancelacion.Value.Year <= anio_fin))
                                            //)
-                                           ((mes_inicio == null && anio_inicio == null && mes_fin == null && anio_fin == null) || (cobr.FechaPago.Month >= mes_inicio && cobr.FechaPago.Year >= anio_inicio) && (cobr.FechaPago.Month <= mes_inicio && cobr.FechaPago.Year <= anio_inicio))
+                                           ((mes_inicio == null && anio_inicio == null && mes_fin == null && anio_fin == null) || (cobr.FechaPago.Month >= mes_inicio && cobr.FechaPago.Year >= anio_inicio) && (cobr.FechaPago.Month <= mes_fin && cobr.FechaPago.Year <= anio_fin))
                                            && (num_proyecto == null || factsItem.NumProyecto == num_proyecto)
                                            && (empresa == null || emprItem.Empresa == empresa)
                                            orderby cobr.FechaPago ascending
