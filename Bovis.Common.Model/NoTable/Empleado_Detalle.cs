@@ -92,6 +92,8 @@ namespace Bovis.Common.Model.NoTable
         public DateTime dtvigencia { get; set; }
         public string? chexperiencias { get; set; }
         public string? chhabilidades { get; set; }
+        public int? nuproyecto_principal { get; set; }
+        public string? chproyecto_principal { get; set; }
         public List<Experiencia_Detalle>? experiencias { get; set; }
         public List<Habilidad_Detalle>? habilidades { get; set; }
         public Empleado_Proyecto_Info proyecto { get; set; }

@@ -368,7 +368,6 @@ public class MappingsProfile : Profile
             .ForMember(c => c.IdResponsablePreconstruccion, dto => dto.MapFrom(src => src.IdResponsablePreconstruccion))
             .ForMember(c => c.IdResponsableConstruccion, dto => dto.MapFrom(src => src.IdResponsableConstruccion))
             .ForMember(c => c.IdResponsableEhs, dto => dto.MapFrom(src => src.IdResponsableEhs))
-            .ForMember(c => c.IdCliente, dto => dto.MapFrom(src => src.IdCliente))
             .ForMember(c => c.IdEmpresa, dto => dto.MapFrom(src => src.IdEmpresa))
             .ForMember(c => c.IdPais, dto => dto.MapFrom(src => src.IdPais))
             .ForMember(c => c.IdDirectorEjecutivo, dto => dto.MapFrom(src => src.IdDirectorEjecutivo))

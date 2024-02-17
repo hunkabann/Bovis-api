@@ -66,3 +66,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interfac
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\refint\Bovis.Data.Interface.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\ref\Bovis.Data.Interface.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.sourcelink.json

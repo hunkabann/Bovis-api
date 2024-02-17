@@ -74,3 +74,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queri
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\refint\Bovis.Service.Queries.Interface.dll
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\ref\Bovis.Service.Queries.Interface.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Interface\obj\Debug\net6.0\Bovis.Service.Queries.Interface.sourcelink.json

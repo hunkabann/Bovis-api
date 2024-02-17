@@ -126,6 +126,12 @@ namespace Bovis.Service.Queries
             var response = await _cieBusiness.DeleteRegistro(idRegistro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
+
+        public async Task<Response<(bool Success, string Message)>> DeleteArchivo(JsonObject registro)
+        {
+            var response = await _cieBusiness.DeleteArchivo(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
         #endregion Registros
     }
 }

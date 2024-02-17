@@ -20,6 +20,8 @@ namespace Bovis.Common.Model.NoTable
         public string? ChSeccion { get; set; }
         public decimal NuProcentaje { get; set; }       
         public int TotalDocumentos { get; set; }
+        public int TotalDocumentosValidados { get; set; }
+        public bool Aplica { get; set; }
         public List<Auditoria_Detalle>? Auditorias { get; set; }
     }
 
@@ -43,5 +45,16 @@ namespace Bovis.Common.Model.NoTable
         public bool? UltimoDocumentoValido { get; set; }
         public int? CantidadDocumentos { get; set; }
         public int? CantidadDocumentosValidados { get; set; }
+    }
+
+    public class Comentario_Detalle
+    {
+        public int IdComentario { get; set; }
+        public int NumProyecto { get; set; }
+        public string Comentario { get; set; }
+        public DateTime Fecha { get; set; }
+        public int IdTipoComentario { get; set; }
+        public string TipoComentario { get; set; }
+        public DateTime? FechaAuditoria { get; set; }
     }
 }

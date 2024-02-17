@@ -5,12 +5,10 @@ namespace Bovis.Common.Model.Tables
     [Table(Schema = "dbo", Name = "tb_costo_por_empleado")]
     public class TB_CostoPorEmpleado
     {
-        [Column("Nukid_costo"), NotNull, PrimaryKey, Identity] public int IdCosto { get; set; }
-        [Column("Nuanno"), NotNull] public int NuAnno { get; set; }
-        [Column("Numes"), NotNull] public int NuMes { get; set; }
+        [Column("Nukid_costo"), NotNull, PrimaryKey, Identity] public int IdCostoEmpleado { get; set; }
+        [Column("Nukid_persona"), Nullable] public int? IdPersona { get; set; } = 0;
         [Column("Nunum_empleado_rr_hh"), NotNull] public string NumEmpleadoRrHh { get; set; } = string.Empty;
         [Column("Nunum_empleado_noi"), Nullable] public int? NumEmpleadoNoi { get; set; } = 0;
-        [Column("Nukid_persona"), Nullable] public int? IdPersona { get; set; } = 0;
         [Column("Chreubicacion"), Nullable] public string? Reubicacion { get; set; }
         [Column("Nukid_puesto"), Nullable] public int? IdPuesto { get; set; } = 0;
         [Column("Nunum_proyecto"), NotNull] public int NumProyecto { get; set; } = 0;
@@ -41,7 +39,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Nuvaid_costo_mensual"), Nullable] public decimal? VaidCostoMensual { get; set; } = 0M;
         [Column("Nuvaid_comision_costo_mensual"), Nullable] public decimal? VaidComisionCostoMensual { get; set; } = 0M;
         [Column("Nuptu_provision"), Nullable] public decimal? PtuProvision { get; set; } = 0M;
-        [Column("Bobeneficios"), Nullable] public bool? Beneficios { get; set; }
         [Column("Nuimpuesto_3_s_nomina"), Nullable] public decimal? Impuesto3sNomina { get; set; } = 0M;
         [Column("Nuimss"), Nullable] public decimal? Imss { get; set; } = 0M;
         [Column("Nuretiro_2"), Nullable] public decimal? Retiro2 { get; set; } = 0M;
@@ -51,8 +48,12 @@ namespace Bovis.Common.Model.Tables
         [Column("Nucosto_mensual_empleado"), Nullable] public decimal? CostoMensualEmpleado { get; set; } = 0M;
         [Column("Nucosto_mensual_proyecto"), Nullable] public decimal? CostoMensualProyecto { get; set; } = 0M;
         [Column("Nucosto_anual_empleado"), Nullable] public decimal? CostoAnualEmpleado { get; set; } = 0M;
-        [Column("Nuindice_costo_laboral"), Nullable] public decimal? IndiceCostoLaboral { get; set; } = 0M;
-        [Column("Nuindice_carga_laboral"), Nullable] public decimal? IndiceCargaLaboral { get; set; } = 0M;
+        [Column("Nucosto_salario_bruto"), Nullable] public decimal? CostoSalarioBruto { get; set; } = 0M;
+        [Column("Nucosto_salario_neto"), Nullable] public decimal? CostoSalarioNeto { get; set; } = 0M;
+
+
+        [Column("Nuanno"), NotNull] public int NuAnno { get; set; }
+        [Column("Numes"), NotNull] public int NuMes { get; set; }
         [Column("Dtfecha_actualizacion"), NotNull] public DateTime FechaActualizacion { get; set; }
         [Column("Boreg_historico"), NotNull] public bool RegHistorico { get; set; } = false;
     }

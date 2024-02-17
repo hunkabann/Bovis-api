@@ -5,7 +5,7 @@ namespace Bovis.Common.Model.Tables
 	[Table(Schema = "dbo", Name = "tb_dor_empleados")]
 	public class TB_DorEmpleados
 	{
-        [Column("idEmp"), NotNull, PrimaryKey, Identity] public int IdEmp { get; set; }
+        [Column("idEmp"), NotNull, PrimaryKey, Identity] public string IdEmp { get; set; }
         [Column("Usuario"), Nullable] public string? Usuario { get; set; }
 		[Column("Rol"), Nullable] public string? Rol { get; set; }
 		[Column("Nombre"), Nullable] public string? Nombre { get; set; }
@@ -28,5 +28,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("Permisos"), Nullable] public string? Permisos { get; set; }
 		[Column("PuntosPosibles"), Nullable] public string? PuntosPosibles { get; set; }
 		[Column("Aprovechamiento"), Nullable] public string? Aprovechamiento { get; set; }
-	}
+        [Column("Activo"), Nullable] public bool? Activo { get; set; }
+    }
 }

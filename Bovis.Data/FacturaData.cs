@@ -1,4 +1,5 @@
-﻿using Bovis.Common.Model;
+﻿using Azure;
+using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
@@ -34,21 +35,44 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
 
-                var res = from a in db.tB_Proyectos
-                          from b in db.tB_Clientes
-                          from c in db.tB_Empresas
-                          where a.IdCliente == b.IdCliente &&
-                            a.IdEmpresa == c.IdEmpresa &&
-                            a.NumProyecto == numProyecto
-                          select new Factura_Proyecto
-                          {
-                              NumProyecto = a.NumProyecto,
-                              Nombre = a.Proyecto,
-                              RfcBaseEmisor = c.Rfc,
-                              RfcBaseReceptor = b.Rfc
-                          };
+                //var res = await(from a in db.tB_Proyectos
+                //          from b in db.tB_Clientes
+                //          from c in db.tB_Empresas
+                //          where a.IdCliente == b.IdCliente &&
+                //            a.IdEmpresa == c.IdEmpresa &&
+                //            a.NumProyecto == numProyecto
+                //          select new Factura_Proyecto
+                //          {
+                //              NumProyecto = a.NumProyecto,
+                //              Nombre = a.Proyecto,
+                //              RfcBaseEmisor = c.Rfc,
+                //              RfcBaseReceptor = b.Rfc
+                //          }).FirstOrDefaultAsync();
 
-                return await res.FirstOrDefaultAsync();
+                var res = await (from p in db.tB_Proyectos
+                                 join e in db.tB_Empresas on p.IdEmpresa equals e.IdEmpresa into eJoin
+                                 from eItem in eJoin.DefaultIfEmpty()
+                                 join cp in db.tB_ClienteProyectos on p.NumProyecto equals cp.NumProyecto into cpJoin
+                                 from cpItem in cpJoin.DefaultIfEmpty()
+                                 join c in db.tB_Clientes on cpItem.IdCliente equals c.IdCliente into cJoin
+                                 from cItem in cJoin.DefaultIfEmpty()
+                                 where p.NumProyecto == numProyecto
+                                 select new Factura_Proyecto
+                                 {
+                                     NumProyecto = p.NumProyecto,
+                                     Nombre = p.Proyecto,
+                                     RfcBaseEmisor = eItem.Rfc ?? string.Empty
+                                 }).FirstOrDefaultAsync();
+                
+                res.RfcBaseReceptor = new List<string>();
+
+                res.RfcBaseReceptor.AddRange(await (from cp in db.tB_ClienteProyectos
+                                  join c in db.tB_Clientes on cp.IdCliente equals c.IdCliente into cJoin
+                                  from cItem in cJoin.DefaultIfEmpty()
+                                  where cp.NumProyecto == numProyecto
+                                  select cItem.Rfc).ToListAsync());
+
+                return res;
             }
         }
 
@@ -271,16 +295,40 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
-                    .UpdateAsync(x => new TB_ProyectoFactura
-                    {
-                        Total = 0,
-                        FechaCancelacion = factura.FechaCancelacion,
-                        MotivoCancelacion = factura.MotivoCancelacion
-                    })) > 0;
+                //var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
+                //    .UpdateAsync(x => new TB_ProyectoFactura
+                //    {
+                //        //Total = 0,
+                //        FechaCancelacion = factura.FechaCancelacion,
+                //        MotivoCancelacion = factura.MotivoCancelacion
+                //    })) > 0;
 
-                resp.Success = objetivoDB;
-                resp.Message = objetivoDB == default ? "Ocurrio un error al cancelar registro de factura." : string.Empty;
+                //resp.Success = objetivoDB;
+                //resp.Message = objetivoDB == default ? "Ocurrio un error al cancelar registro de factura." : string.Empty;
+
+                var insert_cancel_invoice = await db.tB_ProyectoFacturas
+                    .Value(x => x.NumProyecto, factura.NumProyecto)
+                    .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
+                    .Value(x => x.IdMoneda, factura.IdMoneda)
+                    .Value(x => x.Uuid, factura.Uuid)
+                    .Value(x => x.Importe, factura.Importe)
+                    .Value(x => x.Iva, factura.Iva)
+                    .Value(x => x.IvaRet, factura.IvaRet)
+                    .Value(x => x.Total, factura.Total)
+                    .Value(x => x.Concepto, factura.Concepto)
+                    .Value(x => x.Mes, factura.FechaCancelacion.Value.Month)
+                    .Value(x => x.Anio, factura.FechaCancelacion.Value.Year)
+                    .Value(x => x.FechaEmision, factura.FechaCancelacion)
+                    .Value(x => x.NoFactura, factura.NoFactura)
+                    .Value(x => x.TipoCambio, factura.TipoCambio)
+                    .Value(x => x.XmlB64, factura.XmlB64)
+                    .Value(x => x.FechaCancelacion, factura.FechaCancelacion)
+                    .Value(x => x.MotivoCancelacion, factura.MotivoCancelacion)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_cancel_invoice;
+                resp.Message = insert_cancel_invoice == default ? "Ocurrio un error al agregar la cancelación de la factura." : string.Empty;
+
 
                 var notas_factura = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.FechaCancelacion == null
@@ -289,16 +337,39 @@ namespace Bovis.Data
 
                 foreach (var nota in notas_factura)
                 {
-                    var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
-                            .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
-                            {
-                                Total = 0,
-                                FechaCancelacion = factura.FechaCancelacion,
-                                MotivoCancelacion = factura.MotivoCancelacion
-                            })) > 0;
+                    //var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
+                    //        .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                    //        {
+                    //            //Total = 0,
+                    //            FechaCancelacion = factura.FechaCancelacion,
+                    //            MotivoCancelacion = factura.MotivoCancelacion
+                    //        })) > 0;
 
-                    resp.Success = resp_nota;
-                    resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
+                    //resp.Success = resp_nota;
+                    //resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
+
+                    var insert_cancel_nota = await db.tB_ProyectoFacturasNotaCredito
+                        .Value(x => x.IdFactura, nota.IdFactura)
+                        .Value(x => x.NumProyecto, nota.NumProyecto)
+                        .Value(x => x.UuidNotaCredito, nota.UuidNotaCredito)
+                        .Value(x => x.IdMoneda, nota.IdMoneda)
+                        .Value(x => x.IdTipoRelacion, nota.IdTipoRelacion)
+                        .Value(x => x.NotaCredito, nota.NotaCredito)
+                        .Value(x => x.Importe, nota.Importe)
+                        .Value(x => x.Iva, nota.Iva)
+                        .Value(x => x.Total, nota.Total)
+                        .Value(x => x.Concepto, nota.Concepto)
+                        .Value(x => x.Mes, factura.FechaCancelacion.Value.Month)
+                        .Value(x => x.Anio, factura.FechaCancelacion.Value.Year)
+                        .Value(x => x.TipoCambio, nota.TipoCambio)
+                        .Value(x => x.FechaNotaCredito, factura.FechaCancelacion)
+                        .Value(x => x.Xml, nota.Xml)
+                        .Value(x => x.FechaCancelacion, factura.FechaCancelacion)
+                        .Value(x => x.MotivoCancelacion, factura.MotivoCancelacion)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_cancel_nota;
+                    resp.Message = insert_cancel_nota == default ? "Ocurrio un error al agregar la cancelación de la nota de credito." : string.Empty;
                 }
 
                 var cobranzas_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
@@ -308,15 +379,35 @@ namespace Bovis.Data
 
                 foreach (var cobranza in cobranzas_factura)
                 {
-                    var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
-                            .UpdateAsync(x => new TB_ProyectoFacturaCobranza
-                            {
-                                FechaCancelacion = factura.FechaCancelacion,
-                                MotivoCancelacion = factura.MotivoCancelacion
-                            })) > 0;
+                    //var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
+                    //        .UpdateAsync(x => new TB_ProyectoFacturaCobranza
+                    //        {
+                    //            FechaCancelacion = factura.FechaCancelacion,
+                    //            MotivoCancelacion = factura.MotivoCancelacion
+                    //        })) > 0;
 
-                    resp.Success = resp_cobranza;
-                    resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
+                    //resp.Success = resp_cobranza;
+                    //resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
+
+                    var insert_cancel_cobranza = await db.tB_ProyectoFacturasCobranza
+                        .Value(x => x.IdFactura, cobranza.IdFactura)
+                        .Value(x => x.UuidCobranza, cobranza.UuidCobranza)
+                        .Value(x => x.IdMonedaP, cobranza.IdMonedaP)
+                        .Value(x => x.ImportePagado, cobranza.ImportePagado)
+                        .Value(x => x.ImpSaldoAnt, cobranza.ImpSaldoAnt)
+                        .Value(x => x.ImporteSaldoInsoluto, cobranza.ImporteSaldoInsoluto)
+                        .Value(x => x.IvaP, cobranza.IvaP)
+                        .Value(x => x.TipoCambioP, cobranza.TipoCambioP)
+                        .Value(x => x.FechaPago, factura.FechaCancelacion)
+                        .Value(x => x.Xml, cobranza.Xml)
+                        .Value(x => x.CRP, cobranza.CRP)
+                        .Value(x => x.Base, cobranza.Base)
+                        .Value(X => X.FechaCancelacion, factura.FechaCancelacion)
+                        .Value(x => x.MotivoCancelacion, factura.MotivoCancelacion)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_cancel_cobranza;
+                    resp.Message = insert_cancel_cobranza == default ? "Ocurrio un error al agregar la cancelación del pago." : string.Empty;
                 }
             }
 
@@ -333,16 +424,45 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
-                                .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
-                                {
-                                    Total = 0,
-                                    FechaCancelacion = fecha_cancelacion,
-                                    MotivoCancelacion = motivo_cancelacion
-                                }) > 0;
+                //var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
+                //                .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                //                {
+                //                    //Total = 0,
+                //                    FechaCancelacion = fecha_cancelacion,
+                //                    MotivoCancelacion = motivo_cancelacion
+                //                }) > 0;
 
-                resp.Success = res_update_nota;
-                resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la nota." : string.Empty;
+                //resp.Success = res_update_nota;
+                //resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la nota." : string.Empty;
+
+                var nota_factura = await (from nota in db.tB_ProyectoFacturasNotaCredito
+                                          where nota.FechaCancelacion == null
+                                          && nota.UuidNotaCredito == uuid_nota
+                                          select nota).FirstOrDefaultAsync();
+
+                var insert_cancel_nota = await db.tB_ProyectoFacturasNotaCredito
+                    .Value(x => x.IdFactura, nota_factura.IdFactura)
+                    .Value(x => x.NumProyecto, nota_factura.NumProyecto)
+                    .Value(x => x.UuidNotaCredito, nota_factura.UuidNotaCredito)
+                    .Value(x => x.IdMoneda, nota_factura.IdMoneda)
+                    .Value(x => x.IdTipoRelacion, nota_factura.IdTipoRelacion)
+                    .Value(x => x.NotaCredito, nota_factura.NotaCredito)
+                    .Value(x => x.Importe, nota_factura.Importe)
+                    .Value(x => x.Iva, nota_factura.Iva)
+                    .Value(x => x.Total, nota_factura.Total)
+                    .Value(x => x.Concepto, nota_factura.Concepto)
+                    .Value(x => x.Mes, fecha_cancelacion.Month)
+                    .Value(x => x.Anio, fecha_cancelacion.Year)
+                    .Value(x => x.TipoCambio, nota_factura.TipoCambio)
+                    .Value(x => x.FechaNotaCredito, fecha_cancelacion)
+                    .Value(x => x.Xml, nota_factura.Xml)
+                    .Value(x => x.FechaCancelacion, fecha_cancelacion)
+                    .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_cancel_nota;
+                resp.Message = insert_cancel_nota == default ? "Ocurrio un error al agregar la cancelación de la nota de credito." : string.Empty;
+
             }
 
             return resp;
@@ -358,15 +478,41 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
-                                .UpdateAsync(x => new TB_ProyectoFacturaCobranza
-                                {
-                                    FechaCancelacion = fecha_cancelacion,
-                                    MotivoCancelacion = motivo_cancelacion
-                                }) > 0;
+                //var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
+                //                .UpdateAsync(x => new TB_ProyectoFacturaCobranza
+                //                {
+                //                    FechaCancelacion = fecha_cancelacion,
+                //                    MotivoCancelacion = motivo_cancelacion
+                //                }) > 0;
 
-                resp.Success = res_update_nota;
-                resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la cobranza." : string.Empty;
+                //resp.Success = res_update_nota;
+                //resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la cobranza." : string.Empty;
+
+                var cobranza_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
+                                              where cobranza.FechaCancelacion == null
+                                              && cobranza.UuidCobranza == uuid_cobranza
+                                              select cobranza).FirstOrDefaultAsync();
+
+                var insert_cancel_cobranza = await db.tB_ProyectoFacturasCobranza
+                    .Value(x => x.IdFactura, cobranza_factura.IdFactura)
+                    .Value(x => x.UuidCobranza, cobranza_factura.UuidCobranza)
+                    .Value(x => x.IdMonedaP, cobranza_factura.IdMonedaP)
+                    .Value(x => x.ImportePagado, cobranza_factura.ImportePagado)
+                    .Value(x => x.ImpSaldoAnt, cobranza_factura.ImpSaldoAnt)
+                    .Value(x => x.ImporteSaldoInsoluto, cobranza_factura.ImporteSaldoInsoluto)
+                    .Value(x => x.IvaP, cobranza_factura.IvaP)
+                    .Value(x => x.TipoCambioP, cobranza_factura.TipoCambioP)
+                    .Value(x => x.FechaPago, fecha_cancelacion)
+                    .Value(x => x.Xml, cobranza_factura.Xml)
+                    .Value(x => x.CRP, cobranza_factura.CRP)
+                    .Value(x => x.Base, cobranza_factura.Base)
+                    .Value(X => X.FechaCancelacion, fecha_cancelacion)
+                    .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_cancel_cobranza;
+                resp.Message = insert_cancel_cobranza == default ? "Ocurrio un error al agregar la cancelación del pago." : string.Empty;
+
             }
 
             return resp;
@@ -382,9 +528,9 @@ namespace Bovis.Data
 
                 if (idCliente != null)
                 {
-                    lstProyectosCliente = await (from a in db.tB_Proyectos
-                                        where a.IdEmpresa == idCliente
-                                        select a.NumProyecto).ToListAsync();
+                    lstProyectosCliente = await (from a in db.tB_ClienteProyectos
+                                                 where a.IdCliente == idCliente
+                                                 select a.NumProyecto.GetValueOrDefault()).ToListAsync();
                 }
                 if (idEmpresa != null)
                 {
@@ -400,8 +546,12 @@ namespace Bovis.Data
                                  from ac in factC.DefaultIfEmpty()
                                  join c in db.tB_Proyectos on a.NumProyecto equals c.NumProyecto into cJoin
                                  from cItem in cJoin.DefaultIfEmpty()
-                                 join d in db.tB_Clientes on cItem.IdCliente equals d.IdCliente into dJoin
+                                 join cp in db.tB_ClienteProyectos on a.NumProyecto equals cp.NumProyecto into cpJoin
+                                 from cpItem in cpJoin.DefaultIfEmpty()
+                                 join d in db.tB_Clientes on cpItem.IdCliente equals d.IdCliente into dJoin
                                  from dItem in dJoin.DefaultIfEmpty()
+                                 join e in db.tB_Empresas on cItem.IdEmpresa equals e.IdEmpresa into eJoin
+                                 from eItem in eJoin.DefaultIfEmpty()
                                  where (idProyecto == null || a.NumProyecto == idProyecto)
                                  && (lstProyectosCliente == null || a.NumProyecto.In(lstProyectosCliente))
                                  && (lstProyectosEmpresa == null || a.NumProyecto.In(lstProyectosEmpresa))
@@ -416,12 +566,15 @@ namespace Bovis.Data
                                      NumProyecto = a.NumProyecto,
                                      Cliente = dItem.Cliente ?? string.Empty,
                                      ClienteRFC = dItem.Rfc ?? string.Empty,
+                                     IdEmpresa = (int)cItem.IdEmpresa,
+                                     Empresa = eItem.Empresa,
+                                     EmpresaRFC = eItem.Rfc,
                                      IdTipoFactura = a.IdTipoFactura,
                                      IdMoneda = a.IdMoneda,
                                      Importe = a.Importe,
                                      Iva = a.Iva,
                                      IvaRet = a.IvaRet,
-                                     Total = a.Total,
+                                     Total = a.FechaCancelacion == null ? a.Total : 0,
                                      Concepto = a.Concepto,
                                      Mes = a.Mes,
                                      Anio = a.Anio,
@@ -431,7 +584,13 @@ namespace Bovis.Data
                                      NoFactura = a.NoFactura,
                                      TipoCambio = a.TipoCambio,
                                      MotivoCancelacion = a.MotivoCancelacion
-                                 }).ToListAsync();
+                                 })
+                                 .ToListAsync();
+
+                //res = res.DistinctBy(x => x.Uuid).ToList();
+                res = res.GroupBy(x => x.Uuid)
+                         .Select(group => group.OrderByDescending(x => x.FechaCancelacion ?? DateTime.MinValue).First())
+                         .ToList();
 
                 foreach (var facturaDetalle in res)
                 {
@@ -446,21 +605,25 @@ namespace Bovis.Data
                                                NC_NotaCredito = notas.NotaCredito,
                                                NC_Importe = notas.Importe,
                                                NC_Iva = notas.Iva,
-                                               NC_Total = notas.Total,
+                                               NC_Total = notas.FechaCancelacion == null ? notas.Total : 0,
                                                NC_Concepto = notas.Concepto,
                                                NC_Mes = notas.Mes,
                                                NC_Anio = notas.Anio,
                                                NC_TipoCambio = notas.TipoCambio,
                                                NC_FechaNotaCredito = notas.FechaNotaCredito,
                                                NC_FechaCancelacion = notas.FechaCancelacion,
-                                               Cliente = facturaDetalle.Cliente
+                                               Cliente = facturaDetalle.Cliente,
+                                               IdEmpresa = facturaDetalle.IdEmpresa,
+                                               Empresa = facturaDetalle.Empresa,
+                                               EmpresaRFC = facturaDetalle.EmpresaRFC
                                            }).ToListAsync();
 
+                    //res_notas = res_notas.DistinctBy(x => x.NC_UuidNotaCredito).ToList();
+                    res_notas = res_notas.GroupBy(x => x.NC_UuidNotaCredito)
+                                         .Select(group => group.OrderByDescending(x => x.NC_FechaCancelacion ?? DateTime.MinValue).First())
+                                         .ToList();
                     facturaDetalle.Notas = new List<NotaDetalle>();
-                    foreach (var nota in res_notas)
-                    {
-                        facturaDetalle.Notas.Add(nota);
-                    }
+                    facturaDetalle.Notas.AddRange(res_notas);
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
                                                where cobr.IdFactura == facturaDetalle.Id
@@ -478,14 +641,18 @@ namespace Bovis.Data
                                                    C_FechaCancelacion = cobr.FechaCancelacion,
                                                    CRP = cobr.CRP,
                                                    Base = cobr.Base,
-                                                   Cliente = facturaDetalle.Cliente
+                                                   Cliente = facturaDetalle.Cliente,
+                                                   IdEmpresa = facturaDetalle.IdEmpresa,
+                                                   Empresa = facturaDetalle.Empresa,
+                                                   EmpresaRFC = facturaDetalle.EmpresaRFC
                                                }).ToListAsync();
 
+                    //res_cobranzas = res_cobranzas.DistinctBy(x => x.C_UuidCobranza).ToList();
+                    res_cobranzas = res_cobranzas.GroupBy(x => x.C_FechaCancelacion)
+                                                 .Select(group => group.OrderByDescending(x => x.C_FechaCancelacion ?? DateTime.MinValue).First())
+                                                 .ToList();
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
-                    foreach (var cobranza in res_cobranzas)
-                    {
-                        facturaDetalle.Cobranzas.Add(cobranza);
-                    }
+                    facturaDetalle.Cobranzas.AddRange(res_cobranzas);
 
                     facturaDetalle.TotalNotasCredito = res_notas.Count();
                     facturaDetalle.TotalCobranzas = res_cobranzas.Count();

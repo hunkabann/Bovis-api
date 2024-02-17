@@ -47,7 +47,7 @@ namespace Bovis.API.Controllers
         #endregion
 
         #region GetCostos
-        [HttpGet("Costos/{hist}")]
+        [HttpGet("Costos/{hist?}")]
         public async Task<IActionResult> GetCostos([FromQuery] bool? hist = false)
         {
             bool historico = hist ?? false;

@@ -140,7 +140,7 @@ namespace Bovis.API.Controllers
 
             if (query.Message == string.Empty)
             {
-                // Se hace envío de una notificación por Email, indicando que ya se realizó la carga completa.
+                ////Se hace envío de una notificación por Email, indicando que ya se realizó la carga completa.
                 //using (HttpClient client = new HttpClient())
                 //{
                 //    try
@@ -165,7 +165,7 @@ namespace Bovis.API.Controllers
                 //        }
 
                 //        HttpResponseMessage response = await client.SendAsync(request);
-                        
+
                 //        if (response.IsSuccessStatusCode) // Verificar si la solicitud fue exitosa (código de estado 200)
                 //        {
                 //            string apiResponse = await response.Content.ReadAsStringAsync();
@@ -214,6 +214,14 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> DeleteRegistro(int idRegistro)
         {
             var query = await _cieQueryService.DeleteRegistro(idRegistro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpDelete, Route("Archivo")]
+        public async Task<IActionResult> DeleteArchivo([FromBody] JsonObject registro)
+        {
+            var query = await _cieQueryService.DeleteArchivo(registro);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

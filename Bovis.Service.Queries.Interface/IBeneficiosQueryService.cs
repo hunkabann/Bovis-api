@@ -12,8 +12,8 @@ namespace Bovis.Service.Queries.Interface
     public interface IBeneficiosQueryService
     {
         Task<Response<object>> AddBeneficio(TB_EmpleadoBeneficio registro);
-        Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficios(int NumEmpleado);
-        Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficio(int idBeneficio, int NumEmpleado, int Mes, int Anno);
-        Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, int numEmpleado);
+        Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficios(string NumEmpleado);
+        Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficio(int idBeneficio, string NumEmpleado, int Mes, int Anno);
+        Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, string numEmpleado);
     }
 }

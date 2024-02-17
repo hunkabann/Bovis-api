@@ -776,28 +776,25 @@ namespace Bovis.Data
                 return await qry.UpdateAsync() >= 0;
             }
         }
-        #endregion Profesion
+		#endregion Profesion
 
-        #region Puesto
+		#region Puesto
 
-        public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
+		public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
 		{
-			if (activo.HasValue)
-			{
-				using (var db = new ConnectionDB(dbConfig)) return await (from puesto in db.tB_Cat_Puestos
-																		  where puesto.Activo == activo
-																		  orderby puesto.Puesto ascending
-																		  select new Puesto_Detalle
-																		  {
-																			  nukid_puesto = puesto.IdPuesto,
-																			  nukidnivel = puesto.IdNivel,
-																			  chpuesto = puesto.Puesto,
-																			  nusalario_min = puesto.SalarioMin,
-																			  nusalario_max = puesto.SalarioMax,
-																			  nusalario_prom = puesto.SalarioProm
-																		  }).ToListAsync();
-			}
-			else return await GetAllFromEntityAsync<Puesto_Detalle>();
+			using (var db = new ConnectionDB(dbConfig)) return await (from puesto in db.tB_Cat_Puestos
+																	  where puesto.Activo == activo
+																	  orderby puesto.Puesto ascending
+																	  select new Puesto_Detalle
+																	  {
+																		  nukid_puesto = puesto.IdPuesto,
+																		  nukidnivel = puesto.IdNivel,
+																		  chpuesto = puesto.Puesto,
+																		  nusalario_min = puesto.SalarioMin,
+																		  nusalario_max = puesto.SalarioMax,
+																		  nusalario_prom = puesto.SalarioProm,
+																		  boactivo = puesto.Activo
+																	  }).ToListAsync();
 		}
 
 		public Task<bool> AddPuesto(TB_Cat_Puesto puesto) => InsertEntityIdAsync<TB_Cat_Puesto>(puesto);

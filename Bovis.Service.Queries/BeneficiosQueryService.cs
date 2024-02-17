@@ -25,18 +25,18 @@ namespace Bovis.Service.Queries
             var response = await _beneficiosBusiness.AddBeneficio(registro);
             return response;
         }
-        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficios(int NumEmpleado)
+        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficios(string NumEmpleado)
         {
             var response = await _beneficiosBusiness.GetBeneficios(NumEmpleado);
             return response;
         }
-        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficio(int idBeneficio, int NumEmpleado, int Mes, int Anno)
+        public async Task<Response<List<TB_EmpleadoBeneficio>>> GetBeneficio(int idBeneficio, string NumEmpleado, int Mes, int Anno)
         {
             var response = await _beneficiosBusiness.GetBeneficio(idBeneficio, NumEmpleado, Mes, Anno);
             return response;
         }
 
-        public async Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, int numEmpleado)
+        public async Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, string numEmpleado)
         {
             var response = await _beneficiosBusiness.UpdateBeneficio(registro, idBeneficio, numEmpleado);
             return response;

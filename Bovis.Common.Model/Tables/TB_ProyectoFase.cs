@@ -10,6 +10,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nuorden"), NotNull] public int Orden { get; set; }
 		[Column("Chfase"), NotNull] public string Fase { get; set; }
 		[Column("Dtfecha_ini"), NotNull] public DateTime FechaIni { get; set; }
-		[Column("Dtfecha_fin"), NotNull] public DateTime FechaFin { get; set; }
-	}
+		[Column("Dtfecha_fin"), NotNull] public DateTime FechaFin { get; set; }        
+    }
 }

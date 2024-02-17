@@ -78,6 +78,15 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
+        
+        public async Task<(bool Success, string Message)> DeleteArchivo(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _cieData.DeleteArchivo(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
         #endregion Registros
     }
 }

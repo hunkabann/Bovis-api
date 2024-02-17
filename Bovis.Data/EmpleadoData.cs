@@ -86,7 +86,8 @@ namespace Bovis.Data
                                       from profesionItem in profesionJoin.DefaultIfEmpty()
                                       join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
                                       from turnoItem in turnoJoin.DefaultIfEmpty()
-                                          //where emp.Activo == activo
+                                      join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
+                                      from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
                                       orderby perItem.Nombre ascending
                                       select new Empleado_Detalle
                                       {
@@ -165,6 +166,8 @@ namespace Bovis.Data
                                           nuvalor_descuento = emp.ValorDescuento,
                                           nuno_empleado_noi = emp.NoEmpleadoNoi,
                                           chrol = emp.Rol,
+                                          nuproyecto_principal = emp.NumProyectoPrincipal,
+                                          chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30)
                                       }).ToListAsync();
 
@@ -238,6 +241,8 @@ namespace Bovis.Data
                                  from turnoItem in turnoJoin.DefaultIfEmpty()
                                  join sexo in db.tB_Cat_Sexos on perItem.IdSexo equals sexo.IdSexo into sexoJoin
                                  from sexoItem in sexoJoin.DefaultIfEmpty()
+                                 join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
+                                 from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
                                  where emp.NumEmpleadoRrHh == idEmpleado
                                  select new Empleado_Detalle
                                  {
@@ -315,7 +320,9 @@ namespace Bovis.Data
                                      chtipo_descuento = emp.TipoDescuento,
                                      nuvalor_descuento = emp.ValorDescuento,
                                      nuno_empleado_noi = emp.NoEmpleadoNoi,
-                                     chrol = emp.Rol,   
+                                     chrol = emp.Rol,
+                                     nuproyecto_principal = emp.NumProyectoPrincipal,
+                                     chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                      dtvigencia = emp.FechaIngreso.AddDays(30)
                                  }).FirstOrDefaultAsync();
 
@@ -481,6 +488,7 @@ namespace Bovis.Data
             string? no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : null;
             string? rol = registro["rol"] != null ? registro["rol"].ToString() : null;
             int id_requerimiento = Convert.ToInt32(registro["id_requerimiento"].ToString());
+            int num_proyecto_principal = Convert.ToInt32(registro["num_proyecto_principal"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -545,6 +553,7 @@ namespace Bovis.Data
                     .Value(x => x.ValorDescuento, valor_descuento)
                     .Value(x => x.NoEmpleadoNoi, no_empleado_noi)
                     .Value(x => x.Rol, rol)
+                    .Value(x => x.NumProyectoPrincipal, num_proyecto_principal)
                     .Value(x => x.Activo, true)
                     .InsertAsync() > 0;
 
@@ -567,6 +576,54 @@ namespace Bovis.Data
                 resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
+                /*
+                 * Se inserta también en tb_dor_emplado
+                 */
+                var persona = await (from p in db.tB_Personas
+                                     where p.IdPersona == id_persona
+                                     select p).FirstOrDefaultAsync();
+
+                var puesto = await (from p in db.tB_Cat_Puestos
+                                    where p.IdNivel == cve_puesto
+                                    select p).FirstOrDefaultAsync();
+
+                var jefe_directo = await (from e in db.tB_Empleados
+                                          join p in db.tB_Personas on e.IdPersona equals p.IdPersona into pJoin
+                                          from pItem in pJoin.DefaultIfEmpty()
+                                          select pItem).FirstOrDefaultAsync();
+
+                var unidad_negocio = await (from u in db.tB_Cat_UnidadNegocios
+                                            where u.IdUnidadNegocio == id_unidad_negocio
+                                            select u).FirstOrDefaultAsync();
+
+                var proyecto = await (from ep in db.tB_EmpleadoProyectos
+                                      join p in db.tB_Proyectos on ep.NumProyecto equals p.NumProyecto into pJoin
+                                      from pItem in pJoin.DefaultIfEmpty()
+                                      where ep.NumEmpleadoRrHh == num_empleado_rr_hh
+                                      select pItem).FirstOrDefaultAsync();
+
+                var insert_dor_empleado = await db.tB_Dor_Empleados
+                    .Value(x => x.Usuario, email_bovis)
+                    .Value(x => x.Rol, rol)
+                    .Value(x => x.Nombre, persona != null ? persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno : string.Empty)
+                    .Value(x => x.NoEmpleado, num_empleado_rr_hh)
+                    .Value(x => x.CorreoElec, email_bovis)
+                    .Value(x => x.Puesto, puesto != null ? puesto.Puesto : string.Empty)
+                    .Value(x => x.FechaIngreso, fecha_ingreso.ToString("dd/MM/yyyy"))
+                    .Value(x => x.JefeDirecto, jefe_directo != null ? jefe_directo.ApPaterno + " " + jefe_directo.ApMaterno + " " + jefe_directo.Nombre : string.Empty)
+                    .Value(x => x.UnidadDeNegocio, unidad_negocio != null ? unidad_negocio.UnidadNegocio : string.Empty)
+                    .Value(x => x.Proyecto, proyecto != null ? proyecto.Proyecto : string.Empty)
+                    .Value(x => x.CentrosdeCostos, proyecto != null ? proyecto.NumProyecto.ToString() : string.Empty)
+                    .Value(x => x.Activo, true)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_dor_empleado;
+                resp.Message = insert_dor_empleado == default ? "Ocurrio un error al agregar registro de Empleado." : string.Empty;
+
+
+                /*
+                 * Se insertan habilidades y experiencias.
+                 */
                 if (registro["habilidades"] != null)
                 {
                     foreach (var habilidad in registro["habilidades"].AsArray())
@@ -612,6 +669,8 @@ namespace Bovis.Data
                     resp.Success = res_update_requerimiento;
                     resp.Message = res_update_requerimiento == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
+
+
 
                 //
                 // Se inserta también como nuevo usuario.
@@ -693,6 +752,7 @@ namespace Bovis.Data
             decimal? valor_descuento = registro["valor_descuento"] != null ? Convert.ToDecimal(registro["valor_descuento"].ToString()) : null;
             string? no_empleado_noi = registro["no_empleado_noi"] != null ? registro["no_empleado_noi"].ToString() : null;
             string? rol = registro["rol"] != null ? registro["rol"].ToString() : null;
+            int num_proyecto_principal = Convert.ToInt32(registro["num_proyecto_principal"].ToString());
             int index = 0;
 
             using (var db = new ConnectionDB(dbConfig))
@@ -746,13 +806,60 @@ namespace Bovis.Data
                         TipoDescuento = tipo_descuento,
                         ValorDescuento = valor_descuento,
                         NoEmpleadoNoi = no_empleado_noi,
-                        Rol = rol
+                        Rol = rol,
+                        NumProyectoPrincipal = num_proyecto_principal
                     }) > 0;
 
                 resp.Success = res_update_empleado;
                 resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
+                /*
+                 * Se actualiza también en tb_dor_emplado
+                 */
+                var persona = await (from p in db.tB_Personas
+                                     where p.IdPersona == id_persona
+                                     select p).FirstOrDefaultAsync();
+
+                var puesto = await (from p in db.tB_Cat_Puestos
+                                    where p.IdNivel == cve_puesto
+                                    select p).FirstOrDefaultAsync();
+
+                var jefe_directo = await (from e in db.tB_Empleados
+                                          join p in db.tB_Personas on e.IdPersona equals p.IdPersona into pJoin
+                                          from pItem in pJoin.DefaultIfEmpty()
+                                          select pItem).FirstOrDefaultAsync();
+
+                var unidad_negocio = await (from u in db.tB_Cat_UnidadNegocios
+                                            where u.IdUnidadNegocio == id_unidad_negocio
+                                            select u).FirstOrDefaultAsync();
+
+                var proyecto = await (from ep in db.tB_EmpleadoProyectos
+                                      join p in db.tB_Proyectos on ep.NumProyecto equals p.NumProyecto into pJoin
+                                      from pItem in pJoin.DefaultIfEmpty()
+                                      where ep.NumEmpleadoRrHh == num_empleado_rr_hh
+                                      select pItem).FirstOrDefaultAsync();
+
+                var res_update_dor_empleado = await db.tB_Dor_Empleados.Where(x => x.NoEmpleado == num_empleado_rr_hh)
+                    .UpdateAsync(x => new TB_DorEmpleados
+                    {
+                        Usuario = email_bovis,
+                        Rol = rol,
+                        Nombre = persona != null ? persona.Nombre + " " + persona.ApPaterno + " " + persona.ApMaterno : string.Empty,
+                        NoEmpleado = num_empleado_rr_hh,
+                        CorreoElec = email_bovis,
+                        Puesto = puesto != null ? puesto.Puesto : string.Empty,
+                        FechaIngreso = fecha_ingreso.ToString("dd/MM/yyyy"),
+                        JefeDirecto = jefe_directo != null ? jefe_directo.ApPaterno + " " + jefe_directo.ApMaterno + " " + jefe_directo.Nombre : string.Empty,
+                        UnidadDeNegocio = unidad_negocio != null ? unidad_negocio.UnidadNegocio : string.Empty,
+                        Proyecto = proyecto != null ? proyecto.Proyecto : string.Empty,
+                        CentrosdeCostos = proyecto != null ? proyecto.NumProyecto.ToString() : string.Empty
+                    }) > 0;
+
+
+                /*
+                 * Se actualizan habilidades.
+                 */
                 if (registro["habilidades"] != null)
                 {
                     var res_empleado_habilidades = await (from emp_hab in db.tB_Empleado_Habilidades
@@ -820,6 +927,9 @@ namespace Bovis.Data
                     }
                 }
 
+                /*
+                 * Se actualizan experiencias.
+                 */
                 if (registro["experiencias"] != null)
                 {
                     var res_empleado_experiencias = await (from emp_exp in db.tB_Empleado_Experiencias
@@ -910,6 +1020,18 @@ namespace Bovis.Data
                 resp.Success = res_update_empleado;
                 resp.Message = res_update_empleado == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
+                /*
+                 * Se actualiza también en tb_dor_empleado.
+                 */
+                var res_update_dor_empleado = await db.tB_Dor_Empleados.Where(x => x.NoEmpleado == num_empleado_rr_hh)
+                    .UpdateAsync(x => new TB_DorEmpleados
+                    {
+                        Activo = activo
+                    }) > 0;
+
+                /*
+                 * Se actualiza también el estatus del usuario.
+                 */
                 var res_disable_usuario = await db.tB_Usuarios.Where(x => x.NumEmpleadoRrHh == num_empleado_rr_hh)
                                 .UpdateAsync(x => new TB_Usuario
                                 {
@@ -946,7 +1068,6 @@ namespace Bovis.Data
                                                                               nukidresponsable_construccion = proj.IdResponsableConstruccion,
                                                                               nukidresponsable_ehs = proj.IdResponsableEhs,
                                                                               nukidresponsable_supervisor = proj.IdResponsableSupervisor,
-                                                                              nukidcliente = proj.IdCliente,
                                                                               nukidempresa = proj.IdEmpresa,
                                                                               nukidpais = proj.IdPais,
                                                                               nukiddirector_ejecutivo = proj.IdDirectorEjecutivo,

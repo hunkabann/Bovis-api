@@ -9,7 +9,7 @@ namespace Bovis.Common.Model.NoTable
         public int NumProyecto { get; set; }
         public string Nombre { get; set; }
         public string RfcBaseEmisor { get; set; }
-        public string RfcBaseReceptor { get; set; }
+        public List<string> RfcBaseReceptor { get; set; }
     }
 
     public class AgregarFactura
@@ -20,7 +20,7 @@ namespace Bovis.Common.Model.NoTable
         }
         public int NumProyecto { get; set; }
         public string RfcEmisor { get; set; }
-        public string RfcReceptor { get; set; }
+        public List<string> RfcReceptor { get; set; }
         public List<Factura> LstFacturas { get; set; }
     }
 
@@ -78,6 +78,9 @@ namespace Bovis.Common.Model.NoTable
         public int NumProyecto { get; set; }
         public string Cliente { get; set; }
         public string ClienteRFC {  get; set; }
+        public int IdEmpresa { get; set; }
+        public string Empresa {  get; set; }
+        public string EmpresaRFC { get; set; }
         public string IdTipoFactura { get; set; }
         public string IdMoneda { get; set; }
         public decimal Importe { get; set; }
@@ -85,7 +88,7 @@ namespace Bovis.Common.Model.NoTable
         public decimal? IvaRet { get; set; }
         public decimal? Total { get; set; }
         public string Concepto { get; set; }
-        public byte? Mes { get; set; }
+        public int? Mes { get; set; }
         public short Anio { get; set; }
         public DateTime FechaEmision { get; set; }
         public DateTime? FechaPago { get; set; }
@@ -137,6 +140,9 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? NC_FechaNotaCredito { set; get; }
         public DateTime? NC_FechaCancelacion { set; get; }
         public string? Cliente { set; get; }
+        public int IdEmpresa { get; set; }
+        public string Empresa { get; set; }
+        public string EmpresaRFC { get; set; }
     }
 
     public class CobranzaDetalle
@@ -153,6 +159,9 @@ namespace Bovis.Common.Model.NoTable
         public string? CRP { set; get; }
         public decimal? Base { set; get; }
         public string? Cliente { set; get; }
+        public int IdEmpresa { get; set; }
+        public string Empresa { get; set; }
+        public string EmpresaRFC { get; set; }
     }
 
 }

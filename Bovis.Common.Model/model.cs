@@ -6,13 +6,14 @@ namespace Bovis.Common.Model
 {
 	public partial class ConnectionDB : DataConnection
 	{		        
-        public ITable<TB_Auditoria> tB_Auditorias { get { return this.GetTable<TB_Auditoria>(); } }
+        public ITable<TB_AuditoriaComentario> tB_AuditoriaComentarios { get { return this.GetTable<TB_AuditoriaComentario>(); } }
         public ITable<TB_AuditoriaDocumento> tB_Auditoria_Documentos { get { return this.GetTable<TB_AuditoriaDocumento>(); } }
         public ITable<TB_AuditoriaProyecto> tB_Auditoria_Proyectos { get { return this.GetTable<TB_AuditoriaProyecto>(); } }
         public ITable<TB_Banco> tB_Bancos { get { return this.GetTable<TB_Banco>(); } }
 		public ITable<TB_Bitacora> tB_Bitacoras { get { return this.GetTable<TB_Bitacora>(); } }        
         public ITable<TB_Cat_Auditoria> tB_Cat_Auditorias { get { return this.GetTable<TB_Cat_Auditoria>(); } }
-        public ITable<TB_Cat_Auditoria_Seccion> tB_Cat_Auditoria_Seccions { get { return this.GetTable<TB_Cat_Auditoria_Seccion>(); } }
+        public ITable<TB_Cat_AuditoriaSeccion> tB_Cat_Auditoria_Seccions { get { return this.GetTable<TB_Cat_AuditoriaSeccion>(); } }
+        public ITable<TB_Cat_AuditoriaTipoComentario> tB_Cat_AuditoriaTipoComentarios { get { return this.GetTable<TB_Cat_AuditoriaTipoComentario>(); } }
 		public ITable<TB_Cat_Beneficio> tB_Cat_Beneficios { get { return this.GetTable<TB_Cat_Beneficio>(); } }
 		public ITable<TB_Cat_Categoria> tB_Cat_Categorias { get { return this.GetTable<TB_Cat_Categoria>(); } }
 		public ITable<TB_Cat_Clasificacion> tB_Cat_Clasificacions { get { return this.GetTable<TB_Cat_Clasificacion>(); } }
@@ -52,6 +53,7 @@ namespace Bovis.Common.Model
 		public ITable<TB_Cat_TipoIngreso> tB_Cat_TipoIngresos { get { return this.GetTable<TB_Cat_TipoIngreso>(); } }
 		public ITable<TB_Cat_TipoPcs> tB_Cat_TipoPcs { get { return this.GetTable<TB_Cat_TipoPcs>(); } }
         public ITable<TB_Cat_TipoPcs2> tB_Cat_TipoPcs2 { get { return this.GetTable<TB_Cat_TipoPcs2>(); } }
+        public ITable<TB_Cat_TipoPcs3> tB_Cat_TipoPcs3 { get { return this.GetTable<TB_Cat_TipoPcs3>(); } }
         public ITable<TB_Cat_TipoPersona> tB_Cat_TipoPersonas { get { return this.GetTable<TB_Cat_TipoPersona>(); } }
         public ITable<TB_Cat_TipoPoliza> tB_Cat_TipoPolizas { get { return this.GetTable<TB_Cat_TipoPoliza>(); } }
 		public ITable<TB_Cat_TipoProyecto> tB_Cat_TipoProyectos { get { return this.GetTable<TB_Cat_TipoProyecto>(); } }
@@ -69,6 +71,7 @@ namespace Bovis.Common.Model
         public ITable<TB_Ciudad> tB_Ciudads { get { return this.GetTable<TB_Ciudad>(); } }
 		public ITable<TB_Cliente> tB_Clientes { get { return this.GetTable<TB_Cliente>(); } }
 		public ITable<TB_ClienteEmpresa> tB_ClienteEmpresas { get { return this.GetTable<TB_ClienteEmpresa>(); } }
+		public ITable<TB_ClienteProyecto> tB_ClienteProyectos { get { return this.GetTable<TB_ClienteProyecto>(); } }
 		public ITable<TB_Cobranza> tB_Cobranzas { get { return this.GetTable<TB_Cobranza>(); } }
 		public ITable<TB_Colonia> tB_Colonias { get { return this.GetTable<TB_Colonia>(); } }
 		public ITable<TB_Contacto> tB_Contactos { get { return this.GetTable<TB_Contacto>(); } }

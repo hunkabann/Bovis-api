@@ -220,6 +220,7 @@ namespace Bovis.Data
             {
                 var modulos = await (from mod in db.tB_Modulos
                                      where mod.Activo == true
+                                     && mod.IsTab == false
                                      orderby mod.Modulo ascending
                                      select new Modulo_Detalle
                                      {
@@ -237,6 +238,7 @@ namespace Bovis.Data
                     var submodulos = await (from sub in db.tB_Modulos
                                             where sub.Activo == true
                                             && sub.Modulo == modulo.Modulo
+                                            && sub.IsTab == false
                                             orderby sub.SubModulo ascending
                                             select new Submodulo_Detalle
                                             {
@@ -507,7 +509,7 @@ namespace Bovis.Data
                         modulos.Add(modulo);
                 }
 
-                perfil_modulos.Modulos = modulos.OrderBy(x => x.Modulo).ToList();
+                perfil_modulos.Modulos = modulos.OrderBy(x => x.Modulo).DistinctBy(x => x.IdModulo).ToList();
 
                 return perfil_modulos;
             }

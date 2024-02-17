@@ -15,7 +15,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("nuiva_ret"), Nullable] public decimal? IvaRet { get; set; }
 		[Column("Nutotal"), Nullable] public decimal? Total { get; set; }
 		[Column("Chconcepto"), NotNull] public string Concepto { get; set; }
-		[Column("Numes"), Nullable] public byte? Mes { get; set; }
+		[Column("Numes"), Nullable] public int? Mes { get; set; }
 		[Column("Nuanio"), NotNull] public short Anio { get; set; }
 		[Column("dtfecha_emision"), NotNull] public DateTime FechaEmision { get; set; }
 		[Column("dtfecha_pago"), Nullable] public DateTime? FechaPago { get; set; }
