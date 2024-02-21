@@ -81,7 +81,10 @@ namespace Bovis.API.Controllers
         [HttpPost, Route("Comentarios")]
         public async Task<IActionResult> AddComentarios([FromBody] JsonObject registro)
         {
-            var query = await _auditoriaQueryService.AddComentarios(registro);
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+            string nombre = headers["nombre"];
+            var query = await _auditoriaQueryService.AddComentarios(registro, nombre);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
         }

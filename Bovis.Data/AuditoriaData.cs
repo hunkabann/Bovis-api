@@ -238,6 +238,10 @@ namespace Bovis.Data
                                      from tItem in tJoin.DefaultIfEmpty()
                                      join p in db.tB_Proyectos on c.NumProyecto equals p.NumProyecto into pJoin
                                      from pItem in pJoin.DefaultIfEmpty()
+                                     join e in db.tB_Empleados on pItem.IdDirectorEjecutivo equals e.NumEmpleadoRrHh into eJoin
+                                     from eItem in eJoin.DefaultIfEmpty()
+                                     join per1 in db.tB_Personas on eItem.IdPersona equals per1.IdPersona into per1Join
+                                     from per1Item in per1Join.DefaultIfEmpty()
                                      where c.NumProyecto == numProyecto
                                      select new Comentario_Detalle
                                      {
@@ -247,7 +251,11 @@ namespace Bovis.Data
                                          Fecha = c.Fecha,
                                          IdTipoComentario = c.IdTipoComentario,
                                          TipoComentario = tItem != null ? tItem.TipoComentario : string.Empty,
-                                         FechaAuditoria = pItem.FechaAuditoria
+                                         NombreAuditor = c.NombreAuditor,
+                                         DirectorResponsable = per1Item != null ? per1Item.Nombre + " " + per1Item.ApPaterno + " " + per1Item.ApMaterno : string.Empty,
+                                         ResponsableAsignado = c.ResponsableAsignado,
+                                         FechaAuditoriaInicial = pItem.FechaAuditoriaInicial,
+                                         FechaAuditoria = pItem.FechaProxAuditoria
                                      }).ToListAsync();
             }
 
@@ -287,13 +295,14 @@ namespace Bovis.Data
             return resp;
         }
         
-        public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string comentario = registro["comentario"].ToString();
             int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());
+            string responsable_asignado = registro["responsable_asignado"].ToString();
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -302,6 +311,8 @@ namespace Bovis.Data
                                                             .Value(x => x.Comentario, comentario)
                                                             .Value(x => x.Fecha, DateTime.Now)
                                                             .Value(x => x.IdTipoComentario, id_tipo_comentario)
+                                                            .Value(x => x.NombreAuditor, usuario_logueado)
+                                                            .Value(x => x.ResponsableAsignado, responsable_asignado)
                                                             .InsertAsync() > 0;
 
                 resp.Success = insert_auditoria_proyecto;

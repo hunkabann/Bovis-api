@@ -43,10 +43,10 @@ namespace Bovis.Business
             return resp;
         }
         
-        public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro)
+        public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _auditoriaData.AddComentarios(registro);
+            var respData = await _auditoriaData.AddComentarios(registro, usuario_logueado);
             if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
             else resp = respData;
             return resp;

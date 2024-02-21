@@ -72,9 +72,9 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         
-        public async Task<Response<(bool Success, string Message)>> AddComentarios(JsonObject registro)
+        public async Task<Response<(bool Success, string Message)>> AddComentarios(JsonObject registro, string usuario_logueado)
         {
-            var response = await _auditoriaBusiness.AddComentarios(registro);
+            var response = await _auditoriaBusiness.AddComentarios(registro, usuario_logueado);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
