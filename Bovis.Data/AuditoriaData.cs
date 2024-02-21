@@ -253,7 +253,7 @@ namespace Bovis.Data
                                          TipoComentario = tItem != null ? tItem.TipoComentario : string.Empty,
                                          NombreAuditor = c.NombreAuditor,
                                          DirectorResponsable = per1Item != null ? per1Item.Nombre + " " + per1Item.ApPaterno + " " + per1Item.ApMaterno : string.Empty,
-                                         ResponsableAsignado = c.ResponsableAsignado,
+                                         ResponsableAsignado = pItem != null ? pItem.ResponsableAsignado : string.Empty,
                                          FechaAuditoriaInicial = pItem.FechaAuditoriaInicial,
                                          FechaAuditoria = pItem.FechaProxAuditoria
                                      }).ToListAsync();
@@ -301,8 +301,7 @@ namespace Bovis.Data
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string comentario = registro["comentario"].ToString();
-            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());
-            string responsable_asignado = registro["responsable_asignado"].ToString();
+            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());            
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -312,7 +311,6 @@ namespace Bovis.Data
                                                             .Value(x => x.Fecha, DateTime.Now)
                                                             .Value(x => x.IdTipoComentario, id_tipo_comentario)
                                                             .Value(x => x.NombreAuditor, usuario_logueado)
-                                                            .Value(x => x.ResponsableAsignado, responsable_asignado)
                                                             .InsertAsync() > 0;
 
                 resp.Success = insert_auditoria_proyecto;

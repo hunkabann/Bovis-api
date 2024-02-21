@@ -25,5 +25,6 @@ namespace Bovis.Common.Model.Tables
 		[Column("dtfecha_fin"), Nullable] public DateTime? FechaFin { get; set; }
 		[Column("dtfecha_auditoria_inicial"), Nullable] public DateTime? FechaAuditoriaInicial { get; set; }
 		[Column("dtfecha_prox_auditoria"), Nullable] public DateTime? FechaProxAuditoria { get; set; }
-	}
+        [Column("Chnombre_responsable_asignado"), Nullable] public string? ResponsableAsignado { get; set; }
+    }
 }
