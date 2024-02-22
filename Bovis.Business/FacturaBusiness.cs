@@ -35,8 +35,13 @@ namespace Bovis.Business
 
         #endregion
 
-        //cambiar string por lista
 
+        #region Info Proyecto
+        public Task<Factura_Proyecto> GetInfoProyecto(int numProyecto) => _facturaData.GetInfoProyecto(numProyecto);
+        #endregion Info Proyecto
+
+
+        #region Facturas
         public async Task<List<FacturaRevision>> AddFacturas(AgregarFactura request)
         {
             var LstFacturas = new List<FacturaRevision>();
@@ -134,6 +139,26 @@ namespace Bovis.Business
             return LstFacturas;
         }
 
+        public async Task<(bool Success, string Message)> CancelFactura(InsertMovApi MovAPI, CancelarFactura factura)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _facturaData.CancelFactura(new TB_ProyectoFactura { Id = factura.Id, FechaCancelacion = factura.FechaCancelacion, MotivoCancelacion = factura.MotivoCancelacion });
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar la factura"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(factura) });
+            return resp;
+        }
+
+        public async Task<List<FacturaDetalles>> Search(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura)
+        {
+            var resp = new List<FacturaDetalles>();
+            resp = await _facturaData.GetAllFacturas(idProyecto, idCliente, idEmpresa, fechaIni, fechaFin, noFactura);
+            return resp;
+        }
+
+        #endregion Facturas
+
+
+        #region Notas
         public async Task<List<FacturaRevision>> AddNotasCredito(AgregarNotaCredito request)
         {
             var LstFacturas = new List<FacturaRevision>();
@@ -270,7 +295,19 @@ namespace Bovis.Business
 
         public Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro) => _facturaData.AddNotaCreditoSinFacturaToFactura(registro);
 
-        //revisar datos de pagos
+        public async Task<(bool Success, string Message)> CancelNota(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _facturaData.CancelNota(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la nota en la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+
+        #endregion Notas
+
+
+        #region Pagos
         public async Task<List<FacturaRevision>> AddPagos(AgregarPagos request)
         {
             var LstFacturas = new List<FacturaRevision>();
@@ -282,58 +319,57 @@ namespace Bovis.Business
 
                 if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
                 {
-                    foreach (CfdiPagos tmpPagos in cfdi.Pagos)
+                    var existePago = await _facturaData.SearchPagos(cfdi.UUID);
+
+                    if (existePago != null)
                     {
-                        decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
-                        decimal tipoCambio = tmpPagos.TipoCambioP is not null ? Convert.ToDecimal(tmpPagos.TipoCambioP) : 0;
-
-                        if (cfdi.Moneda != "MXN")
+                        //tmpFactura.Almacenada = false;
+                        //tmpFactura.Error = $@"El pago {cfdi.UUID} ya existe en la BD.";
+                    }
+                    else
+                    {
+                        foreach (CfdiPagos tmpPagos in cfdi.Pagos)
                         {
-                            total = total * tipoCambio;
-                        }
+                            decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                            decimal tipoCambio = tmpPagos.TipoCambioP is not null ? Convert.ToDecimal(tmpPagos.TipoCambioP) : 0;
 
-                        foreach (var docto in tmpPagos.DoctosRelacionados)
-                        {
-                            decimal importe_pagado = Convert.ToDecimal(docto.ImportePagado ?? "-1");
-                            decimal importe_saldo_anterior = Convert.ToDecimal(docto.ImporteSaldoAnt ?? "-1");
-                            decimal importe_saldo_insoluto = Convert.ToDecimal(docto.ImporteSaldoInsoluto ?? "-1");
-
-                            if(cfdi.Moneda != "MXN")
+                            if (cfdi.Moneda != "MXN")
                             {
-                                importe_pagado = importe_pagado * tipoCambio;
-                                importe_saldo_anterior = importe_saldo_anterior * tipoCambio;
-                                importe_saldo_insoluto = importe_saldo_insoluto * tipoCambio;
+                                total = total * tipoCambio;
                             }
 
-                            var factura = await _facturaData.SearchFactura(docto.Uuid);
-                            var tmpFactura = new FacturaRevision
+                            foreach (var docto in tmpPagos.DoctosRelacionados)
                             {
-                                RfcEmisor = cfdi.RfcEmisor,
-                                RfcReceptor = cfdi.RfcReceptor,
-                                FechaEmision = cfdi.Fecha,
-                                Total = total.ToString(),
-                                Conceptos = string.Join("|", cfdi.Conceptos),
-                                //TipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS",
-                                NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
-                                FacturaNombre = pagos.FacturaNombre,
-                                Almacenada = true
-                            };
+                                decimal importe_pagado = Convert.ToDecimal(docto.ImportePagado ?? "-1");
+                                decimal importe_saldo_anterior = Convert.ToDecimal(docto.ImporteSaldoAnt ?? "-1");
+                                decimal importe_saldo_insoluto = Convert.ToDecimal(docto.ImporteSaldoInsoluto ?? "-1");
 
-                            tryDate = default;
-                            if (factura != null)
-                            {
-                                var existePago = await _facturaData.SearchPagos(cfdi.UUID);
-
-                                if (existePago != null)
+                                if (cfdi.Moneda != "MXN")
                                 {
-                                    tmpFactura.Almacenada = false;
-                                    tmpFactura.Error = $@"El pago {cfdi.UUID} ya existe en la BD.";
+                                    importe_pagado = importe_pagado * tipoCambio;
+                                    importe_saldo_anterior = importe_saldo_anterior * tipoCambio;
+                                    importe_saldo_insoluto = importe_saldo_insoluto * tipoCambio;
                                 }
-                                else
-                                {
 
+                                var factura = await _facturaData.SearchFactura(docto.Uuid);
+                                var tmpFactura = new FacturaRevision
+                                {
+                                    RfcEmisor = cfdi.RfcEmisor,
+                                    RfcReceptor = cfdi.RfcReceptor,
+                                    FechaEmision = cfdi.Fecha,
+                                    Total = total.ToString(),
+                                    Conceptos = string.Join("|", cfdi.Conceptos),
+                                    //TipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS",
+                                    NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
+                                    FacturaNombre = pagos.FacturaNombre,
+                                    Almacenada = true
+                                };
+
+                                tryDate = default;
+                                if (factura != null)
+                                {
                                     if ((DateTime.TryParse(tmpPagos.FechaPago, out tryDate)) && (factura.Id > 0))
-                                    {                                        
+                                    {
                                         var responseFactura = await _facturaData.AddPagos(new TB_ProyectoFacturaCobranza
                                         {
                                             IdFactura = factura.Id,
@@ -347,22 +383,26 @@ namespace Bovis.Business
                                             FechaPago = tryDate,
                                             Xml = cfdi.XmlB64,
                                             CRP = cfdi.Serie + cfdi.Folio,
-                                            Base = tmpPagos.TrasladoP != null && !string.IsNullOrEmpty(tmpPagos.TrasladoP.BaseP) ? Convert.ToDecimal(tmpPagos.TrasladoP.BaseP) : 0
+                                            //Base = tmpPagos.TrasladoP != null && !string.IsNullOrEmpty(tmpPagos.TrasladoP.BaseP) ? Convert.ToDecimal(tmpPagos.TrasladoP.BaseP) : 0
+                                            Base = Convert.ToDecimal(docto.BaseDR  ?? "-1")
                                         });
                                         tmpFactura.Almacenada = responseFactura.Success;
                                         tmpFactura.Error = responseFactura.Message;
                                     }
-                                }
-                            }
-                            else
-                            {
-                                tmpFactura.Almacenada = false;
-                                tmpFactura.Error = $@"La factura {docto.Uuid} no ha sido cargada";
-                            }
 
-                            LstFacturas.Add(tmpFactura);
+                                }
+                                else
+                                {
+                                    tmpFactura.Almacenada = false;
+                                    tmpFactura.Error = $@"La factura {docto.Uuid} no ha sido cargada";
+                                }
+
+                                LstFacturas.Add(tmpFactura);
+                            }
                         }
                     }
+
+                    
                 }
                 else
                 {
@@ -376,24 +416,6 @@ namespace Bovis.Business
             }
             return LstFacturas;
         }
-        public async Task<(bool Success, string Message)> CancelFactura(InsertMovApi MovAPI, CancelarFactura factura)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _facturaData.CancelFactura(new TB_ProyectoFactura { Id = factura.Id, FechaCancelacion = factura.FechaCancelacion, MotivoCancelacion = factura.MotivoCancelacion });
-            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar la factura"; return resp; }
-            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(factura) });
-            return resp;
-        }
-
-        public async Task<(bool Success, string Message)> CancelNota(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            var respData = await _facturaData.CancelNota(registro);
-            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo cancelar el registro de la nota en la base de datos"; return resp; }
-            else resp = respData;
-            return resp;
-        }
-
         public async Task<(bool Success, string Message)> CancelCobranza(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -403,59 +425,8 @@ namespace Bovis.Business
             return resp;
         }
 
-        public async Task<List<FacturaDetalles>> Search(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura)
-        {
-            var resp = new List<FacturaDetalles>();
-            resp = await _facturaData.GetAllFacturas(idProyecto, idCliente, idEmpresa, fechaIni, fechaFin, noFactura);
-            return resp;
-
-            //if (idProyecto == null && idCliente == null && idEmpresa == null && fechaIni == null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetAllFacturas();
-            //    return resp;
-            //}
-            //if (idProyecto != null && fechaIni == null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetFacturasProyecto(idProyecto);
-            //    return resp;
-            //}
-            //if (idProyecto != null && fechaIni != null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetFacturasProyectoFecha(idProyecto, fechaIni, fechaFin);
-            //    return resp;
-            //}
-            //if (idEmpresa != null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetFacturasEmpresa(idEmpresa);
-            //    return resp;
-            //}
-            //if (idEmpresa != null && fechaIni != null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetFacturasEmpresaFecha(idEmpresa, fechaIni, fechaFin);
-            //    return resp;
-            //}
-            //if (idCliente != null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetFacturasCliente(idCliente);
-            //    return resp;
-            //}
-            //if (idCliente != null && fechaIni != null && fechaFin != null)
-            //{
-            //    resp = await _facturaData.GetFacturasClienteFecha(idCliente, fechaIni, fechaFin);
-            //    return resp;
-            //}
-            //if(noFactura != null)
-            //{
-            //    resp = await _facturaData.GetFacturaNumero(noFactura);
-            //    return resp;                
-            //}
-
-            //return resp;
-        }
-
-        public Task<Factura_Proyecto> GetInfoProyecto(int numProyecto) => _facturaData.GetInfoProyecto(numProyecto);
-
-
+        #endregion Pagos
+                
 
 
         #region Extraer Datos Cfdi
@@ -547,7 +518,10 @@ namespace Bovis.Business
                                     tDoctoRel.ImporteSaldoAnt = childNode.Attributes["ImpSaldoAnt"] != null ? childNode.Attributes["ImpSaldoAnt"].Value : null;
                                     tDoctoRel.MonedaDR = childNode.Attributes["MonedaDR"] != null ? childNode.Attributes["MonedaDR"].Value : null;
                                     if (!string.IsNullOrEmpty(strXPathImpuestoDR))
+                                    {
                                         tDoctoRel.ImporteDR = childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["ImporteDR"] != null ? childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["ImporteDR"].Value : null;
+                                        tDoctoRel.BaseDR = childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["BaseDR"] != null ? childNode.SelectSingleNode(strXPathImpuestoDR, nsm).Attributes["BaseDR"].Value : null;
+                                    }
 
                                     tPagos.DoctosRelacionados.Add(tDoctoRel);
                                 }
