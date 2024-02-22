@@ -483,7 +483,8 @@ namespace Bovis.Data
                                               NumProyecto = a.NumProyecto,
                                               ClasificacionPy = "Facturación",
                                               FechaCancelacion = a.FechaCancelacion,
-                                              NoFactura = a.NoFactura
+                                              NoFactura = a.NoFactura,
+                                              FechaTransaccion = a.FechaTransaccion
                                           }).ToListAsync();
 
                 registros.Registros.AddRange(res_facturas);
@@ -529,7 +530,8 @@ namespace Bovis.Data
                                            NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
                                            ClasificacionPy = "Facturación",
                                            FechaCancelacion = notas.FechaCancelacion,
-                                           NoFactura = notas.NotaCredito
+                                           NoFactura = notas.NotaCredito,
+                                           FechaTransaccion = notas.FechaTransaccion
                                        }).ToListAsync();
 
                 registros.Registros.AddRange(res_notas);
@@ -573,7 +575,8 @@ namespace Bovis.Data
                                                NumProyecto = factsItem != null ? factsItem.NumProyecto : 0,
                                                ClasificacionPy = "Cobranza",
                                                FechaCancelacion = cobr.FechaCancelacion,
-                                               NoFactura = cobr.CRP
+                                               NoFactura = cobr.CRP,
+                                               FechaTransaccion = cobr.FechaTransaccion
                                            }).ToListAsync();
 
                 registros.Registros.AddRange(res_cobranzas);

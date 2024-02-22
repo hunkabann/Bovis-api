@@ -42,6 +42,7 @@ namespace Bovis.Common.Model.NoTable
         public bool Inconsistente { get; set; }
         public DateTime? FechaCancelacion { get; set; }
         public string? NoFactura { get; set; }
+        public DateTime? FechaTransaccion { get; set; }
     }
 
     public class CieRegistro

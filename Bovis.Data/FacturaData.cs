@@ -120,6 +120,7 @@ namespace Bovis.Data
                     .Value(x => x.NoFactura, factura.NoFactura)
                     .Value(x => x.TipoCambio, factura.TipoCambio)
                     .Value(x => x.XmlB64, factura.XmlB64)
+                    .Value(x => x.FechaTransaccion, factura.FechaEmision)
                     .InsertAsync() > 0;
 
                 resp.Success = inseert;
@@ -149,6 +150,7 @@ namespace Bovis.Data
                     .Value(x => x.TipoCambio, notaCredito.TipoCambio)
                     .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
                     .Value(x => x.Xml, notaCredito.Xml)
+                    .Value(x => x.FechaTransaccion, notaCredito.FechaNotaCredito)
                     .InsertAsync() > 0;
 
                 resp.Success = inseert;
@@ -185,6 +187,7 @@ namespace Bovis.Data
                     .Value(x => x.TipoCambio, cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null)
                     .Value(x => x.FechaNotaCredito, tryDate)
                     .Value(x => x.Xml, cfdi.XmlB64)
+                    .Value(x => x.FechaTransaccion, tryDate)
                     .InsertAsync() > 0;
 
                 resp.Success = insert;
@@ -278,6 +281,7 @@ namespace Bovis.Data
                     .Value(x => x.Xml, pagos.Xml)
                     .Value(x => x.CRP, pagos.CRP)
                     .Value(x => x.Base, pagos.Base)
+                    .Value(x => x.FechaTransaccion, pagos.FechaPago)
                     .InsertAsync() > 0;
 
                 resp.Success = inseert;
@@ -312,7 +316,8 @@ namespace Bovis.Data
                         {
                             //Total = 0,
                             FechaCancelacion = fecha_cancelacion,
-                            MotivoCancelacion = motivo_cancelacion
+                            MotivoCancelacion = motivo_cancelacion,
+                            FechaTransaccion = fecha_cancelacion
                         })) > 0;
 
                     resp.Success = objetivoDB;
@@ -330,7 +335,8 @@ namespace Bovis.Data
                             {
                                 //Total = 0,
                                 FechaCancelacion = fecha_cancelacion,
-                                MotivoCancelacion = motivo_cancelacion
+                                MotivoCancelacion = motivo_cancelacion,
+                                FechaTransaccion = fecha_cancelacion
                             })) > 0;
 
                         resp.Success = resp_nota;
@@ -348,7 +354,8 @@ namespace Bovis.Data
                                 .UpdateAsync(x => new TB_ProyectoFacturaCobranza
                                 {
                                     FechaCancelacion = fecha_cancelacion,
-                                    MotivoCancelacion = motivo_cancelacion
+                                    MotivoCancelacion = motivo_cancelacion,
+                                    FechaTransaccion = fecha_cancelacion
                                 })) > 0;
 
                         resp.Success = resp_cobranza;
@@ -367,14 +374,15 @@ namespace Bovis.Data
                         .Value(x => x.IvaRet, factura.IvaRet)
                         .Value(x => x.Total, factura.Total)
                         .Value(x => x.Concepto, factura.Concepto)
-                        .Value(x => x.Mes, fecha_cancelacion.Value.Month)
-                        .Value(x => x.Anio, fecha_cancelacion.Value.Year)
-                        .Value(x => x.FechaEmision, fecha_cancelacion)
+                        .Value(x => x.Mes, factura.FechaEmision.Month)
+                        .Value(x => x.Anio, factura.FechaEmision.Year)
+                        .Value(x => x.FechaEmision, factura.FechaEmision)
                         .Value(x => x.NoFactura, factura.NoFactura)
                         .Value(x => x.TipoCambio, factura.TipoCambio)
                         .Value(x => x.XmlB64, factura.XmlB64)
                         .Value(x => x.FechaCancelacion, fecha_cancelacion)
                         .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                        .Value(x => x.FechaTransaccion, fecha_cancelacion)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_invoice;
@@ -401,13 +409,14 @@ namespace Bovis.Data
                         .Value(x => x.Iva, nota.Iva)
                         .Value(x => x.Total, nota.Total)
                         .Value(x => x.Concepto, nota.Concepto)
-                        .Value(x => x.Mes, fecha_cancelacion.Value.Month)
-                        .Value(x => x.Anio, fecha_cancelacion.Value.Year)
+                        .Value(x => x.Mes, nota.FechaNotaCredito.Month)
+                        .Value(x => x.Anio, nota.FechaNotaCredito.Year)
                         .Value(x => x.TipoCambio, nota.TipoCambio)
-                        .Value(x => x.FechaNotaCredito, fecha_cancelacion)
+                        .Value(x => x.FechaNotaCredito, nota.FechaNotaCredito)
                         .Value(x => x.Xml, nota.Xml)
                         .Value(x => x.FechaCancelacion, fecha_cancelacion)
                         .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                        .Value(x => x.FechaTransaccion, fecha_cancelacion)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_nota;
@@ -430,12 +439,13 @@ namespace Bovis.Data
                         .Value(x => x.ImporteSaldoInsoluto, cobranza.ImporteSaldoInsoluto)
                         .Value(x => x.IvaP, cobranza.IvaP)
                         .Value(x => x.TipoCambioP, cobranza.TipoCambioP)
-                        .Value(x => x.FechaPago, fecha_cancelacion)
+                        .Value(x => x.FechaPago, cobranza.FechaPago)
                         .Value(x => x.Xml, cobranza.Xml)
                         .Value(x => x.CRP, cobranza.CRP)
                         .Value(x => x.Base, cobranza.Base)
                         .Value(X => X.FechaCancelacion, fecha_cancelacion)
                         .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                        .Value(x => x.FechaTransaccion, fecha_cancelacion)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_cobranza;
@@ -468,7 +478,8 @@ namespace Bovis.Data
                                     {
                                         //Total = 0,
                                         FechaCancelacion = fecha_cancelacion,
-                                        MotivoCancelacion = motivo_cancelacion
+                                        MotivoCancelacion = motivo_cancelacion,
+                                        FechaTransaccion = fecha_cancelacion
                                     }) > 0;
 
                     resp.Success = res_update_nota;
@@ -494,6 +505,7 @@ namespace Bovis.Data
                     .Value(x => x.Xml, nota_factura.Xml)
                     .Value(x => x.FechaCancelacion, fecha_cancelacion)
                     .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                    .Value(x => x.FechaTransaccion, fecha_cancelacion)
                     .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_nota;
@@ -526,7 +538,8 @@ namespace Bovis.Data
                                     .UpdateAsync(x => new TB_ProyectoFacturaCobranza
                                     {
                                         FechaCancelacion = fecha_cancelacion,
-                                        MotivoCancelacion = motivo_cancelacion
+                                        MotivoCancelacion = motivo_cancelacion,
+                                        FechaTransaccion = fecha_cancelacion
                                     }) > 0;
 
                     resp.Success = res_update_nota;
@@ -549,6 +562,7 @@ namespace Bovis.Data
                     .Value(x => x.Base, cobranza_factura.Base)
                     .Value(X => X.FechaCancelacion, fecha_cancelacion)
                     .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                    .Value(x => x.FechaTransaccion, fecha_cancelacion)
                     .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_cobranza;
