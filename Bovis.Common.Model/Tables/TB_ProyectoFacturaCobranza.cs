@@ -19,7 +19,6 @@ namespace Bovis.Common.Model.Tables
         [Column("chmotivocancela"), Nullable] public string? MotivoCancelacion { set; get; }
         [Column("chcrp"), Nullable] public string? CRP { set; get; }
 		[Column("nubase"), Nullable] public decimal? Base { set; get; }
-        [Column("dtfecha_transaccion"), Nullable] public DateTime? FechaTransaccion { get; set; }
 
     }
 }
