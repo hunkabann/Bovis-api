@@ -30,25 +30,12 @@ namespace Bovis.Data
         }
         #endregion base
 
+
+        #region Info Proyecto
         public async Task<Factura_Proyecto> GetInfoProyecto(int numProyecto)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-
-                //var res = await(from a in db.tB_Proyectos
-                //          from b in db.tB_Clientes
-                //          from c in db.tB_Empresas
-                //          where a.IdCliente == b.IdCliente &&
-                //            a.IdEmpresa == c.IdEmpresa &&
-                //            a.NumProyecto == numProyecto
-                //          select new Factura_Proyecto
-                //          {
-                //              NumProyecto = a.NumProyecto,
-                //              Nombre = a.Proyecto,
-                //              RfcBaseEmisor = c.Rfc,
-                //              RfcBaseReceptor = b.Rfc
-                //          }).FirstOrDefaultAsync();
-
                 var res = await (from p in db.tB_Proyectos
                                  join e in db.tB_Empresas on p.IdEmpresa equals e.IdEmpresa into eJoin
                                  from eItem in eJoin.DefaultIfEmpty()
@@ -76,28 +63,17 @@ namespace Bovis.Data
             }
         }
 
+        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
+        #endregion Info Proyecto
+
+
+        #region Facturas
         public async Task<TB_ProyectoFactura> SearchFactura(string uuid)
         {
             using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturas
                                                                       where a.Uuid == uuid
                                                                       select a).FirstOrDefaultAsync();
         }
-
-        public async Task<TB_ProyectoFacturaNotaCredito> SearchNotaCredito(string uuid)
-        {
-            using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasNotaCredito
-                                                                      where a.UuidNotaCredito == uuid
-                                                                      select a).FirstOrDefaultAsync();
-        }
-
-        public async Task<TB_ProyectoFacturaCobranza> SearchPagos(string uuid)
-        {
-            using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasCobranza
-                                                                      where a.UuidCobranza == uuid
-                                                                      select a).FirstOrDefaultAsync();
-        }
-
-        public Task<List<TB_Proyecto>> GetProyecto() => GetAllFromEntityAsync<TB_Proyecto>();
 
         public async Task<(bool existe, string mensaje)> AddFactura(TB_ProyectoFactura factura)
         {
@@ -129,224 +105,106 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> AddNotaCredito(TB_ProyectoFacturaNotaCredito notaCredito)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var inseert = await db.tB_ProyectoFacturasNotaCredito
-                    .Value(x => x.IdFactura, notaCredito.IdFactura)
-                    .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
-                    .Value(x => x.IdMoneda, notaCredito.IdMoneda)
-                    .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
-                    .Value(x => x.NotaCredito, notaCredito.NotaCredito)
-                    .Value(x => x.Importe, notaCredito.Importe)
-                    .Value(x => x.Iva, notaCredito.Iva)
-                    .Value(x => x.Total, notaCredito.Total)
-                    .Value(x => x.Concepto, notaCredito.Concepto)
-                    .Value(x => x.Mes, notaCredito.Mes)
-                    .Value(x => x.Anio, notaCredito.Anio)
-                    .Value(x => x.TipoCambio, notaCredito.TipoCambio)
-                    .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
-                    .Value(x => x.Xml, notaCredito.Xml)
-                    .InsertAsync() > 0;
-
-                resp.Success = inseert;
-                resp.Message = inseert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
-            }
-
-            return resp;
-        }
-
-        public async Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-
-            int num_proyecto = Convert.ToInt32(registro["NumProyecto"].ToString());
-            var cfdi = await ExtraerDatos(registro["FacturaB64"].ToString());
-
-            var tryDate = default(DateTime);
-            DateTime.TryParse(cfdi.Fecha, out tryDate);
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var insert = await db.tB_ProyectoFacturasNotaCredito
-                    .Value(x => x.NumProyecto, num_proyecto)
-                    .Value(x => x.UuidNotaCredito, cfdi.UUID)
-                    .Value(x => x.IdMoneda, cfdi.Moneda)
-                    .Value(x => x.IdTipoRelacion, cfdi.TipoRelacion)
-                    .Value(x => x.NotaCredito, $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}")
-                    .Value(x => x.Importe, Convert.ToDecimal(cfdi.SubTotal ?? "-1"))
-                    .Value(x => x.Iva, cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0)
-                    .Value(x => x.Total, cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0)
-                    .Value(x => x.Concepto, string.Join("|", cfdi.Conceptos))
-                    .Value(x => x.Mes, Convert.ToByte(tryDate.Month))
-                    .Value(x => x.Anio, Convert.ToInt16(tryDate.Year))
-                    .Value(x => x.TipoCambio, cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null)
-                    .Value(x => x.FechaNotaCredito, tryDate)
-                    .Value(x => x.Xml, cfdi.XmlB64)
-                    .InsertAsync() > 0;
-
-                resp.Success = insert;
-                resp.Message = insert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
-            }
-
-            return resp;
-        }
-
-        public async Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio)
-        {
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var notas_credito = await (from notas in db.tB_ProyectoFacturasNotaCredito
-                                           join relaciones in db.tB_Cat_TipoRelacions on notas.IdTipoRelacion equals relaciones.IdTipoRelacion into relacionesJoin
-                                           from relacionesItem in relacionesJoin.DefaultIfEmpty()
-                                           join monedas in db.tB_Cat_Monedas on notas.IdMoneda equals monedas.IdMoneda into monedasJoin
-                                           from monedasItem in monedasJoin.DefaultIfEmpty()
-                                           join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
-                                           from proyectosItem in proyectosJoin.DefaultIfEmpty()
-                                           where (notas.NumProyecto != null && notas.IdFactura == null)
-                                           && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
-                                           && (Mes == 0 || notas.Mes == Mes)
-                                           && (Anio == 0 || notas.Anio == Anio)
-                                           orderby notas.FechaNotaCredito descending
-                                           select new NotaCredito_Detalle
-                                           {
-                                               nunum_proyecto = notas.NumProyecto,
-                                               chproyecto = proyectosItem.Proyecto ?? string.Empty,
-                                               chuuid_nota_credito = notas.UuidNotaCredito,
-                                               nukidmoneda = notas.IdMoneda,
-                                               chmoneda = monedasItem.Moneda ?? string.Empty,
-                                               nukidtipo_relacion = notas.IdTipoRelacion,
-                                               chtipo_relacion = relacionesItem.TipoRelacion ?? string.Empty,
-                                               chnota_credito = notas.NotaCredito,
-                                               nuimporte = notas.Importe,
-                                               nuiva = notas.Iva,
-                                               nutotal = notas.Total,
-                                               chconcepto = notas.Concepto,
-                                               numes = notas.Mes,
-                                               nuanio = notas.Anio,
-                                               nutipo_cambio = notas.TipoCambio,
-                                               dtfecha_nota_credito = notas.FechaNotaCredito,
-                                               chxml = notas.Xml,
-                                               dtfecha_cancelacion = notas.FechaCancelacion,
-                                               chmotivocancela = notas.MotivoCancelacion
-                                           }).ToListAsync();
-            
-                return notas_credito;
-            }
-        }
-
-        public async Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-
-            int id_factura = Convert.ToInt32(registro["id_factura"].ToString());
-            string uuid_nota_credito = registro["uuid_nota_credito"].ToString();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var update_add_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota_credito)
-                    .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
-                    {
-                        IdFactura = id_factura
-                    })) > 0;
-
-                resp.Success = update_add_nota;
-                resp.Message = update_add_nota == default ? "Ocurrio un error al relacionar la nota de credito a la factura." : string.Empty;
-            }
-
-            return resp;
-        }
-
-
-        public async Task<(bool Success, string Message)> AddPagos(TB_ProyectoFacturaCobranza pagos)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var inseert = await db.tB_ProyectoFacturasCobranza
-                    .Value(x => x.IdFactura, pagos.IdFactura)
-                    .Value(x => x.UuidCobranza, pagos.UuidCobranza)
-                    .Value(x => x.IdMonedaP, pagos.IdMonedaP)
-                    .Value(x => x.ImportePagado, pagos.ImportePagado)
-                    .Value(x => x.ImpSaldoAnt, pagos.ImpSaldoAnt)
-                    .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
-                    .Value(x => x.IvaP, pagos.IvaP)
-                    .Value(x => x.TipoCambioP, pagos.TipoCambioP)
-                    .Value(x => x.FechaPago, pagos.FechaPago)
-                    .Value(x => x.Xml, pagos.Xml)
-                    .Value(x => x.CRP, pagos.CRP)
-                    .Value(x => x.Base, pagos.Base)
-                    .InsertAsync() > 0;
-
-                resp.Success = inseert;
-                resp.Message = inseert == default ? "Ocurrio un error al agregar el pago." : string.Empty;
-            }
-
-            return resp;
-        }
-
-        //public Task<bool> CancelFactura( ) => UpdateEntityAsync<TB_ProyectoFactura>(factura);
-
         public async Task<(bool Success, string Message)> CancelFactura(TB_ProyectoFactura factura)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            List<TB_ProyectoFacturaNotaCredito> notas_factura = null;
+            List<TB_ProyectoFacturaCobranza> cobranzas_factura = null;
+            DateTime? fecha_cancelacion = factura.FechaCancelacion;
+            string? motivo_cancelacion = factura.MotivoCancelacion;
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                //var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
-                //    .UpdateAsync(x => new TB_ProyectoFactura
-                //    {
-                //        //Total = 0,
-                //        FechaCancelacion = factura.FechaCancelacion,
-                //        MotivoCancelacion = factura.MotivoCancelacion
-                //    })) > 0;
-
-                //resp.Success = objetivoDB;
-                //resp.Message = objetivoDB == default ? "Ocurrio un error al cancelar registro de factura." : string.Empty;
-
-                var insert_cancel_invoice = await db.tB_ProyectoFacturas
-                    .Value(x => x.NumProyecto, factura.NumProyecto)
-                    .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
-                    .Value(x => x.IdMoneda, factura.IdMoneda)
-                    .Value(x => x.Uuid, factura.Uuid)
-                    .Value(x => x.Importe, factura.Importe)
-                    .Value(x => x.Iva, factura.Iva)
-                    .Value(x => x.IvaRet, factura.IvaRet)
-                    .Value(x => x.Total, factura.Total)
-                    .Value(x => x.Concepto, factura.Concepto)
-                    .Value(x => x.Mes, factura.FechaCancelacion.Value.Month)
-                    .Value(x => x.Anio, factura.FechaCancelacion.Value.Year)
-                    .Value(x => x.FechaEmision, factura.FechaCancelacion)
-                    .Value(x => x.NoFactura, factura.NoFactura)
-                    .Value(x => x.TipoCambio, factura.TipoCambio)
-                    .Value(x => x.XmlB64, factura.XmlB64)
-                    .Value(x => x.FechaCancelacion, factura.FechaCancelacion)
-                    .Value(x => x.MotivoCancelacion, factura.MotivoCancelacion)
-                    .InsertAsync() > 0;
-
-                resp.Success = insert_cancel_invoice;
-                resp.Message = insert_cancel_invoice == default ? "Ocurrio un error al agregar la cancelación de la factura." : string.Empty;
+                factura = await (from fact in db.tB_ProyectoFacturas
+                                 where fact.Id == factura.Id
+                                 select fact).FirstOrDefaultAsync();
 
 
-                var notas_factura = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                if (factura.FechaEmision.Month == fecha_cancelacion.Value.Month && factura.FechaEmision.Year == fecha_cancelacion.Value.Year)
+                {
+                    var objetivoDB = await (db.tB_ProyectoFacturas.Where(x => x.Id == factura.Id)
+                        .UpdateAsync(x => new TB_ProyectoFactura
+                        {
+                            //Total = 0,
+                            FechaCancelacion = fecha_cancelacion,
+                            MotivoCancelacion = motivo_cancelacion
+                        })) > 0;
+
+                    resp.Success = objetivoDB;
+                    resp.Message = objetivoDB == default ? "Ocurrio un error al cancelar registro de factura." : string.Empty;
+
+                    notas_factura = await (from notas in db.tB_ProyectoFacturasNotaCredito
                                            where notas.FechaCancelacion == null
                                            && notas.IdFactura == factura.Id
                                            select notas).ToListAsync();
 
+                    foreach (var nota in notas_factura)
+                    {
+                        var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
+                            .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                            {
+                                //Total = 0,
+                                FechaCancelacion = fecha_cancelacion,
+                                MotivoCancelacion = motivo_cancelacion
+                            })) > 0;
+
+                        resp.Success = resp_nota;
+                        resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
+                    }
+
+                    cobranzas_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
+                                               where cobranza.FechaCancelacion == null
+                                               && cobranza.IdFactura == factura.Id
+                                               select cobranza).ToListAsync();
+
+                    foreach (var cobranza in cobranzas_factura)
+                    {
+                        var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
+                                .UpdateAsync(x => new TB_ProyectoFacturaCobranza
+                                {
+                                    FechaCancelacion = fecha_cancelacion,
+                                    MotivoCancelacion = motivo_cancelacion
+                                })) > 0;
+
+                        resp.Success = resp_cobranza;
+                        resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
+                    }
+                }
+                else
+                {
+                    var insert_cancel_invoice = await db.tB_ProyectoFacturas
+                        .Value(x => x.NumProyecto, factura.NumProyecto)
+                        .Value(x => x.IdTipoFactura, factura.IdTipoFactura)
+                        .Value(x => x.IdMoneda, factura.IdMoneda)
+                        .Value(x => x.Uuid, factura.Uuid)
+                        .Value(x => x.Importe, factura.Importe)
+                        .Value(x => x.Iva, factura.Iva)
+                        .Value(x => x.IvaRet, factura.IvaRet)
+                        .Value(x => x.Total, factura.Total)
+                        .Value(x => x.Concepto, factura.Concepto)
+                        .Value(x => x.Mes, factura.FechaEmision.Month)
+                        .Value(x => x.Anio, factura.FechaEmision.Year)
+                        .Value(x => x.FechaEmision, factura.FechaEmision)
+                        .Value(x => x.NoFactura, factura.NoFactura)
+                        .Value(x => x.TipoCambio, factura.TipoCambio)
+                        .Value(x => x.XmlB64, factura.XmlB64)
+                        .Value(x => x.FechaCancelacion, fecha_cancelacion)
+                        .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                        .InsertAsync() > 0;
+
+                    resp.Success = insert_cancel_invoice;
+                    resp.Message = insert_cancel_invoice == default ? "Ocurrio un error al agregar la cancelación de la factura." : string.Empty;
+                }
+
+                notas_factura = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                       where notas.FechaCancelacion == null
+                                       && notas.IdFactura == factura.Id
+                                       select notas).ToListAsync();
+
                 foreach (var nota in notas_factura)
                 {
-                    //var resp_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == nota.UuidNotaCredito)
-                    //        .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
-                    //        {
-                    //            //Total = 0,
-                    //            FechaCancelacion = factura.FechaCancelacion,
-                    //            MotivoCancelacion = factura.MotivoCancelacion
-                    //        })) > 0;
 
-                    //resp.Success = resp_nota;
-                    //resp.Message = resp_nota == default ? "Ocurrio un error al cancelar registro de nota de factura." : string.Empty;
 
                     var insert_cancel_nota = await db.tB_ProyectoFacturasNotaCredito
                         .Value(x => x.IdFactura, nota.IdFactura)
@@ -359,36 +217,26 @@ namespace Bovis.Data
                         .Value(x => x.Iva, nota.Iva)
                         .Value(x => x.Total, nota.Total)
                         .Value(x => x.Concepto, nota.Concepto)
-                        .Value(x => x.Mes, factura.FechaCancelacion.Value.Month)
-                        .Value(x => x.Anio, factura.FechaCancelacion.Value.Year)
+                        .Value(x => x.Mes, nota.FechaNotaCredito.Month)
+                        .Value(x => x.Anio, nota.FechaNotaCredito.Year)
                         .Value(x => x.TipoCambio, nota.TipoCambio)
-                        .Value(x => x.FechaNotaCredito, factura.FechaCancelacion)
+                        .Value(x => x.FechaNotaCredito, nota.FechaNotaCredito)
                         .Value(x => x.Xml, nota.Xml)
-                        .Value(x => x.FechaCancelacion, factura.FechaCancelacion)
-                        .Value(x => x.MotivoCancelacion, factura.MotivoCancelacion)
+                        .Value(x => x.FechaCancelacion, fecha_cancelacion)
+                        .Value(x => x.MotivoCancelacion, motivo_cancelacion)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_nota;
                     resp.Message = insert_cancel_nota == default ? "Ocurrio un error al agregar la cancelación de la nota de credito." : string.Empty;
                 }
 
-                var cobranzas_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
-                                               where cobranza.FechaCancelacion == null
-                                               && cobranza.IdFactura == factura.Id
-                                               select cobranza).ToListAsync();
+                cobranzas_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
+                                           where cobranza.FechaCancelacion == null
+                                           && cobranza.IdFactura == factura.Id
+                                           select cobranza).ToListAsync();
 
                 foreach (var cobranza in cobranzas_factura)
                 {
-                    //var resp_cobranza = await (db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == cobranza.UuidCobranza)
-                    //        .UpdateAsync(x => new TB_ProyectoFacturaCobranza
-                    //        {
-                    //            FechaCancelacion = factura.FechaCancelacion,
-                    //            MotivoCancelacion = factura.MotivoCancelacion
-                    //        })) > 0;
-
-                    //resp.Success = resp_cobranza;
-                    //resp.Message = resp_cobranza == default ? "Ocurrio un error al cancelar registro de cobranza de factura." : string.Empty;
-
                     var insert_cancel_cobranza = await db.tB_ProyectoFacturasCobranza
                         .Value(x => x.IdFactura, cobranza.IdFactura)
                         .Value(x => x.UuidCobranza, cobranza.UuidCobranza)
@@ -398,12 +246,12 @@ namespace Bovis.Data
                         .Value(x => x.ImporteSaldoInsoluto, cobranza.ImporteSaldoInsoluto)
                         .Value(x => x.IvaP, cobranza.IvaP)
                         .Value(x => x.TipoCambioP, cobranza.TipoCambioP)
-                        .Value(x => x.FechaPago, factura.FechaCancelacion)
+                        .Value(x => x.FechaPago, cobranza.FechaPago)
                         .Value(x => x.Xml, cobranza.Xml)
                         .Value(x => x.CRP, cobranza.CRP)
                         .Value(x => x.Base, cobranza.Base)
-                        .Value(X => X.FechaCancelacion, factura.FechaCancelacion)
-                        .Value(x => x.MotivoCancelacion, factura.MotivoCancelacion)
+                        .Value(X => X.FechaCancelacion, fecha_cancelacion)
+                        .Value(x => x.MotivoCancelacion, motivo_cancelacion)
                         .InsertAsync() > 0;
 
                     resp.Success = insert_cancel_cobranza;
@@ -414,111 +262,6 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<(bool Success, string Message)> CancelNota(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-
-            string uuid_nota = registro["uuid"].ToString();
-            DateTime fecha_cancelacion = Convert.ToDateTime(registro["fecha_cancelacion"].ToString());
-            string motivo_cancelacion = registro["motivo_cancelacion"].ToString();
-
-            using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
-                //var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
-                //                .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
-                //                {
-                //                    //Total = 0,
-                //                    FechaCancelacion = fecha_cancelacion,
-                //                    MotivoCancelacion = motivo_cancelacion
-                //                }) > 0;
-
-                //resp.Success = res_update_nota;
-                //resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la nota." : string.Empty;
-
-                var nota_factura = await (from nota in db.tB_ProyectoFacturasNotaCredito
-                                          where nota.FechaCancelacion == null
-                                          && nota.UuidNotaCredito == uuid_nota
-                                          select nota).FirstOrDefaultAsync();
-
-                var insert_cancel_nota = await db.tB_ProyectoFacturasNotaCredito
-                    .Value(x => x.IdFactura, nota_factura.IdFactura)
-                    .Value(x => x.NumProyecto, nota_factura.NumProyecto)
-                    .Value(x => x.UuidNotaCredito, nota_factura.UuidNotaCredito)
-                    .Value(x => x.IdMoneda, nota_factura.IdMoneda)
-                    .Value(x => x.IdTipoRelacion, nota_factura.IdTipoRelacion)
-                    .Value(x => x.NotaCredito, nota_factura.NotaCredito)
-                    .Value(x => x.Importe, nota_factura.Importe)
-                    .Value(x => x.Iva, nota_factura.Iva)
-                    .Value(x => x.Total, nota_factura.Total)
-                    .Value(x => x.Concepto, nota_factura.Concepto)
-                    .Value(x => x.Mes, fecha_cancelacion.Month)
-                    .Value(x => x.Anio, fecha_cancelacion.Year)
-                    .Value(x => x.TipoCambio, nota_factura.TipoCambio)
-                    .Value(x => x.FechaNotaCredito, fecha_cancelacion)
-                    .Value(x => x.Xml, nota_factura.Xml)
-                    .Value(x => x.FechaCancelacion, fecha_cancelacion)
-                    .Value(x => x.MotivoCancelacion, motivo_cancelacion)
-                    .InsertAsync() > 0;
-
-                resp.Success = insert_cancel_nota;
-                resp.Message = insert_cancel_nota == default ? "Ocurrio un error al agregar la cancelación de la nota de credito." : string.Empty;
-
-            }
-
-            return resp;
-        }
-
-        public async Task<(bool Success, string Message)> CancelCobranza(JsonObject registro)
-        {
-            (bool Success, string Message) resp = (true, string.Empty);
-
-            string uuid_cobranza = registro["uuid"].ToString();
-            DateTime fecha_cancelacion = Convert.ToDateTime(registro["fecha_cancelacion"].ToString());
-            string motivo_cancelacion = registro["motivo_cancelacion"].ToString();
-
-            using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
-                //var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
-                //                .UpdateAsync(x => new TB_ProyectoFacturaCobranza
-                //                {
-                //                    FechaCancelacion = fecha_cancelacion,
-                //                    MotivoCancelacion = motivo_cancelacion
-                //                }) > 0;
-
-                //resp.Success = res_update_nota;
-                //resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la cobranza." : string.Empty;
-
-                var cobranza_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
-                                              where cobranza.FechaCancelacion == null
-                                              && cobranza.UuidCobranza == uuid_cobranza
-                                              select cobranza).FirstOrDefaultAsync();
-
-                var insert_cancel_cobranza = await db.tB_ProyectoFacturasCobranza
-                    .Value(x => x.IdFactura, cobranza_factura.IdFactura)
-                    .Value(x => x.UuidCobranza, cobranza_factura.UuidCobranza)
-                    .Value(x => x.IdMonedaP, cobranza_factura.IdMonedaP)
-                    .Value(x => x.ImportePagado, cobranza_factura.ImportePagado)
-                    .Value(x => x.ImpSaldoAnt, cobranza_factura.ImpSaldoAnt)
-                    .Value(x => x.ImporteSaldoInsoluto, cobranza_factura.ImporteSaldoInsoluto)
-                    .Value(x => x.IvaP, cobranza_factura.IvaP)
-                    .Value(x => x.TipoCambioP, cobranza_factura.TipoCambioP)
-                    .Value(x => x.FechaPago, fecha_cancelacion)
-                    .Value(x => x.Xml, cobranza_factura.Xml)
-                    .Value(x => x.CRP, cobranza_factura.CRP)
-                    .Value(x => x.Base, cobranza_factura.Base)
-                    .Value(X => X.FechaCancelacion, fecha_cancelacion)
-                    .Value(x => x.MotivoCancelacion, motivo_cancelacion)
-                    .InsertAsync() > 0;
-
-                resp.Success = insert_cancel_cobranza;
-                resp.Message = insert_cancel_cobranza == default ? "Ocurrio un error al agregar la cancelación del pago." : string.Empty;
-
-            }
-
-            return resp;
-        }
-
-        #region consultaFacturas
         public async Task<List<FacturaDetalles>> GetAllFacturas(int? idProyecto, int? idCliente, int? idEmpresa, DateTime? fechaIni, DateTime? fechaFin, string? noFactura)
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -661,7 +404,307 @@ namespace Bovis.Data
                 return res;
             }
         }
-        #endregion
+
+        #endregion Facturas
+
+
+        #region Notas
+        public async Task<TB_ProyectoFacturaNotaCredito> SearchNotaCredito(string uuid)
+        {
+            using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasNotaCredito
+                                                                      where a.UuidNotaCredito == uuid
+                                                                      select a).FirstOrDefaultAsync();
+        }
+
+        public async Task<(bool Success, string Message)> AddNotaCredito(TB_ProyectoFacturaNotaCredito notaCredito)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var inseert = await db.tB_ProyectoFacturasNotaCredito
+                    .Value(x => x.IdFactura, notaCredito.IdFactura)
+                    .Value(x => x.UuidNotaCredito, notaCredito.UuidNotaCredito)
+                    .Value(x => x.IdMoneda, notaCredito.IdMoneda)
+                    .Value(x => x.IdTipoRelacion, notaCredito.IdTipoRelacion)
+                    .Value(x => x.NotaCredito, notaCredito.NotaCredito)
+                    .Value(x => x.Importe, notaCredito.Importe)
+                    .Value(x => x.Iva, notaCredito.Iva)
+                    .Value(x => x.Total, notaCredito.Total)
+                    .Value(x => x.Concepto, notaCredito.Concepto)
+                    .Value(x => x.Mes, notaCredito.Mes)
+                    .Value(x => x.Anio, notaCredito.Anio)
+                    .Value(x => x.TipoCambio, notaCredito.TipoCambio)
+                    .Value(x => x.FechaNotaCredito, notaCredito.FechaNotaCredito)
+                    .Value(x => x.Xml, notaCredito.Xml)
+                    .InsertAsync() > 0;
+
+                resp.Success = inseert;
+                resp.Message = inseert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["NumProyecto"].ToString());
+            var cfdi = await ExtraerDatos(registro["FacturaB64"].ToString());
+
+            var tryDate = default(DateTime);
+            DateTime.TryParse(cfdi.Fecha, out tryDate);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert = await db.tB_ProyectoFacturasNotaCredito
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .Value(x => x.UuidNotaCredito, cfdi.UUID)
+                    .Value(x => x.IdMoneda, cfdi.Moneda)
+                    .Value(x => x.IdTipoRelacion, cfdi.TipoRelacion)
+                    .Value(x => x.NotaCredito, $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}")
+                    .Value(x => x.Importe, Convert.ToDecimal(cfdi.SubTotal ?? "-1"))
+                    .Value(x => x.Iva, cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0)
+                    .Value(x => x.Total, cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0)
+                    .Value(x => x.Concepto, string.Join("|", cfdi.Conceptos))
+                    .Value(x => x.Mes, Convert.ToByte(tryDate.Month))
+                    .Value(x => x.Anio, Convert.ToInt16(tryDate.Year))
+                    .Value(x => x.TipoCambio, cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : null)
+                    .Value(x => x.FechaNotaCredito, tryDate)
+                    .Value(x => x.Xml, cfdi.XmlB64)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert;
+                resp.Message = insert == default ? "Ocurrio un error al agregar la nota de credito." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        public async Task<List<NotaCredito_Detalle>> GetNotaCreditoSinFactura(int NumProyecto, int Mes, int Anio)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var notas_credito = await (from notas in db.tB_ProyectoFacturasNotaCredito
+                                           join relaciones in db.tB_Cat_TipoRelacions on notas.IdTipoRelacion equals relaciones.IdTipoRelacion into relacionesJoin
+                                           from relacionesItem in relacionesJoin.DefaultIfEmpty()
+                                           join monedas in db.tB_Cat_Monedas on notas.IdMoneda equals monedas.IdMoneda into monedasJoin
+                                           from monedasItem in monedasJoin.DefaultIfEmpty()
+                                           join proyectos in db.tB_Proyectos on notas.NumProyecto equals proyectos.NumProyecto into proyectosJoin
+                                           from proyectosItem in proyectosJoin.DefaultIfEmpty()
+                                           where (notas.NumProyecto != null && notas.IdFactura == null)
+                                           && (NumProyecto == 0 || notas.NumProyecto == NumProyecto)
+                                           && (Mes == 0 || notas.Mes == Mes)
+                                           && (Anio == 0 || notas.Anio == Anio)
+                                           orderby notas.FechaNotaCredito descending
+                                           select new NotaCredito_Detalle
+                                           {
+                                               nunum_proyecto = notas.NumProyecto,
+                                               chproyecto = proyectosItem.Proyecto ?? string.Empty,
+                                               chuuid_nota_credito = notas.UuidNotaCredito,
+                                               nukidmoneda = notas.IdMoneda,
+                                               chmoneda = monedasItem.Moneda ?? string.Empty,
+                                               nukidtipo_relacion = notas.IdTipoRelacion,
+                                               chtipo_relacion = relacionesItem.TipoRelacion ?? string.Empty,
+                                               chnota_credito = notas.NotaCredito,
+                                               nuimporte = notas.Importe,
+                                               nuiva = notas.Iva,
+                                               nutotal = notas.Total,
+                                               chconcepto = notas.Concepto,
+                                               numes = notas.Mes,
+                                               nuanio = notas.Anio,
+                                               nutipo_cambio = notas.TipoCambio,
+                                               dtfecha_nota_credito = notas.FechaNotaCredito,
+                                               chxml = notas.Xml,
+                                               dtfecha_cancelacion = notas.FechaCancelacion,
+                                               chmotivocancela = notas.MotivoCancelacion
+                                           }).ToListAsync();
+            
+                return notas_credito;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> AddNotaCreditoSinFacturaToFactura(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id_factura = Convert.ToInt32(registro["id_factura"].ToString());
+            string uuid_nota_credito = registro["uuid_nota_credito"].ToString();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var update_add_nota = await (db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota_credito)
+                    .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                    {
+                        IdFactura = id_factura
+                    })) > 0;
+
+                resp.Success = update_add_nota;
+                resp.Message = update_add_nota == default ? "Ocurrio un error al relacionar la nota de credito a la factura." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> CancelNota(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            string uuid_nota = registro["uuid"].ToString();
+            DateTime fecha_cancelacion = Convert.ToDateTime(registro["fecha_cancelacion"].ToString());
+            string motivo_cancelacion = registro["motivo_cancelacion"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var nota_factura = await (from nota in db.tB_ProyectoFacturasNotaCredito
+                                          where nota.FechaCancelacion == null
+                                          && nota.UuidNotaCredito == uuid_nota
+                                          select nota).FirstOrDefaultAsync();
+
+                if (nota_factura.FechaNotaCredito.Month == DateTime.Now.Month && nota_factura.FechaNotaCredito.Year == DateTime.Now.Year)
+                {
+                    var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
+                                    .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
+                                    {
+                                        //Total = 0,
+                                        FechaCancelacion = fecha_cancelacion,
+                                        MotivoCancelacion = motivo_cancelacion
+                                    }) > 0;
+
+                    resp.Success = res_update_nota;
+                    resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la nota." : string.Empty;
+                }
+                else
+                {
+                    var insert_cancel_nota = await db.tB_ProyectoFacturasNotaCredito
+                    .Value(x => x.IdFactura, nota_factura.IdFactura)
+                    .Value(x => x.NumProyecto, nota_factura.NumProyecto)
+                    .Value(x => x.UuidNotaCredito, nota_factura.UuidNotaCredito)
+                    .Value(x => x.IdMoneda, nota_factura.IdMoneda)
+                    .Value(x => x.IdTipoRelacion, nota_factura.IdTipoRelacion)
+                    .Value(x => x.NotaCredito, nota_factura.NotaCredito)
+                    .Value(x => x.Importe, nota_factura.Importe)
+                    .Value(x => x.Iva, nota_factura.Iva)
+                    .Value(x => x.Total, nota_factura.Total)
+                    .Value(x => x.Concepto, nota_factura.Concepto)
+                    .Value(x => x.Mes, fecha_cancelacion.Month)
+                    .Value(x => x.Anio, fecha_cancelacion.Year)
+                    .Value(x => x.TipoCambio, nota_factura.TipoCambio)
+                    .Value(x => x.FechaNotaCredito, fecha_cancelacion)
+                    .Value(x => x.Xml, nota_factura.Xml)
+                    .Value(x => x.FechaCancelacion, fecha_cancelacion)
+                    .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_cancel_nota;
+                    resp.Message = insert_cancel_nota == default ? "Ocurrio un error al agregar la cancelación de la nota de credito." : string.Empty;
+
+                }
+            }
+
+            return resp;
+        }
+        #endregion Notas
+
+
+        #region Pagos
+        public async Task<TB_ProyectoFacturaCobranza> SearchPagos(string uuid)
+        {
+            using (var db = new ConnectionDB(dbConfig)) return await (from a in db.tB_ProyectoFacturasCobranza
+                                                                      where a.UuidCobranza == uuid
+                                                                      select a).FirstOrDefaultAsync();
+        }
+
+        public async Task<(bool Success, string Message)> AddPagos(TB_ProyectoFacturaCobranza pagos)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var inseert = await db.tB_ProyectoFacturasCobranza
+                    .Value(x => x.IdFactura, pagos.IdFactura)
+                    .Value(x => x.UuidCobranza, pagos.UuidCobranza)
+                    .Value(x => x.IdMonedaP, pagos.IdMonedaP)
+                    .Value(x => x.ImportePagado, pagos.ImportePagado)
+                    .Value(x => x.ImpSaldoAnt, pagos.ImpSaldoAnt)
+                    .Value(x => x.ImporteSaldoInsoluto, pagos.ImporteSaldoInsoluto)
+                    .Value(x => x.IvaP, pagos.IvaP)
+                    .Value(x => x.TipoCambioP, pagos.TipoCambioP)
+                    .Value(x => x.FechaPago, pagos.FechaPago)
+                    .Value(x => x.Xml, pagos.Xml)
+                    .Value(x => x.CRP, pagos.CRP)
+                    .Value(x => x.Base, pagos.Base)
+                    .InsertAsync() > 0;
+
+                resp.Success = inseert;
+                resp.Message = inseert == default ? "Ocurrio un error al agregar el pago." : string.Empty;
+            }
+
+            return resp;
+        }     
+
+        public async Task<(bool Success, string Message)> CancelCobranza(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            string uuid_cobranza = registro["uuid"].ToString();
+            DateTime fecha_cancelacion = Convert.ToDateTime(registro["fecha_cancelacion"].ToString());
+            string motivo_cancelacion = registro["motivo_cancelacion"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var cobranza_factura = await (from cobranza in db.tB_ProyectoFacturasCobranza
+                                              where cobranza.FechaCancelacion == null
+                                              && cobranza.UuidCobranza == uuid_cobranza
+                                              select cobranza).FirstOrDefaultAsync();
+
+                if (cobranza_factura.FechaPago.Month == DateTime.Now.Month && cobranza_factura.FechaPago.Year == DateTime.Now.Year)
+                {
+                    var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
+                                    .UpdateAsync(x => new TB_ProyectoFacturaCobranza
+                                    {
+                                        FechaCancelacion = fecha_cancelacion,
+                                        MotivoCancelacion = motivo_cancelacion
+                                    }) > 0;
+
+                    resp.Success = res_update_nota;
+                    resp.Message = res_update_nota == default ? "Ocurrio un error al cancelar la cobranza." : string.Empty;
+                }
+                else
+                {
+                    var insert_cancel_cobranza = await db.tB_ProyectoFacturasCobranza
+                    .Value(x => x.IdFactura, cobranza_factura.IdFactura)
+                    .Value(x => x.UuidCobranza, cobranza_factura.UuidCobranza)
+                    .Value(x => x.IdMonedaP, cobranza_factura.IdMonedaP)
+                    .Value(x => x.ImportePagado, cobranza_factura.ImportePagado)
+                    .Value(x => x.ImpSaldoAnt, cobranza_factura.ImpSaldoAnt)
+                    .Value(x => x.ImporteSaldoInsoluto, cobranza_factura.ImporteSaldoInsoluto)
+                    .Value(x => x.IvaP, cobranza_factura.IvaP)
+                    .Value(x => x.TipoCambioP, cobranza_factura.TipoCambioP)
+                    .Value(x => x.FechaPago, fecha_cancelacion)
+                    .Value(x => x.Xml, cobranza_factura.Xml)
+                    .Value(x => x.CRP, cobranza_factura.CRP)
+                    .Value(x => x.Base, cobranza_factura.Base)
+                    .Value(X => X.FechaCancelacion, fecha_cancelacion)
+                    .Value(x => x.MotivoCancelacion, motivo_cancelacion)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_cancel_cobranza;
+                    resp.Message = insert_cancel_cobranza == default ? "Ocurrio un error al agregar la cancelación del pago." : string.Empty;
+                }
+
+            }
+
+            return resp;
+        }
+
+        #endregion Pagos
+
+
+
+
+
+
+
 
         #region facturasProyecto
         public async Task<List<FacturaDetalles>> GetFacturasProyecto(int? idProyecto)

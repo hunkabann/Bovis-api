@@ -18,6 +18,7 @@
         public string? ImporteSaldoAnt { get; set; }
         public string? ImporteSaldoInsoluto { get; set; }        
         public string? ImporteDR { get; set; }
+        public string? BaseDR { get; set; }
     }
 
     public class CfdiTrasladoP

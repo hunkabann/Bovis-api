@@ -497,14 +497,18 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int num_proyecto = Convert.ToInt32(registro["numProyecto"].ToString());
-            DateTime? fecha_auditoria = registro["fechaAuditoria"] != null ? Convert.ToDateTime(registro["fechaAuditoria"].ToString()) : null;
+            DateTime? fecha_auditoria_inicial = registro["fechaAuditoriaInicial"] != null ? Convert.ToDateTime(registro["fechaAuditoriaInicial"].ToString()) : null;
+            DateTime? fecha_prox_auditoria = registro["fechaAuditoria"] != null ? Convert.ToDateTime(registro["fechaAuditoria"].ToString()) : null;
+            string? responsable_asignado = registro["responsableAsignado"] != null ? registro["responsableAsignado"].ToString() : null;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var res_update_proyecto = await db.tB_Proyectos.Where(x => x.NumProyecto == num_proyecto)
                     .UpdateAsync(x => new TB_Proyecto
                     {
-                        FechaAuditoria = fecha_auditoria
+                        FechaAuditoriaInicial = fecha_auditoria_inicial,
+                        FechaProxAuditoria = fecha_prox_auditoria,
+                        ResponsableAsignado = responsable_asignado
                     }) > 0;
 
                 resp.Success = res_update_proyecto;

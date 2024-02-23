@@ -10,5 +10,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Chcomentario"), NotNull] public string Comentario { get; set; }
         [Column("Dtfecha"), NotNull] public DateTime Fecha { get; set; }
         [Column("Nukid_tipo_comentario"), NotNull] public int IdTipoComentario { get; set; }
+        [Column("Chnombre_auditor"), NotNull] public string NombreAuditor { get; set; }        
     }
 }

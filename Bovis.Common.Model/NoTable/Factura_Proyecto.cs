@@ -88,8 +88,8 @@ namespace Bovis.Common.Model.NoTable
         public decimal? IvaRet { get; set; }
         public decimal? Total { get; set; }
         public string Concepto { get; set; }
-        public int? Mes { get; set; }
-        public short Anio { get; set; }
+        public int Mes { get; set; }
+        public int Anio { get; set; }
         public DateTime FechaEmision { get; set; }
         public DateTime? FechaPago { get; set; }
         public DateTime? FechaCancelacion { get; set; }
