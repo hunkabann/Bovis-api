@@ -106,116 +106,119 @@ namespace Bovis.Data
             return auditorias;
         }
 
-        //public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
-        //{
-        //    List<Documentos_Auditoria_Proyecto_Detalle> documentos_auditoria = new List<Documentos_Auditoria_Proyecto_Detalle>();
-        //    Documentos_Auditoria_Proyecto_Detalle documento_auditoria = null;            
+        /*
+        public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
+        {
+            List<Documentos_Auditoria_Proyecto_Detalle> documentos_auditoria = new List<Documentos_Auditoria_Proyecto_Detalle>();
+            Documentos_Auditoria_Proyecto_Detalle documento_auditoria = null;
 
-        //    using (var db = new ConnectionDB(dbConfig))
-        //    {               
-        //        var audits = await (from audit in db.tB_Auditoria_Proyectos
-        //                            join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
-        //                            from catItem in catJoin.DefaultIfEmpty()
-        //                            join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
-        //                            from secItem in secJoin.DefaultIfEmpty()
-        //                            where audit.IdProyecto == IdProyecto
-        //                            && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
-        //                            select new Auditoria_Detalle
-        //                            {
-        //                                IdAuditoriaProyecto = audit.IdAuditoriaProyecto,
-        //                                IdAuditoria = audit.IdAuditoria,
-        //                                IdProyecto = audit.IdProyecto,
-        //                                IdDirector = catItem.IdDirector,
-        //                                Mes = catItem.Mes,
-        //                                Fecha = catItem.Fecha,
-        //                                Punto = catItem.Punto,
-        //                                IdSeccion = catItem != null ? catItem.IdSeccion : 0,
-        //                                ChSeccion = secItem != null ? secItem.Seccion : string.Empty,
-        //                                Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad
-        //                                                                          : TipoAuditoria == "legal" ? catItem.CumplimientoLegal
-        //                                                                          : catItem.CumplimientoCalidad,
-        //                                DocumentoRef = catItem.DocumentoRef,
-        //                                TipoAuditoria = catItem.TipoAuditoria ?? string.Empty,
-        //                                Aplica = audit.Aplica
-        //                            }).ToListAsync();
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var audits = await (from audit in db.tB_Auditoria_Proyectos
+                                    join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
+                                    from catItem in catJoin.DefaultIfEmpty()
+                                    join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                    from secItem in secJoin.DefaultIfEmpty()
+                                    where audit.IdProyecto == IdProyecto
+                                    && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
+                                    select new Auditoria_Detalle
+                                    {
+                                        IdAuditoriaProyecto = audit.IdAuditoriaProyecto,
+                                        IdAuditoria = audit.IdAuditoria,
+                                        IdProyecto = audit.IdProyecto,
+                                        IdDirector = catItem.IdDirector,
+                                        Mes = catItem.Mes,
+                                        Fecha = catItem.Fecha,
+                                        Punto = catItem.Punto,
+                                        IdSeccion = catItem != null ? catItem.IdSeccion : 0,
+                                        ChSeccion = secItem != null ? secItem.Seccion : string.Empty,
+                                        Cumplimiento = TipoAuditoria == "calidad" ? catItem.CumplimientoCalidad
+                                                                                  : TipoAuditoria == "legal" ? catItem.CumplimientoLegal
+                                                                                  : catItem.CumplimientoCalidad,
+                                        DocumentoRef = catItem.DocumentoRef,
+                                        TipoAuditoria = catItem.TipoAuditoria ?? string.Empty,
+                                        Aplica = audit.Aplica
+                                    }).ToListAsync();
 
-        //        var secciones = await (from seccion in db.tB_Cat_Auditoria_Seccions
-        //                               where seccion.TipoAuditoria == TipoAuditoria
-        //                               || seccion.TipoAuditoria == "ambos"
-        //                               select seccion).ToListAsync();
+                var secciones = await (from seccion in db.tB_Cat_Auditoria_Seccions
+                                       where seccion.TipoAuditoria == TipoAuditoria
+                                       || seccion.TipoAuditoria == "ambos"
+                                       select seccion).ToListAsync();
 
 
-        //        foreach (var seccion in secciones)
-        //        {
-        //            int totalDocumentos = 0;
-        //            int totalDocumentosValidados = 0;
-        //            int count_aplica = 0;
-        //            int count_auditorias_seccion = 0;
-        //            Documentos_Auditoria_Proyecto_Detalle auditoria = new Documentos_Auditoria_Proyecto_Detalle();
-        //            auditoria.IdSeccion = seccion.IdSeccion;
-        //            auditoria.ChSeccion = seccion.Seccion;
-        //            auditoria.Auditorias = new List<Auditoria_Detalle>();
+                foreach (var seccion in secciones)
+                {
+                    int totalDocumentos = 0;
+                    int totalDocumentosValidados = 0;
+                    int count_aplica = 0;
+                    int count_auditorias_seccion = 0;
+                    Documentos_Auditoria_Proyecto_Detalle auditoria = new Documentos_Auditoria_Proyecto_Detalle();
+                    auditoria.IdSeccion = seccion.IdSeccion;
+                    auditoria.ChSeccion = seccion.Seccion;
+                    auditoria.Auditorias = new List<Auditoria_Detalle>();
 
-        //            foreach (var audit in audits)
-        //            {
-        //                if (seccion.IdSeccion == audit.IdSeccion)
-        //                {
-        //                    if (auditoria.Auditorias == null)
-        //                        auditoria.Auditorias = new List<Auditoria_Detalle>();
-        //                    if (audit.Aplica == true)
-        //                    {
-        //                        auditoria.Aplica = true;
-        //                        auditoria.Auditorias.Add(audit);
-        //                    }
+                    foreach (var audit in audits)
+                    {
+                        if (seccion.IdSeccion == audit.IdSeccion)
+                        {
+                            if (auditoria.Auditorias == null)
+                                auditoria.Auditorias = new List<Auditoria_Detalle>();
+                            if (audit.Aplica == true)
+                            {
+                                auditoria.Aplica = true;
+                                auditoria.Auditorias.Add(audit);
+                            }
 
-        //                    var documentos = await (from documento in db.tB_Auditoria_Documentos
-        //                                            where documento.IdAuditoriaProyecto == audit.IdAuditoria
-        //                                            //&& documento.Fecha.Month == DateTime.Now.Month
-        //                                            //&& documento.Fecha.Year == DateTime.Now.Year
-        //                                            && documento.Activo == true
-        //                                            select documento).ToListAsync();
+                            var documentos = await (from documento in db.tB_Auditoria_Documentos
+                                                    where documento.IdAuditoriaProyecto == audit.IdAuditoria
+                                                    //&& documento.Fecha.Month == DateTime.Now.Month
+                                                    //&& documento.Fecha.Year == DateTime.Now.Year
+                                                    && documento.Activo == true
+                                                    select documento).ToListAsync();
 
-        //                    audit.TieneDocumento = documentos.Count > 0;
-        //                    audit.CantidadDocumentos = documentos.Count;
-        //                    audit.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
-        //                    totalDocumentos += documentos.Count;
-        //                    auditoria.TotalDocumentos = totalDocumentos;
-        //                    totalDocumentosValidados += (int)audit.CantidadDocumentosValidados;
-        //                    auditoria.TotalDocumentosValidados = totalDocumentosValidados;
+                            audit.TieneDocumento = documentos.Count > 0;
+                            audit.CantidadDocumentos = documentos.Count;
+                            audit.CantidadDocumentosValidados = documentos.Where(x => x.Valido == true).Count();
+                            totalDocumentos += documentos.Count;
+                            auditoria.TotalDocumentos = totalDocumentos;
+                            totalDocumentosValidados += (int)audit.CantidadDocumentosValidados;
+                            auditoria.TotalDocumentosValidados = totalDocumentosValidados;
 
-        //                    // Se obtiene la validación del último documento subido a la Auditoría
-        //                    var ultimoDocumento = await (from documento in db.tB_Auditoria_Documentos
-        //                                                 where documento.IdAuditoriaProyecto == audit.IdAuditoria
-        //                                                 && documento.Activo == true
-        //                                                 orderby documento.Fecha descending
-        //                                                 select documento).FirstOrDefaultAsync();
+                            // Se obtiene la validación del último documento subido a la Auditoría
+                            var ultimoDocumento = await (from documento in db.tB_Auditoria_Documentos
+                                                         where documento.IdAuditoriaProyecto == audit.IdAuditoria
+                                                         && documento.Activo == true
+                                                         orderby documento.Fecha descending
+                                                         select documento).FirstOrDefaultAsync();
 
-        //                    if (ultimoDocumento != null)
-        //                    {
-        //                        audit.IdDocumento = ultimoDocumento.IdDocumento;
-        //                        audit.UltimoDocumentoValido = ultimoDocumento.Valido;
-        //                    }
+                            if (ultimoDocumento != null)
+                            {
+                                audit.IdDocumento = ultimoDocumento.IdDocumento;
+                                audit.UltimoDocumentoValido = ultimoDocumento.Valido;
+                            }
 
-        //                    count_auditorias_seccion++;
+                            count_auditorias_seccion++;
 
-        //                    if (audit.Aplica == true)
-        //                        count_aplica++;
+                            if (audit.Aplica == true)
+                                count_aplica++;
 
-        //                }
-        //            }
+                        }
+                    }
 
-        //            decimal porcentaje = (count_aplica > 0 && count_auditorias_seccion > 0) ? (((decimal)count_aplica / count_auditorias_seccion) * 100) : 0;
-        //            auditoria.NuProcentaje = Math.Round(porcentaje);
+                    decimal porcentaje = (count_aplica > 0 && count_auditorias_seccion > 0) ? (((decimal)count_aplica / count_auditorias_seccion) * 100) : 0;
+                    auditoria.NuProcentaje = Math.Round(porcentaje);
 
-        //            if(auditoria.Auditorias.Count > 0)
-        //                documentos_auditoria.Add(auditoria);
-        //        }
+                    if (auditoria.Auditorias.Count > 0)
+                        documentos_auditoria.Add(auditoria);
+                }
 
-        //    }
+            }
 
-        //    return documentos_auditoria;
-        //}
+            return documentos_auditoria;
+        }
+        */
 
+        
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -251,11 +254,11 @@ namespace Bovis.Data
                     DocumentoRef = a.CatAuditoria?.DocumentoRef,
                     TipoAuditoria = a.CatAuditoria?.TipoAuditoria ?? string.Empty,
                     Aplica = a.Auditoria.Aplica,
-                    TieneDocumento = db.tB_Auditoria_Documentos.Any(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoria && d.Activo),
-                    CantidadDocumentos = db.tB_Auditoria_Documentos.Count(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoria && d.Activo),
-                    CantidadDocumentosValidados = db.tB_Auditoria_Documentos.Count(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoria && (bool)d.Valido && d.Activo),
-                    IdDocumento = db.tB_Auditoria_Documentos.OrderByDescending(d => d.Fecha).FirstOrDefault(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoria && d.Activo)?.IdDocumento ?? 0,
-                    UltimoDocumentoValido = db.tB_Auditoria_Documentos.OrderByDescending(d => d.Fecha).FirstOrDefault(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoria && d.Activo)?.Valido ?? false
+                    TieneDocumento = db.tB_Auditoria_Documentos.Any(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoriaProyecto && d.Activo),
+                    CantidadDocumentos = db.tB_Auditoria_Documentos.Count(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoriaProyecto && d.Activo),
+                    CantidadDocumentosValidados = db.tB_Auditoria_Documentos.Count(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoriaProyecto && (bool)d.Valido && d.Activo),
+                    IdDocumento = db.tB_Auditoria_Documentos.OrderByDescending(d => d.Fecha).FirstOrDefault(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoriaProyecto && d.Activo)?.IdDocumento ?? 0,
+                    UltimoDocumentoValido = db.tB_Auditoria_Documentos.OrderByDescending(d => d.Fecha).FirstOrDefault(d => d.IdAuditoriaProyecto == a.Auditoria.IdAuditoriaProyecto && d.Activo)?.Valido ?? false
                 }).ToList();
 
                 var auditorias_agrupadas = documentos_auditoria_detalle.GroupBy(d => new { d.IdSeccion, d.ChSeccion })
@@ -273,7 +276,7 @@ namespace Bovis.Data
                 return auditorias_agrupadas;
             }
         }
-
+        
 
 
 
