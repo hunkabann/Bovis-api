@@ -26,9 +26,12 @@ namespace Bovis.Business
              
 
             #region Antiguedad
-            if (destination.FechaIngreso == null)
+            if (destination.FechaIngreso == null || destination.FechaIngreso == DateTime.MinValue)
             {
-                destination.FechaIngreso = DateTime.Now; 
+                DateTime fechaHoraActual = DateTime.Now;
+                string fechaHoraFormateada = fechaHoraActual.ToString("yyyy-MM-ddTHH:mm:ss.fff");
+                DateTime fechaHoraFormateadaDateTime = DateTime.ParseExact(fechaHoraFormateada, "yyyy-MM-ddTHH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
+                destination.FechaIngreso = fechaHoraFormateadaDateTime; 
             }
             destination.NuMes = DateTime.Now.Month; 
             destination.NuAnno = DateTime.Now.Year;
