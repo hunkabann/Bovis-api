@@ -15,8 +15,8 @@ namespace Bovis.Common.Model.Tables
 		[Column("nuiva"), NotNull] public decimal Iva { set; get; }
 		[Column("nutotal"), NotNull] public decimal Total { set; get; }
 		[Column("chconcepto"), NotNull] public string Concepto { set; get; }
-		[Column("numes"), NotNull] public byte Mes { set; get; }
-		[Column("nuanio"), NotNull] public short Anio { set; get; }
+		[Column("numes"), NotNull] public int Mes { set; get; }
+		[Column("nuanio"), NotNull] public int Anio { set; get; }
 		[Column("nutipo_cambio"), Nullable] public decimal? TipoCambio { set; get; }
 		[Column("dtfecha_nota_credito"), NotNull] public DateTime FechaNotaCredito { set; get; }
 		[Column("chxml"), NotNull] public string Xml { set; get; }
