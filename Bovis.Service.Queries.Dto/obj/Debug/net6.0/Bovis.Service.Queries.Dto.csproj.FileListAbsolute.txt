@@ -44,7 +44,6 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Servi
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.AssemblyInfoInputs.cache
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.AssemblyInfo.cs
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.CopyComplete
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\refint\Bovis.Service.Queries.Dto.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
@@ -67,3 +66,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queri
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\ref\Bovis.Service.Queries.Dto.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.sourcelink.json
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Se.54075390.Up2Date

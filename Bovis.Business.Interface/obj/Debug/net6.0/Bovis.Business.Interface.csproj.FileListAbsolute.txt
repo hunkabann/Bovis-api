@@ -44,7 +44,6 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Busin
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.AssemblyInfoInputs.cache
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.AssemblyInfo.cs
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.csproj.CopyComplete
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\refint\Bovis.Business.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.pdb
@@ -67,3 +66,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Inte
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\ref\Bovis.Business.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Business.Interface.sourcelink.json
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Business.Interface\obj\Debug\net6.0\Bovis.Bu.858A436B.Up2Date

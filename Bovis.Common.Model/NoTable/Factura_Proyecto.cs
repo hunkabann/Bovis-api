@@ -134,8 +134,8 @@ namespace Bovis.Common.Model.NoTable
         public decimal? NC_Iva { set; get; }
         public decimal? NC_Total { set; get; }
         public string? NC_Concepto { set; get; }
-        public byte? NC_Mes { set; get; }
-        public short NC_Anio { set; get; }
+        public int? NC_Mes { set; get; }
+        public int NC_Anio { set; get; }
         public decimal? NC_TipoCambio { set; get; }
         public DateTime? NC_FechaNotaCredito { set; get; }
         public DateTime? NC_FechaCancelacion { set; get; }

@@ -353,7 +353,6 @@ E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/o
 E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.build.json
 E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/staticwebassets.development.json
 E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/scopedcss/bundle/Bovis.API.styles.css
-E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.csproj.CopyComplete
 E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.dll
 E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/refint/Bovis.API.dll
 E:/DESARROLLO/LP SOLUTIONS/Pendientes/Hunkabann/BOVIS/Code/Bovis-api/Bovis.API/obj/Debug/net6.0/Bovis.API.pdb
@@ -597,9 +596,9 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\o
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.Bovis.API.props
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.pack.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\scopedcss\bundle\Bovis.API.styles.css
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.CopyComplete
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\refint\Bovis.API.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.genruntimeconfig.cache
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\ref\Bovis.API.dll
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\Bovis.API.csproj.Up2Date

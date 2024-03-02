@@ -50,7 +50,6 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.AssemblyInfoInputs.cache
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.AssemblyInfo.cs
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.csproj.CoreCompileInputs.cache
-E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.csproj.CopyComplete
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\refint\Bovis.Data.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.pdb
@@ -75,3 +74,4 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data\obj\Debu
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.pdb
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data\obj\Debug\net6.0\ref\Bovis.Data.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.sourcelink.json
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data\obj\Debug\net6.0\Bovis.Data.csproj.Up2Date

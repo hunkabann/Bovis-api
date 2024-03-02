@@ -168,7 +168,16 @@ namespace Bovis.Business
             {
                 var cfdi = await ExtraerDatos(notaCredito.FacturaB64);
 
-                if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("E"))
+                if(cfdi is null)
+                {
+                    LstFacturas.Add(new FacturaRevision
+                    {
+                        FacturaNombre = notaCredito.FacturaNombre,
+                        Almacenada = false,
+                        Error = $@"No existe un CFDI relacionado para esta nota de crédito."
+                    });
+                }
+                else if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("E"))
                 {
                     foreach (var uuid in cfdi.CfdiRelacionados)
                     {
@@ -243,16 +252,17 @@ namespace Bovis.Business
                     var tmpError = string.Empty;
 
                     if (cfdi is not null && !cfdi.TipoDeComprobante.Equals("E"))
-                        tmpError = $@", el tipo de comprobante es {cfdi.TipoDeComprobante}";
+                        tmpError = $@"El tipo de comprobante es {cfdi.TipoDeComprobante}";
 
                     LstFacturas.Add(new FacturaRevision
                     {
                         FacturaNombre = notaCredito.FacturaNombre,
                         Almacenada = false,
-                        Error = $@"La factura {notaCredito.FacturaNombre} no se pudo procesar{tmpError}"
+                        Error = $@"La factura {notaCredito.FacturaNombre} no se pudo procesar - {tmpError}"
                     });
                 }
             }
+
             return LstFacturas;
         }
 
@@ -317,7 +327,16 @@ namespace Bovis.Business
             {
                 var cfdi = await ExtraerDatos(pagos.FacturaB64);
 
-                if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
+                if (cfdi is null)
+                {
+                    LstFacturas.Add(new FacturaRevision
+                    {
+                        FacturaNombre = pagos.FacturaNombre,
+                        Almacenada = false,
+                        Error = $@"No existe un CFDI relacionado para este pago."
+                    });
+                }
+                else if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
                 {
                     var existePago = await _facturaData.SearchPagos(cfdi.UUID);
 
@@ -400,9 +419,7 @@ namespace Bovis.Business
                                 LstFacturas.Add(tmpFactura);
                             }
                         }
-                    }
-
-                    
+                    }                    
                 }
                 else
                 {

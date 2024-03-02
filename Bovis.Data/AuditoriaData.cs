@@ -456,7 +456,17 @@ namespace Bovis.Data
                                   //&& doc.Fecha.Year == DateTime.Now.Year
                                   && doc.Activo == true
                                   orderby doc.IdDocumento descending
-                                  select doc)
+                                  select new TB_AuditoriaDocumento
+                                  {
+                                      IdDocumento = doc.IdDocumento,
+                                      IdAuditoriaProyecto = doc.IdAuditoriaProyecto,
+                                      Motivo = doc.Motivo,
+                                      Fecha = doc.Fecha,
+                                      NombreDocumento = doc.NombreDocumento,
+                                      ComentarioRechazo = doc.ComentarioRechazo,
+                                      Valido = doc.Valido,
+                                      Activo = doc.Activo
+                                  })
                                   .Skip((offset - 1) * limit)
                                   .Take(limit)
                                   .ToListAsync();
