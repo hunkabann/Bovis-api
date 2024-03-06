@@ -2,6 +2,7 @@
 using Bovis.Common.Mapper;
 using Bovis.Common.Model.DTO;
 using Bovis.Common.Model.Tables;
+using Bovis.Data.Interface;
 
 
 namespace Bovis.Business
@@ -20,6 +21,7 @@ namespace Bovis.Business
 
         public static TB_CostoPorEmpleado ValueFields(CostoPorEmpleadoDTO source)
         {            
+
             TB_CostoPorEmpleado destination = new();
 
             destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination); 
@@ -89,24 +91,66 @@ namespace Bovis.Business
             }
             else
             {
-                if (Math.Round(destination.Antiguedad ?? 0.0M) > 4.15M)
+                switch (destination.Antiguedad)
                 {
-                    destination.PvDiasVacasAnuales = 20;
+                    case 1:
+                        destination.PvDiasVacasAnuales = 12;
+                        break;
+                    case 2:
+                        destination.PvDiasVacasAnuales = 14;
+                        break;
+                    case 3:
+                        destination.PvDiasVacasAnuales = 16;
+                        break;
+                    case 4:
+                        destination.PvDiasVacasAnuales = 18;
+                        break;
+                    case 5:
+                        destination.PvDiasVacasAnuales = 20;
+                        break;
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                        destination.PvDiasVacasAnuales = 22;
+                        break;
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                        destination.PvDiasVacasAnuales = 24;
+                        break;
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                    case 20:
+                        destination.PvDiasVacasAnuales = 26;
+                        break;
+                    case 21:
+                    case 22:
+                    case 23:
+                    case 24:
+                    case 25:
+                        destination.PvDiasVacasAnuales = 28;
+                        break;
+                    case 26:
+                    case 27:
+                    case 28:
+                    case 29:
+                    case 30:
+                        destination.PvDiasVacasAnuales = 30;
+                        break;
+                    case 31:
+                    case 32:
+                    case 33:
+                    case 34:
+                    case 35:
+                        destination.PvDiasVacasAnuales = 32;
+                        break;
                 }
-                else if (Math.Round(destination.Antiguedad ?? 0.0M) == 4.0M)
-                {
-                    destination.PvDiasVacasAnuales = 18;
-                }
-                else if (Math.Round(destination.Antiguedad ?? 0.0M) == 3.0M)
-                {
-                    destination.PvDiasVacasAnuales = 16;
-                }
-                else if (Math.Round(destination.Antiguedad ?? 0.0M) == 2.0M)
-                {
-                    destination.PvDiasVacasAnuales = 14;
-                }
-                else
-                    destination.PvDiasVacasAnuales = 12;
             }
 
             if (destination.SueldoBruto > 0)

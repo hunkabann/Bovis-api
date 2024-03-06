@@ -114,6 +114,13 @@ namespace Bovis.API.Controllers
             var result = await _costoQueryService.UpdateCostos(costoId, source); 
             return result.Success ? Ok(result.Message) : BadRequest(result.Message);
         }
+
+        [HttpPut, Route("Empleado")]
+        public async Task<IActionResult> UpdateCostoEmpleado([FromBody] CostoPorEmpleadoDTO source)
+        {
+            var result = await _costoQueryService.UpdateCostoEmpleado(source);
+            return result.Success ? Ok(result.Message) : BadRequest(result.Message);
+        }
         #endregion
 
         #region DeleteCosto

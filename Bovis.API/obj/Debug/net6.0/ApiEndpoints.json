@@ -3899,6 +3899,22 @@
   },
   {
     "ContainingType": "Bovis.API.Controllers.CostoController",
+    "Method": "UpdateCostoEmpleado",
+    "RelativePath": "api/Costo/Empleado",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "source",
+        "Type": "Bovis.Common.Model.DTO.CostoPorEmpleadoDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.CostoController",
     "Method": "GetCostosEmpleado",
     "RelativePath": "api/Costo/Empleado/{NumEmpleadoRrHh}",
     "HttpMethod": "GET",

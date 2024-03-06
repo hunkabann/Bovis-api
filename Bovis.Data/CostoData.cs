@@ -159,7 +159,7 @@ namespace Bovis.Data
         {
             CostoQueries QueryBase = new(dbConfig);
             var costos = await QueryBase.CostosEmpleados();
-            var result = costos.Where(costo => costo.NumEmpleadoRrHh ==  NumEmpleadoRrHh && costo.NuAnno == anno && costo.NuMes == mes).ToList();
+            var result = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh && costo.NuAnno == anno && costo.NuMes == mes).ToList();
 
             if (result.Count > 0)
             {
@@ -214,7 +214,7 @@ namespace Bovis.Data
             CostoQueries QueryBase = new(dbConfig);
             var result = await QueryBase.CostosEmpleados();
 
-            var costosEmpleado = result.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) &&  (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
+            var costosEmpleado = result.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) && (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
 
             if (costosEmpleado.Count > 0)
             {
@@ -259,7 +259,7 @@ namespace Bovis.Data
                 }
                 else
                 {
-                    var costosEmpleado = costos.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) &&(reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
+                    var costosEmpleado = costos.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) && (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
                     return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
@@ -348,6 +348,75 @@ namespace Bovis.Data
             };
 
         }
+
+        public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(TB_CostoPorEmpleado registro)
+        {
+            string numEmpleadoRrHh = registro.NumEmpleadoRrHh;
+            decimal? sueldo_bruto = registro.SueldoBruto;
+            decimal? costo_mensual = registro.VaidCostoMensual;
+            decimal? costo_total_anual = registro.SvCostoTotalAnual;
+            decimal? sgm_costo_total_anual = registro.SgmmCostoTotalAnual;
+            decimal? avg_bono_anual_estimado = registro.AvgBonoAnualEstimado;
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var registro_anterior = await (from c in db.tB_Costo_Por_Empleados
+                                               where c.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
+                                               && c.RegHistorico == false
+                                               select c).FirstOrDefaultAsync();
+
+                if (registro_anterior != null)
+                {
+                    registro_anterior.RegHistorico = true;
+                    registro_anterior.FechaActualizacion = DateTime.Now;
+                    var resBool = await UpdateEntityAsync<TB_CostoPorEmpleado>(registro_anterior);
+
+                    registro = registro_anterior;
+                    registro.SueldoBruto = sueldo_bruto;
+
+                    var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+                                            where isr.Anio == registro.NuAnno
+                                            && isr.Mes == registro.NuMes
+                                            && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
+                                            select isr).FirstOrDefaultAsync();
+
+                    if (isr_record != null)
+                    {
+                        registro.Ispt = ((registro.SueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                    }
+
+
+                    registro.RegHistorico = false;
+                    registro.VaidCostoMensual = costo_mensual;
+                    registro.SvCostoTotalAnual = costo_total_anual;
+                    registro.SgmmCostoTotalAnual = sgm_costo_total_anual;
+                    registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
+                    registro.NuMes = DateTime.Now.Month;
+                    registro.NuAnno = DateTime.Now.Year;
+                    registro.FechaActualizacion = DateTime.Now;
+
+                    var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);                    
+
+                    return new Common.Response<TB_CostoPorEmpleado>
+                    {
+                        Data = registro,
+                        Success = true,
+                        Message = $"Actualización del registro de costos: {resDecimal}"
+                    };
+
+                }
+                else
+                {
+                    return new Common.Response<TB_CostoPorEmpleado>
+                    {
+                        Success = false,
+                        Message = $"No se encontró el registro de costos para el empleado: {numEmpleadoRrHh}."
+                    };
+                }
+            }
+        }
+
+
         #endregion
 
         #region DeleteCosto
@@ -387,8 +456,24 @@ namespace Bovis.Data
             }
 
         }
-        #endregion 
+        #endregion
 
+
+
+        #region Empleado
+        public async Task<TB_Empleado> GetEmpleado(string numEmpleadoRrHh)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+
+                var empleado = await (from emp in db.tB_Empleados
+                                      where emp.NumEmpleadoRrHh == numEmpleadoRrHh
+                                      select emp).FirstOrDefaultAsync();
+
+                return empleado;
+            }
+        }
+        #endregion Empleado
     }
 }
 public class CostoQueries : RepositoryLinq2DB<ConnectionDB>

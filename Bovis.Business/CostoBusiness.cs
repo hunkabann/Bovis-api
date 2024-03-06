@@ -28,7 +28,12 @@ namespace Bovis.Business
         #region AddCosto
         public async Task<Response<decimal>> AddCosto(CostoPorEmpleadoDTO source)
         {
-            TB_CostoPorEmpleado destination = new(); 
+            TB_CostoPorEmpleado destination = new();
+
+            var empleado = await _costoData.GetEmpleado(source.NumEmpleadoRrHh);
+
+            source.FechaIngreso = empleado.FechaIngreso;
+
             destination = CostoBusinessUpdate.ValueFields(source);
             var response = await _costoData.AddCosto(destination);
             return response; 
@@ -79,6 +84,14 @@ namespace Bovis.Business
             TB_CostoPorEmpleado destination = new();
             destination = CostoBusinessUpdate.ValueFields(source); 
             var response = await _costoData.UpdateCostos(costoId, destination);
+            return response;
+        }
+        
+        public async Task<Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(CostoPorEmpleadoDTO source)
+        {
+            TB_CostoPorEmpleado destination = new();
+            destination = CostoBusinessUpdate.ValueFields(source); 
+            var response = await _costoData.UpdateCostoEmpleado(destination);
             return response;
         }
         #endregion
