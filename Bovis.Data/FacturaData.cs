@@ -204,8 +204,6 @@ namespace Bovis.Data
 
                 foreach (var nota in notas_factura)
                 {
-
-
                     var insert_cancel_nota = await db.tB_ProyectoFacturasNotaCredito
                         .Value(x => x.IdFactura, nota.IdFactura)
                         .Value(x => x.NumProyecto, nota.NumProyecto)
@@ -332,7 +330,7 @@ namespace Bovis.Data
 
                 //res = res.DistinctBy(x => x.Uuid).ToList();
                 res = res.GroupBy(x => x.Uuid)
-                         .Select(group => group.OrderByDescending(x => x.FechaCancelacion ?? DateTime.MinValue).First())
+                         .Select(group => group.OrderByDescending(x => x.FechaCancelacion != null).First())
                          .ToList();
 
                 foreach (var facturaDetalle in res)
@@ -362,11 +360,20 @@ namespace Bovis.Data
                                            }).ToListAsync();
 
                     //res_notas = res_notas.DistinctBy(x => x.NC_UuidNotaCredito).ToList();
+                    //res_notas = res_notas.GroupBy(x => x.NC_UuidNotaCredito)
+                    //                     .Select(group => group.OrderByDescending(x => x.NC_FechaCancelacion.HasValue).FirstOrDefault())
+                    //                     .Where(nota => nota != null)
+                    //                     .ToList();
                     res_notas = res_notas.GroupBy(x => x.NC_UuidNotaCredito)
-                                         .Select(group => group.OrderByDescending(x => x.NC_FechaCancelacion ?? DateTime.MinValue).First())
-                                         .ToList();
-                    facturaDetalle.Notas = new List<NotaDetalle>();
-                    facturaDetalle.Notas.AddRange(res_notas);
+                     .Select(group =>
+                     {
+                         var notaConCancelacion = group.FirstOrDefault(x => x.NC_FechaCancelacion != null);
+                         return notaConCancelacion ?? group.First();
+                     })
+                     .ToList();
+
+
+
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
                                                where cobr.IdFactura == facturaDetalle.Id
@@ -391,9 +398,17 @@ namespace Bovis.Data
                                                }).ToListAsync();
 
                     //res_cobranzas = res_cobranzas.DistinctBy(x => x.C_UuidCobranza).ToList();
-                    res_cobranzas = res_cobranzas.GroupBy(x => x.C_FechaCancelacion)
-                                                 .Select(group => group.OrderByDescending(x => x.C_FechaCancelacion ?? DateTime.MinValue).First())
-                                                 .ToList();
+                    //res_cobranzas = res_cobranzas.GroupBy(x => x.C_FechaCancelacion)
+                    //                             .Select(group => group.OrderByDescending(x => x.C_FechaCancelacion != null).First())
+                    //                             .ToList();
+                    res_cobranzas = res_cobranzas.GroupBy(x => x.C_UuidCobranza)
+                     .Select(group =>
+                     {
+                         var cobranzaConCancelacion = group.FirstOrDefault(x => x.C_FechaCancelacion != null);
+                         return cobranzaConCancelacion ?? group.First();
+                     })
+                     .ToList();
+
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
                     facturaDetalle.Cobranzas.AddRange(res_cobranzas);
 
@@ -561,7 +576,7 @@ namespace Bovis.Data
                                           && nota.UuidNotaCredito == uuid_nota
                                           select nota).FirstOrDefaultAsync();
 
-                if (nota_factura.FechaNotaCredito.Month == DateTime.Now.Month && nota_factura.FechaNotaCredito.Year == DateTime.Now.Year)
+                if (nota_factura.FechaNotaCredito.Month == fecha_cancelacion.Month && nota_factura.FechaNotaCredito.Year == fecha_cancelacion.Year)
                 {
                     var res_update_nota = await db.tB_ProyectoFacturasNotaCredito.Where(x => x.UuidNotaCredito == uuid_nota)
                                     .UpdateAsync(x => new TB_ProyectoFacturaNotaCredito
@@ -657,7 +672,7 @@ namespace Bovis.Data
                                               && cobranza.UuidCobranza == uuid_cobranza
                                               select cobranza).FirstOrDefaultAsync();
 
-                if (cobranza_factura.FechaPago.Month == DateTime.Now.Month && cobranza_factura.FechaPago.Year == DateTime.Now.Year)
+                if (cobranza_factura.FechaPago.Month == fecha_cancelacion.Month && cobranza_factura.FechaPago.Year == fecha_cancelacion.Year)
                 {
                     var res_update_nota = await db.tB_ProyectoFacturasCobranza.Where(x => x.UuidCobranza == uuid_cobranza)
                                     .UpdateAsync(x => new TB_ProyectoFacturaCobranza
