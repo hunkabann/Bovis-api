@@ -407,6 +407,8 @@ namespace Bovis.Data
                                                  })
                                                  .ToList();
 
+                    facturaDetalle.Notas = new List<NotaDetalle>();
+                    facturaDetalle.Notas.AddRange(res_notas);
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
                     facturaDetalle.Cobranzas.AddRange(res_cobranzas);
 
