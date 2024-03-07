@@ -21,7 +21,7 @@ namespace Bovis.Common.Model.DTO
         public int? IdUnidadNegocio { get; set; } = 0;
         public int? IdEmpresa { get; set; } = 0;
         public string? Timesheet { get; set; }
-        public int? IdEmpleadoJefe { get; set; } = 0;
+        public string? IdEmpleadoJefe { get; set; } = string.Empty;
         public DateTime? FechaIngreso { get; set; }
         public decimal? Antiguedad { get; set; } = 0M;
         public decimal? AvgDescuentoEmpleado { get; set; } = 0M;

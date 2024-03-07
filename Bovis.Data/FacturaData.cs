@@ -365,14 +365,12 @@ namespace Bovis.Data
                     //                     .Where(nota => nota != null)
                     //                     .ToList();
                     res_notas = res_notas.GroupBy(x => x.NC_UuidNotaCredito)
-                     .Select(group =>
-                     {
-                         var notaConCancelacion = group.FirstOrDefault(x => x.NC_FechaCancelacion != null);
-                         return notaConCancelacion ?? group.First();
-                     })
-                     .ToList();
-
-
+                                         .Select(group =>
+                                         {
+                                             var notaConCancelacion = group.FirstOrDefault(x => x.NC_FechaCancelacion != null);
+                                             return notaConCancelacion ?? group.First();
+                                         })
+                                         .ToList();
 
 
                     var res_cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
@@ -402,12 +400,12 @@ namespace Bovis.Data
                     //                             .Select(group => group.OrderByDescending(x => x.C_FechaCancelacion != null).First())
                     //                             .ToList();
                     res_cobranzas = res_cobranzas.GroupBy(x => x.C_UuidCobranza)
-                     .Select(group =>
-                     {
-                         var cobranzaConCancelacion = group.FirstOrDefault(x => x.C_FechaCancelacion != null);
-                         return cobranzaConCancelacion ?? group.First();
-                     })
-                     .ToList();
+                                                 .Select(group =>
+                                                 {
+                                                     var cobranzaConCancelacion = group.FirstOrDefault(x => x.C_FechaCancelacion != null);
+                                                     return cobranzaConCancelacion ?? group.First();
+                                                 })
+                                                 .ToList();
 
                     facturaDetalle.Cobranzas = new List<CobranzaDetalle>();
                     facturaDetalle.Cobranzas.AddRange(res_cobranzas);

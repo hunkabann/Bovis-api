@@ -31,8 +31,13 @@ namespace Bovis.Business
             TB_CostoPorEmpleado destination = new();
 
             var empleado = await _costoData.GetEmpleado(source.NumEmpleadoRrHh);
-
+            source.IdPersona = empleado.IdPersona;
             source.FechaIngreso = empleado.FechaIngreso;
+            source.IdPuesto = empleado.CvePuesto;
+            source.NumProyecto = empleado.NumProyectoPrincipal;
+            source.IdUnidadNegocio = empleado.IdUnidadNegocio;
+            source.IdEmpresa = empleado.IdEmpresa;
+            source.IdEmpleadoJefe = empleado.IdJefeDirecto;
 
             destination = CostoBusinessUpdate.ValueFields(source);
             var response = await _costoData.AddCosto(destination);
