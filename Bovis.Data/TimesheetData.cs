@@ -157,7 +157,7 @@ namespace Bovis.Data
                 {
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
-                    int dias = Convert.ToInt32(proyecto["dias"].ToString());
+                    decimal dias = Convert.ToDecimal(proyecto["dias"].ToString());
                     int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
                     int costo = Convert.ToInt32(proyecto["costo"].ToString());
 

@@ -11,7 +11,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Numanio"), Nullable] public int? Anio { get; set; }
         [Column("Nukid_responsable"), Nullable] public string? IdResponsable { get; set; }
         [Column("Bosabados"), Nullable] public bool? Sabados { get; set; }
-        [Column("Numdias_trabajo"), Nullable] public int? DiasTrabajo { get; set; }
+        [Column("Numdias_trabajo"), Nullable] public decimal? DiasTrabajo { get; set; }
         [Column("Boactivo"), Nullable] public bool? Activo { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Bovis.Common.Model.Tables
         [Column("NukidTs"), NotNull] public int IdTimesheet { get; set; }
         [Column("NukidProyecto"), NotNull] public int IdProyecto { get; set; }
         [Column("Chdescripcion"), NotNull] public string Descripcion { get; set; }
-        [Column("Numdias"), NotNull] public int Dias { get; set; }
+        [Column("Numdias"), NotNull] public decimal Dias { get; set; }
         [Column("NumTdedicacion"), NotNull] public int TDedicacion { get; set; }
         [Column("Numcosto"), NotNull] public int Costo { get; set; }
         [Column("Boactivo"), NotNull] public bool Activo { get; set; }
