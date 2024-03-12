@@ -54,6 +54,10 @@ namespace Bovis.Business
             }
             #endregion Aguinaldo
 
+            #region IMSS
+            //destination.RetencionImss = 
+            #endregion IMSS
+
             if (destination.SueldoBruto.HasValue && destination.SueldoBruto > 1)
             {
                 #region Sueldo Neto Mensual
@@ -191,12 +195,6 @@ namespace Bovis.Business
             destination.CargasSociales = destination.Impuesto3sNomina + destination.RetencionImss + destination.Retiro2 + destination.CesantesVejez + destination.Infonavit;
             #endregion Cargas sociales e impuestos laborales
 
-            //CostoLaboral costoLab = CostoTotalLaboral(destination);
-            //destination.CostoMensualEmpleado = costoLab.CostoMensualEmpleado;
-            //destination.CostoAnualEmpleado = costoLab.CostoAnualEmpleado;
-            //destination.CostoSalarioBruto = costoLab.CostoSalarioBruto;
-            //destination.CostoSalarioNeto = costoLab.CostoSalarioNeto;
-
             #region Costo total laboral BLL
             destination.CostoMensualEmpleado = destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + destination.IndemProvisionMensual + destination.BonoAnualProvisionMensual + destination.SgmmCostoMensual + destination.SvCostoMensual + destination.VaidCostoMensual + destination.VaidComisionCostoMensual + destination.PtuProvision + destination.CargasSociales;
             destination.CostoMensualProyecto = 0.0M;
@@ -213,18 +211,6 @@ namespace Bovis.Business
             return destination;
 
         } 
-
-        //private static CostoLaboral CostoTotalLaboral(TB_CostoPorEmpleado costo)
-        //{
-        //    CostoLaboral costoLab = new();
-        //    costoLab.CostoMensualEmpleado = costo.SueldoBruto + costo.AguinaldoMontoProvisionMensual + costo.PvProvisionMensual + costo.IndemProvisionMensual + costo.BonoAnualProvisionMensual + costo.SgmmCostoMensual + costo.SvCostoMensual + costo.VaidCostoMensual + costo.VaidComisionCostoMensual + costo.PtuProvision + costo.CargasSociales;
-        //    costoLab.CostoMensualProyecto = 0.0M;
-        //    costoLab.CostoAnualEmpleado = costoLab.CostoMensualEmpleado * 12;
-        //    costoLab.CostoSalarioBruto = costo.SueldoBruto > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoBruto : 0;
-        //    costoLab.CostoSalarioNeto = costo.SueldoNetoPercibidoMensual > 0 ? costoLab.CostoMensualEmpleado / costo.SueldoNetoPercibidoMensual : 0;
-
-        //    return costoLab; 
-        //}
         
         private static TB_CostoPorEmpleado MapToTbCostoEmpleado<TProfile>(CostoPorEmpleadoDTO source, TB_CostoPorEmpleado destination) where TProfile : Profile, new()
         {
