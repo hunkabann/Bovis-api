@@ -355,6 +355,8 @@ namespace Bovis.Data
                                                   Activo = exp.Activo
                                               }).ToListAsync();
 
+                    res.experiencias = res.experiencias.DistinctBy(x => x.IdExperiencia).ToList();
+
                     foreach (var exp in res.experiencias)
                     {
                         res.chexperiencias += (res.chexperiencias == null) ? exp.Experiencia : ", " + exp.Experiencia;
@@ -371,6 +373,8 @@ namespace Bovis.Data
                                                  Habilidad = cat.Habilidad,
                                                  Activo = hab.Activo
                                              }).ToListAsync();
+
+                    res.habilidades = res.habilidades.DistinctBy(x => x.IdHabilidad).ToList();
 
                     foreach (var hab in res.habilidades)
                     {
