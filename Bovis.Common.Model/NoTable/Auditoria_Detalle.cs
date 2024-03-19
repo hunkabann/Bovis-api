@@ -14,6 +14,13 @@ namespace Bovis.Common.Model.NoTable
         public List<TB_Cat_Auditoria>? Auditorias { get; set; }
     }
 
+    public class Periodos_Auditoria_Detalle
+    {
+        public int IdProyecto { get; set; }
+        public string? FechaInicio { get; set; }
+        public string? FechaFin { get; set; }
+    }
+
     public class Documentos_Auditoria_Proyecto_Detalle
     {
         public int? IdSeccion { get; set; }

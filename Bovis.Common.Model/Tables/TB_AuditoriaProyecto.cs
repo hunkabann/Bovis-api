@@ -9,5 +9,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Nukidauditoria"), Nullable] public int? IdAuditoria { get; set; }
         [Column("Nukidproyecto"), Nullable] public int? IdProyecto { get; set; }
         [Column("Boaplica"), Nullable] public bool? Aplica { get; set; }
+        [Column("Dtfecha_inicio"), Nullable] public DateTime? FechaInicio { get; set; }
+        [Column("Dtfecha_fin"), Nullable] public DateTime? FechaFin { get; set; }
     }
 }

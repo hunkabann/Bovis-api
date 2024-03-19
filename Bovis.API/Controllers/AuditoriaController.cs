@@ -49,10 +49,17 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}")]
-        public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
+        [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}/{FechaInicio}/{FechaFin}")]
+        public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
         {            
-            var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
+            var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria, FechaInicio, FechaFin);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("PeriodosAuditoriaByProyecto/{IdProyecto}/{TipoAuditoria}")]
+        public async Task<IActionResult> GetPeriodosAuditoriaByProyecto(int IdProyecto, string TipoAuditoria)
+        {
+            var query = await _auditoriaQueryService.GetPeriodosAuditoriaByProyecto(IdProyecto, TipoAuditoria);
             return Ok(query);
         }
 

@@ -48,10 +48,16 @@ namespace Bovis.Service.Queries
             return new Response<List<Documentos_Auditoria_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
-        public async Task<Response<List<Documentos_Auditoria_Proyecto_Detalle>>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
+        public async Task<Response<List<Documentos_Auditoria_Proyecto_Detalle>>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
         {
-            var response = await _auditoriaBusiness.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
+            var response = await _auditoriaBusiness.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria, FechaInicio, FechaFin);
             return new Response<List<Documentos_Auditoria_Proyecto_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        
+        public async Task<Response<List<Periodos_Auditoria_Detalle>>> GetPeriodosAuditoriaByProyecto(int IdProyecto, string TipoAuditoria)
+        {
+            var response = await _auditoriaBusiness.GetPeriodosAuditoriaByProyecto(IdProyecto, TipoAuditoria);
+            return new Response<List<Periodos_Auditoria_Detalle>> { Data = _map.Map<List<Periodos_Auditoria_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         
         public async Task<Response<List<TB_Cat_AuditoriaTipoComentario>>> GetTipoComentarios()

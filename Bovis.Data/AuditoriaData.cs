@@ -218,8 +218,8 @@ namespace Bovis.Data
         }
         */
 
-        
-        public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
+
+        public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -232,12 +232,16 @@ namespace Bovis.Data
                     where audit.IdProyecto == IdProyecto
                     && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
                     && audit.Aplica == true
+                    && audit.FechaInicio == Convert.ToDateTime(FechaInicio)
+                    && (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
                     select new
                     {
                         Auditoria = audit,
                         CatAuditoria = catItem,
                         Seccion = secItem
                     }).ToListAsync();
+
+
 
                 var documentos_auditoria_detalle = documentos_auditoria.Select(a => new Auditoria_Detalle
                 {
@@ -276,7 +280,29 @@ namespace Bovis.Data
                 return auditorias_agrupadas;
             }
         }
-        
+
+
+        public async Task<List<Periodos_Auditoria_Detalle>> GetPeriodosAuditoriaByProyecto(int IdProyecto, string TipoAuditoria)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var periodos = await (from audit_proy in db.tB_Auditoria_Proyectos
+                                      join cat in db.tB_Cat_Auditorias on audit_proy.IdAuditoria equals cat.IdAuditoria into catJoin
+                                      from catItem in catJoin.DefaultIfEmpty()
+                                      where audit_proy.IdProyecto == IdProyecto
+                                      && catItem.TipoAuditoria == TipoAuditoria
+                                      select new Periodos_Auditoria_Detalle
+                                      {
+                                          IdProyecto = (int)audit_proy.IdProyecto,
+                                          FechaInicio = audit_proy.FechaInicio.Value.ToString("dd-MM-yyyy"),
+                                          FechaFin = audit_proy.FechaFin.HasValue ? audit_proy.FechaFin.Value.ToString("dd-MM-yyyy") : "--"
+                                      }).ToListAsync();
+
+                periodos = periodos.DistinctBy(x => x.FechaInicio).ToList();
+             
+                return periodos;
+            }
+        }
 
 
 
