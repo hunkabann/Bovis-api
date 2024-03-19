@@ -63,6 +63,14 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpPut, Route("Documento/Validacion")]
+        public async Task<IActionResult> ClosePeriodoAuditoriaByProyecto([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.ClosePeriodoAuditoriaByProyecto(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
         [HttpGet, Route("TipoComentarios")]
         public async Task<IActionResult> GetTipoComentarios()
         {

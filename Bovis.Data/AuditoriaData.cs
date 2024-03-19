@@ -304,6 +304,29 @@ namespace Bovis.Data
             }
         }
 
+        public async Task<(bool Success, string Message)> ClosePeriodoAuditoriaByProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                    int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+                    DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
+
+                    var res_cierre_auditoria = await (db.tB_Auditoria_Proyectos
+                                                .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fecha_inicio)
+                                                .UpdateAsync(x => new TB_AuditoriaProyecto
+                                                {
+                                                    FechaFin = DateTime.Now
+                                                })) > 0;
+
+                    resp.Success = res_cierre_auditoria;
+                    resp.Message = res_cierre_auditoria == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
 
 
         public async Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios()
