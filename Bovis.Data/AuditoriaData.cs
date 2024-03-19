@@ -232,7 +232,7 @@ namespace Bovis.Data
                     where audit.IdProyecto == IdProyecto
                     && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
                     && audit.Aplica == true
-                    && audit.FechaInicio == Convert.ToDateTime(FechaInicio)
+                    && (FechaInicio == "01-01-1600" || audit.FechaInicio == Convert.ToDateTime(FechaInicio))
                     && (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
                     select new
                     {
