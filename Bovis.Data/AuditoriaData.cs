@@ -308,20 +308,70 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
+
             using (var db = new ConnectionDB(dbConfig))
             {
-                    int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-                    DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
 
-                    var res_cierre_auditoria = await (db.tB_Auditoria_Proyectos
-                                                .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fecha_inicio)
-                                                .UpdateAsync(x => new TB_AuditoriaProyecto
-                                                {
-                                                    FechaFin = DateTime.Now
-                                                })) > 0;
+                var res_cierre_auditoria = await (db.tB_Auditoria_Proyectos
+                                            .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fecha_inicio)
+                                            .UpdateAsync(x => new TB_AuditoriaProyecto
+                                            {
+                                                FechaFin = DateTime.Now
+                                            })) > 0;
 
-                    resp.Success = res_cierre_auditoria;
-                    resp.Message = res_cierre_auditoria == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                resp.Success = res_cierre_auditoria;
+                resp.Message = res_cierre_auditoria == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> OpenPeriodoAuditoriaByProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                JsonObject json = new JsonObject
+                {
+                    ["id_proyecto"] = num_proyecto,
+                    ["auditorias"] = new JsonArray()
+                };
+                JsonArray jsonArray = new JsonArray();
+                HashSet<string> uniqueIds = new HashSet<string>();
+
+                var auditorias = await GetAuditorias("ambos");
+                auditorias.AddRange(await GetAuditorias("calidad"));
+                auditorias.AddRange(await GetAuditorias("legal"));
+
+                foreach (var sections in auditorias)
+                {
+                    foreach (var documento in sections.Auditorias)
+                    {
+                        string idAuditoria = documento.IdAuditoria.ToString();
+
+                        if (uniqueIds.Add(idAuditoria))
+                        {
+                            jsonArray.Add(new JsonObject
+                            {
+                                ["id_auditoria"] = documento.IdAuditoria,
+                                ["aplica"] = (documento.Punto == "Reportes Mensuales" ||
+                                          documento.Punto == "Certificación mensual de Servicios:" ||
+                                          documento.Punto == "Comunicación escrita y/o electrónica con el Cliente" ||
+                                          documento.Punto == "Contrato de Bovis"),
+                                ["motivo"] = "Documento por default"
+                            });
+                        }
+                    }
+                }
+
+                json["auditorias"] = jsonArray;
+
+                await AddAuditorias(json);
             }
 
             return resp;
