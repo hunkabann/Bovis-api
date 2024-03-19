@@ -63,7 +63,7 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpPut, Route("Documento/Validacion")]
+        [HttpPut, Route("ClosePeriodoAuditoria")]
         public async Task<IActionResult> ClosePeriodoAuditoriaByProyecto([FromBody] JsonObject registro)
         {
             var query = await _auditoriaQueryService.ClosePeriodoAuditoriaByProyecto(registro);
