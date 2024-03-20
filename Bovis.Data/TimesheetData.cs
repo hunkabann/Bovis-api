@@ -115,7 +115,7 @@ namespace Bovis.Data
             int? anio = registro["anio"] != null ? Convert.ToInt32(registro["anio"].ToString()) : null;
             bool? sabados = registro["sabados"] != null ? Convert.ToBoolean(registro["sabados"].ToString()) : null;
             string? id_responsable = registro["id_responsable"] != null ? registro["id_responsable"].ToString() : null;
-            int? dias_trabajo = registro["dias"] != null ? Convert.ToInt32(registro["dias"].ToString()) : null;
+            decimal? dias_trabajo = registro["dias"] != null ? Convert.ToDecimal(registro["dias"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -158,8 +158,8 @@ namespace Bovis.Data
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
                     decimal dias = Convert.ToDecimal(proyecto["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
-                    int costo = Convert.ToInt32(proyecto["costo"].ToString());
+                    decimal dedicacion = Convert.ToDecimal(proyecto["dedicacion"].ToString());
+                    decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
 
                     var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
                         .Value(x => x.IdTimesheet, last_inserted_id)
@@ -178,8 +178,8 @@ namespace Bovis.Data
                 foreach (var otro in registro["otros"].AsArray())
                 {
                     string id_otro = otro["id"].ToString();
-                    int dias = Convert.ToInt32(otro["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
+                    decimal dias = Convert.ToDecimal(otro["dias"].ToString());
+                    decimal dedicacion = Convert.ToDecimal(otro["dedicacion"].ToString());
 
                     var insert_timesheet_otro = await db.tB_Timesheet_Otros
                         .Value(x => x.IdTimeSheet, last_inserted_id)

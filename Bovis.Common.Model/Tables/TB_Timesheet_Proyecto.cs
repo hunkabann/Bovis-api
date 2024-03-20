@@ -10,8 +10,8 @@ namespace Bovis.Common.Model.Tables
         [Column("NukidProyecto"), NotNull] public int IdProyecto { get; set; }
         [Column("Chdescripcion"), NotNull] public string Descripcion { get; set; }
         [Column("Numdias"), NotNull] public decimal Dias { get; set; }
-        [Column("NumTdedicacion"), NotNull] public int TDedicacion { get; set; }
-        [Column("Numcosto"), NotNull] public int Costo { get; set; }
+        [Column("NumTdedicacion"), NotNull] public decimal TDedicacion { get; set; }
+        [Column("Numcosto"), NotNull] public decimal Costo { get; set; }
         [Column("Boactivo"), NotNull] public bool Activo { get; set; }
     }
 }
