@@ -232,8 +232,17 @@ namespace Bovis.Data
                     where audit.IdProyecto == IdProyecto
                     && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
                     && audit.Aplica == true
-                    && (FechaInicio == "01-01-1600" || audit.FechaInicio == Convert.ToDateTime(FechaInicio))
-                    && (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
+
+                    && (FechaInicio == "01-01-1600" && FechaFin == "01-01-1600" ? (audit.FechaInicio != null && audit.FechaFin == null) :
+                            (
+                                (FechaInicio == "01-01-1600" || audit.FechaInicio == Convert.ToDateTime(FechaInicio))
+                                &&
+                                (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
+                            )
+                        )
+
+                    //&& (FechaInicio == "01-01-1600" || audit.FechaInicio == Convert.ToDateTime(FechaInicio))
+                    //&& (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
                     select new
                     {
                         Auditoria = audit,
@@ -448,6 +457,7 @@ namespace Bovis.Data
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
                                                                 .Value(x => x.IdProyecto, id_proyecto)
                                                                 .Value(x => x.Aplica, aplica)
+                                                                .Value(x => x.FechaInicio, DateTime.Now)
                                                                 .InsertAsync() > 0;
 
                     resp.Success = insert_auditoria_proyecto;
