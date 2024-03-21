@@ -860,8 +860,8 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_timesheet_proyecto = Convert.ToInt32(registro["id_timesheet_proyecto"].ToString());
-            int num_dias = Convert.ToInt32(registro["num_dias"].ToString());
-            int num_dedicacion = Convert.ToInt32(registro["num_dedicacion"].ToString());
+            decimal num_dias = Convert.ToDecimal(registro["num_dias"].ToString());
+            decimal num_dedicacion = Convert.ToDecimal(registro["num_dedicacion"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
