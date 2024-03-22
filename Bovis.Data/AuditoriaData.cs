@@ -380,7 +380,7 @@ namespace Bovis.Data
 
                 json["auditorias"] = jsonArray;
 
-                await AddAuditorias(json);
+                resp = await AddAuditorias(json);
             }
 
             return resp;
