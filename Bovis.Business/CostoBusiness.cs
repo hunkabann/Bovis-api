@@ -40,6 +40,10 @@ namespace Bovis.Business
             source.IdEmpleadoJefe = empleado.IdJefeDirecto;
 
             destination = CostoBusinessUpdate.ValueFields(source);
+
+            //destination.RetencionImss = empleado.Salario 
+
+
             var response = await _costoData.AddCosto(destination);
             return response; 
         }

@@ -61,8 +61,8 @@ namespace Bovis.Business
             if (destination.SueldoBruto.HasValue && destination.SueldoBruto > 1)
             {
                 #region Sueldo Neto Mensual
-                destination.AvgDescuentoEmpleado = destination.SueldoBruto > 0 ? destination.MontoDescuentoMensual / destination.SueldoBruto : 0;
                 destination.MontoDescuentoMensual = destination.RetencionImss + destination.Ispt;
+                destination.AvgDescuentoEmpleado = destination.SueldoBruto > 0 ? destination.MontoDescuentoMensual / destination.SueldoBruto : 0;
                 destination.SueldoNetoPercibidoMensual = destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion + CostoBusinessConstants.ViaticosAComprobar - destination.MontoDescuentoMensual;
                 #endregion Sueldo Neto Mensual
 

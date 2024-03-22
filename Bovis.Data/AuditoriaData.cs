@@ -327,7 +327,7 @@ namespace Bovis.Data
                                             .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fecha_inicio)
                                             .UpdateAsync(x => new TB_AuditoriaProyecto
                                             {
-                                                FechaFin = DateTime.Now
+                                                FechaFin = DateTime.Now.Date
                                             })) > 0;
 
                 resp.Success = res_cierre_auditoria;
@@ -457,7 +457,7 @@ namespace Bovis.Data
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
                                                                 .Value(x => x.IdProyecto, id_proyecto)
                                                                 .Value(x => x.Aplica, aplica)
-                                                                .Value(x => x.FechaInicio, DateTime.Now)
+                                                                .Value(x => x.FechaInicio, DateTime.Now.Date)
                                                                 .InsertAsync() > 0;
 
                     resp.Success = insert_auditoria_proyecto;
