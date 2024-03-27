@@ -369,9 +369,9 @@ namespace Bovis.Data
                             {
                                 ["id_auditoria"] = documento.IdAuditoria,
                                 ["aplica"] = (documento.Punto == "Reportes Mensuales" ||
-                                          documento.Punto == "Certificación mensual de Servicios:" ||
-                                          documento.Punto == "Comunicación escrita y/o electrónica con el Cliente" ||
-                                          documento.Punto == "Contrato de Bovis"),
+                                              documento.Punto == "Certificación mensual de Servicios:" ||
+                                              documento.Punto == "Comunicación escrita y/o electrónica con el Cliente" ||
+                                              documento.Punto == "Contrato de Bovis"),
                                 ["motivo"] = "Documento por default"
                             });
                         }

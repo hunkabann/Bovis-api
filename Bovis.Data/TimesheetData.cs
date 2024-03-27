@@ -115,7 +115,7 @@ namespace Bovis.Data
             int? anio = registro["anio"] != null ? Convert.ToInt32(registro["anio"].ToString()) : null;
             bool? sabados = registro["sabados"] != null ? Convert.ToBoolean(registro["sabados"].ToString()) : null;
             string? id_responsable = registro["id_responsable"] != null ? registro["id_responsable"].ToString() : null;
-            decimal? dias_trabajo = registro["dias"] != null ? Convert.ToDecimal(registro["dias"].ToString()) : null;
+            float? dias_trabajo = registro["dias"] != null ? float.Parse(registro["dias"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -157,8 +157,8 @@ namespace Bovis.Data
                 {
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
-                    decimal dias = Convert.ToDecimal(proyecto["dias"].ToString());
-                    decimal dedicacion = Convert.ToDecimal(proyecto["dedicacion"].ToString());
+                    float dias = float.Parse(proyecto["dias"].ToString());
+                    float dedicacion = float.Parse(proyecto["dedicacion"].ToString());
                     decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
 
                     var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
@@ -178,8 +178,8 @@ namespace Bovis.Data
                 foreach (var otro in registro["otros"].AsArray())
                 {
                     string id_otro = otro["id"].ToString();
-                    decimal dias = Convert.ToDecimal(otro["dias"].ToString());
-                    decimal dedicacion = Convert.ToDecimal(otro["dedicacion"].ToString());
+                    float dias = float.Parse(otro["dias"].ToString());
+                    float dedicacion = float.Parse(otro["dedicacion"].ToString());
 
                     var insert_timesheet_otro = await db.tB_Timesheet_Otros
                         .Value(x => x.IdTimeSheet, last_inserted_id)
@@ -339,7 +339,7 @@ namespace Bovis.Data
 
                     foreach(var proyecto in timesheet.proyectos)
                     {
-                        proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));                        
+                        proyecto.TDedicacion = (proyecto.Dias / (float)timesheet.dias_trabajo!) * 100;                        
                     }
 
                     timesheets_summary.Add(timesheet);
@@ -399,7 +399,7 @@ namespace Bovis.Data
 
                         foreach (var proyecto in timesheet.proyectos)
                         {
-                            proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                            proyecto.TDedicacion = (proyecto.Dias / (float)timesheet.dias_trabajo!) * 100;
                         }
 
                         timesheets_summary.Add(timesheet);
@@ -860,8 +860,8 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_timesheet_proyecto = Convert.ToInt32(registro["id_timesheet_proyecto"].ToString());
-            decimal num_dias = Convert.ToDecimal(registro["num_dias"].ToString());
-            decimal num_dedicacion = Convert.ToDecimal(registro["num_dedicacion"].ToString());
+            float num_dias = float.Parse(registro["num_dias"].ToString());
+            float num_dedicacion = float.Parse(registro["num_dedicacion"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
