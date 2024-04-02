@@ -221,6 +221,9 @@ namespace Bovis.Data
 
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
         {
+            FechaInicio = FechaInicio.Replace("_", "-");
+            FechaFin = FechaFin.Replace("_", "-");
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 var documentos_auditoria = await (
