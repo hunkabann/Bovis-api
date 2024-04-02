@@ -1056,6 +1056,10 @@ namespace Bovis.Data
             {
                 using (var db = new ConnectionDB(dbConfig)) return await (from emp_proj in db.tB_EmpleadoProyectos
                                                                           join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto
+                                                                          join time_proy in db.tB_Timesheet_Proyectos on proj.NumProyecto equals time_proy.IdProyecto into time_proyJoin
+                                                                          from time_proy_item in time_proyJoin.DefaultIfEmpty()
+                                                                          join time in db.tB_Timesheets on time_proy_item.IdTimesheet equals time.IdTimesheet into timeJoin
+                                                                          from time_item in timeJoin.DefaultIfEmpty()
                                                                           where emp_proj.NumEmpleadoRrHh == idEmpleado
                                                                           && emp_proj.Activo == true
                                                                           select new Proyecto_Detalle
@@ -1081,7 +1085,10 @@ namespace Bovis.Data
                                                                               nunum_empleado_rr_hh = emp_proj.NumEmpleadoRrHh,
                                                                               nuporcantaje_participacion = emp_proj.PorcentajeParticipacion,
                                                                               chalias_puesto = emp_proj.AliasPuesto,
-                                                                              chgrupo_proyecto = emp_proj.GrupoProyecto
+                                                                              chgrupo_proyecto = emp_proj.GrupoProyecto,
+                                                                              nudias = time_item.DiasTrabajo,
+                                                                              nudedicacion = time_proy_item.TDedicacion,
+                                                                              nucosto = time_proy_item.Costo
                                                                           }).ToListAsync();
             }
             else return await GetAllFromEntityAsync<Proyecto_Detalle>();
