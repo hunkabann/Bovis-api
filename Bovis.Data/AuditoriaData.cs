@@ -224,6 +224,12 @@ namespace Bovis.Data
             FechaInicio = FechaInicio.Replace("_", "-");
             FechaFin = FechaFin.Replace("_", "-");
 
+            DateTime fechaInicio;
+            DateTime fechaFin;
+
+            if (DateTime.TryParseExact(FechaInicio, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaInicio)) { }
+            if (DateTime.TryParseExact(FechaFin, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaFin)) { }
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 var documentos_auditoria = await (
@@ -238,9 +244,9 @@ namespace Bovis.Data
 
                     && (FechaInicio == "01-01-1600" && FechaFin == "01-01-1600" ? (audit.FechaInicio != null && audit.FechaFin == null) :
                             (
-                                (FechaInicio == "01-01-1600" || audit.FechaInicio == Convert.ToDateTime(FechaInicio))
+                                (FechaInicio == "01-01-1600" || audit.FechaInicio == fechaInicio)
                                 &&
-                                (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
+                                (FechaFin == "01-01-1600" || audit.FechaFin == fechaFin)
                             )
                         )
 
@@ -321,13 +327,16 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-            DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
+            string FechaInicio = registro["fecha_inicio"].ToString().Replace("_", "-");
+            DateTime fechaInicio;
+
+            if (DateTime.TryParseExact(FechaInicio, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaInicio)) { }
 
             using (var db = new ConnectionDB(dbConfig))
             {
 
                 var res_cierre_auditoria = await (db.tB_Auditoria_Proyectos
-                                            .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fecha_inicio)
+                                            .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fechaInicio)
                                             .UpdateAsync(x => new TB_AuditoriaProyecto
                                             {
                                                 FechaFin = DateTime.Now.Date
