@@ -341,7 +341,7 @@ namespace Bovis.Data
                     int años_edad = diferenciaEdad.Days / 365;
                     res.chedad = $"{años_edad} años";
 
-                    
+
 
                     res.experiencias = await (from exp in db.tB_Empleado_Experiencias
                                               join cat in db.tB_Cat_Experiencias on exp.IdExperiencia equals cat.IdExperiencia
@@ -383,15 +383,15 @@ namespace Bovis.Data
                 }
 
                 res.proyecto = await (from proy in db.tB_Proyectos
-                                          join rel in db.tB_EmpleadoProyectos on proy.NumProyecto equals rel.NumProyecto
-                                          where rel.NumEmpleadoRrHh == res.nunum_empleado_rr_hh
-                                          select new Empleado_Proyecto_Info
-                                          {
-                                              NumProyecto = proy.NumProyecto,
-                                              Proyecto = proy.Proyecto,
-                                              FechaInicio = proy.FechaIni,
-                                              FechaFin = proy.FechaFin
-                                          }).FirstOrDefaultAsync();
+                                      join rel in db.tB_EmpleadoProyectos on proy.NumProyecto equals rel.NumProyecto
+                                      where rel.NumEmpleadoRrHh == res.nunum_empleado_rr_hh
+                                      select new Empleado_Proyecto_Info
+                                      {
+                                          NumProyecto = proy.NumProyecto,
+                                          Proyecto = proy.Proyecto,
+                                          FechaInicio = proy.FechaIni,
+                                          FechaFin = proy.FechaFin
+                                      }).FirstOrDefaultAsync();
 
                 return res;
 
@@ -1052,46 +1052,58 @@ namespace Bovis.Data
         #region Proyectos
         public async Task<List<Proyecto_Detalle>> GetProyectos(string idEmpleado)
         {
-            if (idEmpleado.Length > 0)
+
+            using (var db = new ConnectionDB(dbConfig))
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from emp_proj in db.tB_EmpleadoProyectos
-                                                                          join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto
-                                                                          join time_proy in db.tB_Timesheet_Proyectos on proj.NumProyecto equals time_proy.IdProyecto into time_proyJoin
-                                                                          from time_proy_item in time_proyJoin.DefaultIfEmpty()
-                                                                          join time in db.tB_Timesheets on time_proy_item.IdTimesheet equals time.IdTimesheet into timeJoin
-                                                                          from time_item in timeJoin.DefaultIfEmpty()
-                                                                          where emp_proj.NumEmpleadoRrHh == idEmpleado
-                                                                          && emp_proj.Activo == true
-                                                                          select new Proyecto_Detalle
-                                                                          {
-                                                                              nunum_proyecto = proj.NumProyecto,
-                                                                              chproyecto = proj.Proyecto,
-                                                                              chalcance = proj.Alcance,
-                                                                              chcp = proj.Cp,
-                                                                              chciudad = proj.Ciudad,
-                                                                              nukidestatus = proj.IdEstatus,
-                                                                              nukidsector = proj.IdSector,
-                                                                              nukidtipo_proyecto = proj.IdTipoProyecto,
-                                                                              nukidresponsable_preconstruccion = proj.IdResponsablePreconstruccion,
-                                                                              nukidresponsable_construccion = proj.IdResponsableConstruccion,
-                                                                              nukidresponsable_ehs = proj.IdResponsableEhs,
-                                                                              nukidresponsable_supervisor = proj.IdResponsableSupervisor,
-                                                                              nukidempresa = proj.IdEmpresa,
-                                                                              nukidpais = proj.IdPais,
-                                                                              nukiddirector_ejecutivo = proj.IdDirectorEjecutivo,
-                                                                              nucosto_promedio_m2 = proj.CostoPromedioM2,
-                                                                              dtfecha_ini = proj.FechaIni,
-                                                                              dtfecha_fin = proj.FechaFin,
-                                                                              nunum_empleado_rr_hh = emp_proj.NumEmpleadoRrHh,
-                                                                              nuporcantaje_participacion = emp_proj.PorcentajeParticipacion,
-                                                                              chalias_puesto = emp_proj.AliasPuesto,
-                                                                              chgrupo_proyecto = emp_proj.GrupoProyecto,
-                                                                              nudias = time_item.DiasTrabajo,
-                                                                              nudedicacion = time_proy_item.TDedicacion,
-                                                                              nucosto = time_proy_item.Costo
-                                                                          }).ToListAsync();
+                var proyectos = await (from emp_proj in db.tB_EmpleadoProyectos
+                                       join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto                                       
+                                       where (idEmpleado == "0" || emp_proj.NumEmpleadoRrHh == idEmpleado)
+                                       && emp_proj.Activo == true
+                                       select new Proyecto_Detalle
+                                       {
+                                           nunum_proyecto = proj.NumProyecto,
+                                           chproyecto = proj.Proyecto,
+                                           chalcance = proj.Alcance,
+                                           chcp = proj.Cp,
+                                           chciudad = proj.Ciudad,
+                                           nukidestatus = proj.IdEstatus,
+                                           nukidsector = proj.IdSector,
+                                           nukidtipo_proyecto = proj.IdTipoProyecto,
+                                           nukidresponsable_preconstruccion = proj.IdResponsablePreconstruccion,
+                                           nukidresponsable_construccion = proj.IdResponsableConstruccion,
+                                           nukidresponsable_ehs = proj.IdResponsableEhs,
+                                           nukidresponsable_supervisor = proj.IdResponsableSupervisor,
+                                           nukidempresa = proj.IdEmpresa,
+                                           nukidpais = proj.IdPais,
+                                           nukiddirector_ejecutivo = proj.IdDirectorEjecutivo,
+                                           nucosto_promedio_m2 = proj.CostoPromedioM2,
+                                           dtfecha_ini = proj.FechaIni,
+                                           dtfecha_fin = proj.FechaFin,
+                                           nunum_empleado_rr_hh = emp_proj.NumEmpleadoRrHh,
+                                           nuporcantaje_participacion = emp_proj.PorcentajeParticipacion,
+                                           chalias_puesto = emp_proj.AliasPuesto,
+                                           chgrupo_proyecto = emp_proj.GrupoProyecto,
+                                       }).ToListAsync();
+
+                foreach (var proyecto in proyectos)
+                {
+                    var costos = await (from time_proy in db.tB_Timesheet_Proyectos
+                                       join time in db.tB_Timesheets on time_proy.IdTimesheet equals time.IdTimesheet into timeJoin
+                                       from time_item in timeJoin.DefaultIfEmpty()
+                                       where time_proy.IdProyecto == proyecto.nunum_proyecto
+                                       select new InfoCosto
+                                       {
+                                           nudias = time_item.DiasTrabajo,
+                                           nudedicacion = time_proy.TDedicacion,
+                                           nucosto = time_proy.Costo
+                                       }).ToListAsync();
+
+                    proyecto.Costos = new List<InfoCosto>();
+                    proyecto.Costos.AddRange(costos);
+                }
+
+                return proyectos;
             }
-            else return await GetAllFromEntityAsync<Proyecto_Detalle>();
         }
         #endregion Proyectos
 
