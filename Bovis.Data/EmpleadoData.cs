@@ -1063,6 +1063,8 @@ namespace Bovis.Data
                                        from timeItem in timeJoin.DefaultIfEmpty()
                                        where (idEmpleado == "0" || emp_proj.NumEmpleadoRrHh == idEmpleado)
                                        && timeItem.IdEmpleado == idEmpleado
+                                       && timeItem.Mes == DateTime.Now.Month
+                                       && timeItem.Anio == DateTime.Now.Year
                                        && emp_proj.Activo == true
                                        select new Proyecto_Detalle
                                        {
