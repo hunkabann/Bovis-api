@@ -1056,8 +1056,13 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var proyectos = await (from emp_proj in db.tB_EmpleadoProyectos
-                                       join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto                                       
+                                       join proj in db.tB_Proyectos on emp_proj.NumProyecto equals proj.NumProyecto    
+                                       join time_proy in db.tB_Timesheet_Proyectos on proj.NumProyecto equals time_proy.IdProyecto into time_proyJoin
+                                       from time_proyItem in time_proyJoin.DefaultIfEmpty()
+                                       join time in db.tB_Timesheets on time_proyItem.IdTimesheet equals time.IdTimesheet into timeJoin
+                                       from timeItem in timeJoin.DefaultIfEmpty()
                                        where (idEmpleado == "0" || emp_proj.NumEmpleadoRrHh == idEmpleado)
+                                       && timeItem.IdEmpleado == idEmpleado
                                        && emp_proj.Activo == true
                                        select new Proyecto_Detalle
                                        {
@@ -1083,24 +1088,27 @@ namespace Bovis.Data
                                            nuporcantaje_participacion = emp_proj.PorcentajeParticipacion,
                                            chalias_puesto = emp_proj.AliasPuesto,
                                            chgrupo_proyecto = emp_proj.GrupoProyecto,
+                                           nudias = timeItem.DiasTrabajo,
+                                           nudedicacion = time_proyItem.TDedicacion,
+                                           nucosto = time_proyItem.Costo
                                        }).ToListAsync();
 
-                foreach (var proyecto in proyectos)
-                {
-                    var costos = await (from time_proy in db.tB_Timesheet_Proyectos
-                                       join time in db.tB_Timesheets on time_proy.IdTimesheet equals time.IdTimesheet into timeJoin
-                                       from time_item in timeJoin.DefaultIfEmpty()
-                                       where time_proy.IdProyecto == proyecto.nunum_proyecto
-                                       select new InfoCosto
-                                       {
-                                           nudias = time_item.DiasTrabajo,
-                                           nudedicacion = time_proy.TDedicacion,
-                                           nucosto = time_proy.Costo
-                                       }).ToListAsync();
+                //foreach (var proyecto in proyectos)
+                //{
+                //    var costos = await (from time_proy in db.tB_Timesheet_Proyectos
+                //                       join time in db.tB_Timesheets on time_proy.IdTimesheet equals time.IdTimesheet into timeJoin
+                //                       from time_item in timeJoin.DefaultIfEmpty()
+                //                       where time_proy.IdProyecto == proyecto.nunum_proyecto
+                //                       select new InfoCosto
+                //                       {
+                //                           nudias = time_item.DiasTrabajo,
+                //                           nudedicacion = time_proy.TDedicacion,
+                //                           nucosto = time_proy.Costo
+                //                       }).ToListAsync();
 
-                    proyecto.Costos = new List<InfoCosto>();
-                    proyecto.Costos.AddRange(costos);
-                }
+                //    proyecto.Costos = new List<InfoCosto>();
+                //    proyecto.Costos.AddRange(costos);
+                //}
 
                 return proyectos;
             }

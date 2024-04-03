@@ -25,19 +25,6 @@
           "SelectedChildIndex": 16,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Proyecto_Detalle.cs",
-              "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
-              "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
-              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
-              "RelativeToolTip": "Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
-              "ViewState": "AQIAADgAAACAyszMzMwowB8AAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-03T03:58:34.015Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
@@ -99,13 +86,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Proyecto_Detalle.cs",
+              "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
+              "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
+              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
+              "RelativeToolTip": "Bovis.Common.Model\\NoTable\\Proyecto_Detalle.cs",
+              "ViewState": "AQIAADcAAAAAlZmZmZkRwEgAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-03T03:58:34.015Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "EmpleadoData.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\EmpleadoData.cs",
               "RelativeDocumentMoniker": "Bovis.Data\\EmpleadoData.cs",
-              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\EmpleadoData.cs",
-              "RelativeToolTip": "Bovis.Data\\EmpleadoData.cs",
-              "ViewState": "AQIAABQAAAAAYmZmZuYcwE0EAAA1AAAA",
+              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\EmpleadoData.cs*",
+              "RelativeToolTip": "Bovis.Data\\EmpleadoData.cs*",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAACgEAABLAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-03T03:53:33.692Z",
               "EditorCaption": ""
@@ -120,8 +120,7 @@
               "RelativeToolTip": "Bovis.Data\\TimesheetData.cs",
               "ViewState": "AQIAABEBAAAAAAAAAAAgwD4BAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-02T17:53:12.724Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-02T17:53:12.724Z"
             }
           ]
         }
