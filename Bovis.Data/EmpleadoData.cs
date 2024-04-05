@@ -1090,7 +1090,7 @@ namespace Bovis.Data
                                            nuporcantaje_participacion = emp_proj.PorcentajeParticipacion,
                                            chalias_puesto = emp_proj.AliasPuesto,
                                            chgrupo_proyecto = emp_proj.GrupoProyecto,
-                                           nudias = timeItem.DiasTrabajo,
+                                           nudias = time_proyItem.Dias,
                                            nudedicacion = time_proyItem.TDedicacion,
                                            nucosto = time_proyItem.Costo
                                        }).ToListAsync();
