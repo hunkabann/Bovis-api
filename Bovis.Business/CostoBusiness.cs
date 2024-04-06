@@ -39,10 +39,10 @@ namespace Bovis.Business
             source.IdEmpresa = empleado.IdEmpresa;
             source.IdEmpleadoJefe = empleado.IdJefeDirecto;
 
+            var proyecto = await _costoData.GetProyecto((int)source.NumProyecto);
+            source.ImpuestoNomina = proyecto.ImpuestoNomina;
+
             destination = CostoBusinessUpdate.ValueFields(source);
-
-            //destination.RetencionImss = empleado.Salario 
-
 
             var response = await _costoData.AddCosto(destination);
             return response; 

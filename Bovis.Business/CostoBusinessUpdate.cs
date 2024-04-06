@@ -191,7 +191,7 @@ namespace Bovis.Business
             #endregion Vales de Despensa
 
             #region Cargas sociales e impuestos laborales
-            destination.Impuesto3sNomina = (destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual + CostoBusinessConstants.BonoAdicionalReubicacion) * 0.03M;
+            destination.Impuesto3sNomina = (destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual + CostoBusinessConstants.BonoAdicionalReubicacion) * source.ImpuestoNomina; // * 0.03M;
             destination.CargasSociales = destination.Impuesto3sNomina + destination.RetencionImss + destination.Retiro2 + destination.CesantesVejez + destination.Infonavit;
             #endregion Cargas sociales e impuestos laborales
 

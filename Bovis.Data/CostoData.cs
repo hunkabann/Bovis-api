@@ -478,6 +478,21 @@ namespace Bovis.Data
             }
         }
         #endregion Empleado
+
+        #region Proyecto
+        public async Task<TB_Proyecto> GetProyecto(int numProyecto)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+
+                var proyecto = await (from proy in db.tB_Proyectos
+                                      where proy.NumProyecto == numProyecto
+                                      select proy).FirstOrDefaultAsync();
+
+                return proyecto;
+            }
+        }
+        #endregion Proyecto
     }
 }
 public class CostoQueries : RepositoryLinq2DB<ConnectionDB>

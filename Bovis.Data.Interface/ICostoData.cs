@@ -20,5 +20,6 @@ namespace Bovis.Data.Interface
         Task<Response<bool>> DeleteCosto(int costoId);
 
         Task<TB_Empleado> GetEmpleado(string numEmpleadoRrHh);
-    }
+        Task<TB_Proyecto> GetProyecto(int numProyecto);
+    }                                                         
 }

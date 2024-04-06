@@ -115,6 +115,7 @@ namespace Bovis.Data
             string? posicion_contacto = registro["posicion_contacto"] != null ? registro["posicion_contacto"].ToString() : null;
             string? telefono_contacto = registro["telefono_contacto"] != null ? registro["telefono_contacto"].ToString() : null;
             string? correo_contacto = registro["correo_contacto"] != null ? registro["correo_contacto"].ToString() : null;
+            int impuesto_nomina = Convert.ToInt32(registro["impuesto_nomina"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -148,6 +149,7 @@ namespace Bovis.Data
                     .Value(x => x.CostoPromedioM2, costo_promedio_m2)
                     .Value(x => x.FechaIni, fecha_inicio)
                     .Value(x => x.FechaFin, fecha_fin)
+                    .Value(x => x.ImpuestoNomina, impuesto_nomina)
                     .InsertAsync() > 0;
 
                 resp.Success = res_insert_proyecto;

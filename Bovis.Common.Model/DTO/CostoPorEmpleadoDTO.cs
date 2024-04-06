@@ -59,5 +59,6 @@ namespace Bovis.Common.Model.DTO
         public decimal? IndiceCargaLaboral { get; set; } = 0M;
         public DateTime? FechaActualizacion { get; set; }
         public bool? RegHistorico { get; set; } = false;
+        public int ImpuestoNomina { get; set; } = 0;
     }
 }
