@@ -27,7 +27,7 @@ namespace Bovis.Business
             destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination); 
              
 
-            #region Antiguedad
+            #region Seniority
             if (destination.FechaIngreso == null || destination.FechaIngreso == DateTime.MinValue)
             {
                 DateTime fechaHoraActual = DateTime.Now;
@@ -40,7 +40,7 @@ namespace Bovis.Business
             //destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso).Days) / 365);
             TimeSpan diferencia = (TimeSpan) (DateTime.Now - destination.FechaIngreso); 
             destination.Antiguedad = diferencia.Days / 365;
-            #endregion Antigüedad
+            #endregion Seniority
 
             #region Aguinaldo
             if (destination.Antiguedad != 0)
@@ -63,7 +63,7 @@ namespace Bovis.Business
                 #region Sueldo Neto Mensual
                 destination.MontoDescuentoMensual = destination.RetencionImss + destination.Ispt;
                 destination.AvgDescuentoEmpleado = destination.SueldoBruto > 0 ? destination.MontoDescuentoMensual / destination.SueldoBruto : 0;
-                destination.SueldoNetoPercibidoMensual = destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion + CostoBusinessConstants.ViaticosAComprobar - destination.MontoDescuentoMensual;
+                destination.SueldoNetoPercibidoMensual = (destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion / CostoBusinessConstants.ViaticosAComprobar) - destination.MontoDescuentoMensual;
                 #endregion Sueldo Neto Mensual
 
                 destination.Anual = destination.SueldoBruto * 12;
@@ -165,12 +165,12 @@ namespace Bovis.Business
                 destination.PvProvisionMensual = 0.0M;
             #endregion Prima Vacacional
 
-            #region Seguro de Gastos Médicos Mayores
+            #region Gastos Médicos Mayores
             if (destination.SgmmCostoTotalAnual.HasValue)
             {
                 destination.SgmmCostoMensual = destination.SgmmCostoTotalAnual / 12.0M;
             }
-            #endregion Seguro de Gastos Médicos Mayores
+            #endregion Gastos Médicos Mayores
 
             #region Seguro de Vida
             if (destination.SvCostoTotalAnual.HasValue && destination.SvCostoTotalAnual != 0)

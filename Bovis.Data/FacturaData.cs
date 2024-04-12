@@ -299,7 +299,7 @@ namespace Bovis.Data
                                  && (fechaIni == null || a.FechaEmision >= fechaIni)
                                  && (fechaFin == null || a.FechaEmision <= fechaFin)
                                  && (noFactura == null || a.NoFactura == noFactura)
-                                 orderby a.Id descending
+                                 orderby a.FechaEmision, a.NoFactura descending
                                  select new FacturaDetalles
                                  {
                                      Id = a.Id,
