@@ -250,8 +250,6 @@ namespace Bovis.Data
                             )
                         )
 
-                    //&& (FechaInicio == "01-01-1600" || audit.FechaInicio == Convert.ToDateTime(FechaInicio))
-                    //&& (FechaFin == "01-01-1600" || audit.FechaFin == Convert.ToDateTime(FechaFin))
                     select new
                     {
                         Auditoria = audit,
