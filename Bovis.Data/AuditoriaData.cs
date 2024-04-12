@@ -221,42 +221,62 @@ namespace Bovis.Data
 
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
         {
-            FechaInicio = FechaInicio.Replace("_", "-");
-            FechaFin = FechaFin.Replace("_", "-");
-
-            DateTime fechaInicio;
-            DateTime fechaFin;
-
-            if (DateTime.TryParseExact(FechaInicio, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaInicio)) { }
-            if (DateTime.TryParseExact(FechaFin, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaFin)) { }
-
             using (var db = new ConnectionDB(dbConfig))
             {
-                var documentos_auditoria = await (
-                    from audit in db.tB_Auditoria_Proyectos
-                    join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
-                    from catItem in catJoin.DefaultIfEmpty()
-                    join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
-                    from secItem in secJoin.DefaultIfEmpty()
-                    where audit.IdProyecto == IdProyecto
-                    && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
-                    && audit.Aplica == true
+                List<TablasAuditoria_Detalle> documentos_auditoria = null;
 
-                    && (FechaInicio == "01-01-1600" && FechaFin == "01-01-1600" ? (audit.FechaInicio != null && audit.FechaFin == null) :
-                            (
-                                (FechaInicio == "01-01-1600" || audit.FechaInicio == fechaInicio)
-                                &&
-                                (FechaFin == "01-01-1600" || audit.FechaFin == fechaFin)
-                            )
-                        )
+                if (TipoAuditoria == "legal")
+                {
+                    FechaInicio = FechaInicio.Replace("_", "-");
+                    FechaFin = FechaFin.Replace("_", "-");
 
-                    select new
-                    {
-                        Auditoria = audit,
-                        CatAuditoria = catItem,
-                        Seccion = secItem
-                    }).ToListAsync();
+                    DateTime fechaInicio;
+                    DateTime fechaFin;
 
+                    if (DateTime.TryParseExact(FechaInicio, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaInicio)) { }
+                    if (DateTime.TryParseExact(FechaFin, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaFin)) { }
+
+                    documentos_auditoria = await (from audit in db.tB_Auditoria_Proyectos
+                                                  join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
+                                                  from catItem in catJoin.DefaultIfEmpty()
+                                                  join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                                  from secItem in secJoin.DefaultIfEmpty()
+                                                  where audit.IdProyecto == IdProyecto
+                                                  && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
+                                                  && audit.Aplica == true
+
+                                                  && (FechaInicio == "01-01-1600" && FechaFin == "01-01-1600" ? (audit.FechaInicio != null && audit.FechaFin == null) :
+                                                          (
+                                                              (FechaInicio == "01-01-1600" || audit.FechaInicio == fechaInicio)
+                                                              &&
+                                                              (FechaFin == "01-01-1600" || audit.FechaFin == fechaFin)
+                                                          )
+                                                      )
+
+                                                  select new TablasAuditoria_Detalle
+                                                  {
+                                                      Auditoria = audit,
+                                                      CatAuditoria = catItem,
+                                                      Seccion = secItem
+                                                  }).ToListAsync();
+                }
+                else
+                {
+                    documentos_auditoria = await (from audit in db.tB_Auditoria_Proyectos
+                                                join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
+                                                from catItem in catJoin.DefaultIfEmpty()
+                                                join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                                from secItem in secJoin.DefaultIfEmpty()
+                                                where audit.IdProyecto == IdProyecto
+                                                && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
+                                                && audit.Aplica == true
+                                                select new TablasAuditoria_Detalle
+                                                {
+                                                    Auditoria = audit,
+                                                    CatAuditoria = catItem,
+                                                    Seccion = secItem
+                                                }).ToListAsync();
+                }
 
 
                 var documentos_auditoria_detalle = documentos_auditoria.Select(a => new Auditoria_Detalle

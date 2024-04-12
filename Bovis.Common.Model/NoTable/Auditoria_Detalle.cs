@@ -68,4 +68,12 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? FechaAuditoriaInicial { get; set; }
         public DateTime? FechaAuditoria { get; set; }
     }
+
+    public class TablasAuditoria_Detalle
+    {
+        public TB_AuditoriaProyecto Auditoria { get; set; }
+        public TB_Cat_Auditoria CatAuditoria { get; set; }
+        public TB_Cat_AuditoriaSeccion Seccion { get; set; }
+    }
+
 }
