@@ -339,7 +339,7 @@ namespace Bovis.Data
 
                     foreach(var proyecto in timesheet.proyectos)
                     {
-                        proyecto.TDedicacion = (proyecto.Dias / (float)timesheet.dias_trabajo!) * 100;                        
+                        proyecto.TDedicacion = Convert.ToInt32((proyecto.Dias / (float)timesheet.dias_trabajo!) * 100); 
                     }
 
                     timesheets_summary.Add(timesheet);
@@ -399,7 +399,7 @@ namespace Bovis.Data
 
                         foreach (var proyecto in timesheet.proyectos)
                         {
-                            proyecto.TDedicacion = (proyecto.Dias / (float)timesheet.dias_trabajo!) * 100;
+                            proyecto.TDedicacion = Convert.ToInt32((proyecto.Dias / (float)timesheet.dias_trabajo!) * 100);
                         }
 
                         timesheets_summary.Add(timesheet);
@@ -869,7 +869,7 @@ namespace Bovis.Data
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Dias = num_dias,
-                                    TDedicacion = num_dedicacion
+                                    TDedicacion = Convert.ToInt32(num_dedicacion)
                                 }) > 0;
 
                 resp.Success = res_update_timesheet_proyecto;
