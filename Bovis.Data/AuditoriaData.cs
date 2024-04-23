@@ -336,7 +336,10 @@ namespace Bovis.Data
                                       }).ToListAsync();
 
                 //periodos = periodos.DistinctBy(x => x.FechaInicio).ToList();
-             
+                periodos = periodos.GroupBy(x => new { x.FechaInicio, x.FechaFin })
+                   .Select(group => group.First())
+                   .ToList();
+
                 return periodos;
             }
         }
@@ -474,9 +477,9 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var delete_auditoria_proyecto = await db.tB_Auditoria_Proyectos
-                                                                .Where(x => x.IdProyecto == id_proyecto)
-                                                                .DeleteAsync() > 0;
+                //var delete_auditoria_proyecto = await db.tB_Auditoria_Proyectos
+                //                                                .Where(x => x.IdProyecto == id_proyecto)
+                //                                                .DeleteAsync() > 0;
 
                 foreach (var a in auditorias)
                 {
