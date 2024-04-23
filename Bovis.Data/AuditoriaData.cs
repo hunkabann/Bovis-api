@@ -327,6 +327,7 @@ namespace Bovis.Data
                                       from catItem in catJoin.DefaultIfEmpty()
                                       where audit_proy.IdProyecto == IdProyecto
                                       && catItem.TipoAuditoria == TipoAuditoria
+                                      orderby audit_proy.FechaFin descending
                                       select new Periodos_Auditoria_Detalle
                                       {
                                           IdRegistro = audit_proy.IdAuditoriaProyecto,
