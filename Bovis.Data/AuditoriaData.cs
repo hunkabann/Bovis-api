@@ -355,7 +355,7 @@ namespace Bovis.Data
             {
 
                 var res_cierre_auditoria = await (db.tB_Auditoria_Proyectos
-                                            .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fechaInicio)
+                                            .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fechaInicio && x.FechaFin == null)
                                             .UpdateAsync(x => new TB_AuditoriaProyecto
                                             {
                                                 FechaFin = DateTime.Now.Date
