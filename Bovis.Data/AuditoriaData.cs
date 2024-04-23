@@ -329,12 +329,13 @@ namespace Bovis.Data
                                       && catItem.TipoAuditoria == TipoAuditoria
                                       select new Periodos_Auditoria_Detalle
                                       {
+                                          IdRegistro = audit_proy.IdAuditoriaProyecto,
                                           IdProyecto = (int)audit_proy.IdProyecto,
                                           FechaInicio = audit_proy.FechaInicio.Value.ToString("dd-MM-yyyy"),
                                           FechaFin = audit_proy.FechaFin.HasValue ? audit_proy.FechaFin.Value.ToString("dd-MM-yyyy") : "--"
                                       }).ToListAsync();
 
-                periodos = periodos.DistinctBy(x => x.FechaInicio).ToList();
+                //periodos = periodos.DistinctBy(x => x.FechaInicio).ToList();
              
                 return periodos;
             }

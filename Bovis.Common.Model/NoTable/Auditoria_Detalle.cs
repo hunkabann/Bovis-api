@@ -16,6 +16,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class Periodos_Auditoria_Detalle
     {
+        public int IdRegistro { get; set; }
         public int IdProyecto { get; set; }
         public string? FechaInicio { get; set; }
         public string? FechaFin { get; set; }
