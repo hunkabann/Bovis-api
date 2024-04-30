@@ -37,21 +37,11 @@ namespace Bovis.Business
             }
             destination.NuMes = DateTime.Now.Month;
             destination.NuAnno = DateTime.Now.Year;
-            //destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso).Days) / 365);
             TimeSpan diferencia = (TimeSpan)(DateTime.Now - destination.FechaIngreso);
             destination.Antiguedad = diferencia.Days / 365;
             #endregion Seniority
 
             #region Aguinaldo
-            /*if (destination.Antiguedad != 0)
-            {
-                if (destination.Antiguedad < 5)
-                {
-                    destination.AguinaldoCantMeses = 0.5M;
-                }
-                else
-                    destination.AguinaldoCantMeses = 1.34M;
-            }*/
             if (source.IdCategoria == 1)
             {
                 if (destination.Antiguedad < 5)
@@ -72,7 +62,6 @@ namespace Bovis.Business
             {
                 destination.AguinaldoCantMeses = 15;
             }
-
             #endregion Aguinaldo
 
             #region IMSS
@@ -191,6 +180,7 @@ namespace Bovis.Business
             if(destination.AvgBonoAnualEstimado.HasValue)
             {
                 //destination.
+                destination.AvgBonoAnualEstimado = source.AvgBonoAnualEstimado;
             }
             #endregion Provisión Bono Anual
 
