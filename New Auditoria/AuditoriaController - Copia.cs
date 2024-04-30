@@ -49,11 +49,34 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}")]
-        public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
-        {
-            var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
+        [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}/{FechaInicio}/{FechaFin}")]
+        public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
+        {            
+            var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria, FechaInicio, FechaFin);
             return Ok(query);
+        }
+
+        [HttpGet, Route("PeriodosAuditoriaByProyecto/{IdProyecto}/{TipoAuditoria}")]
+        public async Task<IActionResult> GetPeriodosAuditoriaByProyecto(int IdProyecto, string TipoAuditoria)
+        {
+            var query = await _auditoriaQueryService.GetPeriodosAuditoriaByProyecto(IdProyecto, TipoAuditoria);
+            return Ok(query);
+        }
+
+        [HttpPut, Route("ClosePeriodoAuditoria")]
+        public async Task<IActionResult> ClosePeriodoAuditoriaByProyecto([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.ClosePeriodoAuditoriaByProyecto(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpPost, Route("OpenPeriodoAuditoria")]
+        public async Task<IActionResult> OpenPeriodoAuditoriaByProyecto([FromBody] JsonObject registro)
+        {
+            var query = await _auditoriaQueryService.OpenPeriodoAuditoriaByProyecto(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
         }
 
         [HttpGet, Route("TipoComentarios")]
@@ -62,7 +85,7 @@ namespace Bovis.API.Controllers
             var query = await _auditoriaQueryService.GetTipoComentarios();
             return Ok(query);
         }
-
+        
         [HttpGet, Route("Comentarios/{NumProyecto}")]
         public async Task<IActionResult> GetComentarios(int numProyecto)
         {

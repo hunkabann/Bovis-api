@@ -27,8 +27,28 @@ namespace Bovis.Business
 
         public Task<List<TB_Proyecto>> GetProyectos(string email_loged_user, string TipoAuditoria) => _auditoriaData.GetProyectos(email_loged_user, TipoAuditoria);
         public Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria) => _auditoriaData.GetAuditorias(TipoAuditoria);
+        
+        public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria, FechaInicio, FechaFin);
+        
+        public Task<List<Periodos_Auditoria_Detalle>> GetPeriodosAuditoriaByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetPeriodosAuditoriaByProyecto(IdProyecto, TipoAuditoria);
 
-        public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
+        public async Task<(bool Success, string Message)> ClosePeriodoAuditoriaByProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _auditoriaData.ClosePeriodoAuditoriaByProyecto(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> OpenPeriodoAuditoriaByProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _auditoriaData.OpenPeriodoAuditoriaByProyecto(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
 
         public Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios() => _auditoriaData.GetTipoComentarios();
 
@@ -42,7 +62,7 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
-
+        
         public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             (bool Success, string Message) resp = (true, string.Empty);

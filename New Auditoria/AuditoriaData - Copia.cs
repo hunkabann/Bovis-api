@@ -219,25 +219,65 @@ namespace Bovis.Data
         */
 
 
-        public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
+        public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria, string FechaInicio, string FechaFin)
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var documentos_auditoria = await (
-                    from audit in db.tB_Auditoria_Proyectos
-                    join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
-                    from catItem in catJoin.DefaultIfEmpty()
-                    join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
-                    from secItem in secJoin.DefaultIfEmpty()
-                    where audit.IdProyecto == IdProyecto
-                    && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
-                    && audit.Aplica == true
-                    select new
-                    {
-                        Auditoria = audit,
-                        CatAuditoria = catItem,
-                        Seccion = secItem
-                    }).ToListAsync();
+                List<TablasAuditoria_Detalle> documentos_auditoria = null;
+
+                if (TipoAuditoria == "legal")
+                {
+                    FechaInicio = FechaInicio.Replace("_", "-");
+                    FechaFin = FechaFin.Replace("_", "-");
+
+                    DateTime fechaInicio;
+                    DateTime fechaFin;
+
+                    if (DateTime.TryParseExact(FechaInicio, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaInicio)) { }
+                    if (DateTime.TryParseExact(FechaFin, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaFin)) { }
+
+                    documentos_auditoria = await (from audit in db.tB_Auditoria_Proyectos
+                                                  join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
+                                                  from catItem in catJoin.DefaultIfEmpty()
+                                                  join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                                  from secItem in secJoin.DefaultIfEmpty()
+                                                  where audit.IdProyecto == IdProyecto
+                                                  && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
+                                                  && audit.Aplica == true
+
+                                                  && (FechaInicio == "01-01-1600" && FechaFin == "01-01-1600" ? (audit.FechaInicio != null && audit.FechaFin == null) :
+                                                          (
+                                                              (FechaInicio == "01-01-1600" || audit.FechaInicio == fechaInicio)
+                                                              &&
+                                                              (FechaFin == "01-01-1600" || audit.FechaFin == fechaFin)
+                                                          )
+                                                      )
+
+                                                  select new TablasAuditoria_Detalle
+                                                  {
+                                                      Auditoria = audit,
+                                                      CatAuditoria = catItem,
+                                                      Seccion = secItem
+                                                  }).ToListAsync();
+                }
+                else
+                {
+                    documentos_auditoria = await (from audit in db.tB_Auditoria_Proyectos
+                                                join cat in db.tB_Cat_Auditorias on audit.IdAuditoria equals cat.IdAuditoria into catJoin
+                                                from catItem in catJoin.DefaultIfEmpty()
+                                                join sec in db.tB_Cat_Auditoria_Seccions on catItem.IdSeccion equals sec.IdSeccion into secJoin
+                                                from secItem in secJoin.DefaultIfEmpty()
+                                                where audit.IdProyecto == IdProyecto
+                                                && (catItem.TipoAuditoria == TipoAuditoria || catItem.TipoAuditoria == "ambos")
+                                                && audit.Aplica == true
+                                                select new TablasAuditoria_Detalle
+                                                {
+                                                    Auditoria = audit,
+                                                    CatAuditoria = catItem,
+                                                    Seccion = secItem
+                                                }).ToListAsync();
+                }
+
 
                 var documentos_auditoria_detalle = documentos_auditoria.Select(a => new Auditoria_Detalle
                 {
@@ -278,6 +318,109 @@ namespace Bovis.Data
         }
 
 
+        public async Task<List<Periodos_Auditoria_Detalle>> GetPeriodosAuditoriaByProyecto(int IdProyecto, string TipoAuditoria)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var periodos = await (from audit_proy in db.tB_Auditoria_Proyectos
+                                      join cat in db.tB_Cat_Auditorias on audit_proy.IdAuditoria equals cat.IdAuditoria into catJoin
+                                      from catItem in catJoin.DefaultIfEmpty()
+                                      where audit_proy.IdProyecto == IdProyecto
+                                      && catItem.TipoAuditoria == TipoAuditoria
+                                      orderby audit_proy.FechaFin descending
+                                      select new Periodos_Auditoria_Detalle
+                                      {
+                                          IdRegistro = audit_proy.IdAuditoriaProyecto,
+                                          IdProyecto = (int)audit_proy.IdProyecto,
+                                          FechaInicio = audit_proy.FechaInicio.Value.ToString("dd-MM-yyyy"),
+                                          FechaFin = audit_proy.FechaFin.HasValue ? audit_proy.FechaFin.Value.ToString("dd-MM-yyyy") : "--"
+                                      }).ToListAsync();
+
+                //periodos = periodos.DistinctBy(x => x.FechaInicio).ToList();
+                periodos = periodos.GroupBy(x => new { x.FechaInicio, x.FechaFin })
+                   .Select(group => group.First())
+                   .ToList();
+
+                return periodos;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> ClosePeriodoAuditoriaByProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            string FechaInicio = registro["fecha_inicio"].ToString().Replace("_", "-");
+            DateTime fechaInicio;
+
+            if (DateTime.TryParseExact(FechaInicio, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out fechaInicio)) { }
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+
+                var res_cierre_auditoria = await (db.tB_Auditoria_Proyectos
+                                            .Where(x => x.IdProyecto == num_proyecto && x.FechaInicio == fechaInicio && x.FechaFin == null)
+                                            .UpdateAsync(x => new TB_AuditoriaProyecto
+                                            {
+                                                FechaFin = DateTime.Now.Date
+                                            })) > 0;
+
+                resp.Success = res_cierre_auditoria;
+                resp.Message = res_cierre_auditoria == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+        
+        public async Task<(bool Success, string Message)> OpenPeriodoAuditoriaByProyecto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                JsonObject json = new JsonObject
+                {
+                    ["id_proyecto"] = num_proyecto,
+                    ["auditorias"] = new JsonArray()
+                };
+                JsonArray jsonArray = new JsonArray();
+                HashSet<string> uniqueIds = new HashSet<string>();
+
+                var auditorias = await GetAuditorias("ambos");
+                auditorias.AddRange(await GetAuditorias("calidad"));
+                auditorias.AddRange(await GetAuditorias("legal"));
+
+                foreach (var sections in auditorias)
+                {
+                    foreach (var documento in sections.Auditorias)
+                    {
+                        string idAuditoria = documento.IdAuditoria.ToString();
+
+                        if (uniqueIds.Add(idAuditoria))
+                        {
+                            jsonArray.Add(new JsonObject
+                            {
+                                ["id_auditoria"] = documento.IdAuditoria,
+                                ["aplica"] = (documento.Punto == "Reportes Mensuales" ||
+                                              documento.Punto == "Certificación mensual de Servicios:" ||
+                                              documento.Punto == "Comunicación escrita y/o electrónica con el Cliente" ||
+                                              documento.Punto == "Contrato de Bovis"),
+                                ["motivo"] = "Documento por default"
+                            });
+                        }
+                    }
+                }
+
+                json["auditorias"] = jsonArray;
+
+                resp = await AddAuditorias(json);
+            }
+
+            return resp;
+        }
+
 
 
         public async Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios()
@@ -286,7 +429,7 @@ namespace Bovis.Data
             {
                 var tipo_comentarios = await (from t in db.tB_Cat_AuditoriaTipoComentarios
                                               select t).ToListAsync();
-
+            
                 return tipo_comentarios;
             }
         }
@@ -335,9 +478,9 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var delete_auditoria_proyecto = await db.tB_Auditoria_Proyectos
-                                                                .Where(x => x.IdProyecto == id_proyecto)
-                                                                .DeleteAsync() > 0;
+                //var delete_auditoria_proyecto = await db.tB_Auditoria_Proyectos
+                //                                                .Where(x => x.IdProyecto == id_proyecto)
+                //                                                .DeleteAsync() > 0;
 
                 foreach (var a in auditorias)
                 {
@@ -349,6 +492,7 @@ namespace Bovis.Data
                                                                 .Value(x => x.IdAuditoria, id_auditoria)
                                                                 .Value(x => x.IdProyecto, id_proyecto)
                                                                 .Value(x => x.Aplica, aplica)
+                                                                .Value(x => x.FechaInicio, DateTime.Now.Date)
                                                                 .InsertAsync() > 0;
 
                     resp.Success = insert_auditoria_proyecto;
@@ -358,14 +502,14 @@ namespace Bovis.Data
 
             return resp;
         }
-
+        
         public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string comentario = registro["comentario"].ToString();
-            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());
+            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());            
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -423,7 +567,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_auditoria_proyecto = Convert.ToInt32(registro["id_auditoria_proyecto"].ToString());
-            string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() : null;
+            string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() :  null;
             string documento_base64 = registro["documento_base64"].ToString();
             string nombre_documento = registro["nombre_documento"].ToString();
 
@@ -499,7 +643,7 @@ namespace Bovis.Data
                     int id_documento = Convert.ToInt32(r["id_documento"].ToString());
                     bool valido = Convert.ToBoolean(r["valido"].ToString());
                     string? comentario_rechazo = r["comentario_rechazo"] != null ? r["comentario_rechazo"].ToString() : null;
-
+     
 
                     var res_valida_documento = await (db.tB_Auditoria_Documentos
                                                 .Where(x => x.IdDocumento == id_documento)
