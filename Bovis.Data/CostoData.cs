@@ -313,8 +313,8 @@ namespace Bovis.Data
                         registro.NuMes = DateTime.Now.Month;
                         registro.NuAnno = DateTime.Now.Year;
                         registro.FechaActualizacion = DateTime.Now;
-                        if (registro?.AvgBonoAnualEstimado != 0 && registro?.SgmmCostoTotalAnual != 0 &&
-                            registro?.SvCostoTotalAnual != 0 && registro?.VaidCostoMensual != 0)
+                        if (avg_bono_anual_estimado != 0 && sgmm_costo_total_anual != 0 &&
+                            sv_costo_total_anual != 0 && vaid_costo_mensual != 0)
                         {
                             registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
                             registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
