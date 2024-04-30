@@ -288,6 +288,10 @@ namespace Bovis.Data
             {
                 decimal? sueldo_bruto = registro.SueldoBruto;
                 int numero_proyecto = registro.NumProyecto;
+                decimal? avg_bono_anual_estimado = registro.AvgBonoAnualEstimado;
+                decimal? sgmm_costo_total_anual = registro.SgmmCostoTotalAnual;
+                decimal? sv_costo_total_anual = registro.SvCostoTotalAnual;
+                decimal? vaid_costo_mensual = registro.VaidCostoMensual;
 
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -309,6 +313,10 @@ namespace Bovis.Data
                         registro.NuMes = DateTime.Now.Month;
                         registro.NuAnno = DateTime.Now.Year;
                         registro.FechaActualizacion = DateTime.Now;
+                        registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
+                        registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
+                        registro.SvCostoTotalAnual = sv_costo_total_anual;
+                        registro.VaidCostoMensual = vaid_costo_mensual;
 
                         var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
 
