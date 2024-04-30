@@ -177,14 +177,15 @@ namespace Bovis.Business
             #endregion Prima Vacacional
 
             #region Provisión Bono Anual
+            destination.AvgBonoAnualEstimado = source.AvgBonoAnualEstimado;
             if(destination.AvgBonoAnualEstimado.HasValue)
             {
                 //destination.
-                destination.AvgBonoAnualEstimado = source.AvgBonoAnualEstimado;
             }
             #endregion Provisión Bono Anual
 
             #region Gastos Médicos Mayores
+            destination.SgmmCostoTotalAnual = source.SgmmCostoTotalAnual;
             if (destination.SgmmCostoTotalAnual.HasValue)
             {
                 destination.SgmmCostoMensual = destination.SgmmCostoTotalAnual / 12.0M;
@@ -192,6 +193,7 @@ namespace Bovis.Business
             #endregion Gastos Médicos Mayores
 
             #region Seguro de Vida
+            destination.SvCostoTotalAnual = source.SvCostoTotalAnual;
             if (destination.SvCostoTotalAnual.HasValue && destination.SvCostoTotalAnual != 0)
             {
                 destination.SvCostoMensual = destination.SvCostoTotalAnual / 12.0M;
@@ -201,6 +203,7 @@ namespace Bovis.Business
             #endregion Seguro de Vida
 
             #region Vales de Despensa
+            destination.VaidCostoMensual = source.VaidCostoMensual;
             if (destination.VaidCostoMensual.HasValue && destination.VaidCostoMensual != 0)
             {
                 destination.VaidComisionCostoMensual = destination.VaidCostoMensual * 0.015M;
