@@ -317,7 +317,8 @@ namespace Bovis.Data
                         registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
                         registro.SvCostoTotalAnual = sv_costo_total_anual;
                         registro.VaidCostoMensual = vaid_costo_mensual;
-                        
+                        registro.Ispt = 0;
+
                         var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                                 where isr.Anio == registro.NuAnno
                                                 && isr.Mes == registro.NuMes
@@ -361,6 +362,7 @@ namespace Bovis.Data
 
         public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(TB_CostoPorEmpleado registro)
         {
+            int numero_proyecto = registro.NumProyecto;
             string numEmpleadoRrHh = registro.NumEmpleadoRrHh;
             decimal? sueldo_bruto = registro.SueldoBruto;
             decimal? avg_bono_anual_estimado = registro.AvgBonoAnualEstimado;
@@ -384,13 +386,15 @@ namespace Bovis.Data
                     registro = registro_anterior;
                     registro.RegHistorico = false;
                     registro.SueldoBruto = sueldo_bruto;
+                    registro.NumProyecto = numero_proyecto;
                     registro.NuMes = DateTime.Now.Month;
                     registro.NuAnno = DateTime.Now.Year;
                     registro.FechaActualizacion = DateTime.Now;
-                    registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
-                    registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
-                    registro.SvCostoTotalAnual = sv_costo_total_anual;
-                    registro.VaidCostoMensual = vaid_costo_mensual;
+                    //registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
+                    //registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
+                    //registro.SvCostoTotalAnual = sv_costo_total_anual;
+                    //registro.VaidCostoMensual = vaid_costo_mensual;
+                    registro.Ispt = 0;
 
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                             where isr.Anio == registro.NuAnno
