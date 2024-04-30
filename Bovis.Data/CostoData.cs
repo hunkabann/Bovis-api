@@ -313,10 +313,13 @@ namespace Bovis.Data
                         registro.NuMes = DateTime.Now.Month;
                         registro.NuAnno = DateTime.Now.Year;
                         registro.FechaActualizacion = DateTime.Now;
-                        registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
-                        registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
-                        registro.SvCostoTotalAnual = sv_costo_total_anual;
-                        registro.VaidCostoMensual = vaid_costo_mensual;
+                        if (registro?.FechaIngreso == null)
+                        {
+                            registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
+                            registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
+                            registro.SvCostoTotalAnual = sv_costo_total_anual;
+                            registro.VaidCostoMensual = vaid_costo_mensual;
+                        }
                         registro.Ispt = 0;
 
                         var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
