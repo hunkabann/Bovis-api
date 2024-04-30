@@ -399,7 +399,7 @@ namespace Bovis.Data
                     registro.NuAnno = DateTime.Now.Year;
                     registro.FechaActualizacion = DateTime.Now;
 
-                    var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);                    
+                    var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
 
                     return new Common.Response<TB_CostoPorEmpleado>
                     {
@@ -492,6 +492,7 @@ namespace Bovis.Data
                 return proyecto;
             }
         }
+
         #endregion Proyecto
     }
 }
@@ -525,6 +526,8 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 from empleadoJefeItem in empleadoJefeJoin.DefaultIfEmpty()
                                 join personaJefe in db.tB_Personas on empleadoJefeItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
                                 from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
+                                join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
+                                from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
                                 select new Costo_Detalle
                                 {
                                     IdCostoEmpleado = costos.IdCostoEmpleado,
@@ -602,10 +605,11 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     NuMes = costos.NuMes,
                                     FechaActualizacion = costos.FechaActualizacion,
                                     RegHistorico = costos.RegHistorico,
-                                    
+                                    Categoria = categoriaEmpItem.Categoria,
+                                    SalarioDiarioIntegrado = empleadoCostoItem.Cotizacion,
                                 }).ToListAsync();
 
-            foreach(var r in result)
+            foreach (var r in result)
             {
                 r.Beneficios = new List<Beneficio_Costo_Detalle>();
                 r.Beneficios.AddRange(await (from eb in db.tB_EmpleadoBeneficios
@@ -631,6 +635,6 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
         }
 
     }
-    
+
 }
 

@@ -60,5 +60,7 @@ namespace Bovis.Common.Model.DTO
         public DateTime? FechaActualizacion { get; set; }
         public bool? RegHistorico { get; set; } = false;
         public int ImpuestoNomina { get; set; } = 0;
+        public int IdCategoria { get; set; } = 0;
+        public string? ChCategoria { get; set; }
     }
 }

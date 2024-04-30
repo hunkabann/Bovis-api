@@ -38,6 +38,7 @@ namespace Bovis.Business
             source.IdUnidadNegocio = empleado.IdUnidadNegocio;
             source.IdEmpresa = empleado.IdEmpresa;
             source.IdEmpleadoJefe = empleado.IdJefeDirecto;
+            source.IdCategoria = empleado.IdCategoria;
 
             var proyecto = await _costoData.GetProyecto((int)source.NumProyecto);
             source.ImpuestoNomina = proyecto.ImpuestoNomina;
@@ -45,7 +46,13 @@ namespace Bovis.Business
             destination = CostoBusinessUpdate.ValueFields(source);
 
             var response = await _costoData.AddCosto(destination);
-            return response; 
+
+            // var Categoria = await _costoData.Getcategoria((int)source.IdCategoria);
+            // source.ChCategoria = Categoria.Categoria;
+
+            return response;
+
+
         }
         #endregion
 
@@ -72,10 +79,10 @@ namespace Bovis.Business
         #endregion
 
         #region GetCostosBetweenDates
-        public Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min,int anno_max,int mes_max, bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
         {
             return _costoData.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, hist);
-           
+
         }
         #endregion
 
@@ -91,15 +98,15 @@ namespace Bovis.Business
         public async Task<Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, CostoPorEmpleadoDTO source)
         {
             TB_CostoPorEmpleado destination = new();
-            destination = CostoBusinessUpdate.ValueFields(source); 
+            destination = CostoBusinessUpdate.ValueFields(source);
             var response = await _costoData.UpdateCostos(costoId, destination);
             return response;
         }
-        
+
         public async Task<Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(CostoPorEmpleadoDTO source)
         {
             TB_CostoPorEmpleado destination = new();
-            destination = CostoBusinessUpdate.ValueFields(source); 
+            destination = CostoBusinessUpdate.ValueFields(source);
             var response = await _costoData.UpdateCostoEmpleado(destination);
             return response;
         }

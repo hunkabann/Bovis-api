@@ -20,12 +20,12 @@ namespace Bovis.Business
         }
 
         public static TB_CostoPorEmpleado ValueFields(CostoPorEmpleadoDTO source)
-        {            
+        {
 
             TB_CostoPorEmpleado destination = new();
 
-            destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination); 
-             
+            destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination);
+
 
             #region Seniority
             if (destination.FechaIngreso == null || destination.FechaIngreso == DateTime.MinValue)
@@ -33,25 +33,46 @@ namespace Bovis.Business
                 DateTime fechaHoraActual = DateTime.Now;
                 string fechaHoraFormateada = fechaHoraActual.ToString("yyyy-MM-ddTHH:mm:ss.fff");
                 DateTime fechaHoraFormateadaDateTime = DateTime.ParseExact(fechaHoraFormateada, "yyyy-MM-ddTHH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
-                destination.FechaIngreso = fechaHoraFormateadaDateTime; 
+                destination.FechaIngreso = fechaHoraFormateadaDateTime;
             }
-            destination.NuMes = DateTime.Now.Month; 
+            destination.NuMes = DateTime.Now.Month;
             destination.NuAnno = DateTime.Now.Year;
             //destination.Antiguedad = Convert.ToDecimal(((DateTime.Now - destination.FechaIngreso).Days) / 365);
-            TimeSpan diferencia = (TimeSpan) (DateTime.Now - destination.FechaIngreso); 
+            TimeSpan diferencia = (TimeSpan)(DateTime.Now - destination.FechaIngreso);
             destination.Antiguedad = diferencia.Days / 365;
             #endregion Seniority
 
             #region Aguinaldo
-            if (destination.Antiguedad != 0)
+            /*if (destination.Antiguedad != 0)
             {
                 if (destination.Antiguedad < 5)
                 {
                     destination.AguinaldoCantMeses = 0.5M;
                 }
                 else
-                    destination.AguinaldoCantMeses = 1.0M;
+                    destination.AguinaldoCantMeses = 1.34M;
+            }*/
+            if (source.IdCategoria == 1)
+            {
+                if (destination.Antiguedad < 5)
+                {
+                    destination.AguinaldoCantMeses = 15;
+                }
+                if (destination.Antiguedad >= 5 && destination.Antiguedad < 10)
+                {
+                    destination.AguinaldoCantMeses = 30;
+                }
+                if (destination.Antiguedad > 10)
+                {
+                    destination.AguinaldoCantMeses = 40;
+                }
+
             }
+            else
+            {
+                destination.AguinaldoCantMeses = 15;
+            }
+
             #endregion Aguinaldo
 
             #region IMSS
@@ -69,7 +90,8 @@ namespace Bovis.Business
                 destination.Anual = destination.SueldoBruto * 12;
 
                 #region Aguinaldo
-                destination.AguinaldoMontoProvisionMensual = destination.AguinaldoCantMeses * destination.SueldoBruto / 30M;
+                // destination.AguinaldoMontoProvisionMensual = destination.AguinaldoCantMeses * destination.SueldoBruto / 12M;
+                destination.AguinaldoMontoProvisionMensual = ((destination.SueldoBruto / 30) * destination.AguinaldoCantMeses) / 12M;
                 #endregion Aguinaldo
 
                 #region Indemnizacion
@@ -165,6 +187,13 @@ namespace Bovis.Business
                 destination.PvProvisionMensual = 0.0M;
             #endregion Prima Vacacional
 
+            #region Provisión Bono Anual
+            if(destination.AvgBonoAnualEstimado.HasValue)
+            {
+                //destination.
+            }
+            #endregion Provisión Bono Anual
+
             #region Gastos Médicos Mayores
             if (destination.SgmmCostoTotalAnual.HasValue)
             {
@@ -210,8 +239,8 @@ namespace Bovis.Business
 
             return destination;
 
-        } 
-        
+        }
+
         private static TB_CostoPorEmpleado MapToTbCostoEmpleado<TProfile>(CostoPorEmpleadoDTO source, TB_CostoPorEmpleado destination) where TProfile : Profile, new()
         {
             var config = new MapperConfiguration(cfg =>
@@ -219,12 +248,12 @@ namespace Bovis.Business
                 cfg.AddProfile<TProfile>();
             });
 
-            IMapper mapper = config.CreateMapper(); 
+            IMapper mapper = config.CreateMapper();
             destination = mapper.Map(source, destination);
 
             return destination;
-            
+
         }
-        
+
     }
 }
