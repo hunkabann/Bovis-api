@@ -286,8 +286,8 @@ namespace Bovis.Data
         {
             if (costoId == registro.IdCostoEmpleado)
             {
-                decimal? sueldo_bruto = registro.SueldoBruto;
                 int numero_proyecto = registro.NumProyecto;
+                decimal? sueldo_bruto = registro.SueldoBruto;
                 decimal? avg_bono_anual_estimado = registro.AvgBonoAnualEstimado;
                 decimal? sgmm_costo_total_anual = registro.SgmmCostoTotalAnual;
                 decimal? sv_costo_total_anual = registro.SvCostoTotalAnual;
@@ -317,10 +317,7 @@ namespace Bovis.Data
                         registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
                         registro.SvCostoTotalAnual = sv_costo_total_anual;
                         registro.VaidCostoMensual = vaid_costo_mensual;
-
-                        var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
-
-
+                        
                         var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                                 where isr.Anio == registro.NuAnno
                                                 && isr.Mes == registro.NuMes
@@ -332,6 +329,8 @@ namespace Bovis.Data
                             decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
                             registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                         }
+
+                        var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
 
                         return new Common.Response<TB_CostoPorEmpleado>
                         {
@@ -364,10 +363,10 @@ namespace Bovis.Data
         {
             string numEmpleadoRrHh = registro.NumEmpleadoRrHh;
             decimal? sueldo_bruto = registro.SueldoBruto;
-            decimal? costo_mensual = registro.VaidCostoMensual;
-            decimal? costo_total_anual = registro.SvCostoTotalAnual;
-            decimal? sgm_costo_total_anual = registro.SgmmCostoTotalAnual;
             decimal? avg_bono_anual_estimado = registro.AvgBonoAnualEstimado;
+            decimal? sgmm_costo_total_anual = registro.SgmmCostoTotalAnual;
+            decimal? sv_costo_total_anual = registro.SvCostoTotalAnual;
+            decimal? vaid_costo_mensual = registro.VaidCostoMensual;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -383,7 +382,15 @@ namespace Bovis.Data
                     var resBool = await UpdateEntityAsync<TB_CostoPorEmpleado>(registro_anterior);
 
                     registro = registro_anterior;
+                    registro.RegHistorico = false;
                     registro.SueldoBruto = sueldo_bruto;
+                    registro.NuMes = DateTime.Now.Month;
+                    registro.NuAnno = DateTime.Now.Year;
+                    registro.FechaActualizacion = DateTime.Now;
+                    registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
+                    registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
+                    registro.SvCostoTotalAnual = sv_costo_total_anual;
+                    registro.VaidCostoMensual = vaid_costo_mensual;
 
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                             where isr.Anio == registro.NuAnno
@@ -396,16 +403,6 @@ namespace Bovis.Data
                         decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
                         registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                     }
-
-
-                    registro.RegHistorico = false;
-                    registro.VaidCostoMensual = costo_mensual;
-                    registro.SvCostoTotalAnual = costo_total_anual;
-                    registro.SgmmCostoTotalAnual = sgm_costo_total_anual;
-                    registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
-                    registro.NuMes = DateTime.Now.Month;
-                    registro.NuAnno = DateTime.Now.Year;
-                    registro.FechaActualizacion = DateTime.Now;
 
                     var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
 
