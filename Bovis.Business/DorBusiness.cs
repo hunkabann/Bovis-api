@@ -14,7 +14,7 @@ namespace Bovis.Business
         public DorBusiness(IDorData _dorData, ITransactionData transactionData)
         {
             this._dorData = _dorData;
-            _transactionData = transactionData; 
+            this._transactionData = transactionData; 
         }
 
         public void Dispose()
@@ -22,7 +22,7 @@ namespace Bovis.Business
             GC.SuppressFinalize(this);
             GC.Collect();
         }
-        #endregion
+        #endregion base
 
         public Task<TB_DorEmpleados?> GetDorEjecutivoCorreo(string email) => _dorData.GetDorEjecutivoCorreo(email);
         public Task<Dor_Subordinados?> GetDorEmpleadoCorreo(string email) => _dorData.GetDorEmpleadoCorreo(email);

@@ -91,6 +91,10 @@ builder.Services.AddScoped<ICostoQueryService, CostoQueryService>();
 builder.Services.AddScoped<ICostoBusiness, CostoBusiness>();
 builder.Services.AddScoped<ICostoData, CostoData>();
 
+builder.Services.AddScoped<IDashboardQueryService, DashboardQueryService>();
+builder.Services.AddScoped<IDashboardBusiness, DashboardBusiness>();
+builder.Services.AddScoped<IDashboardData, DashboardData>();
+
 builder.Services.AddScoped<IDorQueryService, DorQueryService>();
 builder.Services.AddScoped<IDorBusiness, DorBusiness>();
 builder.Services.AddScoped<IDorData, DorData>();
