@@ -67,3 +67,21 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interfac
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\ref\Bovis.Data.Interface.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.sourcelink.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Da.43118111.Up2Date
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.deps.json
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Data.Interface.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.csproj.AssemblyReference.cache
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.AssemblyInfoInputs.cache
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.AssemblyInfo.cs
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.csproj.CoreCompileInputs.cache
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.sourcelink.json
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Da.43118111.Up2Date
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\refint\Bovis.Data.Interface.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\Bovis.Data.Interface.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Data.Interface\obj\Debug\net6.0\ref\Bovis.Data.Interface.dll

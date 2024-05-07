@@ -99,7 +99,9 @@ namespace Bovis.Business
         {
             TB_CostoPorEmpleado destination = new();
             destination = CostoBusinessUpdate.ValueFields(source);
-            var response = await _costoData.UpdateCostos(costoId, destination);
+            //ATC
+           // var response = await _costoData.UpdateCostos(source, costoId, destination);
+            var response = await _costoData.UpdateCostos(source,costoId, destination);
             return response;
         }
 

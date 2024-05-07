@@ -3,12 +3,50 @@ using Bovis.Common.Mapper;
 using Bovis.Common.Model.DTO;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
+using System.Runtime.Intrinsics.X86;
 
 
 namespace Bovis.Business
 {
+    
     public static class CostoBusinessUpdate
     {
+        //ATC
+        //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
+        private static double p_patron = 686.60;
+        //3 Veces UMA = 325.71
+        private static double p_3_Veces_UMA = 325.71;
+        //Prima Riesgo = 0.5
+        private static double p_Prima_Riesgo = 0.5;
+        //SBC = 1491.19
+        //UMA 2024 = 108.7
+        private static double p_UMA = 108.7;
+        //Dias Trabajados = 31
+        private static int p_dias_trabajados = 31;
+        //Dias del mes = 31
+        private static int p_dias_mes = 31;
+        //Dias trabajados bim = 31
+        private static int p_dias_trabajados_bim = 31;
+
+
+        //Enfermedad y maternidad, en especie
+        private static double p_EME2;
+
+            //Gastos medicos para pencionados
+            private static double p_EME_GMPE;
+
+            //En Dinero
+            private static double p_EME_ED;
+
+            //En Especie
+            private static double p_EME_ESP;
+
+        //Guarderias y prestaciones
+        private static double p_GP;
+
+
+
+
         public class CostoLaboral
         {
             public decimal? CostoMensualEmpleado { get; set; }
@@ -21,8 +59,9 @@ namespace Bovis.Business
 
         public static TB_CostoPorEmpleado ValueFields(CostoPorEmpleadoDTO source)
         {
+           
 
-            TB_CostoPorEmpleado destination = new();
+        TB_CostoPorEmpleado destination = new();
 
             destination = MapToTbCostoEmpleado<NotNullMappingProfile>(source, destination);
 
@@ -66,6 +105,39 @@ namespace Bovis.Business
 
             #region IMSS
             //destination.RetencionImss = 
+
+
+            //ATC
+            if (source.cotizacion == null)
+            {
+
+
+            }
+            else
+            {
+                if (p_patron > p_3_Veces_UMA)
+                {
+                    p_EME2 = (double)(((source.cotizacion - p_3_Veces_UMA) * .04) * 31);
+                }
+                else
+                {
+                    p_EME2 = 0;
+                }
+
+                p_EME_GMPE = (double)(source.cotizacion * 0.0375) * p_dias_mes;
+
+                p_EME_ED = (double)(source.cotizacion * 0.025) * p_dias_mes;
+
+                p_EME_ESP = (double)(source.cotizacion * 0.625) * p_dias_mes;
+
+                p_GP = (double)(source.cotizacion * 0.0) * p_dias_mes;
+
+
+                destination.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+
+                destination.Imss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+            }
+
             #endregion IMSS
 
             if (destination.SueldoBruto.HasValue && destination.SueldoBruto > 1)
@@ -213,7 +285,7 @@ namespace Bovis.Business
             #endregion Vales de Despensa
 
             #region Cargas sociales e impuestos laborales
-            destination.Impuesto3sNomina = (destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual + CostoBusinessConstants.BonoAdicionalReubicacion) * source.ImpuestoNomina; // * 0.03M;
+            destination.Impuesto3sNomina = (destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual + CostoBusinessConstants.BonoAdicionalReubicacion) * 0.03M; //(source.ImpuestoNomina/100); // * 0.03M;
             destination.CargasSociales = destination.Impuesto3sNomina + destination.RetencionImss + destination.Retiro2 + destination.CesantesVejez + destination.Infonavit;
             #endregion Cargas sociales e impuestos laborales
 

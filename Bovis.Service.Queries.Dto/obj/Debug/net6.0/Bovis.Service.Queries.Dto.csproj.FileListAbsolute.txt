@@ -67,3 +67,21 @@ C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queri
 C:\Users\alfma\OneDrive\Documentos\GitHub projects\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\ref\Bovis.Service.Queries.Dto.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.sourcelink.json
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Se.54075390.Up2Date
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Service.Queries.Dto.deps.json
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\bin\Debug\net6.0\Bovis.Common.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.AssemblyReference.cache
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.AssemblyInfoInputs.cache
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.AssemblyInfo.cs
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.csproj.CoreCompileInputs.cache
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.sourcelink.json
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Se.54075390.Up2Date
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\refint\Bovis.Service.Queries.Dto.dll
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
+C:\Users\Administrador\source\repos\Bovis-api\Bovis.Service.Queries.Dto\obj\Debug\net6.0\ref\Bovis.Service.Queries.Dto.dll

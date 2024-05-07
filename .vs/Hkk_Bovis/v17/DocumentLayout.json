@@ -1,7 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.business\\costobusinessupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\costobusinessupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +14,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CostoBusinessUpdate.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusinessUpdate.cs",
+              "RelativeDocumentMoniker": "Bovis.Business\\CostoBusinessUpdate.cs",
+              "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusinessUpdate.cs",
+              "RelativeToolTip": "Bovis.Business\\CostoBusinessUpdate.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-08T18:25:39.458Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
