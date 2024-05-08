@@ -11,7 +11,7 @@ namespace Bovis.Business
     
     public static class CostoBusinessUpdate
     {
-        //ATC
+        //ATC 
         //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
         private static double p_patron = 686.60;
         //3 Veces UMA = 325.71
@@ -285,6 +285,7 @@ namespace Bovis.Business
             #endregion Vales de Despensa
 
             #region Cargas sociales e impuestos laborales
+            //destination.Impuesto3sNomina = (destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual + CostoBusinessConstants.BonoAdicionalReubicacion) * 0.03M; //(source.ImpuestoNomina/100); // * 0.03M;
             destination.Impuesto3sNomina = (destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + CostoBusinessConstants.Be_BonoAdicional + CostoBusinessConstants.Be_AyudaTransporte + destination.BonoAnualProvisionMensual + CostoBusinessConstants.BonoAdicionalReubicacion) * 0.03M; //(source.ImpuestoNomina/100); // * 0.03M;
             destination.CargasSociales = destination.Impuesto3sNomina + destination.RetencionImss + destination.Retiro2 + destination.CesantesVejez + destination.Infonavit;
             #endregion Cargas sociales e impuestos laborales

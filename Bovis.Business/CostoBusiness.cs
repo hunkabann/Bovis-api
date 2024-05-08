@@ -12,7 +12,7 @@ namespace Bovis.Business
     public class CostoBusiness : ICostoBusiness
     {
         #region base
-        private readonly ICostoData _costoData;
+        private readonly ICostoData _costoData; 
         public CostoBusiness(ICostoData _costoData)
         {
             this._costoData = _costoData;

@@ -24,10 +24,10 @@ namespace Bovis.Data
 
         //ATC
 
-        public static decimal BonoAdicionalReubicacion = 15000M;
-        public static decimal ViaticosAComprobar = 35000M;
-        public static decimal Be_BonoAdicional = 150000M;
-        public static decimal Be_AyudaTransporte = 900M;
+        public static decimal BonoAdicionalReubicacion = 0M; 
+        public static decimal ViaticosAComprobar = 0M;
+        public static decimal Be_BonoAdicional = 0M;
+        public static decimal Be_AyudaTransporte = 0M;
 
         //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
         private static double p_patron = 686.60;
