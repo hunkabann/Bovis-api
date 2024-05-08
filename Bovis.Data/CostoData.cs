@@ -16,10 +16,52 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
+
 namespace Bovis.Data
 {
     public class CostoData : RepositoryLinq2DB<ConnectionDB>, ICostoData
     {
+
+        //ATC
+
+        public static decimal BonoAdicionalReubicacion = 15000M;
+        public static decimal ViaticosAComprobar = 35000M;
+        public static decimal Be_BonoAdicional = 150000M;
+        public static decimal Be_AyudaTransporte = 900M;
+
+        //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
+        private static double p_patron = 686.60;
+        //3 Veces UMA = 325.71
+        private static double p_3_Veces_UMA = 325.71;
+        //Prima Riesgo = 0.5
+        private static double p_Prima_Riesgo = 0.5;
+        //SBC = 1491.19
+        //UMA 2024 = 108.7
+        private static double p_UMA = 108.7;
+        //Dias Trabajados = 31
+        private static int p_dias_trabajados = 31;
+        //Dias del mes = 31
+        private static int p_dias_mes = 31;
+        //Dias trabajados bim = 31
+        private static int p_dias_trabajados_bim = 31;
+
+
+        //Enfermedad y maternidad, en especie
+        private static double p_EME2;
+
+        //Gastos medicos para pencionados
+        private static double p_EME_GMPE;
+
+        //En Dinero
+        private static double p_EME_ED;
+
+        //En Especie
+        private static double p_EME_ESP;
+
+        //Guarderias y prestaciones
+        private static double p_GP;
+
+
         #region base
         private readonly string dbConfig = "DBConfig";
 
@@ -44,6 +86,9 @@ namespace Bovis.Data
 
             if (!registro_anterior.Success) // Puede llevarse a cabo la inserción de un nuevo registro.
             {
+                //ATC
+                decimal? sueldo_gravable = registro.SueldoBruto + registro.AvgBonoAnualEstimado;
+
                 using (var db = new ConnectionDB(dbConfig))
                 {
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
@@ -54,8 +99,12 @@ namespace Bovis.Data
 
                     if (isr_record != null)
                     {
-                        decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
-                        registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                        //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
+                        //registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+
+                        //ATC
+                        decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                        registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                     }
                 }
 
@@ -282,7 +331,7 @@ namespace Bovis.Data
         #endregion
 
         #region UpdateCostos
-        public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, TB_CostoPorEmpleado registro)
+        public async Task<Common.Response<TB_CostoPorEmpleado>> UpdateCostos(CostoPorEmpleadoDTO source,int costoId, TB_CostoPorEmpleado registro)
         {
             if (costoId == registro.IdCostoEmpleado)
             {
@@ -292,6 +341,7 @@ namespace Bovis.Data
                 decimal? sgmm_costo_total_anual = registro.SgmmCostoTotalAnual;
                 decimal? sv_costo_total_anual = registro.SvCostoTotalAnual;
                 decimal? vaid_costo_mensual = registro.VaidCostoMensual;
+                double? cotizacion = source.cotizacion;//1540.5;
 
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -300,6 +350,34 @@ namespace Bovis.Data
                                                    && c.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
                                                    && c.RegHistorico == false
                                                    select c).FirstOrDefaultAsync();
+
+                    //ATC
+                    decimal? sueldo_gravable = registro.SueldoBruto + registro.AvgBonoAnualEstimado;
+
+                    if (cotizacion != null && cotizacion > 0)
+                    {
+
+                        if (p_patron > p_3_Veces_UMA)
+                        {
+                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .04) * 31);
+                        }
+                        else
+                        {
+                            p_EME2 = 0;
+                        }
+
+                        p_EME_GMPE = (double)(cotizacion * 0.0375) * p_dias_mes;
+
+                        p_EME_ED = (double)(cotizacion * 0.025) * p_dias_mes;
+
+                        p_EME_ESP = (double)(cotizacion * 0.625) * p_dias_mes;
+
+                        p_GP = (double)(cotizacion * 0.0) * p_dias_mes;
+
+                        registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+                    }
+
+
 
                     if (registro_anterior != null)
                     {
@@ -316,11 +394,43 @@ namespace Bovis.Data
                         if (avg_bono_anual_estimado != 0 || sgmm_costo_total_anual != 0 ||
                             sv_costo_total_anual != 0 || vaid_costo_mensual != 0)
                         {
+                            
                             registro.AvgBonoAnualEstimado = avg_bono_anual_estimado;
+
+                            //ATC
+                           if (sgmm_costo_total_anual != 0)
+                            {
+                                registro.SgmmCostoMensual = sgmm_costo_total_anual / 12;
+                            }
+
                             registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
+
+                            //ATC
+                            if (sv_costo_total_anual != 0)
+                            {
+                                registro.SvCostoMensual = sv_costo_total_anual / 12;
+                            }
+
+                            
                             registro.SvCostoTotalAnual = sv_costo_total_anual;
+
+                            //ATC
+                            if (vaid_costo_mensual != 0)
+                            {
+                                registro.VaidComisionCostoMensual = vaid_costo_mensual / 12;
+                            }
                             registro.VaidCostoMensual = vaid_costo_mensual;
+                           
                         }
+                        //ATC
+                        if (cotizacion != null && cotizacion > 0)
+                        {
+
+                           
+                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+                        }
+
+
                         registro.Ispt = 0;
 
                         var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
@@ -329,10 +439,15 @@ namespace Bovis.Data
                                                 && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
                                                 select isr).FirstOrDefaultAsync();
 
+                        registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+
                         if (isr_record != null)
                         {
-                            decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
-                            registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                            //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
+                            //registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+
+                            decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                            registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                         }
 
                         var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
@@ -373,13 +488,16 @@ namespace Bovis.Data
             decimal? sgmm_costo_total_anual = registro.SgmmCostoTotalAnual;
             decimal? sv_costo_total_anual = registro.SvCostoTotalAnual;
             decimal? vaid_costo_mensual = registro.VaidCostoMensual;
-
             using (var db = new ConnectionDB(dbConfig))
             {
+                //ATC
+                decimal? sueldo_gravable = registro.SueldoBruto + registro.AvgBonoAnualEstimado;
+
                 var registro_anterior = await (from c in db.tB_Costo_Por_Empleados
                                                where c.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
                                                && c.RegHistorico == false
                                                select c).FirstOrDefaultAsync();
+
 
                 if (registro_anterior != null)
                 {
@@ -408,8 +526,15 @@ namespace Bovis.Data
 
                     if (isr_record != null)
                     {
-                        decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
-                        registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+                        //ATC
+
+                        //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
+                        //registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+
+                        decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                        registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
+
+                        
                     }
 
                     var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
@@ -620,6 +745,8 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     RegHistorico = costos.RegHistorico,
                                     Categoria = categoriaEmpItem.Categoria,
                                     SalarioDiarioIntegrado = empleadoCostoItem.Cotizacion,
+                                    //ATC
+                                    ImpuestoNomina = proyectoItem.ImpuestoNomina,
                                 }).ToListAsync();
 
             foreach (var r in result)

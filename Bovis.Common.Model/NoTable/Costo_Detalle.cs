@@ -179,6 +179,10 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? FechaActualizacion { get; set; }
         public bool? RegHistorico { get; set; } = false;
         public string? SalarioDiarioIntegrado { get; set; }
+
+        //ATC
+        public int? ImpuestoNomina { get; set; }
+        
     }
 
     public class Beneficio_Costo_Detalle
