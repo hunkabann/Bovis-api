@@ -45,6 +45,10 @@ namespace Bovis.Business
         private static double p_GP;
 
 
+        //Cesantia y Vejes
+        private static double p_CEAV;
+
+
 
 
         public class CostoLaboral
@@ -117,26 +121,30 @@ namespace Bovis.Business
             {
                 if (p_patron > p_3_Veces_UMA)
                 {
-                    p_EME2 = (double)(((source.cotizacion - p_3_Veces_UMA) * .04) * 31);
+                    p_EME2 = (double)(((source.cotizacion - p_3_Veces_UMA) * .004) * 31);
                 }
                 else
                 {
                     p_EME2 = 0;
                 }
 
-                p_EME_GMPE = (double)(source.cotizacion * 0.0375) * p_dias_mes;
+                p_EME_GMPE = (double)(source.cotizacion * 0.00375) * p_dias_mes;
 
-                p_EME_ED = (double)(source.cotizacion * 0.025) * p_dias_mes;
+                p_EME_ED = (double)(source.cotizacion * 0.0025) * p_dias_mes;
 
-                p_EME_ESP = (double)(source.cotizacion * 0.625) * p_dias_mes;
+                p_EME_ESP = (double)(source.cotizacion * 0.00625) * p_dias_mes;
 
                 p_GP = (double)(source.cotizacion * 0.0) * p_dias_mes;
 
+                p_CEAV = (double)(source.cotizacion * 0.0113) + p_dias_trabajados_bim;
 
-                destination.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
 
-                destination.Imss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+                destination.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
+
+                //destination.Imss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
             }
+
+            
 
             #endregion IMSS
 
@@ -145,7 +153,9 @@ namespace Bovis.Business
                 #region Sueldo Neto Mensual
                 destination.MontoDescuentoMensual = destination.RetencionImss + destination.Ispt;
                 destination.AvgDescuentoEmpleado = destination.SueldoBruto > 0 ? destination.MontoDescuentoMensual / destination.SueldoBruto : 0;
-                destination.SueldoNetoPercibidoMensual = (destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion / CostoBusinessConstants.ViaticosAComprobar) - destination.MontoDescuentoMensual;
+                //ATC
+                //destination.SueldoNetoPercibidoMensual = (destination.SueldoBruto + CostoBusinessConstants.BonoAdicionalReubicacion / CostoBusinessConstants.ViaticosAComprobar) - destination.MontoDescuentoMensual;
+                destination.SueldoNetoPercibidoMensual = (destination.SueldoBruto ) - destination.MontoDescuentoMensual;
                 #endregion Sueldo Neto Mensual
 
                 destination.Anual = destination.SueldoBruto * 12;

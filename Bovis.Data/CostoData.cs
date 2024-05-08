@@ -61,6 +61,9 @@ namespace Bovis.Data
         //Guarderias y prestaciones
         private static double p_GP;
 
+        //Cesantia y Vejes
+        private static double p_CEAV;
+
 
         #region base
         private readonly string dbConfig = "DBConfig";
@@ -359,22 +362,24 @@ namespace Bovis.Data
 
                         if (p_patron > p_3_Veces_UMA)
                         {
-                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .04) * 31);
+                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .004) * 31);
                         }
                         else
                         {
                             p_EME2 = 0;
                         }
 
-                        p_EME_GMPE = (double)(cotizacion * 0.0375) * p_dias_mes;
+                        p_EME_GMPE = (double)(cotizacion * 0.00375) * p_dias_mes;
 
-                        p_EME_ED = (double)(cotizacion * 0.025) * p_dias_mes;
+                        p_EME_ED = (double)(cotizacion * 0.0025) * p_dias_mes;
 
-                        p_EME_ESP = (double)(cotizacion * 0.625) * p_dias_mes;
+                        p_EME_ESP = (double)(cotizacion * 0.00625) * p_dias_mes;
 
                         p_GP = (double)(cotizacion * 0.0) * p_dias_mes;
 
-                        registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+                        p_CEAV = (double)(source.cotizacion * 0.0113) + p_dias_trabajados_bim;
+
+                        registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
                     }
 
 
