@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Bovis.Common.Model.NoTable
 {
     public class CostoEmpleado_Detalle
-    {
+    { 
         public int IdCosto { get; set; }
         public int Anio { get; set; }
         public int Mes { get; set; }

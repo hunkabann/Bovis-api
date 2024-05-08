@@ -18,7 +18,7 @@ namespace Bovis.Common.Model.DTO
         public string? Reubicacion { get; set; }
         public int? IdPuesto { get; set; } = 0;
         public int? NumProyecto { get; set; } = 0;
-        public int? IdUnidadNegocio { get; set; } = 0;
+        public int? IdUnidadNegocio { get; set; } = 0; 
         public int? IdEmpresa { get; set; } = 0;
         public string? Timesheet { get; set; }
         public string? IdEmpleadoJefe { get; set; } = string.Empty;
