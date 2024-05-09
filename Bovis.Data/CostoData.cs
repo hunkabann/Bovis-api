@@ -34,8 +34,32 @@ namespace Bovis.Data
         //3 Veces UMA = 325.71
         private static double p_3_Veces_UMA = 325.71;
         //Prima Riesgo = 0.5
-        private static double p_Prima_Riesgo = 0.5;
-        //SBC = 1491.19
+        private static double p_Prima_Riesgo = 0.005;
+
+        //Factor SBC CEAV
+        private static double p_Patron_SBC_CEAV = 0.02;
+
+        //Factor cesantia y vejez del patron
+        private static double p_Patron_CV = 0.0424;
+
+        //Factor Infonavit del patron
+        private static double p_Patron_Infona = 0.05;
+
+        //Factor CuotaFija Patron
+        private static double p_Patron_CF = 0.204;
+
+        //Factor Enfermedades maternidad gastos medicos patron
+        private static double p_Patron_EMGM = 0.0105;
+
+        //Factor Enfermedades Maternidad de dinero del patron
+        private static double p_Patron_EMDM = 0.007;
+
+        //Factor Validez y vida en  dinero del patron
+        private static double p_Patron_IVDP = 0.0175;
+
+        //Factor Guarderias y Prestaciones sociales del patron
+        private static double p_Patron_GPSP = 0.01;
+
         //UMA 2024 = 108.7
         private static double p_UMA = 108.7;
         //Dias Trabajados = 31
@@ -63,6 +87,32 @@ namespace Bovis.Data
 
         //Cesantia y Vejes
         private static double p_CEAV;
+
+        //riesgo trabajo patron
+        private static double p_RTP;
+
+        //Patron en Enfermedades paternidad en especie
+        private static double p_PEME;
+
+        //Enfermedades y maternidad en especie2
+        private static double p_PEME2;
+
+        //Enfermedades y maternidad Gastos medicos para pencionados del patron
+        private static double p_EMGP;
+
+        //Enfermedades y maternidad en dinero del patron
+        private static double p_EMDP;
+
+        //Invalidez de Vida de dinero del patron
+        private static double p_IVDP;
+
+        //Guarderias y Prestaciones sociales del patron
+        private static double p_GPSP;
+
+        // SBC
+        private static double p_SBC;
+
+
 
 
         #region base
@@ -377,10 +427,48 @@ namespace Bovis.Data
 
                         p_GP = (double)(cotizacion * 0.0) * p_dias_mes;
 
-                        p_CEAV = (double)(source.cotizacion * 0.0113) + p_dias_trabajados_bim;
+                        p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim;
 
                         registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
+
+
+                        p_RTP = (double)(source.cotizacion * p_dias_trabajados) * p_Prima_Riesgo ;
+
+                        p_PEME = (double)(p_Patron_CF * p_UMA) * p_dias_mes;
+
+
+                        if(p_patron > p_3_Veces_UMA)
+                        {
+                            p_PEME2 = (double)((source.cotizacion - p_3_Veces_UMA) * 0.011) * p_dias_mes;
+                        }
+                        else
+                        {
+                            p_PEME2 = 0;
+                        }
+
+                        p_EMGP = (double)(source.cotizacion * p_Patron_EMGM) * p_dias_mes;
+
+                        p_EMDP = (double)(source.cotizacion * p_Patron_EMDM) * p_dias_mes;
+
+                        p_IVDP = (double)(source.cotizacion * p_Patron_IVDP) * p_dias_trabajados;
+
+                        p_GPSP = (double)(source.cotizacion * p_Patron_GPSP) * p_dias_trabajados; 
+
+                        registro.Imss = (decimal)(p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP);
+
+                        p_SBC = (double)(source.cotizacion * p_Patron_SBC_CEAV) * p_dias_trabajados_bim;
+
+                        registro.Retiro2 = (decimal)p_SBC;
+
+
+                        registro.CesantesVejez = (decimal)(source.cotizacion * p_Patron_CV) * p_dias_trabajados_bim; 
+
+                        registro.Infonavit = (decimal)(source.cotizacion * p_Patron_Infona) * p_dias_trabajados_bim;
+
+
+
                     }
+
 
 
 
@@ -445,6 +533,8 @@ namespace Bovis.Data
                                                 select isr).FirstOrDefaultAsync();
 
                         registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+
+                        registro.CargasSociales = (registro.Impuesto3sNomina + registro.Imss + registro.Retiro2 + registro.CesantesVejez + registro.Infonavit);
 
                         if (isr_record != null)
                         {
