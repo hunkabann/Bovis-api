@@ -64,6 +64,8 @@ namespace Bovis.Common.Model.DTO
         public string? ChCategoria { get; set; }
         //ATC
         public double? cotizacion { get; set; }
+
+
         
     }
 }

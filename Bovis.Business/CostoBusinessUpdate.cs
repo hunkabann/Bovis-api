@@ -397,8 +397,21 @@ namespace Bovis.Business
             #endregion Costo total laboral BLL
 
 
+
+
             destination.FechaActualizacion = DateTime.Now;
             destination.RegHistorico = false;
+
+            //ATC
+            if (source.CostoMensualProyecto == null)
+            {
+
+
+            }
+            else
+            {
+                destination.CostoMensualProyecto = source.CostoMensualProyecto;
+            }
 
 
             return destination;
