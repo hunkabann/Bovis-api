@@ -155,6 +155,8 @@ namespace Bovis.Common.Model.NoTable
          * Beneficios
          */
         public List<Beneficio_Costo_Detalle>? Beneficios { get; set; }
+
+        public List<Beneficio_Costo_Detalle>? Beneficiosproyecto { get; set; }
         /*
          * Cargas sociales e impuestos laborales
          */
@@ -196,5 +198,8 @@ namespace Bovis.Common.Model.NoTable
         public int Anio { get; set; }
         public DateTime FechaActualizacion { get; set; }
         public bool RegHistorico { get; set; }
+        public decimal nucostobeneficio { get; set; }
+        public int NumProyecto { get; set; }
+
     }
 }

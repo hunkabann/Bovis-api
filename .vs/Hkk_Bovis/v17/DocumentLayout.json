@@ -11,24 +11,28 @@
       "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\costobusinessupdate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.business\\costobusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\costobusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C273B9A4-02DC-48A4-9CBA-3CE03B01843A}|Bovis.Data.Interface\\Bovis.Data.Interface.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.data.interface\\icostodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C273B9A4-02DC-48A4-9CBA-3CE03B01843A}|Bovis.Data.Interface\\Bovis.Data.Interface.csproj|solutionrelative:bovis.data.interface\\icostodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.common.model\\dto\\costoporempleadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\dto\\costoporempleadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.common.model\\tables\\tb_empleadoproyectobeneficio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\tables\\tb_empleadoproyectobeneficio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.business\\costobusinessconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\costobusinessconstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.common.model\\dto\\costoporempleadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\dto\\costoporempleadodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.common.model\\notable\\costo_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\notable\\costo_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C273B9A4-02DC-48A4-9CBA-3CE03B01843A}|Bovis.Data.Interface\\Bovis.Data.Interface.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.data.interface\\icostodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C273B9A4-02DC-48A4-9CBA-3CE03B01843A}|Bovis.Data.Interface\\Bovis.Data.Interface.csproj|solutionrelative:bovis.data.interface\\icostodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|c:\\users\\administrador\\source\\repos\\bovis-api\\bovis.api\\controllers\\costocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|solutionrelative:bovis.api\\controllers\\costocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 16,
+          "SelectedChildIndex": 19,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,13 +106,52 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
+              "Title": "TB_EmpleadoProyectoBeneficio.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\Tables\\TB_EmpleadoProyectoBeneficio.cs",
+              "RelativeDocumentMoniker": "Bovis.Common.Model\\Tables\\TB_EmpleadoProyectoBeneficio.cs",
+              "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\Tables\\TB_EmpleadoProyectoBeneficio.cs",
+              "RelativeToolTip": "Bovis.Common.Model\\Tables\\TB_EmpleadoProyectoBeneficio.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-10T05:47:08.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CostoPorEmpleadoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
+              "RelativeDocumentMoniker": "Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
+              "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
+              "RelativeToolTip": "Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
+              "ViewState": "AQIAAC0AAAAAAAAAAAAAADcAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-10T04:10:36.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CostoController.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.API\\Controllers\\CostoController.cs",
+              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\CostoController.cs",
+              "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.API\\Controllers\\CostoController.cs",
+              "RelativeToolTip": "Bovis.API\\Controllers\\CostoController.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAAAEcAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T19:09:31.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "ICostoData.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Data.Interface\\ICostoData.cs",
               "RelativeDocumentMoniker": "Bovis.Data.Interface\\ICostoData.cs",
               "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Data.Interface\\ICostoData.cs",
               "RelativeToolTip": "Bovis.Data.Interface\\ICostoData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAtAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAAAAgAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T18:44:41.551Z",
               "EditorCaption": ""
@@ -121,61 +164,35 @@
               "RelativeDocumentMoniker": "Bovis.Data\\CostoData.cs",
               "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Data\\CostoData.cs",
               "RelativeToolTip": "Bovis.Data\\CostoData.cs",
-              "ViewState": "AQIAAAMCAAAAAAAAAAAAABgCAACdAAAA",
+              "ViewState": "AQIAAA8CAAAAAAAAAAAkwC0CAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T18:44:30.247Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "CostoBusinessConstants.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusinessConstants.cs",
               "RelativeDocumentMoniker": "Bovis.Business\\CostoBusinessConstants.cs",
               "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusinessConstants.cs",
               "RelativeToolTip": "Bovis.Business\\CostoBusinessConstants.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA2AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T19:35:31.106Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "Costo_Detalle.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\NoTable\\Costo_Detalle.cs",
               "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\Costo_Detalle.cs",
               "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\NoTable\\Costo_Detalle.cs",
               "RelativeToolTip": "Bovis.Common.Model\\NoTable\\Costo_Detalle.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAGAAAA",
+              "ViewState": "AQIAADkAAAAAAAAAAAAwwEUAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T18:45:05.887Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CostoPorEmpleadoDTO.cs",
-              "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
-              "RelativeDocumentMoniker": "Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
-              "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
-              "RelativeToolTip": "Bovis.Common.Model\\DTO\\CostoPorEmpleadoDTO.cs",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAAAEEAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T18:44:54.173Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CostoBusiness.cs",
-              "DocumentMoniker": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusiness.cs",
-              "RelativeDocumentMoniker": "Bovis.Business\\CostoBusiness.cs",
-              "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusiness.cs",
-              "RelativeToolTip": "Bovis.Business\\CostoBusiness.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAADwvzYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T18:28:25.784Z",
               "EditorCaption": ""
             },
             {
@@ -186,7 +203,7 @@
               "RelativeDocumentMoniker": "Bovis.Business\\CostoBusinessUpdate.cs",
               "ToolTip": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\Bovis.Business\\CostoBusinessUpdate.cs",
               "RelativeToolTip": "Bovis.Business\\CostoBusinessUpdate.cs",
-              "ViewState": "AQIAAG8BAAAAAAAAAAAUwIMBAABYAAAA",
+              "ViewState": "AQIAAG8BAAAAAAAAAAAUwIIBAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T18:25:39.458Z",
               "EditorCaption": ""

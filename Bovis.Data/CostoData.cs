@@ -545,6 +545,36 @@ namespace Bovis.Data
                             registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                         }
 
+                        //ATC
+
+                        var BeneficioCostoProy = await (from eb in db.tB_EmpleadoProyectoBeneficios
+                                                        join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                                        from bItem in bJoin.DefaultIfEmpty()
+                                                        where eb.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
+                                                        select eb).ToListAsync();
+                        decimal? costobene = 0;
+                        foreach (var r in BeneficioCostoProy)
+                        {
+                            costobene = costobene + r.nucostobeneficio;
+                        }
+
+                        if (BeneficioCostoProy != null)
+                        {
+
+                            registro.CostoMensualProyecto = costobene;
+                        }
+
+                        //ATC
+                        /* if (source.CostoMensualProyecto == null)
+                         {
+
+
+                         }
+                         else
+                         {
+                             registro.CostoMensualProyecto = source.CostoMensualProyecto;
+                         }*/
+
                         var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
 
                         return new Common.Response<TB_CostoPorEmpleado>
@@ -630,6 +660,27 @@ namespace Bovis.Data
                         registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
 
                         
+                    }
+
+                    //ATC
+
+                    //ATC
+
+                   var BeneficioCostoProy = await (from eb in db.tB_EmpleadoProyectoBeneficios
+                                                    join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                                    from bItem in bJoin.DefaultIfEmpty()
+                                                    where eb.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
+                                                    select eb).ToListAsync();
+                    decimal? costobene = 0;
+                    foreach (var r in BeneficioCostoProy)
+                    {
+                        costobene = +r.nucostobeneficio;
+                    }
+                        
+                    if (BeneficioCostoProy != null)
+                    {
+
+                        registro.CostoMensualProyecto = costobene;
                     }
 
                     var resDecimal = (decimal)await InsertEntityAsync<TB_CostoPorEmpleado>(registro);
@@ -862,6 +913,29 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                                  Anio = eb.Anno,
                                                  FechaActualizacion = eb.FechaActualizacion,
                                                  RegHistorico = eb.RegHistorico
+                                             }).ToListAsync());
+            }
+
+            foreach (var r in result)
+            {
+                r.Beneficiosproyecto = new List<Beneficio_Costo_Detalle>();
+                r.Beneficiosproyecto.AddRange(await (from eb in db.tB_EmpleadoProyectoBeneficios
+                                             join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                             from bItem in bJoin.DefaultIfEmpty()
+                                             where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
+                                             select new Beneficio_Costo_Detalle
+                                             {
+                                                 //Id = eb.Id,
+                                                 IdBeneficio = eb.IdBeneficio,
+                                                 Beneficio = bItem != null ? bItem.Beneficio : string.Empty,
+                                                 NumEmpleadoRrHh = eb.NumEmpleadoRrHh,
+                                                 nucostobeneficio = eb.nucostobeneficio,
+                                                 NumProyecto = eb.NumProyecto
+                                                 //Costo = eb.Costo,
+                                                 //Mes = eb.Mes,
+                                                 //Anio = eb.Anno,
+                                                 //FechaActualizacion = eb.FechaActualizacion,
+                                                 //RegHistorico = eb.RegHistorico
                                              }).ToListAsync());
             }
 
