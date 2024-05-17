@@ -429,7 +429,16 @@ namespace Bovis.Data
 
                         p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim;
 
-                        registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
+                        if (source.cotizacion < 1)
+                        {
+                            registro.RetencionImss = 0;
+                        }
+                        else
+                        {
+                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
+                        }
+
+                           
 
 
                         p_RTP = (double)(source.cotizacion * p_dias_trabajados) * p_Prima_Riesgo ;
@@ -452,9 +461,18 @@ namespace Bovis.Data
 
                         p_IVDP = (double)(source.cotizacion * p_Patron_IVDP) * p_dias_trabajados;
 
-                        p_GPSP = (double)(source.cotizacion * p_Patron_GPSP) * p_dias_trabajados; 
+                        p_GPSP = (double)(source.cotizacion * p_Patron_GPSP) * p_dias_trabajados;
 
-                        registro.Imss = (decimal)(p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP);
+                        if (source.cotizacion < 1)
+                        {
+                            registro.Imss = 0;
+                        }
+                        else
+                        {
+                            registro.Imss = (decimal)(p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP);
+                        }
+
+                        
 
                         p_SBC = (double)(source.cotizacion * p_Patron_SBC_CEAV) * p_dias_trabajados_bim;
 
@@ -522,6 +540,10 @@ namespace Bovis.Data
                            
                             registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
                         }
+                        else
+                        {
+                            registro.RetencionImss = 0;
+                        }
 
 
                         registro.Ispt = 0;
@@ -534,7 +556,23 @@ namespace Bovis.Data
 
                         registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
 
-                        registro.CargasSociales = (registro.Impuesto3sNomina + registro.Imss + registro.Retiro2 + registro.CesantesVejez + registro.Infonavit);
+                        if (source.cotizacion == null)
+                        {
+
+
+                        }
+                        else
+                        {
+                            if (source.cotizacion < 1)
+                            {
+                                registro.CargasSociales = 0;
+                            }
+                            else
+                            {
+                                registro.CargasSociales = (registro.Impuesto3sNomina + registro.Imss + registro.Retiro2 + registro.CesantesVejez + registro.Infonavit);
+                            }
+                        }
+                        
 
                         if (isr_record != null)
                         {
