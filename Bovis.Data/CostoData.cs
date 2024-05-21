@@ -940,6 +940,7 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                              join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
                                              from bItem in bJoin.DefaultIfEmpty()
                                              where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
+                                             && eb.RegHistorico == false
                                              select new Beneficio_Costo_Detalle
                                              {
                                                  Id = eb.Id,
@@ -961,7 +962,8 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                              join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
                                              from bItem in bJoin.DefaultIfEmpty()
                                              where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
-                                             select new Beneficio_Costo_Detalle
+                                             
+                                                     select new Beneficio_Costo_Detalle
                                              {
                                                  //Id = eb.Id,
                                                  IdBeneficio = eb.IdBeneficio,
