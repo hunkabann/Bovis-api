@@ -65,7 +65,8 @@ namespace Bovis.Common.Model.DTO
         //ATC
         public double? cotizacion { get; set; }
 
-
+        //ATC
+        public decimal? bonoproyect_sueldobruto { get; set; } 
         
     }
 }

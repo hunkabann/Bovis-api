@@ -395,6 +395,7 @@ namespace Bovis.Data
                 decimal? sv_costo_total_anual = registro.SvCostoTotalAnual;
                 decimal? vaid_costo_mensual = registro.VaidCostoMensual;
                 double? cotizacion = source.cotizacion;//1540.5;
+                decimal? bonoproyect_sueldobruto = source.bonoproyect_sueldobruto;
 
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -405,7 +406,18 @@ namespace Bovis.Data
                                                    select c).FirstOrDefaultAsync();
 
                     //ATC
-                    decimal? sueldo_gravable = registro.SueldoBruto + registro.AvgBonoAnualEstimado;
+                    decimal? sueldo_gravable = 0; 
+                    
+                    if (bonoproyect_sueldobruto != null && bonoproyect_sueldobruto > 0)
+                    {
+                        //ATC
+                        sueldo_gravable = registro.SueldoBruto + registro.AvgBonoAnualEstimado + bonoproyect_sueldobruto;
+                    }
+                    else
+                    {
+                        //ATC
+                       sueldo_gravable = registro.SueldoBruto + registro.AvgBonoAnualEstimado; 
+                    }
 
                     if (cotizacion != null && cotizacion > 0)
                     {
@@ -548,11 +560,11 @@ namespace Bovis.Data
 
                         registro.Ispt = 0;
 
-                        var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
-                                                where isr.Anio == registro.NuAnno
-                                                && isr.Mes == registro.NuMes
-                                                && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
-                                                select isr).FirstOrDefaultAsync();
+                       var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+                        where isr.Anio == registro.NuAnno
+                        && isr.Mes == registro.NuMes
+                        && (isr.LimiteInferior <= sueldo_gravable && isr.LimiteSuperior >= sueldo_gravable)
+                        select isr).FirstOrDefaultAsync();
 
                         registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
 
@@ -579,7 +591,8 @@ namespace Bovis.Data
                             //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
                             //registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
 
-                            decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                            //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                            decimal? sueldoBruto = sueldo_gravable;
                             registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                         }
 
