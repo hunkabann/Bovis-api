@@ -67,8 +67,7 @@ namespace Bovis.Common.Model.NoTable
         public int IdSeccion { get; set; }
         public string Codigo { get; set; }
         public string Seccion { get; set; }
-        //public List<Rubro_Detalle> Rubros { get; set; }
-        public dynamic Rubros { get; set; }
+        public List<Rubro_Detalle> Rubros { get; set; }
     }
 
     public class Rubro_Detalle
