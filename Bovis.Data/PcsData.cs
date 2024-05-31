@@ -7,6 +7,7 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using System.Text.Json.Nodes;
 using Newtonsoft.Json.Linq;
+using LinqToDB.SqlQuery;
 
 namespace Bovis.Data
 {
@@ -884,45 +885,117 @@ namespace Bovis.Data
 
                 foreach (var seccion in secciones)
                 {
-                    var rubros = await (from rubro in db.tB_Rubros
-                                        join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
-                                        from rel1Item in rel1Join.DefaultIfEmpty()
-                                        join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
-                                        where rubro.IdSeccion == seccion.IdSeccion
-                                        && rubro.NumProyecto == IdProyecto
-                                        && rel2.Tipo == Tipo
-                                        select new Rubro_Detalle
-                                        {
-                                            Id = rubro.Id,
-                                            IdRubro = rubro.IdRubro,
-                                            Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
-                                            Unidad = rubro.Unidad,
-                                            Cantidad = rubro.Cantidad,
-                                            Reembolsable = rubro.Reembolsable,
-                                            AplicaTodosMeses = rubro.AplicaTodosMeses
-                                        }).ToListAsync();
-
                     seccion.Rubros = new List<Rubro_Detalle>();
-                    seccion.Rubros.AddRange(rubros);
 
-                    foreach (var rubro in rubros)
+                    if (seccion.IdSeccion == 2)
                     {
-                        var fechas = await (from valor in db.tB_RubroValors
-                                            join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
-                                            join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
-                                            join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
-                                            where rub.NumProyecto == IdProyecto
-                                            && sec.Tipo == Tipo
-                                            select new PCS_Fecha_Detalle
+                        var etapas = await (from p in db.tB_ProyectoFases
+                                            join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                            from proyItem in proyJoin.DefaultIfEmpty()
+                                            where p.NumProyecto == IdProyecto
+                                            orderby p.FechaIni ascending
+                                            select new PCS_Etapa_Detalle
                                             {
-                                                Id = valor.Id,
-                                                Mes = valor.Mes,
-                                                Anio = valor.Anio,
-                                                Porcentaje = valor.Porcentaje
+                                                IdFase = p.IdFase,
+                                                Orden = p.Orden,
+                                                Fase = p.Fase,
+                                                FechaIni = p.FechaIni,
+                                                FechaFin = p.FechaFin
                                             }).ToListAsync();
 
-                        rubro.Fechas = new List<PCS_Fecha_Detalle>();
-                        rubro.Fechas.AddRange(fechas);
+                        foreach (var etapa in etapas)
+                        {
+                            var empleados = await (from p in db.tB_ProyectoFaseEmpleados
+                                                   join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                                   from eItem in eJoin.DefaultIfEmpty()
+                                                   join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                                   from perItem in perJoin.DefaultIfEmpty()
+                                                   where p.IdFase == etapa.IdFase
+                                                   orderby p.NumEmpleado ascending
+                                                   group new Rubro_Detalle
+                                                   {
+                                                       Id = p.Id,
+                                                       IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                                       Rubro = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                                       Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                                       NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                                   } by new { p.NumEmpleado } into g
+                                                   select new Rubro_Detalle
+                                                   {
+                                                       Id = g.First().Id,
+                                                       IdRubro = g.First().IdRubro,
+                                                       Rubro = g.First().Rubro,
+                                                       Empleado = g.First().Empleado,
+                                                       NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                                   }).ToListAsync();
+
+                            foreach (var empleado in empleados)
+                            {
+                                var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                    where p.NumEmpleado == empleado.NumEmpleadoRrHh
+                                                    && p.IdFase == etapa.IdFase
+                                                    select new PCS_Fecha_Detalle
+                                                    {
+                                                        Id = p.Id,
+                                                        Mes = p.Mes,
+                                                        Anio = p.Anio,
+                                                        Porcentaje = p.Porcentaje
+                                                    }).ToListAsync();
+
+                                empleado.Fechas = new List<PCS_Fecha_Detalle>();
+                                empleado.Fechas.AddRange(fechas);
+
+
+                            }
+
+                            seccion.Rubros.AddRange(empleados);
+                        }
+                    }
+                    else
+                    {
+
+
+                        var rubros = await (from rubro in db.tB_Rubros
+                                            join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                            from rel1Item in rel1Join.DefaultIfEmpty()
+                                            join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                            where rubro.IdSeccion == seccion.IdSeccion
+                                            && rubro.NumProyecto == IdProyecto
+                                            && rel2.Tipo == Tipo
+                                            select new Rubro_Detalle
+                                            {
+                                                Id = rubro.Id,
+                                                IdRubro = rubro.IdRubro,
+                                                Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                                Unidad = rubro.Unidad,
+                                                Cantidad = rubro.Cantidad,
+                                                Reembolsable = rubro.Reembolsable,
+                                                AplicaTodosMeses = rubro.AplicaTodosMeses
+                                            }).ToListAsync();
+
+                        //seccion.Rubros = new List<Rubro_Detalle>();
+                        seccion.Rubros.AddRange(rubros);
+
+                        foreach (var rubro in rubros)
+                        {
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && sec.Tipo == Tipo
+                                                orderby valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                            rubro.Fechas.AddRange(fechas);
+                        }
                     }
                 }
 
