@@ -697,7 +697,7 @@ namespace Bovis.Data
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                             where isr.Anio == registro.NuAnno
                                             && isr.Mes == registro.NuMes
-                                            && (isr.LimiteInferior <= registro.SueldoBruto && isr.LimiteSuperior >= registro.SueldoBruto)
+                                            && (isr.LimiteInferior <= sueldo_gravable && isr.LimiteSuperior >= sueldo_gravable)
                                             select isr).FirstOrDefaultAsync();
 
                     if (isr_record != null)

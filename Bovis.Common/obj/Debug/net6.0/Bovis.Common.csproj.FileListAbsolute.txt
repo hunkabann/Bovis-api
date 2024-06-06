@@ -57,3 +57,15 @@ C:\Users\Administrador\source\repos\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovi
 C:\Users\Administrador\source\repos\Bovis-api\Bovis.Common\obj\Debug\net6.0\refint\Bovis.Common.dll
 C:\Users\Administrador\source\repos\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.pdb
 C:\Users\Administrador\source\repos\Bovis-api\Bovis.Common\obj\Debug\net6.0\ref\Bovis.Common.dll
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.deps.json
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.dll
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.pdb
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.AssemblyInfoInputs.cache
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.AssemblyInfo.cs
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.csproj.CoreCompileInputs.cache
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.sourcelink.json
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.dll
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\refint\Bovis.Common.dll
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.pdb
+C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\ref\Bovis.Common.dll
