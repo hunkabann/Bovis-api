@@ -655,12 +655,17 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == idTimeSheet)
+                /**var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == idTimeSheet)
                                 .UpdateAsync(x => new TB_Timesheet
                                 {
                                     Activo = false
-                                }) > 0;
+                                }) > 0;*/
 
+                var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == idTimeSheet)
+                                .DeleteAsync() > 0;
+
+
+                
                 resp.Success = res_update_timesheet;
                 resp.Message = res_update_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
