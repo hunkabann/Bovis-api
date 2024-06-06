@@ -158,7 +158,7 @@ namespace Bovis.Data
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
                     float dias = float.Parse(proyecto["dias"].ToString());
-                    float dedicacion = float.Parse(proyecto["dedicacion"].ToString());
+                    float dedicacion = float.Parse(proyecto["dedicacionCalc"].ToString());
                     decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
 
                     var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
