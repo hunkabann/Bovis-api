@@ -558,7 +558,7 @@ namespace Bovis.Data
                         }
 
 
-                        registro.Ispt = 0;
+                        
 
                        var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                         where isr.Anio == registro.NuAnno
@@ -592,7 +592,8 @@ namespace Bovis.Data
                             //registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
 
                             //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
-                            decimal? sueldoBruto = sueldo_gravable;
+                            //decimal? sueldoBruto = sueldo_gravable;
+                            registro.Ispt = 0;
                             registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
                         }
 
@@ -692,7 +693,7 @@ namespace Bovis.Data
                     //registro.SgmmCostoTotalAnual = sgmm_costo_total_anual;
                     //registro.SvCostoTotalAnual = sv_costo_total_anual;
                     //registro.VaidCostoMensual = vaid_costo_mensual;
-                    registro.Ispt = 0;
+                    
 
                     var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                                             where isr.Anio == registro.NuAnno
@@ -707,7 +708,8 @@ namespace Bovis.Data
                         //decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? (registro.SueldoBruto * registro.AvgBonoAnualEstimado * 10) : registro.SueldoBruto;
                         //registro.Ispt = ((sueldoBruto - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
 
-                        decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                        // decimal? sueldoBruto = registro.AvgBonoAnualEstimado != 0 ? sueldo_gravable : registro.SueldoBruto;
+                        registro.Ispt = 0;
                         registro.Ispt = ((sueldo_gravable - isr_record.LimiteInferior) * isr_record.PorcentajeAplicable) + isr_record.CuotaFija;
 
                         
