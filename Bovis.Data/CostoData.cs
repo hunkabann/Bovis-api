@@ -604,20 +604,37 @@ namespace Bovis.Data
                                                         from bItem in bJoin.DefaultIfEmpty()
                                                         where eb.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
                                                         select eb).ToListAsync();
-                        decimal? costobene = 0;
+                        decimal? costobeneProy = 0;
                         foreach (var r in BeneficioCostoProy)
                         {
-                            costobene = costobene + r.nucostobeneficio;
+                            costobeneProy = costobeneProy + r.nucostobeneficio;
                         }
 
                         if (BeneficioCostoProy != null)
                         {
 
-                            registro.CostoMensualProyecto = costobene;
+                            registro.CostoMensualProyecto = costobeneProy;
                         }
                         //ATC
                         //Falta sumar viaticos a comprobar del proyecto 
                         registro.SueldoNetoPercibidoMensual = (registro.SueldoBruto + bonoproyect_sueldobruto) - registro.MontoDescuentoMensual;
+
+                        var BeneficioCosto = await (from eb in db.tB_EmpleadoBeneficios
+                                                        join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                                        from bItem in bJoin.DefaultIfEmpty()
+                                                        where eb.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
+                                                        select eb).ToListAsync();
+                        decimal? costobene = 0;
+                        foreach (var r in BeneficioCosto)
+                        {
+                            costobene = costobene + r.Costo;
+                        }
+
+                        if (BeneficioCosto != null)
+                        {
+
+                            registro.CostoMensualEmpleado = registro.CostoMensualEmpleado+costobene;
+                        }
 
                         //ATC
                         /* if (source.CostoMensualProyecto == null)
