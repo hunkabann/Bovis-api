@@ -615,6 +615,9 @@ namespace Bovis.Data
 
                             registro.CostoMensualProyecto = costobene;
                         }
+                        //ATC
+                        //Falta sumar viaticos a comprobar del proyecto 
+                        registro.SueldoNetoPercibidoMensual = (registro.SueldoBruto + bonoproyect_sueldobruto) - registro.MontoDescuentoMensual;
 
                         //ATC
                         /* if (source.CostoMensualProyecto == null)
