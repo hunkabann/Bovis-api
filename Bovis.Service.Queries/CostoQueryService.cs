@@ -95,6 +95,12 @@ namespace Bovis.Service.Queries
             var response = await _costoBusiness.UpdateCostos(costoId, source);
             return response; 
         }
+        
+        public async Task<Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(CostoPorEmpleadoDTO source)
+        {
+            var response = await _costoBusiness.UpdateCostoEmpleado(source);
+            return response; 
+        }
         #endregion
 
         #region DeleteCosto

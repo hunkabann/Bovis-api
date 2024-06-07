@@ -26,4 +26,3 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> AddAuditoriaDocumentoValidacion(JsonObject registro);
     }
 }
-

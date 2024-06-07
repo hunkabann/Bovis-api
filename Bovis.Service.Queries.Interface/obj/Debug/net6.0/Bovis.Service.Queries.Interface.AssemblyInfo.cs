@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bovis.Service.Queries.Interface")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b9c387026dc6daec468eaa14c59733ae7c8c72c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7fc51e8ae79522543bc7cb8b11c33f55a03592b1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bovis.Service.Queries.Interface")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bovis.Service.Queries.Interface")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

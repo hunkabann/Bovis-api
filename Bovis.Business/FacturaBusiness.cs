@@ -167,84 +167,88 @@ namespace Bovis.Business
             foreach (var notaCredito in request.LstFacturas)
             {
                 var cfdi = await ExtraerDatos(notaCredito.FacturaB64);
-
-                if(cfdi is null)
+                
+                if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("E"))
                 {
-                    LstFacturas.Add(new FacturaRevision
+                    if (cfdi.CfdiRelacionados.Count == 0)
                     {
-                        FacturaNombre = notaCredito.FacturaNombre,
-                        Almacenada = false,
-                        Error = $@"No existe un CFDI relacionado para esta nota de crédito."
-                    });
-                }
-                else if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("E"))
-                {
-                    foreach (var uuid in cfdi.CfdiRelacionados)
-                    {
-                        var factura = await _facturaData.SearchFactura(uuid);
-
-                        var tmpFactura = new FacturaRevision
+                        LstFacturas.Add(new FacturaRevision
                         {
-                            RfcEmisor = cfdi.RfcEmisor,
-                            RfcReceptor = cfdi.RfcReceptor,
-                            FechaEmision = cfdi.Fecha,
-                            Total = cfdi.Total,
-                            Conceptos = string.Join("|", cfdi.Conceptos),
-                            //TipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS",
-                            NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
                             FacturaNombre = notaCredito.FacturaNombre,
-                            Almacenada = true
-                        };
-
-                        tryDate = default;
-                        if (factura != null)
+                            Almacenada = false,
+                            Error = $@"No existe un CFDI relacionado para esta nota de crédito."
+                        });
+                    }
+                    else
+                    {
+                        foreach (var uuid in cfdi.CfdiRelacionados)
                         {
-                            var existeNC = await _facturaData.SearchNotaCredito(cfdi.UUID);
+                            var factura = await _facturaData.SearchFactura(uuid);
 
-                            if (existeNC != null)
+                            var tmpFactura = new FacturaRevision
                             {
-                                tmpFactura.Almacenada = false;
-                                tmpFactura.Error = $@"La nota de credito {uuid} ya existe en la BD";
+                                RfcEmisor = cfdi.RfcEmisor,
+                                RfcReceptor = cfdi.RfcReceptor,
+                                FechaEmision = cfdi.Fecha,
+                                Total = cfdi.Total,
+                                Conceptos = string.Join("|", cfdi.Conceptos),
+                                //TipoFactura = cfdi?.Conceptos?.FirstOrDefault()?.ToUpper()?.Contains("COBROS POR PAGOS A CTA DE TERCEROS") == true ? "TRADES" : "PROPIOS",
+                                NoFactura = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
+                                FacturaNombre = notaCredito.FacturaNombre,
+                                Almacenada = true
+                            };
+
+                            tryDate = default;
+                            if (factura != null)
+                            {
+                                var existeNC = await _facturaData.SearchNotaCredito(cfdi.UUID);
+
+                                if (existeNC != null)
+                                {
+                                    tmpFactura.Almacenada = false;
+                                    tmpFactura.Error = $@"La nota de credito {uuid} ya existe en la BD";
+                                }
+                                else
+                                {
+                                    if ((DateTime.TryParse(cfdi.Fecha, out tryDate)) && (factura.Id > 0))
+                                    {
+                                        decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
+                                        decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
+
+                                        if (cfdi.Moneda != "MXN")
+                                        {
+                                            total = total * tipoCambio;
+                                        }
+
+                                        var responseFactura = await _facturaData.AddNotaCredito(new TB_ProyectoFacturaNotaCredito
+                                        {
+                                            IdFactura = factura.Id,
+                                            UuidNotaCredito = cfdi.UUID,
+                                            Anio = Convert.ToInt16(tryDate.Year),
+                                            Concepto = string.Join("|", cfdi.Conceptos),
+                                            FechaNotaCredito = tryDate,
+                                            IdMoneda = cfdi.Moneda,
+                                            Importe = Convert.ToDecimal(cfdi.SubTotal ?? "-1"),
+                                            NotaCredito = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
+                                            Iva = cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0,
+                                            Total = total,
+                                            Mes = Convert.ToByte(tryDate.Month),
+                                            TipoCambio = tipoCambio,
+                                            Xml = cfdi.XmlB64
+                                        });
+
+                                        tmpFactura.Almacenada = responseFactura.Success;
+                                        tmpFactura.Error = responseFactura.Message;
+                                    }
+                                }
                             }
                             else
                             {
-                                if ((DateTime.TryParse(cfdi.Fecha, out tryDate)) && (factura.Id > 0))
-                                {
-                                    decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
-                                    decimal tipoCambio = cfdi.TipoCambio is not null ? Convert.ToDecimal(cfdi.TipoCambio) : 0;
-
-                                    if (cfdi.Moneda != "MXN")
-                                    {
-                                        total = total * tipoCambio;
-                                    }
-
-                                    var responseFactura = await _facturaData.AddNotaCredito(new TB_ProyectoFacturaNotaCredito
-                                    {
-                                        IdFactura = factura.Id,
-                                        UuidNotaCredito = cfdi.UUID,
-                                        Anio = Convert.ToInt16(tryDate.Year),
-                                        Concepto = string.Join("|", cfdi.Conceptos),
-                                        FechaNotaCredito = tryDate,
-                                        IdMoneda = cfdi.Moneda,
-                                        Importe = Convert.ToDecimal(cfdi.SubTotal ?? "-1"),
-                                        NotaCredito = $"{cfdi.Serie ?? string.Empty}{cfdi.Folio ?? string.Empty}",
-                                        Iva = cfdi.TotalImpuestosTrasladados is not null ? Convert.ToDecimal(cfdi.TotalImpuestosTrasladados) : 0,
-                                        Total = total,
-                                        Mes = Convert.ToByte(tryDate.Month),
-                                        TipoCambio = tipoCambio,
-                                        Xml = cfdi.XmlB64
-                                    });
-
-                                    tmpFactura.Almacenada = responseFactura.Success;
-                                    tmpFactura.Error = responseFactura.Message;
-                                }
+                                tmpFactura.Almacenada = false;
+                                tmpFactura.Error = $@"La factura {uuid} no ha sido cargada";
                             }
+                            LstFacturas.Add(tmpFactura);
                         }
-                        else {
-                            tmpFactura.Almacenada = false;
-                            tmpFactura.Error = $@"La factura {uuid} no ha sido cargada";
-                        }
-                        LstFacturas.Add(tmpFactura);
                     }
                 }
                 else
@@ -327,16 +331,8 @@ namespace Bovis.Business
             {
                 var cfdi = await ExtraerDatos(pagos.FacturaB64);
 
-                if (cfdi is null)
-                {
-                    LstFacturas.Add(new FacturaRevision
-                    {
-                        FacturaNombre = pagos.FacturaNombre,
-                        Almacenada = false,
-                        Error = $@"No existe un CFDI relacionado para este pago."
-                    });
-                }
-                else if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
+                
+                if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
                 {
                     var existePago = await _facturaData.SearchPagos(cfdi.UUID);
 

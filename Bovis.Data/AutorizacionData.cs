@@ -53,6 +53,7 @@ namespace Bovis.Data
                                       {
                                           IdUsuario = usr.IdUsuario,
                                           NumEmpleado = usr.NumEmpleadoRrHh,
+                                          IdPersona = empItem.IdPersona,
                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
                                           Activo = usr.Activo,
                                           UltimaSesion = usr.FechaUltimaSesion

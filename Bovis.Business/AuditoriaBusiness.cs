@@ -27,9 +27,9 @@ namespace Bovis.Business
 
         public Task<List<TB_Proyecto>> GetProyectos(string email_loged_user, string TipoAuditoria) => _auditoriaData.GetProyectos(email_loged_user, TipoAuditoria);
         public Task<List<Documentos_Auditoria_Detalle>> GetAuditorias(string TipoAuditoria) => _auditoriaData.GetAuditorias(TipoAuditoria);
-        
+
         public Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria) => _auditoriaData.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
-        
+
         public Task<List<TB_Cat_AuditoriaTipoComentario>> GetTipoComentarios() => _auditoriaData.GetTipoComentarios();
 
         public Task<List<Comentario_Detalle>> GetComentarios(int numProyecto) => _auditoriaData.GetComentarios(numProyecto);
@@ -42,7 +42,7 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
-        
+
         public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             (bool Success, string Message) resp = (true, string.Empty);

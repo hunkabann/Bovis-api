@@ -9,7 +9,7 @@ namespace Bovis.Common.Model.DTO
 {
     public class CostoPorEmpleadoDTO
     {
-        public int IdCosto { get; set; }
+        public int IdCostoEmpleado { get; set; }
         public string NumEmpleadoRrHh { get; set; } = string.Empty;
         public int? NuAnno { get; set; }
         public int? NuMes { get; set; }
@@ -18,10 +18,10 @@ namespace Bovis.Common.Model.DTO
         public string? Reubicacion { get; set; }
         public int? IdPuesto { get; set; } = 0;
         public int? NumProyecto { get; set; } = 0;
-        public int? IdUnidadNegocio { get; set; } = 0;
+        public int? IdUnidadNegocio { get; set; } = 0; 
         public int? IdEmpresa { get; set; } = 0;
         public string? Timesheet { get; set; }
-        public int? IdEmpleadoJefe { get; set; } = 0;
+        public string? IdEmpleadoJefe { get; set; } = string.Empty;
         public DateTime? FechaIngreso { get; set; }
         public decimal? Antiguedad { get; set; } = 0M;
         public decimal? AvgDescuentoEmpleado { get; set; } = 0M;
@@ -59,5 +59,14 @@ namespace Bovis.Common.Model.DTO
         public decimal? IndiceCargaLaboral { get; set; } = 0M;
         public DateTime? FechaActualizacion { get; set; }
         public bool? RegHistorico { get; set; } = false;
+        public int ImpuestoNomina { get; set; } 
+        public int IdCategoria { get; set; } = 0;
+        public string? ChCategoria { get; set; }
+        //ATC
+        public double? cotizacion { get; set; }
+
+        //ATC
+        public decimal? bonoproyect_sueldobruto { get; set; } 
+        
     }
 }

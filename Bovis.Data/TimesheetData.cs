@@ -115,7 +115,7 @@ namespace Bovis.Data
             int? anio = registro["anio"] != null ? Convert.ToInt32(registro["anio"].ToString()) : null;
             bool? sabados = registro["sabados"] != null ? Convert.ToBoolean(registro["sabados"].ToString()) : null;
             string? id_responsable = registro["id_responsable"] != null ? registro["id_responsable"].ToString() : null;
-            int? dias_trabajo = registro["dias"] != null ? Convert.ToInt32(registro["dias"].ToString()) : null;
+            float? dias_trabajo = registro["dias"] != null ? float.Parse(registro["dias"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -157,9 +157,9 @@ namespace Bovis.Data
                 {
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
-                    int dias = Convert.ToInt32(proyecto["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
-                    int costo = Convert.ToInt32(proyecto["costo"].ToString());
+                    float dias = float.Parse(proyecto["dias"].ToString());
+                    float dedicacion = float.Parse(proyecto["dedicacionCalc"].ToString());
+                    decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
 
                     var insert_timesheet_proyecto = await db.tB_Timesheet_Proyectos
                         .Value(x => x.IdTimesheet, last_inserted_id)
@@ -178,8 +178,8 @@ namespace Bovis.Data
                 foreach (var otro in registro["otros"].AsArray())
                 {
                     string id_otro = otro["id"].ToString();
-                    int dias = Convert.ToInt32(otro["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
+                    float dias = float.Parse(otro["dias"].ToString());
+                    float dedicacion = float.Parse(otro["dedicacion"].ToString());
 
                     var insert_timesheet_otro = await db.tB_Timesheet_Otros
                         .Value(x => x.IdTimeSheet, last_inserted_id)
@@ -339,7 +339,7 @@ namespace Bovis.Data
 
                     foreach(var proyecto in timesheet.proyectos)
                     {
-                        proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));                        
+                        proyecto.TDedicacion = Convert.ToInt32((proyecto.Dias / (float)timesheet.dias_trabajo!) * 100); 
                     }
 
                     timesheets_summary.Add(timesheet);
@@ -399,7 +399,7 @@ namespace Bovis.Data
 
                         foreach (var proyecto in timesheet.proyectos)
                         {
-                            proyecto.TDedicacion = Convert.ToInt32(Math.Round((proyecto.Dias / Convert.ToDecimal(timesheet.dias_trabajo)) * 100));
+                            proyecto.TDedicacion = Convert.ToInt32((proyecto.Dias / (float)timesheet.dias_trabajo!) * 100);
                         }
 
                         timesheets_summary.Add(timesheet);
@@ -841,10 +841,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
-                                .UpdateAsync(x => new TB_EmpleadoProyecto
-                                {
-                                    Activo = false
-                                }) > 0;
+                                .DeleteAsync() > 0;
 
                 resp.Success = res_update_empleado_proyecto;
                 resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
@@ -860,8 +857,8 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_timesheet_proyecto = Convert.ToInt32(registro["id_timesheet_proyecto"].ToString());
-            int num_dias = Convert.ToInt32(registro["num_dias"].ToString());
-            int num_dedicacion = Convert.ToInt32(registro["num_dedicacion"].ToString());
+            float num_dias = float.Parse(registro["num_dias"].ToString());
+            float num_dedicacion = float.Parse(registro["num_dedicacion"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -869,7 +866,7 @@ namespace Bovis.Data
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Dias = num_dias,
-                                    TDedicacion = num_dedicacion
+                                    TDedicacion = Convert.ToInt32(num_dedicacion)
                                 }) > 0;
 
                 resp.Success = res_update_timesheet_proyecto;

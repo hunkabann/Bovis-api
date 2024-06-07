@@ -218,7 +218,7 @@ namespace Bovis.Data
         }
         */
 
-        
+
         public async Task<List<Documentos_Auditoria_Proyecto_Detalle>> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -276,7 +276,7 @@ namespace Bovis.Data
                 return auditorias_agrupadas;
             }
         }
-        
+
 
 
 
@@ -286,7 +286,7 @@ namespace Bovis.Data
             {
                 var tipo_comentarios = await (from t in db.tB_Cat_AuditoriaTipoComentarios
                                               select t).ToListAsync();
-            
+
                 return tipo_comentarios;
             }
         }
@@ -358,14 +358,14 @@ namespace Bovis.Data
 
             return resp;
         }
-        
+
         public async Task<(bool Success, string Message)> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string comentario = registro["comentario"].ToString();
-            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());            
+            int id_tipo_comentario = Convert.ToInt32(registro["id_tipo_comentario"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -423,7 +423,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_auditoria_proyecto = Convert.ToInt32(registro["id_auditoria_proyecto"].ToString());
-            string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() :  null;
+            string? motivo = registro["motivo"] != null ? registro["motivo"].ToString() : null;
             string documento_base64 = registro["documento_base64"].ToString();
             string nombre_documento = registro["nombre_documento"].ToString();
 
@@ -499,7 +499,7 @@ namespace Bovis.Data
                     int id_documento = Convert.ToInt32(r["id_documento"].ToString());
                     bool valido = Convert.ToBoolean(r["valido"].ToString());
                     string? comentario_rechazo = r["comentario_rechazo"] != null ? r["comentario_rechazo"].ToString() : null;
-     
+
 
                     var res_valida_documento = await (db.tB_Auditoria_Documentos
                                                 .Where(x => x.IdDocumento == id_documento)

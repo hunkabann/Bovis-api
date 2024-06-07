@@ -79,6 +79,8 @@ namespace Bovis.Common.Model.NoTable
         public decimal? Cantidad { get; set; }
         public bool? Reembolsable { get; set; }
         public bool? AplicaTodosMeses { get; set; }
+        public string? Empleado { get; set; }
+        public string? NumEmpleadoRrHh { get; set; }
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }
 }

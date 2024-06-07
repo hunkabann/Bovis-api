@@ -21,6 +21,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh,int anno_min,int mes_min, int anno_max, int mes_max);
         Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh,int anno_min,int mes_min,int anno_max,int mes_max, bool hist);
         Task<Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, CostoPorEmpleadoDTO registro);
+        Task<Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(CostoPorEmpleadoDTO registro);
         Task<Response<bool>> DeleteCosto(int costoId);
         
 

@@ -53,13 +53,13 @@ namespace Bovis.Service.Queries
             var response = await _auditoriaBusiness.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
             return new Response<List<Documentos_Auditoria_Proyecto_Detalle>> { Data = _map.Map<List<Documentos_Auditoria_Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        
+
         public async Task<Response<List<TB_Cat_AuditoriaTipoComentario>>> GetTipoComentarios()
         {
             var response = await _auditoriaBusiness.GetTipoComentarios();
             return new Response<List<TB_Cat_AuditoriaTipoComentario>> { Data = _map.Map<List<TB_Cat_AuditoriaTipoComentario>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        
+
         public async Task<Response<List<Comentario_Detalle>>> GetComentarios(int numProyecto)
         {
             var response = await _auditoriaBusiness.GetComentarios(numProyecto);
@@ -71,7 +71,7 @@ namespace Bovis.Service.Queries
             var response = await _auditoriaBusiness.AddAuditorias(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        
+
         public async Task<Response<(bool Success, string Message)>> AddComentarios(JsonObject registro, string usuario_logueado)
         {
             var response = await _auditoriaBusiness.AddComentarios(registro, usuario_logueado);
@@ -109,4 +109,3 @@ namespace Bovis.Service.Queries
         }
     }
 }
-

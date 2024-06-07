@@ -68,7 +68,18 @@ namespace Bovis.Common.Model.NoTable
         public string? chcontacto_posicion { get; set; }
         public string? chcontacto_telefono { get; set; }
         public string? chcontacto_correo { get; set; }
+        public float? nudias { get; set; }
+        public float? nudedicacion { get; set; }
+        public decimal? nucosto { get; set; }
+        public List<InfoCosto> Costos { get; set; }
         public List<InfoCliente> Clientes { get; set; }
+    }
+
+    public class InfoCosto
+    {
+        public float? nudias { get; set; }
+        public float? nudedicacion { get; set; }
+        public decimal? nucosto { get; set; }
     }
 
     public class InfoCliente

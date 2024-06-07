@@ -17,7 +17,7 @@ namespace Bovis.Common.Model.NoTable
         public string? id_responsable { get; set; }
         public string? responsable { get; set; }
         public bool? sabados { get; set; }
-        public int? dias_trabajo { get; set; }
+        public float? dias_trabajo { get; set; }
         public int? coi_empresa { get; set; }
         public int? noi_empresa { get; set; }
         public string? noi_empleado { get; set; }
@@ -30,7 +30,7 @@ namespace Bovis.Common.Model.NoTable
     {
         public int? id { get; set; }
         public int? mes { get; set; }
-        public int? dias { get; set; }
+        public float? dias { get; set; }
         public int? feriados { get; set; }
         public int? sabados { get; set; }
         public int? anio { get; set; }

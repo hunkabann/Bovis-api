@@ -51,7 +51,7 @@ namespace Bovis.API.Controllers
 
         [HttpGet, Route("ByProyecto/{IdProyecto}/{TipoAuditoria}")]
         public async Task<IActionResult> GetAuditoriasByProyecto(int IdProyecto, string TipoAuditoria)
-        {            
+        {
             var query = await _auditoriaQueryService.GetAuditoriasByProyecto(IdProyecto, TipoAuditoria);
             return Ok(query);
         }
@@ -62,7 +62,7 @@ namespace Bovis.API.Controllers
             var query = await _auditoriaQueryService.GetTipoComentarios();
             return Ok(query);
         }
-        
+
         [HttpGet, Route("Comentarios/{NumProyecto}")]
         public async Task<IActionResult> GetComentarios(int numProyecto)
         {

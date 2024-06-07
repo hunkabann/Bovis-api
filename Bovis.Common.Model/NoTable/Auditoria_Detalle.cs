@@ -14,6 +14,14 @@ namespace Bovis.Common.Model.NoTable
         public List<TB_Cat_Auditoria>? Auditorias { get; set; }
     }
 
+    public class Periodos_Auditoria_Detalle
+    {
+        public int IdRegistro { get; set; }
+        public int IdProyecto { get; set; }
+        public string? FechaInicio { get; set; }
+        public string? FechaFin { get; set; }
+    }
+
     public class Documentos_Auditoria_Proyecto_Detalle
     {
         public int? IdSeccion { get; set; }
@@ -61,4 +69,12 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? FechaAuditoriaInicial { get; set; }
         public DateTime? FechaAuditoria { get; set; }
     }
+
+    public class TablasAuditoria_Detalle
+    {
+        public TB_AuditoriaProyecto Auditoria { get; set; }
+        public TB_Cat_Auditoria CatAuditoria { get; set; }
+        public TB_Cat_AuditoriaSeccion Seccion { get; set; }
+    }
+
 }

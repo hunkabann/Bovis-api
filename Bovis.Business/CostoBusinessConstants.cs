@@ -8,9 +8,9 @@ namespace Bovis.Business
 {
     public static class CostoBusinessConstants
     {
-        public static decimal BonoAdicionalReubicacion = 15000M;
-        public static decimal ViaticosAComprobar = 35000M;
-        public static decimal Be_BonoAdicional = 150000M;
-        public static decimal Be_AyudaTransporte = 900M;
+        public static decimal BonoAdicionalReubicacion = 0M;
+        public static decimal ViaticosAComprobar = 0M;
+        public static decimal Be_BonoAdicional = 0M;
+        public static decimal Be_AyudaTransporte = 0M;
     }
 }
