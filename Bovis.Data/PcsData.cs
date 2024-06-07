@@ -944,8 +944,6 @@ namespace Bovis.Data
 
                                 empleado.Fechas = new List<PCS_Fecha_Detalle>();
                                 empleado.Fechas.AddRange(fechas);
-
-
                             }
 
                             seccion.Rubros.AddRange(empleados);
@@ -997,6 +995,19 @@ namespace Bovis.Data
                             rubro.Fechas.AddRange(fechas);
                         }
                     }
+
+                    // Agrupar y sumar los porcentajes por mes y año a nivel de sección
+                    var fechasAgrupadasSeccion = seccion.Rubros
+                        .SelectMany(r => r.Fechas)
+                        .GroupBy(f => new { f.Mes, f.Anio })
+                        .Select(g => new PCS_Fecha_Suma
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                        }).ToList();
+
+                    seccion.SumaFechas = fechasAgrupadasSeccion;
                 }
 
                 return proyecto_gastos_ingresos;
@@ -1046,22 +1057,47 @@ namespace Bovis.Data
                 resp.Success = res_delete_valores;
                 resp.Message = res_delete_valores == default ? "Ocurrio un error al borrar registro." : string.Empty;
 
-                foreach (var fecha in registro["fechas"].AsArray())
+                if (id_rubro != 2)
                 {
-                    int mes = Convert.ToInt32(fecha["mes"].ToString());
-                    int anio = Convert.ToInt32(fecha["anio"].ToString());
-                    decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
+                    foreach (var fecha in registro["fechas"].AsArray())
+                    {
+                        int mes = Convert.ToInt32(fecha["mes"].ToString());
+                        int anio = Convert.ToInt32(fecha["anio"].ToString());
+                        decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
 
-                    var res_insert_valor = await db.tB_RubroValors
-                        .Value(x => x.IdRubro, rubro_record_id)
-                        .Value(x => x.Mes, mes)
-                        .Value(x => x.Anio, anio)
-                        .Value(x => x.Porcentaje, porcentaje)
-                        .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                        var res_insert_valor = await db.tB_RubroValors
+                            .Value(x => x.IdRubro, rubro_record_id)
+                            .Value(x => x.Mes, mes)
+                            .Value(x => x.Anio, anio)
+                            .Value(x => x.Porcentaje, porcentaje)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
 
-                    resp.Success = res_insert_valor;
-                    resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        resp.Success = res_insert_valor;
+                        resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    }
+                }
+                else
+                {
+                    foreach (var fecha in registro["sumaFechas"].AsArray())
+                    {
+                        int mes = Convert.ToInt32(fecha["mes"].ToString());
+                        int anio = Convert.ToInt32(fecha["anio"].ToString());
+                        decimal porcentaje = Convert.ToDecimal(fecha["sumaPorcentaje"].ToString());
+                        int mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
+                        decimal formula = Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad * porcentaje;
+
+                        var res_insert_valor = await db.tB_RubroValors
+                            .Value(x => x.IdRubro, rubro_record_id)
+                            .Value(x => x.Mes, mes)
+                            .Value(x => x.Anio, anio)
+                            .Value(x => x.Porcentaje, formula)
+                            .Value(x => x.Activo, true)
+                            .InsertAsync() > 0;
+
+                        resp.Success = res_insert_valor;
+                        resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                    }
                 }
             }
 

@@ -68,6 +68,7 @@ namespace Bovis.Common.Model.NoTable
         public string Codigo { get; set; }
         public string Seccion { get; set; }
         public List<Rubro_Detalle> Rubros { get; set; }
+        public List<PCS_Fecha_Suma> SumaFechas { get; set; }
     }
 
     public class Rubro_Detalle
@@ -82,5 +83,12 @@ namespace Bovis.Common.Model.NoTable
         public string? Empleado { get; set; }
         public string? NumEmpleadoRrHh { get; set; }
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
+    }
+
+    public class PCS_Fecha_Suma
+    {
+        public int? Mes { get; set; }
+        public int? Anio { get; set; }
+        public decimal? SumaPorcentaje { get; set; }
     }
 }
