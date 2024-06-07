@@ -1007,15 +1007,18 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            int numProyecto = Convert.ToInt32(registro["numProyecto"].ToString());
             int id_rubro = Convert.ToInt32(registro["idRubro"].ToString());
             string unidad = registro["unidad"].ToString();
             decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
             bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
             bool aplica_todos_meses = Convert.ToBoolean(registro["aplicaTodosMeses"].ToString());
 
+            int rubro_record_id = 0;
+
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_rubro = await db.tB_Rubros.Where(x => x.Id == id_rubro)
+                var res_update_rubro = await db.tB_Rubros.Where(x => x.IdRubro == id_rubro && x.NumProyecto == numProyecto)
                     .UpdateAsync(x => new TB_Rubro
                     {
                         Unidad = unidad,
@@ -1027,9 +1030,17 @@ namespace Bovis.Data
                 resp.Success = res_update_rubro;
                 resp.Message = res_update_rubro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
+                if (res_update_rubro)
+                {
+                    var updatedRubroIds = await db.tB_Rubros
+                        .Where(x => x.IdRubro == id_rubro && x.NumProyecto == numProyecto)
+                        .Select(x => x.Id)
+                        .FirstOrDefaultAsync();
 
+                    rubro_record_id = updatedRubroIds;
+                }
 
-                var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == id_rubro)
+                var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == rubro_record_id)
                     .DeleteAsync() > 0;
 
                 resp.Success = res_delete_valores;
@@ -1042,7 +1053,7 @@ namespace Bovis.Data
                     decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
 
                     var res_insert_valor = await db.tB_RubroValors
-                        .Value(x => x.IdRubro, id_rubro)
+                        .Value(x => x.IdRubro, rubro_record_id)
                         .Value(x => x.Mes, mes)
                         .Value(x => x.Anio, anio)
                         .Value(x => x.Porcentaje, porcentaje)
