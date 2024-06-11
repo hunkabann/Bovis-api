@@ -935,6 +935,7 @@ namespace Bovis.Data
                                 var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                     where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                     && p.IdFase == etapa.IdFase
+                                                    orderby p.Anio, p.Mes ascending
                                                     select new PCS_Fecha_Detalle
                                                     {
                                                         Id = p.Id,
@@ -981,7 +982,7 @@ namespace Bovis.Data
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == Tipo
-                                                orderby valor.Mes ascending
+                                                orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Id = valor.Id,
@@ -1089,19 +1090,10 @@ namespace Bovis.Data
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
                     decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
-                    decimal porcent = porcentaje;
-                    int mesTranscurrido = 0;
+                    int mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
+                    decimal porcent = 0;
 
-                    if (id_rubro != 2)
-                    {
-                        mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
-                        porcent = Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad * porcentaje;
-                    }
-
-                    if (unidad == "mes")
-                    {
-
-                    }
+                    porcent = (id_rubro == 2) ? porcentaje : (Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad * porcentaje);
 
                     var res_insert_valor = await db.tB_RubroValors
                         .Value(x => x.IdRubro, rubro_record_id)
