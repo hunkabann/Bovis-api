@@ -1013,14 +1013,24 @@ namespace Bovis.Data
                     {
                         foreach (var rubro in rubros)
                         {
-                            foreach (var fecha in rubro.Fechas)
+                            if (rubro.Unidad == "pp")
                             {
-                                foreach (var sumaFecha in seccion.SumaFechas)
+                                foreach (var fecha in rubro.Fechas)
                                 {
-                                    if(fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                                    foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[1].SumaFechas)
                                     {
-                                        fecha.Porcentaje = rubro.Cantidad * sumaFecha.SumaPorcentaje;
+                                        if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                                        {
+                                            fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
+                                        }
                                     }
+                                }
+                            }
+                            else if(rubro.Unidad == "mes")
+                            {
+                                foreach(var fecha in rubro.Fechas)
+                                {
+                                    fecha.Porcentaje = rubro.Cantidad;
                                 }
                             }
                         }
