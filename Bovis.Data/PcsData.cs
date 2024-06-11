@@ -885,6 +885,7 @@ namespace Bovis.Data
 
                 foreach (var seccion in secciones)
                 {
+                    List<Rubro_Detalle> rubros = null;
                     seccion.Rubros = new List<Rubro_Detalle>();
 
                     if (seccion.IdSeccion == 2)
@@ -905,7 +906,7 @@ namespace Bovis.Data
 
                         foreach (var etapa in etapas)
                         {
-                            var empleados = await (from p in db.tB_ProyectoFaseEmpleados
+                            rubros = await (from p in db.tB_ProyectoFaseEmpleados
                                                    join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
                                                    from eItem in eJoin.DefaultIfEmpty()
                                                    join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
@@ -929,10 +930,10 @@ namespace Bovis.Data
                                                        NumEmpleadoRrHh = g.Key.NumEmpleado,
                                                    }).ToListAsync();
 
-                            foreach (var empleado in empleados)
+                            foreach (var rubro in rubros)
                             {
                                 var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                                    where p.NumEmpleado == empleado.NumEmpleadoRrHh
+                                                    where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                     && p.IdFase == etapa.IdFase
                                                     select new PCS_Fecha_Detalle
                                                     {
@@ -942,18 +943,16 @@ namespace Bovis.Data
                                                         Porcentaje = p.Porcentaje
                                                     }).ToListAsync();
 
-                                empleado.Fechas = new List<PCS_Fecha_Detalle>();
-                                empleado.Fechas.AddRange(fechas);
+                                rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                                rubro.Fechas.AddRange(fechas);
                             }
 
-                            seccion.Rubros.AddRange(empleados);
+                            seccion.Rubros.AddRange(rubros);
                         }
                     }
                     else
                     {
-
-
-                        var rubros = await (from rubro in db.tB_Rubros
+                        rubros = await (from rubro in db.tB_Rubros
                                             join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
                                             from rel1Item in rel1Join.DefaultIfEmpty()
                                             join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
@@ -1008,6 +1007,24 @@ namespace Bovis.Data
                         }).ToList();
 
                     seccion.SumaFechas = fechasAgrupadasSeccion;
+
+
+                    if (seccion.IdSeccion > 2)
+                    {
+                        foreach (var rubro in rubros)
+                        {
+                            foreach (var fecha in rubro.Fechas)
+                            {
+                                foreach (var sumaFecha in seccion.SumaFechas)
+                                {
+                                    if(fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                                    {
+                                        fecha.Porcentaje = rubro.Cantidad * sumaFecha.SumaPorcentaje;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 return proyecto_gastos_ingresos;
@@ -1057,47 +1074,35 @@ namespace Bovis.Data
                 resp.Success = res_delete_valores;
                 resp.Message = res_delete_valores == default ? "Ocurrio un error al borrar registro." : string.Empty;
 
-                if (id_rubro != 2)
+                foreach (var fecha in registro["fechas"].AsArray())
                 {
-                    foreach (var fecha in registro["fechas"].AsArray())
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
+                    decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
+                    decimal porcent = porcentaje;
+                    int mesTranscurrido = 0;
+
+                    if (id_rubro != 2)
                     {
-                        int mes = Convert.ToInt32(fecha["mes"].ToString());
-                        int anio = Convert.ToInt32(fecha["anio"].ToString());
-                        decimal porcentaje = Convert.ToDecimal(fecha["porcentaje"].ToString());
-
-                        var res_insert_valor = await db.tB_RubroValors
-                            .Value(x => x.IdRubro, rubro_record_id)
-                            .Value(x => x.Mes, mes)
-                            .Value(x => x.Anio, anio)
-                            .Value(x => x.Porcentaje, porcentaje)
-                            .Value(x => x.Activo, true)
-                            .InsertAsync() > 0;
-
-                        resp.Success = res_insert_valor;
-                        resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                        mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
+                        porcent = Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad * porcentaje;
                     }
-                }
-                else
-                {
-                    foreach (var fecha in registro["sumaFechas"].AsArray())
+
+                    if (unidad == "mes")
                     {
-                        int mes = Convert.ToInt32(fecha["mes"].ToString());
-                        int anio = Convert.ToInt32(fecha["anio"].ToString());
-                        decimal porcentaje = Convert.ToDecimal(fecha["sumaPorcentaje"].ToString());
-                        int mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
-                        decimal formula = Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad * porcentaje;
 
-                        var res_insert_valor = await db.tB_RubroValors
-                            .Value(x => x.IdRubro, rubro_record_id)
-                            .Value(x => x.Mes, mes)
-                            .Value(x => x.Anio, anio)
-                            .Value(x => x.Porcentaje, formula)
-                            .Value(x => x.Activo, true)
-                            .InsertAsync() > 0;
-
-                        resp.Success = res_insert_valor;
-                        resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                     }
+
+                    var res_insert_valor = await db.tB_RubroValors
+                        .Value(x => x.IdRubro, rubro_record_id)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcent)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
+
+                    resp.Success = res_insert_valor;
+                    resp.Message = res_insert_valor == default ? "Ocurrio un error al actualizar registro." : string.Empty;
                 }
             }
 
