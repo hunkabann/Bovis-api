@@ -1093,7 +1093,7 @@ namespace Bovis.Data
                     int mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
                     decimal porcent = 0;
 
-                    porcent = (id_rubro == 2) ? porcentaje : (Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad * porcentaje);
+                    porcent = (id_rubro != 2) ? porcentaje : (Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad);
 
                     var res_insert_valor = await db.tB_RubroValors
                         .Value(x => x.IdRubro, rubro_record_id)
