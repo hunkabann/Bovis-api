@@ -863,7 +863,7 @@ namespace Bovis.Data
         #endregion Empleados
 
         #region Gastos / Ingresos
-        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, int IdRubro)
+        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro)
         {
             var fechas_gasto = new List<PCS_Fecha_Detalle>();
 
@@ -871,14 +871,14 @@ namespace Bovis.Data
             {
 
                 var secciones = await (from seccion in db.tB_GastoIngresoSeccions
-                                             where seccion.Tipo == "gasto"
-                                             orderby seccion.Codigo ascending
-                                             select new Seccion_Detalle
-                                             {
-                                                 IdSeccion = seccion.IdSeccion,
-                                                 Codigo = seccion.Codigo,
-                                                 Seccion = seccion.Seccion
-                                             })
+                                       where seccion.Tipo == "gasto"
+                                       orderby seccion.Codigo ascending
+                                       select new Seccion_Detalle
+                                       {
+                                           IdSeccion = seccion.IdSeccion,
+                                           Codigo = seccion.Codigo,
+                                           Seccion = seccion.Seccion
+                                       })
                                           .ToListAsync();
 
                 foreach (var seccion in secciones)
@@ -946,8 +946,11 @@ namespace Bovis.Data
                                                         Porcentaje = p.Porcentaje
                                                     }).ToListAsync();
 
-                                if (rubro.Id == IdRubro)
+                                if (rubro.Rubro.Trim() == Rubro.Trim())
+                                {
                                     fechas_gasto.AddRange(fechas);
+                                    return fechas_gasto;
+                                }
                             }
                         }
                     }
@@ -971,14 +974,12 @@ namespace Bovis.Data
                                             AplicaTodosMeses = rubro.AplicaTodosMeses
                                         }).ToListAsync();
 
-                        seccion.Rubros.AddRange(rubros);
-
                         fechas_gasto = new List<PCS_Fecha_Detalle>();
 
-                        foreach (var rubro in rubros)
+                        foreach (var r in rubros)
                         {
                             var fechas = await (from valor in db.tB_RubroValors
-                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join rub in db.tB_Rubros on valor.IdRubro equals r.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
@@ -992,8 +993,11 @@ namespace Bovis.Data
                                                     Porcentaje = valor.Porcentaje
                                                 }).Distinct().ToListAsync();
 
-                            if (rubro.Id == IdRubro)
+                            if (r.Rubro.Trim() == Rubro.Trim())
+                            {
                                 fechas_gasto.AddRange(fechas);
+                                return fechas_gasto;
+                            }
                         }
 
                     }
@@ -1104,7 +1108,7 @@ namespace Bovis.Data
                                 }
                                 else
                                 {
-                                    rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Id));
+                                    rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro));
                                 }
                             }
 
@@ -1158,7 +1162,7 @@ namespace Bovis.Data
                             }
                             else
                             {
-                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Id));
+                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro));
                             }
                         }
                     }
