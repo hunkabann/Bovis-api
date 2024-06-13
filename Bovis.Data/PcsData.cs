@@ -703,6 +703,7 @@ namespace Bovis.Data
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
             bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
+            decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {                
@@ -720,6 +721,7 @@ namespace Bovis.Data
                         .Value(x => x.Porcentaje, porcentaje)
                         .Value(x => x.Cantidad, cantidad)
                         .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
+                        .Value(x => x.Fee, fee)
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -768,7 +770,8 @@ namespace Bovis.Data
                                            NumempleadoRrHh = p.NumEmpleado,
                                            Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
                                            Cantidad = p.Cantidad,
-                                           AplicaTodosMeses = p.AplicaTodosMeses
+                                           AplicaTodosMeses = p.AplicaTodosMeses,
+                                           Fee = p.Fee
                                        } by new { p.NumEmpleado } into g
                                        select new PCS_Empleado_Detalle
                                        {
@@ -777,7 +780,8 @@ namespace Bovis.Data
                                            NumempleadoRrHh = g.Key.NumEmpleado,
                                            Empleado = g.First().Empleado,
                                            Cantidad = g.First().Cantidad,
-                                           AplicaTodosMeses = g.First().AplicaTodosMeses
+                                           AplicaTodosMeses = g.First().AplicaTodosMeses,
+                                           Fee = g.First().Fee
                                        }).ToListAsync();
 
                 foreach (var empleado in empleados)
