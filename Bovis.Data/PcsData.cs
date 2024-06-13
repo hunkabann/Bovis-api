@@ -601,7 +601,8 @@ namespace Bovis.Data
                                                NumempleadoRrHh = p.NumEmpleado,
                                                Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
                                                Cantidad = p.Cantidad,
-                                               AplicaTodosMeses = p.AplicaTodosMeses
+                                               AplicaTodosMeses = p.AplicaTodosMeses,
+                                               Fee = p.Fee
                                            } by new { p.NumEmpleado } into g
                                            select new PCS_Empleado_Detalle
                                            {
@@ -610,7 +611,8 @@ namespace Bovis.Data
                                                NumempleadoRrHh = g.Key.NumEmpleado,
                                                Empleado = g.First().Empleado,
                                                Cantidad = g.First().Cantidad,
-                                               AplicaTodosMeses = g.First().AplicaTodosMeses
+                                               AplicaTodosMeses = g.First().AplicaTodosMeses,
+                                               Fee = g.First().Fee
                                            }).ToListAsync();
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
