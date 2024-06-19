@@ -8,6 +8,8 @@ using LinqToDB;
 using System.Text.Json.Nodes;
 using Newtonsoft.Json.Linq;
 using LinqToDB.SqlQuery;
+using static System.Collections.Specialized.BitVector32;
+using LinqToDB.DataProvider.DB2;
 
 namespace Bovis.Data
 {
@@ -46,6 +48,8 @@ namespace Bovis.Data
         }
         #endregion Clientes
 
+
+
         #region Empresas
         public async Task<List<TB_Empresa>> GetEmpresas()
         {
@@ -61,6 +65,8 @@ namespace Bovis.Data
             }
         }
         #endregion Empresas
+
+
 
         #region Proyectos
         public async Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico)
@@ -522,6 +528,8 @@ namespace Bovis.Data
         }
         #endregion Proyectos
 
+
+
         #region Etapas
         // Etapas se guardan en tb_proyecto_fase
         // Los empleados de una etapa, habrá que generarse una nueva tabla de relación.
@@ -695,6 +703,8 @@ namespace Bovis.Data
         }
         #endregion Etapas
 
+
+
         #region Empleados
         public async Task<(bool Success, string Message)> AddEmpleado(JsonObject registro)
         {
@@ -861,6 +871,8 @@ namespace Bovis.Data
             return resp;
         }
         #endregion Empleados
+
+
 
         #region Gastos / Ingresos
         private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro)
@@ -1280,6 +1292,55 @@ namespace Bovis.Data
             }
 
             return resp;
+        }
+
+
+        public async Task<TotalFacturas_Detalle> GetTotalFacturas(int IdProyecto)
+        {
+            TotalFacturas_Detalle total_facturas = new TotalFacturas_Detalle();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var facturas = await (from fact in db.tB_ProyectoFacturas
+                                      where fact.NumProyecto == IdProyecto
+                                      && fact.FechaCancelacion == null
+                                      group fact by new { fact.Mes, fact.Anio } into g
+                                      select new PCS_SumaTotales
+                                      {
+                                          Mes = g.Key.Mes,
+                                          Anio = g.Key.Anio,
+                                          SumaTotal = g.Sum(f => f.Total)
+                                      }).ToListAsync();
+
+                total_facturas.SumaTotal = facturas;
+
+            }
+
+            return total_facturas;
+        }
+
+        public async Task<TotalCobranza_Detalle> GetTotalCobranza(int IdProyecto)
+        {
+            TotalCobranza_Detalle total_cobranza = new TotalCobranza_Detalle();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                       join fact in db.tB_ProyectoFacturas on cobr.UuidCobranza equals fact.Uuid into factJoin
+                                       from factItem in factJoin.DefaultIfEmpty()
+                                       where factItem.NumProyecto == IdProyecto
+                                       && factItem.FechaCancelacion == null
+                                       && cobr.FechaCancelacion == null
+                                       group cobr by new { cobr.FechaPago.Month, cobr.FechaPago.Year} into g
+                                       select new PCS_SumaTotales
+                                       {
+                                           Mes = g.Key.Month,
+                                           Anio = g.Key.Year,
+                                           SumaTotal = g.Sum(f => f.ImportePagado)
+                                       }).ToListAsync();
+            }
+
+            return total_cobranza;
         }
         #endregion Gastos / Ingresos
     }

@@ -33,6 +33,9 @@ namespace Bovis.API.Controllers
         #endregion base
 
 
+
+
+
         #region Clientes
         [HttpGet, Route("Clientes")]
         public async Task<IActionResult> ObtenerClientes()
@@ -42,6 +45,10 @@ namespace Bovis.API.Controllers
         }
         #endregion Clientes
 
+
+
+
+
         #region Empresas
         [HttpGet, Route("Empresas")]
         public async Task<IActionResult> ObtenerEmpresas()
@@ -50,6 +57,9 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
         #endregion Empresas
+
+
+
 
         #region Proyectos
         [HttpGet, Route("Proyectos/{OrdenAlfabetico?}")]
@@ -134,6 +144,10 @@ namespace Bovis.API.Controllers
         }
         #endregion Proyectos
 
+
+
+
+
         #region Etapas
         [HttpPost, Route("Etapas")]
         public async Task<IActionResult> AddEtapa([FromBody] JsonObject registro)
@@ -176,6 +190,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
         #endregion Etapas
+
+
+
+
 
         #region Empleados
         [HttpPost, Route("Empleados/Fase")]
@@ -220,6 +238,11 @@ namespace Bovis.API.Controllers
         }
         #endregion Empleados
 
+
+
+
+
+
         #region Gastos / Ingresos
         [HttpGet, Route("GastosIngresos/{IdProyecto}/{Tipo}")]
         public async Task<IActionResult> GetGastosIngresos(int IdProyecto, string Tipo)
@@ -245,6 +268,20 @@ namespace Bovis.API.Controllers
             var query = await _pcsQueryService.UpdateGastosIngresos(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
+        }
+
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/TotalFacturas")]
+        public async Task<IActionResult> GetTotalFacturas(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetTotalFacturas(IdProyecto);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/TotalCobranza")]
+        public async Task<IActionResult> GetTotalCobranza(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetTotalCobranza(IdProyecto);
+            return Ok(query);
         }
         #endregion Gastos / Ingresos
     }

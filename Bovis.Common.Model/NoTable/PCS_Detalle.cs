@@ -17,12 +17,12 @@ namespace Bovis.Common.Model.NoTable
 
     public class PCS_Etapa_Detalle
     {
-        public int IdFase { get; set; }        
+        public int IdFase { get; set; }
         public int Orden { get; set; }
         public string Fase { get; set; }
         public DateTime FechaIni { get; set; }
-        public DateTime FechaFin { get; set; }        
-        public List<PCS_Empleado_Detalle> Empleados {  get; set; } 
+        public DateTime FechaFin { get; set; }
+        public List<PCS_Empleado_Detalle> Empleados { get; set; }
     }
 
     public class PCS_Empleado_Detalle
@@ -92,4 +92,23 @@ namespace Bovis.Common.Model.NoTable
         public int? Anio { get; set; }
         public decimal? SumaPorcentaje { get; set; }
     }
+
+
+    public class TotalFacturas_Detalle
+    {
+        public List<PCS_SumaTotales> SumaTotal { get; set; }
+    }
+
+    public class TotalCobranza_Detalle
+    {
+        public List<PCS_SumaTotales> SumaTotal {  get; set; }
+    }
+
+    public class PCS_SumaTotales
+    {
+        public int? Mes { get; set; }
+        public int? Anio { get; set; }
+        public decimal? SumaTotal { get; set; }
+    }
+
 }

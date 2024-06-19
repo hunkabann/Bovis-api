@@ -25,13 +25,21 @@ namespace Bovis.Business
         #endregion base
 
 
+
+
         #region Clientes
         public Task<List<TB_Empresa>> GetEmpresas() => _pcsData.GetEmpresas();
         #endregion Clientes
 
+
+
+
         #region Empresas
         public Task<List<TB_Cliente>> GetClientes() => _pcsData.GetClientes();
         #endregion Empresas
+
+
+
 
         #region Proyectos
         public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
@@ -73,6 +81,9 @@ namespace Bovis.Business
         }
         #endregion Proyectos
 
+
+
+
         #region Etapas
         public Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 
@@ -93,6 +104,9 @@ namespace Bovis.Business
 
         public Task<(bool Success, string Message)> DeleteEtapa(int IdEtapa) => _pcsData.DeleteEtapa(IdEtapa);
         #endregion Etapas
+
+
+
 
         #region Empleados
         public Task<(bool Success, string Message)> AddEmpleado(JsonObject registro) => _pcsData.AddEmpleado(registro);
@@ -115,6 +129,9 @@ namespace Bovis.Business
         public Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado) => _pcsData.DeleteEmpleado(IdFase, NumEmpleado);
         #endregion Empleados
 
+
+
+
         #region Gastos / Ingresos
         public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresos(IdProyecto, Tipo);
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
@@ -129,6 +146,8 @@ namespace Bovis.Business
             }
             return resp;
         }
+        public Task<TotalFacturas_Detalle> GetTotalFacturas(int IdProyecto) => _pcsData.GetTotalFacturas(IdProyecto);
+        public Task<TotalCobranza_Detalle> GetTotalCobranza(int IdProyecto) => _pcsData.GetTotalCobranza(IdProyecto);
         #endregion Gastos / Ingresos
     }
 }

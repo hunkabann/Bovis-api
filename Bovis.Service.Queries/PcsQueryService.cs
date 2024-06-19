@@ -29,6 +29,7 @@ namespace Bovis.Service.Queries
         #endregion base
 
 
+
         #region Clientes
         public async Task<Response<List<InfoCliente>>> GetClientes()
         {
@@ -37,6 +38,8 @@ namespace Bovis.Service.Queries
         }
         #endregion Clientes
 
+
+
         #region Empresas
         public async Task<Response<List<InfoEmpresa>>> GetEmpresas()
         {
@@ -44,6 +47,9 @@ namespace Bovis.Service.Queries
             return new Response<List<InfoEmpresa>> { Data = _map.Map<List<InfoEmpresa>>(response), Success = true };
         }
         #endregion Empresas
+
+
+
 
         #region Proyectos
         public async Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico)
@@ -88,6 +94,9 @@ namespace Bovis.Service.Queries
         }
         #endregion Proyectos
 
+
+
+
         #region Etapas
         public async Task<Response<PCS_Etapa_Detalle>> AddEtapa(JsonObject registro)
         {
@@ -110,6 +119,9 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         #endregion Etapas
+
+
+
 
         #region Empleados
         public async Task<Response<(bool Success, string Message)>> AddEmpleado(JsonObject registro)
@@ -134,6 +146,9 @@ namespace Bovis.Service.Queries
         }
         #endregion Empleados
 
+
+
+
         #region Gastos / Ingresos
         public async Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo)
         {
@@ -145,6 +160,17 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.UpdateGastosIngresos(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
+        public async Task<Response<TotalFacturas_Detalle>> GetTotalFacturas(int IdProyecto)
+        {
+            var response = await _pcsBusiness.GetTotalFacturas(IdProyecto);
+            return new Response<TotalFacturas_Detalle> { Data = _map.Map<TotalFacturas_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<TotalCobranza_Detalle>> GetTotalCobranza(int IdProyecto)
+        {
+            var response = await _pcsBusiness.GetTotalCobranza(IdProyecto);
+            return new Response<TotalCobranza_Detalle> { Data = _map.Map<TotalCobranza_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+
         #endregion Gastos / Ingresos
     }
 }
