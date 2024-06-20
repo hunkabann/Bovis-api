@@ -1295,28 +1295,105 @@ namespace Bovis.Data
         }
 
 
-        public async Task<TotalFacturas_Detalle> GetTotalFacturas(int IdProyecto)
+        public async Task<GastosIngresos_Detalle> GetTotalFacturas(int IdProyecto)
         {
-            TotalFacturas_Detalle total_facturas = new TotalFacturas_Detalle();
+            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var facturas = await (from fact in db.tB_ProyectoFacturas
-                                      where fact.NumProyecto == IdProyecto
-                                      && fact.FechaCancelacion == null
-                                      group fact by new { fact.Mes, fact.Anio } into g
-                                      select new PCS_SumaTotales
-                                      {
-                                          Mes = g.Key.Mes,
-                                          Anio = g.Key.Anio,
-                                          SumaTotal = g.Sum(f => f.Total)
-                                      }).ToListAsync();
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
 
-                total_facturas.SumaTotal = facturas;
+                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
+                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
+                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
+
+                Seccion_Detalle facturacion = new Seccion_Detalle();
+                facturacion.Seccion = "Facturación";
+                facturacion.Codigo = "FACT";
+                Seccion_Detalle cobranza = new Seccion_Detalle();
+                cobranza.Seccion = "Cobranza";
+                cobranza.Codigo = "COBR";
+
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+                proyecto_gastos_ingresos.Secciones.Add(facturacion);
+                proyecto_gastos_ingresos.Secciones.Add(cobranza);
+
+                foreach (var seccion in proyecto_gastos_ingresos.Secciones)
+                {
+                    seccion.SumaFechas = new List<PCS_Fecha_Suma>();
+
+                    var intervalo_proyecto = await (from p in db.tB_Proyectos
+                                        where p.NumProyecto == IdProyecto
+                                        select new
+                                        {
+                                            p.FechaIni,
+                                            p.FechaFin
+                                        }).FirstOrDefaultAsync();
+
+                    DateTime fechaActual = intervalo_proyecto!.FechaIni;
+                    List<PCS_Fecha_Suma> fechas_proyecto = new List<PCS_Fecha_Suma>();
+                    while (fechaActual <= intervalo_proyecto.FechaFin)
+                    {
+                        fechas_proyecto.Add(new PCS_Fecha_Suma
+                        {
+                            Mes = fechaActual.Month,
+                            Anio = fechaActual.Year,
+                            SumaPorcentaje = null
+                        });
+
+                        fechaActual = fechaActual.AddMonths(1);
+                    }
+
+                    List<PCS_Fecha_Suma> fechas_facturas = new List<PCS_Fecha_Suma>();
+                    if (seccion.Seccion == "Facturación")
+                    {
+                        fechas_facturas = await (from fact in db.tB_ProyectoFacturas
+                                        where fact.NumProyecto == IdProyecto
+                                        && fact.FechaCancelacion == null
+                                        group fact by new { fact.Mes, fact.Anio } into g
+                                        select new PCS_Fecha_Suma
+                                        {
+                                            Mes = g.Key.Mes,
+                                            Anio = g.Key.Anio,
+                                            SumaPorcentaje = g.Sum(f => f.Total)
+                                        }).Distinct().ToListAsync();
+                    }
+                    else
+                    {
+                        fechas_facturas = await (from cobr in db.tB_ProyectoFacturasCobranza
+                                           join fact in db.tB_ProyectoFacturas on cobr.UuidCobranza equals fact.Uuid into factJoin
+                                           from factItem in factJoin.DefaultIfEmpty()
+                                           where factItem.NumProyecto == IdProyecto
+                                           && factItem.FechaCancelacion == null
+                                           && cobr.FechaCancelacion == null
+                                           group cobr by new { cobr.FechaPago.Month, cobr.FechaPago.Year } into g
+                                           select new PCS_Fecha_Suma
+                                           {
+                                               Mes = g.Key.Month,
+                                               Anio = g.Key.Year,
+                                               SumaPorcentaje = g.Sum(f => f.ImportePagado)
+                                           }).ToListAsync();
+                    }
+
+                    foreach(var fecha_proyecto in fechas_proyecto)
+                    {
+                        foreach(var fecha_factura in fechas_facturas)
+                        {
+                            if(fecha_proyecto.Mes == fecha_factura.Mes && fecha_proyecto.Anio == fecha_factura.Anio)
+                            {
+                                fecha_proyecto.SumaPorcentaje = fecha_factura.SumaPorcentaje;
+                            }
+                        }
+                    }
+
+                    seccion.SumaFechas.AddRange(fechas_proyecto);
+                }
 
             }
 
-            return total_facturas;
+            return proyecto_gastos_ingresos;
         }
 
         public async Task<TotalCobranza_Detalle> GetTotalCobranza(int IdProyecto)

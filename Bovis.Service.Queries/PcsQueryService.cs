@@ -160,10 +160,10 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.UpdateGastosIngresos(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<TotalFacturas_Detalle>> GetTotalFacturas(int IdProyecto)
+        public async Task<Response<GastosIngresos_Detalle>> GetTotalFacturas(int IdProyecto)
         {
             var response = await _pcsBusiness.GetTotalFacturas(IdProyecto);
-            return new Response<TotalFacturas_Detalle> { Data = _map.Map<TotalFacturas_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+            return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<TotalCobranza_Detalle>> GetTotalCobranza(int IdProyecto)
         {

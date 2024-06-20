@@ -57,7 +57,7 @@ namespace Bovis.Business.Interface
         #region Gastos / Ingresos
         Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo);
         Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
-        Task<TotalFacturas_Detalle> GetTotalFacturas(int IdProyecto);
+        Task<GastosIngresos_Detalle> GetTotalFacturas(int IdProyecto);
         Task<TotalCobranza_Detalle> GetTotalCobranza(int IdProyecto);
         #endregion Gastos / Ingresos
     }
