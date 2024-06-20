@@ -61,6 +61,7 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? FechaIni { get; set; }
         public DateTime? FechaFin { get; set; }
         public List<Seccion_Detalle> Secciones { get; set; }
+        public List<PCS_Fecha_Totales> Totales { get; set; }
     }
 
     public class Seccion_Detalle
@@ -93,22 +94,21 @@ namespace Bovis.Common.Model.NoTable
         public decimal? SumaPorcentaje { get; set; }
     }
 
-
-    public class TotalFacturas_Detalle
+    public class PCS_Fecha_Totales
     {
-        public List<PCS_SumaTotales> SumaTotal { get; set; }
-    }
-
-    public class TotalCobranza_Detalle
-    {
-        public List<PCS_SumaTotales> SumaTotal {  get; set; }
-    }
-
-    public class PCS_SumaTotales
-    {
+        public bool? Reembolsable { get; set; }
         public int? Mes { get; set; }
         public int? Anio { get; set; }
-        public decimal? SumaTotal { get; set; }
+        public decimal? TotalPorcentaje { get; set; }
     }
 
+
+
+
+
+
+    public class Control_Detalle
+    {
+
+    }
 }

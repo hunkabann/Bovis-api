@@ -270,19 +270,24 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpGet, Route("GastosIngresos/{IdProyecto}/TotalFacturas")]
-        public async Task<IActionResult> GetTotalFacturas(int IdProyecto)
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/TotalFacturacion")]
+        public async Task<IActionResult> GetTotalFacturacion(int IdProyecto)
         {
-            var query = await _pcsQueryService.GetTotalFacturas(IdProyecto);
-            return Ok(query);
-        }
-
-        [HttpGet, Route("GastosIngresos/{IdProyecto}/TotalCobranza")]
-        public async Task<IActionResult> GetTotalCobranza(int IdProyecto)
-        {
-            var query = await _pcsQueryService.GetTotalCobranza(IdProyecto);
+            var query = await _pcsQueryService.GetTotalFacturacion(IdProyecto);
             return Ok(query);
         }
         #endregion Gastos / Ingresos
+
+
+
+
+        #region Control
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/Control")]
+        public async Task<IActionResult> GetControl(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetControl(IdProyecto);
+            return Ok(query);
+        }
+        #endregion Control
     }
 }

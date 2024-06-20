@@ -1221,6 +1221,34 @@ namespace Bovis.Data
                     }
                 }
 
+                if (Tipo == "ingreso")
+                {
+                    // Calcular los Totales del Proyecto
+                    //proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                    //    .SelectMany(s => s.Rubros)
+                    //    .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                    //    .GroupBy(x => new { x.f.Mes, x.f.Anio, x.Reembolsable })
+                    //    .Select(g => new PCS_Fecha_Totales
+                    //    {
+                    //        Mes = g.Key.Mes,
+                    //        Anio = g.Key.Anio,
+                    //        Reembolsable = g.Key.Reembolsable,
+                    //        TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                    //    }).ToList();
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .SelectMany(s => s.Rubros)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                }
+
+
                 return proyecto_gastos_ingresos;
             }
         }
@@ -1295,7 +1323,7 @@ namespace Bovis.Data
         }
 
 
-        public async Task<GastosIngresos_Detalle> GetTotalFacturas(int IdProyecto)
+        public async Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto)
         {
             GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
 
@@ -1395,30 +1423,22 @@ namespace Bovis.Data
 
             return proyecto_gastos_ingresos;
         }
+        #endregion Gastos / Ingresos
 
-        public async Task<TotalCobranza_Detalle> GetTotalCobranza(int IdProyecto)
+
+
+        #region Control
+        public async Task<Control_Detalle> GetControl(int IdProyecto)
         {
-            TotalCobranza_Detalle total_cobranza = new TotalCobranza_Detalle();
+            Control_Detalle control = new Control_Detalle();
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var cobranzas = await (from cobr in db.tB_ProyectoFacturasCobranza
-                                       join fact in db.tB_ProyectoFacturas on cobr.UuidCobranza equals fact.Uuid into factJoin
-                                       from factItem in factJoin.DefaultIfEmpty()
-                                       where factItem.NumProyecto == IdProyecto
-                                       && factItem.FechaCancelacion == null
-                                       && cobr.FechaCancelacion == null
-                                       group cobr by new { cobr.FechaPago.Month, cobr.FechaPago.Year} into g
-                                       select new PCS_SumaTotales
-                                       {
-                                           Mes = g.Key.Month,
-                                           Anio = g.Key.Year,
-                                           SumaTotal = g.Sum(f => f.ImportePagado)
-                                       }).ToListAsync();
+                
             }
 
-            return total_cobranza;
+            return control;
         }
-        #endregion Gastos / Ingresos
+        #endregion Control
     }
 }

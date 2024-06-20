@@ -146,8 +146,14 @@ namespace Bovis.Business
             }
             return resp;
         }
-        public Task<GastosIngresos_Detalle> GetTotalFacturas(int IdProyecto) => _pcsData.GetTotalFacturas(IdProyecto);
-        public Task<TotalCobranza_Detalle> GetTotalCobranza(int IdProyecto) => _pcsData.GetTotalCobranza(IdProyecto);
+        public Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto) => _pcsData.GetTotalFacturacion(IdProyecto);
         #endregion Gastos / Ingresos
+
+
+
+
+        #region Control
+        public Task<Control_Detalle> GetControl(int IdProyecto) => _pcsData.GetControl(IdProyecto);
+        #endregion Control
     }
 }
