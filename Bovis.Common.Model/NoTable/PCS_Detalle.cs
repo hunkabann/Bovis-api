@@ -40,6 +40,7 @@ namespace Bovis.Common.Model.NoTable
     public class PCS_Fecha_Detalle
     {
         public int Id { get; set; }
+        public string? Rubro { get; set; }
         public int? Mes { get; set; }
         public int? Anio { get; set; }
         public decimal? Porcentaje { get; set; }
@@ -89,6 +90,7 @@ namespace Bovis.Common.Model.NoTable
 
     public class PCS_Fecha_Suma
     {
+        public string? Rubro { get; set; }
         public int? Mes { get; set; }
         public int? Anio { get; set; }
         public decimal? SumaPorcentaje { get; set; }
@@ -109,6 +111,28 @@ namespace Bovis.Common.Model.NoTable
 
     public class Control_Detalle
     {
-
+        public ControlRubro_Detalle Salarios { get; set; }
+        public ControlRubro_Detalle Viaticos { get; set; }
+        public Gasto_Detalle Gastos { get; set; }
     }
+
+    public class ControlRubro_Detalle
+    {
+        public string Rubro { get; set; }
+        public ValoresRubro_Detalle Previsto { get; set; }
+        public ValoresRubro_Detalle Real { get; set; }
+    }
+
+    public class ValoresRubro_Detalle
+    {
+        public decimal SubTotal { get; set; }
+        public List<PCS_Fecha_Suma> SumaFechas { get; set; }
+    }
+
+    public class Gasto_Detalle
+    {
+        public List<ValoresRubro_Detalle> Previstos { get; set; }
+        public List<ValoresRubro_Detalle> Reales { get; set; }
+    }
+
 }

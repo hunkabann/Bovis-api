@@ -166,7 +166,7 @@ namespace Bovis.Data
                  * Se agregan los clientes del proyecto.
                  */
                 foreach (var id_cliente in registro["ids_clientes"].AsArray())
-                {                    
+                {
                     var res_insert_cliente = await db.tB_ClienteProyectos
                         .Value(x => x.IdCliente, Convert.ToInt32(id_cliente.ToString()))
                         .Value(x => x.NumProyecto, num_proyecto)
@@ -333,7 +333,7 @@ namespace Bovis.Data
                                        chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty
                                    }).ToListAsync();
 
-                foreach(var proyecto in proyectos)
+                foreach (var proyecto in proyectos)
                 {
                     proyecto.Clientes = new List<InfoCliente>();
                     proyecto.Clientes.AddRange(await (from c in db.tB_Clientes
@@ -398,8 +398,8 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 var contacto = await (from c in db.tB_Contactos
-                                  where c.NumProyecto == num_proyecto
-                                  select c).FirstOrDefaultAsync();
+                                      where c.NumProyecto == num_proyecto
+                                      select c).FirstOrDefaultAsync();
 
                 if (contacto != null)
                 {
@@ -541,7 +541,7 @@ namespace Bovis.Data
             int orden = Convert.ToInt32(registro["orden"].ToString());
             string nombre_fase = registro["nombre_fase"].ToString();
             DateTime fecha_inicio = Convert.ToDateTime(registro["fecha_inicio"].ToString());
-            DateTime fecha_fin = Convert.ToDateTime(registro["fecha_fin"].ToString());            
+            DateTime fecha_fin = Convert.ToDateTime(registro["fecha_fin"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -557,7 +557,7 @@ namespace Bovis.Data
                 etapa.Fase = nombre_fase;
                 etapa.Orden = orden;
                 etapa.FechaIni = fecha_inicio;
-                etapa.FechaFin = fecha_fin;                
+                etapa.FechaFin = fecha_fin;
             }
 
             return etapa;
@@ -711,19 +711,19 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            string num_empleado = registro["num_empleado"].ToString();        
+            string num_empleado = registro["num_empleado"].ToString();
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
             bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
             decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
-            {                
+            {
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
-                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());                    
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
 
                     var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
                         .Value(x => x.IdFase, id_fase)
@@ -827,7 +827,7 @@ namespace Bovis.Data
             decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {                
+            {
                 var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
                     .DeleteAsync() > 0;
 
@@ -835,7 +835,7 @@ namespace Bovis.Data
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
                     int anio = Convert.ToInt32(fecha["anio"].ToString());
-                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());                    
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
 
                     var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
                         .Value(x => x.IdFase, id_fase)
@@ -860,7 +860,7 @@ namespace Bovis.Data
             (bool Success, string Message) resp = (true, string.Empty);
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {                
+            {
                 var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado)
                     .DeleteAsync() > 0;
 
@@ -1224,17 +1224,6 @@ namespace Bovis.Data
                 if (Tipo == "ingreso")
                 {
                     // Calcular los Totales del Proyecto
-                    //proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
-                    //    .SelectMany(s => s.Rubros)
-                    //    .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
-                    //    .GroupBy(x => new { x.f.Mes, x.f.Anio, x.Reembolsable })
-                    //    .Select(g => new PCS_Fecha_Totales
-                    //    {
-                    //        Mes = g.Key.Mes,
-                    //        Anio = g.Key.Anio,
-                    //        Reembolsable = g.Key.Reembolsable,
-                    //        TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
-                    //    }).ToList();
                     proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
                         .SelectMany(s => s.Rubros)
                         .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
@@ -1322,7 +1311,6 @@ namespace Bovis.Data
             return resp;
         }
 
-
         public async Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto)
         {
             GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
@@ -1353,12 +1341,12 @@ namespace Bovis.Data
                     seccion.SumaFechas = new List<PCS_Fecha_Suma>();
 
                     var intervalo_proyecto = await (from p in db.tB_Proyectos
-                                        where p.NumProyecto == IdProyecto
-                                        select new
-                                        {
-                                            p.FechaIni,
-                                            p.FechaFin
-                                        }).FirstOrDefaultAsync();
+                                                    where p.NumProyecto == IdProyecto
+                                                    select new
+                                                    {
+                                                        p.FechaIni,
+                                                        p.FechaFin
+                                                    }).FirstOrDefaultAsync();
 
                     DateTime fechaActual = intervalo_proyecto!.FechaIni;
                     List<PCS_Fecha_Suma> fechas_proyecto = new List<PCS_Fecha_Suma>();
@@ -1378,38 +1366,38 @@ namespace Bovis.Data
                     if (seccion.Seccion == "Facturación")
                     {
                         fechas_facturas = await (from fact in db.tB_ProyectoFacturas
-                                        where fact.NumProyecto == IdProyecto
-                                        && fact.FechaCancelacion == null
-                                        group fact by new { fact.Mes, fact.Anio } into g
-                                        select new PCS_Fecha_Suma
-                                        {
-                                            Mes = g.Key.Mes,
-                                            Anio = g.Key.Anio,
-                                            SumaPorcentaje = g.Sum(f => f.Total)
-                                        }).Distinct().ToListAsync();
+                                                 where fact.NumProyecto == IdProyecto
+                                                 && fact.FechaCancelacion == null
+                                                 group fact by new { fact.Mes, fact.Anio } into g
+                                                 select new PCS_Fecha_Suma
+                                                 {
+                                                     Mes = g.Key.Mes,
+                                                     Anio = g.Key.Anio,
+                                                     SumaPorcentaje = g.Sum(f => f.Total)
+                                                 }).Distinct().ToListAsync();
                     }
                     else
                     {
                         fechas_facturas = await (from cobr in db.tB_ProyectoFacturasCobranza
-                                           join fact in db.tB_ProyectoFacturas on cobr.UuidCobranza equals fact.Uuid into factJoin
-                                           from factItem in factJoin.DefaultIfEmpty()
-                                           where factItem.NumProyecto == IdProyecto
-                                           && factItem.FechaCancelacion == null
-                                           && cobr.FechaCancelacion == null
-                                           group cobr by new { cobr.FechaPago.Month, cobr.FechaPago.Year } into g
-                                           select new PCS_Fecha_Suma
-                                           {
-                                               Mes = g.Key.Month,
-                                               Anio = g.Key.Year,
-                                               SumaPorcentaje = g.Sum(f => f.ImportePagado)
-                                           }).ToListAsync();
+                                                 join fact in db.tB_ProyectoFacturas on cobr.UuidCobranza equals fact.Uuid into factJoin
+                                                 from factItem in factJoin.DefaultIfEmpty()
+                                                 where factItem.NumProyecto == IdProyecto
+                                                 && factItem.FechaCancelacion == null
+                                                 && cobr.FechaCancelacion == null
+                                                 group cobr by new { cobr.FechaPago.Month, cobr.FechaPago.Year } into g
+                                                 select new PCS_Fecha_Suma
+                                                 {
+                                                     Mes = g.Key.Month,
+                                                     Anio = g.Key.Year,
+                                                     SumaPorcentaje = g.Sum(f => f.ImportePagado)
+                                                 }).ToListAsync();
                     }
 
-                    foreach(var fecha_proyecto in fechas_proyecto)
+                    foreach (var fecha_proyecto in fechas_proyecto)
                     {
-                        foreach(var fecha_factura in fechas_facturas)
+                        foreach (var fecha_factura in fechas_facturas)
                         {
-                            if(fecha_proyecto.Mes == fecha_factura.Mes && fecha_proyecto.Anio == fecha_factura.Anio)
+                            if (fecha_proyecto.Mes == fecha_factura.Mes && fecha_proyecto.Anio == fecha_factura.Anio)
                             {
                                 fecha_proyecto.SumaPorcentaje = fecha_factura.SumaPorcentaje;
                             }
@@ -1431,10 +1419,291 @@ namespace Bovis.Data
         public async Task<Control_Detalle> GetControl(int IdProyecto)
         {
             Control_Detalle control = new Control_Detalle();
+            control.Salarios = new ControlRubro_Detalle();
+            control.Viaticos = new ControlRubro_Detalle();
+            control.Gastos = new Gasto_Detalle();
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                
+                var secciones = await (from seccion in db.tB_GastoIngresoSeccions
+                                       where seccion.Tipo == "gasto"
+                                       && seccion.Activo == true
+                                       orderby seccion.Codigo ascending
+                                       select new Seccion_Detalle
+                                       {
+                                           IdSeccion = seccion.IdSeccion,
+                                           Seccion = seccion.Seccion,
+                                       })
+                                      .ToListAsync();
+
+                List<PCS_Fecha_Detalle> suma_fechas_salarios = new List<PCS_Fecha_Detalle>();
+                List<PCS_Fecha_Detalle> suma_fechas_viaticos = new List<PCS_Fecha_Detalle>();
+                List<Rubro_Detalle> rubros_viaticos = new List<Rubro_Detalle>();
+
+                foreach (var seccion in secciones)
+                {
+                    if (seccion.Seccion == "COSTOS INDIRECTOS DE SALARIOS")
+                    {
+                        var rubros = await (from rubro in db.tB_Rubros
+                                            join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                            from rel1Item in rel1Join.DefaultIfEmpty()
+                                            join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                            where rubro.IdSeccion == seccion.IdSeccion
+                                            && rubro.NumProyecto == IdProyecto
+                                            && rel2.Tipo == "gasto"
+                                            select new Rubro_Detalle
+                                            {
+                                                Id = rubro.Id,
+                                                Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                            }).ToListAsync();
+
+                        foreach (var rubro in rubros)
+                        {
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && sec.Tipo == "gasto"
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Rubro = rubro.Rubro,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            suma_fechas_salarios.AddRange(fechas);
+                        }
+                    }
+                    else if (seccion.Seccion == "VIÁTICOS")
+                    {
+                        rubros_viaticos = await (from rubro in db.tB_Rubros
+                                                 join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                                 from rel1Item in rel1Join.DefaultIfEmpty()
+                                                 join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                                 where rubro.IdSeccion == seccion.IdSeccion
+                                                 && rubro.NumProyecto == IdProyecto
+                                                 && rel2.Tipo == "gasto"
+                                                 select new Rubro_Detalle
+                                                 {
+                                                     Id = rubro.Id,
+                                                     Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                                 }).ToListAsync();
+
+                        foreach (var rubro in rubros_viaticos)
+                        {
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && sec.Tipo == "gasto"
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Rubro = rubro.Rubro,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            suma_fechas_viaticos.AddRange(fechas);
+                        }
+                    }
+                }
+
+                ////////////////
+                ////SALARIOS////
+                ////////////////
+                var etapas = await (from p in db.tB_ProyectoFases
+                                    join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                    from proyItem in proyJoin.DefaultIfEmpty()
+                                    where p.NumProyecto == IdProyecto
+                                    orderby p.FechaIni ascending
+                                    select new PCS_Etapa_Detalle
+                                    {
+                                        IdFase = p.IdFase,
+                                    }).ToListAsync();
+
+                foreach (var etapa in etapas)
+                {
+                    var rubros = await (from p in db.tB_ProyectoFaseEmpleados
+                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                        from eItem in eJoin.DefaultIfEmpty()
+                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                        from perItem in perJoin.DefaultIfEmpty()
+                                        where p.IdFase == etapa.IdFase
+                                        orderby p.NumEmpleado ascending
+                                        group new Rubro_Detalle
+                                        {
+                                            Id = p.Id,
+                                            IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                            Rubro = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                            NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                        } by new { p.NumEmpleado } into g
+                                        select new Rubro_Detalle
+                                        {
+                                            Id = g.First().Id,
+                                            IdRubro = g.First().IdRubro,
+                                            Rubro = g.First().Rubro,
+                                            NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                        }).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                            where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                            && p.IdFase == etapa.IdFase
+                                            orderby p.Anio, p.Mes ascending
+                                            select new PCS_Fecha_Detalle
+                                            {
+                                                Id = p.Id,
+                                                Mes = p.Mes,
+                                                Anio = p.Anio,
+                                                Porcentaje = p.Porcentaje
+                                            }).ToListAsync();
+
+                        suma_fechas_salarios.AddRange(fechas);
+                    }
+                }
+
+                var fechasSalariosAgrupadas = suma_fechas_salarios
+                       .GroupBy(f => new { f.Mes, f.Anio })
+                       .Select(g => new PCS_Fecha_Suma
+                       {
+                           Mes = g.Key.Mes,
+                           Anio = g.Key.Anio,
+                           SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                       }).ToList();
+
+                control.Salarios.Previsto = new ValoresRubro_Detalle();
+                control.Salarios.Previsto.SumaFechas = new List<PCS_Fecha_Suma>();
+                control.Salarios.Previsto.SumaFechas.AddRange(fechasSalariosAgrupadas);
+                control.Salarios.Previsto.SubTotal = fechasSalariosAgrupadas.Sum(f => Convert.ToDecimal(f.SumaPorcentaje));
+
+                var cie_salarios = await (from cie in db.tB_Cie_Datas
+                                          where cie.ClasificacionPY == "salarios"
+                                          && cie.NumProyecto == IdProyecto
+                                          select new PCS_Fecha_Detalle
+                                          {
+                                              Mes = cie.Mes,
+                                              Porcentaje = cie.Movimiento
+                                          }).ToListAsync();
+
+                var cie_salarios_group = cie_salarios
+                                    .GroupBy(c => c.Mes)
+                                    .Select(g => new PCS_Fecha_Suma
+                                    {
+                                        Mes = g.Key,
+                                        SumaPorcentaje = g.Sum(c => c.Porcentaje)
+                                    })
+                                    .ToList();
+
+                control.Salarios.Real = new ValoresRubro_Detalle();
+                control.Salarios.Real.SumaFechas = new List<PCS_Fecha_Suma>();
+                control.Salarios.Real.SumaFechas.AddRange(cie_salarios_group);
+                control.Salarios.Real.SubTotal = cie_salarios_group.Sum(f => Convert.ToDecimal(f.SumaPorcentaje));
+
+
+
+                ////////////////
+                ////VIÁTICOS////
+                ////////////////
+                var fechasViaticosAgrupadas = suma_fechas_viaticos
+                       .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
+                       .Select(g => new PCS_Fecha_Suma
+                       {
+                           Rubro = g.Key.Rubro,
+                           Mes = g.Key.Mes,
+                           Anio = g.Key.Anio,
+                           SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                       }).ToList();
+
+                control.Viaticos.Previsto = new ValoresRubro_Detalle();
+                control.Viaticos.Previsto.SumaFechas = new List<PCS_Fecha_Suma>();
+                control.Viaticos.Previsto.SumaFechas.AddRange(fechasViaticosAgrupadas);
+                control.Viaticos.Previsto.SubTotal = fechasViaticosAgrupadas.Sum(f => Convert.ToDecimal(f.SumaPorcentaje));
+
+                List<PCS_Fecha_Detalle> cie_viaticos = new List<PCS_Fecha_Detalle>();
+                foreach (var viatico in rubros_viaticos)
+                {
+                    var viatic = await (from cie in db.tB_Cie_Datas
+                                        where cie.ClasificacionPY == viatico.Rubro
+                                        && cie.NumProyecto == IdProyecto
+                                        select new PCS_Fecha_Detalle
+                                        {
+                                            Rubro = viatico.Rubro,
+                                            Mes = cie.Mes,
+                                            Porcentaje = cie.Movimiento
+                                        }).ToListAsync();
+
+                    cie_viaticos.AddRange(viatic);
+                }
+
+                var cie_viaticos_group = cie_viaticos
+                    .GroupBy(c => new { c.Rubro, c.Mes })
+                    .Select(g => new PCS_Fecha_Suma
+                    {
+                        Rubro = g.Key.Rubro,
+                        Mes = g.Key.Mes,
+                        SumaPorcentaje = g.Sum(c => c.Porcentaje)
+                    }).ToList();
+
+                control.Viaticos.Real = new ValoresRubro_Detalle();
+                control.Viaticos.Real.SumaFechas = new List<PCS_Fecha_Suma>();
+                control.Viaticos.Real.SumaFechas.AddRange(cie_viaticos_group);
+                control.Viaticos.Real.SubTotal = cie_viaticos_group.Sum(f => Convert.ToDecimal(f.SumaPorcentaje));
+
+                ////////////////
+                /////GASTOS/////
+                ////////////////
+                // Obtener los gastos previstos
+                var fechasGastosPrevistos = suma_fechas_salarios
+                    .Concat(suma_fechas_viaticos)
+                    .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
+                    .Select(g => new PCS_Fecha_Suma
+                    {
+                        Rubro = g.Key.Rubro,
+                        Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
+                        SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                    }).ToList();
+
+                // Asignar los gastos previstos al objeto de detalle de gastos
+                control.Gastos.Previstos = new List<ValoresRubro_Detalle>
+                {
+                    new ValoresRubro_Detalle
+                    {
+                        SumaFechas = fechasGastosPrevistos,
+                        SubTotal = fechasGastosPrevistos.Sum(f => Convert.ToDecimal(f.SumaPorcentaje))
+                    }
+                };
+
+                // Obtener los gastos reales
+                var fechasGastosReales = cie_salarios_group
+                    .Concat(cie_viaticos_group)
+                    .GroupBy(c => new { c.Rubro, c.Mes })
+                    .Select(g => new PCS_Fecha_Suma
+                    {
+                        Rubro = g.Key.Rubro,
+                        Mes = g.Key.Mes,
+                        SumaPorcentaje = g.Sum(c => c.SumaPorcentaje)
+                    }).ToList();
+
+                // Asignar los gastos reales al objeto de detalle de gastos
+                control.Gastos.Reales = new List<ValoresRubro_Detalle>
+                {
+                    new ValoresRubro_Detalle
+                    {
+                        SumaFechas = fechasGastosReales,
+                        SubTotal = fechasGastosReales.Sum(f => Convert.ToDecimal(f.SumaPorcentaje))
+                    }
+                };
+
+
+
             }
 
             return control;
