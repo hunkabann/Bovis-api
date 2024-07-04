@@ -10,9 +10,15 @@ namespace Bovis.Data.Interface
         Task<List<TB_Cliente>> GetClientes();
         #endregion Clientes
 
+
+
+
         #region Empresas
         Task<List<TB_Empresa>> GetEmpresas();
         #endregion Empresas
+
+
+
 
         #region Proyectos
         Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico);
@@ -25,12 +31,18 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> UpdateProyectoFechaAuditoria(JsonObject registro); 
         #endregion Proyectos
 
+
+
+
         #region Etapas
         Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro);
         Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto);
         Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro);
         Task<(bool Success, string Message)> DeleteEtapa(int IdEtapa);
         #endregion Etapas
+
+
+
 
         #region Empleados
         Task<(bool Success, string Message)> AddEmpleado(JsonObject registro);
@@ -39,9 +51,20 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado);
         #endregion Empleados
 
+
+
+
         #region Gastos / Ingresos
         Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo);
         Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
+        Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto);
         #endregion Gastos / Ingresos
+
+
+
+
+        #region Control
+        Task<Control_Detalle> GetControl(int IdProyecto);
+        #endregion Control
     }
 }
