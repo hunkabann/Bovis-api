@@ -17,6 +17,8 @@ namespace Bovis.Data.Interface
         Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, string numEmpleado);
         Task<Response<int>> UpdateBeneficioProyecto(TB_EmpleadoProyectoBeneficio registro, int idBeneficio, string numEmpleado);
         Task<Response<object>> AddBeneficioProyecto(TB_EmpleadoProyectoBeneficio registro);
+
+
         
 
     }

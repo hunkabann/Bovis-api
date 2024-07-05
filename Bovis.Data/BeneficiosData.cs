@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Bovis.Common.Model.DTO;
 using Microsoft.Identity.Client;
+using Microsoft.Win32;
 
 namespace Bovis.Data
 {
@@ -115,8 +116,8 @@ namespace Bovis.Data
         }
         #endregion
 
-        #region GetBeneficioProyecto
-        public async Task<Response<List<TB_EmpleadoProyectoBeneficio>>> GetBeneficioProyecto(int idBeneficio, string NumEmpleado)
+        #region GetBeneficioProyectos
+        public async Task<Response<List<TB_EmpleadoProyectoBeneficio>>> GetBeneficioProyectos(int idBeneficio, string NumEmpleado)
         {
             var listaBeneficios = await GetAllEntititiesByPropertyValueAsync<TB_EmpleadoProyectoBeneficio, string>(nameof(TB_EmpleadoProyectoBeneficio.NumEmpleadoRrHh), NumEmpleado);
 
@@ -308,7 +309,7 @@ namespace Bovis.Data
             //registro.Anno = DateTime.Now.Year;
             //registro.FechaActualizacion = DateTime.Now;
             //Revisa que el registro no se encuentre en la tabla Beneficios Empleados
-            var res = await GetBeneficioProyecto(registro.IdBeneficio, registro.NumEmpleadoRrHh);
+            var res = await GetBeneficioProyectos(registro.IdBeneficio, registro.NumEmpleadoRrHh);
             if (res.Success != false)
             {
                 return new()
@@ -327,7 +328,7 @@ namespace Bovis.Data
             };
 
         }
-        #endregion
+
 
 
     }
