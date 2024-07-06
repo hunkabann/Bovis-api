@@ -36,6 +36,8 @@ namespace Bovis.Service.Queries
             return response;
         }
 
+       
+
         public async Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, string numEmpleado)
         {
             var response = await _beneficiosBusiness.UpdateBeneficio(registro, idBeneficio, numEmpleado);
@@ -54,7 +56,7 @@ namespace Bovis.Service.Queries
             return response;
         }
 
-
+       
 
     }
 }

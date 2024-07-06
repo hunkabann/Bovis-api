@@ -18,6 +18,6 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<int>> UpdateBeneficioProyecto(TB_EmpleadoProyectoBeneficio registro, int idBeneficio, string numEmpleado);
         Task<Response<object>> AddBeneficioProyecto(TB_EmpleadoProyectoBeneficio registro);
 
-        
+
     }
 }
