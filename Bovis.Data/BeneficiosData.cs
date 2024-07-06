@@ -240,12 +240,12 @@ namespace Bovis.Data
 
                     if (resultado.Count > 0)
                     {
-                        regBeneficioAnt = await GetEntityByPKAsync<TB_EmpleadoProyectoBeneficio>(resultado[0].IdBeneficio);
+                        regBeneficioAnt = await GetEntityByPKAsync<TB_EmpleadoProyectoBeneficio>(resultado[0].Id);
                         if (regBeneficioAnt.nucostobeneficio == registro.nucostobeneficio)
                         {
                             return new()
                             {
-                                Success = false,
+                               Success = false,
                                 Data = 0,
                                 Message = $"Error: Nada para actualizar en el registro del empleado {numEmpleado}"
 
@@ -255,11 +255,11 @@ namespace Bovis.Data
                         //Convierte a estatus de histórico este registro y actualiza su estado en la tabla. Asegurar que el nuevo registro sea el actual poniendo su estatus de histórico en Falso.
 
 
-                        //regBeneficioAnt.RegHistorico = true;
+                        regBeneficioAnt.nucostobeneficio = registro.nucostobeneficio;
                         //registro.RegHistorico = false;
                         //registro.FechaActualizacion = DateTime.Now;
                         var res = await UpdateEntityAsync<TB_EmpleadoProyectoBeneficio>(regBeneficioAnt);
-                        var res2 = await InsertEntityAsync<TB_EmpleadoProyectoBeneficio>(registro);
+                        //var res2 = await InsertEntityAsync<TB_EmpleadoProyectoBeneficio>(registro);
                         return new()
                         {
                             Success = true,
@@ -328,6 +328,7 @@ namespace Bovis.Data
             };
 
         }
+        #endregion
 
 
 
