@@ -24,10 +24,10 @@ namespace Bovis.Data
 
         //ATC
 
-        public static decimal BonoAdicionalReubicacion = 0M; 
-        public static decimal ViaticosAComprobar = 0M;
-        public static decimal Be_BonoAdicional = 0M;
-        public static decimal Be_AyudaTransporte = 0M;
+        //public static decimal BonoAdicionalReubicacion = 0M; 
+        //public static decimal ViaticosAComprobar = 0M;
+        //public static decimal Be_BonoAdicional = 0M;
+        //public static decimal Be_AyudaTransporte = 0M;
 
         //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
         private static double p_patron = 686.60;
@@ -396,6 +396,8 @@ namespace Bovis.Data
                 decimal? vaid_costo_mensual = registro.VaidCostoMensual;
                 double? cotizacion = source.cotizacion;//1540.5;
                 decimal? bonoproyect_sueldobruto = source.bonoproyect_sueldobruto;
+                //ATC
+                decimal? bonoproyect_sueldobruto_ImpuestoNOM = source.bonoproyect_sueldobruto_ImpuestoNOM;
 
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -566,7 +568,21 @@ namespace Bovis.Data
                         && (isr.LimiteInferior <= sueldo_gravable && isr.LimiteSuperior >= sueldo_gravable)
                         select isr).FirstOrDefaultAsync();
 
-                        registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                        //ATC
+                        //decimal? sueldo_gravable = 0;
+
+                        if (bonoproyect_sueldobruto_ImpuestoNOM != null && bonoproyect_sueldobruto_ImpuestoNOM > 0)
+                        {
+                            //ATC
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.03M;
+                        }
+                        else
+                        {
+                            //ATC
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual  + registro.BonoAnualProvisionMensual ) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                        }
+
+                        //registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
 
                         if (source.cotizacion == null)
                         {
@@ -891,7 +907,9 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     // Empleado
                                     IdPersona = costos.IdPersona,
                                     NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
-                                    NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    // ATC
+                                    //NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    NumEmpleadoNoi = Convert.ToInt32(empleadoCostoItem.NoEmpleadoNoi),
                                     NombreCompletoEmpleado = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
                                     ApellidoPaterno = personaEmpItem != null ? personaEmpItem.ApPaterno : string.Empty,
                                     ApellidoMaterno = personaEmpItem != null ? personaEmpItem.ApMaterno : string.Empty,
