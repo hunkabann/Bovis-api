@@ -113,6 +113,12 @@ namespace Bovis.Data
         //Guarderias y Prestaciones sociales del patron
         private static double p_GPSP;
 
+        //Operacion IMSS
+        private static double p_OPERAIMMS;
+
+        //Operacion IMSS restar el resultado
+        private static double p_OPERAIMMSResta;
+
         // SBC
         private static double p_SBC;
 
@@ -430,24 +436,27 @@ namespace Bovis.Data
 
                         if (p_patron > p_3_Veces_UMA)
                         {
-                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .004) * 31);
+                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .004) * 31); // 296.1789
                         }
                         else
                         {
                             p_EME2 = 0;
                         }
 
-                        p_EME_GMPE = (double)(cotizacion * 0.00375) * p_dias_mes;
+                        p_EME_GMPE = (double)(cotizacion * 0.00375) * p_dias_mes; //315.5315
 
-                        p_EME_ED = (double)(cotizacion * 0.0025) * p_dias_mes;
+                        p_EME_ED = (double)(cotizacion * 0.0025) * p_dias_mes; //210.3543
 
-                        p_EME_ESP = (double)(cotizacion * 0.00625) * p_dias_mes;
+                        p_EME_ESP = (double)(cotizacion * 0.00625) * p_dias_mes; //525.8859
 
-                        p_GP = (double)(cotizacion * 0.0) * p_dias_mes;
+                        p_GP = (double)(cotizacion * 0.0) * p_dias_mes; // 0
 
-                        p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim;
+                        p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim; //946.5946
 
-                        p_CEAVBIM = (double)(source.cotizacion * 0.013) * p_dias_trabajados_bim;
+                        p_CEAVBIM = p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV;
+
+
+
 
                         if (source.cotizacion < 1)
                         {
@@ -455,7 +464,7 @@ namespace Bovis.Data
                         }
                         else
                         {
-                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV + p_CEAVBIM);
+                            registro.RetencionImss = (decimal)((p_CEAVBIM / 31 )*30);
                         }
 
                            
@@ -483,13 +492,19 @@ namespace Bovis.Data
 
                         p_GPSP = (double)(source.cotizacion * p_Patron_GPSP) * p_dias_trabajados;
 
+                        p_OPERAIMMS = p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP + p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
+
+                        p_OPERAIMMSResta = p_GPSP + p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
+
+
+
                         if (source.cotizacion < 1)
                         {
                             registro.Imss = 0;
                         }
                         else
                         {
-                            registro.Imss = (decimal)(p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP);
+                            registro.Imss = (decimal)(p_OPERAIMMS-((p_OPERAIMMSResta / 31) * 30));
                         }
 
                         
@@ -553,11 +568,14 @@ namespace Bovis.Data
                             registro.VaidCostoMensual = vaid_costo_mensual;
                            
                         }
+
+                       
+
                         //ATC
                         if (cotizacion != null && cotizacion > 0)
                         {
 
-                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV + p_CEAVBIM);
+                            registro.RetencionImss = (decimal)((p_CEAVBIM / 31) * 30);
                             //registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAVBIM);
                         }
                         else
