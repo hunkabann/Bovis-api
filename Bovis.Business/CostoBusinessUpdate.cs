@@ -429,8 +429,8 @@ namespace Bovis.Business
             destination.CostoMensualEmpleado = destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + destination.IndemProvisionMensual + destination.BonoAnualProvisionMensual + destination.SgmmCostoMensual + destination.SvCostoMensual + destination.VaidCostoMensual + destination.VaidComisionCostoMensual + destination.PtuProvision + destination.CargasSociales;
             destination.CostoMensualProyecto = 0.0M;
             destination.CostoAnualEmpleado = destination.CostoMensualEmpleado * 12;
-            destination.CostoSalarioBruto = destination.SueldoBruto > 0 ? destination.CostoMensualEmpleado / destination.SueldoBruto : 0;
-            destination.CostoSalarioNeto = destination.SueldoNetoPercibidoMensual > 0 ? destination.CostoMensualEmpleado / destination.SueldoNetoPercibidoMensual : 0;
+            destination.CostoSalarioBruto = destination.SueldoBruto > 0 ? (destination.CostoMensualEmpleado / destination.SueldoBruto)-1 : 0;
+            destination.CostoSalarioNeto = destination.SueldoNetoPercibidoMensual > 0 ? (destination.CostoMensualEmpleado / destination.SueldoNetoPercibidoMensual) - 1 : 0;
             #endregion Costo total laboral BLL
 
 
