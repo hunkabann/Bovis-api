@@ -701,6 +701,21 @@ namespace Bovis.Data
                 resp.Success = insert_perfil_usuario;
                 resp.Message = insert_perfil_usuario == default ? "Ocurrio un error al agregar registro de la experiencia." : string.Empty;
 
+
+
+                //ATC
+                var insert_Proyecto_empleado = await db.tB_EmpleadoProyectos
+                    .Value(x => x.NumProyecto, num_proyecto_principal)
+                    .Value(x => x.PorcentajeParticipacion, Convert.ToDecimal(0.0))
+                    .Value(x => x.AliasPuesto, "Alias")
+                    .Value(x => x.GrupoProyecto, "Grupo")
+                    .Value(x => x.FechaIni, fecha_ingreso)
+                    .Value(x => x.Activo, true)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_Proyecto_empleado;
+                resp.Message = insert_Proyecto_empleado == default ? "Ocurrio un error al agregar registro de Proyecto Empleado." : string.Empty;
+
             }
             return resp;
         }
