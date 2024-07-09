@@ -705,6 +705,7 @@ namespace Bovis.Data
 
                 //ATC
                 var insert_Proyecto_empleado = await db.tB_EmpleadoProyectos
+                    .Value(x => x.NumEmpleadoRrHh, num_empleado_rr_hh)
                     .Value(x => x.NumProyecto, num_proyecto_principal)
                     .Value(x => x.PorcentajeParticipacion, Convert.ToDecimal(0.0))
                     .Value(x => x.AliasPuesto, "Alias")
@@ -715,6 +716,8 @@ namespace Bovis.Data
 
                 resp.Success = insert_Proyecto_empleado;
                 resp.Message = insert_Proyecto_empleado == default ? "Ocurrio un error al agregar registro de Proyecto Empleado." : string.Empty;
+
+                // termina ATC
 
             }
             return resp;
