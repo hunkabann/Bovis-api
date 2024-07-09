@@ -985,7 +985,7 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     CostoMensualProyecto = costos.CostoMensualProyecto,
                                     CostoAnualEmpleado = costos.CostoAnualEmpleado,
                                     CostoSalarioBruto = costos.CostoSalarioBruto,
-                                    CostoSalarioNeto = costos.CostoSalarioBruto,
+                                    CostoSalarioNeto = costos.CostoSalarioNeto,
 
                                     NuAnno = costos.NuAnno,
                                     NuMes = costos.NuMes,
