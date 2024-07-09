@@ -652,6 +652,14 @@ namespace Bovis.Data
                             registro.CostoMensualEmpleado = registro.CostoMensualEmpleado+costobene;
                         }
 
+                        //Monto descuento mensual
+                        registro.MontoDescuentoMensual = registro.Ispt + registro.RetencionImss;
+
+
+
+                        registro.AvgDescuentoEmpleado = registro.SueldoBruto > 0 ? registro.MontoDescuentoMensual / registro.SueldoBruto : 0;
+
+
                         //ATC
                         /* if (source.CostoMensualProyecto == null)
                          {
