@@ -659,6 +659,9 @@ namespace Bovis.Data
 
                         registro.AvgDescuentoEmpleado = registro.SueldoBruto > 0 ? registro.MontoDescuentoMensual / registro.SueldoBruto : 0;
 
+                        registro.CostoSalarioBruto = registro.SueldoBruto > 0 ? (registro.CostoMensualEmpleado / registro.SueldoBruto) - 1 : 0;
+                        registro.CostoSalarioNeto = registro.SueldoNetoPercibidoMensual > 0 ? (registro.CostoMensualEmpleado / registro.SueldoNetoPercibidoMensual) - 1 : 0;
+
 
                         //ATC
                         /* if (source.CostoMensualProyecto == null)
