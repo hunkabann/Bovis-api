@@ -88,6 +88,10 @@ namespace Bovis.Data
         //Cesantia y Vejes
         private static double p_CEAV;
 
+        //Retiros,censatia
+        private static double p_CEAVBIM;
+
+
         //riesgo trabajo patron
         private static double p_RTP;
 
@@ -443,13 +447,15 @@ namespace Bovis.Data
 
                         p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim;
 
+                        p_CEAVBIM = (double)(source.cotizacion * 0.013) * p_dias_trabajados_bim;
+
                         if (source.cotizacion < 1)
                         {
                             registro.RetencionImss = 0;
                         }
                         else
                         {
-                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
+                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV + p_CEAVBIM);
                         }
 
                            
@@ -542,7 +548,7 @@ namespace Bovis.Data
                             //ATC
                             if (vaid_costo_mensual != 0)
                             {
-                                registro.VaidComisionCostoMensual = vaid_costo_mensual / 12;
+                                registro.VaidComisionCostoMensual = vaid_costo_mensual * 0.015M;
                             }
                             registro.VaidCostoMensual = vaid_costo_mensual;
                            
@@ -551,8 +557,8 @@ namespace Bovis.Data
                         if (cotizacion != null && cotizacion > 0)
                         {
 
-                           
-                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV + p_CEAVBIM);
+                            //registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAVBIM);
                         }
                         else
                         {
