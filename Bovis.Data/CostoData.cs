@@ -494,7 +494,7 @@ namespace Bovis.Data
 
                         p_OPERAIMMS = p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP + p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
 
-                        p_OPERAIMMSResta = p_GPSP + p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
+                        p_OPERAIMMSResta =  p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
 
 
 
@@ -675,7 +675,7 @@ namespace Bovis.Data
                         if (BeneficioCosto != null)
                         {
 
-                            registro.CostoMensualEmpleado = registro.CostoMensualEmpleado + costobene + registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + registro.IndemProvisionMensual + registro.AvgBonoAnualEstimado + registro.SgmmCostoMensual + registro.SvCostoMensual + registro.VaidComisionCostoMensual + registro.VaidCostoMensual + source.PtuProvision + registro.CargasSociales;
+                            registro.CostoMensualEmpleado =  costobene + registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + registro.IndemProvisionMensual + registro.AvgBonoAnualEstimado + registro.SgmmCostoMensual + registro.SvCostoMensual + registro.VaidComisionCostoMensual + registro.VaidCostoMensual + registro.PtuProvision + registro.CargasSociales;
                         }
 
                         //Monto descuento mensual
