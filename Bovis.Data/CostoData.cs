@@ -670,10 +670,12 @@ namespace Bovis.Data
                             costobene = costobene + r.Costo;
                         }
 
+                        registro.IndemProvisionMensual = ((registro.SueldoBruto / 30M) * 20M) / 12M;
+
                         if (BeneficioCosto != null)
                         {
 
-                            registro.CostoMensualEmpleado = registro.CostoMensualEmpleado+costobene;
+                            registro.CostoMensualEmpleado = registro.CostoMensualEmpleado + costobene + registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + registro.IndemProvisionMensual + registro.AvgBonoAnualEstimado + registro.SgmmCostoMensual + registro.SvCostoMensual + registro.VaidComisionCostoMensual + registro.VaidCostoMensual + source.PtuProvision + registro.CargasSociales;
                         }
 
                         //Monto descuento mensual
