@@ -498,15 +498,7 @@ namespace Bovis.Data
 
 
 
-                        if (source.cotizacion < 1)
-                        {
-                            registro.Imss = 0;
-                        }
-                        else
-                        {
-                            registro.Imss = (decimal)(p_OPERAIMMS-((p_OPERAIMMSResta / 31) * 30));
-                        }
-
+                        
                         
 
                         p_SBC = (double)(source.cotizacion * p_Patron_SBC_CEAV) * p_dias_trabajados_bim;
@@ -583,10 +575,20 @@ namespace Bovis.Data
                             registro.RetencionImss = 0;
                         }
 
+                        if (source.cotizacion < 1)
+                        {
+                            registro.Imss = 0;
+                        }
+                        else
+                        {
+                            registro.Imss = (decimal)(p_OPERAIMMS - ((p_OPERAIMMSResta / 31) * 30));
+                        }
 
-                        
 
-                       var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+
+
+
+                        var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                         where isr.Anio == registro.NuAnno
                         && isr.Mes == registro.NuMes
                         && (isr.LimiteInferior <= sueldo_gravable && isr.LimiteSuperior >= sueldo_gravable)
