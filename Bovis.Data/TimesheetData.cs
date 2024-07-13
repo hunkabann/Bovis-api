@@ -599,7 +599,7 @@ namespace Bovis.Data
                     JsonObject otro = (JsonObject)registro["otros"].AsArray().FirstOrDefault(r => r["id"].ToString() == id.ToString());
                     string id_otro = otro["id"].ToString();
                     int dias = Convert.ToInt32(otro["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
+                    float dedicacion = float.Parse(otro["dedicacion"].ToString());
 
                     if (ids_otros_db.Contains(id))
                     {
