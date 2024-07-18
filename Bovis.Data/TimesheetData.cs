@@ -465,6 +465,9 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            //actualizar para producion
+            //por lo de dedicacion
+
             int id_time_sheet = Convert.ToInt32(registro["id_time_sheet"].ToString());
             string id_empleado = registro["empleado"]["code"].ToString();
             string nombre_empleado = registro["empleado"]["name"].ToString();
