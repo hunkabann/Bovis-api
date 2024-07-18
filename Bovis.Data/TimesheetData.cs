@@ -1,4 +1,4 @@
-﻿using Azure.Core;
+using Azure.Core;
 using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
@@ -465,6 +465,9 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
+            //actualizar para producion
+            //por lo de dedicacion
+
             int id_time_sheet = Convert.ToInt32(registro["id_time_sheet"].ToString());
             string id_empleado = registro["empleado"]["code"].ToString();
             string nombre_empleado = registro["empleado"]["name"].ToString();
@@ -518,9 +521,11 @@ namespace Bovis.Data
                     JsonObject proyecto = (JsonObject)registro["proyectos"].AsArray().FirstOrDefault(r => r["id"].ToString() == id.ToString());
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
-                    int dias = Convert.ToInt32(proyecto["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(proyecto["dedicacion"].ToString());
-                    int costo = Convert.ToInt32(proyecto["costo"].ToString());
+                    float dias = float.Parse(proyecto["dias"].ToString());
+                    //ATC
+                    float dedicacion = float.Parse(proyecto["dedicacionCalc"].ToString());
+                    decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
+
 
                     if (ids_proyectos_db.Contains(id))
                     {
@@ -598,7 +603,8 @@ namespace Bovis.Data
                     JsonObject otro = (JsonObject)registro["otros"].AsArray().FirstOrDefault(r => r["id"].ToString() == id.ToString());
                     string id_otro = otro["id"].ToString();
                     int dias = Convert.ToInt32(otro["dias"].ToString());
-                    int dedicacion = Convert.ToInt32(otro["dedicacion"].ToString());
+                    //ATC
+                    float dedicacion = float.Parse(otro["dedicacion"].ToString());
 
                     if (ids_otros_db.Contains(id))
                     {
