@@ -519,6 +519,7 @@ namespace Bovis.Data
                     int id_proyecto = Convert.ToInt32(proyecto["id"].ToString());
                     string nombre_proyecto = proyecto["nombre"].ToString();
                     float dias = float.Parse(proyecto["dias"].ToString());
+                    //ATC
                     float dedicacion = float.Parse(proyecto["dedicacionCalc"].ToString());
                     decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
 
@@ -599,6 +600,7 @@ namespace Bovis.Data
                     JsonObject otro = (JsonObject)registro["otros"].AsArray().FirstOrDefault(r => r["id"].ToString() == id.ToString());
                     string id_otro = otro["id"].ToString();
                     int dias = Convert.ToInt32(otro["dias"].ToString());
+                    //ATC
                     float dedicacion = float.Parse(otro["dedicacion"].ToString());
 
                     if (ids_otros_db.Contains(id))
