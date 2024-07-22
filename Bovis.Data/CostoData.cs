@@ -665,10 +665,12 @@ namespace Bovis.Data
                                                         join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
                                                         from bItem in bJoin.DefaultIfEmpty()
                                                         where eb.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
-                                                        select eb).ToListAsync();
+                                                        && eb.RegHistorico == false
+                                                    select eb).ToListAsync();
                         decimal? costobene = 0;
                         foreach (var r in BeneficioCosto)
                         {
+                            Console.Write("Hola Mundo Sobre Linea " + r.IdBeneficio);
                             costobene = costobene + r.Costo;
                         }
 
@@ -689,6 +691,8 @@ namespace Bovis.Data
 
                         registro.CostoSalarioBruto = registro.SueldoBruto > 0 ? (registro.CostoMensualEmpleado / registro.SueldoBruto) - 1 : 0;
                         registro.CostoSalarioNeto = registro.SueldoNetoPercibidoMensual > 0 ? (registro.CostoMensualEmpleado / registro.SueldoNetoPercibidoMensual) - 1 : 0;
+
+                        registro.CostoAnualEmpleado = registro.CostoMensualEmpleado * 12;
 
 
                         //ATC
