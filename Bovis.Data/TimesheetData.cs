@@ -497,6 +497,7 @@ namespace Bovis.Data
 
                 var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                      where ts_p.IdTimesheet == id_time_sheet
+                                                     && ts_p.Activo == true
                                                      select ts_p)
                                                      .ToListAsync();
 
@@ -864,6 +865,7 @@ namespace Bovis.Data
 
             string id_empleado = registro["id_empleado"].ToString();
             int id_proyecto = Convert.ToInt32(registro["id_proyecto"].ToString());
+            int id_timesheet = Convert.ToInt32(registro["id_timesheet"].ToString());
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -872,6 +874,15 @@ namespace Bovis.Data
 
                 resp.Success = res_update_empleado_proyecto;
                 resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+
+                var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
+                               .Where(x => x.IdTimesheet == id_timesheet
+                               && x.IdProyecto == id_proyecto)
+                               .Set(x => x.Activo, false))
+                               .UpdateAsync() >= 0;
+
+                resp.Success = res_delete_timesheet_proyecto;
+                resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
 
 
             }
