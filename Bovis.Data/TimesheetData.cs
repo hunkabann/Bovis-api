@@ -869,20 +869,38 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
-                                .DeleteAsync() > 0;
 
-                resp.Success = res_update_empleado_proyecto;
-                resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+                if (id_timesheet != null || id_timesheet == 0)
+                {
+                    var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
+                               .DeleteAsync() > 0;
 
-                var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
-                               .Where(x => x.IdTimesheet == id_timesheet
-                               && x.IdProyecto == id_proyecto)
-                               .Set(x => x.Activo, false))
-                               .UpdateAsync() >= 0;
+                    resp.Success = res_update_empleado_proyecto;
+                    resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
 
-                resp.Success = res_delete_timesheet_proyecto;
-                resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                }
+                else
+                {
+
+                    var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
+                               .DeleteAsync() > 0;
+
+                    resp.Success = res_update_empleado_proyecto;
+                    resp.Message = res_update_empleado_proyecto == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+
+                    var res_delete_timesheet_proyecto = await (db.tB_Timesheet_Proyectos
+                                   .Where(x => x.IdTimesheet == id_timesheet
+                                   && x.IdProyecto == id_proyecto)
+                                   .Set(x => x.Activo, false))
+                                   .UpdateAsync() >= 0;
+
+                    resp.Success = res_delete_timesheet_proyecto;
+                    resp.Message = res_delete_timesheet_proyecto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+                }
+
+
 
 
             }
