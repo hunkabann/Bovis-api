@@ -870,7 +870,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
 
-                if (id_timesheet != null || id_timesheet == 0)
+                if (id_timesheet == null || id_timesheet == 0)
                 {
                     var res_update_empleado_proyecto = await db.tB_EmpleadoProyectos.Where(x => x.NumEmpleadoRrHh == id_empleado && x.NumProyecto == id_proyecto)
                                .DeleteAsync() > 0;
