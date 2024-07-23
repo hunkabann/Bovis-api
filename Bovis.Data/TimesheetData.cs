@@ -818,20 +818,36 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var insert_proyecto_empleado = await db.tB_EmpleadoProyectos
-                    .Value(x => x.NumEmpleadoRrHh, id_empleado)
-                    .Value(x => x.NumProyecto, id_proyecto)
-                    .Value(x => x.PorcentajeParticipacion, 0)
-                    .Value(x => x.AliasPuesto, string.Empty)
-                    .Value(x => x.GrupoProyecto, string.Empty)
-                    .Value(x => x.FechaIni, DateTime.Now)
-                    .Value(x => x.Activo, true)
-                    .InsertAsync() > 0;
+                var select_proyecto_empleado = await (from eb in db.tB_EmpleadoProyectos
+                                 where eb.NumEmpleadoRrHh == id_empleado
+                                 && eb.NumProyecto == id_proyecto
+                                       select eb).ToListAsync();
 
-                resp.Success = insert_proyecto_empleado;
-                resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
 
-                
+                     if (select_proyecto_empleado != null)
+                     {
+                    
+                         resp.Success = true;
+                    
+                     }
+                     else
+                     {
+                    
+                         var insert_proyecto_empleado = await db.tB_EmpleadoProyectos
+                         .Value(x => x.NumEmpleadoRrHh, id_empleado)
+                         .Value(x => x.NumProyecto, id_proyecto)
+                         .Value(x => x.PorcentajeParticipacion, 0)
+                         .Value(x => x.AliasPuesto, string.Empty)
+                         .Value(x => x.GrupoProyecto, string.Empty)
+                         .Value(x => x.FechaIni, DateTime.Now)
+                         .Value(x => x.Activo, true)
+                         .InsertAsync() > 0;
+                    
+                         resp.Success = insert_proyecto_empleado;
+                         resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
+                    
+                    
+                     }
             }
 
             return resp;
