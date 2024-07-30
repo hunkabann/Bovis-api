@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using LinqToDB.SqlQuery;
 using static System.Collections.Specialized.BitVector32;
 using LinqToDB.DataProvider.DB2;
+using System.Globalization;
 
 namespace Bovis.Data
 {
@@ -607,7 +608,7 @@ namespace Bovis.Data
                                                Id = p.Id,
                                                IdFase = p.IdFase,
                                                NumempleadoRrHh = p.NumEmpleado,
-                                               Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                               Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                Cantidad = p.Cantidad,
                                                AplicaTodosMeses = p.AplicaTodosMeses,
                                                Fee = p.Fee
@@ -1583,20 +1584,27 @@ namespace Bovis.Data
                 control.Salarios.Previsto.SumaFechas.AddRange(fechasSalariosAgrupadas);
                 control.Salarios.Previsto.SubTotal = fechasSalariosAgrupadas.Sum(f => Convert.ToDecimal(f.SumaPorcentaje));
 
+               
+
+
+
                 var cie_salarios = await (from cie in db.tB_Cie_Datas
                                           where cie.ClasificacionPY == "salarios"
                                           && cie.NumProyecto == IdProyecto
                                           select new PCS_Fecha_Detalle
                                           {
                                               Mes = cie.Mes,
+                                              Anio = cie.Fecha.Year,
                                               Porcentaje = cie.Movimiento
                                           }).ToListAsync();
+              
 
                 var cie_salarios_group = cie_salarios
-                                    .GroupBy(c => c.Mes)
+                                    .GroupBy(c => new { c.Mes, c.Anio })
                                     .Select(g => new PCS_Fecha_Suma
-                                    {
-                                        Mes = g.Key,
+                                    {                                        
+                                        Mes = g.Key.Mes,
+                                        Anio =  g.Key.Anio,
                                         SumaPorcentaje = g.Sum(c => c.Porcentaje)
                                     })
                                     .ToList();
@@ -1636,6 +1644,7 @@ namespace Bovis.Data
                                         {
                                             Rubro = viatico.Rubro,
                                             Mes = cie.Mes,
+                                            Anio = cie.Fecha.Year,
                                             Porcentaje = cie.Movimiento
                                         }).ToListAsync();
 
@@ -1643,11 +1652,12 @@ namespace Bovis.Data
                 }
 
                 var cie_viaticos_group = cie_viaticos
-                    .GroupBy(c => new { c.Rubro, c.Mes })
+                    .GroupBy(c => new { c.Rubro, c.Mes, c.Anio })
                     .Select(g => new PCS_Fecha_Suma
                     {
                         Rubro = g.Key.Rubro,
                         Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
                         SumaPorcentaje = g.Sum(c => c.Porcentaje)
                     }).ToList();
 
@@ -1684,11 +1694,12 @@ namespace Bovis.Data
                 // Obtener los gastos reales
                 var fechasGastosReales = cie_salarios_group
                     .Concat(cie_viaticos_group)
-                    .GroupBy(c => new { c.Rubro, c.Mes })
+                    .GroupBy(c => new { c.Rubro, c.Mes, c.Anio })
                     .Select(g => new PCS_Fecha_Suma
                     {
                         Rubro = g.Key.Rubro,
                         Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
                         SumaPorcentaje = g.Sum(c => c.SumaPorcentaje)
                     }).ToList();
 
@@ -1709,5 +1720,7 @@ namespace Bovis.Data
             return control;
         }
         #endregion Control
+
+       
     }
 }

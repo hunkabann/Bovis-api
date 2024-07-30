@@ -10,7 +10,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Chcuenta"), Nullable] public string? Cuenta { get; set; }
         [Column("Chtipo_poliza"), Nullable] public string? TipoPoliza { get; set; }
         [Column("Numnumero"), Nullable] public int? Numero { get; set; }
-        [Column("Dtfecha"), Nullable] public DateTime? Fecha { get; set; }
+        [Column("Dtfecha"), Nullable] public DateTime Fecha { get; set; }
         [Column("Nummes"), Nullable] public int? Mes { get; set; }
         [Column("Chconcepto"), Nullable] public string? Concepto { get; set; }
         [Column("Chcentro_costos"), Nullable] public string? CentroCostos { get; set; }
