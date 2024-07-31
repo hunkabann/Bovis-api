@@ -758,10 +758,12 @@ namespace Bovis.Data
                 List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
 
                 proyectos = await (from p in db.tB_Proyectos
-                                   join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
-                                   from epItem in epJoin.DefaultIfEmpty()
-                                   where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
-                                   && epItem.Activo == true
+                                       //ATC se comenta la relacion para que muestre todos los proyectos sin que exista tB_EmpleadoProyectos
+
+                                       //join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
+                                       //from epItem in epJoin.DefaultIfEmpty()
+                                       //where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
+                                       //&& epItem.Activo == true
                                    orderby p.Proyecto ascending
                                    group new TB_Proyecto
                                    {
