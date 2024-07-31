@@ -781,7 +781,7 @@ namespace Bovis.Data
                                            Id = p.Id,
                                            IdFase = p.IdFase,
                                            NumempleadoRrHh = p.NumEmpleado,
-                                           Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                           Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                            Cantidad = p.Cantidad,
                                            AplicaTodosMeses = p.AplicaTodosMeses,
                                            Fee = p.Fee
@@ -928,8 +928,8 @@ namespace Bovis.Data
                                             {
                                                 Id = p.Id,
                                                 IdRubro = perItem != null ? perItem.IdPersona : 0,
-                                                Rubro = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
-                                                Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                                Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                                Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                 NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
                                                 Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true
                                             } by new { p.NumEmpleado } into g
@@ -1083,8 +1083,8 @@ namespace Bovis.Data
                                             {
                                                 Id = p.Id,
                                                 IdRubro = perItem != null ? perItem.IdPersona : 0,
-                                                Rubro = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
-                                                Empleado = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                                Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                                Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                 NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
                                                 Cantidad = p.Fee,
                                                 Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true
@@ -1541,7 +1541,7 @@ namespace Bovis.Data
                                         {
                                             Id = p.Id,
                                             IdRubro = perItem != null ? perItem.IdPersona : 0,
-                                            Rubro = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                            Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                             NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
                                         } by new { p.NumEmpleado } into g
                                         select new Rubro_Detalle
