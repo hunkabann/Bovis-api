@@ -797,20 +797,98 @@ namespace Bovis.Data
 																	  }).ToListAsync();
 		}
 
-		public Task<bool> AddPuesto(TB_Cat_Puesto puesto) => InsertEntityIdAsync<TB_Cat_Puesto>(puesto);
+        //public Task<bool> AddPuesto(TB_Cat_Puesto puesto) => InsertEntityIdAsync<TB_Cat_Puesto>(puesto);
 
-		public Task<bool> UpdatePuesto(TB_Cat_Puesto puesto) => UpdateEntityAsync<TB_Cat_Puesto>(puesto);
+        public async Task<(bool Success, string Message)> AddPuesto(JsonObject registro)
+        {
+            int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
+           
+            string chpuesto = registro["chpuesto"].ToString();
+            decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"]);
+            decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"]);
+            decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"]);
+            int nukidnivel = Convert.ToInt32(registro["nukidnivel"].ToString());
+            string boactivo = registro["boactivo"].ToString();
 
-		public async Task<bool> DeletePuesto(TB_Cat_Puesto puesto)
+            (bool Success, string Message) resp = (true, string.Empty);
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var insert_Puesto = await db.tB_Cat_Puestos
+                    .Value(x => x.IdPuesto, nukid_puesto)
+                    .Value(x => x.IdNivel, nukidnivel)
+                    .Value(x => x.Puesto, chpuesto)
+                    .Value(x => x.SalarioMin, nusalario_min)
+                    .Value(x => x.SalarioMax, nusalario_max)
+                    .Value(x => x.SalarioProm, nusalario_prom)
+                    .Value(x => x.Activo, true)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_Puesto;
+                resp.Message = insert_Puesto == default ? "Ocurrio un error al agregar registro." : string.Empty;
+
+                return resp;
+            }
+        }
+
+        //public Task<bool> UpdatePuesto(TB_Cat_Puesto puesto) => UpdateEntityAsync<TB_Cat_Puesto>(puesto);
+
+        public async Task<(bool Success, string Message)> UpdatePuesto(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
+
+            string chpuesto = registro["chpuesto"].ToString();
+            decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"]);
+            decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"]);
+            decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"]);
+            int nukidnivel = Convert.ToInt32(registro["nukidnivel"].ToString());
+            string boactivo = registro["boactivo"].ToString();
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_puesto = await (db.tB_Cat_Puestos.Where(x => x.IdPuesto == nukid_puesto)
+                    .UpdateAsync(x => new TB_Cat_Puesto
+                    {
+                        Puesto = chpuesto,
+                        SalarioMin = nusalario_min,
+                        SalarioMax = nusalario_max,
+                        SalarioProm = nusalario_prom,
+                    })) > 0;
+
+                resp.Success = res_update_puesto;
+                resp.Message = res_update_puesto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeletePuesto(int nukid_puesto)
 		{
-			using (var db = new ConnectionDB(dbConfig))
-			{
-				var qry = db.tB_Cat_Puestos
-					   .Where(x => x.IdNivel == puesto.IdNivel)
-					   .Set(x => x.Activo, false);
-				return await qry.UpdateAsync() >= 0;
-			}
-		}
+			//using (var db = new ConnectionDB(dbConfig))
+			//{
+				//var qry = db.tB_Cat_Puestos
+				//	   .Where(x => x.IdNivel == puesto.IdNivel)
+				//	   .Set(x => x.Activo, false);
+				//return await qry.UpdateAsync() >= 0;
+			//}
+
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_update_puesto = await (db.tB_Cat_Puestos.Where(x => x.IdPuesto == nukid_puesto)
+                    .UpdateAsync(x => new TB_Cat_Puesto
+                    {
+                        Activo = false
+                    })) > 0;
+
+                resp.Success = res_update_puesto;
+                resp.Message = res_update_puesto == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
 
 		#endregion
 

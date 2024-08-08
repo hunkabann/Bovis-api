@@ -208,15 +208,15 @@ namespace Bovis.Business.Interface
         #region Puesto
 
         Task<List<Puesto_Detalle>> GetPuesto(bool? activo);
-		Task<(bool Success, string Message)> AddPuesto(TB_Cat_Puesto puesto);
-		Task<(bool Success, string Message)> UpdatePuesto(InsertMovApi MovAPI, TB_Cat_Puesto puesto);
-		Task<(bool Success, string Message)> DeletePuesto(TB_Cat_Puesto puesto);
+		Task<(bool Success, string Message)> AddPuesto(JsonObject registro);
+		Task<(bool Success, string Message)> UpdatePuesto(JsonObject registro);
+		Task<(bool Success, string Message)> DeletePuesto(int nukid_puesto);
 
-		#endregion
+        #endregion
 
-		#region Rubro Ingreso Reembolsable
+        #region Rubro Ingreso Reembolsable
 
-		Task<List<TB_Cat_RubroIngresoReembolsable>> GetRubroIngresoReembolsable(bool? activo);
+        Task<List<TB_Cat_RubroIngresoReembolsable>> GetRubroIngresoReembolsable(bool? activo);
 		Task<(bool Success, string Message)> AddRubroIngresoReembolsable(TB_Cat_RubroIngresoReembolsable rubro);
 		Task<(bool Success, string Message)> UpdateRubroIngresoReembolsable(InsertMovApi MovAPI, TB_Cat_RubroIngresoReembolsable rubro);
 		Task<(bool Success, string Message)> DeleteRubroIngresoReembolsable(TB_Cat_RubroIngresoReembolsable rubro);

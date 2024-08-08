@@ -703,30 +703,30 @@ namespace Bovis.Business
         #region Puesto
 
         public Task<List<Puesto_Detalle>> GetPuesto(bool? Actio) => _catalogoData.GetPuesto(Actio);
-		public async Task<(bool Success, string Message)> AddPuesto(TB_Cat_Puesto puesto)
+        public async Task<(bool Success, string Message)> AddPuesto(JsonObject registro)
 		{
-			(bool Success, string Message) resp = (true, string.Empty);
-			var respData = await _catalogoData.AddPuesto(puesto);
-			if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
-			return resp;
-		}
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddPuesto(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro de Puesto a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
 
-		public async Task<(bool Success, string Message)> DeletePuesto(TB_Cat_Puesto puesto)
-		{
-			(bool Success, string Message) resp = (true, string.Empty);
-			var respData = await _catalogoData.DeletePuesto(puesto);
-			if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
-			return resp;
-		}
+		public Task<(bool Success, string Message)> DeletePuesto(int nukid_puesto) => _catalogoData.DeletePuesto(nukid_puesto);
 
-		public async Task<(bool Success, string Message)> UpdatePuesto(InsertMovApi MovAPI, TB_Cat_Puesto puesto)
+
+        public async Task<(bool Success, string Message)> UpdatePuesto(JsonObject registro)
 		{
-			(bool Success, string Message) resp = (true, string.Empty);
-			var respData = await _catalogoData.UpdatePuesto(puesto);
-			if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
-			else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(puesto) });
-			return resp;
-		}
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdatePuesto((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro del Puesto"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
 
 		#endregion
 

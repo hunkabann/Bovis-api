@@ -1389,7 +1389,7 @@ public class ActualizaProfesionEventHandler : IRequestHandler<ActualizarProfesio
 
 #region Puesto
 
-public class AgregaPuestoEventHandler : IRequestHandler<AgregarPuestoCommand, Response<bool>>
+/*public class AgregaPuestoEventHandler : IRequestHandler<AgregarPuestoCommand, Response<bool>>
 {
 	private readonly ICatalogoBusiness _business;
 	private readonly IMapper _mapper;
@@ -1446,7 +1446,7 @@ public class ActualizaPuestoEventHandler : IRequestHandler<ActualizarPuestoComma
 		else resp.Data = tmpResp.Success;
 		return resp;
 	}
-}
+}*/
 
 #endregion
 
