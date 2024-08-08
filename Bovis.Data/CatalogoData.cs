@@ -804,9 +804,9 @@ namespace Bovis.Data
             int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
            
             string chpuesto = registro["chpuesto"].ToString();
-            decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"]);
-            decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"]);
-            decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"]);
+            decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
+            decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"].ToString());
+            decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"].ToString());
             int nukidnivel = Convert.ToInt32(registro["nukidnivel"].ToString());
             string boactivo = registro["boactivo"].ToString();
 
@@ -839,9 +839,9 @@ namespace Bovis.Data
             int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
 
             string chpuesto = registro["chpuesto"].ToString();
-            decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"]);
-            decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"]);
-            decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"]);
+            decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
+            decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"].ToString());
+            decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"].ToString());
             int nukidnivel = Convert.ToInt32(registro["nukidnivel"].ToString());
             string boactivo = registro["boactivo"].ToString();
 
