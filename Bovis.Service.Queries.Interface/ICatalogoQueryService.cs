@@ -19,6 +19,12 @@ public interface ICatalogoQueryService : IDisposable
     Task<Response<(bool Success, string Message)>> UpdateCliente(JsonObject registro);
     Task<Response<(bool Success, string Message)>> DeleteCliente(int idCliente);
 
+    Task<Response<(bool Success, string Message)>> AddPuesto(JsonObject registro);
+
+    Task<Response<(bool Success, string Message)>> UpdatePuesto(JsonObject registro);
+
+    Task<Response<(bool Success, string Message)>> DeletePuesto(int nukid_puesto);
+
     Task<Response<List<Catalogo>>> GetCostoIndirectoSalarios(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetDepartamento(bool? Activo);
@@ -58,8 +64,9 @@ public interface ICatalogoQueryService : IDisposable
     Task<Response<List<Catalogo>>> GetProfesion(bool? Activo);
 
     Task<Response<List<Puesto_Detalle>>> GetPuesto(bool? Activo);
+    
 
-	Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo);
+    Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetSector(bool? Activo);
 
