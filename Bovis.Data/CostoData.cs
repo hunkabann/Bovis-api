@@ -24,10 +24,10 @@ namespace Bovis.Data
 
         //ATC
 
-        public static decimal BonoAdicionalReubicacion = 0M; 
-        public static decimal ViaticosAComprobar = 0M;
-        public static decimal Be_BonoAdicional = 0M;
-        public static decimal Be_AyudaTransporte = 0M;
+        //public static decimal BonoAdicionalReubicacion = 0M; 
+        //public static decimal ViaticosAComprobar = 0M;
+        //public static decimal Be_BonoAdicional = 0M;
+        //public static decimal Be_AyudaTransporte = 0M;
 
         //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
         private static double p_patron = 686.60;
@@ -88,6 +88,10 @@ namespace Bovis.Data
         //Cesantia y Vejes
         private static double p_CEAV;
 
+        //Retiros,censatia
+        private static double p_CEAVBIM;
+
+
         //riesgo trabajo patron
         private static double p_RTP;
 
@@ -108,6 +112,12 @@ namespace Bovis.Data
 
         //Guarderias y Prestaciones sociales del patron
         private static double p_GPSP;
+
+        //Operacion IMSS
+        private static double p_OPERAIMMS;
+
+        //Operacion IMSS restar el resultado
+        private static double p_OPERAIMMSResta;
 
         // SBC
         private static double p_SBC;
@@ -396,6 +406,8 @@ namespace Bovis.Data
                 decimal? vaid_costo_mensual = registro.VaidCostoMensual;
                 double? cotizacion = source.cotizacion;//1540.5;
                 decimal? bonoproyect_sueldobruto = source.bonoproyect_sueldobruto;
+                //ATC
+                decimal? bonoproyect_sueldobruto_ImpuestoNOM = source.bonoproyect_sueldobruto_ImpuestoNOM;
 
                 using (var db = new ConnectionDB(dbConfig))
                 {
@@ -424,22 +436,27 @@ namespace Bovis.Data
 
                         if (p_patron > p_3_Veces_UMA)
                         {
-                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .004) * 31);
+                            p_EME2 = (double)(((cotizacion - p_3_Veces_UMA) * .004) * 31); // 296.1789
                         }
                         else
                         {
                             p_EME2 = 0;
                         }
 
-                        p_EME_GMPE = (double)(cotizacion * 0.00375) * p_dias_mes;
+                        p_EME_GMPE = (double)(cotizacion * 0.00375) * p_dias_mes; //315.5315
 
-                        p_EME_ED = (double)(cotizacion * 0.0025) * p_dias_mes;
+                        p_EME_ED = (double)(cotizacion * 0.0025) * p_dias_mes; //210.3543
 
-                        p_EME_ESP = (double)(cotizacion * 0.00625) * p_dias_mes;
+                        p_EME_ESP = (double)(cotizacion * 0.00625) * p_dias_mes; //525.8859
 
-                        p_GP = (double)(cotizacion * 0.0) * p_dias_mes;
+                        p_GP = (double)(cotizacion * 0.0) * p_dias_mes; // 0
 
-                        p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim;
+                        p_CEAV = (double)(source.cotizacion * 0.01125) * p_dias_trabajados_bim; //946.5946
+
+                        p_CEAVBIM = p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV;
+
+
+
 
                         if (source.cotizacion < 1)
                         {
@@ -447,7 +464,7 @@ namespace Bovis.Data
                         }
                         else
                         {
-                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAV);
+                            registro.RetencionImss = (decimal)((p_CEAVBIM / 31 )*30);
                         }
 
                            
@@ -475,15 +492,13 @@ namespace Bovis.Data
 
                         p_GPSP = (double)(source.cotizacion * p_Patron_GPSP) * p_dias_trabajados;
 
-                        if (source.cotizacion < 1)
-                        {
-                            registro.Imss = 0;
-                        }
-                        else
-                        {
-                            registro.Imss = (decimal)(p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP);
-                        }
+                        p_OPERAIMMS = p_RTP + p_PEME + p_PEME2 + p_EMGP + p_EMDP + p_IVDP + p_GPSP + p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
 
+                        p_OPERAIMMSResta =  p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP;
+
+
+
+                        
                         
 
                         p_SBC = (double)(source.cotizacion * p_Patron_SBC_CEAV) * p_dias_trabajados_bim;
@@ -540,33 +555,60 @@ namespace Bovis.Data
                             //ATC
                             if (vaid_costo_mensual != 0)
                             {
-                                registro.VaidComisionCostoMensual = vaid_costo_mensual / 12;
+                                registro.VaidComisionCostoMensual = vaid_costo_mensual * 0.015M;
                             }
                             registro.VaidCostoMensual = vaid_costo_mensual;
                            
                         }
+
+                       
+
                         //ATC
                         if (cotizacion != null && cotizacion > 0)
                         {
 
-                           
-                            registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP);
+                            registro.RetencionImss = (decimal)((p_CEAVBIM / 31) * 30);
+                            //registro.RetencionImss = (decimal)(p_EME2 + p_EME_GMPE + p_EME_ED + p_EME_ESP + p_GP + p_CEAVBIM);
                         }
                         else
                         {
                             registro.RetencionImss = 0;
                         }
 
+                        if (source.cotizacion < 1)
+                        {
+                            registro.Imss = 0;
+                        }
+                        else
+                        {
+                            registro.Imss = (decimal)(p_OPERAIMMS - ((p_OPERAIMMSResta / 31) * 30));
+                        }
 
-                        
 
-                       var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
+
+
+
+                        var isr_record = await (from isr in db.tB_Cat_Tabla_ISRs
                         where isr.Anio == registro.NuAnno
                         && isr.Mes == registro.NuMes
                         && (isr.LimiteInferior <= sueldo_gravable && isr.LimiteSuperior >= sueldo_gravable)
                         select isr).FirstOrDefaultAsync();
 
-                        registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                        //ATC
+                        //decimal? sueldo_gravable = 0;
+
+                        if (bonoproyect_sueldobruto_ImpuestoNOM != null && bonoproyect_sueldobruto_ImpuestoNOM > 0)
+                        {
+                            //ATC
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.03M;
+                        }
+                        else
+                        {
+                            //ATC
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual  + registro.BonoAnualProvisionMensual ) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                        }
+
+                        //registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
 
                         if (source.cotizacion == null)
                         {
@@ -623,18 +665,35 @@ namespace Bovis.Data
                                                         join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
                                                         from bItem in bJoin.DefaultIfEmpty()
                                                         where eb.NumEmpleadoRrHh == registro.NumEmpleadoRrHh
-                                                        select eb).ToListAsync();
+                                                        && eb.RegHistorico == false
+                                                    select eb).ToListAsync();
                         decimal? costobene = 0;
                         foreach (var r in BeneficioCosto)
                         {
+                            Console.Write("Hola Mundo Sobre Linea " + r.IdBeneficio);
                             costobene = costobene + r.Costo;
                         }
+
+                        registro.IndemProvisionMensual = ((registro.SueldoBruto / 30M) * 20M) / 12M;
 
                         if (BeneficioCosto != null)
                         {
 
-                            registro.CostoMensualEmpleado = registro.CostoMensualEmpleado+costobene;
+                            registro.CostoMensualEmpleado =  costobene + registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + registro.IndemProvisionMensual + registro.AvgBonoAnualEstimado + registro.SgmmCostoMensual + registro.SvCostoMensual + registro.VaidComisionCostoMensual + registro.VaidCostoMensual + registro.PtuProvision + registro.CargasSociales;
                         }
+
+                        //Monto descuento mensual
+                        registro.MontoDescuentoMensual = registro.Ispt + registro.RetencionImss;
+
+
+
+                        registro.AvgDescuentoEmpleado = registro.SueldoBruto > 0 ? registro.MontoDescuentoMensual / registro.SueldoBruto : 0;
+
+                        registro.CostoSalarioBruto = registro.SueldoBruto > 0 ? (registro.CostoMensualEmpleado / registro.SueldoBruto) - 1 : 0;
+                        registro.CostoSalarioNeto = registro.SueldoNetoPercibidoMensual > 0 ? (registro.CostoMensualEmpleado / registro.SueldoNetoPercibidoMensual) - 1 : 0;
+
+                        registro.CostoAnualEmpleado = registro.CostoMensualEmpleado * 12;
+
 
                         //ATC
                         /* if (source.CostoMensualProyecto == null)
@@ -891,7 +950,9 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     // Empleado
                                     IdPersona = costos.IdPersona,
                                     NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
-                                    NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    // ATC
+                                    //NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    NumEmpleadoNoi = Convert.ToInt32(empleadoCostoItem.NoEmpleadoNoi),
                                     NombreCompletoEmpleado = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
                                     ApellidoPaterno = personaEmpItem != null ? personaEmpItem.ApPaterno : string.Empty,
                                     ApellidoMaterno = personaEmpItem != null ? personaEmpItem.ApMaterno : string.Empty,
@@ -956,7 +1017,7 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     CostoMensualProyecto = costos.CostoMensualProyecto,
                                     CostoAnualEmpleado = costos.CostoAnualEmpleado,
                                     CostoSalarioBruto = costos.CostoSalarioBruto,
-                                    CostoSalarioNeto = costos.CostoSalarioBruto,
+                                    CostoSalarioNeto = costos.CostoSalarioNeto,
 
                                     NuAnno = costos.NuAnno,
                                     NuMes = costos.NuMes,

@@ -482,6 +482,10 @@ public class MappingsProfile : Profile
         #region Beneficios
         CreateMap<TB_EmpleadoBeneficio, EmpleadoBeneficioDTO>().ReverseMap();
         #endregion
+
+        #region BeneficiosProyecto
+        CreateMap<TB_EmpleadoProyectoBeneficio, EmpleadoProyectoBeneficioDTO>().ReverseMap();
+        #endregion
     }
 }
 

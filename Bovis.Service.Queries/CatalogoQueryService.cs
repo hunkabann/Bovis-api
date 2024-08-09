@@ -183,7 +183,24 @@ public class CatalogoQueryService : ICatalogoQueryService
 		return new Response<List<Puesto_Detalle>> { Data = _map.Map<List<Puesto_Detalle>>(response), Success = true };
 	}
 
-	public async Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo)
+    public async Task<Response<(bool Success, string Message)>> AddPuesto(JsonObject registro)
+    {
+        var response = await _catalogoBusiness.AddPuesto(registro);
+        return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+    }
+    public async Task<Response<(bool Success, string Message)>> UpdatePuesto(JsonObject registro)
+    {
+        var response = await _catalogoBusiness.UpdatePuesto(registro);
+        return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+    }
+    public async Task<Response<(bool Success, string Message)>> DeletePuesto(int IdReporte)
+    {
+        var response = await _catalogoBusiness.DeletePuesto(IdReporte);
+        return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+    }
+
+
+    public async Task<Response<List<Catalogo>>> GetRubroIngresoReembolsable(bool? Activo)
 	{
 		var response = await _catalogoBusiness.GetRubroIngresoReembolsable(Activo);
 		return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };

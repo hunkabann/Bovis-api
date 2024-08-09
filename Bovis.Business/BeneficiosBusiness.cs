@@ -37,10 +37,25 @@ namespace Bovis.Business
             return response;
         }
 
+       
+
         public async Task<Response<int>> UpdateBeneficio(TB_EmpleadoBeneficio registro, int idBeneficio, string numEmpleado)
         {
             var response = await _beneficiosData.UpdateBeneficio(registro, idBeneficio, numEmpleado);
             return response;
+        }
+
+        public async Task<Response<int>> UpdateBeneficioProyecto(TB_EmpleadoProyectoBeneficio registro, int idBeneficio, string numEmpleado)
+        {
+            var response = await _beneficiosData.UpdateBeneficioProyecto(registro, idBeneficio, numEmpleado);
+            return response;
+        }
+
+        public async Task<Response<object>> AddBeneficioProyecto(TB_EmpleadoProyectoBeneficio registro)
+        {
+            var response = await _beneficiosData.AddBeneficioProyecto(registro);
+            return response;
+
         }
     }
 }

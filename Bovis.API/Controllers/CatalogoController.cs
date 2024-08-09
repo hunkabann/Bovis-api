@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
@@ -1196,46 +1197,39 @@ public class CatalogoController : ControllerBase
 		return Ok(query);
 	}
 
-	[HttpPut, Route("Puesto/Agregar")]
-    public async Task<IActionResult> AddPuesto(AgregarPuestoCommand Puesto)
+	[HttpPost, Route("Puesto/Agregar")]
+    public async Task<IActionResult> AddPuesto([FromBody] JsonObject registro)
 	{
-		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
-		var response = await _mediator.Send(Puesto);
-		if (!response.Success)
-		{
-			var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-			_logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
-		}
-		return Ok(response);
-	}
+        var query = await _catalogoQueryService.AddPuesto(registro);
+        return Ok(query);
+    }
 
-	[HttpDelete, Route("Puesto/Borrar")]
-    public async Task<IActionResult> DeletePuesto(EliminarPuestoCommand Puesto)
+	[HttpDelete, Route("Puesto/Borrar/{nukid_puesto}")]
+    public async Task<IActionResult> DeletePuesto(int nukid_puesto)
 	{
-		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
-		var response = await _mediator.Send(Puesto);
-		if (!response.Success)
-		{
-			var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-			_logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
-		}
-		return Ok(response);
-	}
+        var query = await _catalogoQueryService.DeletePuesto(nukid_puesto);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
+    }
 
-	[HttpPost, Route("Puesto/Actualizar")]
-    public async Task<IActionResult> UpdatePuesto(ActualizarPuestoCommand Puesto)
+	[HttpPut, Route("Puesto/Actualizar")]
+    public async Task<IActionResult> UpdatePuesto([FromBody] JsonObject registro)
 	{
-		if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
-		var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
-		Puesto.Nombre = claimJWTModel.nombre;
-		Puesto.Usuario = claimJWTModel.correo;
-		Puesto.Roles = claimJWTModel.roles;
-		Puesto.TransactionId = claimJWTModel.transactionId;
-		Puesto.Rel = 36;
-		var response = await _mediator.Send(Puesto);
-		if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
-		return Ok(response);
-	}
+        IHeaderDictionary headers = HttpContext.Request.Headers;
+        string email = headers["email"];
+        string nombre = headers["nombre"];
+        JsonObject registroJsonObject = new JsonObject();
+        registroJsonObject.Add("Registro", registro);
+        registroJsonObject.Add("Nombre", nombre);
+        registroJsonObject.Add("Usuario", email);
+        registroJsonObject.Add("Roles", string.Empty);
+        registroJsonObject.Add("TransactionId", TransactionId);
+        registroJsonObject.Add("Rel", 1053);
+
+        var query = await _catalogoQueryService.UpdatePuesto(registroJsonObject);
+        if (query.Message == string.Empty) return Ok(query);
+        else return BadRequest(query.Message);
+    }
 
 	#endregion
 

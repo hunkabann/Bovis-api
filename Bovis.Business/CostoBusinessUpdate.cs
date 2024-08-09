@@ -294,62 +294,66 @@ namespace Bovis.Business
             {
                 switch (destination.Antiguedad)
                 {
-                    case 1:
+                    //ATC SE AGREGA EL CASO 0 PARA TENER 12 DÍAS DE VACACIONES Y SE RECORREN LOS DEMAS
+                    case 0:
                         destination.PvDiasVacasAnuales = 12;
                         break;
-                    case 2:
+                    case 1:
                         destination.PvDiasVacasAnuales = 14;
                         break;
-                    case 3:
+                    case 2:
                         destination.PvDiasVacasAnuales = 16;
                         break;
-                    case 4:
+                    case 3:
                         destination.PvDiasVacasAnuales = 18;
                         break;
-                    case 5:
+                    case 4:
                         destination.PvDiasVacasAnuales = 20;
+                        break;
+                    case 5:
+                        destination.PvDiasVacasAnuales = 22;
                         break;
                     case 6:
                     case 7:
                     case 8:
                     case 9:
                     case 10:
-                        destination.PvDiasVacasAnuales = 22;
+                        destination.PvDiasVacasAnuales = 24;
                         break;
                     case 11:
                     case 12:
                     case 13:
                     case 14:
                     case 15:
-                        destination.PvDiasVacasAnuales = 24;
+                        destination.PvDiasVacasAnuales = 26;
                         break;
                     case 16:
                     case 17:
                     case 18:
                     case 19:
                     case 20:
-                        destination.PvDiasVacasAnuales = 26;
+                        destination.PvDiasVacasAnuales = 28;
                         break;
                     case 21:
                     case 22:
                     case 23:
                     case 24:
                     case 25:
-                        destination.PvDiasVacasAnuales = 28;
+                        destination.PvDiasVacasAnuales = 30;
                         break;
                     case 26:
                     case 27:
                     case 28:
                     case 29:
                     case 30:
-                        destination.PvDiasVacasAnuales = 30;
+                        destination.PvDiasVacasAnuales = 32;
                         break;
                     case 31:
                     case 32:
                     case 33:
                     case 34:
                     case 35:
-                        destination.PvDiasVacasAnuales = 32;
+                        destination.PvDiasVacasAnuales = 34;
                         break;
                 }
             }
@@ -425,8 +429,8 @@ namespace Bovis.Business
             destination.CostoMensualEmpleado = destination.SueldoBruto + destination.AguinaldoMontoProvisionMensual + destination.PvProvisionMensual + destination.IndemProvisionMensual + destination.BonoAnualProvisionMensual + destination.SgmmCostoMensual + destination.SvCostoMensual + destination.VaidCostoMensual + destination.VaidComisionCostoMensual + destination.PtuProvision + destination.CargasSociales;
             destination.CostoMensualProyecto = 0.0M;
             destination.CostoAnualEmpleado = destination.CostoMensualEmpleado * 12;
-            destination.CostoSalarioBruto = destination.SueldoBruto > 0 ? destination.CostoMensualEmpleado / destination.SueldoBruto : 0;
-            destination.CostoSalarioNeto = destination.SueldoNetoPercibidoMensual > 0 ? destination.CostoMensualEmpleado / destination.SueldoNetoPercibidoMensual : 0;
+            destination.CostoSalarioBruto = destination.SueldoBruto > 0 ? (destination.CostoMensualEmpleado / destination.SueldoBruto)-1 : 0;
+            destination.CostoSalarioNeto = destination.SueldoNetoPercibidoMensual > 0 ? (destination.CostoMensualEmpleado / destination.SueldoNetoPercibidoMensual) - 1 : 0;
             #endregion Costo total laboral BLL
 
 

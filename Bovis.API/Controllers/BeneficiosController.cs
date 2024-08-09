@@ -58,5 +58,29 @@ namespace Bovis.API.Controllers
             return Ok(resultado);
 
         }
+
+        [HttpPut("{idBeneficio:int}/{numEmpleado:int}/0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateBeneficioProyecto([FromBody] EmpleadoProyectoBeneficioDTO source, [FromRoute] int idBeneficio, [FromRoute] string numEmpleado)
+        {
+            TB_EmpleadoProyectoBeneficio registro = new();
+            registro = _mapper.Map<TB_EmpleadoProyectoBeneficio>(source);
+            var resultado = await _beneficiosQueryService.UpdateBeneficioProyecto(registro, idBeneficio, numEmpleado);
+            return Ok(resultado);
+
+        }
+
+        [HttpPost("0")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        public async Task<IActionResult> AddBeneficioProyecto([FromBody] EmpleadoProyectoBeneficioDTO source)
+        {
+            TB_EmpleadoProyectoBeneficio registro = new();
+            registro = _mapper.Map<TB_EmpleadoProyectoBeneficio>(source); // Mapeo 
+            var resultado = await _beneficiosQueryService.AddBeneficioProyecto(registro);
+            return Ok(resultado);
+        }
+
+
     }
 }
