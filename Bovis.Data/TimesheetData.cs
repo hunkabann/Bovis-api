@@ -1,4 +1,4 @@
-using Azure.Core;
+﻿using Azure.Core;
 using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
@@ -497,6 +497,7 @@ namespace Bovis.Data
 
                 var res_timesheet_proyectos = await (from ts_p in db.tB_Timesheet_Proyectos
                                                      where ts_p.IdTimesheet == id_time_sheet
+                                                     && ts_p.Activo == true
                                                      select ts_p)
                                                      .ToListAsync();
 
@@ -757,10 +758,12 @@ namespace Bovis.Data
                 List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
 
                 proyectos = await (from p in db.tB_Proyectos
-                                   join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
-                                   from epItem in epJoin.DefaultIfEmpty()
-                                   where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
-                                   && epItem.Activo == true
+                                       //ATC se comenta la relacion para que muestre todos los proyectos sin que exista tB_EmpleadoProyectos
+
+                                       //join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
+                                       //from epItem in epJoin.DefaultIfEmpty()
+                                       //where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
+                                       //&& epItem.Activo == true
                                    orderby p.Proyecto ascending
                                    group new TB_Proyecto
                                    {
@@ -819,35 +822,40 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var select_proyecto_empleado = await (from eb in db.tB_EmpleadoProyectos
-                                 where eb.NumEmpleadoRrHh == id_empleado
-                                 && eb.NumProyecto == id_proyecto
-                                       select eb).ToListAsync();
+                                                where eb.NumEmpleadoRrHh == id_empleado
+                                                && eb.NumProyecto == id_proyecto
+                                                      select eb).ToListAsync();
+               
+
+                if (select_proyecto_empleado != null)
+                {
+
+                    resp.Success = true;
+
+                }
+                else
+                {
+
+                    var insert_proyecto_empleado = await db.tB_EmpleadoProyectos
+                    .Value(x => x.NumEmpleadoRrHh, id_empleado)
+                    .Value(x => x.NumProyecto, id_proyecto)
+                    .Value(x => x.PorcentajeParticipacion, 0)
+                    .Value(x => x.AliasPuesto, string.Empty)
+                    .Value(x => x.GrupoProyecto, string.Empty)
+                    .Value(x => x.FechaIni, DateTime.Now)
+                    .Value(x => x.Activo, true)
+                    .InsertAsync() > 0;
+
+                    resp.Success = insert_proyecto_empleado;
+                    resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
 
 
-                     if (select_proyecto_empleado != null)
-                     {
-                    
-                         resp.Success = true;
-                    
-                     }
-                     else
-                     {
-                    
-                         var insert_proyecto_empleado = await db.tB_EmpleadoProyectos
-                         .Value(x => x.NumEmpleadoRrHh, id_empleado)
-                         .Value(x => x.NumProyecto, id_proyecto)
-                         .Value(x => x.PorcentajeParticipacion, 0)
-                         .Value(x => x.AliasPuesto, string.Empty)
-                         .Value(x => x.GrupoProyecto, string.Empty)
-                         .Value(x => x.FechaIni, DateTime.Now)
-                         .Value(x => x.Activo, true)
-                         .InsertAsync() > 0;
-                    
-                         resp.Success = insert_proyecto_empleado;
-                         resp.Message = insert_proyecto_empleado == default ? "Ocurrio un error al agregar registro." : string.Empty;
-                    
-                    
-                     }
+                }
+
+
+                
+
+                
             }
 
             return resp;
@@ -893,6 +901,10 @@ namespace Bovis.Data
 
 
                 }
+
+
+
+
             }
 
             return resp;

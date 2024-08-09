@@ -209,9 +209,9 @@ namespace Bovis.Data.Interface
         #region Puesto
 
         Task<List<Puesto_Detalle>> GetPuesto(bool? activo);
-		Task<bool> AddPuesto(TB_Cat_Puesto puesto);
-		Task<bool> UpdatePuesto(TB_Cat_Puesto puesto);
-		Task<bool> DeletePuesto(TB_Cat_Puesto puesto);
+        Task<(bool Success, string Message)> AddPuesto(JsonObject registro);
+        Task<(bool Success, string Message)> UpdatePuesto(JsonObject registro);
+        Task<(bool Success, string Message)> DeletePuesto(int nukid_puesto);
 
 		#endregion
 
