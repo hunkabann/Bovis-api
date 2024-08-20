@@ -922,6 +922,8 @@ namespace Bovis.Data
                                             from eItem in eJoin.DefaultIfEmpty()
                                             join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                             from perItem in perJoin.DefaultIfEmpty()
+                                            join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                            from costempleItem in costempleJoin.DefaultIfEmpty()
                                             where p.IdFase == etapa.IdFase
                                             orderby p.NumEmpleado ascending
                                             group new Rubro_Detalle
@@ -931,7 +933,8 @@ namespace Bovis.Data
                                                 Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                 Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                 NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
-                                                Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true
+                                                Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true,
+                                                CostoMensual = costempleItem.CostoMensualEmpleado
                                             } by new { p.NumEmpleado } into g
                                             select new Rubro_Detalle
                                             {
@@ -940,7 +943,8 @@ namespace Bovis.Data
                                                 Rubro = g.First().Rubro,
                                                 Empleado = g.First().Empleado,
                                                 NumEmpleadoRrHh = g.Key.NumEmpleado,
-                                                Reembolsable = g.First().Reembolsable
+                                                Reembolsable = g.First().Reembolsable,
+                                                CostoMensual = g.First().CostoMensual
                                             }).ToListAsync();
 
                             fechas_gasto = new List<PCS_Fecha_Detalle>();
