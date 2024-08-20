@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\administrador\\documents\\github\\bovis-api\\bovis.data\\pcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\pcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|c:\\users\\administrador\\documents\\github\\bovis-api\\bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\administrador\\documents\\github\\bovis-api\\bovis.data\\costodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\costodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|c:\\users\\administrador\\documents\\github\\bovis-api\\bovis.business\\catalogobusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\catalogobusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -65,10 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|c:\\users\\administrador\\documents\\github\\bovis-api\\bovis.business\\pcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\pcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\administrador\\documents\\github\\bovis-api\\bovis.data\\costodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\costodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,7 +86,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 24,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -150,72 +158,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Program.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Program.cs",
-              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Program.cs",
-              "RelativeToolTip": "Bovis.API\\Program.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAiwEwAAAAwAAAA",
+              "DocumentIndex": 1,
+              "Title": "PCS_Detalle.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "RelativeToolTip": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAAAFcAAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T01:19:06.54Z",
+              "WhenOpened": "2024-08-20T05:47:42.497Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "PcsData.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\PcsData.cs",
+              "RelativeDocumentMoniker": "Bovis.Data\\PcsData.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\PcsData.cs",
+              "RelativeToolTip": "Bovis.Data\\PcsData.cs",
+              "ViewState": "AQIAAC4EAAAAAAAAAAAAAFEEAABVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-20T05:41:07.39Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "CatalogoQueryService.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries\\CatalogoQueryService.cs",
               "RelativeDocumentMoniker": "Bovis.Service.Queries\\CatalogoQueryService.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries\\CatalogoQueryService.cs",
               "RelativeToolTip": "Bovis.Service.Queries\\CatalogoQueryService.cs",
-              "ViewState": "AQIAAK8AAAAAAAAAAAAkwMAAAAAIAAAA",
+              "ViewState": "AQIAABYAAAAAAAAAAAAkwBYAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T01:16:35.965Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "ICatalogoBusiness.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business.Interface\\ICatalogoBusiness.cs",
               "RelativeDocumentMoniker": "Bovis.Business.Interface\\ICatalogoBusiness.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business.Interface\\ICatalogoBusiness.cs",
               "RelativeToolTip": "Bovis.Business.Interface\\ICatalogoBusiness.cs",
-              "ViewState": "AQIAAJEAAAAAAAAAAAAAANIAAAAwAAAA",
+              "ViewState": "AQIAAIAAAAAAAAAAAIBJwM8AAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T01:14:17.597Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "CatalogoEventHandler.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\CatalogoEventHandler.cs",
               "RelativeDocumentMoniker": "Bovis.Service.EventHandlers\\CatalogoEventHandler.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\CatalogoEventHandler.cs",
               "RelativeToolTip": "Bovis.Service.EventHandlers\\CatalogoEventHandler.cs",
-              "ViewState": "AQIAAGkFAAAAAAAAAAAiwH0FAABEAAAA",
+              "ViewState": "AQIAADAFAAAAAAAAAAAiwG0FAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T01:10:51.357Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "ICatalogoData.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data.Interface\\ICatalogoData.cs",
               "RelativeDocumentMoniker": "Bovis.Data.Interface\\ICatalogoData.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data.Interface\\ICatalogoData.cs",
               "RelativeToolTip": "Bovis.Data.Interface\\ICatalogoData.cs",
-              "ViewState": "AQIAAJMAAAAAAAAAAAAswNQAAAA5AAAA",
+              "ViewState": "AQIAAJMAAAAAAAAAAAAswNAAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-08T00:35:07.049Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ICatalogoQueryService.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\ICatalogoQueryService.cs",
               "RelativeDocumentMoniker": "Bovis.Service.Queries.Interface\\ICatalogoQueryService.cs",
@@ -228,46 +249,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "CatalogoController.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\CatalogoController.cs",
               "RelativeDocumentMoniker": "Bovis.API\\Controllers\\CatalogoController.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\CatalogoController.cs",
               "RelativeToolTip": "Bovis.API\\Controllers\\CatalogoController.cs",
-              "ViewState": "AQIAALoEAAAAAAAAAADwv8wEAAAIAAAA",
+              "ViewState": "AQIAAKcEAAAAAAAAAADwv6cEAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-07T22:11:54.064Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "CatalogoBusiness.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\CatalogoBusiness.cs",
               "RelativeDocumentMoniker": "Bovis.Business\\CatalogoBusiness.cs",
-              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\CatalogoBusiness.cs*",
-              "RelativeToolTip": "Bovis.Business\\CatalogoBusiness.cs*",
-              "ViewState": "AQIAAKECAAAAAAAAAAAAANUCAAASAAAA",
+              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\CatalogoBusiness.cs",
+              "RelativeToolTip": "Bovis.Business\\CatalogoBusiness.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAE4AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-07T22:11:34.965Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "CatalogoData.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CatalogoData.cs",
               "RelativeDocumentMoniker": "Bovis.Data\\CatalogoData.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CatalogoData.cs",
               "RelativeToolTip": "Bovis.Data\\CatalogoData.cs",
-              "ViewState": "AQIAAEcDAAAAAAAAAAAUwF8DAAAIAAAA",
+              "ViewState": "AQIAAAwDAAAAAAAAAAAUwAwDAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-07T22:01:34.05Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 2,
+              "Title": "CostoData.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CostoData.cs",
+              "RelativeDocumentMoniker": "Bovis.Data\\CostoData.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CostoData.cs",
+              "RelativeToolTip": "Bovis.Data\\CostoData.cs",
+              "ViewState": "AQIAAJcDAAAAAAAAAAAUwKgDAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-12T05:38:34.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Program.cs",
+              "RelativeDocumentMoniker": "Bovis.API\\Program.cs",
+              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Program.cs",
+              "RelativeToolTip": "Bovis.API\\Program.cs",
+              "ViewState": "AQIAADgAAAAAAAAAAAAiwEwAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T01:19:06.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "PcsBusiness.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\PcsBusiness.cs",
               "RelativeDocumentMoniker": "Bovis.Business\\PcsBusiness.cs",
@@ -275,25 +322,24 @@
               "RelativeToolTip": "Bovis.Business\\PcsBusiness.cs",
               "ViewState": "AQIAACEAAAAAAAAAAAAnwG8AAAA/AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-30T20:45:38.096Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-30T20:45:38.096Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "IPcsQueryService.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\IPcsQueryService.cs",
               "RelativeDocumentMoniker": "Bovis.Service.Queries.Interface\\IPcsQueryService.cs",
               "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\IPcsQueryService.cs",
               "RelativeToolTip": "Bovis.Service.Queries.Interface\\IPcsQueryService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAfAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-30T20:45:37.104Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "EmpleadoEventHandler.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\EmpleadoEventHandler.cs",
               "RelativeDocumentMoniker": "Bovis.Service.EventHandlers\\EmpleadoEventHandler.cs",
@@ -301,12 +347,11 @@
               "RelativeToolTip": "Bovis.Service.EventHandlers\\EmpleadoEventHandler.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAAAMwBoAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-30T20:45:29.437Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-30T20:45:29.437Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\appsettings.json",
               "RelativeDocumentMoniker": "Bovis.API\\appsettings.json",
@@ -319,7 +364,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "EmpleadoCommand.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Commands\\EmpleadoCommand.cs",
               "RelativeDocumentMoniker": "Bovis.Service.Queries.Dto\\Commands\\EmpleadoCommand.cs",
@@ -327,12 +372,11 @@
               "RelativeToolTip": "Bovis.Service.Queries.Dto\\Commands\\EmpleadoCommand.cs",
               "ViewState": "AQIAAAsAAAAAAAAAAAAAAAsAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-30T20:45:27.738Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-30T20:45:27.738Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "TimesheetData.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\TimesheetData.cs",
               "RelativeDocumentMoniker": "Bovis.Data\\TimesheetData.cs",
@@ -345,20 +389,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "CostoData.cs",
-              "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CostoData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\CostoData.cs",
-              "ToolTip": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CostoData.cs",
-              "RelativeToolTip": "Bovis.Data\\CostoData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJkDAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-12T05:38:34.724Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "PcsController.cs",
               "DocumentMoniker": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\PcsController.cs",
               "RelativeDocumentMoniker": "Bovis.API\\Controllers\\PcsController.cs",
