@@ -68,7 +68,7 @@ namespace Bovis.API.Controllers
                 var token = new SecurityTokenDescriptor
                 {
                     Subject = claims,                    
-                    Expires = DateTimeOffset.UtcNow.AddHours(24).UtcDateTime,
+                    Expires = DateTimeOffset.UtcNow.AddHours(0.25).UtcDateTime,
                     SigningCredentials = creds
                 };
 
