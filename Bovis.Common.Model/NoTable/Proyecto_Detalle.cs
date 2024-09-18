@@ -79,6 +79,7 @@ namespace Bovis.Common.Model.NoTable
 
         
 
+
     }
 
     public class InfoCosto
