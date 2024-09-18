@@ -331,12 +331,14 @@ namespace Bovis.Data
                                        nucosto_promedio_m2 = proy.CostoPromedioM2,
                                        dtfecha_ini = proy.FechaIni,
                                        dtfecha_fin = proy.FechaFin,
+                                       impuesto_nomina = proy.ImpuestoNomina,
+                                       nukidunidadnegocio = proy.IdUnidadDeNegocio,  //atc
+                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null,  //atc
                                        chcontacto_nombre = contactoItem != null ? contactoItem.Nombre : string.Empty,
                                        chcontacto_posicion = contactoItem != null ? contactoItem.Posicion : string.Empty,
                                        chcontacto_telefono = contactoItem != null ? contactoItem.Telefono : string.Empty,
-                                       chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty,
-                                       nukidunidadnegocio = proy.IdUnidadDeNegocio,  //atc
-                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null  //atc
+                                       chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty
+                                       
                                    }).ToListAsync();
 
                 foreach (var proyecto in proyectos)

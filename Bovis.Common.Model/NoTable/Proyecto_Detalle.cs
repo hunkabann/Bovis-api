@@ -75,6 +75,9 @@ namespace Bovis.Common.Model.NoTable
         public List<InfoCliente> Clientes { get; set; }
         public int? nukidunidadnegocio { get; set; }   //atc
         public string? chunidadnegocio { get; set; }   //atc
+        public int? impuesto_nomina { get; set; }   //atc
+
+        
 
     }
 
