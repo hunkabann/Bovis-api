@@ -1101,7 +1101,8 @@ namespace Bovis.Data
                                           nunum_empleado_rr_hh = idEmpleado,
                                           nuporcantaje_participacion = emp_proyItem.PorcentajeParticipacion,
                                           chalias_puesto = emp_proyItem.AliasPuesto,
-                                          chgrupo_proyecto = emp_proyItem.GrupoProyecto
+                                          chgrupo_proyecto = emp_proyItem.GrupoProyecto,
+                                          nukidunidadnegocio = proy.IdUnidadDeNegocio
                                       }).ToListAsync();
 
                 foreach (var proy in proyectos)
