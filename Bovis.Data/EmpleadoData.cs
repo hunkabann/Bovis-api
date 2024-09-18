@@ -1102,7 +1102,7 @@ namespace Bovis.Data
                                           nuporcantaje_participacion = emp_proyItem.PorcentajeParticipacion,
                                           chalias_puesto = emp_proyItem.AliasPuesto,
                                           chgrupo_proyecto = emp_proyItem.GrupoProyecto,
-                                          nukidunidadnegocio = proy.IdUnidadDeNegocio
+                                          nukidunidadnegocio = proy.IdUnidadDeNegocio //atc
                                       }).ToListAsync();
 
                 foreach (var proy in proyectos)

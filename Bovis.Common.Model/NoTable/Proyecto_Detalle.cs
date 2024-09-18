@@ -74,7 +74,8 @@ namespace Bovis.Common.Model.NoTable
         public List<InfoCosto> Costos { get; set; }
         public List<InfoCliente> Clientes { get; set; }
         public int? nukidunidadnegocio { get; set; }
-        public string? chunidadnegocio { get; set; }
+        public string? chunidadnegocio { get; set; } 
+
     }
 
     public class InfoCosto
