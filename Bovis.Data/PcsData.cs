@@ -297,7 +297,7 @@ namespace Bovis.Data
                                    from contactoItem in contactoJoin.DefaultIfEmpty()
 
                                    join unidadnegocio in db.tB_Cat_UnidadNegocios on proy.IdUnidadDeNegocio equals unidadnegocio.IdUnidadNegocio into unidadnegocioJoin
-                                   from unidadnegocioItem in unidadnegocioJoin.DefaultIfEmpty()
+                                   from unidadnegocioItem in unidadnegocioJoin.DefaultIfEmpty() 
 
                                    where (IdProyecto == 0 || proy.NumProyecto == IdProyecto)
                                    orderby proy.Proyecto ascending
@@ -336,7 +336,7 @@ namespace Bovis.Data
                                        chcontacto_telefono = contactoItem != null ? contactoItem.Telefono : string.Empty,
                                        chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty,
                                        nukidunidadnegocio = proy.IdUnidadDeNegocio,
-                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null,
+                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null //atc
                                    }).ToListAsync();
 
                 foreach (var proyecto in proyectos)
@@ -400,7 +400,7 @@ namespace Bovis.Data
             string? posicion_contacto = registro["posicion_contacto"] != null ? registro["posicion_contacto"].ToString() : null;
             string? telefono_contacto = registro["telefono_contacto"] != null ? registro["telefono_contacto"].ToString() : null;
             string? correo_contacto = registro["correo_contacto"] != null ? registro["correo_contacto"].ToString() : null;
-            int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null;
+            int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null; //atc
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
@@ -457,7 +457,7 @@ namespace Bovis.Data
                         CostoPromedioM2 = costo_promedio_m2,
                         FechaIni = fecha_inicio,
                         FechaFin = fecha_fin,
-                        IdUnidadDeNegocio = id_unidad_negocio
+                        IdUnidadDeNegocio = id_unidad_negocio //atc
                     }) > 0;
 
                 resp.Success = res_update_proyecto;
