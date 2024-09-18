@@ -297,7 +297,7 @@ namespace Bovis.Data
                                    from contactoItem in contactoJoin.DefaultIfEmpty()
 
                                    join unidadnegocio in db.tB_Cat_UnidadNegocios on proy.IdUnidadDeNegocio equals unidadnegocio.IdUnidadNegocio into unidadnegocioJoin
-                                   from unidadnegocioItem in unidadnegocioJoin.DefaultIfEmpty() 
+                                   from unidadnegocioItem in unidadnegocioJoin.DefaultIfEmpty()   //atc
 
                                    where (IdProyecto == 0 || proy.NumProyecto == IdProyecto)
                                    orderby proy.Proyecto ascending
@@ -335,8 +335,8 @@ namespace Bovis.Data
                                        chcontacto_posicion = contactoItem != null ? contactoItem.Posicion : string.Empty,
                                        chcontacto_telefono = contactoItem != null ? contactoItem.Telefono : string.Empty,
                                        chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty,
-                                       nukidunidadnegocio = proy.IdUnidadDeNegocio,
-                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null //atc
+                                       nukidunidadnegocio = proy.IdUnidadDeNegocio,  //atc
+                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null  //atc
                                    }).ToListAsync();
 
                 foreach (var proyecto in proyectos)

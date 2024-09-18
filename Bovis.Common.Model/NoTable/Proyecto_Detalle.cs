@@ -73,8 +73,9 @@ namespace Bovis.Common.Model.NoTable
         public decimal? nucosto { get; set; }
         public List<InfoCosto> Costos { get; set; }
         public List<InfoCliente> Clientes { get; set; }
-        public int? nukidunidadnegocio { get; set; } // ATC
-        public string? chunidadnegocio { get; set; } // ATC
+        public int? nukidunidadnegocio { get; set; }   //atc
+        public string? chunidadnegocio { get; set; }   //atc
+
 
     }
 
