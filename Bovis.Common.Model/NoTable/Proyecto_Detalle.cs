@@ -76,6 +76,7 @@ namespace Bovis.Common.Model.NoTable
         public int? nukidunidadnegocio { get; set; }   //atc
         public string? chunidadnegocio { get; set; }   //atc
 
+
     }
 
     public class InfoCosto
