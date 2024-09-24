@@ -92,6 +92,8 @@ namespace Bovis.Common.Model.NoTable
         public string dtvigencia { get; set; }
         //ATC
         public string dtvigencia90 { get; set; }
+        //ATC
+        public string CantidadEnLetras { get; set; }
         public string? chexperiencias { get; set; }
         public string? chhabilidades { get; set; }
         public int? nuproyecto_principal { get; set; }
