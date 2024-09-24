@@ -170,7 +170,7 @@ namespace Bovis.Data
                                           chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
                                           dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
-                                          CantidadEnLetras = enletras(emp.Salario.ToString())
+                                          SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                       }).ToListAsync();
 
                     // Se calcula la antigüedad y edad
@@ -327,7 +327,7 @@ namespace Bovis.Data
                                      chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                      dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
                                      dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
-                                     CantidadEnLetras = enletras(emp.Salario.ToString())
+                                     SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                  }).FirstOrDefaultAsync();
 
                 if (res != null)
