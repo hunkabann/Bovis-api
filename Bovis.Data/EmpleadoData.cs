@@ -168,7 +168,8 @@ namespace Bovis.Data
                                           chrol = emp.Rol,
                                           nuproyecto_principal = emp.NumProyectoPrincipal,
                                           chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
-                                          dtvigencia = emp.FechaIngreso.AddDays(30)
+                                          dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
+                                          dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd")
                                       }).ToListAsync();
 
                     // Se calcula la antigüedad y edad
@@ -323,7 +324,8 @@ namespace Bovis.Data
                                      chrol = emp.Rol,
                                      nuproyecto_principal = emp.NumProyectoPrincipal,
                                      chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
-                                     dtvigencia = emp.FechaIngreso.AddDays(30)
+                                     dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
+                                     dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd")
                                  }).FirstOrDefaultAsync();
 
                 if (res != null)
