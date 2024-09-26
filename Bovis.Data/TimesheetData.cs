@@ -382,7 +382,8 @@ namespace Bovis.Data
                                                     coi_empresa = empr.Coi,
                                                     noi_empresa = empr.Noi,
                                                     noi_empleado = emp2.NoEmpleadoNoi,
-                                                    num_empleado = ts.IdEmpleado
+                                                    num_empleado = ts.IdEmpleado,
+                                                    dtfecha_salida = emp2.FechaSalida
                                                 }).ToListAsync();
 
                     foreach (var timesheet in res_timesheets)

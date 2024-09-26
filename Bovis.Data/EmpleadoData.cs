@@ -88,6 +88,7 @@ namespace Bovis.Data
                                       from turnoItem in turnoJoin.DefaultIfEmpty()
                                       join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
                                       from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
+                                      where emp.Activo == activo
                                       orderby perItem.Nombre ascending
                                       select new Empleado_Detalle
                                       {
