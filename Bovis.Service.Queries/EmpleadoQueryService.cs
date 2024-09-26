@@ -48,6 +48,12 @@ namespace Bovis.Service.Queries
             return new Response<Empleado_Detalle> { Data = _map.Map<Empleado_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
+        public async Task<Response<List<Empleado_Detalle>>> GetEmpleadosByIDPuesto(string idPuesto)
+        {
+            var response = await _empleadoBusiness.GetEmpleadosByIDPuesto(idPuesto);
+            return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+
         public async Task<Response<Empleado_BasicData>> GetEmpleadoByEmail(string email)
         {
             var response = await _empleadoBusiness.GetEmpleadoByEmail(email);

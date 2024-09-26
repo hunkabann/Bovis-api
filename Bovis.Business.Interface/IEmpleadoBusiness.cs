@@ -14,6 +14,7 @@ namespace Bovis.Business.Interface
         #region Empleados
         Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
         Task<Empleado_Detalle> GetEmpleado(string idEmpleado);
+        Task<List<Empleado_Detalle>> GetEmpleadosByIDPuesto(string idPuesto);
         Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
         Task<List<Empleado_BasicData>> GetEmpleadoDetalle();
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
