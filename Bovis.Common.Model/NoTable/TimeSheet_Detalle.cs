@@ -22,8 +22,11 @@ namespace Bovis.Common.Model.NoTable
         public int? noi_empresa { get; set; }
         public string? noi_empleado { get; set; }
         public string? num_empleado { get; set; }
+        //ATC
+        public DateTime? dtfecha_salida { get; set; }
         public List<TB_Timesheet_Otro>? otros { get; set; }
         public List<TB_Timesheet_Proyecto>? proyectos { get; set; }
+
     }
 
     public class Detalle_Dias_Timesheet
