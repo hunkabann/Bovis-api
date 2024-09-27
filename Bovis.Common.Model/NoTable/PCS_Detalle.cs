@@ -85,6 +85,7 @@ namespace Bovis.Common.Model.NoTable
         public bool? AplicaTodosMeses { get; set; }
         public string? Empleado { get; set; }
         public string? NumEmpleadoRrHh { get; set; }
+        public decimal? CostoMensual { get; set; }
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }
 

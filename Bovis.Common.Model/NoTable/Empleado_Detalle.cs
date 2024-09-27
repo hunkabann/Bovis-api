@@ -89,7 +89,11 @@ namespace Bovis.Common.Model.NoTable
         public decimal? nuvalor_descuento { get; set; }
         public string? nuno_empleado_noi { get; set; }
         public string? chrol { get; set; }
-        public DateTime dtvigencia { get; set; }
+        public string dtvigencia { get; set; }
+        //ATC
+        public string dtvigencia90 { get; set; }
+        //ATC
+        public string SalarioenLetras { get; set; }
         public string? chexperiencias { get; set; }
         public string? chhabilidades { get; set; }
         public int? nuproyecto_principal { get; set; }
@@ -97,6 +101,7 @@ namespace Bovis.Common.Model.NoTable
         public List<Experiencia_Detalle>? experiencias { get; set; }
         public List<Habilidad_Detalle>? habilidades { get; set; }
         public Empleado_Proyecto_Info proyecto { get; set; }
+        
     }
 
     public class Empleado_Proyecto_Info

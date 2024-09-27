@@ -296,6 +296,9 @@ namespace Bovis.Data
                                    join contacto in db.tB_Contactos on proy.NumProyecto equals contacto.NumProyecto into contactoJoin
                                    from contactoItem in contactoJoin.DefaultIfEmpty()
 
+                                   join unidadnegocio in db.tB_Cat_UnidadNegocios on proy.IdUnidadDeNegocio equals unidadnegocio.IdUnidadNegocio into unidadnegocioJoin
+                                   from unidadnegocioItem in unidadnegocioJoin.DefaultIfEmpty()   //atc
+
                                    where (IdProyecto == 0 || proy.NumProyecto == IdProyecto)
                                    orderby proy.Proyecto ascending
                                    select new Proyecto_Detalle
@@ -328,10 +331,14 @@ namespace Bovis.Data
                                        nucosto_promedio_m2 = proy.CostoPromedioM2,
                                        dtfecha_ini = proy.FechaIni,
                                        dtfecha_fin = proy.FechaFin,
+                                       impuesto_nomina = proy.ImpuestoNomina,
+                                       nukidunidadnegocio = proy.IdUnidadDeNegocio,  //atc
+                                       chunidadnegocio = unidadnegocioItem.UnidadNegocio ?? null,  //atc
                                        chcontacto_nombre = contactoItem != null ? contactoItem.Nombre : string.Empty,
                                        chcontacto_posicion = contactoItem != null ? contactoItem.Posicion : string.Empty,
                                        chcontacto_telefono = contactoItem != null ? contactoItem.Telefono : string.Empty,
                                        chcontacto_correo = contactoItem != null ? contactoItem.Correo : string.Empty
+                                       
                                    }).ToListAsync();
 
                 foreach (var proyecto in proyectos)
@@ -395,6 +402,7 @@ namespace Bovis.Data
             string? posicion_contacto = registro["posicion_contacto"] != null ? registro["posicion_contacto"].ToString() : null;
             string? telefono_contacto = registro["telefono_contacto"] != null ? registro["telefono_contacto"].ToString() : null;
             string? correo_contacto = registro["correo_contacto"] != null ? registro["correo_contacto"].ToString() : null;
+            int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null; //atc
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
@@ -450,7 +458,8 @@ namespace Bovis.Data
                         IdDirectorEjecutivo = id_director_ejecutivo,
                         CostoPromedioM2 = costo_promedio_m2,
                         FechaIni = fecha_inicio,
-                        FechaFin = fecha_fin
+                        FechaFin = fecha_fin,
+                        IdUnidadDeNegocio = id_unidad_negocio //atc
                     }) > 0;
 
                 resp.Success = res_update_proyecto;
@@ -922,6 +931,7 @@ namespace Bovis.Data
                                             from eItem in eJoin.DefaultIfEmpty()
                                             join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                             from perItem in perJoin.DefaultIfEmpty()
+                                            
                                             where p.IdFase == etapa.IdFase
                                             orderby p.NumEmpleado ascending
                                             group new Rubro_Detalle
@@ -932,6 +942,7 @@ namespace Bovis.Data
                                                 Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                 NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
                                                 Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true
+                                                
                                             } by new { p.NumEmpleado } into g
                                             select new Rubro_Detalle
                                             {
@@ -1077,6 +1088,8 @@ namespace Bovis.Data
                                             from eItem in eJoin.DefaultIfEmpty()
                                             join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                             from perItem in perJoin.DefaultIfEmpty()
+                                            join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                            from costempleItem in costempleJoin.DefaultIfEmpty()
                                             where p.IdFase == etapa.IdFase
                                             orderby p.NumEmpleado ascending
                                             group new Rubro_Detalle
@@ -1087,7 +1100,8 @@ namespace Bovis.Data
                                                 Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                                 NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
                                                 Cantidad = p.Fee,
-                                                Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true
+                                                Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true,
+                                                CostoMensual = costempleItem.CostoMensualEmpleado
                                             } by new { p.NumEmpleado } into g
                                             select new Rubro_Detalle
                                             {
@@ -1097,7 +1111,8 @@ namespace Bovis.Data
                                                 Empleado = g.First().Empleado,
                                                 NumEmpleadoRrHh = g.Key.NumEmpleado,
                                                 Cantidad = g.First().Cantidad,
-                                                Reembolsable = g.First().Reembolsable
+                                                Reembolsable = g.First().Reembolsable,
+                                                CostoMensual = g.First().CostoMensual
                                             }).ToListAsync();
 
                             foreach (var rubro in rubros)
@@ -1108,6 +1123,8 @@ namespace Bovis.Data
                                     var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                         where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                         && p.IdFase == etapa.IdFase
+                                                        //ATC
+                                                        && p.Porcentaje > 0
                                                         orderby p.Anio, p.Mes ascending
                                                         select new PCS_Fecha_Detalle
                                                         {
@@ -1117,7 +1134,7 @@ namespace Bovis.Data
                                                             Porcentaje = p.Porcentaje
                                                         }).ToListAsync();
 
-                                    rubro.Fechas.AddRange(fechas);
+                                        rubro.Fechas.AddRange(fechas);
                                 }
                                 else
                                 {
@@ -1162,6 +1179,8 @@ namespace Bovis.Data
                                                     join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                     where rub.NumProyecto == IdProyecto
                                                     && sec.Tipo == Tipo
+                                                    //ATC
+                                                        && valor.Porcentaje > 0
                                                     orderby valor.Anio, valor.Mes ascending
                                                     select new PCS_Fecha_Detalle
                                                     {
