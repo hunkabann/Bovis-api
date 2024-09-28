@@ -368,6 +368,7 @@ namespace Bovis.Data
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
+                                                && emp2.Activo == true
                                                 orderby ts.IdEmpleado ascending
                                                 select new TimeSheet_Detalle
                                                 {
