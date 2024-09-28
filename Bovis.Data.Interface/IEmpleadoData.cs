@@ -8,6 +8,7 @@ namespace Bovis.Data.Interface
     {
         #region Empleados
         Task<List<Empleado_Detalle>> GetEmpleados(bool? activo);
+        Task<List<Empleado_Detalle>> GetEmpleadosAll(bool? activo);
         Task<Empleado_Detalle> GetEmpleado(string idEmpleado);
         Task<List<Empleado_Detalle>> GetEmpleadosByIDPuesto(string idPuesto);
         Task<Empleado_BasicData> GetEmpleadoByEmail(string email);
