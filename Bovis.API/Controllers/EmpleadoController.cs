@@ -41,6 +41,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("Empleados/All/{Activo?}")]
+        public async Task<IActionResult> GetEmpleadosAll(bool? Activo)
+        {
+            var query = await _empleadoQueryService.GetEmpleadosAll(Activo);
+            return Ok(query);
+        }
+
         [HttpGet, Route("Puesto/{idPuesto}")]
         public async Task<IActionResult> GetEmpleadosByIDPuesto(string? idPuesto)
         {

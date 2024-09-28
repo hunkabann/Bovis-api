@@ -11,6 +11,7 @@ namespace Bovis.Service.Queries.Interface
     {
         #region Empleados
         Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo);
+        Task<Response<List<Empleado_Detalle>>> GetEmpleadosAll(bool? Activo);        
         Task<Response<Empleado_Detalle>> GetEmpleado(string idEmpleado);
         Task<Response<Empleado_BasicData>> GetEmpleadoByEmail(string email);
         Task<Response<List<Empleado_BasicData>>> GetEmpleadoDetalle();

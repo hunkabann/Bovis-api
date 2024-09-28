@@ -353,6 +353,7 @@ namespace Bovis.Data
 
         public async Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio)
         {
+            //ATC SE PONE CONDICION DE ACTIVO PARA EMPLEADOS
             if ((mes >= 1 && mes <= 12) && anio > 0)
             {
                 List<TimeSheet_Detalle> timesheets_summary = new List<TimeSheet_Detalle>();
@@ -368,6 +369,10 @@ namespace Bovis.Data
                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
+                                                && (emp2.FechaSalida == null || mes == Convert.ToDateTime(emp2.FechaSalida).Month)
+                                                && (emp2.FechaSalida == null || anio == Convert.ToDateTime(emp2.FechaSalida).Year)
+                                               // && anio == Convert.ToDateTime(emp2.FechaSalida).Year
+                                                //&& emp2.Activo == true
                                                 orderby ts.IdEmpleado ascending
                                                 select new TimeSheet_Detalle
                                                 {
