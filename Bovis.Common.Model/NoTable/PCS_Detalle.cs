@@ -141,9 +141,10 @@ namespace Bovis.Common.Model.NoTable
     public class Control_Data
     {
         public string Seccion { get; set; }
-        public bool IsChild { get; set; }
+        public bool HasChildren { get; set; }
         public Control_PrevistoReal Previsto { get; set; }
         public Control_PrevistoReal Real { get; set; }
+        public List<Control_Subseccion> Subsecciones { get; set; }
     }
 
     public class Control_PrevistoReal
@@ -155,9 +156,18 @@ namespace Bovis.Common.Model.NoTable
 
     public class Control_Fechas
     {
+        public string Rubro { get; set; }
         public int? Mes { get; set; }
         public int? Anio { get; set; }
         public decimal? Porcentaje { get; set; }
+    }
+
+    public class Control_Subseccion
+    {
+        public string Slug { get; set; }
+        public string Seccion { get; set; }
+        public Control_PrevistoReal Previsto { get; set; }
+        public Control_PrevistoReal Real { get; set; }
     }
 
 }
