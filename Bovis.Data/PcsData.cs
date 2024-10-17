@@ -2099,9 +2099,10 @@ namespace Bovis.Data
                         // Obtener los gastos previstos
                         var fechasGastosPrevistos = suma_fechas_salarios
                             .Concat(suma_fechas_viaticos)
-                            .GroupBy(f => new { f.Mes, f.Anio })
+                            .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
                             .Select(g => new Control_Fechas
                             {
+                                Rubro = g.Key.Rubro,
                                 Mes = g.Key.Mes,
                                 Anio = g.Key.Anio,
                                 Porcentaje = g.Sum(f => f.Porcentaje)
@@ -2117,10 +2118,10 @@ namespace Bovis.Data
                         // Obtener los gastos reales
                         var fechasGastosReales = cie_salaries_group
                                                 .Concat(cie_viatics_group)
-                                                .GroupBy(c => new { c.Mes, c.Anio })
+                                                .GroupBy(c => new { c.Rubro, c.Mes, c.Anio })
                                                 .Select(g => new Control_Fechas
                                                 {
-                                                    //Rubro = g.Key.Rubro,
+                                                    Rubro = g.Key.Rubro,
                                                     Mes = g.Key.Mes,
                                                     Anio = g.Key.Anio,
                                                     Porcentaje = g.Sum(c => c.Porcentaje)
