@@ -288,6 +288,13 @@ namespace Bovis.API.Controllers
             var query = await _pcsQueryService.GetControl(IdProyecto);
             return Ok(query);
         }
+
+        [HttpGet, Route("Control/{IdProyecto}/{Seccion}")]
+        public async Task<IActionResult> GetSeccionControl(int IdProyecto, string Seccion)
+        {
+            var query = await _pcsQueryService.GetSeccionControl(IdProyecto, Seccion);
+            return Ok(query);
+        }
         #endregion Control
     }
 }

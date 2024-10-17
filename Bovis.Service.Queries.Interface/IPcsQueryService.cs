@@ -51,6 +51,7 @@ namespace Bovis.Service.Queries.Interface
 
         #region Control
         Task<Response<Control_Detalle>> GetControl(int IdProyecto);
+        Task<Response<Control_Data>> GetSeccionControl(int IdProyecto, string Seccion);
         #endregion Control
     }
 }

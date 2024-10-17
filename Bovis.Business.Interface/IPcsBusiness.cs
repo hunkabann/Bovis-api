@@ -65,6 +65,7 @@ namespace Bovis.Business.Interface
 
         #region Control
         Task<Control_Detalle> GetControl(int IdProyecto);
+        Task<Control_Data> GetSeccionControl(int IdProyecto, string Seccion);
         #endregion Control
     }
 

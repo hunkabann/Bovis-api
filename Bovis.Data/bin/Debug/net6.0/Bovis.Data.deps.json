@@ -492,7 +492,10 @@
       },
       "Bovis.Common/1.0.0": {
         "runtime": {
-          "Bovis.Common.dll": {}
+          "Bovis.Common.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Bovis.Common.Model/1.0.0": {
@@ -500,7 +503,10 @@
           "linq2db": "4.4.0"
         },
         "runtime": {
-          "Bovis.Common.Model.dll": {}
+          "Bovis.Common.Model.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Bovis.Data.Interface/1.0.0": {
@@ -509,7 +515,10 @@
           "Bovis.Common.Model": "1.0.0"
         },
         "runtime": {
-          "Bovis.Data.Interface.dll": {}
+          "Bovis.Data.Interface.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }
