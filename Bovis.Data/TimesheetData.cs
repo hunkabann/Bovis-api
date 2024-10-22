@@ -38,19 +38,19 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res = await (from timeS in db.tB_Dias_Timesheets
-                          where timeS.Mes == mes
-                          && timeS.Anio == anio
-                          select new Detalle_Dias_Timesheet
-                          {
-                              id = timeS.Id,
-                              mes = timeS.Mes,
-                              dias = timeS.Dias,
-                              feriados = timeS.Feriados,
-                              sabados = timeS.Sabados,
-                              anio = timeS.Anio,
-                              dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados - timeS.SabadosFeriados,
-                              sabados_feriados = timeS.SabadosFeriados
-                          }).FirstOrDefaultAsync();
+                                 where timeS.Mes == mes
+                                 && timeS.Anio == anio
+                                 select new Detalle_Dias_Timesheet
+                                 {
+                                     id = timeS.Id,
+                                     mes = timeS.Mes,
+                                     dias = timeS.Dias,
+                                     feriados = timeS.Feriados,
+                                     sabados = timeS.Sabados,
+                                     anio = timeS.Anio,
+                                     dias_habiles = (sabados == false) ? timeS.Dias - timeS.Feriados : timeS.Dias - timeS.Feriados + timeS.Sabados - timeS.SabadosFeriados,
+                                     sabados_feriados = timeS.SabadosFeriados
+                                 }).FirstOrDefaultAsync();
 
                 return res;
 
@@ -62,7 +62,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var res = await (from timeS in db.tB_Dias_Timesheets
-                                 where ( mes == 0 || timeS.Mes == mes )
+                                 where (mes == 0 || timeS.Mes == mes)
                                  && timeS.Anio == DateTime.Now.Year
                                  orderby timeS.Mes ascending
                                  select new Detalle_Dias_Timesheet
@@ -254,9 +254,35 @@ namespace Bovis.Data
             //int currentMonth = DateTime.Now.Month;
             //int targetMonth = mes == 0 ? currentMonth == 1 ? 12 : currentMonth - 1 : mes;
             //int targetYear = currentMonth == 1 && mes == 0 ? currentYear - 1 : currentYear;
+            string condiciones = "";
+
+            if (idEmpleado != "0")
+            {
+                condiciones += "ts.IdEmpleado == idEmpleado";
+            }
+            if (idProyecto != 0)
+            {
+                condiciones += " && proyItem.IdProyecto == idProyecto ";
+            }
+            if (idUnidadNegocio != 0)
+            {
+                condiciones += " && emp2.IdUnidadNegocio == idUnidadNegocio ";
+            }
+            if (idEmpresa != 0)
+            {
+                condiciones += " && empr.IdEmpresa == idEmpresa ";
+            }
+            if (mes != 0)
+            {
+                condiciones += " && ts.Mes == mes ";
+            }
+            if (anio != 0)
+            {
+                condiciones += " && ts.Anio == anio ";
+            }
 
             using (var db = new ConnectionDB(dbConfig))
-            { 
+            {
                 var rol_loged_user = await (from emp in db.tB_Empleados
                                             join usr in db.tB_Usuarios on emp.NumEmpleadoRrHh equals usr.NumEmpleadoRrHh
                                             join perf_usr in db.tB_PerfilUsuarios on usr.IdUsuario equals perf_usr.IdUsuario
@@ -284,13 +310,15 @@ namespace Bovis.Data
                                             where ts.Activo == true
                                             && proyItem.Activo == true
                                             && (is_admin == true || usrItem.NumEmpleadoRrHh == num_empleado_loged)
-                                            && (idEmpleado == "0" || ts.IdEmpleado == idEmpleado)
-                                            && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
-                                            && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
-                                            && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
-                                            //&& (mes == 0 || (currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
-                                            && (mes == 0 || ts.Mes == mes)
-                                            && (anio == 0 || ts.Anio == anio)
+                                            //&& condiciones
+
+                                             && (idEmpleado == "0" || ts.IdEmpleado == idEmpleado)
+                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
+                                             && (idUnidadNegocio == 0 || emp2.IdUnidadNegocio == idUnidadNegocio)
+                                             && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
+                                             //&& (mes == 0 || (currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
+                                             && (mes == 0 || ts.Mes == mes)
+                                             && (anio == 0 || ts.Anio == anio)
                                             orderby ts.IdEmpleado ascending
                                             group new TimeSheet_Detalle
                                             {
@@ -533,6 +561,8 @@ namespace Bovis.Data
                     //ATC
                     float dedicacion = float.Parse(proyecto["dedicacionCalc"].ToString());
                     decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
+                    int tsproyect = Convert.ToInt32(proyecto["tsproyect"].ToString());
+                    
 
 
                     if (ids_proyectos_db.Contains(id))
@@ -540,7 +570,7 @@ namespace Bovis.Data
                         if (ids_proyectos_request.Contains(id))
                         {
                             // Se actualiza
-                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet)
+                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet && x.IdTimesheet_Proyecto == tsproyect)
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Descripcion = nombre_proyecto,
