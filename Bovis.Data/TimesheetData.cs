@@ -561,6 +561,8 @@ namespace Bovis.Data
                     //ATC
                     float dedicacion = float.Parse(proyecto["dedicacionCalc"].ToString());
                     decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
+
+                    //ATC 22-10-2024
                     int tsproyect = Convert.ToInt32(proyecto["tsproyect"].ToString());
                     
 
