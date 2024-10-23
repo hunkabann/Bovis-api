@@ -513,6 +513,38 @@
   },
   {
     "ContainingType": "Bovis.API.Controllers.BeneficiosController",
+    "Method": "UpdateBeneficioProyecto",
+    "RelativePath": "api/Beneficios/{idBeneficio}/{numEmpleado}/0",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "source",
+        "Type": "Bovis.Common.Model.DTO.EmpleadoProyectoBeneficioDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "idBeneficio",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "numEmpleado",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.BeneficiosController",
     "Method": "GetBeneficios",
     "RelativePath": "api/Beneficios/{numEmpleado}",
     "HttpMethod": "GET",
@@ -526,6 +558,28 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.BeneficiosController",
+    "Method": "AddBeneficioProyecto",
+    "RelativePath": "api/Beneficios/0",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "source",
+        "Type": "Bovis.Common.Model.DTO.EmpleadoProyectoBeneficioDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "Bovis.API.Controllers.CatalogoController",
@@ -2019,13 +2073,13 @@
     "ContainingType": "Bovis.API.Controllers.CatalogoController",
     "Method": "UpdatePuesto",
     "RelativePath": "api/Catalogo/Puesto/Actualizar",
-    "HttpMethod": "POST",
+    "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Puesto",
-        "Type": "Bovis.Service.Queries.Dto.Commands.ActualizarPuestoCommand",
+        "Name": "registro",
+        "Type": "System.Text.Json.Nodes.JsonObject",
         "IsRequired": true
       }
     ],
@@ -2035,13 +2089,13 @@
     "ContainingType": "Bovis.API.Controllers.CatalogoController",
     "Method": "AddPuesto",
     "RelativePath": "api/Catalogo/Puesto/Agregar",
-    "HttpMethod": "PUT",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Puesto",
-        "Type": "Bovis.Service.Queries.Dto.Commands.AgregarPuestoCommand",
+        "Name": "registro",
+        "Type": "System.Text.Json.Nodes.JsonObject",
         "IsRequired": true
       }
     ],
@@ -2050,14 +2104,14 @@
   {
     "ContainingType": "Bovis.API.Controllers.CatalogoController",
     "Method": "DeletePuesto",
-    "RelativePath": "api/Catalogo/Puesto/Borrar",
+    "RelativePath": "api/Catalogo/Puesto/Borrar/{nukid_puesto}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "Puesto",
-        "Type": "Bovis.Service.Queries.Dto.Commands.EliminarPuestoCommand",
+        "Name": "nukid_puesto",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -4055,6 +4109,16 @@
     ]
   },
   {
+    "ContainingType": "Bovis.API.Controllers.DashboardController",
+    "Method": "GetProyectosDocumentos",
+    "RelativePath": "api/Dashboard/Proyectos/Documentos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bovis.API.Controllers.DorController",
     "Method": "ActualizarObjectivosDorAnio",
     "RelativePath": "api/Dor/ActualizarObjetivos",
@@ -4365,6 +4429,22 @@
   },
   {
     "ContainingType": "Bovis.API.Controllers.EmpleadoController",
+    "Method": "GetEmpleadosAll",
+    "RelativePath": "api/Empleado/Empleados/All/{Activo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Activo",
+        "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.EmpleadoController",
     "Method": "UpdateEstatus",
     "RelativePath": "api/Empleado/Estatus/Actualizar",
     "HttpMethod": "PUT",
@@ -4389,6 +4469,22 @@
     "Parameters": [
       {
         "Name": "idEmpleado",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.EmpleadoController",
+    "Method": "GetEmpleadosByIDPuesto",
+    "RelativePath": "api/Empleado/Puesto/{idPuesto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idPuesto",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -4673,6 +4769,27 @@
   },
   {
     "ContainingType": "Bovis.API.Controllers.PcsController",
+    "Method": "GetSeccionControl",
+    "RelativePath": "api/Pcs/Control/{IdProyecto}/{Seccion}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Seccion",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.PcsController",
     "Method": "DeleteEmpleado",
     "RelativePath": "api/Pcs/Empleados/{NumEmpleado}/Fase/{IdFase}",
     "HttpMethod": "DELETE",
@@ -4846,6 +4963,38 @@
       {
         "Name": "Tipo",
         "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.PcsController",
+    "Method": "GetControl",
+    "RelativePath": "api/Pcs/GastosIngresos/{IdProyecto}/Control",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.PcsController",
+    "Method": "GetTotalFacturacion",
+    "RelativePath": "api/Pcs/GastosIngresos/{IdProyecto}/TotalFacturacion",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdProyecto",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

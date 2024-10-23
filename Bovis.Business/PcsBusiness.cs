@@ -3,6 +3,7 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using System.Text.Json.Nodes;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Bovis.Business
 {
@@ -155,6 +156,7 @@ namespace Bovis.Business
 
         #region Control
         public Task<Control_Detalle> GetControl(int IdProyecto) => _pcsData.GetControl(IdProyecto);
+        public Task<Control_Data> GetSeccionControl(int IdProyecto, string Seccion) => _pcsData.GetSeccionControl(IdProyecto, Seccion);
         #endregion Control
     }
 }

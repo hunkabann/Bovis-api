@@ -536,7 +536,6 @@ namespace Bovis.Data
 
                     //ATC 22-10-2024
                     int tsproyect = Convert.ToInt32(proyecto["tsproyect"].ToString());
-                    
 
 
                     if (ids_proyectos_db.Contains(id))
@@ -544,7 +543,7 @@ namespace Bovis.Data
                         if (ids_proyectos_request.Contains(id))
                         {
                             // Se actualiza
-                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet)
+                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet && x.IdTimesheet_Proyecto == tsproyect)
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Descripcion = nombre_proyecto,
