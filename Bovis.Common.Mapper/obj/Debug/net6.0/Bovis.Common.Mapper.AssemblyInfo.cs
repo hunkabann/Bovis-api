@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bovis.Common.Mapper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6240b842b1bc204895b63508d0a1b0a077d4d556")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e02fe402815dad6ac2bae7e7bd3befb4dd61afbe")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bovis.Common.Mapper")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bovis.Common.Mapper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
