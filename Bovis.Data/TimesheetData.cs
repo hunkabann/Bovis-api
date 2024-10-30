@@ -927,6 +927,8 @@ namespace Bovis.Data
             int id_timesheet_proyecto = Convert.ToInt32(registro["id_timesheet_proyecto"].ToString());
             float num_dias = float.Parse(registro["num_dias"].ToString());
             float num_dedicacion = float.Parse(registro["num_dedicacion"].ToString());
+            float num_otros = float.Parse(registro["num_otros"].ToString());
+            
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -934,7 +936,8 @@ namespace Bovis.Data
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Dias = num_dias,
-                                    TDedicacion = Convert.ToInt32(num_dedicacion)
+                                    TDedicacion = Convert.ToInt32(num_dedicacion),
+                                    Costo = Convert.ToInt32(num_otros)
                                 }) > 0;
 
                 resp.Success = res_update_timesheet_proyecto;
