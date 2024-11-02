@@ -801,7 +801,9 @@ namespace Bovis.Data
 
         public async Task<(bool Success, string Message)> AddPuesto(JsonObject registro)
         {
-            int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
+
+			//Atc
+           // int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
            
             string chpuesto = registro["chpuesto"].ToString();
             decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
@@ -814,7 +816,7 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var insert_Puesto = await db.tB_Cat_Puestos
-                    .Value(x => x.IdPuesto, nukid_puesto)
+                    //.Value(x => x.IdPuesto, nukid_puesto)
                     .Value(x => x.IdNivel, nukidnivel)
                     .Value(x => x.Puesto, chpuesto)
                     .Value(x => x.SalarioMin, nusalario_min)
