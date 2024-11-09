@@ -98,8 +98,6 @@ namespace Bovis.Data
             {
                 var proyectos = await (from p in db.tB_Proyectos
                                        where p.IdEstatus == 1
-                                       && p.IdEstatus == 2
-                                          && p.IdEstatus == 4
                                        select p).ToListAsync();
                 return proyectos;
             }
