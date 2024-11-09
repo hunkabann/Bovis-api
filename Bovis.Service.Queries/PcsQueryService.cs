@@ -57,6 +57,12 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetProyectos(OrdenAlfabetico);
             return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
         }
+        //atc 09-11-2024
+        public async Task<Response<List<Proyecto>>> GetProyectosNoClose(bool? OrdenAlfabetico)
+        {
+            var response = await _pcsBusiness.GetProyectosNoClose(OrdenAlfabetico);
+            return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
+        }
         public async Task<Response<Proyecto>> GetProyecto(int numProyecto)
         {
             var response = await _pcsBusiness.GetProyecto(numProyecto);

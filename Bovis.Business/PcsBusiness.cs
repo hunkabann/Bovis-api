@@ -44,6 +44,8 @@ namespace Bovis.Business
 
         #region Proyectos
         public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
+        //atc 09-11-2024
+        public Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico) => _pcsData.GetProyectosNoClose(OrdenAlfabetico);
 
         public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
 

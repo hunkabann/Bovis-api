@@ -22,6 +22,8 @@ namespace Bovis.Business.Interface
 
         #region Proyectos
         Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico);
+        //atc 09-11-2024
+        Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico);
         Task<TB_Proyecto> GetProyecto(int numProyecto);
         Task<(bool Success, string Message)> AddProyecto(JsonObject registro);
         Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto);
