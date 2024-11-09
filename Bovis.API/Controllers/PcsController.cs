@@ -69,6 +69,14 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
+        //atc 09-11-2024
+        [HttpGet, Route("ProyectosNoClose/{OrdenAlfabetico?}")]
+        public async Task<IActionResult> ObtenerProyectosNoClose(bool? OrdenAlfabetico)
+        {
+            var business = await _pcsQueryService.GetProyectosNoClose(OrdenAlfabetico);
+            return Ok(business);
+        }
+
         [HttpGet, Route("Proyecto/{numProyecto}")]
         public async Task<IActionResult> ObtenerProyecto(int numProyecto)
         {

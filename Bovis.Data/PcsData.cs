@@ -88,6 +88,22 @@ namespace Bovis.Data
             }
         }
 
+        //atc 09-11-2024
+        public async Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico)
+        {
+            //return await GetAllFromEntityAsync<TB_Proyecto>();
+           
+
+                using (var db = new ConnectionDB(dbConfig))
+            {
+                var proyectos = await (from p in db.tB_Proyectos
+                                       where p.IdEstatus != 3 
+                                       select p).ToListAsync();
+                return proyectos;
+            }
+            
+        }
+
         public async Task<TB_Proyecto> GetProyecto(int numProyecto)
         {
             using (var db = new ConnectionDB(dbConfig))
