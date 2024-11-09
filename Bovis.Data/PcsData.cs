@@ -97,7 +97,9 @@ namespace Bovis.Data
                 using (var db = new ConnectionDB(dbConfig))
             {
                 var proyectos = await (from p in db.tB_Proyectos
-                                       where p.IdEstatus BETWEEN 1 AND 2 
+                                       where p.IdEstatus == 1
+                                       || p.IdEstatus == 2
+                                          || p.IdEstatus == 4
                                        select p).ToListAsync();
                 return proyectos;
             }
