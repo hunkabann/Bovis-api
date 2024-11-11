@@ -822,6 +822,69 @@ namespace Bovis.Data
             }
         }
 
+        //atc 11-11-2024
+        public async Task<List<TB_Proyecto>> GetNotProyectosByEmpleadoNoClose(string IdEmpleado)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                List<TB_Proyecto> proyectos = new List<TB_Proyecto>();
+
+                proyectos = await (from p in db.tB_Proyectos
+                                   where p.IdEstatus != 3
+                                   //ATC se comenta la relacion para que muestre todos los proyectos sin que exista tB_EmpleadoProyectos
+
+                                   //join ep in db.tB_EmpleadoProyectos on p.NumProyecto equals ep.NumProyecto into epJoin
+                                   //from epItem in epJoin.DefaultIfEmpty()
+                                   //where (epItem == null || epItem.NumEmpleadoRrHh != IdEmpleado)
+                                   //&& epItem.Activo == true
+                                   orderby p.Proyecto ascending
+                                   group new TB_Proyecto
+                                   {
+                                       NumProyecto = p.NumProyecto,
+                                       Proyecto = p.Proyecto,
+                                       Alcance = p.Alcance,
+                                       Cp = p.Cp,
+                                       Ciudad = p.Ciudad,
+                                       IdPais = p.IdPais,
+                                       IdEstatus = p.IdEstatus,
+                                       IdSector = p.IdSector,
+                                       IdTipoProyecto = p.IdTipoProyecto,
+                                       IdResponsablePreconstruccion = p.IdResponsablePreconstruccion,
+                                       IdResponsableConstruccion = p.IdResponsableConstruccion,
+                                       IdResponsableEhs = p.IdResponsableEhs,
+                                       IdResponsableSupervisor = p.IdResponsableSupervisor,
+                                       IdEmpresa = p.IdEmpresa,
+                                       IdDirectorEjecutivo = p.IdDirectorEjecutivo,
+                                       CostoPromedioM2 = p.CostoPromedioM2,
+                                       FechaIni = p.FechaIni,
+                                       FechaFin = p.FechaFin
+                                   } by p.NumProyecto into g
+                                   select new TB_Proyecto
+                                   {
+                                       NumProyecto = g.Key,
+                                       Proyecto = g.First().Proyecto,
+                                       Alcance = g.First().Alcance,
+                                       Cp = g.First().Cp,
+                                       Ciudad = g.First().Ciudad,
+                                       IdPais = g.First().IdPais,
+                                       IdEstatus = g.First().IdEstatus,
+                                       IdSector = g.First().IdSector,
+                                       IdTipoProyecto = g.First().IdTipoProyecto,
+                                       IdResponsablePreconstruccion = g.First().IdResponsablePreconstruccion,
+                                       IdResponsableConstruccion = g.First().IdResponsableConstruccion,
+                                       IdResponsableEhs = g.First().IdResponsableEhs,
+                                       IdResponsableSupervisor = g.First().IdResponsableSupervisor,
+                                       IdEmpresa = g.First().IdEmpresa,
+                                       IdDirectorEjecutivo = g.First().IdDirectorEjecutivo,
+                                       CostoPromedioM2 = g.First().CostoPromedioM2,
+                                       FechaIni = g.First().FechaIni,
+                                       FechaFin = g.First().FechaFin
+                                   }).ToListAsync();
+
+                return proyectos;
+            }
+        }
+
         public async Task<(bool Success, string Message)> AddProyectoEmpleado(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
