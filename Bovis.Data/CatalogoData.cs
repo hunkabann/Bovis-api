@@ -789,7 +789,8 @@ namespace Bovis.Data
 																	  {
 																		  nukid_puesto = puesto.IdPuesto,
 																		  nukidnivel = puesto.IdNivel,
-																		  chpuesto = puesto.Puesto,
+                                                                          chcvenoi = puesto.chcvenoi,
+                                                                          chpuesto = puesto.Puesto,
 																		  nusalario_min = puesto.SalarioMin,
 																		  nusalario_max = puesto.SalarioMax,
 																		  nusalario_prom = puesto.SalarioProm,
@@ -806,6 +807,7 @@ namespace Bovis.Data
            // int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
            
             string chpuesto = registro["chpuesto"].ToString();
+            string chcvenoi = registro["chcvenoi"].ToString();
             decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
             decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"].ToString());
             decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"].ToString());
@@ -818,6 +820,7 @@ namespace Bovis.Data
                 var insert_Puesto = await db.tB_Cat_Puestos
                     //.Value(x => x.IdPuesto, nukid_puesto)
                     .Value(x => x.IdNivel, nukidnivel)
+                     .Value(x => x.chcvenoi, chcvenoi)
                     .Value(x => x.Puesto, chpuesto)
                     .Value(x => x.SalarioMin, nusalario_min)
                     .Value(x => x.SalarioMax, nusalario_max)
@@ -841,6 +844,7 @@ namespace Bovis.Data
             int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
 
             string chpuesto = registro["chpuesto"].ToString();
+            string chcvenoi = registro["chcvenoi"].ToString();
             decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
             decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"].ToString());
             decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"].ToString());
@@ -852,6 +856,7 @@ namespace Bovis.Data
                 var res_update_puesto = await (db.tB_Cat_Puestos.Where(x => x.IdPuesto == nukid_puesto)
                     .UpdateAsync(x => new TB_Cat_Puesto
                     {
+                        chcvenoi = chcvenoi,
                         Puesto = chpuesto,
                         SalarioMin = nusalario_min,
                         SalarioMax = nusalario_max,

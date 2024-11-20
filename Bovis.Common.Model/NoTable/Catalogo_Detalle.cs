@@ -10,6 +10,7 @@ namespace Bovis.Common.Model.NoTable
     {
         public int nukid_puesto { get; set; }
         public int nukidnivel { get; set; }
+        public string chcvenoi { get; set; }        
         public string chpuesto { get; set; }
         public bool boactivo { get; set; }
         public decimal nusalario_min { get; set; }
