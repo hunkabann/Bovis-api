@@ -7,7 +7,8 @@ namespace Bovis.Common.Model.Tables
 	{
 		[Column("Nukid_puesto"), NotNull, PrimaryKey, Identity] public int IdPuesto { get; set; }
 		[Column("Nukidnivel"), NotNull] public int IdNivel { get; set; }
-		[Column("Chpuesto"), NotNull] public string Puesto { get; set; }
+        [Column("chcve_noi"), NotNull] public string chcvenoi { get; set; }
+        [Column("Chpuesto"), NotNull] public string Puesto { get; set; }
 		[Column("Boactivo"), NotNull] public bool Activo { get; set; }
 		[Column("nusalario_min"), NotNull] public decimal SalarioMin { get; set; }
 		[Column("nusalario_max"), Nullable] public decimal SalarioMax { get; set; }
