@@ -4,7 +4,9 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.Data
 {
@@ -776,11 +778,71 @@ namespace Bovis.Data
                 return await qry.UpdateAsync() >= 0;
             }
         }
-		#endregion Profesion
+        #endregion Profesion
 
-		#region Puesto
+        //ATC 19-11-2024
+        #region Banco
+        public async Task<List<TB_Banco>> GetBanco(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.TB_Banco
+                                                                          where cat.Activo == activo
+                                                                          orderby cat.Banco ascending
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Banco>();
+        }
+        public Task<bool> AddBanco(TB_Banco Banco) => InsertEntityIdAsync<TB_Banco>(Banco);
 
-		public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
+        public Task<bool> UpdateBanco(TB_Banco Banco) => UpdateEntityAsync<TB_Banco>(Banco);
+
+        public async Task<bool> DeleteBanco(TB_Banco Banco)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.TB_Banco
+                       .Where(x => x.IdBanco == Banco.IdBanco)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Banco
+
+        //ATC 19-11-2024
+        #region CuentaBanco
+        public async Task<List<TB_CuentaBanco>> GetCuentaBanco(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.TB_CuentaBanco
+                                                                          where cat.Activo == activo
+                                                                          orderby cat.NoCta ascending
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Banco>();
+        }
+        public Task<bool> AddCuentaBanco(TB_CuentaBanco Banco) => InsertEntityIdAsync<TB_CuentaBanco>(Banco);
+
+        public Task<bool> UpdateCuentaBanco(TB_CuentaBanco Banco) => UpdateEntityAsync<TB_CuentaBanco>(Banco);
+
+        public async Task<bool> DeleteCuentaBanco(TB_CuentaBanco Banco)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.TB_CuentaBanco
+                       .Where(x => x.IdCuenta == Banco.IdCuenta)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion CuentaBanco
+
+        #region Puesto
+
+        public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
 		{
 			using (var db = new ConnectionDB(dbConfig)) return await (from puesto in db.tB_Cat_Puestos
 																	  where puesto.Activo == activo

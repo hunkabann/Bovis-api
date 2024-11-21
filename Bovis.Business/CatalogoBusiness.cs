@@ -3,8 +3,11 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Bovis.Business
 {
@@ -1363,6 +1366,64 @@ namespace Bovis.Business
 			GC.Collect();
 		}
 
-		#endregion
-	}
+        #endregion
+
+        #region Banco
+        //ATC 19-11-2024
+        public Task<List<TB_Banco>> GetBanco(bool? Actio) => _catalogoData.GetBanco(Actio);
+        public async Task<(bool Success, string Message)> AddBanco(TB_Banco banco)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddBanco(banco);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteBanco(TB_Banco banco)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteBanco(banco);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateBanco(InsertMovApi MovAPI, TB_Banco banco)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateBanco(banco);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(banco) });
+            return resp;
+        }
+        #endregion Banco
+
+        #region CuentaBanco
+        //ATC 19-11-2024
+        public Task<List<TB_CuentaBanco>> GetCuentaBanco(bool? Actio) => _catalogoData.GetCuentaBanco(Actio);
+        public async Task<(bool Success, string Message)> AddCuentaBanco(TB_CuentaBanco CuentaBanco)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.AddCuentaBanco(CuentaBanco);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteCuentaBanco(TB_CuentaBanco CuentaBanco)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.DeleteCuentaBanco(CuentaBanco);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> UpdateCuentaBanco(InsertMovApi MovAPI, TB_CuentaBanco CuentaBanco)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _catalogoData.UpdateCuentaBanco(CuentaBanco);
+            if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(banco) });
+            return resp;
+        }
+        #endregion CuentaBanco
+    }
 }
