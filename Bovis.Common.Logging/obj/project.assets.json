@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Administrador\\.nuget\\packages\\": {}
+    "C:\\Users\\jmmor\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Logging\\Bovis.Common.Logging.csproj",
+      "projectUniqueName": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Logging\\Bovis.Common.Logging.csproj",
       "projectName": "Bovis.Common.Logging",
-      "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Logging\\Bovis.Common.Logging.csproj",
-      "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Logging\\obj\\",
+      "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Logging\\Bovis.Common.Logging.csproj",
+      "packagesPath": "C:\\Users\\jmmor\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Logging\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jmmor\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -28,6 +28,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -61,12 +62,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.35, 6.0.35]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.35, 6.0.35]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.35, 6.0.35]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

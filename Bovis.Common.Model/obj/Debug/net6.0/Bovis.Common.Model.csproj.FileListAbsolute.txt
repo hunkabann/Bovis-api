@@ -73,3 +73,16 @@ C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\n
 C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
 C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
 C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.deps.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.AssemblyReference.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfoInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfo.cs
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.CoreCompileInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.sourcelink.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll
