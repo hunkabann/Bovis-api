@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.API.Controllers;
 
@@ -2302,6 +2303,108 @@ public class CatalogoController : ControllerBase
 		return Ok(response);
 	}
 
-	#endregion
+    #endregion
+
+    //ATC 19-11-2024
+    #region Banco
+    [HttpGet, Route("Banco/{Activo?}")]
+    public async Task<IActionResult> Banco(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetBanco(Activo);
+        return Ok(query);
+    }
+    [HttpPut, Route("Banco/Agregar")]
+    public async Task<IActionResult> AddBanco(AgregarBancoCommand Banco)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Banco);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("Banco/Borrar")]
+    public async Task<IActionResult> DeleteBanco(EliminarBancoCommand Banco)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(Banco);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("Banco/Actualizar")]
+    public async Task<IActionResult> UpdateBanco(ActualizarBancoCommand Banco)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        Banco.Nombre = claimJWTModel.nombre;
+        Banco.Usuario = claimJWTModel.correo;
+        Banco.Roles = claimJWTModel.roles;
+        Banco.TransactionId = claimJWTModel.transactionId;
+        Banco.Rel = 7;
+        var response = await _mediator.Send(Banco);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+
+    #endregion Banco
+
+    //ATC 19-11-2024
+    #region CuentaBanco
+    [HttpGet, Route("CuentaBanco/{Activo?}")]
+    public async Task<IActionResult> CuentaBanco(bool? Activo)
+    {
+        var query = await _catalogoQueryService.GetCuentaBanco(Activo);
+        return Ok(query);
+    }
+    [HttpPut, Route("CuentaBanco/Agregar")]
+    public async Task<IActionResult> AddCuentaBanco(AgregarCuentaBancoCommand CuentaBanco)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(CuentaBanco);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpDelete, Route("CuentaBanco/Borrar")]
+    public async Task<IActionResult> DeleteCuentaBanco(EliminarCuentaBancoCommand CuentaBanco)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var response = await _mediator.Send(CuentaBanco);
+        if (!response.Success)
+        {
+            var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+            _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        }
+        return Ok(response);
+    }
+
+    [HttpPost, Route("CuentaBanco/Actualizar")]
+    public async Task<IActionResult> UpdateCuentaBanco(ActualizarCuentaBancoCommand CuentaBanco)
+    {
+        if (!ModelState.IsValid) return BadRequest("Se requieren todos los valores del modelo");
+        var claimJWTModel = new ClaimsJWT(TransactionId).GetClaimValues((HttpContext.User.Identity as ClaimsIdentity).Claims);
+        CuentaBanco.Nombre = claimJWTModel.nombre;
+        CuentaBanco.Usuario = claimJWTModel.correo;
+        CuentaBanco.Roles = claimJWTModel.roles;
+        CuentaBanco.TransactionId = claimJWTModel.transactionId;
+        CuentaBanco.Rel = 7;
+        var response = await _mediator.Send(CuentaBanco);
+        if (!response.Success) _logger.LogInformation($"Datos de usuario: {JsonConvert.SerializeObject(claimJWTModel)}");
+        return Ok(response);
+    }
+
+    #endregion CuentaBanco
 }
 

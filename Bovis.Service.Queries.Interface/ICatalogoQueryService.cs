@@ -2,7 +2,9 @@
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries.Interface;
 
@@ -107,6 +109,11 @@ public interface ICatalogoQueryService : IDisposable
     Task<Response<List<Catalogo>>> GetUnidadNegocio(bool? Activo);
 
 	Task<Response<List<Catalogo>>> GetViatico(bool? Activo);
+
+	//ATC 19-11-2024
+    Task<Response<List<Catalogo>>> GetBanco(bool? Activo);
+    //ATC 19-11-2024
+    Task<Response<List<Catalogo>>> GetCuentaBanco(bool? Activo);
 
 }
 

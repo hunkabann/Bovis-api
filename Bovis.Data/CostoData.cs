@@ -934,7 +934,9 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 from puestoItem in puestoJoin.DefaultIfEmpty()
                                 join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
                                 from proyectoItem in proyectoJoin.DefaultIfEmpty()
-                                join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                //ATC 21-11-2024
+                                //join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                join unidadN in db.tB_Cat_UnidadNegocios on empleadoCostoItem.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
                                 from unidadNItem in unidadNJoin.DefaultIfEmpty()
                                 join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
                                 from empresaItem in empresaJoin.DefaultIfEmpty()
@@ -964,7 +966,7 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
                                     NumProyecto = costos.NumProyecto,
                                     Proyecto = proyectoItem != null ? proyectoItem.Proyecto : string.Empty,
-                                    IdUnidadNegocio = costos.IdUnidadNegocio,
+                                    IdUnidadNegocio = empleadoCostoItem.IdUnidadNegocio,
                                     UnidadNegocio = unidadNItem != null ? unidadNItem.UnidadNegocio : string.Empty,
                                     IdEmpresa = costos.IdEmpresa,
                                     Empresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
