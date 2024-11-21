@@ -1,118 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\",
+  "WorkspaceRootPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\FacturaData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\FacturaData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|c:\\users\\jmmor\\documents\\github\\bovis-api\\bovis.business\\catalogobusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\catalogobusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries.Dto\\Request\\ConsultarFacturas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Service.Queries.Dto\\Request\\ConsultarFacturas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\jmmor\\documents\\github\\bovis-api\\bovis.data\\catalogodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\catalogodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\important-logs.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\important-logs.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{E44F38B7-BAF1-40BA-B5E7-928A9400BC43}|Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj|c:\\users\\jmmor\\documents\\github\\bovis-api\\bovis.service.queries.dto\\commands\\catalogocommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E44F38B7-BAF1-40BA-B5E7-928A9400BC43}|Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj|solutionrelative:bovis.service.queries.dto\\commands\\catalogocommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries.Interface\\IFacturaQueryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Service.Queries.Interface\\IFacturaQueryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|c:\\users\\jmmor\\documents\\github\\bovis-api\\bovis.api\\controllers\\catalogocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|solutionrelative:bovis.api\\controllers\\catalogocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data.Interface\\IFacturaData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data.Interface\\IFacturaData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|c:\\users\\jmmor\\documents\\github\\bovis-api\\bovis.api\\controllers\\contratocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|solutionrelative:bovis.api\\controllers\\contratocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business.Interface\\IFacturaBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Business.Interface\\IFacturaBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries\\FacturaQueryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Service.Queries\\FacturaQueryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\FacturaBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Business\\FacturaBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\FacturaController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\FacturaController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\CatalogoData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\CatalogoData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\TimesheetController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\TimesheetController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\EmailController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\EmailController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\CieController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\CieController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\CatalogoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\CatalogoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\AutorizacionData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\AutorizacionData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\AutorizacionController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\AutorizacionController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries\\AuditoriaQueryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Service.Queries\\AuditoriaQueryService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\TimesheetData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\TimesheetData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\CatalogoBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Business\\CatalogoBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\AuditoriaData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\AuditoriaData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\ContratoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\ContratoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\AuditoriaController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\AuditoriaController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\AuditoriaBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Business\\AuditoriaBusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Common.Model\\NoTable\\Api_Credentials.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Common.Model\\NoTable\\Api_Credentials.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Common.Model\\NoTable\\PCS_Detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\PcsData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\PcsData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\PcsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\PcsController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\jmmor\\documents\\github\\bovis-api\\bovis.data\\costodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\costodata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -122,8 +34,86 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 23,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CatalogoCommand.cs",
+              "DocumentMoniker": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Commands\\CatalogoCommand.cs",
+              "RelativeDocumentMoniker": "Bovis.Service.Queries.Dto\\Commands\\CatalogoCommand.cs",
+              "ToolTip": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Commands\\CatalogoCommand.cs",
+              "RelativeToolTip": "Bovis.Service.Queries.Dto\\Commands\\CatalogoCommand.cs",
+              "ViewState": "AgIAAE8EAAAAqpmZmZkowGIEAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-21T19:30:05.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CatalogoData.cs",
+              "DocumentMoniker": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CatalogoData.cs",
+              "RelativeDocumentMoniker": "Bovis.Data\\CatalogoData.cs",
+              "ToolTip": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CatalogoData.cs",
+              "RelativeToolTip": "Bovis.Data\\CatalogoData.cs",
+              "ViewState": "AgIAABEDAAAAAAAAAAAWwCMDAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-21T19:28:06.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CostoData.cs",
+              "DocumentMoniker": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CostoData.cs",
+              "RelativeDocumentMoniker": "Bovis.Data\\CostoData.cs",
+              "ToolTip": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\CostoData.cs",
+              "RelativeToolTip": "Bovis.Data\\CostoData.cs",
+              "ViewState": "AgIAAJQDAAAAm5mZmZkswD8EAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-21T19:24:39.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CatalogoController.cs",
+              "DocumentMoniker": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\CatalogoController.cs",
+              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\CatalogoController.cs",
+              "ToolTip": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\CatalogoController.cs",
+              "RelativeToolTip": "Bovis.API\\Controllers\\CatalogoController.cs",
+              "ViewState": "AgIAADkJAAAAMzMzMzM6wFkJAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-24T02:09:06.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CatalogoBusiness.cs",
+              "DocumentMoniker": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\CatalogoBusiness.cs",
+              "RelativeDocumentMoniker": "Bovis.Business\\CatalogoBusiness.cs",
+              "ToolTip": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\CatalogoBusiness.cs",
+              "RelativeToolTip": "Bovis.Business\\CatalogoBusiness.cs",
+              "ViewState": "AgIAAHwFAAAAAAAAAAAjwI8FAADqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-02T06:11:01.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ContratoController.cs",
+              "DocumentMoniker": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\ContratoController.cs",
+              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\ContratoController.cs",
+              "ToolTip": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Controllers\\ContratoController.cs",
+              "RelativeToolTip": "Bovis.API\\Controllers\\ContratoController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-24T02:09:22.933Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -191,343 +181,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:133:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ConsultarFacturas.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries.Dto\\Request\\ConsultarFacturas.cs",
-              "RelativeDocumentMoniker": "Bovis.Service.Queries.Dto\\Request\\ConsultarFacturas.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries.Dto\\Request\\ConsultarFacturas.cs",
-              "RelativeToolTip": "Bovis.Service.Queries.Dto\\Request\\ConsultarFacturas.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAAAgAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:05:39.777Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "important-logs.json",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\important-logs.json",
-              "RelativeDocumentMoniker": "Bovis.API\\important-logs.json",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\important-logs.json",
-              "RelativeToolTip": "Bovis.API\\important-logs.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAjCgAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-11-04T23:04:58.282Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IFacturaQueryService.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries.Interface\\IFacturaQueryService.cs",
-              "RelativeDocumentMoniker": "Bovis.Service.Queries.Interface\\IFacturaQueryService.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries.Interface\\IFacturaQueryService.cs",
-              "RelativeToolTip": "Bovis.Service.Queries.Interface\\IFacturaQueryService.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAAABAAAABFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:04:56.58Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IFacturaData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data.Interface\\IFacturaData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data.Interface\\IFacturaData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data.Interface\\IFacturaData.cs",
-              "RelativeToolTip": "Bovis.Data.Interface\\IFacturaData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAyAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:04:53.534Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IFacturaBusiness.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business.Interface\\IFacturaBusiness.cs",
-              "RelativeDocumentMoniker": "Bovis.Business.Interface\\IFacturaBusiness.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business.Interface\\IFacturaBusiness.cs",
-              "RelativeToolTip": "Bovis.Business.Interface\\IFacturaBusiness.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAAABIAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:04:51.597Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FacturaQueryService.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries\\FacturaQueryService.cs",
-              "RelativeDocumentMoniker": "Bovis.Service.Queries\\FacturaQueryService.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries\\FacturaQueryService.cs",
-              "RelativeToolTip": "Bovis.Service.Queries\\FacturaQueryService.cs",
-              "ViewState": "AQIAACsAAAAAAAAAAAAnwD4AAABMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:04:48.356Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FacturaData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\FacturaData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\FacturaData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\FacturaData.cs",
-              "RelativeToolTip": "Bovis.Data\\FacturaData.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAiwOoFAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:04:32.166Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "FacturaBusiness.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\FacturaBusiness.cs",
-              "RelativeDocumentMoniker": "Bovis.Business\\FacturaBusiness.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\FacturaBusiness.cs",
-              "RelativeToolTip": "Bovis.Business\\FacturaBusiness.cs",
-              "ViewState": "AQIAAIQAAAAAAAAAAADwv50AAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:04:15.452Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "FacturaController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\FacturaController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\FacturaController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\FacturaController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\FacturaController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T23:03:59.635Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CatalogoData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\CatalogoData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\CatalogoData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\CatalogoData.cs",
-              "RelativeToolTip": "Bovis.Data\\CatalogoData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwDAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T06:11:05.818Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "TimesheetController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\TimesheetController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\TimesheetController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\TimesheetController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\TimesheetController.cs",
-              "ViewState": "AQIAAE8AAAAAAAAAAADwv2IAAAA9AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T00:31:55.621Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "EmailController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\EmailController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\EmailController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\EmailController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\EmailController.cs",
-              "ViewState": "AQIAAEUAAAAAAAAAAIBJwGMAAAAgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:09:49.246Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CieController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\CieController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\CieController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\CieController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\CieController.cs",
-              "ViewState": "AQIAALIAAAAAAAAAAAAUwMoAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:09:16.157Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "CatalogoController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\CatalogoController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\CatalogoController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\CatalogoController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\CatalogoController.cs",
-              "ViewState": "AQIAAKoDAAAAAAAAAAAUwKcEAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:09:06.163Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "AutorizacionData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\AutorizacionData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\AutorizacionData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\AutorizacionData.cs",
-              "RelativeToolTip": "Bovis.Data\\AutorizacionData.cs",
-              "ViewState": "AQIAALwAAAAAAAAAAAAUwM8AAABCAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:09:04.248Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "AutorizacionController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\AutorizacionController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\AutorizacionController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\AutorizacionController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\AutorizacionController.cs",
-              "ViewState": "AQIAAJgAAAAAAAAAAAAUwPkAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:08:31.284Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "AuditoriaQueryService.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries\\AuditoriaQueryService.cs",
-              "RelativeDocumentMoniker": "Bovis.Service.Queries\\AuditoriaQueryService.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Service.Queries\\AuditoriaQueryService.cs",
-              "RelativeToolTip": "Bovis.Service.Queries\\AuditoriaQueryService.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAADwvygAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:08:29.437Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "TimesheetData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\TimesheetData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\TimesheetData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\TimesheetData.cs",
-              "RelativeToolTip": "Bovis.Data\\TimesheetData.cs",
-              "ViewState": "AQIAAGEBAAAAAAAAAAAqwG8BAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-23T23:46:38.256Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "CatalogoBusiness.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\CatalogoBusiness.cs",
-              "RelativeDocumentMoniker": "Bovis.Business\\CatalogoBusiness.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\CatalogoBusiness.cs",
-              "RelativeToolTip": "Bovis.Business\\CatalogoBusiness.cs",
-              "ViewState": "AQIAAAwCAAAAAAAAAADwv74CAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-02T06:11:01.51Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AuditoriaData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\AuditoriaData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\AuditoriaData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\AuditoriaData.cs",
-              "RelativeToolTip": "Bovis.Data\\AuditoriaData.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAA6wD0AAABRAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:08:20.808Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ContratoController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\ContratoController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\ContratoController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\ContratoController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\ContratoController.cs",
-              "ViewState": "AQIAAGQAAAAAAAAAAADwv2QAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:09:22.933Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "AuditoriaController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\AuditoriaController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\AuditoriaController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\AuditoriaController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\AuditoriaController.cs",
-              "ViewState": "AQIAAFIAAAAAAAAAAADwv2QAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:08:09.337Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\appsettings.json",
-              "RelativeDocumentMoniker": "Bovis.API\\appsettings.json",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\appsettings.json",
-              "RelativeToolTip": "Bovis.API\\appsettings.json",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAhwCIAAAAPAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-24T00:36:37.335Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "AuditoriaBusiness.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\AuditoriaBusiness.cs",
-              "RelativeDocumentMoniker": "Bovis.Business\\AuditoriaBusiness.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Business\\AuditoriaBusiness.cs",
-              "RelativeToolTip": "Bovis.Business\\AuditoriaBusiness.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAACHAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:08:07.523Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Api_Credentials.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Common.Model\\NoTable\\Api_Credentials.cs",
-              "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\Api_Credentials.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Common.Model\\NoTable\\Api_Credentials.cs",
-              "RelativeToolTip": "Bovis.Common.Model\\NoTable\\Api_Credentials.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAA6wAwAAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-24T02:08:06.258Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "PCS_Detalle.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
-              "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
-              "RelativeToolTip": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-17T02:20:37.062Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "PcsData.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\PcsData.cs",
-              "RelativeDocumentMoniker": "Bovis.Data\\PcsData.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.Data\\PcsData.cs",
-              "RelativeToolTip": "Bovis.Data\\PcsData.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T00:33:48.91Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "PcsController.cs",
-              "DocumentMoniker": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\PcsController.cs",
-              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\PcsController.cs",
-              "ToolTip": "D:\\Proyectos\\Bovis\\repos\\BackBovisHunk\\Bovis.API\\Controllers\\PcsController.cs",
-              "RelativeToolTip": "Bovis.API\\Controllers\\PcsController.cs",
-              "ViewState": "AQIAAO8AAAAAAAAAAADwv/UAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T00:35:23.694Z"
             }
           ]
         }

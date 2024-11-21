@@ -1421,7 +1421,7 @@ namespace Bovis.Business
             (bool Success, string Message) resp = (true, string.Empty);
             var respData = await _catalogoData.UpdateCuentaBanco(CuentaBanco);
             if (!respData) { resp.Success = false; resp.Message = "No se pudo agregar el elemento del cataálogo a la base de datos"; return resp; }
-            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(banco) });
+            else await _transactionData.AddMovApi(new Mov_Api { Nombre = MovAPI.Nombre, Roles = MovAPI.Roles, Usuario = MovAPI.Usuario, FechaAlta = DateTime.Now, IdRel = MovAPI.Rel, ValorNuevo = JsonConvert.SerializeObject(CuentaBanco) });
             return resp;
         }
         #endregion CuentaBanco

@@ -786,7 +786,7 @@ namespace Bovis.Data
         {
             if (activo.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.TB_Banco
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Bancos
                                                                           where cat.Activo == activo
                                                                           orderby cat.Banco ascending
                                                                           select cat).ToListAsync();
@@ -801,7 +801,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var qry = db.TB_Banco
+                var qry = db.tB_Bancos
                        .Where(x => x.IdBanco == Banco.IdBanco)
                        .Set(x => x.Activo, false);
                 return await qry.UpdateAsync() >= 0;
@@ -816,12 +816,12 @@ namespace Bovis.Data
         {
             if (activo.HasValue)
             {
-                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.TB_CuentaBanco
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_CuentaBancos
                                                                           where cat.Activo == activo
                                                                           orderby cat.NoCta ascending
                                                                           select cat).ToListAsync();
             }
-            else return await GetAllFromEntityAsync<TB_Banco>();
+            else return await GetAllFromEntityAsync<TB_CuentaBanco>();
         }
         public Task<bool> AddCuentaBanco(TB_CuentaBanco Banco) => InsertEntityIdAsync<TB_CuentaBanco>(Banco);
 
@@ -831,7 +831,7 @@ namespace Bovis.Data
         {
             using (var db = new ConnectionDB(dbConfig))
             {
-                var qry = db.TB_CuentaBanco
+                var qry = db.tB_CuentaBancos
                        .Where(x => x.IdCuenta == Banco.IdCuenta)
                        .Set(x => x.Activo, false);
                 return await qry.UpdateAsync() >= 0;
