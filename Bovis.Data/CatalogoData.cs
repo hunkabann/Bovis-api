@@ -4,7 +4,9 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.Data
 {
@@ -776,11 +778,71 @@ namespace Bovis.Data
                 return await qry.UpdateAsync() >= 0;
             }
         }
-		#endregion Profesion
+        #endregion Profesion
 
-		#region Puesto
+        //ATC 19-11-2024
+        #region Banco
+        public async Task<List<TB_Banco>> GetBanco(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_Bancos
+                                                                          where cat.Activo == activo
+                                                                          orderby cat.Banco ascending
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_Banco>();
+        }
+        public Task<bool> AddBanco(TB_Banco Banco) => InsertEntityIdAsync<TB_Banco>(Banco);
 
-		public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
+        public Task<bool> UpdateBanco(TB_Banco Banco) => UpdateEntityAsync<TB_Banco>(Banco);
+
+        public async Task<bool> DeleteBanco(TB_Banco Banco)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_Bancos
+                       .Where(x => x.IdBanco == Banco.IdBanco)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion Banco
+
+        //ATC 19-11-2024
+        #region CuentaBanco
+        public async Task<List<TB_CuentaBanco>> GetCuentaBanco(bool? activo)
+        {
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig)) return await (from cat in db.tB_CuentaBancos
+                                                                          where cat.Activo == activo
+                                                                          orderby cat.NoCta ascending
+                                                                          select cat).ToListAsync();
+            }
+            else return await GetAllFromEntityAsync<TB_CuentaBanco>();
+        }
+        public Task<bool> AddCuentaBanco(TB_CuentaBanco Banco) => InsertEntityIdAsync<TB_CuentaBanco>(Banco);
+
+        public Task<bool> UpdateCuentaBanco(TB_CuentaBanco Banco) => UpdateEntityAsync<TB_CuentaBanco>(Banco);
+
+        public async Task<bool> DeleteCuentaBanco(TB_CuentaBanco Banco)
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var qry = db.tB_CuentaBancos
+                       .Where(x => x.IdCuenta == Banco.IdCuenta)
+                       .Set(x => x.Activo, false);
+                return await qry.UpdateAsync() >= 0;
+            }
+        }
+
+        #endregion CuentaBanco
+
+        #region Puesto
+
+        public async Task<List<Puesto_Detalle>> GetPuesto(bool? activo)
 		{
 			using (var db = new ConnectionDB(dbConfig)) return await (from puesto in db.tB_Cat_Puestos
 																	  where puesto.Activo == activo
@@ -789,7 +851,8 @@ namespace Bovis.Data
 																	  {
 																		  nukid_puesto = puesto.IdPuesto,
 																		  nukidnivel = puesto.IdNivel,
-																		  chpuesto = puesto.Puesto,
+                                                                          chcvenoi = puesto.chcvenoi,
+                                                                          chpuesto = puesto.Puesto,
 																		  nusalario_min = puesto.SalarioMin,
 																		  nusalario_max = puesto.SalarioMax,
 																		  nusalario_prom = puesto.SalarioProm,
@@ -801,9 +864,12 @@ namespace Bovis.Data
 
         public async Task<(bool Success, string Message)> AddPuesto(JsonObject registro)
         {
-            int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
+
+			//Atc
+           // int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
            
             string chpuesto = registro["chpuesto"].ToString();
+            string chcvenoi = registro["chcvenoi"].ToString();
             decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
             decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"].ToString());
             decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"].ToString());
@@ -814,8 +880,9 @@ namespace Bovis.Data
             using (var db = new ConnectionDB(dbConfig))
             {
                 var insert_Puesto = await db.tB_Cat_Puestos
-                    .Value(x => x.IdPuesto, nukid_puesto)
+                    //.Value(x => x.IdPuesto, nukid_puesto)
                     .Value(x => x.IdNivel, nukidnivel)
+                     .Value(x => x.chcvenoi, chcvenoi)
                     .Value(x => x.Puesto, chpuesto)
                     .Value(x => x.SalarioMin, nusalario_min)
                     .Value(x => x.SalarioMax, nusalario_max)
@@ -839,6 +906,7 @@ namespace Bovis.Data
             int nukid_puesto = Convert.ToInt32(registro["nukid_puesto"].ToString());
 
             string chpuesto = registro["chpuesto"].ToString();
+            string chcvenoi = registro["chcvenoi"].ToString();
             decimal nusalario_min = Convert.ToDecimal(registro["nusalario_min"].ToString());
             decimal nusalario_max = Convert.ToDecimal(registro["nusalario_max"].ToString());
             decimal nusalario_prom = Convert.ToDecimal(registro["nusalario_prom"].ToString());
@@ -850,6 +918,7 @@ namespace Bovis.Data
                 var res_update_puesto = await (db.tB_Cat_Puestos.Where(x => x.IdPuesto == nukid_puesto)
                     .UpdateAsync(x => new TB_Cat_Puesto
                     {
+                        chcvenoi = chcvenoi,
                         Puesto = chpuesto,
                         SalarioMin = nusalario_min,
                         SalarioMax = nusalario_max,

@@ -1081,6 +1081,50 @@ namespace Bovis.Service.Queries.Dto.Commands
 		public int id { get; set; }
 	}
 
-	#endregion
+    #endregion
+
+    #region banco
+    public class AgregarBancoCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarBancoCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarBancoCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
+    #endregion banco
+
+    #region CuentaBanco
+    public class AgregarCuentaBancoCommand : IRequest<Response<bool>>
+    {
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class ActualizarCuentaBancoCommand : UpdateBaseCommand, IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+        [Required(ErrorMessage = "El campo descripcion es requerido")]
+        public string? descripcion { get; set; }
+    }
+
+    public class EliminarCuentaBancoCommand : IRequest<Response<bool>>
+    {
+        [Required, Range(1, int.MaxValue, ErrorMessage = "El id debe ser mayor a 0.")]
+        public int id { get; set; }
+    }
+    #endregion CuentaBanco
 
 }

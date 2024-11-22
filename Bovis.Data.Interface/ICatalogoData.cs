@@ -1,6 +1,8 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.Data.Interface
 {
@@ -401,6 +403,22 @@ namespace Bovis.Data.Interface
 		Task<bool> UpdateViatico(TB_Cat_Viatico viatico);
 		Task<bool> DeleteViatico(TB_Cat_Viatico viatico);
 
-		#endregion
-	}
+        #endregion
+
+        #region Banco
+        //ATC 19-11-2024
+        Task<List<TB_Banco>> GetBanco(bool? activo);
+        Task<bool> AddBanco(TB_Banco Banco);
+        Task<bool> UpdateBanco(TB_Banco Banco);
+        Task<bool> DeleteBanco(TB_Banco Banco);
+        #endregion Banco
+
+        #region CuentaBanco
+        //ATC 19-11-2024
+        Task<List<TB_CuentaBanco>> GetCuentaBanco(bool? activo);
+        Task<bool> AddCuentaBanco(TB_CuentaBanco CuentaBanco);
+        Task<bool> UpdateCuentaBanco(TB_CuentaBanco CuentaBanco);
+        Task<bool> DeleteCuentaBanco(TB_CuentaBanco CuentaBanco);
+        #endregion CuentaBanco
+    }
 }

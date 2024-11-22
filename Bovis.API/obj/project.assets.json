@@ -5050,19 +5050,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrador\\.nuget\\packages\\": {}
+    "C:\\Users\\jmmor\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+      "projectUniqueName": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
       "projectName": "Bovis.API",
-      "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
-      "packagesPath": "C:\\Users\\Administrador\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.API\\obj\\",
+      "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+      "packagesPath": "C:\\Users\\jmmor\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Administrador\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jmmor\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5070,41 +5070,42 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
             },
-            "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
-              "projectPath": "C:\\Users\\Administrador\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj"
+            "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\Documents\\GitHub\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj"
             }
           }
         }
@@ -5168,6 +5169,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.35, 6.0.35]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.35, 6.0.35]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.35, 6.0.35]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.35, 6.0.35]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -5176,7 +5195,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

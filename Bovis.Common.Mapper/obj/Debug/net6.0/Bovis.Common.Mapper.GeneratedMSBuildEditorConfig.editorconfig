@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Bovis.Common.Mapper
-build_property.ProjectDir = C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Mapper\
+build_property.ProjectDir = C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Mapper\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

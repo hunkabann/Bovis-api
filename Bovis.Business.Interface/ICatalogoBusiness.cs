@@ -1,6 +1,8 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.Business.Interface
 {
@@ -398,6 +400,24 @@ namespace Bovis.Business.Interface
 		Task<(bool Success, string Message)> DeleteViatico(TB_Cat_Viatico viatico);
 		Task<(bool Success, string Message)> UpdateViatico(InsertMovApi MovAPI, TB_Cat_Viatico viatico);
 
-		#endregion
-	}
+        #endregion
+
+        //ATC 19-11-2024
+        #region Banco
+        Task<List<TB_Banco>> GetBanco(bool? activo);
+        Task<(bool Success, string Message)> AddBanco(TB_Banco Banco);
+        Task<(bool Success, string Message)> UpdateBanco(InsertMovApi MovAPI, TB_Banco Banco);
+        Task<(bool Success, string Message)> DeleteBanco(TB_Banco Banco);
+
+        #endregion Banco
+
+        //ATC 19-11-2024
+        #region CuentaBanco
+        Task<List<TB_CuentaBanco>> GetCuentaBanco(bool? activo);
+        Task<(bool Success, string Message)> AddCuentaBanco(TB_CuentaBanco CuentaBanco);
+        Task<(bool Success, string Message)> UpdateCuentaBanco(InsertMovApi MovAPI, TB_CuentaBanco CuentaBanco);
+        Task<(bool Success, string Message)> DeleteCuentaBanco(TB_CuentaBanco CuentaBanco);
+
+        #endregion CuentaBanco
+    }
 }

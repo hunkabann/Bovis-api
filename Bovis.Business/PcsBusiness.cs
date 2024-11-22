@@ -3,6 +3,7 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using System.Text.Json.Nodes;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Bovis.Business
 {
@@ -43,6 +44,8 @@ namespace Bovis.Business
 
         #region Proyectos
         public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
+        //atc 09-11-2024
+        public Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico) => _pcsData.GetProyectosNoClose(OrdenAlfabetico);
 
         public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
 
@@ -155,6 +158,7 @@ namespace Bovis.Business
 
         #region Control
         public Task<Control_Detalle> GetControl(int IdProyecto) => _pcsData.GetControl(IdProyecto);
+        public Task<Control_Data> GetSeccionControl(int IdProyecto, string Seccion) => _pcsData.GetSeccionControl(IdProyecto, Seccion);
         #endregion Control
     }
 }

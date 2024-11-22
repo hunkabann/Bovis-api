@@ -69,6 +69,14 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
+        //atc 09-11-2024
+        [HttpGet, Route("ProyectosNoClose/{OrdenAlfabetico?}")]
+        public async Task<IActionResult> ObtenerProyectosNoClose(bool? OrdenAlfabetico)
+        {
+            var business = await _pcsQueryService.GetProyectosNoClose(OrdenAlfabetico);
+            return Ok(business);
+        }
+
         [HttpGet, Route("Proyecto/{numProyecto}")]
         public async Task<IActionResult> ObtenerProyecto(int numProyecto)
         {
@@ -286,6 +294,13 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> GetControl(int IdProyecto)
         {
             var query = await _pcsQueryService.GetControl(IdProyecto);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("Control/{IdProyecto}/{Seccion}")]
+        public async Task<IActionResult> GetSeccionControl(int IdProyecto, string Seccion)
+        {
+            var query = await _pcsQueryService.GetSeccionControl(IdProyecto, Seccion);
             return Ok(query);
         }
         #endregion Control

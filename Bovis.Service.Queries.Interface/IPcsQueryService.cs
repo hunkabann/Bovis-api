@@ -20,6 +20,8 @@ namespace Bovis.Service.Queries.Interface
 
         #region Proyectos
         Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico);
+        //atc 09-11-2024
+        Task<Response<List<Proyecto>>> GetProyectosNoClose(bool? OrdenAlfabetico);        
         Task<Response<Proyecto>> GetProyecto(int numProyecto);
         Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro);
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
@@ -51,6 +53,7 @@ namespace Bovis.Service.Queries.Interface
 
         #region Control
         Task<Response<Control_Detalle>> GetControl(int IdProyecto);
+        Task<Response<Control_Data>> GetSeccionControl(int IdProyecto, string Seccion);
         #endregion Control
     }
 }

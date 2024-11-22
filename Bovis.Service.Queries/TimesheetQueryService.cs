@@ -105,6 +105,13 @@ namespace Bovis.Service.Queries
             var response = await _timesheetBusiness.GetNotProyectosByEmpleado(IdEmpleado);
             return new Response<List<TB_Proyecto>> { Data = _map.Map<List<TB_Proyecto>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
+        //atc 11-11-2024
+        public async Task<Response<List<TB_Proyecto>>> GetNotProyectosByEmpleadoNoClose(string IdEmpleado)
+        {
+            var response = await _timesheetBusiness.GetNotProyectosByEmpleadoNoClose(IdEmpleado);
+            return new Response<List<TB_Proyecto>> { Data = _map.Map<List<TB_Proyecto>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+
         public async Task<Response<(bool Success, string Message)>> AddProyectoEmpleado(JsonObject registro)
         {
             var response = await _timesheetBusiness.AddProyectoEmpleado(registro);

@@ -5,7 +5,9 @@ using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
+using System.Collections.Generic;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 
 namespace Bovis.Service.Queries;
 public class CatalogoQueryService : ICatalogoQueryService
@@ -174,6 +176,22 @@ public class CatalogoQueryService : ICatalogoQueryService
     public async Task<Response<List<Catalogo>>> GetProfesion(bool? Activo)
     {
         var response = await _catalogoBusiness.GetProfesion(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    //ATC 19-11-2024
+
+    public async Task<Response<List<Catalogo>>> GetBanco(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetBanco(Activo);
+        return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
+    }
+
+    //ATC 19-11-2024
+
+    public async Task<Response<List<Catalogo>>> GetCuentaBanco(bool? Activo)
+    {
+        var response = await _catalogoBusiness.GetCuentaBanco(Activo);
         return new Response<List<Catalogo>> { Data = _map.Map<List<Catalogo>>(response), Success = true };
     }
 

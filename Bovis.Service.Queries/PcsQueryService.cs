@@ -57,6 +57,12 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetProyectos(OrdenAlfabetico);
             return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
         }
+        //atc 09-11-2024
+        public async Task<Response<List<Proyecto>>> GetProyectosNoClose(bool? OrdenAlfabetico)
+        {
+            var response = await _pcsBusiness.GetProyectosNoClose(OrdenAlfabetico);
+            return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
+        }
         public async Task<Response<Proyecto>> GetProyecto(int numProyecto)
         {
             var response = await _pcsBusiness.GetProyecto(numProyecto);
@@ -176,6 +182,12 @@ namespace Bovis.Service.Queries
         {
             var response = await _pcsBusiness.GetControl(IdProyecto);
             return new Response<Control_Detalle> { Data = _map.Map<Control_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+
+        public async Task<Response<Control_Data>> GetSeccionControl(int IdProyecto, string Seccion)
+        {
+            var response = await _pcsBusiness.GetSeccionControl(IdProyecto, Seccion);
+            return new Response<Control_Data> { Data = _map.Map<Control_Data>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         #endregion Control
     }

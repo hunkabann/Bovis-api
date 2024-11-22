@@ -157,6 +157,14 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        //atc 11-11-2024
+        [HttpGet, Route("NotProyectosByEmpleadoNoClose/{IdEmpleado}")]
+        public async Task<IActionResult> GetNotProyectosByEmpleadoNoClose(string IdEmpleado)
+        {
+            var query = await _timesheetQueryService.GetNotProyectosByEmpleadoNoClose(IdEmpleado);
+            return Ok(query);
+        }
+
         [HttpPost, Route("ProyectoEmpleado")]
         public async Task<IActionResult> AddProyectoEmpleado([FromBody] JsonObject registro)
         {
