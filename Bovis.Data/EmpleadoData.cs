@@ -1410,7 +1410,9 @@ namespace Bovis.Data
                 proyectos = await (from proy in db.tB_Proyectos
                                       join emp_proy in db.tB_EmpleadoProyectos on proy.NumProyecto equals emp_proy.NumProyecto into emp_proyJoin
                                       from emp_proyItem in emp_proyJoin.DefaultIfEmpty()
-                                      where emp_proyItem.NumEmpleadoRrHh == idEmpleado
+                                   join usertime in db.tB_Usuario_Timesheets on proy.NumProyecto equals usertime.NumProyecto into usertimeJoin
+                                   from responsaItem in usertimeJoin.DefaultIfEmpty()
+                                   where emp_proyItem.NumEmpleadoRrHh == idEmpleado
                                       select new Proyecto_Detalle
                                       {
                                           nunum_proyecto = proy.NumProyecto,
@@ -1435,7 +1437,9 @@ namespace Bovis.Data
                                           nuporcantaje_participacion = emp_proyItem.PorcentajeParticipacion,
                                           chalias_puesto = emp_proyItem.AliasPuesto,
                                           chgrupo_proyecto = emp_proyItem.GrupoProyecto,
-                                          nukidunidadnegocio = proy.IdUnidadDeNegocio  //atc  
+                                          nukidunidadnegocio = proy.IdUnidadDeNegocio,  //atc  
+                                          nukidresponsable = responsaItem.NumEmpleadoRrHh,  //atc  
+                                          chresponsable = responsaItem.Usuario  //atc  
                                       }).ToListAsync();
 
                 foreach (var proy in proyectos)
