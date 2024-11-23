@@ -78,6 +78,12 @@ namespace Bovis.Data
                                       join emp1 in db.tB_Empleados on emp.IdJefeDirecto equals emp1.NumEmpleadoRrHh
                                       join jefe in db.tB_Personas on emp1.IdPersona equals jefe.IdPersona into jefeJoin
                                       from jefeItem in jefeJoin.DefaultIfEmpty()
+                                      join usertime in db.tB_Usuario_Timesheets on emp.NumEmpleado equals usertime.NumEmpleadoRrHh
+                                      //join usertime in db.tB_Usuario_Timesheets on emp.NumEmpleado equals usertime.NumEmpleadoRrHh into usertimeJoin
+                                      //from usertimeItem in usertimeJoin.DefaultIfEmpty()
+                                      join emplusertime in db.tB_Empleados on usertime.NumProyecto equals emplusertime.NumProyectoPrincipal
+                                      join responsa in db.tB_Personas on emplusertime.IdPersona equals responsa.IdPersona into responsaJoin
+                                      from responsaItem in responsaJoin.DefaultIfEmpty()
                                       join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
                                       from unidadItem in unidadJoin.DefaultIfEmpty()
                                       join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
@@ -135,6 +141,8 @@ namespace Bovis.Data
                                           chclasificacion = clasifItem != null ? clasifItem.Clasificacion : string.Empty,
                                           nukidjefe_directo = emp.IdJefeDirecto,
                                           chjefe_directo = jefeItem != null ? jefeItem.Nombre + " " + jefeItem.ApPaterno + " " + jefeItem.ApMaterno : string.Empty,
+                                          nukidresponsable = usertime.NumEmpleadoRrHh,
+                                          chresponsable = responsaItem != null ? responsaItem.Nombre + " " + responsaItem.ApPaterno + " " + responsaItem.ApMaterno : string.Empty,
                                           nukidunidad_negocio = emp.IdUnidadNegocio,
                                           chunidad_negocio = unidadItem != null ? unidadItem.UnidadNegocio : string.Empty,
                                           nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
