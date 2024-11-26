@@ -14,7 +14,7 @@ namespace Bovis.Service.Queries.Interface
     public interface ICostoQueryService
     {
         Task<Response<decimal>> AddCosto(CostoPorEmpleadoDTO source);
-        Task<Response<List<Costo_Detalle>>> GetCostos(bool? hist); 
+        Task<Response<List<Costo_Detalle>>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio); 
         Task<Response<Costo_Detalle>> GetCosto(int IdCosto);
         Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist);
         Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist);
