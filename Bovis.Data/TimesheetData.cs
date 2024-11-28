@@ -488,7 +488,7 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == id_time_sheet)
+                var res_update_timesheet = await db.tB_Timesheets.Where(x => x.IdTimesheet == id_time_sheet && x.Activo == true)
                     .UpdateAsync(x => new TB_Timesheet
                     {
                         IdEmpleado = id_empleado,
@@ -535,7 +535,7 @@ namespace Bovis.Data
                     decimal costo = Convert.ToDecimal(proyecto["costo"].ToString());
 
                     //ATC 22-10-2024
-                    int tsproyect = Convert.ToInt32(proyecto["tsproyect"].ToString());
+                   // int tsproyect = Convert.ToInt32(proyecto["tsproyect"].ToString());
 
 
                     if (ids_proyectos_db.Contains(id))
@@ -543,7 +543,8 @@ namespace Bovis.Data
                         if (ids_proyectos_request.Contains(id))
                         {
                             // Se actualiza
-                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet && x.IdTimesheet_Proyecto == tsproyect)
+                            //var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet && x.IdTimesheet_Proyecto == tsproyect)
+                            var res_update_timesheet_proyecto = await db.tB_Timesheet_Proyectos.Where(x => x.IdProyecto == id && x.IdTimesheet == id_time_sheet )
                                 .UpdateAsync(x => new TB_Timesheet_Proyecto
                                 {
                                     Descripcion = nombre_proyecto,

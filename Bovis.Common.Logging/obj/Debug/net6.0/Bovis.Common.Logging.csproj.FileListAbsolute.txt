@@ -33,3 +33,15 @@ C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug
 C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
 C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
 C:\Users\Administrador\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.deps.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfoInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfo.cs
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.csproj.CoreCompileInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.sourcelink.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll
