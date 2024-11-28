@@ -78,6 +78,12 @@ namespace Bovis.Data
                                       join emp1 in db.tB_Empleados on emp.IdJefeDirecto equals emp1.NumEmpleadoRrHh
                                       join jefe in db.tB_Personas on emp1.IdPersona equals jefe.IdPersona into jefeJoin
                                       from jefeItem in jefeJoin.DefaultIfEmpty()
+                                      join usertime in db.tB_Usuario_Timesheets on emp.NumProyectoPrincipal equals usertime.NumProyecto into usertimeJoin
+                                      //join usertime in db.tB_Usuario_Timesheets on emp.NumEmpleado equals usertime.NumEmpleadoRrHh into usertimeJoin
+                                      //from usertimeItem in usertimeJoin.DefaultIfEmpty()
+                                      //join emplusertime in db.tB_Empleados on usertime.NumProyecto equals emplusertime.NumProyectoPrincipal
+                                      //join responsa in db.tB_Personas on emplusertime.IdPersona equals responsa.IdPersona into responsaJoin
+                                      from responsaItem in usertimeJoin.DefaultIfEmpty()
                                       join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
                                       from unidadItem in unidadJoin.DefaultIfEmpty()
                                       join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
@@ -135,6 +141,8 @@ namespace Bovis.Data
                                           chclasificacion = clasifItem != null ? clasifItem.Clasificacion : string.Empty,
                                           nukidjefe_directo = emp.IdJefeDirecto,
                                           chjefe_directo = jefeItem != null ? jefeItem.Nombre + " " + jefeItem.ApPaterno + " " + jefeItem.ApMaterno : string.Empty,
+                                          nukidresponsable = responsaItem.NumEmpleadoRrHh,
+                                          chresponsable = responsaItem != null ? responsaItem.Usuario : string.Empty,
                                           nukidunidad_negocio = emp.IdUnidadNegocio,
                                           chunidad_negocio = unidadItem != null ? unidadItem.UnidadNegocio : string.Empty,
                                           nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
@@ -1402,7 +1410,9 @@ namespace Bovis.Data
                 proyectos = await (from proy in db.tB_Proyectos
                                       join emp_proy in db.tB_EmpleadoProyectos on proy.NumProyecto equals emp_proy.NumProyecto into emp_proyJoin
                                       from emp_proyItem in emp_proyJoin.DefaultIfEmpty()
-                                      where emp_proyItem.NumEmpleadoRrHh == idEmpleado
+                                   join usertime in db.tB_Usuario_Timesheets on proy.NumProyecto equals usertime.NumProyecto into usertimeJoin
+                                   from responsaItem in usertimeJoin.DefaultIfEmpty()
+                                   where emp_proyItem.NumEmpleadoRrHh == idEmpleado
                                       select new Proyecto_Detalle
                                       {
                                           nunum_proyecto = proy.NumProyecto,
@@ -1427,7 +1437,9 @@ namespace Bovis.Data
                                           nuporcantaje_participacion = emp_proyItem.PorcentajeParticipacion,
                                           chalias_puesto = emp_proyItem.AliasPuesto,
                                           chgrupo_proyecto = emp_proyItem.GrupoProyecto,
-                                          nukidunidadnegocio = proy.IdUnidadDeNegocio  //atc  
+                                          nukidunidadnegocio = proy.IdUnidadDeNegocio,  //atc  
+                                          nukidresponsable = responsaItem.NumEmpleadoRrHh,  //atc  
+                                          chresponsable = responsaItem.Usuario  //atc  
                                       }).ToListAsync();
 
                 foreach (var proy in proyectos)

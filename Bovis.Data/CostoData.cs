@@ -191,10 +191,10 @@ namespace Bovis.Data
 
         #region GetCostos
 
-        public async Task<List<Costo_Detalle>> GetCostos(bool? hist)
+        public async Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
         {
             CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleados();
+            var costos = await QueryBase.CostosEmpleadosBusqueda(idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
 
             if ((bool)hist)
             {
@@ -919,10 +919,14 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
     {
         _dbConfig = dbConfig;
     }
+
     public async Task<List<Costo_Detalle>> CostosEmpleados()
     {
         using (var db = new ConnectionDB(_dbConfig))
         {
+
+          
+
             var result = await (from costos in db.tB_Costo_Por_Empleados
                                 join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
                                 from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
@@ -946,6 +950,7 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
                                 join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
                                 from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
+                                
                                 select new Costo_Detalle
                                 {
                                     IdCostoEmpleado = costos.IdCostoEmpleado,
@@ -1075,6 +1080,196 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                                  //FechaActualizacion = eb.FechaActualizacion,
                                                  //RegHistorico = eb.RegHistorico
                                              }).ToListAsync());
+            }
+
+            return result;
+
+        }
+
+    }
+
+    public async Task<List<Costo_Detalle>> CostosEmpleadosBusqueda(string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+    {
+        using (var db = new ConnectionDB(_dbConfig))
+        {
+
+            // List<int> lstProyectosCliente = null;
+            List<int> lstProyectosEmpresa = null;
+
+            /*if (idCliente != null)
+            {
+                lstProyectosCliente = await (from a in db.tB_ClienteProyectos
+                                             where a.IdCliente == idCliente
+                                             select a.NumProyecto.GetValueOrDefault()).ToListAsync();
+            }*/
+            if (idEmpresa != null)
+            {
+                lstProyectosEmpresa = await (from a in db.tB_Proyectos
+                                             where a.IdEmpresa == idEmpresa
+                                             select a.NumProyecto).ToListAsync();
+            }
+
+            var result = await (from costos in db.tB_Costo_Por_Empleados
+                                join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
+                                from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
+                                join empleadoCosto in db.tB_Empleados on costos.NumEmpleadoRrHh equals empleadoCosto.NumEmpleadoRrHh into empleadoCostoJoin
+                                from empleadoCostoItem in empleadoCostoJoin.DefaultIfEmpty()
+                                join ciudad in db.tB_Ciudads on empleadoCostoItem.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                                join puesto in db.tB_Cat_Puestos on costos.IdPuesto equals puesto.IdPuesto into puestoJoin
+                                from puestoItem in puestoJoin.DefaultIfEmpty()
+                                join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
+                                from proyectoItem in proyectoJoin.DefaultIfEmpty()
+                                    //ATC 21-11-2024
+                                    //join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                join unidadN in db.tB_Cat_UnidadNegocios on empleadoCostoItem.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                from unidadNItem in unidadNJoin.DefaultIfEmpty()
+                                join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                                from empresaItem in empresaJoin.DefaultIfEmpty()
+                                join empleadoJefe in db.tB_Empleados on costos.IdEmpleadoJefe equals empleadoJefe.NumEmpleadoRrHh into empleadoJefeJoin
+                                from empleadoJefeItem in empleadoJefeJoin.DefaultIfEmpty()
+                                join personaJefe in db.tB_Personas on empleadoJefeItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
+                                from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
+                                join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
+                                from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
+                                where (idProyecto == null || costos.NumProyecto == idProyecto)
+                                && (idPuesto == null || costos.IdPuesto == idProyecto)
+                                && (idEmpresa == null || costos.IdEmpresa == idEmpresa)
+                                && (idUnidadNegocio == null || costos.IdUnidadNegocio == idUnidadNegocio)
+                                 && (idEmpleado == null || costos.NumEmpleadoRrHh == idEmpleado)
+                                // && (lstProyectosEmpresa == null || costos.NumProyecto.In(lstProyectosEmpresa))
+                                //&& (fechaIni == null || a.FechaEmision >= fechaIni)
+                                // && (fechaFin == null || a.FechaEmision <= fechaFin)
+                                // && (noFactura == null || a.NoFactura == noFactura)
+                                select new Costo_Detalle
+                                {
+                                    IdCostoEmpleado = costos.IdCostoEmpleado,
+                                    // Empleado
+                                    IdPersona = costos.IdPersona,
+                                    NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
+                                    // ATC
+                                    //NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    NumEmpleadoNoi = Convert.ToInt32(empleadoCostoItem.NoEmpleadoNoi),
+                                    NombreCompletoEmpleado = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
+                                    ApellidoPaterno = personaEmpItem != null ? personaEmpItem.ApPaterno : string.Empty,
+                                    ApellidoMaterno = personaEmpItem != null ? personaEmpItem.ApMaterno : string.Empty,
+                                    NombreEmpleado = personaEmpItem != null ? personaEmpItem.Nombre : string.Empty,
+                                    IdCiudad = ciudadItem != null ? ciudadItem.IdCiudad : 0,
+                                    Ciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                    Reubicacion = costos.Reubicacion,
+                                    IdPuesto = costos.IdPuesto,
+                                    Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
+                                    NumProyecto = costos.NumProyecto,
+                                    Proyecto = proyectoItem != null ? proyectoItem.Proyecto : string.Empty,
+                                    IdUnidadNegocio = empleadoCostoItem.IdUnidadNegocio,
+                                    UnidadNegocio = unidadNItem != null ? unidadNItem.UnidadNegocio : string.Empty,
+                                    IdEmpresa = costos.IdEmpresa,
+                                    Empresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                    Timesheet = costos.Timesheet,
+                                    IdEmpleadoJefe = costos.IdEmpleadoJefe,
+                                    NombreJefe = personaJefeItem != null ? personaJefeItem.Nombre + " " + personaJefeItem.ApPaterno + " " + personaJefeItem.ApMaterno : string.Empty,
+                                    // Seniority
+                                    FechaIngreso = costos.FechaIngreso,
+                                    Antiguedad = costos.Antiguedad,
+                                    // Sueldo neto mensual (MN)
+                                    AvgDescuentoEmpleado = costos.AvgDescuentoEmpleado,
+                                    MontoDescuentoMensual = costos.MontoDescuentoMensual,
+                                    SueldoNetoPercibidoMensual = costos.SueldoNetoPercibidoMensual,
+                                    RetencionImss = costos.RetencionImss,
+                                    Ispt = costos.Ispt,
+                                    // Sueldo bruto MN/USD
+                                    SueldoBrutoInflacion = costos.SueldoBruto,
+                                    Anual = costos.Anual,
+                                    // Aguinaldo
+                                    AguinaldoCantidadMeses = costos.AguinaldoCantMeses,
+                                    AguinaldoMontoProvisionMensual = costos.AguinaldoMontoProvisionMensual,
+                                    // Prima vacacional
+                                    PvDiasVacasAnuales = costos.PvDiasVacasAnuales,
+                                    PvProvisionMensual = costos.PvProvisionMensual,
+                                    // Indemnización
+                                    IndemProvisionMensual = costos.IndemProvisionMensual,
+                                    // Provisión bono anual
+                                    AvgBonoAnualEstimado = costos.AvgBonoAnualEstimado,
+                                    BonoAnualProvisionMensual = costos.BonoAnualProvisionMensual,
+                                    // GMM
+                                    SgmmCostoTotalAnual = costos.SgmmCostoTotalAnual,
+                                    SgmmCostoMensual = costos.SgmmCostoMensual,
+                                    // Seguro de vida
+                                    SvCostoTotalAnual = costos.SvCostoTotalAnual,
+                                    SvCostoMensual = costos.SvCostoMensual,
+                                    // Vales de despensa
+                                    VaidCostoMensual = costos.VaidCostoMensual,
+                                    VaidComisionCostoMensual = costos.VaidComisionCostoMensual,
+                                    // PTU
+                                    PtuProvision = costos.PtuProvision,
+                                    // Cargas sociales e impuestos laborales
+                                    Impuesto3sNomina = costos.Impuesto3sNomina,
+                                    Imss = costos.Imss,
+                                    Retiro2 = costos.Retiro2,
+                                    CesantesVejez = costos.CesantesVejez,
+                                    Infonavit = costos.Infonavit,
+                                    CargasSociales = costos.CargasSociales,
+                                    // Costo total laboral BLL
+                                    CostoMensualEmpleado = costos.CostoMensualEmpleado,
+                                    CostoMensualProyecto = costos.CostoMensualProyecto,
+                                    CostoAnualEmpleado = costos.CostoAnualEmpleado,
+                                    CostoSalarioBruto = costos.CostoSalarioBruto,
+                                    CostoSalarioNeto = costos.CostoSalarioNeto,
+
+                                    NuAnno = costos.NuAnno,
+                                    NuMes = costos.NuMes,
+                                    FechaActualizacion = costos.FechaActualizacion,
+                                    RegHistorico = costos.RegHistorico,
+                                    Categoria = categoriaEmpItem.Categoria,
+                                    SalarioDiarioIntegrado = empleadoCostoItem.Cotizacion,
+                                    //ATC
+                                    ImpuestoNomina = proyectoItem.ImpuestoNomina,
+                                }).ToListAsync();
+
+            foreach (var r in result)
+            {
+                r.Beneficios = new List<Beneficio_Costo_Detalle>();
+                r.Beneficios.AddRange(await (from eb in db.tB_EmpleadoBeneficios
+                                             join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                             from bItem in bJoin.DefaultIfEmpty()
+                                             where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
+                                             && eb.RegHistorico == false
+                                             select new Beneficio_Costo_Detalle
+                                             {
+                                                 Id = eb.Id,
+                                                 IdBeneficio = eb.IdBeneficio,
+                                                 Beneficio = bItem != null ? bItem.Beneficio : string.Empty,
+                                                 NumEmpleadoRrHh = eb.NumEmpleadoRrHh,
+                                                 Costo = eb.Costo,
+                                                 Mes = eb.Mes,
+                                                 Anio = eb.Anno,
+                                                 FechaActualizacion = eb.FechaActualizacion,
+                                                 RegHistorico = eb.RegHistorico
+                                             }).ToListAsync());
+            }
+
+            foreach (var r in result)
+            {
+                r.Beneficiosproyecto = new List<Beneficio_Costo_Detalle>();
+                r.Beneficiosproyecto.AddRange(await (from eb in db.tB_EmpleadoProyectoBeneficios
+                                                     join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                                     from bItem in bJoin.DefaultIfEmpty()
+                                                     where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
+
+                                                     select new Beneficio_Costo_Detalle
+                                                     {
+                                                         //Id = eb.Id,
+                                                         IdBeneficio = eb.IdBeneficio,
+                                                         Beneficio = bItem != null ? bItem.Beneficio : string.Empty,
+                                                         NumEmpleadoRrHh = eb.NumEmpleadoRrHh,
+                                                         nucostobeneficio = eb.nucostobeneficio,
+                                                         NumProyecto = eb.NumProyecto
+                                                         //Costo = eb.Costo,
+                                                         //Mes = eb.Mes,
+                                                         //Anio = eb.Anno,
+                                                         //FechaActualizacion = eb.FechaActualizacion,
+                                                         //RegHistorico = eb.RegHistorico
+                                                     }).ToListAsync());
             }
 
             return result;

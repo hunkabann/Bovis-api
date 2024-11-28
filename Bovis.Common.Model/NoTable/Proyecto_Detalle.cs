@@ -76,8 +76,11 @@ namespace Bovis.Common.Model.NoTable
         public int? nukidunidadnegocio { get; set; }   //atc
         public string? chunidadnegocio { get; set; }   //atc
         public int? impuesto_nomina { get; set; }   //atc
+        //ATC
+        public string? nukidresponsable { get; set; }
+        public string? chresponsable { get; set; }
 
-        
+
 
 
     }

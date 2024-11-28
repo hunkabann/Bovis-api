@@ -57,6 +57,10 @@ namespace Bovis.Common.Model.NoTable
         public string? chclasificacion { get; set; }
         public string? nukidjefe_directo { get; set; }
         public string? chjefe_directo { get; set; }
+
+        //ATC
+        public string? nukidresponsable { get; set; }
+        public string? chresponsable { get; set; }
         public int? nukidunidad_negocio { get; set; }
         public string? chunidad_negocio { get; set; }
         public int? nukidtipo_contrato_sat { get; set; }
