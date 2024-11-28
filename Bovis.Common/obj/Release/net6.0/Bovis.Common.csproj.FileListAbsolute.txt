@@ -21,3 +21,15 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Commo
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Release\net6.0\refint\Bovis.Common.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common\obj\Release\net6.0\ref\Bovis.Common.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\bin\Release\net6.0\Bovis.Common.deps.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\bin\Release\net6.0\Bovis.Common.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\bin\Release\net6.0\Bovis.Common.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.AssemblyInfoInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.AssemblyInfo.cs
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.csproj.CoreCompileInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.sourcelink.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\refint\Bovis.Common.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\Bovis.Common.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Release\net6.0\ref\Bovis.Common.dll

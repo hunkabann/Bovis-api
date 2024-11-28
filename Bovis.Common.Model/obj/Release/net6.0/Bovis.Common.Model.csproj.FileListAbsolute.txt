@@ -22,3 +22,16 @@ E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Commo
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\refint\Bovis.Common.Model.dll
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.pdb
 E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\ref\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\bin\Release\net6.0\Bovis.Common.Model.deps.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\bin\Release\net6.0\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\bin\Release\net6.0\Bovis.Common.Model.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.csproj.AssemblyReference.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.AssemblyInfoInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.AssemblyInfo.cs
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.csproj.CoreCompileInputs.cache
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.sourcelink.json
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\refint\Bovis.Common.Model.dll
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\Bovis.Common.Model.pdb
+C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Release\net6.0\ref\Bovis.Common.Model.dll
