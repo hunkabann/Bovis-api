@@ -31,7 +31,7 @@ namespace Bovis.Common.Model.Tables
 		[Column("Nukidtipo_contrato_sat"), Nullable] public int? IdTipoContrato_sat { get; set; }
 		[Column("Nunum_empleado"), Nullable] public string? NumEmpleado { get; set; }
 		[Column("Dtfecha_ingreso"), NotNull] public DateTime FechaIngreso { get; set; }
-		[Column("Dtfecha_salida"), Nullable] public DateTime FechaSalida { get; set; }
+		[Column("Dtfecha_salida"), Nullable] public DateTime? FechaSalida { get; set; }
 		[Column("Dtfecha_ultimo_reingreso"), Nullable] public DateTime? FechaUltimoReingreso { get; set; }
 		[Column("Chnss"), Nullable] public string? Nss { get; set; }
 		[Column("Chemail_bovis"), Nullable] public string? EmailBovis { get; set; }
