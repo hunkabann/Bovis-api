@@ -1141,7 +1141,7 @@ namespace Bovis.Data
                         IdTipoContrato_sat = id_tipo_contrato_sat,
                         NumEmpleado = num_empleado,
                         FechaIngreso = fecha_ingreso,
-                        FechaSalida = Convert.ToDateTime(fecha_salida),
+                        FechaSalida = fecha_salida != null ? Convert.ToDateTime(fecha_salida) : null,
                         FechaUltimoReingreso = fecha_ultimo_reingreso,
                         Nss = nss,
                         EmailBovis = email_bovis,
