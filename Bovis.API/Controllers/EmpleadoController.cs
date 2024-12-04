@@ -51,7 +51,7 @@ namespace Bovis.API.Controllers
 
         //ATC 03-12-2024
         [HttpGet, Route("Empleados/AllFiltro/{Activo?}/{idEstado?}/{idPuesto?}/{idProyecto?}/{idEmpresa?}/{idUnidadNegocio?}")]
-        public async Task<IActionResult> GetEmpleadosAllFiltro(bool? Activo, bool? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+        public async Task<IActionResult> GetEmpleadosAllFiltro(bool? Activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
         {
             var query = await _empleadoQueryService.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
             return Ok(query);

@@ -49,7 +49,7 @@ namespace Bovis.Service.Queries
         }
 
         //ATC 03-12-2024
-        public async Task<Response<List<Empleado_Detalle>>> GetEmpleadosAllFiltro(bool? Activo, bool? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+        public async Task<Response<List<Empleado_Detalle>>> GetEmpleadosAllFiltro(bool? Activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
         {
             var response = await _empleadoBusiness.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
             return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };

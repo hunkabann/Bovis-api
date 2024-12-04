@@ -31,7 +31,7 @@ namespace Bovis.Business
         public Task<List<Empleado_Detalle>> GetEmpleados(bool? Activo) => _empleadoData.GetEmpleados(Activo);
         public Task<List<Empleado_Detalle>> GetEmpleadosAll(bool? Activo) => _empleadoData.GetEmpleadosAll(Activo);
         //ATC 03-12-2024
-        public Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? Activo, bool? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio) => _empleadoData.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
+        public Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? Activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio) => _empleadoData.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
 
         public Task<Empleado_Detalle> GetEmpleado(string idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
 

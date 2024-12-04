@@ -1635,8 +1635,18 @@ namespace Bovis.Data
         }
 
         //ATC 03-12-2024
-        public async Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? activo, bool? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+        public async Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
         {
+            bool estadocombo = false;
+            if (idEstado == 1)
+            {
+                estadocombo = true;
+            }
+            if (idEstado == 2)
+            {
+                estadocombo = false;
+            }
+
             if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig))
@@ -1689,7 +1699,7 @@ namespace Bovis.Data
                                        && (idPuesto == 0 || emp.CvePuesto == idPuesto)
                                        && (idEmpresa == 0 || emp.IdEmpresa == idEmpresa)
                                        && (idUnidadNegocio == 0 || emp.IdUnidadNegocio == idUnidadNegocio)
-                                        && (idEstado == false || emp.Activo == idEstado)
+                                       && (idEstado == 0 || emp.Activo == estadocombo)
                                       // where emp.Activo == activo
                                       orderby perItem.Nombre ascending
                                       select new Empleado_Detalle
