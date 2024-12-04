@@ -14,6 +14,7 @@ using System.Text.Json.Nodes;
 using Bovis.Service.Queries.Dto.Responses;
 using Microsoft.AspNetCore.Http;
 using Bovis.Common.Model.Tables;
+using Bovis.Common.Model.NoTable;
 
 namespace Bovis.API.Controllers
 {
@@ -48,7 +49,17 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("Puesto/{idPuesto}")]
+        //ATC 03-12-2024
+        [HttpGet, Route("Empleados/AllFiltro/{Activo?}/{idEstado?}/{idPuesto?}/{idProyecto?}/{idEmpresa?}/{idUnidadNegocio?}")]
+        public async Task<IActionResult> GetEmpleadosAllFiltro(bool? Activo, bool? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+        {
+            var query = await _empleadoQueryService.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
+            return Ok(query);
+        }
+
+       
+
+[HttpGet, Route("Puesto/{idPuesto}")]
         public async Task<IActionResult> GetEmpleadosByIDPuesto(string? idPuesto)
         {
             var query = await _empleadoQueryService.GetEmpleadosByIDPuesto(idPuesto);

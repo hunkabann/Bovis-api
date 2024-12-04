@@ -1133,7 +1133,7 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
                                 from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
                                 where (idProyecto == 0 || costos.NumProyecto == idProyecto)
-                                && (idPuesto == 0 || costos.IdPuesto == idProyecto)
+                                && (idPuesto == 0 || costos.IdPuesto == idPuesto)
                                 && (idEmpresa == 0 || costos.IdEmpresa == idEmpresa)
                                 && (idUnidadNegocio == 0 || costos.IdUnidadNegocio == idUnidadNegocio)
                                  && (idEmpleado == "0" || costos.NumEmpleadoRrHh == idEmpleado)
