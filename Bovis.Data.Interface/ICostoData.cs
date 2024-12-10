@@ -9,7 +9,7 @@ namespace Bovis.Data.Interface
     public interface ICostoData : IDisposable
     {
         Task<Response<decimal>> AddCosto(TB_CostoPorEmpleado registro);
-        Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio);
+        Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, string? FechaIni, string? FechaFin);
         Task<Costo_Detalle> GetCosto(int IdCosto);
         Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist);
         Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist);
