@@ -54,7 +54,7 @@ namespace Bovis.Common.Model.Tables
 
         [Column("Nuanno"), NotNull] public int NuAnno { get; set; }
         [Column("Numes"), NotNull] public int NuMes { get; set; }
-        [Column("Dtfecha_actualizacion"), NotNull] public DateTime FechaActualizacion { get; set; }
+        [Column("Dtfecha_actualizacion"), NotNull] public DateTime? FechaActualizacion { get; set; }
         [Column("Boreg_historico"), NotNull] public bool RegHistorico { get; set; } = false;
     }
 
