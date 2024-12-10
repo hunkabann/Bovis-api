@@ -196,12 +196,16 @@ namespace Bovis.Data
             CostoQueries QueryBase = new(dbConfig);
             var costos = await QueryBase.CostosEmpleadosBusqueda(idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio, FechaIni, FechaFin);
 
-            if ((bool)hist)
+           if ((bool)hist)
             {
-                return costos;
-            }
-            else
                 return costos.Where(reg => reg.RegHistorico == false).ToList();
+               
+            }
+            else {
+
+                return costos;
+
+            }
         }
         #endregion
 
