@@ -191,7 +191,7 @@ namespace Bovis.Data
 
         #region GetCostos
 
-        public async Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, string? FechaIni, string? FechaFin)
+        public async Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin)
         {
             CostoQueries QueryBase = new(dbConfig);
             var costos = await QueryBase.CostosEmpleadosBusqueda(idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio, FechaIni, FechaFin);
@@ -1088,8 +1088,22 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
 
     }
 
-    public async Task<List<Costo_Detalle>> CostosEmpleadosBusqueda(string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, string? FechaIni, string? FechaFin)
+    public async Task<List<Costo_Detalle>> CostosEmpleadosBusqueda(string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin)
     {
+
+        DateTime? myDate = null;
+
+        if (FechaIni != null)
+        {
+            myDate = FechaIni;
+        }
+
+        DateTime? myDateFin = null;
+
+        if (FechaFin != null)
+        {
+            myDateFin = FechaFin;
+        }
 
 
 
@@ -1141,8 +1155,8 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 && (idUnidadNegocio == 0 || costos.IdUnidadNegocio == idUnidadNegocio)
                                  && (idEmpleado == "0" || costos.NumEmpleadoRrHh == idEmpleado)
                                 // && (lstProyectosEmpresa == null || costos.NumProyecto.In(lstProyectosEmpresa))
-                                && (FechaIni == "0" || costos.FechaActualizacion >= DateTime.Parse(FechaIni))
-                                && (FechaFin == "0" || costos.FechaActualizacion <= DateTime.Parse(FechaFin))
+                                && (myDate == null || costos.FechaActualizacion >= myDate)
+                                && (myDateFin == null || costos.FechaActualizacion <= myDateFin)
                                 // && (noFactura == null || a.NoFactura == noFactura)
                                 select new Costo_Detalle
                                 {
