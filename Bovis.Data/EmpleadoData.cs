@@ -179,6 +179,7 @@ namespace Bovis.Data
                                           chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
                                           dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                         // dtvigencia90Letras = emp.FechaIngreso.AddDays(90).ToString("d") + " --- " + emp.FechaIngreso.AddDays(90).ToString("D") + " --- " + emp.FechaIngreso.AddDays(90).ToString("F") ,
                                           SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                       }).ToListAsync();
 
@@ -337,6 +338,7 @@ namespace Bovis.Data
                                           chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
                                           dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                          //dtvigencia90Letras = emp.FechaIngreso.AddDays(90).ToString("d") + " --- " + emp.FechaIngreso.AddDays(90).ToString("D") + " --- " + emp.FechaIngreso.AddDays(90).ToString("F"),
                                           SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                       }).ToListAsync();
 
@@ -579,7 +581,7 @@ namespace Bovis.Data
                                  {
                                      nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
                                      nukidpersona = emp.IdPersona,
-                                     nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                     nombre_persona = perItem != null ? perItem.Nombre.ToUpper() + " " + perItem.ApPaterno.ToUpper() + " " + perItem.ApMaterno.ToUpper() : string.Empty,
                                      dtfecha_nacimiento = perItem.FechaNacimiento,
                                      nukidsexo = perItem.IdSexo,
                                      chsexo = sexItem != null ? sexItem.Sexo : string.Empty,
@@ -626,8 +628,11 @@ namespace Bovis.Data
                                      chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                      nunum_empleado = emp.NumEmpleado,
                                      dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                     dtfecha_ingresoLetras = emp.FechaIngreso.ToString("D"),
                                      dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
+                                     dtfecha_salidaLetras = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("D") : string.Empty,
                                      dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
+                                     dtfecha_ultimo_reingresoLetras = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("D") : string.Empty,
                                      chnss = emp.Nss,
                                      chemail_bovis = emp.EmailBovis,
                                      chexperiencias = emp.Experiencias,
@@ -655,7 +660,10 @@ namespace Bovis.Data
                                      nuproyecto_principal = emp.NumProyectoPrincipal,
                                      chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                      dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
+                                     dtvigenciaLetras = emp.FechaIngreso.AddDays(30).ToString("D"),
                                      dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                     //ATC GET EMPLEADO
+                                     dtvigencia90Letras = emp.FechaIngreso.AddDays(90).ToString("D"),
                                      SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                  }).FirstOrDefaultAsync();
 

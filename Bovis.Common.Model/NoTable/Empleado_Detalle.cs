@@ -67,8 +67,14 @@ namespace Bovis.Common.Model.NoTable
         public string? chtipo_contrato_sat { get; set; }
         public string? nunum_empleado { get; set; }
         public string dtfecha_ingreso { get; set; }
+        //ATC
+        public string dtfecha_ingresoLetras { get; set; }
         public string? dtfecha_salida { get; set; }
+        //ATC
+        public string? dtfecha_salidaLetras { get; set; }
         public string? dtfecha_ultimo_reingreso { get; set; }
+        //ATC
+        public string? dtfecha_ultimo_reingresoLetras { get; set; }
         public string? chnss { get; set; }
         public string? chemail_bovis { get; set; }        
         public string? churl_repositorio { get; set; }
@@ -95,7 +101,11 @@ namespace Bovis.Common.Model.NoTable
         public string? chrol { get; set; }
         public string dtvigencia { get; set; }
         //ATC
+        public string dtvigenciaLetras { get; set; }        
+        //ATC
         public string dtvigencia90 { get; set; }
+        //ATC
+        public string dtvigencia90Letras { get; set; }
         //ATC
         public string SalarioenLetras { get; set; }
         public string? chexperiencias { get; set; }
