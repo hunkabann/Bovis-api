@@ -1403,6 +1403,24 @@ namespace Bovis.Data
 
                 resp.Success = res_disable_usuario;
                 resp.Message = res_disable_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+                //ATC 20-12-2024  OBTIENE EL VALOR DEL EMPLEADO
+
+                var empleado = await (from p in db.tB_Empleados
+                                     where p.NumEmpleadoRrHh == num_empleado_rr_hh
+                                     select p).FirstOrDefaultAsync();
+
+                //ATC 20-12-2024  UTILIZA EL VALOR DE PERSONA PARA ACTUALIZAR A FALSE O 0
+
+                var res_update_persona = await db.tB_Personas.Where(x => x.IdPersona == empleado.IdPersona)
+                    .UpdateAsync(x => new TB_Persona
+                    {
+                        EsEmpleado = false
+                    }) > 0;
+
+                resp.Success = res_update_persona;
+                resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
             return resp;
         }
