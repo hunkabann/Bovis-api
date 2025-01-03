@@ -191,17 +191,21 @@ namespace Bovis.Data
 
         #region GetCostos
 
-        public async Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+        public async Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin)
         {
             CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleadosBusqueda(idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
+            var costos = await QueryBase.CostosEmpleadosBusqueda(idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio, FechaIni, FechaFin);
 
-            if ((bool)hist)
+           if ((bool)hist)
             {
-                return costos;
-            }
-            else
                 return costos.Where(reg => reg.RegHistorico == false).ToList();
+               
+            }
+            else {
+
+                return costos;
+
+            }
         }
         #endregion
 
@@ -1088,8 +1092,25 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
 
     }
 
-    public async Task<List<Costo_Detalle>> CostosEmpleadosBusqueda(string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+    public async Task<List<Costo_Detalle>> CostosEmpleadosBusqueda(string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin)
     {
+
+        DateTime? myDate = null;
+
+        if (FechaIni != null)
+        {
+            myDate = FechaIni;
+        }
+
+        DateTime? myDateFin = null;
+
+        if (FechaFin != null)
+        {
+            myDateFin = FechaFin;
+        }
+
+
+
         using (var db = new ConnectionDB(_dbConfig))
         {
 
@@ -1133,13 +1154,13 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
                                 from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
                                 where (idProyecto == 0 || costos.NumProyecto == idProyecto)
-                                && (idPuesto == 0 || costos.IdPuesto == idProyecto)
+                                && (idPuesto == 0 || costos.IdPuesto == idPuesto)
                                 && (idEmpresa == 0 || costos.IdEmpresa == idEmpresa)
                                 && (idUnidadNegocio == 0 || costos.IdUnidadNegocio == idUnidadNegocio)
                                  && (idEmpleado == "0" || costos.NumEmpleadoRrHh == idEmpleado)
                                 // && (lstProyectosEmpresa == null || costos.NumProyecto.In(lstProyectosEmpresa))
-                                //&& (fechaIni == null || a.FechaEmision >= fechaIni)
-                                // && (fechaFin == null || a.FechaEmision <= fechaFin)
+                                && (myDate == null || costos.FechaActualizacion >= myDate)
+                                && (myDateFin == null || costos.FechaActualizacion <= myDateFin)
                                 // && (noFactura == null || a.NoFactura == noFactura)
                                 select new Costo_Detalle
                                 {

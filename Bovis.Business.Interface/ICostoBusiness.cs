@@ -14,7 +14,7 @@ namespace Bovis.Business.Interface
     public interface ICostoBusiness : IDisposable
     {
         Task<Response<decimal>> AddCosto(CostoPorEmpleadoDTO source);
-        Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio);
+        Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin);
         Task<Costo_Detalle> GetCosto(int IdCosto);
         Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist);
         Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int año, int mes, bool hist);

@@ -179,6 +179,7 @@ namespace Bovis.Data
                                           chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
                                           dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                         // dtvigencia90Letras = emp.FechaIngreso.AddDays(90).ToString("d") + " --- " + emp.FechaIngreso.AddDays(90).ToString("D") + " --- " + emp.FechaIngreso.AddDays(90).ToString("F") ,
                                           SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                       }).ToListAsync();
 
@@ -337,6 +338,7 @@ namespace Bovis.Data
                                           chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                           dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
                                           dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                          //dtvigencia90Letras = emp.FechaIngreso.AddDays(90).ToString("d") + " --- " + emp.FechaIngreso.AddDays(90).ToString("D") + " --- " + emp.FechaIngreso.AddDays(90).ToString("F"),
                                           SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                       }).ToListAsync();
 
@@ -579,7 +581,7 @@ namespace Bovis.Data
                                  {
                                      nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
                                      nukidpersona = emp.IdPersona,
-                                     nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                     nombre_persona = perItem != null ? perItem.Nombre.ToUpper() + " " + perItem.ApPaterno.ToUpper() + " " + perItem.ApMaterno.ToUpper() : string.Empty,
                                      dtfecha_nacimiento = perItem.FechaNacimiento,
                                      nukidsexo = perItem.IdSexo,
                                      chsexo = sexItem != null ? sexItem.Sexo : string.Empty,
@@ -626,8 +628,11 @@ namespace Bovis.Data
                                      chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
                                      nunum_empleado = emp.NumEmpleado,
                                      dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                     dtfecha_ingresoLetras = emp.FechaIngreso.ToString("D"),
                                      dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
+                                     dtfecha_salidaLetras = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("D") : string.Empty,
                                      dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
+                                     dtfecha_ultimo_reingresoLetras = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("D") : string.Empty,
                                      chnss = emp.Nss,
                                      chemail_bovis = emp.EmailBovis,
                                      chexperiencias = emp.Experiencias,
@@ -655,7 +660,10 @@ namespace Bovis.Data
                                      nuproyecto_principal = emp.NumProyectoPrincipal,
                                      chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
                                      dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
+                                     dtvigenciaLetras = emp.FechaIngreso.AddDays(30).ToString("D"),
                                      dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                     //ATC GET EMPLEADO
+                                     dtvigencia90Letras = emp.FechaIngreso.AddDays(90).ToString("D"),
                                      SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
                                  }).FirstOrDefaultAsync();
 
@@ -1141,7 +1149,7 @@ namespace Bovis.Data
                         IdTipoContrato_sat = id_tipo_contrato_sat,
                         NumEmpleado = num_empleado,
                         FechaIngreso = fecha_ingreso,
-                        FechaSalida = Convert.ToDateTime(fecha_salida),
+                        FechaSalida = fecha_salida != null ? Convert.ToDateTime(fecha_salida) : null,
                         FechaUltimoReingreso = fecha_ultimo_reingreso,
                         Nss = nss,
                         EmailBovis = email_bovis,
@@ -1395,6 +1403,24 @@ namespace Bovis.Data
 
                 resp.Success = res_disable_usuario;
                 resp.Message = res_disable_usuario == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+
+                //ATC 20-12-2024  OBTIENE EL VALOR DEL EMPLEADO
+
+                var empleado = await (from p in db.tB_Empleados
+                                     where p.NumEmpleadoRrHh == num_empleado_rr_hh
+                                     select p).FirstOrDefaultAsync();
+
+                //ATC 20-12-2024  UTILIZA EL VALOR DE PERSONA PARA ACTUALIZAR A FALSE O 0
+
+                var res_update_persona = await db.tB_Personas.Where(x => x.IdPersona == empleado.IdPersona)
+                    .UpdateAsync(x => new TB_Persona
+                    {
+                        EsEmpleado = false
+                    }) > 0;
+
+                resp.Success = res_update_persona;
+                resp.Message = res_update_persona == default ? "Ocurrio un error al actualizar registro." : string.Empty;
             }
             return resp;
         }
@@ -1632,6 +1658,180 @@ namespace Bovis.Data
             }
             return Num2Text;
 
+        }
+
+        //ATC 03-12-2024
+        public async Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio)
+        {
+            bool estadocombo = false;
+            if (idEstado == 1)
+            {
+                estadocombo = true;
+            }
+            if (idEstado == 2)
+            {
+                estadocombo = false;
+            }
+
+            if (activo.HasValue)
+            {
+                using (var db = new ConnectionDB(dbConfig))
+                {
+                    var resp = await (from emp in db.tB_Empleados
+                                      join per in db.tB_Personas on emp.IdPersona equals per.IdPersona into perJoin
+                                      from perItem in perJoin.DefaultIfEmpty()
+                                      join sex in db.tB_Cat_Sexos on perItem.IdSexo equals sex.IdSexo into sexJoin
+                                      from sexItem in sexJoin.DefaultIfEmpty()
+                                      join tipo_emp in db.tB_Cat_TipoEmpleados on emp.IdTipoEmpleado equals tipo_emp.IdTipoEmpleado into tipo_empJoin
+                                      from tipo_empItem in tipo_empJoin.DefaultIfEmpty()
+                                      join cat in db.tB_Cat_Categorias on emp.IdCategoria equals cat.IdCategoria into catJoin
+                                      from catItem in catJoin.DefaultIfEmpty()
+                                      join contrato in db.tB_Cat_TipoContratos on emp.IdTipoContrato equals contrato.IdTipoContrato into contratoJoin
+                                      from contratoItem in contratoJoin.DefaultIfEmpty()
+                                      join puesto in db.tB_Cat_Puestos on emp.CvePuesto equals puesto.IdPuesto into puestoJoin
+                                      from puestoItem in puestoJoin.DefaultIfEmpty()
+                                      join empresa in db.tB_Empresas on emp.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                                      from empresaItem in empresaJoin.DefaultIfEmpty()
+                                      join ciudad in db.tB_Ciudads on emp.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                      from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                                      join estado in db.tB_Estados on emp.IdEstado equals estado.IdEstado into estadoJoin
+                                      from estadoItem in estadoJoin.DefaultIfEmpty()
+                                      join pais in db.tB_Pais on emp.IdPais equals pais.IdPais into paisJoin
+                                      from paisItem in paisJoin.DefaultIfEmpty()
+                                      join estudios in db.tB_Cat_NivelEstudios on emp.IdNivelEstudios equals estudios.IdNivelEstudios into estudiosJoin
+                                      from estudiosItem in estudiosJoin.DefaultIfEmpty()
+                                      join pago in db.tB_Cat_FormaPagos on emp.IdFormaPago equals pago.IdFormaPago into pagoJoin
+                                      from pagoItem in pagoJoin.DefaultIfEmpty()
+                                      join jornada in db.tB_Cat_Jornadas on emp.IdJornada equals jornada.IdJornada into jornadaJoin
+                                      from jornadaItem in jornadaJoin.DefaultIfEmpty()
+                                      join depto in db.tB_Cat_Departamentos on emp.IdDepartamento equals depto.IdDepartamento into deptoJoin
+                                      from deptoItem in deptoJoin.DefaultIfEmpty()
+                                      join clasif in db.tB_Cat_Clasificacions on emp.IdClasificacion equals clasif.IdClasificacion into clasifJoin
+                                      from clasifItem in clasifJoin.DefaultIfEmpty()
+                                      join emp1 in db.tB_Empleados on emp.IdJefeDirecto equals emp1.NumEmpleadoRrHh
+                                      join jefe in db.tB_Personas on emp1.IdPersona equals jefe.IdPersona into jefeJoin
+                                      from jefeItem in jefeJoin.DefaultIfEmpty()
+                                      join unidad in db.tB_Cat_UnidadNegocios on emp.IdUnidadNegocio equals unidad.IdUnidadNegocio into unidadJoin
+                                      from unidadItem in unidadJoin.DefaultIfEmpty()
+                                      join contrato_sat in db.tB_Cat_TipoContrato_Sats on emp.IdTipoContrato_sat equals contrato_sat.IdTipoContratoSat into contrato_satJoin
+                                      from contrato_satItem in contrato_satJoin.DefaultIfEmpty()
+                                      join profesion in db.tB_Cat_Profesiones on emp.IdProfesion equals profesion.IdProfesion into profesionJoin
+                                      from profesionItem in profesionJoin.DefaultIfEmpty()
+                                      join turno in db.tB_Cat_Turnos on emp.IdTurno equals turno.IdTurno into turnoJoin
+                                      from turnoItem in turnoJoin.DefaultIfEmpty()
+                                      join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
+                                      from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
+                                      where (idProyecto == 0 || emp.NumProyectoPrincipal == idProyecto)
+                                       && (idPuesto == 0 || emp.CvePuesto == idPuesto)
+                                       && (idEmpresa == 0 || emp.IdEmpresa == idEmpresa)
+                                       && (idUnidadNegocio == 0 || emp.IdUnidadNegocio == idUnidadNegocio)
+                                       && (idEstado == 0 || emp.Activo == estadocombo)
+                                      // where emp.Activo == activo
+                                      orderby perItem.Nombre ascending
+                                      select new Empleado_Detalle
+                                      {
+                                          nunum_empleado_rr_hh = emp.NumEmpleadoRrHh,
+                                          nukidpersona = emp.IdPersona,
+                                          nombre_persona = perItem != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : string.Empty,
+                                          dtfecha_nacimiento = perItem.FechaNacimiento,
+                                          nukidsexo = perItem.IdSexo,
+                                          chsexo = sexItem != null ? sexItem.Sexo : string.Empty,
+                                          chcurp = perItem.Curp,
+                                          chrfc = perItem.Rfc,
+                                          chnacionalidad = perItem.Nacionalidad,
+                                          nukidtipo_empleado = emp.IdTipoEmpleado,
+                                          chtipo_emplado = tipo_empItem.TipoEmpleado != null ? tipo_empItem.TipoEmpleado : string.Empty,
+                                          nukidcategoria = emp.IdCategoria,
+                                          chcategoria = catItem != null ? catItem.Categoria : string.Empty,
+                                          nukidtipo_contrato = emp.IdTipoContrato,
+                                          chtipo_contrato = contratoItem != null ? contratoItem.VeContrato : string.Empty,
+                                          chcve_puesto = emp.CvePuesto,
+                                          chpuesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
+                                          nukidempresa = emp.IdEmpresa,
+                                          chempresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                          chcalle = emp.Calle,
+                                          nunumero_interior = emp.NumeroInterior,
+                                          nunumero_exterior = emp.NumeroExterior,
+                                          chcolonia = emp.Colonia,
+                                          chalcaldia = emp.Alcaldia,
+                                          nukidciudad = emp.IdCiudad,
+                                          chciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                          nukidestado = emp.IdEstado,
+                                          chestado = estadoItem != null ? estadoItem.Estado : string.Empty,
+                                          chcp = emp.CP,
+                                          nukidpais = emp.IdPais,
+                                          chpais = paisItem != null ? paisItem.Pais : string.Empty,
+                                          nukidnivel_estudios = emp.IdNivelEstudios,
+                                          chnivel_estudios = estudiosItem != null ? estudiosItem.NivelEstudios : string.Empty,
+                                          nukidforma_pago = emp.IdFormaPago,
+                                          chforma_pago = pagoItem != null ? pagoItem.TipoDocumento : string.Empty,
+                                          nukidjornada = emp.IdJornada,
+                                          chjornada = jornadaItem != null ? jornadaItem.Jornada : string.Empty,
+                                          nukiddepartamento = emp.IdDepartamento,
+                                          chdepartamento = deptoItem != null ? deptoItem.Departamento : string.Empty,
+                                          nukidclasificacion = emp.IdClasificacion,
+                                          chclasificacion = clasifItem != null ? clasifItem.Clasificacion : string.Empty,
+                                          nukidjefe_directo = emp.IdJefeDirecto,
+                                          chjefe_directo = jefeItem != null ? jefeItem.Nombre + " " + jefeItem.ApPaterno + " " + jefeItem.ApMaterno : string.Empty,
+                                          nukidunidad_negocio = emp.IdUnidadNegocio,
+                                          chunidad_negocio = unidadItem != null ? unidadItem.UnidadNegocio : string.Empty,
+                                          nukidtipo_contrato_sat = emp.IdTipoContrato_sat,
+                                          chtipo_contrato_sat = contrato_satItem != null ? contrato_satItem.ContratoSat : string.Empty,
+                                          nunum_empleado = emp.NumEmpleado,
+                                          dtfecha_ingreso = emp.FechaIngreso.ToString("yyyy-MM-dd"),
+                                          dtfecha_salida = emp.FechaSalida != null ? Convert.ToDateTime(emp.FechaSalida).ToString("yyyy-MM-dd") : string.Empty,
+                                          dtfecha_ultimo_reingreso = emp.FechaUltimoReingreso != null ? Convert.ToDateTime(emp.FechaUltimoReingreso).ToString("yyyy-MM-dd") : string.Empty,
+                                          chnss = emp.Nss,
+                                          chemail_bovis = emp.EmailBovis,
+                                          chexperiencias = emp.Experiencias,
+                                          chhabilidades = emp.Habilidades,
+                                          churl_repositorio = emp.UrlRepositorio,
+                                          nusalario = emp.Salario,
+                                          nukidprofesion = emp.IdProfesion,
+                                          chprofesion = profesionItem != null ? profesionItem.Profesion : string.Empty,
+                                          nukidturno = emp.IdTurno,
+                                          chturno = turnoItem != null ? turnoItem.Turno : string.Empty,
+                                          nuunidad_medica = emp.UnidadMedica,
+                                          chregistro_patronal = emp.RegistroPatronal,
+                                          chcotizacion = emp.Cotizacion,
+                                          nuduracion = emp.Duracion,
+                                          boactivo = emp.Activo,
+                                          boempleado = perItem != null ? perItem.EsEmpleado : false,
+                                          nudescuento_pension = emp.DescuentoPension,
+                                          chporcentaje_pension = emp.ChPorcentajePension,
+                                          nufondo_fijo = emp.FondoFijo,
+                                          nucredito_infonavit = emp.CreditoInfonavit,
+                                          chtipo_descuento = emp.TipoDescuento,
+                                          nuvalor_descuento = emp.ValorDescuento,
+                                          nuno_empleado_noi = emp.NoEmpleadoNoi,
+                                          chrol = emp.Rol,
+                                          nuproyecto_principal = emp.NumProyectoPrincipal,
+                                          chproyecto_principal = proyectoPrinItem != null ? proyectoPrinItem.Proyecto : string.Empty,
+                                          dtvigencia = emp.FechaIngreso.AddDays(30).ToString("yyyy-MM-dd"),
+                                          dtvigencia90 = emp.FechaIngreso.AddDays(90).ToString("yyyy-MM-dd"),
+                                          SalarioenLetras = emp.Salario.ToString("C") + " " + enletras(emp.Salario.ToString()) + " " + "M.N."
+                                      }).ToListAsync();
+
+                    // Se calcula la antigüedad y edad
+                    foreach (var emp in resp)
+                    {
+                        DateTime fecha_ingreso = (emp.dtfecha_ultimo_reingreso.IsNullOrEmpty()) ? Convert.ToDateTime(emp.dtfecha_ingreso) : Convert.ToDateTime(emp.dtfecha_ultimo_reingreso);
+                        DateTime fecha_salida = (emp.dtfecha_salida.IsNullOrEmpty()) ? DateTime.Now : Convert.ToDateTime(emp.dtfecha_salida);
+                        TimeSpan diferencia = fecha_salida - fecha_ingreso;
+                        int años_antiguedad = diferencia.Days / 365;
+                        int meses_antiguedad = (diferencia.Days % 365) / 30;
+                        int dias_antiguedad = diferencia.Days % 30;
+                        emp.nuantiguedad = $"{años_antiguedad} años, {meses_antiguedad} meses, {dias_antiguedad} días";
+
+                        TimeSpan diferenciaEdad = DateTime.Now - emp.dtfecha_nacimiento;
+                        int años_edad = diferenciaEdad.Days / 365;
+                        emp.chedad = $"{años_edad} años";
+                    }
+
+                    return resp;
+                }
+            }
+            else return await GetAllFromEntityAsync<Empleado_Detalle>();
         }
 
 

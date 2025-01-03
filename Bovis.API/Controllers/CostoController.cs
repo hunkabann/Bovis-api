@@ -47,11 +47,11 @@ namespace Bovis.API.Controllers
         #endregion
 
         #region GetCostos
-        [HttpGet("Costos/{hist?}/{idEmpleado?}/{idPuesto?}/{idProyecto?}/{idEmpresa?}/{idUnidadNegocio?}")]
-        public async Task<IActionResult> GetCostos( string? idEmpleado, int? idPuesto,  int? idProyecto, int? idEmpresa, int? idUnidadNegocio, [FromQuery] bool? hist = false)
+        [HttpGet("Costos/{hist?}/{idEmpleado?}/{idPuesto?}/{idProyecto?}/{idEmpresa?}/{idUnidadNegocio?}/{FechaIni}/{FechaFin}")]
+        public async Task<IActionResult> GetCostos(bool? hist, string? idEmpleado, int? idPuesto,  int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin)
         {
-            bool historico = hist ?? false;
-            var query = await _costoQueryService.GetCostos(hist, idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
+            //bool historico = hist ?? false;
+            var query = await _costoQueryService.GetCostos(hist, idEmpleado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio, FechaIni, FechaFin);
             return Ok(query);
         }
         #endregion

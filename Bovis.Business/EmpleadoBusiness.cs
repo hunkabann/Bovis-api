@@ -30,6 +30,8 @@ namespace Bovis.Business
         #region Empleados
         public Task<List<Empleado_Detalle>> GetEmpleados(bool? Activo) => _empleadoData.GetEmpleados(Activo);
         public Task<List<Empleado_Detalle>> GetEmpleadosAll(bool? Activo) => _empleadoData.GetEmpleadosAll(Activo);
+        //ATC 03-12-2024
+        public Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? Activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio) => _empleadoData.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);
 
         public Task<Empleado_Detalle> GetEmpleado(string idEmpleado) => _empleadoData.GetEmpleado(idEmpleado);
 
@@ -56,7 +58,8 @@ namespace Bovis.Business
             else
             {
                 resp = respData;
-                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+                //atc 02/12/2024 se comenta por que no existe bitacora
+               // _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
             }
             return resp;
         }
