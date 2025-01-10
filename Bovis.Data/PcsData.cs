@@ -1329,7 +1329,9 @@ namespace Bovis.Data
                         .Value(x => x.Cantidad, cantidad)
                         .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
                         .Value(x => x.Activo, true)
-                        .InsertAsync() > 0;
+                        .InsertAsync();
+
+                    rubro_record_id = res_insert_rubro;
                 }
 
                 var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == rubro_record_id)
