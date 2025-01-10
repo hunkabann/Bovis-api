@@ -1317,6 +1317,17 @@ namespace Bovis.Data
                         .FirstOrDefaultAsync();
 
                     rubro_record_id = updatedRubroIds;
+                } else
+                {
+                    var res_insert_rubro = await db.tB_Rubros
+                        .Value(x => x.NumProyecto, numProyecto)
+                        .Value(x => x.IdRubro, id_rubro)
+                        .Value(x => x.Reembolsable, reembolsable)
+                        .Value(x => x.Unidad, unidad)
+                        .Value(x => x.Cantidad, cantidad)
+                        .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync() > 0;
                 }
 
                 var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == rubro_record_id)
