@@ -1288,6 +1288,7 @@ namespace Bovis.Data
 
             int numProyecto = Convert.ToInt32(registro["numProyecto"].ToString());
             int id_rubro = Convert.ToInt32(registro["idRubro"].ToString());
+            int id_seccion = Convert.ToInt32(registro["idSeccion"].ToString());
             string unidad = registro["unidad"].ToString();
             decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
             bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
@@ -1322,6 +1323,7 @@ namespace Bovis.Data
                     var res_insert_rubro = await db.tB_Rubros
                         .Value(x => x.NumProyecto, numProyecto)
                         .Value(x => x.IdRubro, id_rubro)
+                        .Value(x => x.IdSeccion, id_seccion)
                         .Value(x => x.Reembolsable, reembolsable)
                         .Value(x => x.Unidad, unidad)
                         .Value(x => x.Cantidad, cantidad)
