@@ -41,6 +41,7 @@ namespace Bovis.Common.Model.NoTable
     {
         public int Id { get; set; }
         public string? Rubro { get; set; }
+        public bool? RubroReembolsable { get; set; }
         public int? Mes { get; set; }
         public int? Anio { get; set; }
         public decimal? Porcentaje { get; set; }

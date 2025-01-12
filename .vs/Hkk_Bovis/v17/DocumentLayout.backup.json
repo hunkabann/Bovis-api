@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.data\\pcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\pcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 18,
+          "SelectedChildIndex": 19,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PCS_Detalle.cs",
+              "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "RelativeToolTip": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAywCsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-12T22:08:20.291Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -96,7 +113,7 @@
               "RelativeDocumentMoniker": "Bovis.Data\\PcsData.cs",
               "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs",
               "RelativeToolTip": "Bovis.Data\\PcsData.cs",
-              "ViewState": "AgIAANcEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC8CAAAAAAAAAAAAAJYDAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-10T02:53:56.552Z",
               "EditorCaption": ""

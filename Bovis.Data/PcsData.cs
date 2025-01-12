@@ -985,6 +985,8 @@ namespace Bovis.Data
                                                     select new PCS_Fecha_Detalle
                                                     {
                                                         Id = p.Id,
+                                                        Rubro = rubro.Rubro,
+                                                        RubroReembolsable = rubro.Reembolsable,
                                                         Mes = p.Mes,
                                                         Anio = p.Anio,
                                                         Porcentaje = p.Porcentaje
@@ -1032,6 +1034,7 @@ namespace Bovis.Data
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Id = valor.Id,
+                                                    RubroReembolsable = rub.Reembolsable,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1149,6 +1152,8 @@ namespace Bovis.Data
                                                         select new PCS_Fecha_Detalle
                                                         {
                                                             Id = p.Id,
+                                                            Rubro = rubro.Rubro,
+                                                            RubroReembolsable = rubro.Reembolsable,
                                                             Mes = p.Mes,
                                                             Anio = p.Anio,
                                                             Porcentaje = p.Porcentaje
@@ -1205,6 +1210,8 @@ namespace Bovis.Data
                                                     select new PCS_Fecha_Detalle
                                                     {
                                                         Id = valor.Id,
+                                                        Rubro = rubro.Rubro,
+                                                        RubroReembolsable = rubro.Reembolsable,
                                                         Mes = valor.Mes,
                                                         Anio = valor.Anio,
                                                         Porcentaje = valor.Porcentaje
