@@ -1305,7 +1305,8 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_rubro = await db.tB_Rubros.Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
+                var res_update_rubro = await db.tB_Rubros
+                    .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
                     .UpdateAsync(x => new TB_Rubro
                     {
                         Unidad = unidad,
@@ -1320,7 +1321,7 @@ namespace Bovis.Data
                 if (res_update_rubro)
                 {
                     var updatedRubroIds = await db.tB_Rubros
-                        .Where(x => x.IdRubro == id_rubro && x.NumProyecto == numProyecto)
+                        .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
                         .Select(x => x.Id)
                         .FirstOrDefaultAsync();
 
