@@ -199,7 +199,7 @@ namespace Bovis.Data
 
 
                 /*
-                 * Se agregan las secciones y rubros para gastos e ingresos.
+                 * Se agregan las secciones y rubros para gastos e ingresos Rembolsabes.
                  */
                 var secciones = await (from secc in db.tB_GastoIngresoSeccions
                                        where secc.Activo == true
@@ -217,6 +217,7 @@ namespace Bovis.Data
                                         .Value(x => x.IdSeccion, seccion.IdSeccion)
                                         .Value(x => x.IdRubro, rubro.IdRubro)
                                         .Value(x => x.NumProyecto, num_proyecto)
+                                        .Value(x => x.Reembolsable, true)
                                         .Value(x => x.Activo, true)
                                         .InsertAsync() > 0;
 
@@ -224,6 +225,31 @@ namespace Bovis.Data
                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
                     }
                 }
+
+                /*
+                * Se agregan las secciones y rubros para gastos e ingresos No Rembolsabes.
+                */
+                foreach (var seccion in secciones)
+                {
+                    var rubros = await (from rub in db.tB_CatRubros
+                                        where rub.IdSeccion == seccion.IdSeccion
+                                        select rub).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var res_insert_rubro = await db.tB_Rubros
+                                        .Value(x => x.IdSeccion, seccion.IdSeccion)
+                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.NumProyecto, num_proyecto)
+                                        .Value(x => x.Reembolsable, false)
+                                        .Value(x => x.Activo, true)
+                                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_rubro;
+                        resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }
+                }
+
 
                 /*
                  * Se agregan sus documentos de auditorías, default.
