@@ -227,7 +227,7 @@ namespace Bovis.Data
                 }
 
                 /*
-                * Se duplica las secciones y rubros para gastos e ingresos No Rembolsabes.
+                * Se duplica las secciones y rubros para gastos e ingresos No Rembolsabes.  ATC 13012025
                 */
                 foreach (var seccion in secciones)
                 {
