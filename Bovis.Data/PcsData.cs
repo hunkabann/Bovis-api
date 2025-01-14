@@ -227,7 +227,7 @@ namespace Bovis.Data
                 }
 
                 /*
-                * Se agregan las secciones y rubros para gastos e ingresos No Rembolsabes.
+                * Se duplica las secciones y rubros para gastos e ingresos No Rembolsabes.
                 */
                 foreach (var seccion in secciones)
                 {
@@ -248,7 +248,7 @@ namespace Bovis.Data
                         resp.Success = res_insert_rubro;
                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
                     }
-                }
+                } 
 
 
                 /*
