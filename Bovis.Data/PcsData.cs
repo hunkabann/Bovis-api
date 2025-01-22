@@ -1552,12 +1552,14 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Rubro = rubro.Rubro,
+                                                    ClasificacionPY = cie.ClasificacionPY,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1587,12 +1589,14 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Rubro = rubro.Rubro,
+                                                    ClasificacionPY = cie.ClasificacionPY,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1678,6 +1682,7 @@ namespace Bovis.Data
                                           && cie.NumProyecto == IdProyecto
                                           select new PCS_Fecha_Detalle
                                           {
+                                              ClasificacionPY = cie.ClasificacionPY,
                                               Mes = cie.Mes,
                                               Anio = cie.Fecha.Year,
                                               Porcentaje = cie.Movimiento
@@ -1728,6 +1733,7 @@ namespace Bovis.Data
                                         select new PCS_Fecha_Detalle
                                         {
                                             Rubro = viatico.Rubro,
+                                            ClasificacionPY = cie.ClasificacionPY,
                                             Mes = cie.Mes,
                                             Anio = cie.Fecha.Year,
                                             Porcentaje = cie.Movimiento
@@ -1856,11 +1862,15 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto into cieJoin
+                                                from cieItem in cieJoin.DefaultIfEmpty()
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
+                                                && cieItem.ClasificacionPY == "Salarios"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new Control_Fechas
                                                 {
+                                                    ClasificacionPY = cieItem.ClasificacionPY,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1890,11 +1900,14 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                //join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto into cieJoin
+                                                //from cieItem in cieJoin.DefaultIfEmpty()
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new Control_Fechas
                                                 {
+                                                    ClasificacionPY = rubro.Rubro,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1974,6 +1987,7 @@ namespace Bovis.Data
                                                     orderby p.Anio, p.Mes ascending
                                                     select new Control_Fechas
                                                     {
+                                                        ClasificacionPY = rubro.Rubro,
                                                         Mes = p.Mes,
                                                         Anio = p.Anio,
                                                         Porcentaje = p.Porcentaje
@@ -1988,6 +2002,7 @@ namespace Bovis.Data
                                .GroupBy(f => new { f.Mes, f.Anio })
                                .Select(g => new Control_Fechas
                                {
+                                   ClasificacionPY = g.First().ClasificacionPY,
                                    Mes = g.Key.Mes,
                                    Anio = g.Key.Anio,
                                    Porcentaje = g.Sum(f => f.Porcentaje)
@@ -2003,6 +2018,7 @@ namespace Bovis.Data
                                                   orderby cie.Fecha.Year, cie.Mes ascending
                                                   select new Control_Fechas
                                                   {
+                                                      ClasificacionPY = cie.ClasificacionPY,
                                                       Mes = cie.Mes,
                                                       Anio = cie.Fecha.Year,
                                                       Porcentaje = cie.Movimiento
@@ -2012,6 +2028,7 @@ namespace Bovis.Data
                                             .GroupBy(c => new { c.Mes, c.Anio })
                                             .Select(g => new Control_Fechas
                                             {
+                                                ClasificacionPY = g.First().ClasificacionPY,
                                                 Mes = g.Key.Mes,
                                                 Anio = g.Key.Anio,
                                                 Porcentaje = g.Sum(c => c.Porcentaje)
@@ -2029,6 +2046,7 @@ namespace Bovis.Data
                            .GroupBy(f => new { f.Mes, f.Anio })
                            .Select(g => new Control_Fechas
                            {
+                               ClasificacionPY = g.First().ClasificacionPY,
                                Mes = g.Key.Mes,
                                Anio = g.Key.Anio,
                                Porcentaje = g.Sum(f => f.Porcentaje)
@@ -2049,6 +2067,7 @@ namespace Bovis.Data
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Rubro = viatico.Rubro,
+                                                    ClasificacionPY = viatico.Rubro,
                                                     Mes = g.Key.Mes,
                                                     Anio = g.Key.Year,
                                                     Porcentaje = g.Sum(x => x.Movimiento)
@@ -2063,6 +2082,7 @@ namespace Bovis.Data
                             .Select(g => new Control_Fechas
                             {
                                 //Rubro = g.Key.Rubro,
+                                ClasificacionPY = g.First().ClasificacionPY,
                                 Mes = g.Key.Mes,
                                 Anio = g.Key.Anio,
                                 Porcentaje = g.Sum(c => c.Porcentaje)
@@ -2083,6 +2103,7 @@ namespace Bovis.Data
                                 if (subsec.Seccion == _viatic.Rubro)
                                 {
                                     Control_Fechas control_fechas = new Control_Fechas();
+                                    control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
                                     control_fechas.Mes = _viatic.Mes;
                                     control_fechas.Anio = _viatic.Anio;
                                     control_fechas.Porcentaje = _viatic.Porcentaje;
@@ -2094,6 +2115,7 @@ namespace Bovis.Data
                                    .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
                                    .Select(g => new Control_Fechas
                                    {
+                                       ClasificacionPY = g.First().ClasificacionPY,
                                        Mes = g.Key.Mes,
                                        Anio = g.Key.Anio,
                                        Porcentaje = g.Sum(f => f.Porcentaje)
