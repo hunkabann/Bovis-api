@@ -931,7 +931,7 @@ namespace Bovis.Data
 
 
         #region Gastos / Ingresos
-        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro)
+        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro, bool? reembolsable = false)
         {
             var fechas_gasto = new List<PCS_Fecha_Detalle>();
 
@@ -977,7 +977,6 @@ namespace Bovis.Data
                                             from eItem in eJoin.DefaultIfEmpty()
                                             join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                             from perItem in perJoin.DefaultIfEmpty()
-
                                             where p.IdFase == etapa.IdFase
                                             orderby p.NumEmpleado ascending
                                             group new Rubro_Detalle
@@ -1035,6 +1034,7 @@ namespace Bovis.Data
                                         where rubro.IdSeccion == seccion.IdSeccion
                                         && rubro.NumProyecto == IdProyecto
                                         && rel2.Tipo == "gasto"
+                                        && rubro.Reembolsable == reembolsable
                                         select new Rubro_Detalle
                                         {
                                             Id = rubro.Id,
@@ -1056,6 +1056,7 @@ namespace Bovis.Data
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
+                                                && rub.Reembolsable == reembolsable
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
@@ -1189,7 +1190,7 @@ namespace Bovis.Data
                                 }
                                 else
                                 {
-                                    rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro));
+                                    rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro, rubro.Reembolsable));
                                 }
                             }
 
@@ -1247,7 +1248,7 @@ namespace Bovis.Data
                             }
                             else
                             {
-                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro));
+                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro, rubro.Reembolsable));
                             }
                         }
                     }
