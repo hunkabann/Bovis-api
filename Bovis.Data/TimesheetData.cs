@@ -366,13 +366,20 @@ namespace Bovis.Data
                                                 join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
                                                 join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
                                                 join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
-                                                where ts.Mes == mes
-                                                && ts.Anio == anio
-                                                && ts.Activo == true
-                                                && (emp2.FechaSalida == null || mes == Convert.ToDateTime(emp2.FechaSalida).Month)
-                                                && (emp2.FechaSalida == null || anio == Convert.ToDateTime(emp2.FechaSalida).Year)
-                                               // && anio == Convert.ToDateTime(emp2.FechaSalida).Year
-                                                //&& emp2.Activo == true
+                                                 where ts.Mes == mes
+                                                 && ts.Anio == anio
+                                                 && ts.Activo == true
+                                                 //&& emp2.Activo == false ? mes == Convert.ToDateTime(emp2.FechaSalida).Month : emp2.Activo == true
+                                                 // && emp2.Activo == false ? anio == Convert.ToDateTime(emp2.FechaSalida).Year : emp2.Activo == true
+                                                 && (emp2.FechaSalida != null || mes == Convert.ToDateTime(emp2.FechaSalida).Month)
+                                                 && (emp2.FechaSalida != null || anio == Convert.ToDateTime(emp2.FechaSalida).Year)
+                                                 // && emp2.FechaUltimoReingreso == null && emp2.FechaSalida == null ? false : mes == Convert.ToDateTime(emp2.FechaSalida).Month
+                                                 // && emp2.FechaUltimoReingreso == null && emp2.FechaSalida == null ? false : anio == Convert.ToDateTime(emp2.FechaSalida).Year
+                                                 //&& mes == Convert.ToDateTime(emp2.FechaSalida).Month
+                                                 //&& anio == Convert.ToDateTime(emp2.FechaSalida).Year
+                                                 // && anio == Convert.ToDateTime(emp2.FechaSalida).Year
+                                                 //&& emp2.Activo == true
+                                                // && (emp2.FechaUltimoReingreso == null && emp2.FechaUltimoReingreso != null)
                                                 orderby ts.IdEmpleado ascending
                                                 select new TimeSheet_Detalle
                                                 {
