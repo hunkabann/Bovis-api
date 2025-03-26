@@ -972,3 +972,7 @@ C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.s
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.build.endpoints.json
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\bin\Debug\net6.0\Bovis.API.staticwebassets.endpoints.json
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets\msbuild.Bovis.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+E:\DESARROLLO\LP SOLUTIONS\Pendientes\Hunkabann\BOVIS\Code\Bovis-api\Bovis.API\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
