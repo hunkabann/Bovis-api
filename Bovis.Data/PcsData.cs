@@ -931,156 +931,379 @@ namespace Bovis.Data
 
 
         #region Gastos / Ingresos
-        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro, bool? reembolsable = false)
+        public async Task<List<Seccion_Detalle>> GetGastosIngresosSecciones(int IdProyecto, string Tipo)
         {
-            var fechasGasto = new List<PCS_Fecha_Detalle>();
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var secciones = await (from seccion in db.tB_GastoIngresoSeccions
+                                       where seccion.Tipo == Tipo
+                                       orderby seccion.Codigo ascending
+                                       select new Seccion_Detalle
+                                       {
+                                           IdSeccion = seccion.IdSeccion,
+                                           Codigo = seccion.Codigo,
+                                           Seccion = seccion.Seccion
+                                       })
+                                      .ToListAsync();
+
+                return secciones;
+            }
+        }
+        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, List<PCS_Etapa_Detalle> Fases, Seccion_Detalle Seccion, string Rubro, bool? reembolsable = false)
+        {
+            var fechas_gasto = new List<PCS_Fecha_Detalle>();
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                var secciones = await db.tB_GastoIngresoSeccions
-                    .Where(s => s.Tipo == "gasto")
-                    .OrderBy(s => s.Codigo)
-                    .Select(s => new Seccion_Detalle
-                    {
-                        IdSeccion = s.IdSeccion,
-                        Codigo = s.Codigo,
-                        Seccion = s.Seccion
-                    }).ToListAsync();
+                List<Rubro_Detalle> rubros = null;
+                Seccion.Rubros = new List<Rubro_Detalle>();
 
-                foreach (var seccion in secciones)
+                if (Seccion.IdSeccion == 2)
                 {
-                    List<Rubro_Detalle> rubros = new();
-                    seccion.Rubros = new List<Rubro_Detalle>();
-
-                    if (seccion.IdSeccion == 2)
+                    foreach (var fase in Fases)
                     {
-                        var etapas = await db.tB_ProyectoFases
-                            .Where(p => p.NumProyecto == IdProyecto)
-                            .OrderBy(p => p.FechaIni)
-                            .Select(p => new PCS_Etapa_Detalle
-                            {
-                                IdFase = p.IdFase,
-                                Orden = p.Orden,
-                                Fase = p.Fase,
-                                FechaIni = p.FechaIni,
-                                FechaFin = p.FechaFin
-                            }).ToListAsync();
+                        rubros = await (from p in db.tB_ProyectoFaseEmpleados
+                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                        from eItem in eJoin.DefaultIfEmpty()
+                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                        from perItem in perJoin.DefaultIfEmpty()
+                                        where p.IdFase == fase.IdFase
+                                        orderby p.NumEmpleado ascending
+                                        group new Rubro_Detalle
+                                        {
+                                            Id = p.Id,
+                                            IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                            Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                            Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true
 
-                        foreach (var etapa in etapas)
+                                        } by new { p.NumEmpleado } into g
+                                        select new Rubro_Detalle
+                                        {
+                                            Id = g.First().Id,
+                                            IdRubro = g.First().IdRubro,
+                                            Rubro = g.First().Rubro,
+                                            Empleado = g.First().Empleado,
+                                            NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                            Reembolsable = g.First().Reembolsable
+                                        }).ToListAsync();
+
+                        fechas_gasto = new List<PCS_Fecha_Detalle>();
+
+                        foreach (var rubro in rubros)
                         {
-                            rubros = await db.tB_ProyectoFaseEmpleados
-                                .Where(p => p.IdFase == etapa.IdFase)
-                                .OrderBy(p => p.NumEmpleado)
-                                .GroupBy(p => new { p.NumEmpleado, p.Fee }) // Selecciona las propiedades necesarias
-                                .Select(g => new Rubro_Detalle
-                                {
-                                    Id = g.Any() ? g.First().Id : 0,  // Usamos Any() para evitar un error si el grupo está vacío
-                                    IdRubro = 0,
-                                    Rubro = g.Key.NumEmpleado,
-                                    NumEmpleadoRrHh = g.Key.NumEmpleado,
-                                    Reembolsable = g.Key.Fee.HasValue && g.Key.Fee > 0
-                                }).ToListAsync();
+                            var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                && p.IdFase == fase.IdFase
+                                                orderby p.Anio, p.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = p.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = p.Mes,
+                                                    Anio = p.Anio,
+                                                    Porcentaje = p.Porcentaje
+                                                }).ToListAsync();
 
-                            foreach (var rubro in rubros)
+                            if (rubro.Rubro.Trim() == Rubro.Trim())
                             {
-                                var fechas = await db.tB_ProyectoFaseEmpleados
-                                    .Where(p => p.NumEmpleado == rubro.NumEmpleadoRrHh && p.IdFase == etapa.IdFase)
-                                    .OrderBy(p => p.Anio).ThenBy(p => p.Mes)
-                                    .Select(p => new PCS_Fecha_Detalle
+                                fechas_gasto.AddRange(fechas);
+                                return fechas_gasto;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    rubros = await (from rubro in db.tB_Rubros
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == Seccion.IdSeccion
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rel2.Tipo == "gasto"
+                                    && rubro.Reembolsable == reembolsable
+                                    select new Rubro_Detalle
                                     {
-                                        Id = p.Id,
-                                        Rubro = rubro.Rubro,
-                                        RubroReembolsable = rubro.Reembolsable,
-                                        Mes = p.Mes,
-                                        Anio = p.Anio,
-                                        Porcentaje = p.Porcentaje
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses
                                     }).ToListAsync();
 
-                                if (rubro.Rubro.Trim() == Rubro.Trim())
+                    fechas_gasto = new List<PCS_Fecha_Detalle>();
+
+                    foreach (var r in rubros)
+                    {
+                        var fechas = await (from valor in db.tB_RubroValors
+                                            join rub in db.tB_Rubros on valor.IdRubro equals r.Id
+                                            join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                            join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                            where rub.NumProyecto == IdProyecto
+                                            && sec.Tipo == "gasto"
+                                            && rub.Reembolsable == reembolsable
+                                            orderby valor.Anio, valor.Mes ascending
+                                            select new PCS_Fecha_Detalle
+                                            {
+                                                Id = valor.Id,
+                                                RubroReembolsable = rub.Reembolsable,
+                                                Mes = valor.Mes,
+                                                Anio = valor.Anio,
+                                                Porcentaje = valor.Porcentaje
+                                            }).Distinct().ToListAsync();
+
+                        if (r.Rubro.Trim() == Rubro.Trim())
+                        {
+                            fechas_gasto.AddRange(fechas);
+                            return fechas_gasto;
+                        }
+                    }
+
+                }
+            }
+
+            return fechas_gasto;
+        }
+
+
+        
+        public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion)
+        {
+            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
+                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
+                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+
+                var fases = await (from p in db.tB_ProyectoFases
+                                   join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                   from proyItem in proyJoin.DefaultIfEmpty()
+                                   where p.NumProyecto == IdProyecto
+                                   orderby p.FechaIni ascending
+                                   select new PCS_Etapa_Detalle
+                                   {
+                                       IdFase = p.IdFase,
+                                       Orden = p.Orden,
+                                       Fase = p.Fase,
+                                       FechaIni = p.FechaIni,
+                                       FechaFin = p.FechaFin
+                                   }).ToListAsync();
+
+                var seccion = await(from secc in db.tB_GastoIngresoSeccions
+                                    where secc.Tipo == Tipo
+                                    && secc.Seccion == Seccion
+                                    select new Seccion_Detalle
+                                    {
+                                        IdSeccion = secc.IdSeccion,
+                                        Codigo = secc.Codigo,
+                                        Seccion = secc.Seccion
+                                    }).FirstOrDefaultAsync();
+
+                proyecto_gastos_ingresos.Secciones.Add(seccion);
+
+                List<Rubro_Detalle> rubros = null;
+                seccion.Rubros = new List<Rubro_Detalle>();
+
+
+                if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
+                {
+                    foreach (var fase in fases)
+                    {
+                        rubros = await (from p in db.tB_ProyectoFaseEmpleados
+                                         join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                         from eItem in eJoin.DefaultIfEmpty()
+                                         join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                         from perItem in perJoin.DefaultIfEmpty()
+                                         join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                         from costempleItem in costempleJoin.DefaultIfEmpty()
+                                         where p.IdFase == fase.IdFase
+                                         orderby p.NumEmpleado ascending
+                                         group new Rubro_Detalle
+                                         {
+                                             Id = p.Id,
+                                             IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                             Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                             Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                             NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                             Cantidad = p.Fee,
+                                             Reembolsable = (p.Fee == null || p.Fee == 0) ? false : true,
+                                             CostoMensual = costempleItem.CostoMensualEmpleado
+                                         } by new { p.NumEmpleado } into g
+                                         select new Rubro_Detalle
+                                         {
+                                             Id = g.First().Id,
+                                             IdRubro = g.First().IdRubro,
+                                             Rubro = g.First().Rubro,
+                                             Empleado = g.First().Empleado,
+                                             NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                             Cantidad = g.First().Cantidad,
+                                             Reembolsable = g.First().Reembolsable,
+                                             CostoMensual = g.First().CostoMensual
+                                         }).ToListAsync();
+
+                        foreach (var rubro in rubros)
+                        {
+                            rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                            if (Tipo == "gasto")
+                            {
+                                var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                    where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                    && p.IdFase == fase.IdFase
+                                                    //ATC
+                                                    && p.Porcentaje > 0
+                                                    orderby p.Anio, p.Mes ascending
+                                                    select new PCS_Fecha_Detalle
+                                                    {
+                                                        Id = p.Id,
+                                                        Rubro = rubro.Rubro,
+                                                        RubroReembolsable = rubro.Reembolsable,
+                                                        Mes = p.Mes,
+                                                        Anio = p.Anio,
+                                                        Porcentaje = p.Porcentaje
+                                                    }).ToListAsync();
+
+                                rubro.Fechas.AddRange(fechas);
+                            }
+                            else
+                            {
+                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubro.Rubro, rubro.Reembolsable));
+                            }
+                        }
+
+                        seccion.Rubros.AddRange(rubros);
+                    }
+                }
+                else
+                {
+                    rubros = await (from rubro in db.tB_Rubros
+                                     join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                     from rel1Item in rel1Join.DefaultIfEmpty()
+                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                     where rubro.IdSeccion == seccion.IdSeccion
+                                     && rubro.NumProyecto == IdProyecto
+                                     && rel2.Tipo == Tipo
+                                     select new Rubro_Detalle
+                                     {
+                                         Id = rubro.Id,
+                                         IdRubro = rubro.IdRubro,
+                                         Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                         Unidad = rubro.Unidad,
+                                         Cantidad = rubro.Cantidad,
+                                         Reembolsable = rubro.Reembolsable,
+                                         AplicaTodosMeses = rubro.AplicaTodosMeses
+                                     }).ToListAsync();
+
+                    seccion.Rubros.AddRange(rubros);
+
+                    foreach (var rubro in rubros)
+                    {
+                        rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                        if (Tipo == "gasto")
+                        {
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && sec.Tipo == Tipo
+                                                //ATC
+                                                && valor.Porcentaje > 0
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro.Fechas.AddRange(fechas);
+                        }
+                        else
+                        {
+                            rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubro.Rubro, rubro.Reembolsable));
+                        }
+                    }
+                }
+
+                // Agrupar y sumar los porcentajes por mes y año a nivel de sección
+                var fechasAgrupadasSeccion = seccion.Rubros
+                    .SelectMany(r => r.Fechas)
+                    .GroupBy(f => new { f.Mes, f.Anio })
+                    .Select(g => new PCS_Fecha_Suma
+                    {
+                        Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
+                        SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                    }).ToList();
+
+                seccion.SumaFechas = fechasAgrupadasSeccion;
+
+
+                if (seccion.IdSeccion > 2)
+                {
+                    foreach (var rubro in rubros)
+                    {
+                        if (rubro.Unidad == "pp")
+                        {
+                            foreach (var fecha in rubro.Fechas)
+                            {
+                                foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[0].SumaFechas)
                                 {
-                                    fechasGasto.AddRange(fechas);
-                                    return fechasGasto;
+                                    if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                                    {
+                                        fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-            }
-            return fechasGasto;
-        }
-
-
-        public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo)
-        {
-            var proyectoGastosIngresos = new GastosIngresos_Detalle();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                var proyecto = await db.tB_Proyectos
-                    .Where(p => p.NumProyecto == IdProyecto)
-                    .FirstOrDefaultAsync();
-
-                proyectoGastosIngresos.NumProyecto = IdProyecto;
-                proyectoGastosIngresos.FechaIni = proyecto?.FechaIni;
-                proyectoGastosIngresos.FechaFin = proyecto?.FechaFin;
-
-                var secciones = await db.tB_GastoIngresoSeccions
-                    .Where(s => s.Tipo == Tipo)
-                    .OrderBy(s => s.Codigo)
-                    .Select(s => new Seccion_Detalle
-                    {
-                        IdSeccion = s.IdSeccion,
-                        Codigo = s.Codigo,
-                        Seccion = s.Seccion
-                    }).ToListAsync();
-
-                proyectoGastosIngresos.Secciones = new List<Seccion_Detalle>(secciones);
-
-                foreach (var seccion in secciones)
-                {
-                    List<Rubro_Detalle> rubros = new();
-                    seccion.Rubros = new List<Rubro_Detalle>();
-
-                    if (seccion.IdSeccion == 2 || (Tipo == "ingreso" && seccion.IdSeccion == 8))
-                    {
-                        var etapas = await db.tB_ProyectoFases
-                            .Where(p => p.NumProyecto == IdProyecto)
-                            .OrderBy(p => p.FechaIni)
-                            .Select(p => new PCS_Etapa_Detalle
-                            {
-                                IdFase = p.IdFase,
-                                Orden = p.Orden,
-                                Fase = p.Fase,
-                                FechaIni = p.FechaIni,
-                                FechaFin = p.FechaFin
-                            }).ToListAsync();
-
-                        foreach (var etapa in etapas)
+                        else if (rubro.Unidad == "mes")
                         {
-                            rubros = await db.tB_ProyectoFaseEmpleados
-                                .Where(p => p.IdFase == etapa.IdFase)
-                                .OrderBy(p => p.NumEmpleado)
-                                .GroupBy(p => new { p.NumEmpleado, p.Fee }) // Selecciona las propiedades necesarias
-                                .Select(g => new Rubro_Detalle
-                                {
-                                    Id = g.Any() ? g.First().Id : 0,  // Usamos Any() para evitar un error si el grupo está vacío
-                                    IdRubro = 0,
-                                    Rubro = g.Key.NumEmpleado,
-                                    NumEmpleadoRrHh = g.Key.NumEmpleado,
-                                    Reembolsable = g.Key.Fee.HasValue && g.Key.Fee > 0
-                                }).ToListAsync();
-
-                            foreach (var rubro in rubros)
+                            foreach (var fecha in rubro.Fechas)
                             {
-                                rubro.Fechas = await GetFechasGasto(IdProyecto, rubro.Rubro, rubro.Reembolsable);
+                                fecha.Porcentaje = rubro.Cantidad;
                             }
-                            seccion.Rubros.AddRange(rubros);
                         }
                     }
                 }
-                return proyectoGastosIngresos;
+
+                if (Tipo == "ingreso")
+                {
+                    // Calcular los Totales del Proyecto
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .SelectMany(s => s.Rubros)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                }
+
+
+                return proyecto_gastos_ingresos;
             }
         }
+
+
+
 
 
 
