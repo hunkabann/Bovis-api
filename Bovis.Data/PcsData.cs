@@ -955,8 +955,8 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                List<Rubro_Detalle> rubros = null;
-                Seccion.Rubros = new List<Rubro_Detalle>();
+                List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
+                //Seccion.Rubros = new List<Rubro_Detalle>();
 
                 if (Seccion.IdSeccion == 2)
                 {
@@ -1023,8 +1023,8 @@ namespace Bovis.Data
                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                     where rubro.IdSeccion == Seccion.IdSeccion
                                     && rubro.NumProyecto == IdProyecto
-                                    && rel2.Tipo == "gasto"
-                                    && rubro.Reembolsable == reembolsable
+                                    && rel2.Tipo == "GASTO"
+                                    && (reembolsable != null ? rubro.Reembolsable == reembolsable : rubro.Reembolsable == false)
                                     select new Rubro_Detalle
                                     {
                                         Id = rubro.Id,
@@ -1045,7 +1045,7 @@ namespace Bovis.Data
                                             join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                             join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                             where rub.NumProyecto == IdProyecto
-                                            && sec.Tipo == "gasto"
+                                            && sec.Tipo == "GASTO"
                                             && rub.Reembolsable == reembolsable
                                             orderby valor.Anio, valor.Mes ascending
                                             select new PCS_Fecha_Detalle
@@ -1111,10 +1111,10 @@ namespace Bovis.Data
                                         Seccion = secc.Seccion
                                     }).FirstOrDefaultAsync();
 
-                proyecto_gastos_ingresos.Secciones.Add(seccion);
+                proyecto_gastos_ingresos.Secciones.Add(seccion!);
 
-                List<Rubro_Detalle> rubros = null;
-                seccion.Rubros = new List<Rubro_Detalle>();
+                List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
+                seccion!.Rubros = new List<Rubro_Detalle>();
 
 
                 if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
@@ -1202,14 +1202,16 @@ namespace Bovis.Data
                                          Unidad = rubro.Unidad,
                                          Cantidad = rubro.Cantidad,
                                          Reembolsable = rubro.Reembolsable,
-                                         AplicaTodosMeses = rubro.AplicaTodosMeses
+                                         AplicaTodosMeses = rubro.AplicaTodosMeses,
+                                         Fechas = new List<PCS_Fecha_Detalle>()
                                      }).ToListAsync();
 
+                    rubros = rubros.Where(r => r != null).ToList();
                     seccion.Rubros.AddRange(rubros);
 
-                    foreach (var rubro in rubros)
+                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
                     {
-                        rubro.Fechas = new List<PCS_Fecha_Detalle>();
+
                         if (Tipo == "gasto")
                         {
                             var fechas = await (from valor in db.tB_RubroValors
@@ -1231,11 +1233,13 @@ namespace Bovis.Data
                                                     Porcentaje = valor.Porcentaje
                                                 }).Distinct().ToListAsync();
 
-                            rubro.Fechas.AddRange(fechas);
+                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
                         }
                         else
-                        {
-                            rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubro.Rubro, rubro.Reembolsable));
+                        {                          
+                            rubro.Fechas ??= new List<PCS_Fecha_Detalle>();
+                            var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
+                            rubro!.Fechas!.AddRange(fechasGasto);
                         }
                     }
                 }
@@ -1301,11 +1305,6 @@ namespace Bovis.Data
                 return proyecto_gastos_ingresos;
             }
         }
-
-
-
-
-
 
         //private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro, bool? reembolsable = false)
         //{
