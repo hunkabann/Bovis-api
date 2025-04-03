@@ -1023,8 +1023,8 @@ namespace Bovis.Data
                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                     where rubro.IdSeccion == Seccion.IdSeccion
                                     && rubro.NumProyecto == IdProyecto
-                                    && rel2.Tipo == "GASTO"
-                                    && (reembolsable != null ? rubro.Reembolsable == reembolsable : rubro.Reembolsable == false)
+                                    //&& rel2.Tipo == "GASTO"
+                                    //&& (reembolsable != null ? rubro.Reembolsable == reembolsable : rubro.Reembolsable == false)
                                     select new Rubro_Detalle
                                     {
                                         Id = rubro.Id,
