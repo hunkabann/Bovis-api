@@ -608,16 +608,21 @@ namespace Bovis.Data
                         //ATC
                         //decimal? sueldo_gravable = 0;
 
-                        if (bonoproyect_sueldobruto_ImpuestoNOM != null && bonoproyect_sueldobruto_ImpuestoNOM > 0)
+                       if (bonoproyect_sueldobruto_ImpuestoNOM != null && bonoproyect_sueldobruto_ImpuestoNOM > 0)
                         {
                             //ATC
-                            registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.03M;
+                            //registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.03M;
+                            //ATC MODIFICA A 0.04M 08-04-2025
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.04M;
                         }
                         else
                         {
                             //ATC
-                            registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual  + registro.BonoAnualProvisionMensual ) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                            //registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual  + registro.BonoAnualProvisionMensual ) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                            //ATC MODIFICA A 0.04M 08-04-2025
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + registro.BonoAnualProvisionMensual) * 0.04M;//(source.ImpuestoNomina/100); // * 0.03M;
                         }
+
 
                         //registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
 
