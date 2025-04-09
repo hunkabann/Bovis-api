@@ -31,8 +31,14 @@ namespace Bovis.Data
 
         //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
         private static double p_patron = 686.60;
-        //3 Veces UMA = 325.71
-        private static double p_3_Veces_UMA = 325.71;
+        
+         //3 Veces UMA = 325.71
+         //private static double p_3_Veces_UMA = 325.71;
+        
+         //ATC CAMBIO DE UMA DE 325.71 A 339.42 08-04-2025
+         //3 Veces UMA = 339.42
+         private static double p_3_Veces_UMA = 339.42;
+ 
         //Prima Riesgo = 0.5
         private static double p_Prima_Riesgo = 0.005;
 
@@ -61,7 +67,12 @@ namespace Bovis.Data
         private static double p_Patron_GPSP = 0.01;
 
         //UMA 2024 = 108.7
-        private static double p_UMA = 108.7;
+        //private static double p_UMA = 108.7;
+        
+        //ATC CAMBIO DE UMA DE 108.7 A 113.14 08-04-2025
+        //UMA 2025 = 113.14
+        private static double p_UMA = 113.14;
+
         //Dias Trabajados = 31
         private static int p_dias_trabajados = 31;
         //Dias del mes = 31
