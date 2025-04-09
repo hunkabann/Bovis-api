@@ -39,3 +39,4 @@ Bovis.Common.Logging/obj/Debug/net6.0/Bovis.Common.Logging.AssemblyInfo.cs
 Bovis.API/bin/Debug/net6.0/Bovis.API.exe
 /Bovis.API/bin/Debug
 /Bovis.Service.Queries/obj/Debug
+Bovis.API/important-logs.json
