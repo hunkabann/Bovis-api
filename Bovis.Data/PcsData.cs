@@ -1846,12 +1846,12 @@ namespace Bovis.Data
                                             {
                                                 Id = g.First().Id,
                                                 IdRubro = g.First().IdRubro,
-                                                Rubro = g.First().Rubro,
-                                                Empleado = g.First().Empleado,
-                                                NumEmpleadoRrHh = g.Key.NumEmpleado,
-                                                Cantidad = g.First().Cantidad,
-                                                Reembolsable = g.First().Reembolsable,
-                                                CostoMensual = g.First().CostoMensual
+                                                Rubro = g.First().Rubro ?? "",
+                                                Empleado = g.First().Empleado ?? "",
+                                                NumEmpleadoRrHh = g.Key.NumEmpleado ?? "",
+                                                Cantidad = g.First().Cantidad ?? 0,
+                                                Reembolsable = g.First().Reembolsable ?? false,
+                                                CostoMensual = g.First().CostoMensual ?? 0
                                             }).ToListAsync();
 
                             foreach (var rubro in rubros)
