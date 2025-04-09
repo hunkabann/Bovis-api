@@ -532,7 +532,14 @@ namespace Bovis.Data
                         registro.NumProyecto = numero_proyecto;
                         registro.NuMes = DateTime.Now.Month;
                         registro.NuAnno = DateTime.Now.Year;
-                        registro.FechaActualizacion = DateTime.Now;
+                        // registro.FechaActualizacion = DateTime.Now
+                        ;
+                        //ATC RESTA UN DIA A FECHA ACTUAL 08-04-2025
+                        int NumeroDias = -1;
+                        DateTime Hoy = DateTime.Now;
+                        DateTime FechaRestada = Hoy.AddDays(-NumeroDias);
+                        registro.FechaActualizacion = FechaRestada;
+                        
                         if (avg_bono_anual_estimado != 0 || sgmm_costo_total_anual != 0 ||
                             sv_costo_total_anual != 0 || vaid_costo_mensual != 0)
                         {
