@@ -723,7 +723,7 @@ namespace Bovis.Data
                     {
                         NumProyecto = x.NumProyecto,
                         Orden = x.Orden,
-                        Fase = x.Fase,
+                        Fase = nombre_fase,
                         FechaIni = fecha_inicio,
                         FechaFin = fecha_fin
                     }) > 0;
