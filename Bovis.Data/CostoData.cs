@@ -535,7 +535,7 @@ namespace Bovis.Data
                         // registro.FechaActualizacion = DateTime.Now
                         ;
                         //ATC RESTA UN DIA A FECHA ACTUAL 08-04-2025
-                        int NumeroDias = -1;
+                        int NumeroDias = -2;
                         DateTime Hoy = DateTime.Now;
                         DateTime FechaRestada = Hoy.AddDays(NumeroDias);
                         registro.FechaActualizacion = FechaRestada;
