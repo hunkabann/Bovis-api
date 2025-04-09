@@ -72,6 +72,7 @@ namespace Bovis.Common.Model.NoTable
         public int IdSeccion { get; set; }
         public string? Codigo { get; set; }
         public string? Seccion { get; set; }
+        public string Tipo { get; set; }
         public List<Rubro_Detalle>? Rubros { get; set; }
         public List<PCS_Fecha_Suma>? SumaFechas { get; set; }
     }
@@ -81,6 +82,7 @@ namespace Bovis.Common.Model.NoTable
         public int Id { get; set; }
         public int IdRubro { get; set; }
         public string Rubro { get; set; }
+        public string Tipo { get; set; }
         public string? Unidad { get; set; }
         public decimal? Cantidad { get; set; }
         public bool? Reembolsable { get; set; }

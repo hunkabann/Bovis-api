@@ -5364,6 +5364,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Bovis.API.Controllers.PcsController",
+    "Method": "GetTotalesIngresos",
+    "RelativePath": "api/Pcs/TotalesIngresos/{IdProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Bovis.API.Controllers.PersonaController",
     "Method": "UpdateEstatus",
     "RelativePath": "api/Persona/Estatus/Actualizar",

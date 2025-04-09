@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bovis.Business.Interface")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+030aa8ed5b55160ae6bbe495ce74a1ab2c767ab4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+43b91f69424796868c3d9136e895eb26c9e4577b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bovis.Business.Interface")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bovis.Business.Interface")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

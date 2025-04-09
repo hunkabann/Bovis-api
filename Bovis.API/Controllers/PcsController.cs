@@ -266,6 +266,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("TotalesIngresos/{IdProyecto}")]
+        public async Task<IActionResult> GetTotalesIngresos(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetTotalesIngresos(IdProyecto);
+            return Ok(query);
+        }
+
         [HttpPut, Route("GastosIngresos")]
         public async Task<IActionResult> UpdateGastosIngresos([FromBody] JsonObject registro)
         {
