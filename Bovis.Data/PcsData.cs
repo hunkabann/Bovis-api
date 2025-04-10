@@ -1948,8 +1948,41 @@ namespace Bovis.Data
                     }).ToList();
 
 
+                // 1. Generar todos los meses entre inicio y fin
+                DateTime? inicio = proyecto_gastos_ingresos.FechaIni;
+                DateTime? fin = proyecto_gastos_ingresos.FechaFin;
+                var mesesTotales = new List<(int Mes, int Anio)>();
+                for (var fecha = new DateTime(inicio.Value.Year, inicio.Value.Month, 1);
+                     fecha <= fin;
+                     fecha = fecha.AddMonths(1))
+                {
+                    mesesTotales.Add((fecha.Month, fecha.Year));
+                }
+                // 2. Crear versiones completas con todos los meses para Reembolsable true y false
+                var totalesCompletos = new List<PCS_Fecha_Totales>();
+                foreach (var reembolsable in new[] { true, false })
+                {
+                    foreach (var (mes, anio) in mesesTotales)
+                    {
+                        var existente = proyecto_gastos_ingresos.Totales
+                            .FirstOrDefault(t => t.Mes == mes && t.Anio == anio && t.Reembolsable == reembolsable);
+
+                        totalesCompletos.Add(new PCS_Fecha_Totales
+                        {
+                            Mes = mes,
+                            Anio = anio,
+                            Reembolsable = reembolsable,
+                            TotalPorcentaje = existente?.TotalPorcentaje ?? 0
+                        });
+                    }
+                }
+                // 3. Sobrescribir Totales con los completados
+                proyecto_gastos_ingresos.Totales = totalesCompletos;
+
                 var gruposPorReembolsable = proyecto_gastos_ingresos.Totales
                     .GroupBy(t => t.Reembolsable);
+
+
 
 
                 // INGRESO (+0 desplazamiento)
@@ -1957,8 +1990,6 @@ namespace Bovis.Data
 
                 proyecto_gastos_ingresos.Facturacion ??= new List<PCS_Fecha_Totales>();
                 proyecto_gastos_ingresos.Cobranza ??= new List<PCS_Fecha_Totales>();
-
-
                 foreach (var grupo in gruposPorReembolsable)
                 {
                     var totalesOrdenados = grupo

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bovis.Common.Model")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a79cdc219fbea7563fa99f08ecbe6d7167cd07bc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e96bc5ea61ed6da94d040c42ab21f661e8fe61d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bovis.Common.Model")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bovis.Common.Model")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
