@@ -65,6 +65,9 @@ namespace Bovis.Common.Model.NoTable
         public DateTime? FechaFin { get; set; }
         public List<Seccion_Detalle>? Secciones { get; set; }
         public List<PCS_Fecha_Totales>? Totales { get; set; }
+        public List<PCS_Fecha_Totales>? Ingreso { get; set; }
+        public List<PCS_Fecha_Totales>? Facturacion { get; set; }
+        public List<PCS_Fecha_Totales>? Cobranza { get; set; }
     }
 
     public class Seccion_Detalle

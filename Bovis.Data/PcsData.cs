@@ -1948,6 +1948,58 @@ namespace Bovis.Data
                     }).ToList();
 
 
+                var gruposPorReembolsable = proyecto_gastos_ingresos.Totales
+                    .GroupBy(t => t.Reembolsable);
+
+
+                // INGRESO (+0 desplazamiento)
+                proyecto_gastos_ingresos.Ingreso = proyecto_gastos_ingresos.Totales;
+
+                proyecto_gastos_ingresos.Facturacion ??= new List<PCS_Fecha_Totales>();
+                proyecto_gastos_ingresos.Cobranza ??= new List<PCS_Fecha_Totales>();
+
+
+                foreach (var grupo in gruposPorReembolsable)
+                {
+                    var totalesOrdenados = grupo
+                        .OrderBy(t => t.Anio)
+                        .ThenBy(t => t.Mes)
+                        .ToList();
+
+                    // FACTURACIÓN (+1 desplazamiento)
+                    for (int i = 0; i < totalesOrdenados.Count; i++)
+                    {
+                        decimal? porcentaje = (i == 0) ? 0 : totalesOrdenados[i - 1].TotalPorcentaje;
+
+                        proyecto_gastos_ingresos.Facturacion.Add(new PCS_Fecha_Totales
+                        {
+                            Mes = totalesOrdenados[i].Mes,
+                            Anio = totalesOrdenados[i].Anio,
+                            Reembolsable = totalesOrdenados[i].Reembolsable,
+                            TotalPorcentaje = porcentaje
+                        });
+                    }
+
+                    // COBRANZA (+2 desplazamiento)
+                    for (int i = 0; i < totalesOrdenados.Count; i++)
+                    {
+                        decimal? porcentaje = (i < 2) ? 0 : totalesOrdenados[i - 2].TotalPorcentaje;
+
+                        proyecto_gastos_ingresos.Cobranza.Add(new PCS_Fecha_Totales
+                        {
+                            Mes = totalesOrdenados[i].Mes,
+                            Anio = totalesOrdenados[i].Anio,
+                            Reembolsable = totalesOrdenados[i].Reembolsable,
+                            TotalPorcentaje = porcentaje
+                        });
+                    }
+                }
+
+
+                // Limpia datos innecesarios
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+
+
                 return proyecto_gastos_ingresos;
             }
         }
