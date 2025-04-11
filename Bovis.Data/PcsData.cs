@@ -1162,7 +1162,6 @@ namespace Bovis.Data
                                 var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                     where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                     && p.IdFase == fase.IdFase
-                                                    //ATC
                                                     && p.Porcentaje > 0
                                                     orderby p.Anio, p.Mes ascending
                                                     select new PCS_Fecha_Detalle
@@ -1172,7 +1171,7 @@ namespace Bovis.Data
                                                         RubroReembolsable = rubro.Reembolsable,
                                                         Mes = p.Mes,
                                                         Anio = p.Anio,
-                                                        Porcentaje = p.Porcentaje
+                                                        Porcentaje = (rubro.CostoMensual * p.Porcentaje) / 100
                                                     }).ToListAsync();
 
                                 rubro.Fechas.AddRange(fechas);
@@ -1221,7 +1220,6 @@ namespace Bovis.Data
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == Tipo.ToUpper()
-                                                //ATC
                                                 && valor.Porcentaje > 0
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
