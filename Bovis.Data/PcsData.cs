@@ -1171,7 +1171,7 @@ namespace Bovis.Data
                                                         RubroReembolsable = rubro.Reembolsable,
                                                         Mes = p.Mes,
                                                         Anio = p.Anio,
-                                                        Porcentaje = (rubro.CostoMensual * p.Porcentaje) / 100
+                                                        Porcentaje = p.Porcentaje
                                                     }).ToListAsync();
 
                                 rubro.Fechas.AddRange(fechas);
