@@ -1022,7 +1022,7 @@ namespace Bovis.Data
                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                     where rubro.IdSeccion == Seccion.IdSeccion
                                     && rubro.NumProyecto == IdProyecto
-                                    //&& rel2.Tipo.ToLower() == "gasto"
+                                    //&& rel2.Tipo == "GASTO"
                                     //&& (reembolsable != null ? rubro.Reembolsable == reembolsable : rubro.Reembolsable == false)
                                     select new Rubro_Detalle
                                     {
@@ -1040,16 +1040,18 @@ namespace Bovis.Data
                     foreach (var r in rubros)
                     {
                         var fechas = await (from valor in db.tB_RubroValors
-                                            join rub in db.tB_Rubros on valor.IdRubro equals r.Id
-                                            join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
-                                            join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                            join rub in db.tB_Rubros on r.IdRubro equals rub.IdRubro
+                                            join cat in db.tB_CatRubros on r.IdRubro equals cat.IdRubro
+                                            join sec in db.tB_GastoIngresoSeccions on Seccion.IdSeccion equals sec.IdSeccion into secRel
+                                            from secItem in secRel.DefaultIfEmpty()
                                             where rub.NumProyecto == IdProyecto
-                                            && sec.Tipo.ToLower() == "gasto"
+                                            && secItem.Tipo == "GASTO"
                                             && rub.Reembolsable == reembolsable
                                             orderby valor.Anio, valor.Mes ascending
                                             select new PCS_Fecha_Detalle
                                             {
                                                 Id = valor.Id,
+                                                Rubro = cat.Rubro,
                                                 RubroReembolsable = rub.Reembolsable,
                                                 Mes = valor.Mes,
                                                 Anio = valor.Anio,
@@ -1101,7 +1103,7 @@ namespace Bovis.Data
                                    }).ToListAsync();
 
                 var seccion = await(from secc in db.tB_GastoIngresoSeccions
-                                    where secc.Tipo.ToLower() == Tipo
+                                    where secc.Tipo == Tipo.ToUpper()
                                     && secc.Seccion == Seccion
                                     select new Seccion_Detalle
                                     {
@@ -1192,7 +1194,7 @@ namespace Bovis.Data
                                      join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                      where rubro.IdSeccion == seccion.IdSeccion
                                      && rubro.NumProyecto == IdProyecto
-                                     && rel2.Tipo.ToLower() == Tipo
+                                     && rel2.Tipo == Tipo.ToUpper()
                                      select new Rubro_Detalle
                                      {
                                          Id = rubro.Id,
@@ -1218,7 +1220,7 @@ namespace Bovis.Data
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
-                                                && sec.Tipo.ToLower() == Tipo
+                                                && sec.Tipo == Tipo.ToUpper()
                                                 //ATC
                                                 && valor.Porcentaje > 0
                                                 orderby valor.Anio, valor.Mes ascending
@@ -1732,7 +1734,7 @@ namespace Bovis.Data
                     }
                     else
                     {
-                        var rubros_gastos = rubros != null ? rubros.Where(x => x.Tipo != null && x.Tipo.ToLower() == "gasto").ToList() : new List<Rubro_Detalle>();
+                        var rubros_gastos = rubros != null ? rubros.Where(x => x.Tipo != null && x.Tipo == "GASTO").ToList() : new List<Rubro_Detalle>();
 
                         fechas_gasto = new List<PCS_Fecha_Detalle>();
 
@@ -1743,7 +1745,7 @@ namespace Bovis.Data
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
-                                                && sec.Tipo.ToLower() == "gasto"
+                                                && sec.Tipo == "GASTO"
                                                 && rub.Reembolsable == reembolsable
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
@@ -1793,8 +1795,8 @@ namespace Bovis.Data
                                        })
                                        .ToListAsync();
 
-                var secciones_ingreso = secciones.Where(x => x.Tipo.ToLower() == "ingreso").ToList();
-                var secciones_gasto = secciones.Where(x => x.Tipo.ToLower() == "gasto").ToList();
+                var secciones_ingreso = secciones.Where(x => x.Tipo == "INGRESO").ToList();
+                var secciones_gasto = secciones.Where(x => x.Tipo == "GASTO").ToList();
 
                 var etapas = await (from p in db.tB_ProyectoFases
                                     join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
@@ -1883,7 +1885,7 @@ namespace Bovis.Data
                                             AplicaTodosMeses = rubro.AplicaTodosMeses
                                         }).ToListAsync();
 
-                        var rubros_ingresos = rubros.Where(x => x.Tipo.ToLower() == "ingreso").ToList();
+                        var rubros_ingresos = rubros.Where(x => x.Tipo == "INGRESO").ToList();
                         seccion.Rubros.AddRange(rubros_ingresos);
 
                         foreach (var rubro in rubros_ingresos)
