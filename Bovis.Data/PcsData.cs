@@ -876,40 +876,52 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-            int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-            string num_empleado = registro["num_empleado"].ToString();
-            decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
-            bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
-            decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
-
-            using (ConnectionDB db = new ConnectionDB(dbConfig))
-            {
-                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
-                    .DeleteAsync() > 0;
-
-                foreach (var fecha in registro["fechas"].AsArray())
+                int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
+                string num_empleado = registro["num_empleado"].ToString();
+                decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
+                bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : false;
+                decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
+                bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
+                
+                //chalias
+                string chalias = registro["chalias"].ToString();
+                //nucosto_ini
+                decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
+                
+                
+                    
+                
+                using (ConnectionDB db = new ConnectionDB(dbConfig))
                 {
-                    int mes = Convert.ToInt32(fecha["mes"].ToString());
-                    int anio = Convert.ToInt32(fecha["anio"].ToString());
-                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
-
-                    var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
-                        .Value(x => x.IdFase, id_fase)
-                        .Value(x => x.NumEmpleado, num_empleado)
-                        .Value(x => x.Mes, mes)
-                        .Value(x => x.Anio, anio)
-                        .Value(x => x.Porcentaje, porcentaje)
-                        .Value(x => x.Cantidad, cantidad)
-                        .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
-                        .Value(x => x.Fee, fee)
-                        .InsertAsync() > 0;
-
-                    resp.Success = res_insert_empleado;
-                    resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
+                        .DeleteAsync() > 0;
+                
+                    foreach (var fecha in registro["fechas"].AsArray())
+                    {
+                        int mes = Convert.ToInt32(fecha["mes"].ToString());
+                        int anio = Convert.ToInt32(fecha["anio"].ToString());
+                        int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
+                
+                        var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
+                            .Value(x => x.IdFase, id_fase)
+                            .Value(x => x.NumEmpleado, num_empleado)
+                            .Value(x => x.Mes, mes)
+                            .Value(x => x.Anio, anio)
+                            .Value(x => x.Porcentaje, porcentaje)
+                            .Value(x => x.Cantidad, cantidad)
+                            .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
+                            .Value(x => x.nucosto_ini, nucosto_ini)
+                            .Value(x => x.Fee, fee)
+                            .Value(x => x.chalias, chalias)
+                            .Value(x => x.nucosto_ini, nucosto_ini)
+                            .InsertAsync() > 0;
+                
+                        resp.Success = res_insert_empleado;
+                        resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }
                 }
-            }
-
-            return resp;
+                
+                return resp;
         }
         public async Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado)
         {
