@@ -16,6 +16,6 @@ namespace Bovis.Common.Model.Tables
         [Column("nucosto_ini"), Nullable] public decimal? nucosto_ini { get; set; }
         [Column("Nufee"), Nullable] public decimal? Fee { get; set; }
         [Column("Chalias"), Nullable] public string chalias { get; set; }
-        [Column("Boreembolsable"), Nullable] public bool? boreembolsable { get; set; }
+        [Column("Borembolsable"), Nullable] public bool? boreembolsable { get; set; }
     }
 }
