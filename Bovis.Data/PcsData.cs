@@ -773,6 +773,13 @@ namespace Bovis.Data
             bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
             decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
 
+             bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
+
+             //chalias
+             string chalias = registro["chalias"].ToString();
+             //nucosto_ini
+             decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 foreach (var fecha in registro["fechas"].AsArray())
@@ -790,6 +797,9 @@ namespace Bovis.Data
                         .Value(x => x.Cantidad, cantidad)
                         .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
                         .Value(x => x.Fee, fee)
+                        .Value(x => x.nucosto_ini, nucosto_ini)
+                        .Value(x => x.chalias, chalias)
+                        .Value(x => x.boreembolsable, reembolsable)
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
