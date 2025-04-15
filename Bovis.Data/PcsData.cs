@@ -913,7 +913,7 @@ namespace Bovis.Data
                             .Value(x => x.nucosto_ini, nucosto_ini)
                             .Value(x => x.Fee, fee)
                             .Value(x => x.chalias, chalias)
-                            .Value(x => x.nucosto_ini, nucosto_ini)
+                            .Value(x => x.boreembolsable, reembolsable)
                             .InsertAsync() > 0;
                 
                         resp.Success = res_insert_empleado;
