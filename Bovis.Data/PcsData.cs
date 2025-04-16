@@ -1157,7 +1157,7 @@ namespace Bovis.Data
                                          join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
                                          from costempleItem in costempleJoin.DefaultIfEmpty()
                                          where p.IdFase == fase.IdFase
-                                         && costempleItem.RegHistorico == true
+                                         && costempleItem.RegHistorico == false
                                          orderby p.NumEmpleado ascending
                                          group new Rubro_Detalle
                                          {
@@ -1169,7 +1169,7 @@ namespace Bovis.Data
                                              Cantidad = p.Fee,
                                              Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
                                              CostoMensual = costempleItem.CostoMensualEmpleado
-                                         } by new { p.NumEmpleado } into g
+                                         } by new { p.NumEmpleado, p.boreembolsable } into g
                                          select new Rubro_Detalle
                                          {
                                              Id = g.First().Id,
