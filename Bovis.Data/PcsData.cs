@@ -2644,46 +2644,100 @@ namespace Bovis.Data
                         foreach (var rubro in rubros_viaticos)
                         {
                             var fechas = await (from valor in db.tB_RubroValors
-                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rub.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
-                                                //join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto into cieJoin
-                                                //from cieItem in cieJoin.DefaultIfEmpty()
                                                 where rub.NumProyecto == IdProyecto
-                                                && sec.Tipo == "gasto"
-                                                orderby valor.Anio, valor.Mes ascending
+                                                      && sec.Tipo == "gasto"
+                                                      && rub.Id == rubro.Id
+                                                orderby valor.Anio, valor.Mes
                                                 select new Control_Fechas
                                                 {
                                                     ClasificacionPY = rubro.Rubro,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
-                                                    Porcentaje = valor.Porcentaje
-                                                }).Distinct().ToListAsync();
+                                                    Porcentaje = valor.Porcentaje,
+                                                    Rubro = rubro.Rubro
+                                                }).ToListAsync();
 
                             suma_fechas_viaticos.AddRange(fechas);
+                        }
 
+                        // Ahora agrupamos las fechas por Rubro (Sección)
+                        var fechasAgrupadasPorRubro = suma_fechas_viaticos
+                            .GroupBy(f => f.Rubro)
+                            .ToList();
 
-                            // Add Prev Values To Subsections.
-                            Control_Subseccion subseccion = new Control_Subseccion();
-                            subseccion.Slug = GenerateSlug(rubro.Rubro);
-                            subseccion.Seccion = rubro.Rubro;
-                            subseccion.Previsto = new Control_PrevistoReal();
-                            subseccion.Previsto.Fechas = new List<Control_Fechas>();
-                            subseccion.Previsto.Fechas.AddRange(fechas);
+                        foreach (var grupo in fechasAgrupadasPorRubro)
+                        {
+                            var rubroNombre = grupo.Key;
+                            var fechasAgrupadasPorMes = grupo
+                                .GroupBy(f => new { f.Mes, f.Anio })
+                                .Select(g => new Control_Fechas
+                                {
+                                    ClasificacionPY = rubroNombre,
+                                    Mes = g.Key.Mes,
+                                    Anio = g.Key.Anio,
+                                    Porcentaje = g.Sum(f => f.Porcentaje),
+                                    Rubro = rubroNombre
+                                }).ToList();
 
-                            var subseccionGroup = fechas
-                               .GroupBy(f => new { f.Mes, f.Anio })
-                               .Select(g => new Control_Fechas
-                               {
-                                   Mes = g.Key.Mes,
-                                   Anio = g.Key.Anio,
-                                   Porcentaje = g.Sum(f => f.Porcentaje)
-                               }).ToList();
-
-                            subseccion.Previsto.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
+                            var subseccion = new Control_Subseccion
+                            {
+                                Slug = GenerateSlug(rubroNombre),
+                                Seccion = rubroNombre,
+                                Previsto = new Control_PrevistoReal
+                                {
+                                    Fechas = fechasAgrupadasPorMes,
+                                    SubTotal = fechasAgrupadasPorMes.Sum(f => Convert.ToDecimal(f.Porcentaje))
+                                }
+                            };
 
                             control.Subsecciones.Add(subseccion);
                         }
+
+                        //foreach (var rubro in rubros_viaticos)
+                        //{
+                        //    var fechas = await (from valor in db.tB_RubroValors
+                        //                        join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                        //                        join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                        //                        join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                        //                        //join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto into cieJoin
+                        //                        //from cieItem in cieJoin.DefaultIfEmpty()
+                        //                        where rub.NumProyecto == IdProyecto
+                        //                        && sec.Tipo == "gasto"
+                        //                        orderby valor.Anio, valor.Mes ascending
+                        //                        select new Control_Fechas
+                        //                        {
+                        //                            ClasificacionPY = rubro.Rubro,
+                        //                            Mes = valor.Mes,
+                        //                            Anio = valor.Anio,
+                        //                            Porcentaje = valor.Porcentaje
+                        //                        }).Distinct().ToListAsync();
+
+                        //    suma_fechas_viaticos.AddRange(fechas);
+
+                        //    // Add Prev Values To Subsections.
+                        //    Control_Subseccion subseccion = new Control_Subseccion();
+                        //    subseccion.Slug = GenerateSlug(rubro.Rubro);
+                        //    subseccion.Seccion = rubro.Rubro;
+                        //    subseccion.Previsto = new Control_PrevistoReal();
+                        //    subseccion.Previsto.Fechas = new List<Control_Fechas>();
+                        //    subseccion.Previsto.Fechas.AddRange(fechas);
+
+                        //    var subseccionGroup = fechas
+                        //       .GroupBy(f => new { f.Mes, f.Anio })
+                        //       .Select(g => new Control_Fechas
+                        //       {
+                        //           Mes = g.Key.Mes,
+                        //           Anio = g.Key.Anio,
+                        //           Porcentaje = g.Sum(f => f.Porcentaje)
+                        //       }).ToList();
+
+                        //    subseccion.Previsto.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
+
+                        //    control.Subsecciones.Add(subseccion);
+                        //}
                     }
                 }
 
