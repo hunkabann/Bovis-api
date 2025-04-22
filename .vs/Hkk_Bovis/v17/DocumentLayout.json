@@ -7,10 +7,6 @@
       "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\pcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.api\\controllers\\pcscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|solutionrelative:bovis.api\\controllers\\pcscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,16 +15,20 @@
       "RelativeMoniker": "D:0:0:{D8A405B4-7B2E-4D5A-81FF-7054A3005F22}|Bovis.Service.Queries\\Bovis.Service.Queries.csproj|solutionrelative:bovis.service.queries\\pcsqueryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.business\\pcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\pcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1098D510-E7D3-47C8-BFF5-A63C8D0C30E6}|Bovis.Common.Model\\Bovis.Common.Model.csproj|solutionrelative:bovis.common.model\\notable\\pcs_detalle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C273B9A4-02DC-48A4-9CBA-3CE03B01843A}|Bovis.Data.Interface\\Bovis.Data.Interface.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.data.interface\\ipcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C273B9A4-02DC-48A4-9CBA-3CE03B01843A}|Bovis.Data.Interface\\Bovis.Data.Interface.csproj|solutionrelative:bovis.data.interface\\ipcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BCB52E65-2848-4724-A276-35F55A78BB68}|Bovis.Business.Interface\\Bovis.Business.Interface.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.business.interface\\ipcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BCB52E65-2848-4724-A276-35F55A78BB68}|Bovis.Business.Interface\\Bovis.Business.Interface.csproj|solutionrelative:bovis.business.interface\\ipcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.business\\pcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F7AE8099-6174-4BC0-9AC5-A94DDF5935A1}|Bovis.Business\\Bovis.Business.csproj|solutionrelative:bovis.business\\pcsbusiness.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4F64846D-4B8E-4683-A349-D0AE2FC16AB8}|Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj|e:\\desarrollo\\lp solutions\\pendientes\\hunkabann\\bovis\\code\\bovis-api\\bovis.service.queries.interface\\ipcsqueryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -118,7 +118,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "PCS_Detalle.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
               "RelativeDocumentMoniker": "Bovis.Common.Model\\NoTable\\PCS_Detalle.cs",
@@ -130,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "IPcsData.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data.Interface\\IPcsData.cs",
               "RelativeDocumentMoniker": "Bovis.Data.Interface\\IPcsData.cs",
@@ -146,16 +146,16 @@
               "Title": "PcsData.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs",
               "RelativeDocumentMoniker": "Bovis.Data\\PcsData.cs",
-              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs*",
-              "RelativeToolTip": "Bovis.Data\\PcsData.cs*",
-              "ViewState": "AgIAAHoEAAAAAAAAAAAAAJMEAABGAAAAAAAAAA==",
+              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs",
+              "RelativeToolTip": "Bovis.Data\\PcsData.cs",
+              "ViewState": "AgIAAGsDAAAAAAAAAAAowIYDAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-04T20:32:26.899Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "IPcsBusiness.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Business.Interface\\IPcsBusiness.cs",
               "RelativeDocumentMoniker": "Bovis.Business.Interface\\IPcsBusiness.cs",
@@ -167,15 +167,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "PcsBusiness.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Business\\PcsBusiness.cs",
               "RelativeDocumentMoniker": "Bovis.Business\\PcsBusiness.cs",
               "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Business\\PcsBusiness.cs",
               "RelativeToolTip": "Bovis.Business\\PcsBusiness.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI0AAAB4AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T05:44:51.997Z"
+              "WhenOpened": "2025-03-26T05:44:51.997Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -191,27 +192,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "PcsQueryService.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Service.Queries\\PcsQueryService.cs",
               "RelativeDocumentMoniker": "Bovis.Service.Queries\\PcsQueryService.cs",
               "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Service.Queries\\PcsQueryService.cs",
               "RelativeToolTip": "Bovis.Service.Queries\\PcsQueryService.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAYwKoAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAYwJAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T05:43:48.078Z"
+              "WhenOpened": "2025-03-26T05:43:48.078Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "PcsController.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.API\\Controllers\\PcsController.cs",
               "RelativeDocumentMoniker": "Bovis.API\\Controllers\\PcsController.cs",
               "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.API\\Controllers\\PcsController.cs",
               "RelativeToolTip": "Bovis.API\\Controllers\\PcsController.cs",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAYwA8BAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAJoAAAAAAAAAAAAYwOoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T02:36:17.435Z"
+              "WhenOpened": "2025-03-26T02:36:17.435Z",
+              "EditorCaption": ""
             }
           ]
         }

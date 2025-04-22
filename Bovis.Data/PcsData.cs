@@ -897,10 +897,7 @@ namespace Bovis.Data
                 bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : false;
                 decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
                 bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
-                
-                //chalias
-                string chalias = registro["chalias"].ToString();
-                //nucosto_ini
+                string chalias = registro["chalias"] != null ? registro["chalias"].ToString() : string.Empty;
                 decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
                 
                 
