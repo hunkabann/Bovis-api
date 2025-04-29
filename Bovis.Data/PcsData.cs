@@ -981,7 +981,7 @@ namespace Bovis.Data
             {
                 List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
 
-                if (Seccion.IdSeccion == 2)
+                if (Seccion.IdSeccion == 2 || Seccion.IdSeccion == 8)
                 {
                     foreach (var fase in Fases)
                     {

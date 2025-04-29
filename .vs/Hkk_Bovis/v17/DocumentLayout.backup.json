@@ -146,9 +146,9 @@
               "Title": "PcsData.cs",
               "DocumentMoniker": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs",
               "RelativeDocumentMoniker": "Bovis.Data\\PcsData.cs",
-              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs",
-              "RelativeToolTip": "Bovis.Data\\PcsData.cs",
-              "ViewState": "AgIAACoKAAAAAAAAAAAYwFcKAAAuAAAAAAAAAA==",
+              "ToolTip": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\CODE\\Bovis-api\\Bovis.Data\\PcsData.cs*",
+              "RelativeToolTip": "Bovis.Data\\PcsData.cs*",
+              "ViewState": "AgIAAK4GAAAAAAAAAAAqwFwHAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-04T20:32:26.899Z",
               "EditorCaption": ""
@@ -211,8 +211,7 @@
               "RelativeToolTip": "Bovis.API\\Controllers\\PcsController.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAAAM0AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-26T02:36:17.435Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-26T02:36:17.435Z"
             }
           ]
         }
