@@ -1165,7 +1165,7 @@ namespace Bovis.Data
                                              NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
                                              Cantidad = p.Fee,
                                              Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
-                                             CostoMensual = costempleItem.CostoMensualEmpleado
+                                             CostoMensual = p.Fee //costempleItem.CostoMensualEmpleado
                                          } by new { perItem.IdPersona, p.NumEmpleado, p.boreembolsable } into g
                                          select new Rubro_Detalle
                                          {
