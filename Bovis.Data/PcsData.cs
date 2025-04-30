@@ -973,7 +973,7 @@ namespace Bovis.Data
                 return secciones;
             }
         }
-        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, List<PCS_Etapa_Detalle> Fases, Seccion_Detalle Seccion, string Rubro, bool? reembolsable = false)
+        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, List<PCS_Etapa_Detalle> Fases, Seccion_Detalle Seccion, List<Rubro_Detalle> Rubros, string Rubro, bool? reembolsable = false)
         {
             var fechas_gasto = new List<PCS_Fecha_Detalle>();
 
@@ -1040,24 +1040,26 @@ namespace Bovis.Data
                 }
                 else
                 {
-                    rubros = await (from rubro in db.tB_Rubros
-                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
-                                    from rel1Item in rel1Join.DefaultIfEmpty()
-                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
-                                    where rubro.IdSeccion == Seccion.IdSeccion
-                                    && rubro.NumProyecto == IdProyecto
-                                    //&& rel2.Tipo == "GASTO"
-                                    //&& (reembolsable != null ? rubro.Reembolsable == reembolsable : rubro.Reembolsable == false)
-                                    select new Rubro_Detalle
-                                    {
-                                        Id = rubro.Id,
-                                        IdRubro = rubro.IdRubro,
-                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
-                                        Unidad = rubro.Unidad,
-                                        Cantidad = rubro.Cantidad,
-                                        Reembolsable = rubro.Reembolsable,
-                                        AplicaTodosMeses = rubro.AplicaTodosMeses
-                                    }).ToListAsync();
+                    //rubros = await (from rubro in db.tB_Rubros
+                    //                join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                    //                from rel1Item in rel1Join.DefaultIfEmpty()
+                    //                join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                    //                where rubro.IdSeccion == Seccion.IdSeccion
+                    //                && rubro.NumProyecto == IdProyecto
+                    //                //&& rel2.Tipo == "GASTO"
+                    //                //&& (reembolsable != null ? rubro.Reembolsable == reembolsable : rubro.Reembolsable == false)
+                    //                select new Rubro_Detalle
+                    //                {
+                    //                    Id = rubro.Id,
+                    //                    IdRubro = rubro.IdRubro,
+                    //                    Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                    //                    Unidad = rubro.Unidad,
+                    //                    Cantidad = rubro.Cantidad,
+                    //                    Reembolsable = rubro.Reembolsable,
+                    //                    AplicaTodosMeses = rubro.AplicaTodosMeses
+                    //                }).ToListAsync();
+
+                    rubros = Rubros;
 
                     fechas_gasto = new List<PCS_Fecha_Detalle>();
 
@@ -1127,8 +1129,9 @@ namespace Bovis.Data
                                    }).ToListAsync();
 
                 var seccion = await(from secc in db.tB_GastoIngresoSeccions
-                                    where secc.Tipo == Tipo.ToUpper()
+                                    where secc.Tipo == "GASTO" //Tipo.ToUpper()
                                     && secc.Seccion == Seccion
+                                    
                                     select new Seccion_Detalle
                                     {
                                         IdSeccion = secc.IdSeccion,
@@ -1203,7 +1206,7 @@ namespace Bovis.Data
                             }
                             else
                             {
-                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubro.Rubro, rubro.Reembolsable));
+                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable));
                             }
                         }
 
@@ -1218,7 +1221,7 @@ namespace Bovis.Data
                                      join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                      where rubro.IdSeccion == seccion.IdSeccion
                                      && rubro.NumProyecto == IdProyecto
-                                     && rel2.Tipo == Tipo.ToUpper()
+                                     && rel2.Tipo == "GASTO" //Tipo.ToUpper()
                                      select new Rubro_Detalle
                                      {
                                          Id = rubro.Id,
@@ -1262,8 +1265,29 @@ namespace Bovis.Data
                         else
                         {                          
                             rubro.Fechas ??= new List<PCS_Fecha_Detalle>();
-                            var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
-                            rubro!.Fechas!.AddRange(fechasGasto);
+                            //var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
+                            //rubro!.Fechas!.AddRange(fechasGasto);
+
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && sec.Tipo == "GASTO"
+                                                && valor.Porcentaje > 0
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
+
                         }
                     }
                 }
