@@ -345,7 +345,8 @@ namespace Bovis.Business
                         //tmpFactura.Error = $@"El pago {cfdi.UUID} ya existe en la BD.";
                     }
                     else
-                    {
+                    { */
+                    
                         foreach (CfdiPagos tmpPagos in cfdi.Pagos)
                         {
                             decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
@@ -418,7 +419,7 @@ namespace Bovis.Business
                                 LstFacturas.Add(tmpFactura);
                             }
                         }
-                    }   */                 
+                    //}                   
                 }
                 else
                 {
