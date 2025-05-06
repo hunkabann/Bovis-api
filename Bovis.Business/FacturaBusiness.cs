@@ -331,12 +331,13 @@ namespace Bovis.Business
             {
                 //ATC 05/05/2025
 
-                /**
+                
                 var cfdi = await ExtraerDatos(pagos.FacturaB64);
 
                 
                 if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
                 {
+                    /**
                     var existePago = await _facturaData.SearchPagos(cfdi.UUID);
 
                     if (existePago != null)
