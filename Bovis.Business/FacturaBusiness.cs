@@ -329,6 +329,9 @@ namespace Bovis.Business
             var tryDate = default(DateTime);
             foreach (var pagos in request.LstFacturas)
             {
+                //ATC 05/05/2025
+
+                /**
                 var cfdi = await ExtraerDatos(pagos.FacturaB64);
 
                 
@@ -415,7 +418,7 @@ namespace Bovis.Business
                                 LstFacturas.Add(tmpFactura);
                             }
                         }
-                    }                    
+                    }   */                 
                 }
                 else
                 {
