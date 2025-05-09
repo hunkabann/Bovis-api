@@ -778,14 +778,9 @@ namespace Bovis.Data
             decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
             bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : null;
             decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
-
-            //Reembolsable
-             bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
-
-             //chalias
-             string chalias = registro["chalias"].ToString();
-             //nucosto_ini
-             decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
+            bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
+            string? chalias = registro["chalias"] != null ? registro["chalias"].ToString() : null;
+            decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -811,8 +806,6 @@ namespace Bovis.Data
 
                     resp.Success = res_insert_empleado;
                     resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
-
-
 
                     // Se insertan los valores de los rubros, para gastos e ingresos.
                     var rubros = await (from rub in db.tB_Rubros
