@@ -667,6 +667,7 @@ namespace Bovis.Data
                                                Cantidad = p.Cantidad,
                                                AplicaTodosMeses = p.AplicaTodosMeses,
                                                Fee = p.Fee,
+                                               Reembolsable = p.boreembolsable ?? false,
                                                NuCostoIni = p.nucosto_ini,
                                                ChAlias = p.chalias
                                            } by new { p.NumEmpleado } into g
@@ -679,6 +680,7 @@ namespace Bovis.Data
                                                Cantidad = g.First().Cantidad,
                                                AplicaTodosMeses = g.First().AplicaTodosMeses,
                                                Fee = g.First().Fee,
+                                               Reembolsable = g.First().Reembolsable,
                                                NuCostoIni = g.First().NuCostoIni,
                                                ChAlias = g.First().ChAlias
                                            }).ToListAsync();
