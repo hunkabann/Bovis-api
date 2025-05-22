@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.Drawing;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Bovis.Data
 {
@@ -1011,24 +1012,27 @@ namespace Bovis.Data
 
                         foreach (var rubro in rubros)
                         {
-                            var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                                where p.NumEmpleado == rubro.NumEmpleadoRrHh
-                                                && p.IdFase == fase.IdFase
-                                                orderby p.Anio, p.Mes ascending
-                                                select new PCS_Fecha_Detalle
-                                                {
-                                                    Id = p.Id,
-                                                    Rubro = rubro.Rubro,
-                                                    RubroReembolsable = rubro.Reembolsable,
-                                                    Mes = p.Mes,
-                                                    Anio = p.Anio,
-                                                    Porcentaje = p.Porcentaje
-                                                }).ToListAsync();
-
-                            if (rubro.Rubro.Trim() == Rubro.Trim())
+                            if(!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
                             {
-                                fechas_gasto.AddRange(fechas);
-                                return fechas_gasto;
+                                var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                    where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                    && p.IdFase == fase.IdFase
+                                                    orderby p.Anio, p.Mes ascending
+                                                    select new PCS_Fecha_Detalle
+                                                    {
+                                                        Id = p.Id,
+                                                        Rubro = rubro.Rubro,
+                                                        RubroReembolsable = rubro.Reembolsable,
+                                                        Mes = p.Mes,
+                                                        Anio = p.Anio,
+                                                        Porcentaje = p.Porcentaje
+                                                    }).ToListAsync();
+
+                                if (rubro.Rubro.Trim() == Rubro.Trim())
+                                {
+                                    fechas_gasto.AddRange(fechas);
+                                    return fechas_gasto;
+                                }
                             }
                         }
                     }
@@ -1182,22 +1186,25 @@ namespace Bovis.Data
                             rubro.Fechas = new List<PCS_Fecha_Detalle>();
                             if (Tipo == "gasto")
                             {
-                                var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                                    where p.NumEmpleado == rubro.NumEmpleadoRrHh
-                                                    && p.IdFase == fase.IdFase
-                                                    && p.Porcentaje > 0
-                                                    orderby p.Anio, p.Mes ascending
-                                                    select new PCS_Fecha_Detalle
-                                                    {
-                                                        Id = p.Id,
-                                                        Rubro = rubro.Rubro,
-                                                        RubroReembolsable = rubro.Reembolsable,
-                                                        Mes = p.Mes,
-                                                        Anio = p.Anio,
-                                                        Porcentaje = p.Porcentaje
-                                                    }).ToListAsync();
+                                if (!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
+                                {
+                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                        where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                        && p.IdFase == fase.IdFase
+                                                        && p.Porcentaje > 0
+                                                        orderby p.Anio, p.Mes ascending
+                                                        select new PCS_Fecha_Detalle
+                                                        {
+                                                            Id = p.Id,
+                                                            Rubro = rubro.Rubro,
+                                                            RubroReembolsable = rubro.Reembolsable,
+                                                            Mes = p.Mes,
+                                                            Anio = p.Anio,
+                                                            Porcentaje = p.Porcentaje
+                                                        }).ToListAsync();
 
-                                rubro.Fechas.AddRange(fechas);
+                                    rubro.Fechas.AddRange(fechas);
+                                }
                             }
                             else
                             {
@@ -1367,24 +1374,27 @@ namespace Bovis.Data
 
                             foreach (var rubro in rubros)
                             {
-                                var fechas = await (from p in db.tB_ProyectoFaseEmpleados
-                                                    where p.NumEmpleado == rubro.NumEmpleadoRrHh
-                                                    && p.IdFase == etapa.IdFase
-                                                    orderby p.Anio, p.Mes ascending
-                                                    select new PCS_Fecha_Detalle
-                                                    {
-                                                        Id = p.Id,
-                                                        Rubro = rubro.Rubro,
-                                                        RubroReembolsable = rubro.Reembolsable,
-                                                        Mes = p.Mes,
-                                                        Anio = p.Anio,
-                                                        Porcentaje = p.Porcentaje
-                                                    }).ToListAsync();
-
-                                if (rubro.Rubro.Trim() == Rubro.Trim())
+                                if (!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
                                 {
-                                    fechas_gasto.AddRange(fechas);
-                                    return fechas_gasto;
+                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                        where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                        && p.IdFase == etapa.IdFase
+                                                        orderby p.Anio, p.Mes ascending
+                                                        select new PCS_Fecha_Detalle
+                                                        {
+                                                            Id = p.Id,
+                                                            Rubro = rubro.Rubro,
+                                                            RubroReembolsable = rubro.Reembolsable,
+                                                            Mes = p.Mes,
+                                                            Anio = p.Anio,
+                                                            Porcentaje = p.Porcentaje
+                                                        }).ToListAsync();
+
+                                    if (rubro.Rubro.Trim() == Rubro.Trim())
+                                    {
+                                        fechas_gasto.AddRange(fechas);
+                                        return fechas_gasto;
+                                    }
                                 }
                             }
                         }
