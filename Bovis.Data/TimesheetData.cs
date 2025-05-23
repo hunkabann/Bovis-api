@@ -1012,5 +1012,119 @@ namespace Bovis.Data
 
             return resp;
         }
+
+
+        #region Usuarios
+        public async Task<(bool Success, string Message)> AddUsuarioTimesheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            string usuario = registro["usuario"].ToString();
+            string num_empleado = registro["num_empleado"].ToString();
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var exists = await (from user in db.tB_Usuario_Timesheets
+                                    where user.NumEmpleadoRrHh == num_empleado
+                                    && user.NumProyecto == num_proyecto
+                                    select user).FirstOrDefaultAsync();
+
+
+                if (exists != null)
+                {
+                    resp.Success = true;
+                    resp.Message = String.Format("Ya existe un registro del empleado {0}, asignado al proyecto {1}", num_empleado, num_proyecto);
+                    return resp;
+                }
+
+                var insert_usuario = await db.tB_Usuario_Timesheets
+                    .Value(x => x.Usuario, usuario)
+                    .Value(x => x.NumEmpleadoRrHh, num_empleado)
+                    .Value(x => x.NumProyecto, num_proyecto)
+                    .InsertAsync() > 0;
+
+                resp.Success = insert_usuario;
+                resp.Message = insert_usuario == default ? "Ocurrio un error al agregar registro del usuario." : string.Empty;
+
+
+            }
+            return resp;
+        }
+
+        public async Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet()
+        {
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var usuarios = await (from users in db.tB_Usuario_Timesheets
+                                      join empleado in db.tB_Empleados on users.NumEmpleadoRrHh equals empleado.NumEmpleadoRrHh into empJoin
+                                      from empItem in empJoin.DefaultIfEmpty()
+                                      join persona in db.tB_Personas on empItem.IdPersona equals persona.IdPersona into perJoin
+                                      from perItem in perJoin.DefaultIfEmpty()
+                                      join proyecto in db.tB_Proyectos on users.NumProyecto equals proyecto.NumProyecto into proyJoin
+                                      from proyItem in proyJoin.DefaultIfEmpty()
+                                      where empItem.Activo == true
+                                      orderby users.IdUserTimesheet descending
+                                      select new UsuarioTimesheet_Detalle
+                                      {
+                                          id = users.IdUserTimesheet,
+                                          Usuario = users.Usuario,
+                                          NumEmpleadoRrHh = users.NumEmpleadoRrHh,
+                                          NombreEmpleado = perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno,
+                                          NumProyecto = users.NumProyecto,
+                                          NombreProyecto = proyItem.Proyecto,
+                                      }).ToListAsync();
+
+                return usuarios;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> UpdateUsuarioTimesheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id = Convert.ToInt32(registro["id"].ToString());
+            string usuario = registro["usuario"].ToString();
+            string num_empleado = registro["num_empleado"].ToString();
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var res_update_usuario_timesheet = await db.tB_Usuario_Timesheets.Where(x => x.IdUserTimesheet == id)
+                                .UpdateAsync(x => new TB_UsuarioTimesheet
+                                {
+                                    Usuario = usuario,
+                                    NumEmpleadoRrHh = num_empleado,
+                                    NumProyecto = num_proyecto
+                                }) > 0;
+
+                resp.Success = res_update_usuario_timesheet;
+                resp.Message = res_update_usuario_timesheet == default ? "Ocurrio un error al actualizar el registro." : string.Empty;
+
+
+            }
+
+            return resp;
+        }
+
+        public async Task<(bool Success, string Message)> DeleteUsuarioTimesheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int id = Convert.ToInt32(registro["id"].ToString());
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_delete_usuario_timesheet = await db.tB_Usuario_Timesheets.Where(x => x.IdUserTimesheet == id)
+                    .DeleteAsync() > 0;
+
+                resp.Success = res_delete_usuario_timesheet;
+                resp.Message = res_delete_usuario_timesheet == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+            }
+
+            return resp;
+        }
+        #endregion Usuarios
     }
 }

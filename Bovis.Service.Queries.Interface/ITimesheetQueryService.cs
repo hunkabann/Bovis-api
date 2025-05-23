@@ -31,6 +31,13 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> AddProyectoEmpleado(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteProyectoEmpleado(JsonObject registro);
         Task<Response<(bool Success, string Message)>> UpdateDiasDedicacion(JsonObject registro);
+
+        #region Usuarios
+        Task<Response<(bool Success, string Message)>> AddUsuarioTimesheet(JsonObject registro);
+        Task<Response<List<UsuarioTimesheet_Detalle>>> GetUsuariosTimeSheet();
+        Task<Response<(bool Success, string Message)>> UpdateUsuarioTimesheet(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> DeleteUsuarioTimesheet(JsonObject registro);
+        #endregion Usuarios
     }
 }
 

@@ -126,7 +126,32 @@ namespace Bovis.Service.Queries
         {
             var response = await _timesheetBusiness.UpdateDiasDedicacion(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
-        }        
+        }
+
+
+        #region Usuarios
+        public async Task<Response<List<UsuarioTimesheet_Detalle>>> GetUsuariosTimeSheet()
+        {
+            var response = await _timesheetBusiness.GetUsuariosTimeSheet();
+            return new Response<List<UsuarioTimesheet_Detalle>> { Data = _map.Map<List<UsuarioTimesheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+        }
+
+        public async Task<Response<(bool Success, string Message)>> AddUsuarioTimesheet(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.AddUsuarioTimesheet(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool Success, string Message)>> UpdateUsuarioTimesheet(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.UpdateUsuarioTimesheet(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool Success, string Message)>> DeleteUsuarioTimesheet(JsonObject registro)
+        {
+            var response = await _timesheetBusiness.DeleteUsuarioTimesheet(registro);
+            return new Response<(bool existe, string mensaje)> { Data = _map.Map<(bool existe, string mensaje)>(response), Success = response.Success, Message = response.Message };
+        }
+        #endregion Usuarios
     }
 }
 
