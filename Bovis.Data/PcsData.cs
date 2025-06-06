@@ -1661,7 +1661,7 @@ namespace Bovis.Data
                                 && pfe.Anio == anio
                                 && pfe.boreembolsable == reembolsable
                             )
-                            .SumAsync(pfe => ((decimal?)pfe.Porcentaje / 100) * pfe.Fee);
+                            .SumAsync(pfe => ((decimal?)Math.Round((decimal)pfe.Porcentaje, 1) / 100 * pfe.Fee));
 
                         // Resultado total
                         var resultadoTotal = (sumaRubroValor ?? 0) + (sumaFaseEmpleado ?? 0);
