@@ -1360,7 +1360,7 @@ namespace Bovis.Data
             }
         }
 
-        private async Task<List<PCS_Fecha_Detalle>> GetFechasTotalesIngresos(int IdProyecto, string Rubro, List<Rubro_Detalle> rubros, List<Seccion_Detalle> secciones_gasto, List<PCS_Etapa_Detalle> etapas, bool? reembolsable = false)
+        private async Task<List<PCS_Fecha_Detalle>> GetFechasTotalesIngresos(int IdProyecto, string Rubro, List<Rubro_Detalle> rubros, List<Seccion_Detalle> secciones_gasto, List<PCS_Etapa_Detalle> etapas, bool? reembolsable = true)
         {
             var fechas_gasto = new List<PCS_Fecha_Detalle>();
 
