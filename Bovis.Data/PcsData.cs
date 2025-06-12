@@ -1641,7 +1641,7 @@ namespace Bovis.Data
                         var sumaRubroValor = await db.tB_RubroValors
                             .Where(rv =>
                                 db.tB_Rubros
-                                    .Where(r => r.NumProyecto == IdProyecto && r.Reembolsable == reembolsable)
+                                    .Where(r => r.NumProyecto == IdProyecto && r.Reembolsable == true)
                                     .Select(r => r.Id)
                                     .Contains(rv.IdRubro)
                                 && rv.Mes == mes
@@ -1659,7 +1659,7 @@ namespace Bovis.Data
                                     .Contains(pfe.IdFase)
                                 && pfe.Mes == mes
                                 && pfe.Anio == anio
-                                && pfe.boreembolsable == reembolsable
+                                && pfe.boreembolsable == true
                             )
                             .SumAsync(pfe => ((decimal?)Math.Round((decimal)pfe.Porcentaje, 1) / 100 * pfe.Fee));
 
