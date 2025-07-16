@@ -242,14 +242,20 @@ namespace Bovis.Data
 
             string sCadenaCoenxion = "", sQuery = "";
 
+            var db = new ConnectionDB(dbConfig);
+            //Console.WriteLine("----->>>>     ConnectionString: " + db.ConnectionString);
+
+
+
             //definiendo la consulta
             // la parte de {0} en la cadena, indica que ahí se coloca el valor del primer elemento después de la coma en la función Format
             sQuery = String.Format("select nucosto_mensual_empleado from tb_costo_por_empleado where nunum_empleado_rr_hh = '{0}' and boreg_historico = 0", NumEmpleadoRrHh);
 
-            sCadenaCoenxion = @"Data Source=20.114.209.76;Database=Bovis1;User Id=GBUser;Password=k:L~7$ZYB<1c70#;TrustServerCertificate=true;Connection Timeout=30; ";
+            //sCadenaCoenxion = @"Data Source=20.114.209.76;Database=Bovis1;User Id=GBUser;Password=k:L~7$ZYB<1c70#;TrustServerCertificate=true;Connection Timeout=30; ";
 
             // Create a new SqlConnection object
-            using (SqlConnection con = new SqlConnection(sCadenaCoenxion))
+            //using (SqlConnection con = new SqlConnection(sCadenaCoenxion))
+            using (SqlConnection con = new SqlConnection(db.ConnectionString))
             {
                 try
                 {
@@ -273,6 +279,7 @@ namespace Bovis.Data
                     {
                         con.Close();
                     }
+                    db = null;
                 }
             }
 
@@ -281,11 +288,10 @@ namespace Bovis.Data
         }   // costoPorEmpleado
 
 
+
         #region GetCostosEmpleado
         public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
-            Console.WriteLine("-----   >>>>>   hist: " + hist);
-            Console.WriteLine("dbConfig: " + dbConfig);
 
             // LDTF
             //CostoQueries QueryBase = new(dbConfig);
@@ -295,6 +301,7 @@ namespace Bovis.Data
 
             if (hist)
             {
+                // estas definiciones inicialmente estaban fuera del if
                 CostoQueries QueryBase = new(dbConfig);
                 var costos = await QueryBase.CostosEmpleados();
                 var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
