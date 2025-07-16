@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj": {}
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Bovis.API.csproj": {}
   },
   "projects": {
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Bovis.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
         "projectName": "Bovis.API",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -33,35 +33,35 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj"
               }
             }
           }
@@ -75,7 +75,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -133,24 +134,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj",
         "projectName": "Bovis.Business.Interface",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -166,11 +167,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               }
             }
           }
@@ -184,7 +185,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -205,24 +207,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
         "projectName": "Bovis.Business",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -238,17 +240,17 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
               }
             }
           }
@@ -262,7 +264,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -297,24 +300,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
         "projectName": "Bovis.Common.Mapper",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Mapper\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -330,11 +333,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
               }
             }
           }
@@ -348,7 +351,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -375,24 +379,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj",
         "projectName": "Bovis.Common.Model",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -419,7 +423,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -446,24 +451,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj",
         "projectName": "Bovis.Common",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -490,7 +495,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -511,24 +517,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj",
         "projectName": "Bovis.Data.Interface",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -544,11 +550,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               }
             }
           }
@@ -562,7 +568,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -583,24 +590,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
         "projectName": "Bovis.Data",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -616,14 +623,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
               }
             }
           }
@@ -637,7 +644,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -650,6 +658,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.2, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.9.0, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
@@ -676,24 +688,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
         "projectName": "Bovis.Service.EventHandlers",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.EventHandlers\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -709,14 +721,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
               }
             }
           }
@@ -730,7 +742,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -757,24 +770,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj",
         "projectName": "Bovis.Service.Queries.Dto",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -790,11 +803,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common.Model\\Bovis.Common.Model.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               }
             }
           }
@@ -808,7 +821,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -835,24 +849,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj",
         "projectName": "Bovis.Service.Queries.Interface",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -868,11 +882,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
               }
             }
           }
@@ -886,7 +900,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -907,24 +922,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
+    "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj",
+        "projectUniqueName": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj",
         "projectName": "Bovis.Service.Queries",
-        "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj",
-        "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-        "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\obj\\",
+        "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj",
+        "packagesPath": "C:\\Users\\Luis\\.nuget\\packages\\",
+        "outputPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Luis\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -940,11 +955,11 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
               },
-              "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
-                "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
+              "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
+                "projectPath": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
               }
             }
           }
@@ -958,7 +973,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net6.0": {
@@ -985,7 +1001,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

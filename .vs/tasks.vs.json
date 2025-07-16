@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "tarea-Bovis-api",
+      "appliesTo": "/",
+      "type": "launch"
+    },
+    {
+      "taskLabel": "tarea-Bovis",
+      "appliesTo": "Bovis.Data/",
+      "type": "launch"
+    }
+  ]
+}

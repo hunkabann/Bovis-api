@@ -1,7 +1,28 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Administrador\\source\\repos\\Bovis-api\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\workspaces\\visual studio\\Bovis-api\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Controllers\\CostoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.API\\Controllers\\CostoController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\CostoData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\CostoData.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Connection\\ConnectionStringSettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\Connection\\ConnectionStringSettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Bovis.Data\\Bovis.Data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,6 +91,70 @@
             {
               "$type": "Bookmark",
               "Name": "ST:136:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ConnectionStringSettings.cs",
+              "DocumentMoniker": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Connection\\ConnectionStringSettings.cs",
+              "RelativeDocumentMoniker": "Bovis.Data\\Connection\\ConnectionStringSettings.cs",
+              "ToolTip": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Connection\\ConnectionStringSettings.cs",
+              "RelativeToolTip": "Bovis.Data\\Connection\\ConnectionStringSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-14T17:37:30.026Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\appsettings.json",
+              "RelativeDocumentMoniker": "Bovis.API\\appsettings.json",
+              "ToolTip": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\appsettings.json",
+              "RelativeToolTip": "Bovis.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-13T04:50:16.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Bovis.Data.csproj",
+              "DocumentMoniker": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
+              "RelativeDocumentMoniker": "Bovis.Data\\Bovis.Data.csproj",
+              "ToolTip": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
+              "RelativeToolTip": "Bovis.Data\\Bovis.Data.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-07-11T05:58:41.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CostoController.cs",
+              "DocumentMoniker": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Controllers\\CostoController.cs",
+              "RelativeDocumentMoniker": "Bovis.API\\Controllers\\CostoController.cs",
+              "ToolTip": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.API\\Controllers\\CostoController.cs",
+              "RelativeToolTip": "Bovis.API\\Controllers\\CostoController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAwBQAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-11T03:47:16.581Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CostoData.cs",
+              "DocumentMoniker": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\CostoData.cs",
+              "RelativeDocumentMoniker": "Bovis.Data\\CostoData.cs",
+              "ToolTip": "C:\\workspaces\\visual studio\\Bovis-api\\Bovis.Data\\CostoData.cs",
+              "RelativeToolTip": "Bovis.Data\\CostoData.cs",
+              "ViewState": "AgIAAOwDAAAAAAAAAADwv/oDAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-10T05:36:07.038Z",
+              "EditorCaption": ""
             }
           ]
         }

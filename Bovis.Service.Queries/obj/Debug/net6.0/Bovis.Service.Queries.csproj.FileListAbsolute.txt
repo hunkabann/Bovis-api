@@ -163,3 +163,27 @@ C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\refint\Bovis.Service.Queries.dll
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.pdb
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\ref\Bovis.Service.Queries.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.deps.json
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Business.Interface.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Common.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.Dto.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.Interface.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.Interface.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Business.Interface.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Common.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\bin\Debug\net6.0\Bovis.Service.Queries.Dto.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.csproj.AssemblyReference.cache
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.GeneratedMSBuildEditorConfig.editorconfig
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.AssemblyInfoInputs.cache
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.AssemblyInfo.cs
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.csproj.CoreCompileInputs.cache
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.sourcelink.json
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Se.0C02B116.Up2Date
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\refint\Bovis.Service.Queries.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\Bovis.Service.Queries.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Service.Queries\obj\Debug\net6.0\ref\Bovis.Service.Queries.dll

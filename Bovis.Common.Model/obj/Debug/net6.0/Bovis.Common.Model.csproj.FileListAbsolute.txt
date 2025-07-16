@@ -86,3 +86,16 @@ C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bo
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.deps.json
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\bin\Debug\net6.0\Bovis.Common.Model.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.AssemblyReference.cache
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfoInputs.cache
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.AssemblyInfo.cs
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.csproj.CoreCompileInputs.cache
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.sourcelink.json
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\refint\Bovis.Common.Model.dll
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\Bovis.Common.Model.pdb
+C:\workspaces\visual studio\Bovis-api\Bovis.Common.Model\obj\Debug\net6.0\ref\Bovis.Common.Model.dll

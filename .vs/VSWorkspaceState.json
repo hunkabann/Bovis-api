@@ -1,9 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Bovis.API",
-    "\\Bovis.API\\Controllers"
+    "\\Bovis.Data",
+    "\\Bovis.Data\\Connection"
   ],
-  "SelectedNode": "\\Bovis.API\\Controllers\\EmpleadoController.cs",
+  "SelectedNode": "\\Bovis.Data\\Connection\\ConnectionStringSettings.cs",
   "PreviewInSolutionExplorer": false
 }

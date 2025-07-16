@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "Gqs8EJ/ANnDnoqaxWFtAROG4VHejh2bEvZhmgPUCBU0=",
-  "Source": "Bovis.API",
-  "BasePath": "_content/Bovis.API",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"Gqs8EJ/ANnDnoqaxWFtAROG4VHejh2bEvZhmgPUCBU0=","Source":"Bovis.API","BasePath":"_content/Bovis.API","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
