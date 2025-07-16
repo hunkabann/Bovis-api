@@ -15,6 +15,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.Sql;
+using System.Data.SqlClient;
 
 
 namespace Bovis.Data
@@ -231,15 +234,77 @@ namespace Bovis.Data
         }
         #endregion
 
+
+
+        public decimal costoPorEmpleado(string NumEmpleadoRrHh)
+        {
+            decimal retorno = 0m;
+
+            string sCadenaCoenxion = "", sQuery = "";
+
+            var db = new ConnectionDB(dbConfig);
+            //Console.WriteLine("----->>>>     ConnectionString: " + db.ConnectionString);
+
+
+
+            //definiendo la consulta
+            // la parte de {0} en la cadena, indica que ahí se coloca el valor del primer elemento después de la coma en la función Format
+            sQuery = String.Format("select nucosto_mensual_empleado from tb_costo_por_empleado where nunum_empleado_rr_hh = '{0}' and boreg_historico = 0", NumEmpleadoRrHh);
+
+            
+
+            // Create a new SqlConnection object
+            //using (SqlConnection con = new SqlConnection(sCadenaCoenxion))
+            using (SqlConnection con = new SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand(sQuery, con))
+                    {
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        con.Open();
+                        da.Fill(dt);
+                        retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        con.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if(con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // costoPorEmpleado
+
+
+
         #region GetCostosEmpleado
         public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
-            CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleados();
-            var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
+            // LDTF
+            //CostoQueries QueryBase = new(dbConfig);
+            //var costos = await QueryBase.CostosEmpleados();
+            //var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
 
             if (hist)
             {
+                // estas definiciones inicialmente estaban fuera del if
+                CostoQueries QueryBase = new(dbConfig);
+                var costos = await QueryBase.CostosEmpleados();
+                var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
                 if (resp.Count > 0)
                 {
                     return new Common.Response<List<Costo_Detalle>>()
@@ -262,12 +327,21 @@ namespace Bovis.Data
             }
             else
             {
-                var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
-                if (listaCostos.Count > 0)
+                Costo_Detalle cd = new Costo_Detalle();
+                cd.NumEmpleadoRrHh = NumEmpleadoRrHh;
+                //cd.CostoMensualEmpleado = 59805.01429m;
+                cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                List<Costo_Detalle> cdl = new List<Costo_Detalle>();
+                cdl.Add(cd);
+
+                //var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
+                //if (listaCostos.Count > 0)
+                if (cd.CostoMensualEmpleado > 0)
                     return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
-                        Data = listaCostos,
+                        //Data = listaCostos,    //LDTF
+                        Data = cdl,
                         Message = "Ok"
                     };
                 else
