@@ -1585,28 +1585,14 @@ namespace Bovis.Data
 
             int rubro_record_id = 0;
             bool bogastosPP = false;//LEO
-            string stanios = "", staniosapoyo = "", staniosactual = ""; //LEO
-            int nuregistros = 0; //LEO
+            string stanios = ""; //LEO
 
             //LEO
             if (unidad.ToLower().Trim() == "pp")
             {
                 // leyendo los anios del json
                 var aFechas = registro["fechas"].AsArray();
-                nuregistros = aFechas.Count();
-
-                foreach (var fecha in registro["fechas"].AsArray())
-                {
-                    staniosactual = fecha["anio"].ToString();
-                    if (staniosapoyo != staniosactual)
-                    {
-                        staniosapoyo = staniosactual;
-                        stanios = String.Format("{0}{1}|", stanios, fecha["anio"].ToString());
-                    }
-                }
-
-                //quitando el último pipe antes de enviarlo a la BD
-                stanios = stanios.Trim().Substring(0, stanios.Length - 1);
+                stanios = ObtieneAnios(aFechas);
 
                 //actualizando e insertando en tb_rubro y tb_rubro_valor
                 bogastosPP = gastosPP(numProyecto, id_rubro, id_seccion, unidad, cantidad, reembolsable, aplica_todos_meses, stanios);
@@ -1687,6 +1673,19 @@ namespace Bovis.Data
             return resp;
         }
 
+        //LEO
+        /// <summary>
+        /// Función que inactiva lo que existe del rubro y rubro_valor y después inserta lo nuevo en ambas tablas con estado activo.
+        /// </summary>
+        /// <param name="nunumProyecto">Identificador del proyecto</param>
+        /// <param name="nuid_rubro">Identificador del rubro</param>
+        /// <param name="nuid_seccion">Identificador de la sección</param>
+        /// <param name="stunidad">Unidad</param>
+        /// <param name="nucantidad">Cantidad</param>
+        /// <param name="boreembolsable">1 es reembolsable \ 0 no es reembolsable</param>
+        /// <param name="boaplica_todos_meses">1 aplica \ 0 no aplica</param>
+        /// <param name="stanios"></param>
+        /// <returns>true todo estuvo ok \ false si hubo algún error en el proceso</returns>
         public bool gastosPP(int nunumProyecto, int nuid_rubro, int nuid_seccion, string stunidad, decimal nucantidad, bool boreembolsable, bool boaplica_todos_meses, string stanios)
         {
             string sQuery = "";
@@ -1700,55 +1699,56 @@ namespace Bovis.Data
             {
                 try
                 {
-                    using (System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con))
-                    {
-                        System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@pnumProyecto", SqlDbType.Int);
-                        param01.Direction = ParameterDirection.Input;
-                        param01.Value = nunumProyecto;
-                        cmd.Parameters.Add(param01);
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                        System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@pid_rubro", SqlDbType.Int);
-                        param02.Direction = ParameterDirection.Input;
-                        param02.Value = nuid_rubro;
-                        cmd.Parameters.Add(param02);
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@pnumProyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = nunumProyecto;
+                    cmd.Parameters.Add(param01);
 
-                        System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@pid_seccion", SqlDbType.Int);
-                        param03.Direction = ParameterDirection.Input;
-                        param03.Value = nuid_seccion;
-                        cmd.Parameters.Add(param03);
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@pid_rubro", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = nuid_rubro;
+                    cmd.Parameters.Add(param02);
 
-                        System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@punidad", SqlDbType.VarChar, 3);
-                        param04.Direction = ParameterDirection.Input;
-                        param04.Value = stunidad;
-                        cmd.Parameters.Add(param04);
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@pid_seccion", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = nuid_seccion;
+                    cmd.Parameters.Add(param03);
 
-                        System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@pcantidad", SqlDbType.Decimal);
-                        param05.Direction = ParameterDirection.Input;
-                        param05.Value = nucantidad;
-                        cmd.Parameters.Add(param05);
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@punidad", SqlDbType.VarChar, 3);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = stunidad;
+                    cmd.Parameters.Add(param04);
 
-                        System.Data.SqlClient.SqlParameter param06 = new System.Data.SqlClient.SqlParameter("@preembolsable", SqlDbType.Bit);
-                        param06.Direction = ParameterDirection.Input;
-                        param06.Value = boreembolsable;
-                        cmd.Parameters.Add(param06);
+                    System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@pcantidad", SqlDbType.Decimal);
+                    param05.Direction = ParameterDirection.Input;
+                    param05.Value = nucantidad;
+                    cmd.Parameters.Add(param05);
 
-                        System.Data.SqlClient.SqlParameter param07 = new System.Data.SqlClient.SqlParameter("@paplica_todos_meses", SqlDbType.Bit);
-                        param07.Direction = ParameterDirection.Input;
-                        param07.Value = boaplica_todos_meses;
-                        cmd.Parameters.Add(param07);
+                    System.Data.SqlClient.SqlParameter param06 = new System.Data.SqlClient.SqlParameter("@preembolsable", SqlDbType.Bit);
+                    param06.Direction = ParameterDirection.Input;
+                    param06.Value = boreembolsable;
+                    cmd.Parameters.Add(param06);
 
-                        System.Data.SqlClient.SqlParameter param08 = new System.Data.SqlClient.SqlParameter("@panios", SqlDbType.VarChar, 30);
-                        param08.Direction = ParameterDirection.Input;
-                        param08.Value = stanios;
-                        cmd.Parameters.Add(param08);
+                    System.Data.SqlClient.SqlParameter param07 = new System.Data.SqlClient.SqlParameter("@paplica_todos_meses", SqlDbType.Bit);
+                    param07.Direction = ParameterDirection.Input;
+                    param07.Value = boaplica_todos_meses;
+                    cmd.Parameters.Add(param07);
 
-                        con.Open();
-                        cmd.ExecuteNonQuery();
+                    System.Data.SqlClient.SqlParameter param08 = new System.Data.SqlClient.SqlParameter("@panios", SqlDbType.VarChar, 30);
+                    param08.Direction = ParameterDirection.Input;
+                    param08.Value = stanios;
+                    cmd.Parameters.Add(param08);
 
-                        con.Close();
+                    con.Open();
+                    cmd.ExecuteNonQuery();
 
-                        boOk = true;
-                    }
+                    con.Close();
+
+                    boOk = true;
+
                 }
                 catch (Exception ex)
                 {
@@ -2695,6 +2695,30 @@ namespace Bovis.Data
 
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
+
+        private string ObtieneAnios(JsonArray jaEntrada)
+        {
+            string stanios = "", staniosapoyo = "", staniosactual = ""; //LEO
+            int nuregistros = 0; //LEO
+
+            nuregistros = jaEntrada.Count();
+
+            foreach (var fecha in jaEntrada)
+            {
+                staniosactual = fecha["anio"].ToString();
+                if (staniosapoyo != staniosactual)
+                {
+                    staniosapoyo = staniosactual;
+                    stanios = String.Format("{0}{1}|", stanios, fecha["anio"].ToString());
+                }
+            }
+
+            //quitando el último pipe antes de enviarlo a la BD
+            stanios = stanios.Trim().Substring(0, stanios.Length - 1);
+
+            return stanios;
+        }
+
         #endregion Ohter Functions
     }
 }
