@@ -18,7 +18,7 @@ using System.Drawing;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
-
+using System.Data;
 
 
 namespace Bovis.Data
@@ -97,16 +97,16 @@ namespace Bovis.Data
         public async Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico)
         {
             //return await GetAllFromEntityAsync<TB_Proyecto>();
-           
 
-                using (var db = new ConnectionDB(dbConfig))
+
+            using (var db = new ConnectionDB(dbConfig))
             {
                 var proyectos = await (from p in db.tB_Proyectos
                                        where p.IdEstatus != 3
                                        select p).ToListAsync();
                 return proyectos;
             }
-            
+
         }
 
         public async Task<TB_Proyecto> GetProyecto(int numProyecto)
@@ -203,58 +203,58 @@ namespace Bovis.Data
                 }
 
 
-                 /*
-                  * Se agregan las secciones y rubros para gastos e ingresos Rembolsabes.
-                  */
-                 var secciones = await (from secc in db.tB_GastoIngresoSeccions
-                                        where secc.Activo == true
-                                        select secc).ToListAsync();
-                
-                 foreach (var seccion in secciones)
-                 {
-                     var rubros = await (from rub in db.tB_CatRubros
-                                         where rub.IdSeccion == seccion.IdSeccion
-                                         select rub).ToListAsync();
-                
-                     foreach (var rubro in rubros)
-                     {
-                         var res_insert_rubro = await db.tB_Rubros
-                                         .Value(x => x.IdSeccion, seccion.IdSeccion)
-                                         .Value(x => x.IdRubro, rubro.IdRubro)
-                                         .Value(x => x.NumProyecto, num_proyecto)
-                                         .Value(x => x.Reembolsable, true)
-                                         .Value(x => x.Activo, true)
-                                         .InsertAsync() > 0;
-                
-                         resp.Success = res_insert_rubro;
-                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
-                     }
-                 }
-                
-                 /*
-                 * Se duplica las secciones y rubros para gastos e ingresos No Rembolsabes.  ATC 13-01-2025
+                /*
+                 * Se agregan las secciones y rubros para gastos e ingresos Rembolsabes.
                  */
-                 foreach (var seccion in secciones)
-                 {
-                     var rubros = await (from rub in db.tB_CatRubros
-                                         where rub.IdSeccion == seccion.IdSeccion
-                                         select rub).ToListAsync();
-                
-                     foreach (var rubro in rubros)
-                     {
-                         var res_insert_rubro = await db.tB_Rubros
-                                         .Value(x => x.IdSeccion, seccion.IdSeccion)
-                                         .Value(x => x.IdRubro, rubro.IdRubro)
-                                         .Value(x => x.NumProyecto, num_proyecto)
-                                         .Value(x => x.Reembolsable, false)
-                                         .Value(x => x.Activo, true)
-                                         .InsertAsync() > 0;
-                
-                         resp.Success = res_insert_rubro;
-                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
-                     }
-                 } 
-                 
+                var secciones = await (from secc in db.tB_GastoIngresoSeccions
+                                       where secc.Activo == true
+                                       select secc).ToListAsync();
+
+                foreach (var seccion in secciones)
+                {
+                    var rubros = await (from rub in db.tB_CatRubros
+                                        where rub.IdSeccion == seccion.IdSeccion
+                                        select rub).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var res_insert_rubro = await db.tB_Rubros
+                                        .Value(x => x.IdSeccion, seccion.IdSeccion)
+                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.NumProyecto, num_proyecto)
+                                        .Value(x => x.Reembolsable, true)
+                                        .Value(x => x.Activo, true)
+                                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_rubro;
+                        resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }
+                }
+
+                /*
+                * Se duplica las secciones y rubros para gastos e ingresos No Rembolsabes.  ATC 13-01-2025
+                */
+                foreach (var seccion in secciones)
+                {
+                    var rubros = await (from rub in db.tB_CatRubros
+                                        where rub.IdSeccion == seccion.IdSeccion
+                                        select rub).ToListAsync();
+
+                    foreach (var rubro in rubros)
+                    {
+                        var res_insert_rubro = await db.tB_Rubros
+                                        .Value(x => x.IdSeccion, seccion.IdSeccion)
+                                        .Value(x => x.IdRubro, rubro.IdRubro)
+                                        .Value(x => x.NumProyecto, num_proyecto)
+                                        .Value(x => x.Reembolsable, false)
+                                        .Value(x => x.Activo, true)
+                                        .InsertAsync() > 0;
+
+                        resp.Success = res_insert_rubro;
+                        resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                    }
+                }
+
 
                 /*
                  * Se agregan sus documentos de auditorías, default.
@@ -891,49 +891,49 @@ namespace Bovis.Data
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
-                int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
-                string num_empleado = registro["num_empleado"].ToString();
-                decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
-                bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : false;
-                decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
-                bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
-                string chalias = registro["chalias"] != null ? registro["chalias"].ToString() : string.Empty;
-                decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
-                
-                
-                    
-                
-                using (ConnectionDB db = new ConnectionDB(dbConfig))
+            int id_fase = Convert.ToInt32(registro["id_fase"].ToString());
+            string num_empleado = registro["num_empleado"].ToString();
+            decimal? cantidad = registro["cantidad"] != null ? Convert.ToDecimal(registro["cantidad"].ToString()) : null;
+            bool? aplica_todos_meses = registro["aplicaTodosMeses"] != null ? Convert.ToBoolean(registro["aplicaTodosMeses"].ToString()) : false;
+            decimal? fee = registro["FEE"] != null ? Convert.ToDecimal(registro["FEE"].ToString()) : null;
+            bool? reembolsable = registro["reembolsable"] != null ? Convert.ToBoolean(registro["reembolsable"].ToString()) : false;
+            string chalias = registro["chalias"] != null ? registro["chalias"].ToString() : string.Empty;
+            decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
+
+
+
+
+            using (ConnectionDB db = new ConnectionDB(dbConfig))
+            {
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
+                    .DeleteAsync() > 0;
+
+                foreach (var fecha in registro["fechas"].AsArray())
                 {
-                    var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
-                        .DeleteAsync() > 0;
-                
-                    foreach (var fecha in registro["fechas"].AsArray())
-                    {
-                        int mes = Convert.ToInt32(fecha["mes"].ToString());
-                        int anio = Convert.ToInt32(fecha["anio"].ToString());
-                        int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
-                
-                        var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
-                            .Value(x => x.IdFase, id_fase)
-                            .Value(x => x.NumEmpleado, num_empleado)
-                            .Value(x => x.Mes, mes)
-                            .Value(x => x.Anio, anio)
-                            .Value(x => x.Porcentaje, porcentaje)
-                            .Value(x => x.Cantidad, cantidad)
-                            .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
-                            .Value(x => x.nucosto_ini, nucosto_ini)
-                            .Value(x => x.Fee, fee)
-                            .Value(x => x.chalias, chalias)
-                            .Value(x => x.boreembolsable, reembolsable)
-                            .InsertAsync() > 0;
-                
-                        resp.Success = res_insert_empleado;
-                        resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
-                    }
+                    int mes = Convert.ToInt32(fecha["mes"].ToString());
+                    int anio = Convert.ToInt32(fecha["anio"].ToString());
+                    int porcentaje = Convert.ToInt32(fecha["porcentaje"].ToString());
+
+                    var res_insert_empleado = await db.tB_ProyectoFaseEmpleados
+                        .Value(x => x.IdFase, id_fase)
+                        .Value(x => x.NumEmpleado, num_empleado)
+                        .Value(x => x.Mes, mes)
+                        .Value(x => x.Anio, anio)
+                        .Value(x => x.Porcentaje, porcentaje)
+                        .Value(x => x.Cantidad, cantidad)
+                        .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
+                        .Value(x => x.nucosto_ini, nucosto_ini)
+                        .Value(x => x.Fee, fee)
+                        .Value(x => x.chalias, chalias)
+                        .Value(x => x.boreembolsable, reembolsable)
+                        .InsertAsync() > 0;
+
+                    resp.Success = res_insert_empleado;
+                    resp.Message = res_insert_empleado == default ? "Ocurrio un error al insertar registro." : string.Empty;
                 }
-                
-                return resp;
+            }
+
+            return resp;
         }
         public async Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado)
         {
@@ -1016,7 +1016,7 @@ namespace Bovis.Data
 
                         foreach (var rubro in rubros)
                         {
-                            if(!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
+                            if (!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
                             {
                                 var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                     where p.NumEmpleado == rubro.NumEmpleadoRrHh
@@ -1101,7 +1101,7 @@ namespace Bovis.Data
         }
 
 
-        
+
         public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion)
         {
             GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
@@ -1131,16 +1131,16 @@ namespace Bovis.Data
                                        FechaFin = p.FechaFin
                                    }).ToListAsync();
 
-                var seccion = await(from secc in db.tB_GastoIngresoSeccions
-                                    where secc.Tipo == "GASTO" //Tipo.ToUpper()
-                                    && secc.Seccion == Seccion
-                                    
-                                    select new Seccion_Detalle
-                                    {
-                                        IdSeccion = secc.IdSeccion,
-                                        Codigo = secc.Codigo,
-                                        Seccion = secc.Seccion
-                                    }).FirstOrDefaultAsync();
+                var seccion = await (from secc in db.tB_GastoIngresoSeccions
+                                     where secc.Tipo == "GASTO" //Tipo.ToUpper()
+                                     && secc.Seccion == Seccion
+
+                                     select new Seccion_Detalle
+                                     {
+                                         IdSeccion = secc.IdSeccion,
+                                         Codigo = secc.Codigo,
+                                         Seccion = secc.Seccion
+                                     }).FirstOrDefaultAsync();
 
                 proyecto_gastos_ingresos.Secciones.Add(seccion!);
 
@@ -1153,37 +1153,37 @@ namespace Bovis.Data
                     foreach (var fase in fases)
                     {
                         rubros = await (from p in db.tB_ProyectoFaseEmpleados
-                                         join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
-                                         from eItem in eJoin.DefaultIfEmpty()
-                                         join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
-                                         from perItem in perJoin.DefaultIfEmpty()
-                                         join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
-                                         from costempleItem in costempleJoin.DefaultIfEmpty()
-                                         where p.IdFase == fase.IdFase
-                                         && costempleItem.RegHistorico == false
-                                         orderby p.NumEmpleado ascending
-                                         group new Rubro_Detalle
-                                         {
-                                             Id = p.Id,
-                                             IdRubro = perItem != null ? perItem.IdPersona : 0,
-                                             Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
-                                             Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
-                                             NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
-                                             Cantidad = p.Fee,
-                                             Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
-                                             CostoMensual = Tipo == "ingreso" ? p.Fee : costempleItem.CostoMensualEmpleado
-                                         } by new { perItem.IdPersona, p.NumEmpleado, p.boreembolsable } into g
-                                         select new Rubro_Detalle
-                                         {
-                                             Id = g.First().Id,
-                                             IdRubro = g.First().IdRubro,
-                                             Rubro = g.First().Rubro,
-                                             Empleado = g.First().Empleado,
-                                             NumEmpleadoRrHh = g.Key.NumEmpleado,
-                                             Cantidad = g.First().Cantidad,
-                                             Reembolsable = g.First().Reembolsable,
-                                             CostoMensual = g.First().CostoMensual
-                                         }).ToListAsync();
+                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                        from eItem in eJoin.DefaultIfEmpty()
+                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                        from perItem in perJoin.DefaultIfEmpty()
+                                        join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                        from costempleItem in costempleJoin.DefaultIfEmpty()
+                                        where p.IdFase == fase.IdFase
+                                        && costempleItem.RegHistorico == false
+                                        orderby p.NumEmpleado ascending
+                                        group new Rubro_Detalle
+                                        {
+                                            Id = p.Id,
+                                            IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                            Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                            Cantidad = p.Fee,
+                                            Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
+                                            CostoMensual = Tipo == "ingreso" ? p.Fee : costempleItem.CostoMensualEmpleado
+                                        } by new { perItem.IdPersona, p.NumEmpleado, p.boreembolsable } into g
+                                        select new Rubro_Detalle
+                                        {
+                                            Id = g.First().Id,
+                                            IdRubro = g.First().IdRubro,
+                                            Rubro = g.First().Rubro,
+                                            Empleado = g.First().Empleado,
+                                            NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                            Cantidad = g.First().Cantidad,
+                                            Reembolsable = g.First().Reembolsable,
+                                            CostoMensual = g.First().CostoMensual
+                                        }).ToListAsync();
 
                         foreach (var rubro in rubros)
                         {
@@ -1222,23 +1222,23 @@ namespace Bovis.Data
                 else
                 {
                     rubros = await (from rubro in db.tB_Rubros
-                                     join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
-                                     from rel1Item in rel1Join.DefaultIfEmpty()
-                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
-                                     where rubro.IdSeccion == seccion.IdSeccion
-                                     && rubro.NumProyecto == IdProyecto
-                                     && rel2.Tipo == "GASTO" //Tipo.ToUpper()
-                                     select new Rubro_Detalle
-                                     {
-                                         Id = rubro.Id,
-                                         IdRubro = rubro.IdRubro,
-                                         Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
-                                         Unidad = rubro.Unidad,
-                                         Cantidad = rubro.Cantidad,
-                                         Reembolsable = rubro.Reembolsable,
-                                         AplicaTodosMeses = rubro.AplicaTodosMeses,
-                                         Fechas = new List<PCS_Fecha_Detalle>()
-                                     }).ToListAsync();
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rel2.Tipo == "GASTO" //Tipo.ToUpper()
+                                    select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses,
+                                        Fechas = new List<PCS_Fecha_Detalle>()
+                                    }).ToListAsync();
 
                     rubros = rubros.Where(r => r != null).ToList();
                     seccion.Rubros.AddRange(rubros);
@@ -1269,7 +1269,7 @@ namespace Bovis.Data
                             rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
                         }
                         else
-                        {                          
+                        {
                             rubro.Fechas ??= new List<PCS_Fecha_Detalle>();
                             //var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
                             //rubro!.Fechas!.AddRange(fechasGasto);
@@ -1584,6 +1584,22 @@ namespace Bovis.Data
             bool aplica_todos_meses = Convert.ToBoolean(registro["aplicaTodosMeses"].ToString());
 
             int rubro_record_id = 0;
+            bool bogastosPP = false;//LEO
+            string stanios = ""; //LEO
+
+            //LEO
+            if (unidad.ToLower().Trim() == "pp")
+            {
+                // leyendo los anios del json
+                var aFechas = registro["fechas"].AsArray();
+                stanios = ObtieneAnios(aFechas);
+
+                //actualizando e insertando en tb_rubro y tb_rubro_valor
+                bogastosPP = gastosPP(numProyecto, id_rubro, id_seccion, unidad, cantidad, reembolsable, aplica_todos_meses, stanios);
+                resp.Success = bogastosPP;
+                resp.Message = bogastosPP == false ? "Ocurrio un error al actualizar registro unidad pp." : string.Empty;
+                return resp;
+            }
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
@@ -1608,7 +1624,8 @@ namespace Bovis.Data
                         .FirstOrDefaultAsync();
 
                     rubro_record_id = updatedRubroIds;
-                } else
+                }
+                else
                 {
                     var res_insert_rubro = await db.tB_Rubros
                         .Value(x => x.NumProyecto, numProyecto)
@@ -1655,6 +1672,102 @@ namespace Bovis.Data
 
             return resp;
         }
+
+        //LEO
+        /// <summary>
+        /// Función que inactiva lo que existe del rubro y rubro_valor y después inserta lo nuevo en ambas tablas con estado activo.
+        /// </summary>
+        /// <param name="nunumProyecto">Identificador del proyecto</param>
+        /// <param name="nuid_rubro">Identificador del rubro</param>
+        /// <param name="nuid_seccion">Identificador de la sección</param>
+        /// <param name="stunidad">Unidad</param>
+        /// <param name="nucantidad">Cantidad</param>
+        /// <param name="boreembolsable">1 es reembolsable \ 0 no es reembolsable</param>
+        /// <param name="boaplica_todos_meses">1 aplica \ 0 no aplica</param>
+        /// <param name="stanios"></param>
+        /// <returns>true todo estuvo ok \ false si hubo algún error en el proceso</returns>
+        public bool gastosPP(int nunumProyecto, int nuid_rubro, int nuid_seccion, string stunidad, decimal nucantidad, bool boreembolsable, bool boaplica_todos_meses, string stanios)
+        {
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_gastos_pp";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@pnumProyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = nunumProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@pid_rubro", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = nuid_rubro;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@pid_seccion", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = nuid_seccion;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@punidad", SqlDbType.VarChar, 3);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = stunidad;
+                    cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@pcantidad", SqlDbType.Decimal);
+                    param05.Direction = ParameterDirection.Input;
+                    param05.Value = nucantidad;
+                    cmd.Parameters.Add(param05);
+
+                    System.Data.SqlClient.SqlParameter param06 = new System.Data.SqlClient.SqlParameter("@preembolsable", SqlDbType.Bit);
+                    param06.Direction = ParameterDirection.Input;
+                    param06.Value = boreembolsable;
+                    cmd.Parameters.Add(param06);
+
+                    System.Data.SqlClient.SqlParameter param07 = new System.Data.SqlClient.SqlParameter("@paplica_todos_meses", SqlDbType.Bit);
+                    param07.Direction = ParameterDirection.Input;
+                    param07.Value = boaplica_todos_meses;
+                    cmd.Parameters.Add(param07);
+
+                    System.Data.SqlClient.SqlParameter param08 = new System.Data.SqlClient.SqlParameter("@panios", SqlDbType.VarChar, 30);
+                    param08.Direction = ParameterDirection.Input;
+                    param08.Value = stanios;
+                    cmd.Parameters.Add(param08);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return boOk;
+        }   // gastosPP
+
+
 
         public async Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto)
         {
@@ -2582,6 +2695,32 @@ namespace Bovis.Data
 
             return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
+
+        private string ObtieneAnios(JsonArray jaEntrada)
+        {
+            string stanios = "", staniosapoyo = "", staniosactual = ""; //LEO
+            int nuregistros = 0; //LEO
+
+            nuregistros = jaEntrada.Count();
+
+            foreach (var fecha in jaEntrada)
+            {
+                staniosactual = fecha["anio"].ToString();
+                if (staniosapoyo != staniosactual)
+                {
+                    staniosapoyo = staniosactual;
+                    stanios = String.Format("{0}{1}|", stanios, fecha["anio"].ToString());
+                }
+            }
+
+            //quitando el último pipe antes de enviarlo a la BD
+            stanios = stanios.Trim().Substring(0, stanios.Length - 1);
+
+            return stanios;
+        }
+
         #endregion Ohter Functions
     }
 }
+
+
