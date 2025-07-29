@@ -14,7 +14,7 @@ using System.Text.Json.Nodes;
 
 namespace Bovis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController, Route("api/[controller]")]
     public class PcsController : ControllerBase
     {
