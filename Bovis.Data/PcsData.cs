@@ -1439,7 +1439,84 @@ namespace Bovis.Data
             }
 
             return fechas_gasto;
-        }
+
+        }   // GetFechasTotalesIngresos
+
+
+
+        /**
+         * Obtiene los totales del rubro ingreso (reembolsables y no reembolsables)
+         */
+        private List<PCS_Fecha_Totales> getTotalesRubroIngreso(int IdProyecto)
+        {
+            List<PCS_Fecha_Totales> retorno = new List<PCS_Fecha_Totales>();
+            PCS_Fecha_Totales tot = null;
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_rubro_ingreso";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        tot = new PCS_Fecha_Totales();
+                        tot.Reembolsable = (row.Field<int>("reembolsable") == 1 ? true : false);
+                        tot.Anio = row.Field<int>("anio");
+                        tot.Mes = row.Field<int>("mes");
+                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<double>("totalPorcentaje"));
+
+                        //Console.WriteLine("porcentaje: " + tot.TotalPorcentaje);
+
+                        retorno.Add(tot);
+                    }
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+            return retorno;
+
+        }   // getTotalesRubroIngreso
+
+
+
+
 
         public async Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto)
         {
@@ -1564,6 +1641,8 @@ namespace Bovis.Data
                 // Limpia datos innecesarios
                 proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
 
+                // LDTF
+                proyecto_gastos_ingresos.Totales = getTotalesRubroIngreso(IdProyecto);
 
                 return proyecto_gastos_ingresos;
             }
