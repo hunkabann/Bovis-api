@@ -1226,6 +1226,7 @@ namespace Bovis.Data
                                     from rel1Item in rel1Join.DefaultIfEmpty()
                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                     where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.Activo == true //LEO
                                     && rubro.NumProyecto == IdProyecto
                                     && rel2.Tipo == "GASTO" //Tipo.ToUpper()
                                     select new Rubro_Detalle
@@ -1253,6 +1254,8 @@ namespace Bovis.Data
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
+                                                && valor.Activo == true //LEO
+                                                && rub.Activo == true //LEO
                                                 && sec.Tipo == Tipo.ToUpper()
                                                 && valor.Porcentaje > 0
                                                 orderby valor.Anio, valor.Mes ascending
@@ -1279,6 +1282,8 @@ namespace Bovis.Data
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
+                                                && valor.Activo == true //LEO
+                                                && rub.Activo == true //LEO
                                                 && sec.Tipo == "GASTO"
                                                 && valor.Porcentaje > 0
                                                 orderby valor.Anio, valor.Mes ascending
@@ -1553,12 +1558,13 @@ namespace Bovis.Data
                         var sumaRubroValor = await db.tB_RubroValors
                             .Where(rv =>
                                 db.tB_Rubros
-                                    .Where(r => r.NumProyecto == IdProyecto && r.Reembolsable == true)
+                                    .Where(r => r.NumProyecto == IdProyecto && r.Reembolsable == true && r.Activo == true)
                                     .Select(r => r.Id)
                                     .Contains(rv.IdRubro)
                                 && rv.Mes == mes
                                 && rv.Anio == anio
                                 && rv.Porcentaje != null
+                                && rv.Activo == true
                             )
                             .SumAsync(rv => (decimal?)rv.Porcentaje); // nullable para evitar error si no hay resultados
 
@@ -1667,12 +1673,12 @@ namespace Bovis.Data
             string stanios = ""; //LEO
 
             //LEO
+            // leyendo los anios del json
+            var aFechas = registro["fechas"].AsArray();
+            stanios = ObtieneAnios(aFechas);
+
             if (unidad.ToLower().Trim() == "pp")
             {
-                // leyendo los anios del json
-                var aFechas = registro["fechas"].AsArray();
-                stanios = ObtieneAnios(aFechas);
-
                 //actualizando e insertando en tb_rubro y tb_rubro_valor
                 bogastosPP = gastosPP(numProyecto, id_rubro, id_seccion, unidad, cantidad, reembolsable, aplica_todos_meses, stanios);
                 resp.Success = bogastosPP;
@@ -1680,20 +1686,26 @@ namespace Bovis.Data
                 return resp;
             }
 
+            //LEO se actualiza lo que esta 
+            bogastosPP = gastosPPGeneral(numProyecto, id_rubro, id_seccion, unidad, cantidad, reembolsable, aplica_todos_meses, stanios);
+
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_rubro = await db.tB_Rubros
-                    .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
-                    .UpdateAsync(x => new TB_Rubro
-                    {
-                        Unidad = unidad,
-                        Cantidad = cantidad,
-                        //Reembolsable = reembolsable,
-                        AplicaTodosMeses = aplica_todos_meses
-                    }) > 0;
+                //LEO se comenta para que no actualice los registros y ya solo inserte
+                //var res_update_rubro = await db.tB_Rubros
+                //    .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
+                //    .UpdateAsync(x => new TB_Rubro
+                //    {
+                //        Unidad = unidad,
+                //        Cantidad = cantidad,
+                //        //Reembolsable = reembolsable,
+                //        AplicaTodosMeses = aplica_todos_meses
+                //    }) > 0;
 
-                resp.Success = res_update_rubro;
-                resp.Message = res_update_rubro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+                //resp.Success = res_update_rubro;
+                //resp.Message = res_update_rubro == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+                var res_update_rubro = false; //LEO
 
                 if (res_update_rubro)
                 {
@@ -1720,11 +1732,12 @@ namespace Bovis.Data
                     rubro_record_id = res_insert_rubro;
                 }
 
-                var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == rubro_record_id)
-                    .DeleteAsync() > 0;
+                //LEO se comenta para que no elimine
+                //var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == rubro_record_id)
+                //    .DeleteAsync() > 0;
 
-                resp.Success = res_delete_valores;
-                resp.Message = res_delete_valores == default ? "Ocurrio un error al borrar registro." : string.Empty;
+                //resp.Success = res_delete_valores;
+                //resp.Message = res_delete_valores == default ? "Ocurrio un error al borrar registro." : string.Empty;
 
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
@@ -1846,7 +1859,86 @@ namespace Bovis.Data
             return boOk;
         }   // gastosPP
 
+        public bool gastosPPGeneral(int nunumProyecto, int nuid_rubro, int nuid_seccion, string stunidad, decimal nucantidad, bool boreembolsable, bool boaplica_todos_meses, string stanios)
+        {
+            string sQuery = "";
+            bool boOk = false;
 
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_gastos_pp_general";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@pnumProyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = nunumProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@pid_rubro", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = nuid_rubro;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@pid_seccion", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = nuid_seccion;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@punidad", SqlDbType.VarChar, 3);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = stunidad;
+                    cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@pcantidad", SqlDbType.Decimal);
+                    param05.Direction = ParameterDirection.Input;
+                    param05.Value = nucantidad;
+                    cmd.Parameters.Add(param05);
+
+                    System.Data.SqlClient.SqlParameter param06 = new System.Data.SqlClient.SqlParameter("@preembolsable", SqlDbType.Bit);
+                    param06.Direction = ParameterDirection.Input;
+                    param06.Value = boreembolsable;
+                    cmd.Parameters.Add(param06);
+
+                    System.Data.SqlClient.SqlParameter param07 = new System.Data.SqlClient.SqlParameter("@paplica_todos_meses", SqlDbType.Bit);
+                    param07.Direction = ParameterDirection.Input;
+                    param07.Value = boaplica_todos_meses;
+                    cmd.Parameters.Add(param07);
+
+                    System.Data.SqlClient.SqlParameter param08 = new System.Data.SqlClient.SqlParameter("@panios", SqlDbType.VarChar, 30);
+                    param08.Direction = ParameterDirection.Input;
+                    param08.Value = stanios;
+                    cmd.Parameters.Add(param08);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return boOk;
+        }   // gastosPPGeneral
 
         public async Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto)
         {
