@@ -61,18 +61,12 @@
           "Bovis.Common.Model": "1.0.0"
         },
         "runtime": {
-          "Bovis.Business.Interface.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Bovis.Business.Interface.dll": {}
         }
       },
       "Bovis.Common/1.0.0": {
         "runtime": {
-          "Bovis.Common.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Bovis.Common.dll": {}
         }
       },
       "Bovis.Common.Model/1.0.0": {
@@ -80,10 +74,7 @@
           "linq2db": "4.4.0"
         },
         "runtime": {
-          "Bovis.Common.Model.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Bovis.Common.Model.dll": {}
         }
       },
       "Bovis.Service.Queries.Dto/1.0.0": {
@@ -93,10 +84,7 @@
           "MediatR": "11.1.0"
         },
         "runtime": {
-          "Bovis.Service.Queries.Dto.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Bovis.Service.Queries.Dto.dll": {}
         }
       },
       "Bovis.Service.Queries.Interface/1.0.0": {
@@ -105,10 +93,7 @@
           "Bovis.Service.Queries.Dto": "1.0.0"
         },
         "runtime": {
-          "Bovis.Service.Queries.Interface.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Bovis.Service.Queries.Interface.dll": {}
         }
       }
     }
