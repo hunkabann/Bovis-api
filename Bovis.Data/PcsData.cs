@@ -1321,26 +1321,27 @@ namespace Bovis.Data
                 {
                     foreach (var rubro in rubros)
                     {
-                        if (rubro.Unidad == "pp")
-                        {
-                            foreach (var fecha in rubro.Fechas)
-                            {
-                                foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[0].SumaFechas)
-                                {
-                                    if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
-                                    {
-                                        fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
-                                    }
-                                }
-                            }
-                        }
-                        else if (rubro.Unidad == "mes")
-                        {
-                            foreach (var fecha in rubro.Fechas)
-                            {
-                                fecha.Porcentaje = rubro.Cantidad;
-                            }
-                        }
+                        //LEO, se comenta todo el if y se deja la asignación directa
+                        //if (rubro.Unidad == "pp")
+                        //{
+                        //    foreach (var fecha in rubro.Fechas)
+                        //    {
+                        //        foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[0].SumaFechas)
+                        //        {
+                        //            if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                        //            {
+                        //                fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
+                        //            }
+                        //        }
+                        //    }
+                        //}
+                        //else if (rubro.Unidad == "mes")
+                        //{
+                        //    foreach (var fecha in rubro.Fechas)
+                        //    {
+                        //        fecha.Porcentaje = rubro.Cantidad;
+                        //    }
+                        //}
                     }
                 }
 
