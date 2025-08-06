@@ -1728,12 +1728,6 @@ namespace Bovis.Data
                         .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
                         .Value(x => x.Activo, true)
                         .InsertAsync();
-                    
-                    //LEO para recuperar el id insertado en tb_rubro
-                    res_insert_rubro = await db.tB_Rubros
-                        .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable && x.Activo == true)
-                        .Select(x => x.Id)
-                        .FirstOrDefaultAsync();
 
                     rubro_record_id = res_insert_rubro;
                 }

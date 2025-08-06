@@ -81,15 +81,3 @@ C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Co
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\refint\Bovis.Common.dll
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.pdb
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common\obj\Debug\net6.0\ref\Bovis.Common.dll
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.dll
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\refint\Bovis.Common.dll
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.pdb
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.deps.json
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.dll
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\bin\Debug\net6.0\Bovis.Common.pdb
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.csproj.AssemblyReference.cache
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.GeneratedMSBuildEditorConfig.editorconfig
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.AssemblyInfoInputs.cache
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.AssemblyInfo.cs
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\Bovis.Common.csproj.CoreCompileInputs.cache
-D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common\obj\Debug\net6.0\ref\Bovis.Common.dll
