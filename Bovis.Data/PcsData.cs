@@ -1754,6 +1754,13 @@ namespace Bovis.Data
                     int mesTranscurrido = Convert.ToInt32(fecha["mesTranscurrido"].ToString());
                     decimal porcent = 0;
 
+                    //LEO I si es el mes y anio actual que tome el valor de cantidad para que no lo guarde en 0
+                    if (mes == DateTime.Now.Month && anio == DateTime.Now.Year)
+                    {
+                        porcentaje = cantidad;
+                    }
+                    //LEO F
+
                     porcent = (id_rubro != 2) ? porcentaje : (Math.Ceiling(Convert.ToDecimal(mesTranscurrido + 1 / 12)) * cantidad);
 
                     var res_insert_valor = await db.tB_RubroValors
