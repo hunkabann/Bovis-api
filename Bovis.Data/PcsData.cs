@@ -2475,33 +2475,38 @@ namespace Bovis.Data
                             .GroupBy(f => f.Rubro)
                             .ToList();
 
-                        foreach (var grupo in fechasAgrupadasPorRubro)
-                        {
-                            var rubroNombre = grupo.Key;
-                            var fechasAgrupadasPorMes = grupo
-                                .GroupBy(f => new { f.Mes, f.Anio })
-                                .Select(g => new Control_Fechas
-                                {
-                                    ClasificacionPY = rubroNombre,
-                                    Mes = g.Key.Mes,
-                                    Anio = g.Key.Anio,
-                                    Porcentaje = g.Sum(f => f.Porcentaje),
-                                    Rubro = rubroNombre
-                                }).ToList();
+                        //LEO I
+                        // se reemplaza el código con la nueva función que llena desde la BD las subsecciones
+                        LlenaSecciones(ref control, IdProyecto, seccion.IdSeccion);
+                        ////Se comenta la forma anterior de cómo obtener los datos de las subsecciones
+                        //foreach (var grupo in fechasAgrupadasPorRubro)
+                        //{
+                        //    var rubroNombre = grupo.Key;
+                        //    var fechasAgrupadasPorMes = grupo
+                        //        .GroupBy(f => new { f.Mes, f.Anio })
+                        //        .Select(g => new Control_Fechas
+                        //        {
+                        //            ClasificacionPY = rubroNombre,
+                        //            Mes = g.Key.Mes,
+                        //            Anio = g.Key.Anio,
+                        //            Porcentaje = g.Sum(f => f.Porcentaje),
+                        //            Rubro = rubroNombre
+                        //        }).ToList();
 
-                            var subseccion = new Control_Subseccion
-                            {
-                                Slug = GenerateSlug(rubroNombre),
-                                Seccion = rubroNombre,
-                                Previsto = new Control_PrevistoReal
-                                {
-                                    Fechas = fechasAgrupadasPorMes,
-                                    SubTotal = fechasAgrupadasPorMes.Sum(f => Convert.ToDecimal(f.Porcentaje))
-                                }
-                            };
+                        //    var subseccion = new Control_Subseccion
+                        //    {
+                        //        Slug = GenerateSlug(rubroNombre),
+                        //        Seccion = rubroNombre,
+                        //        Previsto = new Control_PrevistoReal
+                        //        {
+                        //            Fechas = fechasAgrupadasPorMes,
+                        //            SubTotal = fechasAgrupadasPorMes.Sum(f => Convert.ToDecimal(f.Porcentaje))
+                        //        }
+                        //    };
 
-                            control.Subsecciones.Add(subseccion);
-                        }
+                        //    control.Subsecciones.Add(subseccion);
+                        //}
+                        //LEO F
 
                         //foreach (var rubro in rubros_viaticos)
                         //{
@@ -2846,6 +2851,172 @@ namespace Bovis.Data
             }
             return control;
         }
+
+        //LEO I
+        public bool controlData(int nunumProyecto, int nuid_seccion, out DataSet ds)
+        {
+            ds = new DataSet();
+            string sQuery = "";
+            bool boOk = false;
+            
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_control_data";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = nunumProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = nuid_seccion;
+                    cmd.Parameters.Add(param03);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return boOk;
+        }   // controlData
+
+        private bool LlenaSecciones(ref Control_Data control,int nunumProyecto, int nuid_seccion)
+        {
+            bool boOk = false;
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            DataTable dtFechas = new DataTable();
+            int iIdRubro = -1;
+            string sNombre = "";
+            
+            //consultando los datos de la BD
+            boOk = controlData(nunumProyecto, nuid_seccion, out ds);
+
+            //crea lista de fechas de acuerdo a los resultados del sp
+            dtFechas = ds.Tables[0];
+            dt = ds.Tables[1];
+
+            foreach (DataRow oSubTotal in dt.Rows)
+            {
+                iIdRubro = Convert.ToInt32(oSubTotal["nukid_rubro"].ToString());
+                List<Control_Fechas> lstFechas = new List<Control_Fechas>();
+                Control_Fechas oFechas;
+
+                DataTable dtFechasPorRubro = dtFechas.Rows.Cast<DataRow>().Where(x => x["nukid_rubro"].ToString() == iIdRubro.ToString()).CopyToDataTable();
+
+                foreach (DataRow oElem in dtFechasPorRubro.Rows)
+                {
+                    sNombre = oElem["rubro"].ToString();
+
+                    Control_Fechas oPrevisto = new Control_Fechas()
+                    {
+                        ClasificacionPY = sNombre,
+                        Mes = Convert.ToInt32(oElem["mes"].ToString()),
+                        Anio = Convert.ToInt32(oElem["anio"].ToString()),
+                        Porcentaje = Convert.ToDecimal(oElem["porcentaje"].ToString()),
+                        Rubro = sNombre
+                    };
+
+                    lstFechas.Add(oPrevisto);
+                }
+
+                var subseccion = new Control_Subseccion
+                {
+                    Slug = GenerateSlug(sNombre),
+                    Seccion = sNombre,
+                    Previsto = new Control_PrevistoReal
+                    {
+                        Fechas = lstFechas,
+                        SubTotal = Convert.ToDecimal(oSubTotal["subtotal"].ToString())
+                    }
+                };
+
+                control.Subsecciones.Add(subseccion);
+
+            }
+
+            boOk = true;
+            return boOk;
+        }
+
+        private List<Rubro_Detalle> LlenaRubros(int iIdProyecto, int iSeccion, ConnectionDB dbCon, string sTipo)
+        {
+            //List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
+            var rubros = from rubro in dbCon.tB_Rubros
+                                    join rel1 in dbCon.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in dbCon.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == iSeccion
+                                    && rubro.NumProyecto == iIdProyecto
+                                    && rel2.Tipo == sTipo
+                           select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                    };
+
+            return rubros.ToList();
+        }
+
+        private List<Control_Fechas> LlenaSumFechas(ref List<Rubro_Detalle> rubros_viaticos,int iIdProyecto, ConnectionDB dbCon, string sTipo)
+        {
+            List<Control_Fechas> suma_fechas = new List<Control_Fechas>();
+
+            foreach (var rubro in rubros_viaticos)
+            {
+                var fechas = from valor in dbCon.tB_RubroValors
+                                   join rub in dbCon.tB_Rubros on valor.IdRubro equals rub.Id
+                                   join cat in dbCon.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                   join sec in dbCon.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                   where rub.NumProyecto == iIdProyecto
+                                         && sec.Tipo == sTipo
+                                         && rub.Id == rubro.Id
+                                   orderby valor.Anio, valor.Mes
+                                   select new Control_Fechas
+                                   {
+                                       ClasificacionPY = rubro.Rubro,
+                                       Mes = valor.Mes,
+                                       Anio = valor.Anio,
+                                       Porcentaje = valor.Porcentaje,
+                                       Rubro = rubro.Rubro
+                                   };
+
+                suma_fechas.AddRange(fechas.ToList());
+            }
+
+            return suma_fechas;
+        }
+
+        // LEO F
+
         #endregion Control
 
 
