@@ -34,6 +34,9 @@ namespace Bovis.Common.Model.NoTable
         public decimal? Cantidad { get; set; }
         public bool? AplicaTodosMeses { get; set; }
         public decimal? Fee { get; set; }
+        public bool? Reembolsable { get; set; }
+        public decimal? NuCostoIni { get; set; }
+        public string? ChAlias { get; set; }
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }
 
@@ -63,17 +66,21 @@ namespace Bovis.Common.Model.NoTable
         public int NumProyecto { get; set; }
         public DateTime? FechaIni { get; set; }
         public DateTime? FechaFin { get; set; }
-        public List<Seccion_Detalle> Secciones { get; set; }
-        public List<PCS_Fecha_Totales> Totales { get; set; }
+        public List<Seccion_Detalle>? Secciones { get; set; }
+        public List<PCS_Fecha_Totales>? Totales { get; set; }
+        public List<PCS_Fecha_Totales>? Ingreso { get; set; }
+        public List<PCS_Fecha_Totales>? Facturacion { get; set; }
+        public List<PCS_Fecha_Totales>? Cobranza { get; set; }
     }
 
     public class Seccion_Detalle
     {
         public int IdSeccion { get; set; }
-        public string Codigo { get; set; }
-        public string Seccion { get; set; }
-        public List<Rubro_Detalle> Rubros { get; set; }
-        public List<PCS_Fecha_Suma> SumaFechas { get; set; }
+        public string? Codigo { get; set; }
+        public string? Seccion { get; set; }
+        public string Tipo { get; set; }
+        public List<Rubro_Detalle>? Rubros { get; set; }
+        public List<PCS_Fecha_Suma>? SumaFechas { get; set; }
     }
 
     public class Rubro_Detalle
@@ -81,6 +88,7 @@ namespace Bovis.Common.Model.NoTable
         public int Id { get; set; }
         public int IdRubro { get; set; }
         public string Rubro { get; set; }
+        public string Tipo { get; set; }
         public string? Unidad { get; set; }
         public decimal? Cantidad { get; set; }
         public bool? Reembolsable { get; set; }
@@ -88,7 +96,7 @@ namespace Bovis.Common.Model.NoTable
         public string? Empleado { get; set; }
         public string? NumEmpleadoRrHh { get; set; }
         public decimal? CostoMensual { get; set; }
-        public List<PCS_Fecha_Detalle> Fechas { get; set; }
+        public List<PCS_Fecha_Detalle>? Fechas { get; set; }
     }
 
     public class PCS_Fecha_Suma

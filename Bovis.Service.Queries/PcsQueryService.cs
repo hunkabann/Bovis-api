@@ -156,9 +156,19 @@ namespace Bovis.Service.Queries
 
 
         #region Gastos / Ingresos
-        public async Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo)
+        public async Task<Response<List<Seccion_Detalle>>> GetGastosIngresosSecciones(int IdProyecto, string Tipo)
         {
-            var response = await _pcsBusiness.GetGastosIngresos(IdProyecto, Tipo);
+            var response = await _pcsBusiness.GetGastosIngresosSecciones(IdProyecto, Tipo);
+            return new Response<List<Seccion_Detalle>> { Data = _map.Map<List<Seccion_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion)
+        {
+            var response = await _pcsBusiness.GetGastosIngresos(IdProyecto, Tipo, Seccion);
+            return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<GastosIngresos_Detalle>> GetTotalesIngresos(int IdProyecto)
+        {
+            var response = await _pcsBusiness.GetTotalesIngresos(IdProyecto);
             return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<(bool Success, string Message)>> UpdateGastosIngresos(JsonObject registro)

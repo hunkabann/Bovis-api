@@ -15,6 +15,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.Sql;
+using System.Data.SqlClient;
 
 
 namespace Bovis.Data
@@ -31,8 +34,14 @@ namespace Bovis.Data
 
         //Cuota Fija del Trabajador 3 veces UMA (PATRON) = 686.60
         private static double p_patron = 686.60;
-        //3 Veces UMA = 325.71
-        private static double p_3_Veces_UMA = 325.71;
+        
+         //3 Veces UMA = 325.71
+         //private static double p_3_Veces_UMA = 325.71;
+        
+         //ATC CAMBIO DE UMA DE 325.71 A 339.42 08-04-2025
+         //3 Veces UMA = 339.42
+         private static double p_3_Veces_UMA = 339.42;
+ 
         //Prima Riesgo = 0.5
         private static double p_Prima_Riesgo = 0.005;
 
@@ -61,7 +70,12 @@ namespace Bovis.Data
         private static double p_Patron_GPSP = 0.01;
 
         //UMA 2024 = 108.7
-        private static double p_UMA = 108.7;
+        //private static double p_UMA = 108.7;
+        
+        //ATC CAMBIO DE UMA DE 108.7 A 113.14 08-04-2025
+        //UMA 2025 = 113.14
+        private static double p_UMA = 113.14;
+
         //Dias Trabajados = 31
         private static int p_dias_trabajados = 31;
         //Dias del mes = 31
@@ -220,15 +234,77 @@ namespace Bovis.Data
         }
         #endregion
 
+
+
+        public decimal costoPorEmpleado(string NumEmpleadoRrHh)
+        {
+            decimal retorno = 0m;
+
+            string sCadenaCoenxion = "", sQuery = "";
+
+            var db = new ConnectionDB(dbConfig);
+            //Console.WriteLine("----->>>>     ConnectionString: " + db.ConnectionString);
+
+
+
+            //definiendo la consulta
+            // la parte de {0} en la cadena, indica que ahí se coloca el valor del primer elemento después de la coma en la función Format
+            sQuery = String.Format("select nucosto_mensual_empleado from tb_costo_por_empleado where nunum_empleado_rr_hh = '{0}' and boreg_historico = 0", NumEmpleadoRrHh);
+
+            
+
+            // Create a new SqlConnection object
+            //using (SqlConnection con = new SqlConnection(sCadenaCoenxion))
+            using (SqlConnection con = new SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    using (SqlCommand cmd = new SqlCommand(sQuery, con))
+                    {
+                        DataTable dt = new DataTable();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        con.Open();
+                        da.Fill(dt);
+                        retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        con.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if(con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // costoPorEmpleado
+
+
+
         #region GetCostosEmpleado
         public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
-            CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleados();
-            var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
+            // LDTF
+            //CostoQueries QueryBase = new(dbConfig);
+            //var costos = await QueryBase.CostosEmpleados();
+            //var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
 
             if (hist)
             {
+                // estas definiciones inicialmente estaban fuera del if
+                CostoQueries QueryBase = new(dbConfig);
+                var costos = await QueryBase.CostosEmpleados();
+                var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
                 if (resp.Count > 0)
                 {
                     return new Common.Response<List<Costo_Detalle>>()
@@ -251,12 +327,21 @@ namespace Bovis.Data
             }
             else
             {
-                var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
-                if (listaCostos.Count > 0)
+                Costo_Detalle cd = new Costo_Detalle();
+                cd.NumEmpleadoRrHh = NumEmpleadoRrHh;
+                //cd.CostoMensualEmpleado = 59805.01429m;
+                cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                List<Costo_Detalle> cdl = new List<Costo_Detalle>();
+                cdl.Add(cd);
+
+                //var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
+                //if (listaCostos.Count > 0)
+                if (cd.CostoMensualEmpleado > 0)
                     return new Common.Response<List<Costo_Detalle>>()
                     {
                         Success = true,
-                        Data = listaCostos,
+                        //Data = listaCostos,    //LDTF
+                        Data = cdl,
                         Message = "Ok"
                     };
                 else
@@ -532,7 +617,14 @@ namespace Bovis.Data
                         registro.NumProyecto = numero_proyecto;
                         registro.NuMes = DateTime.Now.Month;
                         registro.NuAnno = DateTime.Now.Year;
-                        registro.FechaActualizacion = DateTime.Now;
+                        // registro.FechaActualizacion = DateTime.Now
+                        ;
+                        //ATC RESTA UN DIA A FECHA ACTUAL 08-04-2025
+                        int NumeroDias = -2;
+                        DateTime Hoy = DateTime.Now;
+                        DateTime FechaRestada = Hoy.AddDays(NumeroDias);
+                        registro.FechaActualizacion = FechaRestada;
+                        
                         if (avg_bono_anual_estimado != 0 || sgmm_costo_total_anual != 0 ||
                             sv_costo_total_anual != 0 || vaid_costo_mensual != 0)
                         {
@@ -601,16 +693,21 @@ namespace Bovis.Data
                         //ATC
                         //decimal? sueldo_gravable = 0;
 
-                        if (bonoproyect_sueldobruto_ImpuestoNOM != null && bonoproyect_sueldobruto_ImpuestoNOM > 0)
+                       if (bonoproyect_sueldobruto_ImpuestoNOM != null && bonoproyect_sueldobruto_ImpuestoNOM > 0)
                         {
                             //ATC
-                            registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.03M;
+                            //registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.03M;
+                            //ATC MODIFICA A 0.04M 08-04-2025
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + bonoproyect_sueldobruto_ImpuestoNOM) * 0.04M;
                         }
                         else
                         {
                             //ATC
-                            registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual  + registro.BonoAnualProvisionMensual ) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                            //registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual  + registro.BonoAnualProvisionMensual ) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
+                            //ATC MODIFICA A 0.04M 08-04-2025
+                            registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + registro.BonoAnualProvisionMensual) * 0.04M;//(source.ImpuestoNomina/100); // * 0.03M;
                         }
+
 
                         //registro.Impuesto3sNomina = (registro.SueldoBruto + registro.AguinaldoMontoProvisionMensual + registro.PvProvisionMensual + Be_BonoAdicional + Be_AyudaTransporte + registro.BonoAnualProvisionMensual + BonoAdicionalReubicacion) * 0.03M;//(source.ImpuestoNomina/100); // * 0.03M;
 

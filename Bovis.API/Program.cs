@@ -7,6 +7,7 @@ using Bovis.Data.Connection;
 using Bovis.Data.Interface;
 using Bovis.Service.Queries;
 using Bovis.Service.Queries.Interface;
+using LinqToDB.Common;
 using LinqToDB.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -163,6 +164,8 @@ builder.Services.AddAuthentication(config =>
 });
 
 //builder.Services.AddMicrosoftIdentityWebApiAuthentication(builder.Configuration);
+
+Configuration.Linq.GuardGrouping = false;
 
 var app = builder.Build();
 

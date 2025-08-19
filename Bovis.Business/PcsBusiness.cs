@@ -137,7 +137,9 @@ namespace Bovis.Business
 
 
         #region Gastos / Ingresos
-        public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresos(IdProyecto, Tipo);
+        public Task<List<Seccion_Detalle>> GetGastosIngresosSecciones(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresosSecciones(IdProyecto, Tipo);
+        public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion) => _pcsData.GetGastosIngresos(IdProyecto, Tipo, Seccion);
+        public Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto) => _pcsData.GetTotalesIngresos(IdProyecto);
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

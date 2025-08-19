@@ -102,5 +102,31 @@ namespace Bovis.Business
             }
             return resp;
         }
+
+
+        #region Usuarios
+        public async Task<(bool Success, string Message)> AddUsuarioTimesheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _timesheetData.AddUsuarioTimesheet(registro);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo agregar el registro a la base de datos"; return resp; }
+            else resp = respData;
+            return resp;
+        }
+        public Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet() => _timesheetData.GetUsuariosTimeSheet();
+        public async Task<(bool Success, string Message)> UpdateUsuarioTimesheet(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _timesheetData.UpdateUsuarioTimesheet((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+                _transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+        public Task<(bool Success, string Message)> DeleteUsuarioTimesheet(JsonObject registro) => _timesheetData.DeleteUsuarioTimesheet(registro);
+        #endregion Usuarios
     }
 }

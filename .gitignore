@@ -34,3 +34,9 @@ Bovis.Common.Logging/obj/Debug/net6.0/Bovis.Common.Logging.AssemblyInfo.cs
 /Bovis.API/obj/Debug
 *.editorconfig
 .vs/Hkk_Bovis/v17/.suo
+*.v2
+.vs/Hkk_Bovis/v17/.suo
+Bovis.API/bin/Debug/net6.0/Bovis.API.exe
+/Bovis.API/bin/Debug
+/Bovis.Service.Queries/obj/Debug
+Bovis.API/important-logs.json

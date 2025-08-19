@@ -252,10 +252,24 @@ namespace Bovis.API.Controllers
 
 
         #region Gastos / Ingresos
-        [HttpGet, Route("GastosIngresos/{IdProyecto}/{Tipo}")]
-        public async Task<IActionResult> GetGastosIngresos(int IdProyecto, string Tipo)
+        [HttpGet, Route("GastosIngresos/Secciones/{IdProyecto}/{Tipo}")]
+        public async Task<IActionResult> GetGastosIngresosSecciones(int IdProyecto, string Tipo)
         {
-            var query = await _pcsQueryService.GetGastosIngresos(IdProyecto, Tipo);
+            var query = await _pcsQueryService.GetGastosIngresosSecciones(IdProyecto, Tipo);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/{Tipo}/{Seccion}")]
+        public async Task<IActionResult> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion)
+        {
+            var query = await _pcsQueryService.GetGastosIngresos(IdProyecto, Tipo, Seccion);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("TotalesIngresos/{IdProyecto}")]
+        public async Task<IActionResult> GetTotalesIngresos(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetTotalesIngresos(IdProyecto);
             return Ok(query);
         }
 

@@ -200,5 +200,49 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
         #endregion TimeSheets
+
+        #region Usuarios
+        [HttpPost, Route("Usuarios")]
+        public async Task<IActionResult> AddUsuarioTimesheet([FromBody] JsonObject registro)
+        {
+            var query = await _timesheetQueryService.AddUsuarioTimesheet(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpGet, Route("Usuarios")]
+        public async Task<IActionResult> GetUsuariosTimeSheet()
+        {
+            var query = await _timesheetQueryService.GetUsuariosTimeSheet();
+            return Ok(query);
+        }
+
+        [HttpPut, Route("Usuarios")]
+        public async Task<IActionResult> UpdateUsuarioTimesheet([FromBody] JsonObject registro)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string nombre = headers["nombre"];
+            string email = headers["email"];
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+            registroJsonObject.Add("Nombre", nombre);
+            registroJsonObject.Add("Usuario", email);
+            registroJsonObject.Add("Roles", string.Empty);
+            registroJsonObject.Add("TransactionId", TransactionId);
+            registroJsonObject.Add("Rel", 2056);
+
+            var query = await _timesheetQueryService.UpdateUsuarioTimesheet(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        [HttpDelete, Route("Usuarios")]
+        public async Task<IActionResult> DeleteUsuarioTimesheet([FromBody] JsonObject registro)
+        {
+            var query = await _timesheetQueryService.DeleteUsuarioTimesheet(registro);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+        #endregion Usuarios
     }
 }

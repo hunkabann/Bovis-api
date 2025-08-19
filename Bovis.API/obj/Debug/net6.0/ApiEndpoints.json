@@ -5149,7 +5149,7 @@
   {
     "ContainingType": "Bovis.API.Controllers.PcsController",
     "Method": "GetGastosIngresos",
-    "RelativePath": "api/Pcs/GastosIngresos/{IdProyecto}/{Tipo}",
+    "RelativePath": "api/Pcs/GastosIngresos/{IdProyecto}/{Tipo}/{Seccion}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -5161,6 +5161,11 @@
       },
       {
         "Name": "Tipo",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "Seccion",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -5194,6 +5199,27 @@
       {
         "Name": "IdProyecto",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.PcsController",
+    "Method": "GetGastosIngresosSecciones",
+    "RelativePath": "api/Pcs/GastosIngresos/Secciones/{IdProyecto}/{Tipo}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "Tipo",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -5333,6 +5359,22 @@
         "Name": "OrdenAlfabetico",
         "Type": "System.Nullable\u00601[[System.Boolean, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.PcsController",
+    "Method": "GetTotalesIngresos",
+    "RelativePath": "api/Pcs/TotalesIngresos/{IdProyecto}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdProyecto",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -5977,6 +6019,64 @@
       {
         "Name": "anio",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.TimesheetController",
+    "Method": "AddUsuarioTimesheet",
+    "RelativePath": "api/Timesheet/Usuarios",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registro",
+        "Type": "System.Text.Json.Nodes.JsonObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.TimesheetController",
+    "Method": "GetUsuariosTimeSheet",
+    "RelativePath": "api/Timesheet/Usuarios",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.TimesheetController",
+    "Method": "UpdateUsuarioTimesheet",
+    "RelativePath": "api/Timesheet/Usuarios",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registro",
+        "Type": "System.Text.Json.Nodes.JsonObject",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Bovis.API.Controllers.TimesheetController",
+    "Method": "DeleteUsuarioTimesheet",
+    "RelativePath": "api/Timesheet/Usuarios",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registro",
+        "Type": "System.Text.Json.Nodes.JsonObject",
         "IsRequired": true
       }
     ],

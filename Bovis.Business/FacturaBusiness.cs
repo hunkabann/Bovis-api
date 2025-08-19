@@ -329,11 +329,15 @@ namespace Bovis.Business
             var tryDate = default(DateTime);
             foreach (var pagos in request.LstFacturas)
             {
+                //ATC 05/05/2025
+
+                
                 var cfdi = await ExtraerDatos(pagos.FacturaB64);
 
                 
                 if (cfdi is not null && cfdi.IsVersionValida && cfdi.TipoDeComprobante.Equals("P"))
                 {
+                    /**
                     var existePago = await _facturaData.SearchPagos(cfdi.UUID);
 
                     if (existePago != null)
@@ -342,7 +346,8 @@ namespace Bovis.Business
                         //tmpFactura.Error = $@"El pago {cfdi.UUID} ya existe en la BD.";
                     }
                     else
-                    {
+                    { */
+                    
                         foreach (CfdiPagos tmpPagos in cfdi.Pagos)
                         {
                             decimal total = cfdi.Total is not null ? Convert.ToDecimal(cfdi.Total) : 0;
@@ -415,7 +420,7 @@ namespace Bovis.Business
                                 LstFacturas.Add(tmpFactura);
                             }
                         }
-                    }                    
+                    //}                   
                 }
                 else
                 {

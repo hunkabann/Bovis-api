@@ -40,4 +40,14 @@ namespace Bovis.Common.Model.NoTable
         public int? dias_habiles { get; set; }
         public int? sabados_feriados { get; set; }
     }
+
+    public class UsuarioTimesheet_Detalle
+    {
+        public int id { get; set; }
+        public string Usuario { get; set; }
+        public string NumEmpleadoRrHh { get; set; }
+        public string NombreEmpleado { get; set; }
+        public int NumProyecto { get; set; }
+        public string NombreProyecto { get; set; }
+    }
 }
