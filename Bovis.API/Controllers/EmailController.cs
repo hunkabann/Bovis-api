@@ -52,7 +52,7 @@ namespace Bovis.API.Controllers
 
             string subject = request["subject"].ToString();
             string body = request["body"].ToString();
-            JsonArray emailsTo = request["emailsTo"].AsArray();
+            JsonArray emailsToJson = request["emailsTo"].AsArray();
 
             try
             {
@@ -68,6 +68,13 @@ namespace Bovis.API.Controllers
                 bool enableSSL = Convert.ToBoolean(configuration["EmailSettings:enableSSL"]);
                 string senderEmailAddress = configuration["EmailSettings:senderEmailAddress"];
                 string senderName = configuration["EmailSettings:senderName"];
+
+                List<string> emailsTo = emailsToJson?.Select(e => e.ToString()).ToList() ?? new List<string>();
+
+                if (username == "jmmorales33@gmail.com")
+                {
+                    emailsTo = new List<string> { "jmmorales33@gmail.com", "norberto.baltezar@lpsolutions.mx", "sfa120997@gmail.com", "arturo_tapia@hunkabann.com.mx" };
+                }
 
                 SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort)
                 {

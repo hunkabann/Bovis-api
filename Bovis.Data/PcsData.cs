@@ -198,32 +198,58 @@ namespace Bovis.Data
                 }
 
 
-                /*
-                 * Se agregan las secciones y rubros para gastos e ingresos.
+                 /*
+                  * Se agregan las secciones y rubros para gastos e ingresos Rembolsabes.
+                  */
+                 var secciones = await (from secc in db.tB_GastoIngresoSeccions
+                                        where secc.Activo == true
+                                        select secc).ToListAsync();
+                
+                 foreach (var seccion in secciones)
+                 {
+                     var rubros = await (from rub in db.tB_CatRubros
+                                         where rub.IdSeccion == seccion.IdSeccion
+                                         select rub).ToListAsync();
+                
+                     foreach (var rubro in rubros)
+                     {
+                         var res_insert_rubro = await db.tB_Rubros
+                                         .Value(x => x.IdSeccion, seccion.IdSeccion)
+                                         .Value(x => x.IdRubro, rubro.IdRubro)
+                                         .Value(x => x.NumProyecto, num_proyecto)
+                                         .Value(x => x.Reembolsable, true)
+                                         .Value(x => x.Activo, true)
+                                         .InsertAsync() > 0;
+                
+                         resp.Success = res_insert_rubro;
+                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                     }
+                 }
+                
+                 /*
+                 * Se duplica las secciones y rubros para gastos e ingresos No Rembolsabes.  ATC 13-01-2025
                  */
-                var secciones = await (from secc in db.tB_GastoIngresoSeccions
-                                       where secc.Activo == true
-                                       select secc).ToListAsync();
-
-                foreach (var seccion in secciones)
-                {
-                    var rubros = await (from rub in db.tB_CatRubros
-                                        where rub.IdSeccion == seccion.IdSeccion
-                                        select rub).ToListAsync();
-
-                    foreach (var rubro in rubros)
-                    {
-                        var res_insert_rubro = await db.tB_Rubros
-                                        .Value(x => x.IdSeccion, seccion.IdSeccion)
-                                        .Value(x => x.IdRubro, rubro.IdRubro)
-                                        .Value(x => x.NumProyecto, num_proyecto)
-                                        .Value(x => x.Activo, true)
-                                        .InsertAsync() > 0;
-
-                        resp.Success = res_insert_rubro;
-                        resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
-                    }
-                }
+                 foreach (var seccion in secciones)
+                 {
+                     var rubros = await (from rub in db.tB_CatRubros
+                                         where rub.IdSeccion == seccion.IdSeccion
+                                         select rub).ToListAsync();
+                
+                     foreach (var rubro in rubros)
+                     {
+                         var res_insert_rubro = await db.tB_Rubros
+                                         .Value(x => x.IdSeccion, seccion.IdSeccion)
+                                         .Value(x => x.IdRubro, rubro.IdRubro)
+                                         .Value(x => x.NumProyecto, num_proyecto)
+                                         .Value(x => x.Reembolsable, false)
+                                         .Value(x => x.Activo, true)
+                                         .InsertAsync() > 0;
+                
+                         resp.Success = res_insert_rubro;
+                         resp.Message = res_insert_rubro == default ? "Ocurrio un error al insertar registro." : string.Empty;
+                     }
+                 } 
+                 
 
                 /*
                  * Se agregan sus documentos de auditorías, default.
@@ -905,7 +931,7 @@ namespace Bovis.Data
 
 
         #region Gastos / Ingresos
-        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro)
+        private async Task<List<PCS_Fecha_Detalle>> GetFechasGasto(int IdProyecto, string Rubro, bool? reembolsable = false)
         {
             var fechas_gasto = new List<PCS_Fecha_Detalle>();
 
@@ -951,7 +977,6 @@ namespace Bovis.Data
                                             from eItem in eJoin.DefaultIfEmpty()
                                             join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                             from perItem in perJoin.DefaultIfEmpty()
-
                                             where p.IdFase == etapa.IdFase
                                             orderby p.NumEmpleado ascending
                                             group new Rubro_Detalle
@@ -985,6 +1010,8 @@ namespace Bovis.Data
                                                     select new PCS_Fecha_Detalle
                                                     {
                                                         Id = p.Id,
+                                                        Rubro = rubro.Rubro,
+                                                        RubroReembolsable = rubro.Reembolsable,
                                                         Mes = p.Mes,
                                                         Anio = p.Anio,
                                                         Porcentaje = p.Porcentaje
@@ -1007,6 +1034,7 @@ namespace Bovis.Data
                                         where rubro.IdSeccion == seccion.IdSeccion
                                         && rubro.NumProyecto == IdProyecto
                                         && rel2.Tipo == "gasto"
+                                        && rubro.Reembolsable == reembolsable
                                         select new Rubro_Detalle
                                         {
                                             Id = rubro.Id,
@@ -1028,10 +1056,12 @@ namespace Bovis.Data
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
+                                                && rub.Reembolsable == reembolsable
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Id = valor.Id,
+                                                    RubroReembolsable = rub.Reembolsable,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1149,6 +1179,8 @@ namespace Bovis.Data
                                                         select new PCS_Fecha_Detalle
                                                         {
                                                             Id = p.Id,
+                                                            Rubro = rubro.Rubro,
+                                                            RubroReembolsable = rubro.Reembolsable,
                                                             Mes = p.Mes,
                                                             Anio = p.Anio,
                                                             Porcentaje = p.Porcentaje
@@ -1158,7 +1190,7 @@ namespace Bovis.Data
                                 }
                                 else
                                 {
-                                    rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro));
+                                    rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro, rubro.Reembolsable));
                                 }
                             }
 
@@ -1205,6 +1237,8 @@ namespace Bovis.Data
                                                     select new PCS_Fecha_Detalle
                                                     {
                                                         Id = valor.Id,
+                                                        Rubro = rubro.Rubro,
+                                                        RubroReembolsable = rubro.Reembolsable,
                                                         Mes = valor.Mes,
                                                         Anio = valor.Anio,
                                                         Porcentaje = valor.Porcentaje
@@ -1214,7 +1248,7 @@ namespace Bovis.Data
                             }
                             else
                             {
-                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro));
+                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, rubro.Rubro, rubro.Reembolsable));
                             }
                         }
                     }
@@ -1288,6 +1322,7 @@ namespace Bovis.Data
 
             int numProyecto = Convert.ToInt32(registro["numProyecto"].ToString());
             int id_rubro = Convert.ToInt32(registro["idRubro"].ToString());
+            int id_seccion = Convert.ToInt32(registro["idSeccion"].ToString());
             string unidad = registro["unidad"].ToString();
             decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
             bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
@@ -1297,12 +1332,13 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_update_rubro = await db.tB_Rubros.Where(x => x.IdRubro == id_rubro && x.NumProyecto == numProyecto)
+                var res_update_rubro = await db.tB_Rubros
+                    .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
                     .UpdateAsync(x => new TB_Rubro
                     {
                         Unidad = unidad,
                         Cantidad = cantidad,
-                        Reembolsable = reembolsable,
+                        //Reembolsable = reembolsable,
                         AplicaTodosMeses = aplica_todos_meses
                     }) > 0;
 
@@ -1312,11 +1348,25 @@ namespace Bovis.Data
                 if (res_update_rubro)
                 {
                     var updatedRubroIds = await db.tB_Rubros
-                        .Where(x => x.IdRubro == id_rubro && x.NumProyecto == numProyecto)
+                        .Where(x => x.IdSeccion == id_seccion && x.IdRubro == id_rubro && x.NumProyecto == numProyecto && x.Reembolsable == reembolsable)
                         .Select(x => x.Id)
                         .FirstOrDefaultAsync();
 
                     rubro_record_id = updatedRubroIds;
+                } else
+                {
+                    var res_insert_rubro = await db.tB_Rubros
+                        .Value(x => x.NumProyecto, numProyecto)
+                        .Value(x => x.IdRubro, id_rubro)
+                        .Value(x => x.IdSeccion, id_seccion)
+                        .Value(x => x.Reembolsable, reembolsable)
+                        .Value(x => x.Unidad, unidad)
+                        .Value(x => x.Cantidad, cantidad)
+                        .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
+                        .Value(x => x.Activo, true)
+                        .InsertAsync();
+
+                    rubro_record_id = res_insert_rubro;
                 }
 
                 var res_delete_valores = await db.tB_RubroValors.Where(x => x.IdRubro == rubro_record_id)
@@ -1503,12 +1553,14 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Rubro = rubro.Rubro,
+                                                    ClasificacionPY = cie.ClasificacionPY,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1538,12 +1590,14 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Rubro = rubro.Rubro,
+                                                    ClasificacionPY = cie.ClasificacionPY,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1629,6 +1683,7 @@ namespace Bovis.Data
                                           && cie.NumProyecto == IdProyecto
                                           select new PCS_Fecha_Detalle
                                           {
+                                              ClasificacionPY = cie.ClasificacionPY,
                                               Mes = cie.Mes,
                                               Anio = cie.Fecha.Year,
                                               Porcentaje = cie.Movimiento
@@ -1679,6 +1734,7 @@ namespace Bovis.Data
                                         select new PCS_Fecha_Detalle
                                         {
                                             Rubro = viatico.Rubro,
+                                            ClasificacionPY = cie.ClasificacionPY,
                                             Mes = cie.Mes,
                                             Anio = cie.Fecha.Year,
                                             Porcentaje = cie.Movimiento
@@ -1807,11 +1863,15 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto into cieJoin
+                                                from cieItem in cieJoin.DefaultIfEmpty()
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
+                                                && cieItem.ClasificacionPY == "Salarios"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new Control_Fechas
                                                 {
+                                                    ClasificacionPY = cieItem.ClasificacionPY,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1841,11 +1901,14 @@ namespace Bovis.Data
                                                 join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                //join cie in db.tB_Cie_Datas on rub.NumProyecto equals cie.NumProyecto into cieJoin
+                                                //from cieItem in cieJoin.DefaultIfEmpty()
                                                 where rub.NumProyecto == IdProyecto
                                                 && sec.Tipo == "gasto"
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new Control_Fechas
                                                 {
+                                                    ClasificacionPY = rubro.Rubro,
                                                     Mes = valor.Mes,
                                                     Anio = valor.Anio,
                                                     Porcentaje = valor.Porcentaje
@@ -1925,6 +1988,7 @@ namespace Bovis.Data
                                                     orderby p.Anio, p.Mes ascending
                                                     select new Control_Fechas
                                                     {
+                                                        ClasificacionPY = rubro.Rubro,
                                                         Mes = p.Mes,
                                                         Anio = p.Anio,
                                                         Porcentaje = p.Porcentaje
@@ -1939,6 +2003,7 @@ namespace Bovis.Data
                                .GroupBy(f => new { f.Mes, f.Anio })
                                .Select(g => new Control_Fechas
                                {
+                                   ClasificacionPY = g.First().ClasificacionPY,
                                    Mes = g.Key.Mes,
                                    Anio = g.Key.Anio,
                                    Porcentaje = g.Sum(f => f.Porcentaje)
@@ -1954,6 +2019,7 @@ namespace Bovis.Data
                                                   orderby cie.Fecha.Year, cie.Mes ascending
                                                   select new Control_Fechas
                                                   {
+                                                      ClasificacionPY = cie.ClasificacionPY,
                                                       Mes = cie.Mes,
                                                       Anio = cie.Fecha.Year,
                                                       Porcentaje = cie.Movimiento
@@ -1963,6 +2029,7 @@ namespace Bovis.Data
                                             .GroupBy(c => new { c.Mes, c.Anio })
                                             .Select(g => new Control_Fechas
                                             {
+                                                ClasificacionPY = g.First().ClasificacionPY,
                                                 Mes = g.Key.Mes,
                                                 Anio = g.Key.Anio,
                                                 Porcentaje = g.Sum(c => c.Porcentaje)
@@ -1980,6 +2047,7 @@ namespace Bovis.Data
                            .GroupBy(f => new { f.Mes, f.Anio })
                            .Select(g => new Control_Fechas
                            {
+                               ClasificacionPY = g.First().ClasificacionPY,
                                Mes = g.Key.Mes,
                                Anio = g.Key.Anio,
                                Porcentaje = g.Sum(f => f.Porcentaje)
@@ -2000,6 +2068,7 @@ namespace Bovis.Data
                                                 select new PCS_Fecha_Detalle
                                                 {
                                                     Rubro = viatico.Rubro,
+                                                    ClasificacionPY = viatico.Rubro,
                                                     Mes = g.Key.Mes,
                                                     Anio = g.Key.Year,
                                                     Porcentaje = g.Sum(x => x.Movimiento)
@@ -2014,6 +2083,7 @@ namespace Bovis.Data
                             .Select(g => new Control_Fechas
                             {
                                 //Rubro = g.Key.Rubro,
+                                ClasificacionPY = g.First().ClasificacionPY,
                                 Mes = g.Key.Mes,
                                 Anio = g.Key.Anio,
                                 Porcentaje = g.Sum(c => c.Porcentaje)
@@ -2034,6 +2104,7 @@ namespace Bovis.Data
                                 if (subsec.Seccion == _viatic.Rubro)
                                 {
                                     Control_Fechas control_fechas = new Control_Fechas();
+                                    control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
                                     control_fechas.Mes = _viatic.Mes;
                                     control_fechas.Anio = _viatic.Anio;
                                     control_fechas.Porcentaje = _viatic.Porcentaje;
@@ -2045,6 +2116,7 @@ namespace Bovis.Data
                                    .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
                                    .Select(g => new Control_Fechas
                                    {
+                                       ClasificacionPY = g.First().ClasificacionPY,
                                        Mes = g.Key.Mes,
                                        Anio = g.Key.Anio,
                                        Porcentaje = g.Sum(f => f.Porcentaje)

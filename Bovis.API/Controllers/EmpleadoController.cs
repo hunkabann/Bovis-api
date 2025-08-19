@@ -59,7 +59,7 @@ namespace Bovis.API.Controllers
 
        
 
-[HttpGet, Route("Puesto/{idPuesto}")]
+        [HttpGet, Route("Puesto/{idPuesto}")]
         public async Task<IActionResult> GetEmpleadosByIDPuesto(string? idPuesto)
         {
             var query = await _empleadoQueryService.GetEmpleadosByIDPuesto(idPuesto);

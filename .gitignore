@@ -22,3 +22,15 @@
 *.bin
 .vs/ProjectEvaluation/hkk_bovis.projects.v7.bin
 *.bin
+.vs/Hkk_Bovis/CopilotIndices/17.13.441.19478/CodeChunks.db
+.vs/Hkk_Bovis/CopilotIndices/17.13.441.19478/CodeChunks.db-shm
+.vs/Hkk_Bovis/CopilotIndices/17.13.441.19478/SemanticSymbols.db
+.vs/Hkk_Bovis/CopilotIndices/17.13.441.19478/SemanticSymbols.db-shm
+.vs/Hkk_Bovis/CopilotIndices/17.13.441.19478/SemanticSymbols.db-wal
+.vs/Hkk_Bovis/CopilotIndices/17.13.441.19478/CodeChunks.db-wal
+*.cache
+*.editorconfig
+Bovis.Common.Logging/obj/Debug/net6.0/Bovis.Common.Logging.AssemblyInfo.cs
+/Bovis.API/obj/Debug
+*.editorconfig
+.vs/Hkk_Bovis/v17/.suo

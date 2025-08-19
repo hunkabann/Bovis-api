@@ -366,7 +366,7 @@ namespace Bovis.Data
                                                 join emp2 in db.tB_Empleados on ts.IdEmpleado equals emp2.NumEmpleadoRrHh
                                                 join per2 in db.tB_Personas on emp2.IdPersona equals per2.IdPersona
                                                 join empr in db.tB_Empresas on emp2.IdEmpresa equals empr.IdEmpresa
-                                                where ts.Mes == mes
+                                                 where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
                                                 && (emp2.FechaSalida == null || mes == Convert.ToDateTime(emp2.FechaSalida).Month)
