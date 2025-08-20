@@ -2392,6 +2392,15 @@ namespace Bovis.Data
                 List<Control_Fechas> suma_fechas_salarios = new List<Control_Fechas>();
                 List<Control_Fechas> suma_fechas_viaticos = new List<Control_Fechas>();
                 List<Rubro_Detalle> rubros_viaticos = new List<Rubro_Detalle>();
+                //LEO I
+                int iSeccionGga = -1, iSeccionGdpa = -1, iSeccionGo = -1, iSeccionVia = -1;
+                List<Rubro_Detalle> rubros_viaticosgga = new List<Rubro_Detalle>();
+                List<Control_Fechas> suma_fechas_viaticosgga = new List<Control_Fechas>();
+                List<Rubro_Detalle> rubros_viaticosgdpa = new List<Rubro_Detalle>();
+                List<Control_Fechas> suma_fechas_viaticosgdpa = new List<Control_Fechas>();
+                List<Rubro_Detalle> rubros_viaticosgo = new List<Rubro_Detalle>();
+                List<Control_Fechas> suma_fechas_viaticosgo = new List<Control_Fechas>();
+                //LEO F
 
                 foreach (var seccion in secciones)
                 {
@@ -2435,52 +2444,10 @@ namespace Bovis.Data
                     }
                     else if (seccion.Seccion == "VIÁTICOS")
                     {
-                        rubros_viaticos = await (from rubro in db.tB_Rubros
-                                                 join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
-                                                 from rel1Item in rel1Join.DefaultIfEmpty()
-                                                 join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
-                                                 where rubro.IdSeccion == seccion.IdSeccion
-                                                 && rubro.NumProyecto == IdProyecto
-                                                 && rel2.Tipo == "gasto"
-                                                 && rubro.Activo == true //LEO
-                                                 select new Rubro_Detalle
-                                                 {
-                                                     Id = rubro.Id,
-                                                     Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
-                                                 }).ToListAsync();
-
-                        foreach (var rubro in rubros_viaticos)
-                        {
-                            var fechas = await (from valor in db.tB_RubroValors
-                                                join rub in db.tB_Rubros on valor.IdRubro equals rub.Id
-                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
-                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
-                                                where rub.NumProyecto == IdProyecto
-                                                      && sec.Tipo == "gasto"
-                                                      && rub.Id == rubro.Id
-                                                      && valor.Activo == true //LEO
-                                                      && rub.Activo == true //LEO
-                                                orderby valor.Anio, valor.Mes
-                                                select new Control_Fechas
-                                                {
-                                                    ClasificacionPY = rubro.Rubro,
-                                                    Mes = valor.Mes,
-                                                    Anio = valor.Anio,
-                                                    Porcentaje = valor.Porcentaje,
-                                                    Rubro = rubro.Rubro
-                                                }).ToListAsync();
-
-                            suma_fechas_viaticos.AddRange(fechas);
-                        }
-
-                        // Ahora agrupamos las fechas por Rubro (Sección)
-                        var fechasAgrupadasPorRubro = suma_fechas_viaticos
-                            .GroupBy(f => f.Rubro)
-                            .ToList();
+                        iSeccionVia = seccion.IdSeccion;//LEO
 
                         //LEO I
-                        // se reemplaza el código con la nueva función que llena desde la BD las subsecciones
-                        LlenaSecciones(ref control, IdProyecto, seccion.IdSeccion);
+                        
                         ////Se comenta la forma anterior de cómo obtener los datos de las subsecciones
                         //foreach (var grupo in fechasAgrupadasPorRubro)
                         //{
@@ -2556,42 +2523,15 @@ namespace Bovis.Data
                     }
                     else if (seccion.Seccion.ToUpper() == "CONDICIONES GENERALES - GASTO GENERAL")//LEO
                     {
-                        rubros_viaticos = new List<Rubro_Detalle>();
-                        suma_fechas_viaticos = new List<Control_Fechas>();
-                        rubros_viaticos = LlenaRubros(IdProyecto, seccion.IdSeccion, db, "gasto");
-                        suma_fechas_viaticos = LlenaSumFechas(ref rubros_viaticos, IdProyecto, db, "gasto");
-
-                        // Ahora agrupamos las fechas por Rubro (Sección)
-                        var fechasAgrupadasPorRubrogga = suma_fechas_viaticos
-                            .GroupBy(f => f.Rubro)
-                            .ToList();
-                        LlenaSecciones(ref control, IdProyecto, seccion.IdSeccion);
+                        iSeccionGga = seccion.IdSeccion;
                     }
                     else if (seccion.Seccion.ToUpper() == "CONDICIONES GENERALES - GASTOS DIRECTOS DE PROYECTO")
                     {
-                        rubros_viaticos = new List<Rubro_Detalle>();
-                        suma_fechas_viaticos = new List<Control_Fechas>();
-                        rubros_viaticos = LlenaRubros(IdProyecto, seccion.IdSeccion, db, "gasto");
-                        suma_fechas_viaticos = LlenaSumFechas(ref rubros_viaticos, IdProyecto, db, "gasto");
-
-                        // Ahora agrupamos las fechas por Rubro (Sección)
-                        var fechasAgrupadasPorRubrogdpa = suma_fechas_viaticos
-                            .GroupBy(f => f.Rubro)
-                            .ToList();
-                        LlenaSecciones(ref control, IdProyecto, seccion.IdSeccion);
+                        iSeccionGdpa = seccion.IdSeccion;
                     }
                     else if (seccion.Seccion.ToUpper() == "GASTOS OVERHEAD")
                     {
-                        rubros_viaticos = new List<Rubro_Detalle>();
-                        suma_fechas_viaticos = new List<Control_Fechas>();
-                        rubros_viaticos = LlenaRubros(IdProyecto, seccion.IdSeccion, db, "gasto");
-                        suma_fechas_viaticos = LlenaSumFechas(ref rubros_viaticos, IdProyecto, db, "gasto");
-
-                        // Ahora agrupamos las fechas por Rubro (Sección)
-                        var fechasAgrupadasPorRubrogo = suma_fechas_viaticos
-                            .GroupBy(f => f.Rubro)
-                            .ToList();
-                        LlenaSecciones(ref control, IdProyecto, seccion.IdSeccion);
+                        iSeccionGo = seccion.IdSeccion;
                     }
                     //LEO F
                 }
@@ -2697,175 +2637,33 @@ namespace Bovis.Data
                     case "va_viaticos":
                         control.HasChildren = true;
 
-                        // Get Prev Values.
-                        var fechasViaticosAgrupadas = suma_fechas_viaticos
-                           .GroupBy(f => new { f.Mes, f.Anio })
-                           .Select(g => new Control_Fechas
-                           {
-                               ClasificacionPY = g.First().ClasificacionPY,
-                               Mes = g.Key.Mes,
-                               Anio = g.Key.Anio,
-                               Porcentaje = g.Sum(f => f.Porcentaje)
-                           }).ToList();
+                        rubros_viaticos = LlenaRubros(IdProyecto, iSeccionVia, db, "gasto");
+                        suma_fechas_viaticos = LlenaSumFechas(ref rubros_viaticos, IdProyecto, db, "gasto");
 
-                        control.Previsto.SubTotal = fechasViaticosAgrupadas.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Previsto.Fechas.AddRange(fechasViaticosAgrupadas);
+                        // Ahora agrupamos las fechas por Rubro (Sección)
+                        var fechasAgrupadasPorRubro = suma_fechas_viaticos
+                            .GroupBy(f => f.Rubro)
+                            .ToList();
+                        LlenaSecciones(ref control, IdProyecto, iSeccionVia);
 
-                        // Get Real Values.
-                        List<PCS_Fecha_Detalle> cie_viaticos = new List<PCS_Fecha_Detalle>();
-                        foreach (var viatico in rubros_viaticos)
-                        {
-                            var viatic = await (from cie in db.tB_Cie_Datas
-                                                where cie.ClasificacionPY == viatico.Rubro
-                                                && cie.NumProyecto == IdProyecto
-                                                group cie by new { cie.Fecha.Year, cie.Mes } into g
-                                                orderby g.Key.Year, g.Key.Mes
-                                                select new PCS_Fecha_Detalle
-                                                {
-                                                    Rubro = viatico.Rubro,
-                                                    ClasificacionPY = viatico.Rubro,
-                                                    Mes = g.Key.Mes,
-                                                    Anio = g.Key.Year,
-                                                    Porcentaje = g.Sum(x => x.Movimiento)
-                                                }).ToListAsync();
-
-
-                            cie_viaticos.AddRange(viatic);
-                        }
-
-                        var cie_viaticos_group = cie_viaticos
-                            .GroupBy(c => new { c.Mes, c.Anio })
-                            .Select(g => new Control_Fechas
-                            {
-                                //Rubro = g.Key.Rubro,
-                                ClasificacionPY = g.First().ClasificacionPY,
-                                Mes = g.Key.Mes,
-                                Anio = g.Key.Anio,
-                                Porcentaje = g.Sum(c => c.Porcentaje)
-                            }).ToList();
-
-                        control.Real.SubTotal = cie_viaticos_group.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Real.Fechas.AddRange(cie_viaticos_group);
-
-
-                        // Add Real Values To Subsections.
-                        foreach (var subsec in control.Subsecciones)
-                        {
-                            subsec.Real = new Control_PrevistoReal();
-                            subsec.Real.Fechas = new List<Control_Fechas>();
-
-                            foreach (var _viatic in cie_viaticos)
-                            {
-                                if (subsec.Seccion == _viatic.Rubro)
-                                {
-                                    Control_Fechas control_fechas = new Control_Fechas();
-                                    control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
-                                    control_fechas.Mes = _viatic.Mes;
-                                    control_fechas.Anio = _viatic.Anio;
-                                    control_fechas.Porcentaje = _viatic.Porcentaje;
-                                    subsec.Real.Fechas.Add(control_fechas);
-                                }
-                            }
-
-                            var subseccionGroup = subsec.Real.Fechas
-                                   .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
-                                   .Select(g => new Control_Fechas
-                                   {
-                                       ClasificacionPY = g.First().ClasificacionPY,
-                                       Mes = g.Key.Mes,
-                                       Anio = g.Key.Anio,
-                                       Porcentaje = g.Sum(f => f.Porcentaje)
-                                   }).ToList();
-
-                            subsec.Real.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        }
+                        //llenando los nodos de real
+                        LlenaPrvistoReal(ref control, IdProyecto, db, suma_fechas_viaticos, rubros_viaticos);
                         break;
                     case "gga_condiciones_generales":
                         //LEO I
                         control.HasChildren = true;
 
-                        // Get Prev Values.
-                        var fechasViaticosAgrupadasgga = suma_fechas_viaticos
-                           .GroupBy(f => new { f.Mes, f.Anio })
-                           .Select(g => new Control_Fechas
-                           {
-                               ClasificacionPY = g.First().ClasificacionPY,
-                               Mes = g.Key.Mes,
-                               Anio = g.Key.Anio,
-                               Porcentaje = g.Sum(f => f.Porcentaje)
-                           }).ToList();
+                        rubros_viaticosgga = LlenaRubros(IdProyecto, iSeccionGga, db, "gasto");
+                        suma_fechas_viaticosgga = LlenaSumFechas(ref rubros_viaticosgga, IdProyecto, db, "gasto");
 
-                        control.Previsto.SubTotal = fechasViaticosAgrupadasgga.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Previsto.Fechas.AddRange(fechasViaticosAgrupadasgga);
+                        // Ahora agrupamos las fechas por Rubro (Sección)
+                        var fechasAgrupadasPorRubrogga = suma_fechas_viaticosgga
+                            .GroupBy(f => f.Rubro)
+                            .ToList();
+                        LlenaSecciones(ref control, IdProyecto, iSeccionGga);
 
-                        // Get Real Values.
-                        List<PCS_Fecha_Detalle> cie_viaticosgga = new List<PCS_Fecha_Detalle>();
-                        foreach (var viatico in rubros_viaticos)
-                        {
-                            var viatic = await (from cie in db.tB_Cie_Datas
-                                                where cie.ClasificacionPY == viatico.Rubro
-                                                && cie.NumProyecto == IdProyecto
-                                                group cie by new { cie.Fecha.Year, cie.Mes } into g
-                                                orderby g.Key.Year, g.Key.Mes
-                                                select new PCS_Fecha_Detalle
-                                                {
-                                                    Rubro = viatico.Rubro,
-                                                    ClasificacionPY = viatico.Rubro,
-                                                    Mes = g.Key.Mes,
-                                                    Anio = g.Key.Year,
-                                                    Porcentaje = g.Sum(x => x.Movimiento)
-                                                }).ToListAsync();
-
-
-                            cie_viaticosgga.AddRange(viatic);
-                        }
-
-                        var cie_viaticosgga_group = cie_viaticosgga
-                            .GroupBy(c => new { c.Mes, c.Anio })
-                            .Select(g => new Control_Fechas
-                            {
-                                //Rubro = g.Key.Rubro,
-                                ClasificacionPY = g.First().ClasificacionPY,
-                                Mes = g.Key.Mes,
-                                Anio = g.Key.Anio,
-                                Porcentaje = g.Sum(c => c.Porcentaje)
-                            }).ToList();
-
-                        control.Real.SubTotal = cie_viaticosgga_group.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Real.Fechas.AddRange(cie_viaticosgga_group);
-
-
-                        // Add Real Values To Subsections.
-                        foreach (var subsec in control.Subsecciones)
-                        {
-                            subsec.Real = new Control_PrevistoReal();
-                            subsec.Real.Fechas = new List<Control_Fechas>();
-
-                            foreach (var _viatic in cie_viaticosgga)
-                            {
-                                if (subsec.Seccion == _viatic.Rubro)
-                                {
-                                    Control_Fechas control_fechas = new Control_Fechas();
-                                    control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
-                                    control_fechas.Mes = _viatic.Mes;
-                                    control_fechas.Anio = _viatic.Anio;
-                                    control_fechas.Porcentaje = _viatic.Porcentaje;
-                                    subsec.Real.Fechas.Add(control_fechas);
-                                }
-                            }
-
-                            var subseccionGroup = subsec.Real.Fechas
-                                   .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
-                                   .Select(g => new Control_Fechas
-                                   {
-                                       ClasificacionPY = g.First().ClasificacionPY,
-                                       Mes = g.Key.Mes,
-                                       Anio = g.Key.Anio,
-                                       Porcentaje = g.Sum(f => f.Porcentaje)
-                                   }).ToList();
-
-                            subsec.Real.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        }
+                        //llenando los nodos de real
+                        LlenaPrvistoReal(ref control, IdProyecto, db, suma_fechas_viaticosgga, rubros_viaticosgga);
 
                         //LEO F
                         break;
@@ -2873,88 +2671,17 @@ namespace Bovis.Data
                         //LEO I
                         control.HasChildren = true;
 
-                        // Get Prev Values.
-                        var fechasViaticosAgrupadasgdpa = suma_fechas_viaticos
-                           .GroupBy(f => new { f.Mes, f.Anio })
-                           .Select(g => new Control_Fechas
-                           {
-                               ClasificacionPY = g.First().ClasificacionPY,
-                               Mes = g.Key.Mes,
-                               Anio = g.Key.Anio,
-                               Porcentaje = g.Sum(f => f.Porcentaje)
-                           }).ToList();
+                        rubros_viaticosgdpa = LlenaRubros(IdProyecto, iSeccionGdpa, db, "gasto");
+                        suma_fechas_viaticosgdpa = LlenaSumFechas(ref rubros_viaticosgdpa, IdProyecto, db, "gasto");
 
-                        control.Previsto.SubTotal = fechasViaticosAgrupadasgdpa.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Previsto.Fechas.AddRange(fechasViaticosAgrupadasgdpa);
+                        // Ahora agrupamos las fechas por Rubro (Sección)
+                        var fechasAgrupadasPorRubrogdpa = suma_fechas_viaticosgdpa
+                            .GroupBy(f => f.Rubro)
+                            .ToList();
+                        LlenaSecciones(ref control, IdProyecto, iSeccionGdpa);
 
-                        // Get Real Values.
-                        List<PCS_Fecha_Detalle> cie_viaticosgdpa = new List<PCS_Fecha_Detalle>();
-                        foreach (var viatico in rubros_viaticos)
-                        {
-                            var viatic = await (from cie in db.tB_Cie_Datas
-                                                where cie.ClasificacionPY == viatico.Rubro
-                                                && cie.NumProyecto == IdProyecto
-                                                group cie by new { cie.Fecha.Year, cie.Mes } into g
-                                                orderby g.Key.Year, g.Key.Mes
-                                                select new PCS_Fecha_Detalle
-                                                {
-                                                    Rubro = viatico.Rubro,
-                                                    ClasificacionPY = viatico.Rubro,
-                                                    Mes = g.Key.Mes,
-                                                    Anio = g.Key.Year,
-                                                    Porcentaje = g.Sum(x => x.Movimiento)
-                                                }).ToListAsync();
-
-
-                            cie_viaticosgdpa.AddRange(viatic);
-                        }
-
-                        var cie_viaticosgdpa_group = cie_viaticosgdpa
-                            .GroupBy(c => new { c.Mes, c.Anio })
-                            .Select(g => new Control_Fechas
-                            {
-                                //Rubro = g.Key.Rubro,
-                                ClasificacionPY = g.First().ClasificacionPY,
-                                Mes = g.Key.Mes,
-                                Anio = g.Key.Anio,
-                                Porcentaje = g.Sum(c => c.Porcentaje)
-                            }).ToList();
-
-                        control.Real.SubTotal = cie_viaticosgdpa_group.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Real.Fechas.AddRange(cie_viaticosgdpa_group);
-
-
-                        // Add Real Values To Subsections.
-                        foreach (var subsec in control.Subsecciones)
-                        {
-                            subsec.Real = new Control_PrevistoReal();
-                            subsec.Real.Fechas = new List<Control_Fechas>();
-
-                            foreach (var _viatic in cie_viaticosgdpa)
-                            {
-                                if (subsec.Seccion == _viatic.Rubro)
-                                {
-                                    Control_Fechas control_fechas = new Control_Fechas();
-                                    control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
-                                    control_fechas.Mes = _viatic.Mes;
-                                    control_fechas.Anio = _viatic.Anio;
-                                    control_fechas.Porcentaje = _viatic.Porcentaje;
-                                    subsec.Real.Fechas.Add(control_fechas);
-                                }
-                            }
-
-                            var subseccionGroup = subsec.Real.Fechas
-                                   .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
-                                   .Select(g => new Control_Fechas
-                                   {
-                                       ClasificacionPY = g.First().ClasificacionPY,
-                                       Mes = g.Key.Mes,
-                                       Anio = g.Key.Anio,
-                                       Porcentaje = g.Sum(f => f.Porcentaje)
-                                   }).ToList();
-
-                            subsec.Real.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        }
+                        //llenando los nodos de real
+                        LlenaPrvistoReal(ref control, IdProyecto, db, suma_fechas_viaticosgdpa, rubros_viaticosgdpa);
 
                         //LEO F
                         break;
@@ -2962,89 +2689,17 @@ namespace Bovis.Data
                         //LEO I
                         control.HasChildren = true;
 
-                        // Get Prev Values.
-                        var fechasViaticosAgrupadasgo = suma_fechas_viaticos
-                           .GroupBy(f => new { f.Mes, f.Anio })
-                           .Select(g => new Control_Fechas
-                           {
-                               ClasificacionPY = g.First().ClasificacionPY,
-                               Mes = g.Key.Mes,
-                               Anio = g.Key.Anio,
-                               Porcentaje = g.Sum(f => f.Porcentaje)
-                           }).ToList();
+                        rubros_viaticosgo = LlenaRubros(IdProyecto, iSeccionGo, db, "gasto");
+                        suma_fechas_viaticosgo = LlenaSumFechas(ref rubros_viaticosgo, IdProyecto, db, "gasto");
 
-                        control.Previsto.SubTotal = fechasViaticosAgrupadasgo.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Previsto.Fechas.AddRange(fechasViaticosAgrupadasgo);
+                        // Ahora agrupamos las fechas por Rubro (Sección)
+                        var fechasAgrupadasPorRubrogo = suma_fechas_viaticosgo
+                            .GroupBy(f => f.Rubro)
+                            .ToList();
+                        LlenaSecciones(ref control, IdProyecto, iSeccionGo);
 
-                        // Get Real Values.
-                        List<PCS_Fecha_Detalle> cie_viaticosgo = new List<PCS_Fecha_Detalle>();
-                        foreach (var viatico in rubros_viaticos)
-                        {
-                            var viatic = await (from cie in db.tB_Cie_Datas
-                                                where cie.ClasificacionPY == viatico.Rubro
-                                                && cie.NumProyecto == IdProyecto
-                                                group cie by new { cie.Fecha.Year, cie.Mes } into g
-                                                orderby g.Key.Year, g.Key.Mes
-                                                select new PCS_Fecha_Detalle
-                                                {
-                                                    Rubro = viatico.Rubro,
-                                                    ClasificacionPY = viatico.Rubro,
-                                                    Mes = g.Key.Mes,
-                                                    Anio = g.Key.Year,
-                                                    Porcentaje = g.Sum(x => x.Movimiento)
-                                                }).ToListAsync();
-
-
-                            cie_viaticosgo.AddRange(viatic);
-                        }
-
-                        var cie_viaticosgo_group = cie_viaticosgo
-                            .GroupBy(c => new { c.Mes, c.Anio })
-                            .Select(g => new Control_Fechas
-                            {
-                                //Rubro = g.Key.Rubro,
-                                ClasificacionPY = g.First().ClasificacionPY,
-                                Mes = g.Key.Mes,
-                                Anio = g.Key.Anio,
-                                Porcentaje = g.Sum(c => c.Porcentaje)
-                            }).ToList();
-
-                        control.Real.SubTotal = cie_viaticosgo_group.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Real.Fechas.AddRange(cie_viaticosgo_group);
-
-
-                        // Add Real Values To Subsections.
-                        foreach (var subsec in control.Subsecciones)
-                        {
-                            subsec.Real = new Control_PrevistoReal();
-                            subsec.Real.Fechas = new List<Control_Fechas>();
-
-                            foreach (var _viatic in cie_viaticosgo)
-                            {
-                                if (subsec.Seccion == _viatic.Rubro)
-                                {
-                                    Control_Fechas control_fechas = new Control_Fechas();
-                                    control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
-                                    control_fechas.Mes = _viatic.Mes;
-                                    control_fechas.Anio = _viatic.Anio;
-                                    control_fechas.Porcentaje = _viatic.Porcentaje;
-                                    subsec.Real.Fechas.Add(control_fechas);
-                                }
-                            }
-
-                            var subseccionGroup = subsec.Real.Fechas
-                                   .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
-                                   .Select(g => new Control_Fechas
-                                   {
-                                       ClasificacionPY = g.First().ClasificacionPY,
-                                       Mes = g.Key.Mes,
-                                       Anio = g.Key.Anio,
-                                       Porcentaje = g.Sum(f => f.Porcentaje)
-                                   }).ToList();
-
-                            subsec.Real.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        }
-
+                        //llenando los nodos de real
+                        LlenaPrvistoReal(ref control, IdProyecto, db, suma_fechas_viaticosgo, rubros_viaticosgo);
                         //LEO F
                         break;
                     case "ga_gastos":
@@ -3212,6 +2867,56 @@ namespace Bovis.Data
             return boOk;
         }   // controlData
 
+        public bool controlSalarios(int nunumProyecto, int nuid_seccion, out DataSet ds)
+        {
+            ds = new DataSet();
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_control_salarios";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = nunumProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return boOk;
+        }   // controlData
+
         private bool LlenaSecciones(ref Control_Data control,int nunumProyecto, int nuid_seccion)
         {
             bool boOk = false;
@@ -3320,6 +3025,92 @@ namespace Bovis.Data
             }
 
             return suma_fechas;
+        }
+
+        private void LlenaPrvistoReal(ref Control_Data control, int nunumProyecto, ConnectionDB dbCon, List<Control_Fechas> suma_fechas, List<Rubro_Detalle> rubros)
+        {
+            // Get Prev Values.
+            var fechasViaticosAgrupadasgga = suma_fechas
+               .GroupBy(f => new { f.Mes, f.Anio })
+               .Select(g => new Control_Fechas
+               {
+                   ClasificacionPY = g.First().ClasificacionPY,
+                   Mes = g.Key.Mes,
+                   Anio = g.Key.Anio,
+                   Porcentaje = g.Sum(f => f.Porcentaje)
+               }).ToList();
+
+            control.Previsto.SubTotal = fechasViaticosAgrupadasgga.Sum(f => Convert.ToDecimal(f.Porcentaje));
+            control.Previsto.Fechas.AddRange(fechasViaticosAgrupadasgga);
+
+            // Get Real Values.
+            List<PCS_Fecha_Detalle> cie_viaticosgga = new List<PCS_Fecha_Detalle>();
+            foreach (var viatico in rubros)
+            {
+                var viatic = from cie in dbCon.tB_Cie_Datas
+                                   where cie.ClasificacionPY == viatico.Rubro
+                                   && cie.NumProyecto == nunumProyecto
+                                   group cie by new { cie.Fecha.Year, cie.Mes } into g
+                                   orderby g.Key.Year, g.Key.Mes
+                                   select new PCS_Fecha_Detalle
+                                   {
+                                       Rubro = viatico.Rubro,
+                                       ClasificacionPY = viatico.Rubro,
+                                       Mes = g.Key.Mes,
+                                       Anio = g.Key.Year,
+                                       Porcentaje = g.Sum(x => x.Movimiento)
+                                   };
+
+
+                cie_viaticosgga.AddRange(viatic);
+            }
+
+            var cie_viaticosgga_group = cie_viaticosgga
+                .GroupBy(c => new { c.Mes, c.Anio })
+                .Select(g => new Control_Fechas
+                {
+                    //Rubro = g.Key.Rubro,
+                    ClasificacionPY = g.First().ClasificacionPY,
+                    Mes = g.Key.Mes,
+                    Anio = g.Key.Anio,
+                    Porcentaje = g.Sum(c => c.Porcentaje)
+                }).ToList();
+
+            control.Real.SubTotal = cie_viaticosgga_group.Sum(f => Convert.ToDecimal(f.Porcentaje));
+            control.Real.Fechas.AddRange(cie_viaticosgga_group);
+
+
+            // Add Real Values To Subsections.
+            foreach (var subsec in control.Subsecciones)
+            {
+                subsec.Real = new Control_PrevistoReal();
+                subsec.Real.Fechas = new List<Control_Fechas>();
+
+                foreach (var _viatic in cie_viaticosgga)
+                {
+                    if (subsec.Seccion == _viatic.Rubro)
+                    {
+                        Control_Fechas control_fechas = new Control_Fechas();
+                        control_fechas.ClasificacionPY = _viatic.ClasificacionPY;
+                        control_fechas.Mes = _viatic.Mes;
+                        control_fechas.Anio = _viatic.Anio;
+                        control_fechas.Porcentaje = _viatic.Porcentaje;
+                        subsec.Real.Fechas.Add(control_fechas);
+                    }
+                }
+
+                var subseccionGroup = subsec.Real.Fechas
+                       .GroupBy(f => new { f.Rubro, f.Mes, f.Anio })
+                       .Select(g => new Control_Fechas
+                       {
+                           ClasificacionPY = g.First().ClasificacionPY,
+                           Mes = g.Key.Mes,
+                           Anio = g.Key.Anio,
+                           Porcentaje = g.Sum(f => f.Porcentaje)
+                       }).ToList();
+
+                subsec.Real.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
+            }
         }
 
         // LEO F
