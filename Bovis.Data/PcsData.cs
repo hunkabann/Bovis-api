@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
 using System.Data;
+using System;
 
 
 namespace Bovis.Data
@@ -2394,6 +2395,7 @@ namespace Bovis.Data
                 List<Rubro_Detalle> rubros_viaticos = new List<Rubro_Detalle>();
                 //LEO I
                 int iSeccionGga = -1, iSeccionGdpa = -1, iSeccionGo = -1, iSeccionVia = -1;
+                int iSalarios = -1;
                 List<Rubro_Detalle> rubros_viaticosgga = new List<Rubro_Detalle>();
                 List<Control_Fechas> suma_fechas_viaticosgga = new List<Control_Fechas>();
                 List<Rubro_Detalle> rubros_viaticosgdpa = new List<Rubro_Detalle>();
@@ -2533,6 +2535,7 @@ namespace Bovis.Data
                     {
                         iSeccionGo = seccion.IdSeccion;
                     }
+
                     //LEO F
                 }
 
@@ -2594,18 +2597,22 @@ namespace Bovis.Data
                         }
 
                         // Get Prev Values.
-                        var fechasSalariosAgrupadas = suma_fechas_salarios
-                               .GroupBy(f => new { f.Mes, f.Anio })
-                               .Select(g => new Control_Fechas
-                               {
-                                   ClasificacionPY = g.First().ClasificacionPY,
-                                   Mes = g.Key.Mes,
-                                   Anio = g.Key.Anio,
-                                   Porcentaje = g.Sum(f => f.Porcentaje)
-                               }).ToList();
+                        //LEO I se comenta para usar el llenado mediante el sp
+                        //var fechasSalariosAgrupadas = suma_fechas_salarios
+                        //       .GroupBy(f => new { f.Mes, f.Anio })
+                        //       .Select(g => new Control_Fechas
+                        //       {
+                        //           ClasificacionPY = g.First().ClasificacionPY,
+                        //           Mes = g.Key.Mes,
+                        //           Anio = g.Key.Anio,
+                        //           Porcentaje = g.Sum(f => f.Porcentaje)
+                        //       }).ToList();
 
-                        control.Previsto.SubTotal = fechasSalariosAgrupadas.Sum(f => Convert.ToDecimal(f.Porcentaje));
-                        control.Previsto.Fechas.AddRange(fechasSalariosAgrupadas);
+                        //control.Previsto.SubTotal = fechasSalariosAgrupadas.Sum(f => Convert.ToDecimal(f.Porcentaje));
+                        //control.Previsto.Fechas.AddRange(fechasSalariosAgrupadas);
+
+                        LlenaPrevistoSeccionSinHijos(ref control, IdProyecto);
+                        //LEO F
 
                         // Get Real Values.
                         var cie_salarios = await (from cie in db.tB_Cie_Datas
@@ -2867,7 +2874,7 @@ namespace Bovis.Data
             return boOk;
         }   // controlData
 
-        public bool controlSalarios(int nunumProyecto, int nuid_seccion, out DataSet ds)
+        public bool controlSalarios(int nunumProyecto, out DataSet ds)
         {
             ds = new DataSet();
             string sQuery = "";
@@ -2925,54 +2932,70 @@ namespace Bovis.Data
             DataTable dtFechas = new DataTable();
             int iIdRubro = -1;
             string sNombre = "";
-            
-            //consultando los datos de la BD
-            boOk = controlData(nunumProyecto, nuid_seccion, out ds);
+            string sPaso = "", sMensaje = "";
 
-            //crea lista de fechas de acuerdo a los resultados del sp
-            dtFechas = ds.Tables[0];
-            dt = ds.Tables[1];
-
-            foreach (DataRow oSubTotal in dt.Rows)
+            try
             {
-                iIdRubro = Convert.ToInt32(oSubTotal["nukid_rubro"].ToString());
-                List<Control_Fechas> lstFechas = new List<Control_Fechas>();
-                Control_Fechas oFechas;
+                //consultando los datos de la BD
+                sPaso = "controlData";
+                boOk = controlData(nunumProyecto, nuid_seccion, out ds);
 
-                DataTable dtFechasPorRubro = dtFechas.Rows.Cast<DataRow>().Where(x => x["nukid_rubro"].ToString() == iIdRubro.ToString()).CopyToDataTable();
+                //crea lista de fechas de acuerdo a los resultados del sp
+                sPaso = "AsignaTablas";
+                dtFechas = ds.Tables[0];
 
-                foreach (DataRow oElem in dtFechasPorRubro.Rows)
+                sPaso = "AsignaTablas1";
+                dt = ds.Tables[1];
+
+                sPaso = "SeccionesCiclo";
+                foreach (DataRow oSubTotal in dt.Rows)
                 {
-                    sNombre = oElem["rubro"].ToString();
+                    iIdRubro = Convert.ToInt32(oSubTotal["nukid_rubro"].ToString());
+                    List<Control_Fechas> lstFechas = new List<Control_Fechas>();
+                    Control_Fechas oFechas;
 
-                    Control_Fechas oPrevisto = new Control_Fechas()
+                    DataTable dtFechasPorRubro = dtFechas.Rows.Cast<DataRow>().Where(x => x["nukid_rubro"].ToString() == iIdRubro.ToString()).CopyToDataTable();
+
+                    foreach (DataRow oElem in dtFechasPorRubro.Rows)
                     {
-                        ClasificacionPY = sNombre,
-                        Mes = Convert.ToInt32(oElem["mes"].ToString()),
-                        Anio = Convert.ToInt32(oElem["anio"].ToString()),
-                        Porcentaje = Convert.ToDecimal(oElem["porcentaje"].ToString()),
-                        Rubro = sNombre
+                        sNombre = oElem["rubro"].ToString();
+
+                        Control_Fechas oPrevisto = new Control_Fechas()
+                        {
+                            ClasificacionPY = sNombre,
+                            Mes = Convert.ToInt32(oElem["mes"].ToString()),
+                            Anio = Convert.ToInt32(oElem["anio"].ToString()),
+                            Porcentaje = Convert.ToDecimal(oElem["porcentaje"].ToString()),
+                            Rubro = sNombre
+                        };
+
+                        lstFechas.Add(oPrevisto);
+                    }
+
+                    var subseccion = new Control_Subseccion
+                    {
+                        Slug = GenerateSlug(sNombre),
+                        Seccion = sNombre,
+                        Previsto = new Control_PrevistoReal
+                        {
+                            Fechas = lstFechas,
+                            SubTotal = Convert.ToDecimal(oSubTotal["subtotal"].ToString())
+                        }
                     };
 
-                    lstFechas.Add(oPrevisto);
+                    control.Subsecciones.Add(subseccion);
+
                 }
 
-                var subseccion = new Control_Subseccion
-                {
-                    Slug = GenerateSlug(sNombre),
-                    Seccion = sNombre,
-                    Previsto = new Control_PrevistoReal
-                    {
-                        Fechas = lstFechas,
-                        SubTotal = Convert.ToDecimal(oSubTotal["subtotal"].ToString())
-                    }
-                };
-
-                control.Subsecciones.Add(subseccion);
-
+                sPaso = "SeccionesOk";
+                boOk = true;
+            }
+            catch (Exception ex)
+            {
+                sMensaje = String.Format("LlenaSecciones Paso:{0} Ex:{1}", sPaso, ex.Message);
+                throw new Exception(sMensaje);
             }
 
-            boOk = true;
             return boOk;
         }
 
@@ -3111,6 +3134,50 @@ namespace Bovis.Data
 
                 subsec.Real.SubTotal = subseccionGroup.Sum(f => Convert.ToDecimal(f.Porcentaje));
             }
+        }
+
+        private void LlenaPrevistoSeccionSinHijos(ref Control_Data control, int nunumProyecto)
+        {
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            List<Control_Fechas> fechasAgrupadas = new List<Control_Fechas>();
+            string sPaso = "", sMensaje = "";
+
+            try
+            {
+                sPaso = "controlSalarios";
+                controlSalarios(nunumProyecto, out ds);
+
+                sPaso = "AsignaDt0";
+                dt = ds.Tables[1];
+
+                sPaso = "CicloSeccionSinHijos";
+                foreach (DataRow oElem in dt.Rows)
+                {
+                    Control_Fechas oFecha = new Control_Fechas();
+                    oFecha.ClasificacionPY = "";
+                    oFecha.Mes = Convert.ToInt32(oElem["mes"].ToString());
+                    oFecha.Anio = Convert.ToInt32(oElem["anio"].ToString());
+                    oFecha.Porcentaje = Math.Round(Convert.ToDecimal(oElem["porcentaje"].ToString()),2);
+                    oFecha.Rubro = "";
+
+                    sPaso = String.Format("Proyecto:{0} Anio:{1} Mes:{2}", nunumProyecto, oFecha.Anio, oFecha.Mes);
+                    fechasAgrupadas.Add(oFecha);
+
+                }
+
+                sPaso = "PrevistoSubTotalSinHijos";
+                control.Previsto.SubTotal = Math.Round(Convert.ToDecimal(ds.Tables[1].Rows[0][0].ToString()), 2);
+
+                sPaso = "PrevistoFechasSinHijos";
+                control.Previsto.Fechas.AddRange(fechasAgrupadas);
+            }
+            catch (Exception ex)
+            {
+                sMensaje = String.Format("LlenaPrevistoSeccion Paso:{0} Ex:{1}", sPaso, ex.Message);
+                throw new Exception(sMensaje);
+            }
+            
         }
 
         // LEO F
