@@ -3149,7 +3149,7 @@ namespace Bovis.Data
                 controlSalarios(nunumProyecto, out ds);
 
                 sPaso = "AsignaDt0";
-                dt = ds.Tables[1];
+                dt = ds.Tables[0];
 
                 sPaso = "CicloSeccionSinHijos";
                 foreach (DataRow oElem in dt.Rows)
