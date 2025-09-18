@@ -65,6 +65,12 @@ namespace Bovis.Service.Queries
         {
             return await _costoBusiness.GetCostosEmpleado(NumEmpleadoRrHh, hist);
         }
+
+        //LEO TBD
+        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist)
+        {
+            return await _costoBusiness.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
+        }
         #endregion
 
         #region GetCostoEmpleado

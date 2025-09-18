@@ -72,6 +72,14 @@ namespace Bovis.API.Controllers
             var query = await _costoQueryService.GetCostosEmpleado(NumEmpleadoRrHh, hist);
             return Ok(query);
         }
+
+        //LEO TBD
+        [HttpGet("Empleado/{NumEmpleadoRrHh}/{NumPuesto}")]
+        public async Task<IActionResult> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, [FromQuery] bool hist = false)
+        {
+            var query = await _costoQueryService.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
+            return Ok(query);
+        }
         #endregion
 
         #region GetCostoEmpleado

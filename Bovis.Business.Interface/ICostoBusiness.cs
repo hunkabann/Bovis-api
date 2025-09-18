@@ -25,5 +25,7 @@ namespace Bovis.Business.Interface
         Task<Response<bool>> DeleteCosto(int costoId);
 
 
+        //LEO TBD
+        Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist);
     }
 }

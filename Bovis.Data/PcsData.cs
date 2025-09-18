@@ -788,6 +788,18 @@ namespace Bovis.Data
             string? chalias = registro["chalias"] != null ? registro["chalias"].ToString() : null;
             decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
 
+            //LEO TBD I
+            string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : null;
+            string puesto = registro["puesto"] != null ? registro["puesto"].ToString() : null;
+            string num_empleadoTBD = "";
+
+            if (num_empleado == "000" || num_empleado == "0")
+            {
+                num_empleadoTBD = String.Format("{0}|{1}|{2}|TBD", id_fase, num_proyecto, puesto);
+                num_empleado = num_empleadoTBD;
+            }
+            //LEO TBD F
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 foreach (var fecha in registro["fechas"].AsArray())
@@ -808,6 +820,7 @@ namespace Bovis.Data
                         .Value(x => x.nucosto_ini, nucosto_ini)
                         .Value(x => x.chalias, chalias)
                         .Value(x => x.boreembolsable, reembolsable)
+                        .Value(x => x.etiqueta, etiqueta) //LEO TBD
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -901,7 +914,18 @@ namespace Bovis.Data
             string chalias = registro["chalias"] != null ? registro["chalias"].ToString() : string.Empty;
             decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
 
+            //LEO TBD I
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+            string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : null;
+            string puesto = registro["puesto"] != null ? registro["puesto"].ToString() : null;
+            string num_empleadoTBD = "";
 
+            if (num_empleado == "000" || num_empleado == "0")
+            {
+                num_empleadoTBD = String.Format("{0}|{1}|{2}|TBD", id_fase, num_proyecto, puesto);
+                num_empleado = num_empleadoTBD;
+            }
+            //LEO TBD F
 
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
@@ -927,6 +951,7 @@ namespace Bovis.Data
                         .Value(x => x.Fee, fee)
                         .Value(x => x.chalias, chalias)
                         .Value(x => x.boreembolsable, reembolsable)
+                        .Value(x => x.etiqueta, etiqueta) //LEO TBD
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -1150,7 +1175,7 @@ namespace Bovis.Data
 
 
                 if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
-                {
+                {//LEO TBD ingreso
                     foreach (var fase in fases)
                     {
                         rubros = await (from p in db.tB_ProyectoFaseEmpleados
@@ -1212,7 +1237,7 @@ namespace Bovis.Data
                                 }
                             }
                             else
-                            {
+                            {//LEO TBD ingreso
                                 rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable));
                             }
                         }

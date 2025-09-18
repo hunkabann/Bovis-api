@@ -23,5 +23,9 @@ namespace Bovis.Data.Interface
 
         Task<TB_Empleado> GetEmpleado(string numEmpleadoRrHh);
         Task<TB_Proyecto> GetProyecto(int numProyecto);
+
+
+        //LEO TBD
+        Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist);
     }                                                         
 }

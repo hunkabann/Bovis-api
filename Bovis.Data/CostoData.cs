@@ -287,9 +287,7 @@ namespace Bovis.Data
 
         }   // costoPorEmpleado
 
-
-
-        #region GetCostosEmpleado
+       #region GetCostosEmpleado
         public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
         {
 
@@ -354,6 +352,133 @@ namespace Bovis.Data
 
 
         }
+
+
+        //LEO TBD
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist)
+        {
+
+            // LDTF
+            //CostoQueries QueryBase = new(dbConfig);
+            //var costos = await QueryBase.CostosEmpleados();
+            //var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
+
+            if (hist)
+            {
+                // estas definiciones inicialmente estaban fuera del if
+                CostoQueries QueryBase = new(dbConfig);
+                var costos = await QueryBase.CostosEmpleados();
+                var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+                if (resp.Count > 0)
+                {
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = true,
+                        Data = resp,
+                        Message = "Ok"
+                    };
+
+                }
+                else
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = false,
+                        Message = $"No se encontraron históricos de costos del empleado: {NumEmpleadoRrHh}"
+
+                    };
+
+
+            }
+            else
+            {
+                Costo_Detalle cd = new Costo_Detalle();
+                cd.NumEmpleadoRrHh = NumEmpleadoRrHh;
+                
+                if (NumEmpleadoRrHh.Trim() == "0" || NumEmpleadoRrHh.Trim() == "000")
+                {
+                    //se trata de un empleado TBD o no existente y consigue el valor del Puesto
+                    cd.CostoMensualEmpleado = costoPorEmpleadoPuesto(NumPuesto);
+                }
+                else 
+                {
+                    //se trata de un empleado existente que siga por el camino de siempre
+                    cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                }
+                
+                List<Costo_Detalle> cdl = new List<Costo_Detalle>();
+                cdl.Add(cd);
+
+                //var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
+                //if (listaCostos.Count > 0)
+                if (cd.CostoMensualEmpleado > 0)
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = true,
+                        //Data = listaCostos,    //LDTF
+                        Data = cdl,
+                        Message = "Ok"
+                    };
+                else
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = false,
+                        Message = $"No se encontraron registros de costos para el empleado: {NumEmpleadoRrHh}"
+                    };
+            }
+
+
+        }
+
+        public decimal costoPorEmpleadoPuesto(string NumPuesto)
+        {
+            decimal retorno = -1m;
+            string sQuery = "";
+            DataTable dt = new DataTable();
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_costo_tbd";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nupuesto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = NumPuesto;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(dt);
+
+                    decimal.TryParse(dt.Rows[0][0].ToString(), out retorno);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // costoPorEmpleado
         #endregion
 
         #region GetCostoEmpleado
