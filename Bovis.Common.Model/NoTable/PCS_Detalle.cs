@@ -181,4 +181,16 @@ namespace Bovis.Common.Model.NoTable
         public Control_PrevistoReal Real { get; set; }
     }
 
+    //LEO TBD I
+    public class Rubro_Detalle_Apoyo : Rubro_Detalle
+    {
+        public int? IdFase { get; set; }
+    }
+
+    public class PCS_Fecha_Detalle_Apoyo: PCS_Fecha_Detalle
+    {
+        public string NumEmpleadoRrHh { get; set; }
+        public int? IdFase { get; set; }
+    }
+    //LEO TBD F
 }
