@@ -829,6 +829,7 @@ namespace Bovis.Data
                     // Se insertan los valores de los rubros, para gastos e ingresos.
                     var rubros = await (from rub in db.tB_Rubros
                                         where rub.NumProyecto == num_proyecto
+                                        && rub.Activo == true //LEO TBD
                                         select rub).ToListAsync();
 
                     foreach (var rubro in rubros)
