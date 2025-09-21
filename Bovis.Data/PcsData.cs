@@ -1258,7 +1258,6 @@ namespace Bovis.Data
                             }
                         }
 
-                        seccion.Rubros.AddRange(rubros);
                         //aqui aqui
                         //LEO TBD I
                         //si es costo directo de salarios que agregue los TBD que encuentre para cada fase del proyecto
@@ -1267,6 +1266,9 @@ namespace Bovis.Data
                             AgregaRubroTBD(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase);
                         }
                         //LEO TBD F
+
+                        seccion.Rubros.AddRange(rubros);
+
                     }
                 }
                 else
@@ -2198,15 +2200,21 @@ namespace Bovis.Data
             int nuRegistros = lstEntrada.Where<Rubro_Detalle_Apoyo>(x => x.IdFase == IdFase).Count();
             if (nuRegistros > 0)
             {
-                var oEncontrado = lstEntrada.Where<Rubro_Detalle_Apoyo>(x => x.IdFase == IdFase).FirstOrDefault();
-                chCadena = JsonConvert.SerializeObject(oEncontrado);
+                var lstEncontrado = lstEntrada.Where<Rubro_Detalle_Apoyo>(x => x.IdFase == IdFase).ToList();
+                foreach (Rubro_Detalle_Apoyo oEncontrado in lstEncontrado)
+                {
+                    chCadena = JsonConvert.SerializeObject(oEncontrado);
 
-                Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
+                    Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
 
-                AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase);
+                    AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase);
 
-                lstSalida.Add(oNuevo);
+                    lstSalida.Add(oNuevo);
+                }
+                
             }
+
+            chCadena = "";
         }//AgregaRubroTBD
 
         private void AgregaRubroFechasTBD(ref List<PCS_Fecha_Detalle_Apoyo> lstEntrada, ref Rubro_Detalle rubro, int IdFase)
