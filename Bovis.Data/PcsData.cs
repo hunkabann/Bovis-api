@@ -20,6 +20,7 @@ using Microsoft.Data.SqlClient;
 using System.Data.SqlClient;
 using System.Data;
 using System;
+using System.Xml.Linq;
 
 
 namespace Bovis.Data
@@ -1171,12 +1172,25 @@ namespace Bovis.Data
 
                 proyecto_gastos_ingresos.Secciones.Add(seccion!);
 
+                //LEO TBD I 
+                //consultando la información de TBD del proyecto y sus fases relacionadas
+                // soloc uando sea gasto/costos directos de salarios
+                bool boEsCostoDirecto = false;
+                List<Rubro_Detalle_Apoyo> lstRubrosTBD = new List<Rubro_Detalle_Apoyo>();
+                List<PCS_Fecha_Detalle_Apoyo> lstFechasTBD = new List<PCS_Fecha_Detalle_Apoyo>();
+
+                if (Seccion.ToLower() == "costos directos de salarios")
+                {
+                    boEsCostoDirecto = true;
+                    getProyectoFaseEmpleadoTBD(IdProyecto, Tipo, out lstRubrosTBD, out lstFechasTBD);
+                }
+                //LEO TBD F
+
                 List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
                 seccion!.Rubros = new List<Rubro_Detalle>();
 
-
                 if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
-                {//LEO TBD ingreso
+                {//LEO TBD gasto
                     foreach (var fase in fases)
                     {
                         rubros = await (from p in db.tB_ProyectoFaseEmpleados
@@ -1212,6 +1226,7 @@ namespace Bovis.Data
                                             CostoMensual = g.First().CostoMensual
                                         }).ToListAsync();
 
+
                         foreach (var rubro in rubros)
                         {
                             rubro.Fechas = new List<PCS_Fecha_Detalle>();
@@ -1243,7 +1258,17 @@ namespace Bovis.Data
                             }
                         }
 
+                        //aqui aqui
+                        //LEO TBD I
+                        //si es costo directo de salarios que agregue los TBD que encuentre para cada fase del proyecto
+                        if (boEsCostoDirecto)
+                        {
+                            AgregaRubroTBD(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase);
+                        }
+                        //LEO TBD F
+
                         seccion.Rubros.AddRange(rubros);
+
                     }
                 }
                 else
@@ -2081,6 +2106,140 @@ namespace Bovis.Data
 
             return proyecto_gastos_ingresos;
         }
+
+        //LEO TBD I
+        private void getProyectoFaseEmpleadoTBD(int IdProyecto, string sTipo, out List<Rubro_Detalle_Apoyo> retorno, out List<PCS_Fecha_Detalle_Apoyo> retorno2)
+        {
+            retorno = new List<Rubro_Detalle_Apoyo>();
+            retorno2 = new List<PCS_Fecha_Detalle_Apoyo>();
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_fase_empleado_tbd";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@pnunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@ptipo", SqlDbType.VarChar, 20);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = sTipo;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataSet ds = new DataSet();
+                    cda.Fill(ds);
+
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        Rubro_Detalle_Apoyo oElemento = new Rubro_Detalle_Apoyo();
+                        oElemento.Id = row.Field<int>("Id");
+                        oElemento.IdRubro = row.Field<int>("IdRubro");
+                        oElemento.Rubro = row.Field<string>("Rubro");
+                        oElemento.Empleado = row.Field<string>("Empleado");
+                        oElemento.NumEmpleadoRrHh = row.Field<string>("NumEmpleadoRrHh");
+                        oElemento.Cantidad = Convert.ToDecimal(row.Field<decimal>("Cantidad"));
+                        oElemento.Reembolsable = row.Field<bool>("Reembolsable");
+                        oElemento.CostoMensual = Convert.ToDecimal(row.Field<decimal>("CostoMensual"));
+                        oElemento.IdFase = row.Field<int>("IdFase");
+
+                        retorno.Add(oElemento);
+                    }
+
+                    foreach (DataRow row in ds.Tables[1].Rows)
+                    {
+                        PCS_Fecha_Detalle_Apoyo oElemento2 = new PCS_Fecha_Detalle_Apoyo();
+                        oElemento2.Id = row.Field<int>("Id");
+                        oElemento2.Rubro = row.Field<string>("Rubro");
+                        oElemento2.RubroReembolsable = row.Field<bool>("RubroReembolsable");
+                        oElemento2.Mes = row.Field<int>("Mes");
+                        oElemento2.Anio = row.Field<int>("Anio");
+                        oElemento2.Porcentaje = Convert.ToDecimal(row.Field<int>("Porcentaje"));
+                        oElemento2.IdFase = row.Field<int>("IdFase");
+                        oElemento2.NumEmpleadoRrHh = row.Field<string>("NumEmpleadoRrHh");
+
+                        retorno2.Add(oElemento2);
+                    }
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+        }// getProyectoFaseEmpleadoTBD
+
+        private void AgregaRubroTBD(ref List<Rubro_Detalle_Apoyo> lstEntrada, ref List<Rubro_Detalle> lstSalida, ref List<PCS_Fecha_Detalle_Apoyo> lstFechas, int IdFase)
+        {
+            string chCadena = "";
+
+            int nuRegistros = lstEntrada.Where<Rubro_Detalle_Apoyo>(x => x.IdFase == IdFase).Count();
+            if (nuRegistros > 0)
+            {
+                var lstEncontrado = lstEntrada.Where<Rubro_Detalle_Apoyo>(x => x.IdFase == IdFase).ToList();
+                foreach (Rubro_Detalle_Apoyo oEncontrado in lstEncontrado)
+                {
+                    chCadena = JsonConvert.SerializeObject(oEncontrado);
+
+                    Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
+
+                    AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase);
+
+                    lstSalida.Add(oNuevo);
+                }
+                
+            }
+
+            chCadena = "";
+        }//AgregaRubroTBD
+
+        private void AgregaRubroFechasTBD(ref List<PCS_Fecha_Detalle_Apoyo> lstEntrada, ref Rubro_Detalle rubro, int IdFase)
+        {
+            string chCadena = "";
+            List<PCS_Fecha_Detalle> lstNuevasFechas = new List<PCS_Fecha_Detalle>();
+
+            int nuRegistros = lstEntrada.Where<PCS_Fecha_Detalle_Apoyo>(x => x.IdFase == IdFase).Count();
+            if (nuRegistros > 0)
+            {
+                var lstEncontrado = lstEntrada.Where<PCS_Fecha_Detalle_Apoyo>(x => x.IdFase == IdFase).ToList();
+                foreach (PCS_Fecha_Detalle_Apoyo oElem in lstEncontrado)
+                {
+                    chCadena = JsonConvert.SerializeObject(oElem);
+                    PCS_Fecha_Detalle oNuevo = JsonConvert.DeserializeObject<PCS_Fecha_Detalle>(chCadena);
+
+                    lstNuevasFechas.Add(oNuevo);
+                }
+
+                rubro.Fechas = lstNuevasFechas;
+            }
+        }//AgregaRubroFechasTBD
+
+        //LEO TBD F
+
         #endregion Gastos / Ingresos
 
 
