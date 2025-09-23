@@ -1034,8 +1034,8 @@ namespace Bovis.Data
                                         {
                                             Id = g.First().Id,
                                             IdRubro = g.First().IdRubro,
-                                            Rubro = g.First().Rubro,
-                                            Empleado = g.First().Empleado,
+                                            Rubro = g.First().Rubro == null ? "" : g.First().Rubro, //LEO TBD
+                                            Empleado = g.First().Empleado == null ? "" : g.First().Empleado, //LEO TBD
                                             NumEmpleadoRrHh = g.Key.NumEmpleado,
                                             Reembolsable = g.First().Reembolsable
                                         }).ToListAsync();
