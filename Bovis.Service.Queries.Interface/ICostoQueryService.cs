@@ -23,8 +23,9 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<TB_CostoPorEmpleado>> UpdateCostos(int costoId, CostoPorEmpleadoDTO registro);
         Task<Response<TB_CostoPorEmpleado>> UpdateCostoEmpleado(CostoPorEmpleadoDTO registro);
         Task<Response<bool>> DeleteCosto(int costoId);
-        
 
+        //LEO TBD
+        Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist);
     }
 }
 

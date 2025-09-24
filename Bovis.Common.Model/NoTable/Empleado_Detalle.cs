@@ -115,7 +115,10 @@ namespace Bovis.Common.Model.NoTable
         public List<Experiencia_Detalle>? experiencias { get; set; }
         public List<Habilidad_Detalle>? habilidades { get; set; }
         public Empleado_Proyecto_Info proyecto { get; set; }
-        
+
+        //LEO TBD
+        public decimal? nucostoMensualEmpleado { get; set; }
+
     }
 
     public class Empleado_Proyecto_Info
