@@ -91,6 +91,7 @@ namespace Bovis.Business
         #region Etapas
         public Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 
+        public Task<PCS_GanttData> GetPEtapas(int IdProyecto) => _pcsData.GetPEtapas(IdProyecto);
         public Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto) => _pcsData.GetEtapas(IdProyecto);
 
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)

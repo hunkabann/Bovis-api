@@ -624,6 +624,78 @@ namespace Bovis.Data
 
             return etapa;
         }
+
+        /**
+         * Se ocupara para obtener el nombre del proyecto y las fases en la misma estructura
+         */
+        public async Task<PCS_GanttData> GetPEtapas(int IdProyecto)
+        {
+            PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_etapas.NumProyecto = IdProyecto;
+                proyecto_etapas.FechaIni = proyecto?.FechaIni;
+                proyecto_etapas.FechaFin = proyecto?.FechaFin;
+                proyecto_etapas.NombreProyecto = proyecto.Proyecto;
+
+                var etapas = await (from p in db.tB_ProyectoFases
+                                    join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                    from proyItem in proyJoin.DefaultIfEmpty()
+                                    where p.NumProyecto == IdProyecto
+                                    orderby p.FechaIni ascending
+                                    select new PCS_Etapa_Detalle
+                                    {
+                                        IdFase = p.IdFase,
+                                        Orden = p.Orden,
+                                        Fase = p.Fase,
+                                        FechaIni = p.FechaIni,
+                                        FechaFin = p.FechaFin
+                                    }).ToListAsync();
+
+                proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
+                //proyecto_etapas.Etapas.AddRange(etapas);
+                var fases = new List<PCS_Etapa_Detalle>();
+                PCS_Etapa_Detalle fase = new PCS_Etapa_Detalle();
+                fase.IdFase = proyecto_etapas.NumProyecto;
+                fase.Orden = -100;
+                fase.Fase = proyecto_etapas.NombreProyecto;
+                fase.FechaIni = proyecto_etapas.FechaIni ?? DateTime.Now;
+                fase.FechaFin = proyecto_etapas.FechaFin ?? DateTime.Now;
+                proyecto_etapas.Etapas.Add(fase);
+                PCS_GanttData ganttData = new PCS_GanttData();
+                PCS_GanttDataFase ganttDataFase = new PCS_GanttDataFase();
+                List<PCS_GanttDataFase> data = new List<PCS_GanttDataFase>();
+                List<string> equis = new List<string>();
+                equis.Add(String.Format("{0:yyyy-MM-dd}", fase.FechaIni));
+                equis.Add(String.Format("{0:yyyy-MM-dd}", fase.FechaFin));
+                ganttDataFase.X = equis.ToArray();
+                ganttDataFase.Y = fase.Fase;
+                data.Add(ganttDataFase);
+
+                foreach (var etapa in etapas)
+                {
+                    proyecto_etapas.Etapas.Add(etapa);
+
+                    ganttDataFase = new PCS_GanttDataFase();
+                    equis = new List<string>();
+                    equis.Add(String.Format("{0:yyyy-MM-dd}", etapa.FechaIni));
+                    equis.Add(String.Format("{0:yyyy-MM-dd}", etapa.FechaFin));
+                    ganttDataFase.X = equis.ToArray();
+                    ganttDataFase.Y = etapa.Fase;
+                    data.Add(ganttDataFase);
+                }
+                ganttData.data = data;
+
+                return ganttData;
+            }
+        }
+
         public async Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto)
         {
             PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
