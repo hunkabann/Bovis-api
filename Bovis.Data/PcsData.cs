@@ -736,6 +736,7 @@ namespace Bovis.Data
                                            join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                            from perItem in perJoin.DefaultIfEmpty()
                                            where p.IdFase == etapa.IdFase
+                                           && !p.NumEmpleado.Contains("|TBD") //LEO TBD que siga buscando los Empleados normales o con num empleado
                                            orderby p.NumEmpleado ascending
                                            group new PCS_Empleado_Detalle
                                            {
@@ -764,8 +765,46 @@ namespace Bovis.Data
                                                ChAlias = g.First().ChAlias
                                            }).ToListAsync();
 
+                    //LEO TBD I Para que busque los empleados que son TBD y pueda asignar la etiqueta como Nombre
+                    var empleadosTBD = await (from p in db.tB_ProyectoFaseEmpleados
+                                           join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                           from eItem in eJoin.DefaultIfEmpty()
+                                           join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                           from perItem in perJoin.DefaultIfEmpty()
+                                           where p.IdFase == etapa.IdFase
+                                           && p.NumEmpleado.Contains("TBD") //LEO TBD
+                                           orderby p.NumEmpleado ascending
+                                           group new PCS_Empleado_Detalle
+                                           {
+                                               Id = p.Id,
+                                               IdFase = p.IdFase,
+                                               NumempleadoRrHh = p.NumEmpleado,
+                                               Empleado = p.etiqueta,
+                                               Cantidad = p.Cantidad,
+                                               AplicaTodosMeses = p.AplicaTodosMeses,
+                                               Fee = p.Fee,
+                                               Reembolsable = p.boreembolsable ?? false,
+                                               NuCostoIni = p.nucosto_ini,
+                                               ChAlias = p.chalias
+                                           } by new { p.NumEmpleado } into g
+                                           select new PCS_Empleado_Detalle
+                                           {
+                                               Id = g.First().Id,
+                                               IdFase = g.First().IdFase,
+                                               NumempleadoRrHh = g.Key.NumEmpleado,
+                                               Empleado = g.First().Empleado,
+                                               Cantidad = g.First().Cantidad,
+                                               AplicaTodosMeses = g.First().AplicaTodosMeses,
+                                               Fee = g.First().Fee,
+                                               Reembolsable = g.First().Reembolsable,
+                                               NuCostoIni = g.First().NuCostoIni,
+                                               ChAlias = g.First().ChAlias
+                                           }).ToListAsync();
+                    //LEO TBD F
+
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
                     etapa.Empleados.AddRange(empleados);
+                    etapa.Empleados.AddRange(empleadosTBD);//LEO TBD
 
                     foreach (var empleado in empleados)
                     {
@@ -785,6 +824,27 @@ namespace Bovis.Data
 
 
                     }
+
+                    //LEO TBD I que asigne las fechas a los Empleados TBD
+                    foreach (var empleado in empleadosTBD)
+                    {
+                        var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                            where p.NumEmpleado == empleado.NumempleadoRrHh
+                                            && p.IdFase == etapa.IdFase
+                                            select new PCS_Fecha_Detalle
+                                            {
+                                                Id = p.Id,
+                                                Mes = p.Mes,
+                                                Anio = p.Anio,
+                                                Porcentaje = p.Porcentaje
+                                            }).ToListAsync();
+
+                        empleado.Fechas = new List<PCS_Fecha_Detalle>();
+                        empleado.Fechas.AddRange(fechas);
+
+
+                    }
+                    //LEO TBD F
                 }
 
                 return proyecto_etapas;
