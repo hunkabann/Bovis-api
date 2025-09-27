@@ -1429,7 +1429,9 @@ namespace Bovis.Data
 
                 // Agrupar y sumar los porcentajes por mes y año a nivel de sección
                 var fechasAgrupadasSeccion = seccion.Rubros
-                    .SelectMany(r => r.Fechas)
+                    //.SelectMany(r => r.Fechas)
+                    .Where(r => r?.Fechas != null)
+                    .SelectMany(r => r.Fechas.Where(f => f != null))
                     .GroupBy(f => new { f.Mes, f.Anio })
                     .Select(g => new PCS_Fecha_Suma
                     {
@@ -1437,6 +1439,7 @@ namespace Bovis.Data
                         Anio = g.Key.Anio,
                         SumaPorcentaje = g.Sum(f => f.Porcentaje)
                     }).ToList();
+
 
                 seccion.SumaFechas = fechasAgrupadasSeccion;
 
@@ -1472,8 +1475,23 @@ namespace Bovis.Data
                 if (Tipo == "ingreso")
                 {
                     // Calcular los Totales del Proyecto
+                    /*
                     proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
                         .SelectMany(s => s.Rubros)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                    */
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .Where(s => s.Rubros != null)
+                        .SelectMany(s => s.Rubros)
+                        .Where(r => r.Fechas != null)
                         .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
                         .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
                         .Select(g => new PCS_Fecha_Totales
