@@ -750,6 +750,8 @@ namespace Bovis.Data
                                                Reembolsable = p.boreembolsable ?? false,
                                                NuCostoIni = p.nucosto_ini,
                                                ChAlias = p.chalias
+                                               , EtiquetaTBD = "" //LEO TBD
+                                               , IdPuesto = eItem.CvePuesto.ToString() //LEO TBD
                                            } by new { p.NumEmpleado } into g
                                            select new PCS_Empleado_Detalle
                                            {
@@ -763,6 +765,8 @@ namespace Bovis.Data
                                                Reembolsable = g.First().Reembolsable,
                                                NuCostoIni = g.First().NuCostoIni,
                                                ChAlias = g.First().ChAlias
+                                               , EtiquetaTBD = "" //LEO TBD
+                                               , IdPuesto = g.First().IdPuesto //LEO TBD
                                            }).ToListAsync();
 
                     //LEO TBD I Para que busque los empleados que son TBD y pueda asignar la etiqueta como Nombre
@@ -786,6 +790,8 @@ namespace Bovis.Data
                                                Reembolsable = p.boreembolsable ?? false,
                                                NuCostoIni = p.nucosto_ini,
                                                ChAlias = p.chalias
+                                               ,EtiquetaTBD = p.etiqueta
+                                               ,IdPuesto = ""
                                            } by new { p.NumEmpleado } into g
                                            select new PCS_Empleado_Detalle
                                            {
@@ -799,8 +805,9 @@ namespace Bovis.Data
                                                Reembolsable = g.First().Reembolsable,
                                                NuCostoIni = g.First().NuCostoIni,
                                                ChAlias = g.First().ChAlias
+                                               ,EtiquetaTBD = g.First().EtiquetaTBD
+                                               ,IdPuesto = GetNumPuesto(g.Key.NumEmpleado) //para que en el caso del TBD indique el idPuesto que está inmerso en el NumempleadoRrHh en la posición 2 (cero based)
                                            }).ToListAsync();
-                    //LEO TBD F
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
                     etapa.Empleados.AddRange(empleados);
@@ -850,6 +857,15 @@ namespace Bovis.Data
                 return proyecto_etapas;
             }
         }
+
+        //LEO TBD I 
+        private string GetNumPuesto(string numEmpleado)
+        {
+            var parts = (numEmpleado ?? "").Split('|');
+            return parts.Length > 2 ? parts[2] : "";
+        }
+        //LEO TBD F
+
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);

@@ -49,6 +49,8 @@ namespace Bovis.Common.Model.NoTable
         public bool? Reembolsable { get; set; }
         public decimal? NuCostoIni { get; set; }
         public string? ChAlias { get; set; }
+        public string? EtiquetaTBD { get; set; } //LEO TBD
+        public string? IdPuesto { get; set; } //LEO TBD
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }
 

@@ -265,7 +265,15 @@ namespace Bovis.Data
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         con.Open();
                         da.Fill(dt);
-                        retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        if (dt.Columns.Count == 0 || dt.Rows.Count == 0)
+                        {
+                            retorno = 0;
+                        }
+                        else
+                        {
+                            retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        }
+                        
                         con.Close();
                     }
                 }
