@@ -750,6 +750,8 @@ namespace Bovis.Data
                                                Reembolsable = p.boreembolsable ?? false,
                                                NuCostoIni = p.nucosto_ini,
                                                ChAlias = p.chalias
+                                               , EtiquetaTBD = "" //LEO TBD
+                                               , IdPuesto = eItem.CvePuesto.ToString() //LEO TBD
                                            } by new { p.NumEmpleado } into g
                                            select new PCS_Empleado_Detalle
                                            {
@@ -763,6 +765,8 @@ namespace Bovis.Data
                                                Reembolsable = g.First().Reembolsable,
                                                NuCostoIni = g.First().NuCostoIni,
                                                ChAlias = g.First().ChAlias
+                                               , EtiquetaTBD = "" //LEO TBD
+                                               , IdPuesto = g.First().IdPuesto //LEO TBD
                                            }).ToListAsync();
 
                     //LEO TBD I Para que busque los empleados que son TBD y pueda asignar la etiqueta como Nombre
@@ -786,6 +790,8 @@ namespace Bovis.Data
                                                Reembolsable = p.boreembolsable ?? false,
                                                NuCostoIni = p.nucosto_ini,
                                                ChAlias = p.chalias
+                                               ,EtiquetaTBD = p.etiqueta
+                                               ,IdPuesto = ""
                                            } by new { p.NumEmpleado } into g
                                            select new PCS_Empleado_Detalle
                                            {
@@ -799,8 +805,9 @@ namespace Bovis.Data
                                                Reembolsable = g.First().Reembolsable,
                                                NuCostoIni = g.First().NuCostoIni,
                                                ChAlias = g.First().ChAlias
+                                               ,EtiquetaTBD = g.First().EtiquetaTBD
+                                               ,IdPuesto = GetNumPuesto(g.Key.NumEmpleado) //para que en el caso del TBD indique el idPuesto que está inmerso en el NumempleadoRrHh en la posición 2 (cero based)
                                            }).ToListAsync();
-                    //LEO TBD F
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
                     etapa.Empleados.AddRange(empleados);
@@ -850,6 +857,15 @@ namespace Bovis.Data
                 return proyecto_etapas;
             }
         }
+
+        //LEO TBD I 
+        private string GetNumPuesto(string numEmpleado)
+        {
+            var parts = (numEmpleado ?? "").Split('|');
+            return parts.Length > 2 ? parts[2] : "";
+        }
+        //LEO TBD F
+
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -1489,7 +1505,9 @@ namespace Bovis.Data
 
                 // Agrupar y sumar los porcentajes por mes y año a nivel de sección
                 var fechasAgrupadasSeccion = seccion.Rubros
-                    .SelectMany(r => r.Fechas)
+                    //.SelectMany(r => r.Fechas)
+                    .Where(r => r?.Fechas != null)
+                    .SelectMany(r => r.Fechas.Where(f => f != null))
                     .GroupBy(f => new { f.Mes, f.Anio })
                     .Select(g => new PCS_Fecha_Suma
                     {
@@ -1497,6 +1515,7 @@ namespace Bovis.Data
                         Anio = g.Key.Anio,
                         SumaPorcentaje = g.Sum(f => f.Porcentaje)
                     }).ToList();
+
 
                 seccion.SumaFechas = fechasAgrupadasSeccion;
 
@@ -1532,8 +1551,23 @@ namespace Bovis.Data
                 if (Tipo == "ingreso")
                 {
                     // Calcular los Totales del Proyecto
+                    /*
                     proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
                         .SelectMany(s => s.Rubros)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                    */
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .Where(s => s.Rubros != null)
+                        .SelectMany(s => s.Rubros)
+                        .Where(r => r.Fechas != null)
                         .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
                         .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
                         .Select(g => new PCS_Fecha_Totales
