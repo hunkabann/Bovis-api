@@ -265,7 +265,15 @@ namespace Bovis.Data
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         con.Open();
                         da.Fill(dt);
-                        retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        if (dt.Columns.Count == 0 || dt.Rows.Count == 0)
+                        {
+                            retorno = 0;
+                        }
+                        else
+                        {
+                            retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        }
+                        
                         con.Close();
                     }
                 }
@@ -328,7 +336,20 @@ namespace Bovis.Data
                 Costo_Detalle cd = new Costo_Detalle();
                 cd.NumEmpleadoRrHh = NumEmpleadoRrHh;
                 //cd.CostoMensualEmpleado = 59805.01429m;
-                cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                //cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh); //LEO TBD, se comenta para buscar el costo de un empleado TBD
+                //LEO TBD I 
+                if (NumEmpleadoRrHh.Trim().Contains("|TBD"))
+                {
+                    //se trata de un empleado TBD o no existente y consigue el valor del TBD en proyecto_fase_empleado con el costo_ini
+                    cd.CostoMensualEmpleado = costoPorEmpleadoTBD(NumEmpleadoRrHh);
+                }
+                else
+                {
+                    //se trata de un empleado existente que siga por el camino de siempre
+                    cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                }
+                //LEO TBD F
+
                 List<Costo_Detalle> cdl = new List<Costo_Detalle>();
                 cdl.Add(cd);
 
@@ -478,7 +499,57 @@ namespace Bovis.Data
 
             return retorno;
 
-        }   // costoPorEmpleado
+        }   // costoPorEmpleadoPuesto
+
+        public decimal costoPorEmpleadoTBD(string NumEmpleado)
+        {
+            decimal retorno = -1m;
+            string sQuery = "";
+            DataTable dt = new DataTable();
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_costo_empleado_tbd";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nuempleado", SqlDbType.VarChar, 35);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = NumEmpleado;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(dt);
+
+                    decimal.TryParse(dt.Rows[0][0].ToString(), out retorno);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // costoPorEmpleadoTBD
         #endregion
 
         #region GetCostoEmpleado
