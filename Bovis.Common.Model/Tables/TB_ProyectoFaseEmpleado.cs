@@ -19,5 +19,6 @@ namespace Bovis.Common.Model.Tables
         [Column("Borembolsable"), Nullable] public bool? boreembolsable { get; set; }
         //LEO TBD
         [Column("etiqueta"), Nullable] public string etiqueta { get; set; }
+        [Column("boactivo"), Nullable] public bool? Activo { get; set; }
     }
 }

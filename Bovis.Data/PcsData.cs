@@ -737,6 +737,7 @@ namespace Bovis.Data
                                            from perItem in perJoin.DefaultIfEmpty()
                                            where p.IdFase == etapa.IdFase
                                            && !p.NumEmpleado.Contains("|TBD") //LEO TBD que siga buscando los Empleados normales o con num empleado
+                                           && p.Activo == true //LEO TBD
                                            orderby p.NumEmpleado ascending
                                            group new PCS_Empleado_Detalle
                                            {
@@ -777,6 +778,7 @@ namespace Bovis.Data
                                            from perItem in perJoin.DefaultIfEmpty()
                                            where p.IdFase == etapa.IdFase
                                            && p.NumEmpleado.Contains("TBD") //LEO TBD
+                                           && p.Activo == true //LEO TBD
                                            orderby p.NumEmpleado ascending
                                            group new PCS_Empleado_Detalle
                                            {
@@ -818,6 +820,7 @@ namespace Bovis.Data
                         var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                             where p.NumEmpleado == empleado.NumempleadoRrHh
                                             && p.IdFase == etapa.IdFase
+                                            && p.Activo == true //LEO TBD
                                             select new PCS_Fecha_Detalle
                                             {
                                                 Id = p.Id,
@@ -838,6 +841,7 @@ namespace Bovis.Data
                         var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                             where p.NumEmpleado == empleado.NumempleadoRrHh
                                             && p.IdFase == etapa.IdFase
+                                            && p.Activo == true //LEO TBD
                                             select new PCS_Fecha_Detalle
                                             {
                                                 Id = p.Id,
@@ -902,8 +906,8 @@ namespace Bovis.Data
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
                 // Borrado de empleados de etapa
-                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdEtapa)
-                    .DeleteAsync() > 0;
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdEtapa && x.Activo == true)
+                    .DeleteAsync() > 0; //LEO TBD se agrega el activo
 
                 resp.Success = res_delete_empleado;
                 resp.Message = res_delete_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
@@ -970,6 +974,7 @@ namespace Bovis.Data
                         .Value(x => x.chalias, chalias)
                         .Value(x => x.boreembolsable, reembolsable)
                         .Value(x => x.etiqueta, etiqueta) //LEO TBD
+                        .Value(x => x.Activo, true) //LEO TBD
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -1009,6 +1014,7 @@ namespace Bovis.Data
                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                        from perItem in perJoin.DefaultIfEmpty()
                                        where p.IdFase == IdFase
+                                       && p.Activo == true //LEO TBD
                                        orderby p.NumEmpleado ascending
                                        group new PCS_Empleado_Detalle
                                        {
@@ -1036,6 +1042,7 @@ namespace Bovis.Data
                     var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                         where p.NumEmpleado == empleado.NumempleadoRrHh
                                         && p.IdFase == IdFase
+                                        && p.Activo == true //LEO TBD
                                         select new PCS_Fecha_Detalle
                                         {
                                             Id = p.Id,
@@ -1068,11 +1075,11 @@ namespace Bovis.Data
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
             string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : null;
             string puesto = registro["puesto"] != null ? registro["puesto"].ToString() : null;
-            string num_empleadoTBD = "";
+            string num_empleadoTBD = registro["num_empleadoDesdeElPadre"] != null ? registro["num_empleadoDesdeElPadre"].ToString() : "";
 
             if (num_empleado == "000" || num_empleado == "0")
             {
-                num_empleadoTBD = String.Format("{0}|{1}|{2}|TBD", id_fase, num_proyecto, puesto);
+                //num_empleadoTBD = String.Format("{0}|{1}|{2}|TBD", id_fase, num_proyecto, puesto);
                 num_empleado = num_empleadoTBD;
             }
             //LEO TBD F
@@ -1080,9 +1087,25 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado)
-                    .DeleteAsync() > 0;
-
+                //LEO TBD I
+                if (num_empleadoTBD.Contains("|TBD") && num_empleadoTBD.Trim() != num_empleado.Trim())
+                {
+                    //si hace el reemplazo de un TBD por un empleado exixtente
+                    //entonces que inactive el TBD, Activo  = 0 
+                    //después seguirá con la inserción de lo nuevo
+                    var res_update_empleado = await db.tB_ProyectoFaseEmpleados
+                        .Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleadoTBD && x.Activo == true)
+                        .UpdateAsync(x => new TB_ProyectoFaseEmpleado
+                        {
+                            Activo = false
+                        }) > 0;//LEO TBD se agrega el activo
+                }
+                else { //LEO TBD F
+                    //sino entonces que continúe como siempre eliminando e insertando
+                    var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleado && x.Activo == true)
+                        .DeleteAsync() > 0; //LEO TBD
+                }//LEO TBD
+                
                 foreach (var fecha in registro["fechas"].AsArray())
                 {
                     int mes = Convert.ToInt32(fecha["mes"].ToString());
@@ -1102,6 +1125,7 @@ namespace Bovis.Data
                         .Value(x => x.chalias, chalias)
                         .Value(x => x.boreembolsable, reembolsable)
                         .Value(x => x.etiqueta, etiqueta) //LEO TBD
+                        .Value(x => x.Activo, true) //LEO TBD
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -1117,8 +1141,8 @@ namespace Bovis.Data
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado)
-                    .DeleteAsync() > 0;
+                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado && x.Activo == true)
+                    .DeleteAsync() > 0;//LEO TBD se agrega el activo
 
                 resp.Success = res_delete_empleado;
                 resp.Message = res_delete_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
@@ -1167,6 +1191,7 @@ namespace Bovis.Data
                                         join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                         from perItem in perJoin.DefaultIfEmpty()
                                         where p.IdFase == fase.IdFase
+                                        && p.Activo == true //LEO TBD
                                         orderby p.NumEmpleado ascending
                                         group new Rubro_Detalle
                                         {
@@ -1197,6 +1222,7 @@ namespace Bovis.Data
                                 var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                     where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                     && p.IdFase == fase.IdFase
+                                                    && p.Activo == true //LEO TBD
                                                     orderby p.Anio, p.Mes ascending
                                                     select new PCS_Fecha_Detalle
                                                     {
@@ -1350,6 +1376,7 @@ namespace Bovis.Data
                                         from costempleItem in costempleJoin.DefaultIfEmpty()
                                         where p.IdFase == fase.IdFase
                                         && costempleItem.RegHistorico == false
+                                        && p.Activo == true //LEO TBD
                                         orderby p.NumEmpleado ascending
                                         group new Rubro_Detalle
                                         {
@@ -1386,6 +1413,7 @@ namespace Bovis.Data
                                                         where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                         && p.IdFase == fase.IdFase
                                                         && p.Porcentaje > 0
+                                                        && p.Activo == true //LEO TBD
                                                         orderby p.Anio, p.Mes ascending
                                                         select new PCS_Fecha_Detalle
                                                         {
@@ -1607,6 +1635,7 @@ namespace Bovis.Data
                                     var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                         where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                         && p.IdFase == etapa.IdFase
+                                                        && p.Activo == true //LEO TBD
                                                         orderby p.Anio, p.Mes ascending
                                                         select new PCS_Fecha_Detalle
                                                         {
@@ -1797,6 +1826,7 @@ namespace Bovis.Data
                                 && pfe.Mes == mes
                                 && pfe.Anio == anio
                                 && pfe.boreembolsable == true
+                                && pfe.Activo == true //LEO TBD
                             )
                             .SumAsync(pfe => ((decimal?)Math.Round((decimal)pfe.Porcentaje, 1) / 100 * pfe.Fee));
 
@@ -2534,6 +2564,7 @@ namespace Bovis.Data
                                         join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                         from perItem in perJoin.DefaultIfEmpty()
                                         where p.IdFase == etapa.IdFase
+                                        && p.Activo == true //LEO TBD
                                         orderby p.NumEmpleado ascending
                                         group new Rubro_Detalle
                                         {
@@ -2555,6 +2586,7 @@ namespace Bovis.Data
                         var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                             where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                             && p.IdFase == etapa.IdFase
+                                            && p.Activo == true //LEO TBD
                                             orderby p.Anio, p.Mes ascending
                                             select new PCS_Fecha_Detalle
                                             {
@@ -2913,6 +2945,7 @@ namespace Bovis.Data
                                                 join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                                 from perItem in perJoin.DefaultIfEmpty()
                                                 where p.IdFase == etapa.IdFase
+                                                && p.Activo == true //LEO TBD
                                                 orderby p.NumEmpleado ascending
                                                 group new Rubro_Detalle
                                                 {
@@ -2934,6 +2967,7 @@ namespace Bovis.Data
                                 var fechas = await (from p in db.tB_ProyectoFaseEmpleados
                                                     where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                     && p.IdFase == etapa.IdFase
+                                                    && p.Activo == true //LEO TBD
                                                     orderby p.Anio, p.Mes ascending
                                                     select new Control_Fechas
                                                     {
