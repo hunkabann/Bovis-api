@@ -942,7 +942,7 @@ namespace Bovis.Data
             decimal? nucosto_ini = registro["nucosto_ini"] != null ? Convert.ToDecimal(registro["nucosto_ini"].ToString()) : null;
 
             //LEO TBD I
-            string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : null;
+            string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : "";
             string puesto = registro["puesto"] != null ? registro["puesto"].ToString() : null;
             string num_empleadoTBD = "";
 
@@ -1073,7 +1073,7 @@ namespace Bovis.Data
 
             //LEO TBD I
             int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
-            string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : null;
+            string etiqueta = registro["etiqueta"] != null ? registro["etiqueta"].ToString() : "";
             string puesto = registro["puesto"] != null ? registro["puesto"].ToString() : null;
             string num_empleadoTBD = registro["num_empleadoDesdeElPadre"] != null ? registro["num_empleadoDesdeElPadre"].ToString() : "";
 
