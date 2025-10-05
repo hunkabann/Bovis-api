@@ -1307,7 +1307,15 @@ namespace Bovis.Data
 
                                 if (rubro.Rubro.Trim() == Rubro.Trim())
                                 {
-                                    fechas_gasto.AddRange(fechas);
+                                    //FIx I
+                                    if (fechas == null)
+                                    {
+                                        fechas_gasto = new List<PCS_Fecha_Detalle>();
+                                    }
+                                    else
+                                    {//FIx F
+                                        fechas_gasto.AddRange(fechas)
+                                    }
                                     return fechas_gasto;
                                 }
                             }
@@ -1362,7 +1370,17 @@ namespace Bovis.Data
 
                         if (r.Rubro.Trim() == Rubro.Trim())
                         {
-                            fechas_gasto.AddRange(fechas);
+                            //FIx I
+                            if (fechas == null)
+                            {
+                                fechas_gasto = new List<PCS_Fecha_Detalle>();
+                            }
+                            else
+                            {
+                                //FIx F
+                                fechas_gasto.AddRange(fechas);
+                            }
+                            
                             return fechas_gasto;
                         }
                     }
@@ -2473,7 +2491,7 @@ namespace Bovis.Data
                     chCadena = JsonConvert.SerializeObject(oEncontrado);
 
                     Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
-
+                    oNuevo.Fechas = new List<PCS_Fecha_Detalle>();//Fix 
                     AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase);
 
                     lstSalida.Add(oNuevo);
@@ -2501,7 +2519,17 @@ namespace Bovis.Data
                     lstNuevasFechas.Add(oNuevo);
                 }
 
-                rubro.Fechas = lstNuevasFechas;
+                //FIX I
+                if (lstNuevasFechas == null || lstNuevasFechas.Count() == 0)
+                {
+                    rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                }
+                else
+                {
+                    //FIX F
+                    rubro.Fechas = lstNuevasFechas;
+                }
+                
             }
         }//AgregaRubroFechasTBD
 
