@@ -1314,7 +1314,7 @@ namespace Bovis.Data
                                     }
                                     else
                                     {//FIx F
-                                        fechas_gasto.AddRange(fechas)
+                                        fechas_gasto.AddRange(fechas);
                                     }
                                     return fechas_gasto;
                                 }
