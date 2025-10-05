@@ -86,9 +86,47 @@ namespace Bovis.Data
             //return await GetAllFromEntityAsync<TB_Proyecto>();
             using (var db = new ConnectionDB(dbConfig))
             {
-                var query = from p in db.tB_Proyectos select p;
-                query = OrdenAlfabetico == true || OrdenAlfabetico == null ? query.OrderBy(p => p.Proyecto) : query.OrderBy(p => p.NumProyecto);
+                //LEO FIX alcance se comenta el código actual
+                //var query = from p in db.tB_Proyectos select p;
+                //query = OrdenAlfabetico == true || OrdenAlfabetico == null ? query.OrderBy(p => p.Proyecto) : query.OrderBy(p => p.NumProyecto);
 
+                //var resp = await query.ToListAsync();
+
+                //LEO I FIX alcance, se agrega este nuevo para manipular los datos que se regresan
+                var query = from p in db.tB_Proyectos
+                            select new TB_Proyecto
+                            {
+                                NumProyecto = p.NumProyecto,
+                                Proyecto = p.Proyecto,
+                                Alcance = p.Alcance == null ? "" : p.Alcance,
+                                Cp = p.Cp,
+                                Ciudad = p.Ciudad,
+                                IdPais = p.IdPais,
+                                IdEstatus = p.IdEstatus,
+                                IdSector = p.IdSector,
+                                IdTipoProyecto = p.IdTipoProyecto,
+                                IdResponsablePreconstruccion = p.IdResponsablePreconstruccion,
+                                IdResponsableConstruccion = p.IdResponsableConstruccion,
+                                IdResponsableEhs = p.IdResponsableEhs,
+                                IdResponsableSupervisor = p.IdResponsableSupervisor,
+                                IdEmpresa = p.IdEmpresa,
+                                IdDirectorEjecutivo = p.IdDirectorEjecutivo,
+                                CostoPromedioM2 = p.CostoPromedioM2,
+                                FechaIni = p.FechaIni,
+                                FechaFin = p.FechaFin,
+                                FechaAuditoriaInicial = p.FechaAuditoriaInicial,
+                                FechaProxAuditoria = p.FechaProxAuditoria,
+                                ResponsableAsignado = p.ResponsableAsignado,
+                                ImpuestoNomina = p.ImpuestoNomina,
+                                IdUnidadDeNegocio = p.IdUnidadDeNegocio
+                            };
+
+                // Aplicar ordenamiento condicional
+                query = (OrdenAlfabetico == true || OrdenAlfabetico == null)
+                    ? query.OrderBy(p => p.Proyecto)
+                    : query.OrderBy(p => p.NumProyecto);
+
+                // Ejecutar la consulta
                 var resp = await query.ToListAsync();
 
                 return resp;
@@ -103,9 +141,42 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
+                //LEO FIX 
+                //var proyectos = await (from p in db.tB_Proyectos
+                //                       where p.IdEstatus != 3
+                //                       select p).ToListAsync();
+
+                //LEO I FIX alcance, se agrega este nuevo para manipular los datos que se regresan
                 var proyectos = await (from p in db.tB_Proyectos
                                        where p.IdEstatus != 3
-                                       select p).ToListAsync();
+                                       select new TB_Proyecto
+                                       {
+                                           NumProyecto = p.NumProyecto,
+                                           Proyecto = p.Proyecto,
+                                           Alcance = p.Alcance == null ? "" : p.Alcance,
+                                           Cp = p.Cp,
+                                           Ciudad = p.Ciudad,
+                                           IdPais = p.IdPais,
+                                           IdEstatus = p.IdEstatus,
+                                           IdSector = p.IdSector,
+                                           IdTipoProyecto = p.IdTipoProyecto,
+                                           IdResponsablePreconstruccion = p.IdResponsablePreconstruccion,
+                                           IdResponsableConstruccion = p.IdResponsableConstruccion,
+                                           IdResponsableEhs = p.IdResponsableEhs,
+                                           IdResponsableSupervisor = p.IdResponsableSupervisor,
+                                           IdEmpresa = p.IdEmpresa,
+                                           IdDirectorEjecutivo = p.IdDirectorEjecutivo,
+                                           CostoPromedioM2 = p.CostoPromedioM2,
+                                           FechaIni = p.FechaIni,
+                                           FechaFin = p.FechaFin,
+                                           FechaAuditoriaInicial = p.FechaAuditoriaInicial,
+                                           FechaProxAuditoria = p.FechaProxAuditoria,
+                                           ResponsableAsignado = p.ResponsableAsignado,
+                                           ImpuestoNomina = p.ImpuestoNomina,
+                                           IdUnidadDeNegocio = p.IdUnidadDeNegocio
+                                       }).ToListAsync();
+                //LEO F FIX Alcance
+
                 return proyectos;
             }
 
