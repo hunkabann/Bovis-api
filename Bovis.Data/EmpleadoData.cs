@@ -1627,7 +1627,8 @@ namespace Bovis.Data
                                       {
                                           nunum_proyecto = proy.NumProyecto,
                                           chproyecto = proy.Proyecto,
-                                          chalcance = proy.Alcance,
+//                                          chalcance = proy.Alcance,
+                                          chalcance = proy.Alcance == null ? "" : proy.Alcance,
                                           chcp = proy.Cp,
                                           chciudad = proy.Ciudad,
                                           nukidestatus = proy.IdEstatus,
