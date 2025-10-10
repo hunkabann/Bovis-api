@@ -713,9 +713,14 @@ namespace Bovis.Data
                                       where p.NumProyecto == IdProyecto
                                       select p).FirstOrDefaultAsync();
 
+                proyecto_etapas.FechaIni = new DateTime(proyecto.FechaIni.Year, proyecto.FechaIni.Month, 1);
+
+                // Ajustamos la FechaFin sumando un día
+                if (proyecto?.FechaFin != null)
+                {
+                    proyecto_etapas.FechaFin = proyecto.FechaFin.Value.AddDays(1);
+                }
                 proyecto_etapas.NumProyecto = IdProyecto;
-                proyecto_etapas.FechaIni = proyecto?.FechaIni;
-                proyecto_etapas.FechaFin = proyecto?.FechaFin;
                 proyecto_etapas.NombreProyecto = proyecto.Proyecto;
 
                 var etapas = await (from p in db.tB_ProyectoFases
@@ -754,6 +759,14 @@ namespace Bovis.Data
 
                 foreach (var etapa in etapas)
                 {
+                    // Sumar un día a FechaFin si no es nulo
+                    /*
+                    if (etapa.FechaFin != null)
+                    {
+                        etapa.FechaFin = etapa.FechaFin.AddDays(1);
+                    }
+                    */
+
                     proyecto_etapas.Etapas.Add(etapa);
 
                     ganttDataFase = new PCS_GanttDataFase();
@@ -768,7 +781,8 @@ namespace Bovis.Data
 
                 return ganttData;
             }
-        }
+
+        }   // GetPEtapas
 
         public async Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto)
         {
