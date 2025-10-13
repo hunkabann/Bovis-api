@@ -21,6 +21,9 @@ using System.Data.SqlClient;
 using System.Data;
 using System;
 using System.Xml.Linq;
+//using Microsoft.Data;
+//using Microsoft.Data.Sql;
+using Microsoft.Data.SqlClient;
 
 
 namespace Bovis.Data
@@ -1011,6 +1014,65 @@ namespace Bovis.Data
         }
         #endregion Etapas
 
+        /**
+         * Obtiene el indice del número de empleado a partir del conteo del número de de empleado similares para tbd
+         * LDTF 12/Oct/2025
+         */
+        public int indiceEmpleadoTBD(string NumEmpleadoRrHh)
+        {
+            int retorno = 0;
+
+            string sCadenaConexion = "", sQuery = "";
+
+            var db = new ConnectionDB(dbConfig);
+            //Console.WriteLine("----->>>>     ConnectionString: " + db.ConnectionString);
+
+
+            //definiendo la consulta
+            // la parte de {0} en la cadena, indica que ahí se coloca el valor del primer elemento después de la coma en la función Format
+            sQuery = String.Format("SELECT count (A.nunum_empleado_rr_hh) + 1 FROM (SELECT DISTINCT nunum_empleado_rr_hh FROM tb_proyecto_fase_empleado WHERE nunum_empleado_rr_hh like '{0}%' ) A", NumEmpleadoRrHh);
+
+            // Create a new SqlConnection object
+            //using (SqlConnection con = new SqlConnection(sCadenaCoenxion))
+            using (Microsoft.Data.SqlClient.SqlConnection con = new Microsoft.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    using (Microsoft.Data.SqlClient.SqlCommand cmd = new Microsoft.Data.SqlClient.SqlCommand(sQuery, con))
+                    {
+                        DataTable dt = new DataTable();
+                        Microsoft.Data.SqlClient.SqlDataAdapter da = new Microsoft.Data.SqlClient.SqlDataAdapter(cmd);
+                        con.Open();
+                        da.Fill(dt);
+                        if (dt.Columns.Count == 0 || dt.Rows.Count == 0)
+                        {
+                            retorno = 0;
+                        }
+                        else
+                        {
+                            retorno = Convert.ToInt32(dt.Rows[0][0]);
+                        }
+
+                        con.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // indiceEmpleadoTBD
 
 
         #region Empleados
@@ -1037,8 +1099,12 @@ namespace Bovis.Data
             {
                 num_empleadoTBD = String.Format("{0}|{1}|{2}|TBD", id_fase, num_proyecto, puesto);
                 num_empleado = num_empleadoTBD;
+                // aquí debe de contar cuantos del número de empleado y obtener el indice que le corresponde
+                num_empleado = num_empleado + "_" + indiceEmpleadoTBD(num_empleado);    // LDTF  12/oct/2025
             }
             //LEO TBD F
+
+
 
             using (var db = new ConnectionDB(dbConfig))
             {
