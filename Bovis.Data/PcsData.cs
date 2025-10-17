@@ -1598,6 +1598,8 @@ namespace Bovis.Data
 
                                     rubro.Fechas.AddRange(fechas);
                                 }
+
+
                             }
                             else
                             {//LEO TBD ingreso
@@ -2574,7 +2576,7 @@ namespace Bovis.Data
 
                     Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
                     oNuevo.Fechas = new List<PCS_Fecha_Detalle>();//Fix 
-                    AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase);
+                    AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase, oNuevo.Rubro);
 
                     lstSalida.Add(oNuevo);
                 }
@@ -2584,15 +2586,15 @@ namespace Bovis.Data
             chCadena = "";
         }//AgregaRubroTBD
 
-        private void AgregaRubroFechasTBD(ref List<PCS_Fecha_Detalle_Apoyo> lstEntrada, ref Rubro_Detalle rubro, int IdFase)
+        private void AgregaRubroFechasTBD(ref List<PCS_Fecha_Detalle_Apoyo> lstEntrada, ref Rubro_Detalle rubro, int IdFase, string nomEmpleado)
         {
             string chCadena = "";
             List<PCS_Fecha_Detalle> lstNuevasFechas = new List<PCS_Fecha_Detalle>();
 
-            int nuRegistros = lstEntrada.Where<PCS_Fecha_Detalle_Apoyo>(x => x.IdFase == IdFase).Count();
+            int nuRegistros = lstEntrada.Where<PCS_Fecha_Detalle_Apoyo>(x => x.IdFase == IdFase && x.Rubro.Trim() == nomEmpleado).Count();
             if (nuRegistros > 0)
             {
-                var lstEncontrado = lstEntrada.Where<PCS_Fecha_Detalle_Apoyo>(x => x.IdFase == IdFase).ToList();
+                var lstEncontrado = lstEntrada.Where<PCS_Fecha_Detalle_Apoyo>(x => x.IdFase == IdFase && x.Rubro.Trim() == nomEmpleado).ToList();
                 foreach (PCS_Fecha_Detalle_Apoyo oElem in lstEncontrado)
                 {
                     chCadena = JsonConvert.SerializeObject(oElem);
