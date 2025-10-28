@@ -2018,6 +2018,9 @@ namespace Bovis.Data
                 // 3. Sobrescribir Totales con los completados
                 proyecto_gastos_ingresos.Totales = totalesCompletos;
 
+                // LDTF
+                proyecto_gastos_ingresos.Totales = getTotalesRubroIngreso(IdProyecto);
+
                 var gruposPorReembolsable = proyecto_gastos_ingresos.Totales
                     .GroupBy(t => t.Reembolsable);
 
@@ -2069,8 +2072,7 @@ namespace Bovis.Data
                 // Limpia datos innecesarios
                 proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
 
-                // LDTF
-                proyecto_gastos_ingresos.Totales = getTotalesRubroIngreso(IdProyecto);
+      
 
                 return proyecto_gastos_ingresos;
             }
