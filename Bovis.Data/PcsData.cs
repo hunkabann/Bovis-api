@@ -225,6 +225,11 @@ namespace Bovis.Data
             string? telefono_contacto = registro["telefono_contacto"] != null ? registro["telefono_contacto"].ToString() : null;
             string? correo_contacto = registro["correo_contacto"] != null ? registro["correo_contacto"].ToString() : null;
             int impuesto_nomina = Convert.ToInt32(registro["impuesto_nomina"].ToString());
+            //LEO inputs para FEEs I
+            int? overhead_porcentaje = registro["overheadPorcentaje"] != null ? Convert.ToInt32(registro["overheadPorcentaje"].ToString()) : null; //LEO
+            int? utilidad_porcentaje = registro["utilidadPorcentaje"] != null ? Convert.ToInt32(registro["utilidadPorcentaje"].ToString()) : null; //LEO
+            int? contingencia_porcentaje = registro["contingenciaPorcentaje"] != null ? Convert.ToInt32(registro["contingenciaPorcentaje"].ToString()) : null; //LEO
+            //LEO inputs para FEEs F
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -374,10 +379,23 @@ namespace Bovis.Data
                 await audit.AddAuditorias(json);
             }
 
+            //LEO inputs para FEEs I
+            PCS_Fee_Porcentaje oEntradaFee = new PCS_Fee_Porcentaje();
+            MapeaEntradaFeeGuardar(num_proyecto, overhead_porcentaje, utilidad_porcentaje, contingencia_porcentaje, out oEntradaFee);
+            ProyectosFeePorcentajeGuardar(oEntradaFee);
+            //LEO inputs para FEEs F
+
             return resp;
         }
         public async Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto)
         {
+            //LEO inputs para FEEs I
+            PCS_General oEntradaFeeC = new PCS_General();
+            MapeaEntradaFeeConsultar(IdProyecto, null, out oEntradaFeeC);
+            DataTable dt = new DataTable();
+            dt = ProyectosFeePorcentajeConsultar(oEntradaFeeC);
+            //LEO inputs para FEEs F
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 var proyectos = new List<Proyecto_Detalle>();
@@ -485,6 +503,22 @@ namespace Bovis.Data
                                                       }).ToListAsync());
                 }
 
+                //LEO inputs para FEEs I
+                int iValorApoyo;
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    if (proyectos.Count > 0)
+                    {
+                        Int32.TryParse(dt.Rows[0]["nufee_OH"].ToString(), out iValorApoyo);
+                        proyectos[0].overheadPorcentaje = iValorApoyo;
+                        Int32.TryParse(dt.Rows[0]["nufee_utilidad"].ToString(), out iValorApoyo);
+                        proyectos[0].utilidadPorcentaje = iValorApoyo;
+                        Int32.TryParse(dt.Rows[0]["nufee_contingencia"].ToString(), out iValorApoyo);
+                        proyectos[0].contingenciaPorcentaje = iValorApoyo;
+                    }
+                }
+                //LEO inputs para FEEs F
+
                 return proyectos;
             }
         }
@@ -532,6 +566,11 @@ namespace Bovis.Data
             string? telefono_contacto = registro["telefono_contacto"] != null ? registro["telefono_contacto"].ToString() : null;
             string? correo_contacto = registro["correo_contacto"] != null ? registro["correo_contacto"].ToString() : null;
             int? id_unidad_negocio = registro["id_unidad_negocio"] != null ? Convert.ToInt32(registro["id_unidad_negocio"].ToString()) : null; //atc
+            //LEO inputs para FEEs I
+            int? overhead_porcentaje = registro["overheadPorcentaje"] != null ? Convert.ToInt32(registro["overheadPorcentaje"].ToString()) : null; //LEO
+            int? utilidad_porcentaje = registro["utilidadPorcentaje"] != null ? Convert.ToInt32(registro["utilidadPorcentaje"].ToString()) : null; //LEO
+            int? contingencia_porcentaje = registro["contingenciaPorcentaje"] != null ? Convert.ToInt32(registro["contingenciaPorcentaje"].ToString()) : null; //LEO
+            //LEO inputs para FEEs F
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
@@ -616,6 +655,12 @@ namespace Bovis.Data
                 }
             }
 
+            //LEO inputs para FEEs I
+            PCS_Fee_Porcentaje oEntradaFee = new PCS_Fee_Porcentaje();
+            MapeaEntradaFeeGuardar(num_proyecto, overhead_porcentaje, utilidad_porcentaje, contingencia_porcentaje, out oEntradaFee);
+            ProyectosFeePorcentajeGuardar(oEntradaFee);
+            //LEO inputs para FEEs F
+
             return resp;
         }
         public async Task<(bool Success, string Message)> DeleteProyecto(int IdProyecto)
@@ -665,6 +710,140 @@ namespace Bovis.Data
 
             return resp;
         }
+
+        //LEO inputs para FEEs I
+        public void MapeaEntradaFeeGuardar(int iProyecto,int? iOverHeadPorc, int? iUtilidadPorc, int? iContingenciaPorc, out PCS_Fee_Porcentaje oSalida )
+        {
+            oSalida = new PCS_Fee_Porcentaje();
+            oSalida.nunum_proyecto = iProyecto;
+            oSalida.nufee_OH = iOverHeadPorc;
+            oSalida.nufee_utilidad = iUtilidadPorc;
+            oSalida.nufee_contingencia = iContingenciaPorc;
+        }
+
+        public void MapeaEntradaFeeConsultar(int iProyecto, string? sFecha, out PCS_General oSalida)
+        {
+            oSalida = new PCS_General();
+
+            oSalida.nunum_proyecto = iProyecto;
+            oSalida.chfecha = sFecha;
+        }
+
+        public void ProyectosFeePorcentajeGuardar(PCS_Fee_Porcentaje oEntrada)
+        {
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_fee_porcentaje_guardar";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = oEntrada.nunum_proyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@nufee_OH", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = oEntrada.nufee_OH;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@nufee_utilidad", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = oEntrada.nufee_utilidad;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@nufee_contingencia", SqlDbType.Int);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = oEntrada.nufee_contingencia;
+                    cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataSet ds = new DataSet();
+                    cda.Fill(ds);
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+        }//ProyectosFeePorcentajeGuardar
+
+        public DataTable ProyectosFeePorcentajeConsultar(PCS_General oEntrada)
+        {
+            string sQuery = "";
+            bool boOk = false;
+            DataTable dt = new DataTable();
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_fee_porcentaje_consulta";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = oEntrada.nunum_proyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@chfecha", SqlDbType.VarChar, 10);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = oEntrada.chfecha;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    
+                    cda.Fill(dt);
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+
+                return dt;
+            }
+        }//ProyectosFeePorcentajeConsultar
+
+        //LEO inputs para FEEs F
+
         #endregion Proyectos
 
 
