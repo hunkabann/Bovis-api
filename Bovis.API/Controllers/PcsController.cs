@@ -280,6 +280,21 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        //LEO inputs para FEEs I
+        [HttpPut, Route("TotalesIngresos/Fee")]
+        public async Task<IActionResult> UpdateTotalesIngresosFee([FromBody] JsonObject registro)
+        {
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+
+            var query = await _pcsQueryService.UpdateTotalesIngresosFee(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        //LEO inputs para FEEs F
+
+
         [HttpPut, Route("GastosIngresos")]
         public async Task<IActionResult> UpdateGastosIngresos([FromBody] JsonObject registro)
         {

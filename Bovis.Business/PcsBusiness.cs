@@ -141,6 +141,22 @@ namespace Bovis.Business
         public Task<List<Seccion_Detalle>> GetGastosIngresosSecciones(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresosSecciones(IdProyecto, Tipo);
         public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion) => _pcsData.GetGastosIngresos(IdProyecto, Tipo, Seccion);
         public Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto) => _pcsData.GetTotalesIngresos(IdProyecto);
+
+        //LEO inputs para FEEs I
+        public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateTotalesIngresosFee((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+               //_transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+        //LEO inputs para FEEs F
+
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -153,6 +169,7 @@ namespace Bovis.Business
             }
             return resp;
         }
+
         public Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto) => _pcsData.GetTotalFacturacion(IdProyecto);
         #endregion Gastos / Ingresos
 

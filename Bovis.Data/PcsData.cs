@@ -2257,7 +2257,27 @@ namespace Bovis.Data
             }
         }
 
+        //LEO inputs para FEEs I
+        public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
 
+            int numProyecto = Convert.ToInt32(registro["nunum_proyecto"].ToString());
+
+            int? overhead_porcentaje = registro["overheadPorcentaje"] != null ? Convert.ToInt32(registro["overheadPorcentaje"].ToString()) : null; //LEO
+            int? utilidad_porcentaje = registro["utilidadPorcentaje"] != null ? Convert.ToInt32(registro["utilidadPorcentaje"].ToString()) : null; //LEO
+            int? contingencia_porcentaje = registro["contingenciaPorcentaje"] != null ? Convert.ToInt32(registro["contingenciaPorcentaje"].ToString()) : null; //LEO
+                                                                                                                                                               //LEO inputs para FEEs I
+            PCS_Fee_Porcentaje oEntradaFee = new PCS_Fee_Porcentaje();
+            MapeaEntradaFeeGuardar(numProyecto, overhead_porcentaje, utilidad_porcentaje, contingencia_porcentaje, out oEntradaFee);
+            ProyectosFeePorcentajeGuardar(oEntradaFee);
+
+            resp.Success = true;
+            resp.Message = "" == default ? "Ocurrio un error al actualizar registro." : string.Empty;
+
+            return resp;
+        }
+        //LEO inputs para FEEs F
 
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
         {
