@@ -85,6 +85,10 @@ namespace Bovis.Common.Model.NoTable
         public List<PCS_Fecha_Totales>? Ingreso { get; set; }
         public List<PCS_Fecha_Totales>? Facturacion { get; set; }
         public List<PCS_Fecha_Totales>? Cobranza { get; set; }
+
+        public int overheadPorcentaje { get; set; }//LEO inputs para FEEs
+        public int utilidadPorcentaje { get; set; }//LEO inputs para FEEs
+        public int contingenciaPorcentaje { get; set; }//LEO inputs para FEEs
     }
 
     public class Seccion_Detalle

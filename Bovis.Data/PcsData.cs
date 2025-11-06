@@ -2251,13 +2251,46 @@ namespace Bovis.Data
                 // Limpia datos innecesarios
                 proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
 
-      
 
-                return proyecto_gastos_ingresos;
+
+                // return proyecto_gastos_ingresos; 
             }
+
+            //LEO inputs para FEEs I
+            TotalesIngresosAsignaFees(ref proyecto_gastos_ingresos, IdProyecto);
+            //LEO inputs para FEEs F
+
+            return proyecto_gastos_ingresos;
         }
 
+
         //LEO inputs para FEEs I
+        public void TotalesIngresosAsignaFees(ref GastosIngresos_Detalle oEntrada, int IdProyecto)
+        {
+            PCS_General oEntradaFee = new PCS_General();
+            int iValor = -1;
+
+            MapeaEntradaFeeConsultar(IdProyecto, null, out oEntradaFee);
+            DataTable dt = ProyectosFeePorcentajeConsultar(oEntradaFee);
+            if (dt != null || dt.Rows.Count > 0)
+            {
+                Int32.TryParse(dt.Rows[0]["nufee_OH"].ToString(), out iValor);
+                oEntrada.overheadPorcentaje = iValor;
+
+                Int32.TryParse(dt.Rows[0]["nufee_utilidad"].ToString(), out iValor);
+                oEntrada.utilidadPorcentaje = iValor;
+
+                Int32.TryParse(dt.Rows[0]["nufee_contingencia"].ToString(), out iValor);
+                oEntrada.contingenciaPorcentaje = iValor;
+            }
+            else
+            {
+                oEntrada.overheadPorcentaje = iValor;
+                oEntrada.utilidadPorcentaje = iValor;
+                oEntrada.contingenciaPorcentaje = iValor;
+            }
+        }//TotalesIngresosAsignaFees
+
         public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
