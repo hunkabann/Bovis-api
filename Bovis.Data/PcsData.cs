@@ -2087,7 +2087,7 @@ namespace Bovis.Data
                         tot.Reembolsable = (row.Field<int>("reembolsable") == 1 ? true : false);
                         tot.Anio = row.Field<int>("anio");
                         tot.Mes = row.Field<int>("mes");
-                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<double>("totalPorcentaje"));
+                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("totalPorcentaje"));
 
                         //Console.WriteLine("porcentaje: " + tot.TotalPorcentaje);
 
