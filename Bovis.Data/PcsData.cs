@@ -2126,6 +2126,7 @@ namespace Bovis.Data
         public async Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto)
         {
             GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+            string sFecha = "";//LEO Facturacion y Cobranza
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -2211,42 +2212,48 @@ namespace Bovis.Data
 
                 proyecto_gastos_ingresos.Facturacion ??= new List<PCS_Fecha_Totales>();
                 proyecto_gastos_ingresos.Cobranza ??= new List<PCS_Fecha_Totales>();
-                foreach (var grupo in gruposPorReembolsable)
-                {
-                    var totalesOrdenados = grupo
-                        .OrderBy(t => t.Anio)
-                        .ThenBy(t => t.Mes)
-                        .ToList();
 
-                    // FACTURACIÓN (+1 desplazamiento)
-                    for (int i = 0; i < totalesOrdenados.Count; i++)
-                    {
-                        decimal? porcentaje = (i == 0) ? 0 : totalesOrdenados[i - 1].TotalPorcentaje;
+                //LEO Facturacion y Cobranza I, se comenta
+                //foreach (var grupo in gruposPorReembolsable)
+                //{
+                //    var totalesOrdenados = grupo
+                //        .OrderBy(t => t.Anio)
+                //        .ThenBy(t => t.Mes)
+                //        .ToList();
 
-                        proyecto_gastos_ingresos.Facturacion.Add(new PCS_Fecha_Totales
-                        {
-                            Mes = totalesOrdenados[i].Mes,
-                            Anio = totalesOrdenados[i].Anio,
-                            Reembolsable = totalesOrdenados[i].Reembolsable,
-                            TotalPorcentaje = porcentaje
-                        });
-                    }
+                //    // FACTURACIÓN (+1 desplazamiento)
+                //    for (int i = 0; i < totalesOrdenados.Count; i++)
+                //    {
+                //        decimal? porcentaje = (i == 0) ? 0 : totalesOrdenados[i - 1].TotalPorcentaje;
 
-                    // COBRANZA (+2 desplazamiento)
-                    for (int i = 0; i < totalesOrdenados.Count; i++)
-                    {
-                        decimal? porcentaje = (i < 2) ? 0 : totalesOrdenados[i - 2].TotalPorcentaje;
+                //        proyecto_gastos_ingresos.Facturacion.Add(new PCS_Fecha_Totales
+                //        {
+                //            Mes = totalesOrdenados[i].Mes,
+                //            Anio = totalesOrdenados[i].Anio,
+                //            Reembolsable = totalesOrdenados[i].Reembolsable,
+                //            TotalPorcentaje = porcentaje
+                //        });
+                //    }
 
-                        proyecto_gastos_ingresos.Cobranza.Add(new PCS_Fecha_Totales
-                        {
-                            Mes = totalesOrdenados[i].Mes,
-                            Anio = totalesOrdenados[i].Anio,
-                            Reembolsable = totalesOrdenados[i].Reembolsable,
-                            TotalPorcentaje = porcentaje
-                        });
-                    }
-                }
+                //    // COBRANZA (+2 desplazamiento)
+                //    for (int i = 0; i < totalesOrdenados.Count; i++)
+                //    {
+                //        decimal? porcentaje = (i < 2) ? 0 : totalesOrdenados[i - 2].TotalPorcentaje;
 
+                //        proyecto_gastos_ingresos.Cobranza.Add(new PCS_Fecha_Totales
+                //        {
+                //            Mes = totalesOrdenados[i].Mes,
+                //            Anio = totalesOrdenados[i].Anio,
+                //            Reembolsable = totalesOrdenados[i].Reembolsable,
+                //            TotalPorcentaje = porcentaje
+                //        });
+                //    }
+                //}
+
+                proyecto_gastos_ingresos.Facturacion = getTotalesRubroFacturacion(IdProyecto, sFecha);
+                proyecto_gastos_ingresos.Cobranza = getTotalesRubroCobranza(IdProyecto, sFecha);
+
+                //LEO Facturacion y Cobranza F
 
                 // Limpia datos innecesarios
                 proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
@@ -2311,6 +2318,149 @@ namespace Bovis.Data
             return resp;
         }
         //LEO inputs para FEEs F
+
+        //LEO Facturacion y Cobranza I
+        private List<PCS_Fecha_Totales> getTotalesRubroFacturacion(int IdProyecto, string? sFecha)
+        {
+            List<PCS_Fecha_Totales> retorno = new List<PCS_Fecha_Totales>();
+            PCS_Fecha_Totales tot = null;
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_facturacion_consulta";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@chfecha", SqlDbType.VarChar, 10);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = sFecha== "" ? null : sFecha;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        tot = new PCS_Fecha_Totales();
+                        tot.Anio = row.Field<int>("anio");
+                        tot.Mes = row.Field<int>("mes");
+                        tot.Reembolsable = true;
+                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("nuvalor"));
+
+                        retorno.Add(tot);
+                    }
+
+                    con.Close();
+
+                    boOk = true;
+                    return retorno;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+            return retorno;
+
+        }   // getTotalesRubroFacturacion
+
+        private List<PCS_Fecha_Totales> getTotalesRubroCobranza(int IdProyecto, string? sFecha)
+        {
+            List<PCS_Fecha_Totales> retorno = new List<PCS_Fecha_Totales>();
+            PCS_Fecha_Totales tot = null;
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_cobranza_consulta";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@chfecha", SqlDbType.VarChar, 10);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = sFecha == "" ? null : sFecha;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        tot = new PCS_Fecha_Totales();
+                        tot.Anio = row.Field<int>("anio");
+                        tot.Mes = row.Field<int>("mes");
+                        tot.Reembolsable = true;
+                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("nuvalor"));
+
+                        retorno.Add(tot);
+                    }
+
+                    con.Close();
+
+                    boOk = true;
+                    return retorno;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+            return retorno;
+
+        }   // getTotalesRubroCobranza
+
+        //LEO Facturacion y Cobranza F
 
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
         {
