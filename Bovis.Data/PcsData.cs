@@ -1818,7 +1818,8 @@ namespace Bovis.Data
                                         Cantidad = rubro.Cantidad,
                                         Reembolsable = rubro.Reembolsable,
                                         AplicaTodosMeses = rubro.AplicaTodosMeses,
-                                        Fechas = new List<PCS_Fecha_Detalle>()
+                                        Fechas = new List<PCS_Fecha_Detalle>(),
+                                        chcomentarios = rubro.Comentario, //LEO Gastos Comenmtarios
                                     }).ToListAsync();
 
                     rubros = rubros.Where(r => r != null).ToList();
@@ -2235,6 +2236,8 @@ namespace Bovis.Data
                 //        });
                 //    }
 
+
+
                 //    // COBRANZA (+2 desplazamiento)
                 //    for (int i = 0; i < totalesOrdenados.Count; i++)
                 //    {
@@ -2473,6 +2476,7 @@ namespace Bovis.Data
             decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
             bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
             bool aplica_todos_meses = Convert.ToBoolean(registro["aplicaTodosMeses"].ToString());
+            string sComentarios = registro["chcomentarios"].ToString(); //LEO Gastos comentarios  
 
             int rubro_record_id = 0;
             bool bogastosPP = false;//LEO
@@ -2486,7 +2490,7 @@ namespace Bovis.Data
             if (unidad.ToLower().Trim() == "pp")
             {
                 //actualizando e insertando en tb_rubro y tb_rubro_valor
-                bogastosPP = gastosPP(numProyecto, id_rubro, id_seccion, unidad, cantidad, reembolsable, aplica_todos_meses, stanios);
+                bogastosPP = gastosPP(numProyecto, id_rubro, id_seccion, unidad, cantidad, reembolsable, aplica_todos_meses, stanios, sComentarios); //LEO Gastos comentarios
                 resp.Success = bogastosPP;
                 resp.Message = bogastosPP == false ? "Ocurrio un error al actualizar registro unidad pp." : string.Empty;
                 return resp;
@@ -2533,6 +2537,8 @@ namespace Bovis.Data
                         .Value(x => x.Cantidad, cantidad)
                         .Value(x => x.AplicaTodosMeses, aplica_todos_meses)
                         .Value(x => x.Activo, true)
+                        .Value(x => x.Vigencia_Ini, DateTime.Now)//LEO Gastos comentarios
+                        .Value(x => x.Comentario, sComentarios) //LEO Gastos comentarios
                         .InsertAsync();
 
                     //LEO para recuperar el id insertado en tb_rubro
@@ -2574,6 +2580,7 @@ namespace Bovis.Data
                         .Value(x => x.Anio, anio)
                         .Value(x => x.Porcentaje, porcent)
                         .Value(x => x.Activo, true)
+                        .Value(x => x.Vigencia_Ini, DateTime.Now) //LEO Gastos comentarios
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_valor;
@@ -2597,7 +2604,7 @@ namespace Bovis.Data
         /// <param name="boaplica_todos_meses">1 aplica \ 0 no aplica</param>
         /// <param name="stanios"></param>
         /// <returns>true todo estuvo ok \ false si hubo algún error en el proceso</returns>
-        public bool gastosPP(int nunumProyecto, int nuid_rubro, int nuid_seccion, string stunidad, decimal nucantidad, bool boreembolsable, bool boaplica_todos_meses, string stanios)
+        public bool gastosPP(int nunumProyecto, int nuid_rubro, int nuid_seccion, string stunidad, decimal nucantidad, bool boreembolsable, bool boaplica_todos_meses, string stanios, string scomentarios) //LEO Gastos comentarios
         {
             string sQuery = "";
             bool boOk = false;
@@ -2652,6 +2659,13 @@ namespace Bovis.Data
                     param08.Direction = ParameterDirection.Input;
                     param08.Value = stanios;
                     cmd.Parameters.Add(param08);
+
+                    //LEO Gastos comentarios I
+                    System.Data.SqlClient.SqlParameter param09 = new System.Data.SqlClient.SqlParameter("@pcomentarios", SqlDbType.VarChar, 500);
+                    param09.Direction = ParameterDirection.Input;
+                    param09.Value = scomentarios;
+                    cmd.Parameters.Add(param09);
+                    //LEO Gastos comentarios F
 
                     con.Open();
                     cmd.ExecuteNonQuery();

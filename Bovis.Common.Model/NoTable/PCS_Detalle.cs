@@ -115,6 +115,7 @@ namespace Bovis.Common.Model.NoTable
         public string? NumEmpleadoRrHh { get; set; }
         public decimal? CostoMensual { get; set; }
         public List<PCS_Fecha_Detalle>? Fechas { get; set; }
+        public string chcomentarios { get; set; } //LEO Gastos comentarios
     }
 
     public class PCS_Fecha_Suma
