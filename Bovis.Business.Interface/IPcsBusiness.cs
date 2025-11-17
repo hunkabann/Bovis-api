@@ -1,4 +1,5 @@
-﻿using Bovis.Common.Model.NoTable;
+﻿using Bovis.Common;
+using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using System.Text.Json.Nodes;
 
@@ -62,6 +63,7 @@ namespace Bovis.Business.Interface
         Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion);
         Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto);
         Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro);//LEO inputs para FEEs
+        Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro); //LDTF
         Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
         Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto);
         #endregion Gastos / Ingresos
