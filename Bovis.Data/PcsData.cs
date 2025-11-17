@@ -2303,17 +2303,19 @@ namespace Bovis.Data
         }//TotalesIngresosAsignaFees
 
 
+        /**
+         * Actualiza la tabla de tb_proyecto_facturacion o tb_proyecto cobranza por proyecto
+         * Actualizando los valores si sin del mismo día
+         * cierra los registros anteriores y genera nuevos si se tiene cambio de día
+         * LDTF
+         */
         public async Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro)
         {
             try
             {
                 // extraer valores del JSON
-//                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"].ToString());
                 int numProyecto = registro["nunum_proyecto"]?.GetValue<int>() ?? 0;
                 int tipo = registro["tipo"]?.GetValue<int>() ?? 0;
-
-                Console.WriteLine("numProyecto: " + numProyecto);
-                Console.WriteLine("tipo: " + tipo);
 
                 // determinar si el JSON contiene "facturacion" o "cobranza"
                 JsonArray datosJson = null;
@@ -2343,7 +2345,7 @@ namespace Bovis.Data
                     ? "sp_proyecto_facturacion_guardar"
                     : "sp_proyecto_cobranza_guardar";
 
-                Console.WriteLine("stored: " + stored);
+                //Console.WriteLine("stored: " + stored);
 
                 var db = new ConnectionDB(dbConfig);
 
@@ -2368,6 +2370,10 @@ namespace Bovis.Data
 
                     if (tvp.Columns.Contains("TotalPorcentaje"))
                         tvp.Columns["TotalPorcentaje"].ColumnName = "nuvalor";
+
+                    tvp.Columns["Anio"].SetOrdinal(0);      // primera columna
+                    tvp.Columns["Mes"].SetOrdinal(1);       // segunda columna
+                    tvp.Columns["nuvalor"].SetOrdinal(2);   // tercera columna
 
                     // parámetro TVP
                     if (tipo == 1)
@@ -2405,7 +2411,8 @@ namespace Bovis.Data
             {
                 return (false, ex.Message);
             }
-        }
+
+        }   // UpdateFacturacionCobranza
 
 
         public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
