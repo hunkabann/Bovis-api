@@ -2314,8 +2314,8 @@ namespace Bovis.Data
             try
             {
                 // extraer valores del JSON
-                int numProyecto = registro["nunum_proyecto"]?.GetValue<int>() ?? 0;
-                int tipo = registro["tipo"]?.GetValue<int>() ?? 0;
+                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
+                int tipo = Convert.ToInt32(registro["tipo"]?.ToString());
 
                 // determinar si el JSON contiene "facturacion" o "cobranza"
                 JsonArray datosJson = null;
