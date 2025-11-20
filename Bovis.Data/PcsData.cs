@@ -2,6 +2,7 @@
 using Bovis.Common.Model;
 using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
+using Bovis.Common.Extensions;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
@@ -2300,6 +2301,119 @@ namespace Bovis.Data
                 oEntrada.contingenciaPorcentaje = iValor;
             }
         }//TotalesIngresosAsignaFees
+
+
+        /**
+         * Actualiza la tabla de tb_proyecto_facturacion o tb_proyecto cobranza por proyecto
+         * Actualizando los valores si sin del mismo día
+         * cierra los registros anteriores y genera nuevos si se tiene cambio de día
+         * LDTF
+         */
+        public async Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro)
+        {
+            try
+            {
+                // extraer valores del JSON
+                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
+                int tipo = Convert.ToInt32(registro["tipo"]?.ToString());
+
+                // determinar si el JSON contiene "facturacion" o "cobranza"
+                JsonArray datosJson = null;
+
+                if (registro.ContainsKey("facturacion"))
+                    datosJson = registro["facturacion"]!.AsArray();
+                else if (registro.ContainsKey("cobranza"))
+                    datosJson = registro["cobranza"]!.AsArray();
+                else
+                    return (false, "No se encontró 'facturacion' ni 'cobranza' en el JSON.");
+                List<PCS_Fecha_Totales> datos = new();
+
+                foreach (var item in datosJson)
+                {
+                    datos.Add(new PCS_Fecha_Totales
+                    {
+                        Reembolsable = item?["Reembolsable"]?.GetValue<bool?>(),
+                        Anio = item?["Anio"]?.GetValue<int?>(),
+                        Mes = item?["Mes"]?.GetValue<int?>(),
+                        TotalPorcentaje = item?["TotalPorcentaje"]?.GetValue<decimal?>()
+                    });
+                }
+
+
+                // Elegir stored procedure según Tipo
+                string stored = tipo == 1
+                    ? "sp_proyecto_facturacion_guardar"
+                    : "sp_proyecto_cobranza_guardar";
+
+                //Console.WriteLine("stored: " + stored);
+
+                var db = new ConnectionDB(dbConfig);
+
+                using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(stored, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // parámetros normales
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = numProyecto
+                    });
+
+                    // convertir lista a DataTable 
+                    DataTable tvp = datos.ToDataTable();
+
+                    // ajustar columnas al TVP
+                    if (tvp.Columns.Contains("Reembolsable"))
+                        tvp.Columns.Remove("Reembolsable");
+
+                    if (tvp.Columns.Contains("TotalPorcentaje"))
+                        tvp.Columns["TotalPorcentaje"].ColumnName = "nuvalor";
+
+                    tvp.Columns["Anio"].SetOrdinal(0);      // primera columna
+                    tvp.Columns["Mes"].SetOrdinal(1);       // segunda columna
+                    tvp.Columns["nuvalor"].SetOrdinal(2);   // tercera columna
+
+                    // parámetro TVP
+                    if (tipo == 1)
+                    { 
+                        cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@tbl_nuevos", SqlDbType.Structured)
+                        {
+                            TypeName = "dbo.tvp_proyecto_facturacion",
+                            Value = tvp
+                        });
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@tbl_nuevos", SqlDbType.Structured)
+                        {
+                            TypeName = "dbo.tvp_proyecto_cobranza",
+                            Value = tvp
+                        });
+
+                    }
+
+                    // ejecución estilo DataAdapter
+                    System.Data.SqlClient.SqlDataAdapter da = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+
+                    con.Open();
+                    da.Fill(ds);
+                    con.Close();
+
+                }
+
+                // Regresar éxito
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+
+        }   // UpdateFacturacionCobranza
+
 
         public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
         {

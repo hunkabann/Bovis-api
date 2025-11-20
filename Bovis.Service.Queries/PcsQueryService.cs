@@ -185,6 +185,13 @@ namespace Bovis.Service.Queries
         }
         //LEO inputs para FEEs F
 
+        // LDTF  actualizacion de cobranza y facturación
+        public async Task<Response<(bool Success, string Message)>> UpdateFacturacionCobranza(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateFacturacionCobranza(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+
         public async Task<Response<(bool Success, string Message)>> UpdateGastosIngresos(JsonObject registro)
         {
             var response = await _pcsBusiness.UpdateGastosIngresos(registro);
