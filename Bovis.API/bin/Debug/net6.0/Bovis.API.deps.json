@@ -116,11 +116,11 @@
           }
         }
       },
-      "linq2db/4.4.0": {
+      "linq2db/5.1.0": {
         "runtime": {
           "lib/net6.0/linq2db.dll": {
-            "assemblyVersion": "4.4.0.0",
-            "fileVersion": "4.4.0.0"
+            "assemblyVersion": "5.1.0.0",
+            "fileVersion": "5.1.0.0"
           }
         }
       },
@@ -593,6 +593,40 @@
           }
         }
       },
+      "runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "dependencies": {
+          "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
+          "runtime.win-x64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
+          "runtime.win-x86.runtime.native.System.Data.SqlClient.sni": "4.4.0"
+        }
+      },
+      "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/sni.dll": {
+            "rid": "win-arm64",
+            "assetType": "native",
+            "fileVersion": "4.6.25512.1"
+          }
+        }
+      },
+      "runtime.win-x64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "runtimeTargets": {
+          "runtimes/win-x64/native/sni.dll": {
+            "rid": "win-x64",
+            "assetType": "native",
+            "fileVersion": "4.6.25512.1"
+          }
+        }
+      },
+      "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "runtimeTargets": {
+          "runtimes/win-x86/native/sni.dll": {
+            "rid": "win-x86",
+            "assetType": "native",
+            "fileVersion": "4.6.25512.1"
+          }
+        }
+      },
       "Serilog/2.10.0": {
         "runtime": {
           "lib/netstandard2.1/Serilog.dll": {
@@ -752,6 +786,31 @@
           "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.0.20.51904"
+          }
+        }
+      },
+      "System.Data.SqlClient/4.9.0": {
+        "dependencies": {
+          "runtime.native.System.Data.SqlClient.sni": "4.4.0"
+        },
+        "runtime": {
+          "lib/net6.0/System.Data.SqlClient.dll": {
+            "assemblyVersion": "4.6.1.6",
+            "fileVersion": "4.900.24.56208"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/net6.0/System.Data.SqlClient.dll": {
+            "rid": "unix",
+            "assetType": "runtime",
+            "assemblyVersion": "4.6.1.6",
+            "fileVersion": "4.900.24.56208"
+          },
+          "runtimes/win/lib/net6.0/System.Data.SqlClient.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.6.1.6",
+            "fileVersion": "4.900.24.56208"
           }
         }
       },
@@ -1002,7 +1061,7 @@
         },
         "runtime": {
           "Bovis.Business.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1014,7 +1073,7 @@
         },
         "runtime": {
           "Bovis.Business.Interface.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1022,7 +1081,7 @@
       "Bovis.Common/1.0.0": {
         "runtime": {
           "Bovis.Common.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1035,18 +1094,18 @@
         },
         "runtime": {
           "Bovis.Common.Mapper.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
       },
       "Bovis.Common.Model/1.0.0": {
         "dependencies": {
-          "linq2db": "4.4.0"
+          "linq2db": "5.1.0"
         },
         "runtime": {
           "Bovis.Common.Model.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1058,12 +1117,13 @@
           "Bovis.Data.Interface": "1.0.0",
           "Microsoft.Data.SqlClient": "5.0.1",
           "Newtonsoft.Json": "13.0.2",
+          "System.Data.SqlClient": "4.9.0",
           "System.Linq.Dynamic.Core": "1.3.7",
-          "linq2db": "4.4.0"
+          "linq2db": "5.1.0"
         },
         "runtime": {
           "Bovis.Data.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1075,7 +1135,7 @@
         },
         "runtime": {
           "Bovis.Data.Interface.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1089,7 +1149,7 @@
         },
         "runtime": {
           "Bovis.Service.EventHandlers.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1102,7 +1162,7 @@
         },
         "runtime": {
           "Bovis.Service.Queries.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1115,7 +1175,7 @@
         },
         "runtime": {
           "Bovis.Service.Queries.Dto.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1127,7 +1187,7 @@
         },
         "runtime": {
           "Bovis.Service.Queries.Interface.dll": {
-            "assemblyVersion": "1.0.0.0",
+            "assemblyVersion": "1.0.0",
             "fileVersion": "1.0.0.0"
           }
         }
@@ -1182,12 +1242,12 @@
       "path": "azure.security.keyvault.secrets/4.1.0",
       "hashPath": "azure.security.keyvault.secrets.4.1.0.nupkg.sha512"
     },
-    "linq2db/4.4.0": {
+    "linq2db/5.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-6/u1EzQlV25bhN0Ej/I5dLV5Hgxun+ww/TX2VnMBnSVytED2VzQGeFIO/14I624GkfPOtB79x1ooL3F18dAbdw==",
-      "path": "linq2db/4.4.0",
-      "hashPath": "linq2db.4.4.0.nupkg.sha512"
+      "sha512": "sha512-amqMxqHtZq3xw8N4TMbkMhI9UkGaxxGFj/xBBm/9il1Bgtw9WTjjOFt9V7X2FPhPaAhEw8U2tzCiDKX8TUegNA==",
+      "path": "linq2db/5.1.0",
+      "hashPath": "linq2db.5.1.0.nupkg.sha512"
     },
     "MediatR/11.1.0": {
       "type": "package",
@@ -1539,6 +1599,34 @@
       "path": "newtonsoft.json/13.0.2",
       "hashPath": "newtonsoft.json.13.0.2.nupkg.sha512"
     },
+    "runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-A8v6PGmk+UGbfWo5Ixup0lPM4swuSwOiayJExZwKIOjTlFFQIsu3QnDXECosBEyrWSPryxBVrdqtJyhK3BaupQ==",
+      "path": "runtime.native.system.data.sqlclient.sni/4.4.0",
+      "hashPath": "runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
+    "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LbrynESTp3bm5O/+jGL8v0Qg5SJlTV08lpIpFesXjF6uGNMWqFnUQbYBJwZTeua6E/Y7FIM1C54Ey1btLWupdg==",
+      "path": "runtime.win-arm64.runtime.native.system.data.sqlclient.sni/4.4.0",
+      "hashPath": "runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
+    "runtime.win-x64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-38ugOfkYJqJoX9g6EYRlZB5U2ZJH51UP8ptxZgdpS07FgOEToV+lS11ouNK2PM12Pr6X/PpT5jK82G3DwH/SxQ==",
+      "path": "runtime.win-x64.runtime.native.system.data.sqlclient.sni/4.4.0",
+      "hashPath": "runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
+    "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YhEdSQUsTx+C8m8Bw7ar5/VesXvCFMItyZF7G1AUY+OM0VPZUOeAVpJ4Wl6fydBGUYZxojTDR3I6Bj/+BPkJNA==",
+      "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
+      "hashPath": "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512"
+    },
     "Serilog/2.10.0": {
       "type": "package",
       "serviceable": true,
@@ -1643,6 +1731,13 @@
       "sha512": "sha512-aM7cbfEfVNlEEOj3DsZP+2g9NRwbkyiAv2isQEzw7pnkDg9ekCU2m1cdJLM02Uq691OaCS91tooaxcEn8d0q5w==",
       "path": "system.configuration.configurationmanager/5.0.0",
       "hashPath": "system.configuration.configurationmanager.5.0.0.nupkg.sha512"
+    },
+    "System.Data.SqlClient/4.9.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-j4KJO+vC62NyUtNHz854njEqXbT8OmAa5jb1nrGfYWBOcggyYUQE0w/snXeaCjdvkSKWuUD+hfvlbN8pTrJTXg==",
+      "path": "system.data.sqlclient/4.9.0",
+      "hashPath": "system.data.sqlclient.4.9.0.nupkg.sha512"
     },
     "System.Diagnostics.DiagnosticSource/5.0.0": {
       "type": "package",

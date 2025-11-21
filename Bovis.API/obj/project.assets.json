@@ -113,7 +113,7 @@
           }
         }
       },
-      "linq2db/4.4.0": {
+      "linq2db/5.1.0": {
         "type": "package",
         "compile": {
           "lib/net6.0/linq2db.dll": {
@@ -972,6 +972,41 @@
           }
         }
       },
+      "runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "type": "package",
+        "dependencies": {
+          "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
+          "runtime.win-x64.runtime.native.System.Data.SqlClient.sni": "4.4.0",
+          "runtime.win-x86.runtime.native.System.Data.SqlClient.sni": "4.4.0"
+        }
+      },
+      "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-arm64/native/sni.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          }
+        }
+      },
+      "runtime.win-x64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-x64/native/sni.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          }
+        }
+      },
+      "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/win-x86/native/sni.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
       "Serilog/2.10.0": {
         "type": "package",
         "compile": {
@@ -1217,6 +1252,35 @@
         "runtime": {
           "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
             "related": ".xml"
+          }
+        }
+      },
+      "System.Data.SqlClient/4.9.0": {
+        "type": "package",
+        "dependencies": {
+          "runtime.native.System.Data.SqlClient.sni": "4.4.0"
+        },
+        "compile": {
+          "lib/net6.0/System.Data.SqlClient.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Data.SqlClient.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/net6.0/System.Data.SqlClient.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/net6.0/System.Data.SqlClient.dll": {
+            "assetType": "runtime",
+            "rid": "win"
           }
         }
       },
@@ -1794,8 +1858,9 @@
           "Bovis.Data.Interface": "1.0.0",
           "Microsoft.Data.SqlClient": "5.0.1",
           "Newtonsoft.Json": "13.0.2",
+          "System.Data.SqlClient": "4.9.0",
           "System.Linq.Dynamic.Core": "1.3.7",
-          "linq2db": "4.4.0"
+          "linq2db": "5.0.1"
         },
         "compile": {
           "bin/placeholder/Bovis.Data.dll": {}
@@ -1980,10 +2045,10 @@
         "pkgicon.png"
       ]
     },
-    "linq2db/4.4.0": {
-      "sha512": "6/u1EzQlV25bhN0Ej/I5dLV5Hgxun+ww/TX2VnMBnSVytED2VzQGeFIO/14I624GkfPOtB79x1ooL3F18dAbdw==",
+    "linq2db/5.1.0": {
+      "sha512": "amqMxqHtZq3xw8N4TMbkMhI9UkGaxxGFj/xBBm/9il1Bgtw9WTjjOFt9V7X2FPhPaAhEw8U2tzCiDKX8TUegNA==",
       "type": "package",
-      "path": "linq2db/4.4.0",
+      "path": "linq2db/5.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2004,7 +2069,7 @@
         "lib/netstandard2.0/linq2db.xml",
         "lib/netstandard2.1/linq2db.dll",
         "lib/netstandard2.1/linq2db.xml",
-        "linq2db.4.4.0.nupkg.sha512",
+        "linq2db.5.1.0.nupkg.sha512",
         "linq2db.nuspec"
       ]
     },
@@ -3311,6 +3376,69 @@
         "packageIcon.png"
       ]
     },
+    "runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "sha512": "A8v6PGmk+UGbfWo5Ixup0lPM4swuSwOiayJExZwKIOjTlFFQIsu3QnDXECosBEyrWSPryxBVrdqtJyhK3BaupQ==",
+      "type": "package",
+      "path": "runtime.native.system.data.sqlclient.sni/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+        "runtime.native.system.data.sqlclient.sni.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "runtime.win-arm64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "sha512": "LbrynESTp3bm5O/+jGL8v0Qg5SJlTV08lpIpFesXjF6uGNMWqFnUQbYBJwZTeua6E/Y7FIM1C54Ey1btLWupdg==",
+      "type": "package",
+      "path": "runtime.win-arm64.runtime.native.system.data.sqlclient.sni/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+        "runtime.win-arm64.runtime.native.system.data.sqlclient.sni.nuspec",
+        "runtimes/win-arm64/native/sni.dll",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "runtime.win-x64.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "sha512": "38ugOfkYJqJoX9g6EYRlZB5U2ZJH51UP8ptxZgdpS07FgOEToV+lS11ouNK2PM12Pr6X/PpT5jK82G3DwH/SxQ==",
+      "type": "package",
+      "path": "runtime.win-x64.runtime.native.system.data.sqlclient.sni/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+        "runtime.win-x64.runtime.native.system.data.sqlclient.sni.nuspec",
+        "runtimes/win-x64/native/sni.dll",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
+    "runtime.win-x86.runtime.native.System.Data.SqlClient.sni/4.4.0": {
+      "sha512": "YhEdSQUsTx+C8m8Bw7ar5/VesXvCFMItyZF7G1AUY+OM0VPZUOeAVpJ4Wl6fydBGUYZxojTDR3I6Bj/+BPkJNA==",
+      "type": "package",
+      "path": "runtime.win-x86.runtime.native.system.data.sqlclient.sni/4.4.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+        "runtime.win-x86.runtime.native.system.data.sqlclient.sni.nuspec",
+        "runtimes/win-x86/native/sni.dll",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "Serilog/2.10.0": {
       "sha512": "+QX0hmf37a0/OZLxM3wL7V6/ADvC1XihXN4Kq/p6d8lCPfgkRdiuhbWlMaFjR9Av0dy5F0+MBeDmDdRZN/YwQA==",
       "type": "package",
@@ -3623,6 +3751,39 @@
         "system.configuration.configurationmanager.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "System.Data.SqlClient/4.9.0": {
+      "sha512": "j4KJO+vC62NyUtNHz854njEqXbT8OmAa5jb1nrGfYWBOcggyYUQE0w/snXeaCjdvkSKWuUD+hfvlbN8pTrJTXg==",
+      "type": "package",
+      "path": "system.data.sqlclient/4.9.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "buildTransitive/net461/System.Data.SqlClient.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Data.SqlClient.targets",
+        "lib/net462/System.Data.SqlClient.dll",
+        "lib/net462/System.Data.SqlClient.xml",
+        "lib/net6.0/System.Data.SqlClient.dll",
+        "lib/net6.0/System.Data.SqlClient.xml",
+        "lib/net8.0/System.Data.SqlClient.dll",
+        "lib/net8.0/System.Data.SqlClient.xml",
+        "lib/netstandard2.0/System.Data.SqlClient.dll",
+        "lib/netstandard2.0/System.Data.SqlClient.xml",
+        "runtimes/unix/lib/net6.0/System.Data.SqlClient.dll",
+        "runtimes/unix/lib/net6.0/System.Data.SqlClient.xml",
+        "runtimes/unix/lib/net8.0/System.Data.SqlClient.dll",
+        "runtimes/unix/lib/net8.0/System.Data.SqlClient.xml",
+        "runtimes/win/lib/net6.0/System.Data.SqlClient.dll",
+        "runtimes/win/lib/net6.0/System.Data.SqlClient.xml",
+        "runtimes/win/lib/net8.0/System.Data.SqlClient.dll",
+        "runtimes/win/lib/net8.0/System.Data.SqlClient.xml",
+        "system.data.sqlclient.4.9.0.nupkg.sha512",
+        "system.data.sqlclient.nuspec"
       ]
     },
     "System.Diagnostics.DiagnosticSource/5.0.0": {
@@ -5050,24 +5211,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\norberto_baltezar\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\jmmor\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+      "projectUniqueName": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
       "projectName": "Bovis.API",
-      "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
-      "packagesPath": "C:\\Users\\norberto_baltezar\\.nuget\\packages\\",
-      "outputPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.API\\obj\\",
+      "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+      "packagesPath": "C:\\Users\\jmmor\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\norberto_baltezar\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\jmmor\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5082,35 +5238,35 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Business.Interface\\Bovis.Business.Interface.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Business\\Bovis.Business.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Common.Mapper\\Bovis.Common.Mapper.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Common\\Bovis.Common.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data.Interface\\Bovis.Data.Interface.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.EventHandlers\\Bovis.Service.EventHandlers.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.Queries.Dto\\Bovis.Service.Queries.Dto.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.Queries.Interface\\Bovis.Service.Queries.Interface.csproj"
             },
-            "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
-              "projectPath": "E:\\DESARROLLO\\LP SOLUTIONS\\Pendientes\\Hunkabann\\BOVIS\\Code\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj"
+            "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj": {
+              "projectPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Service.Queries\\Bovis.Service.Queries.csproj"
             }
           }
         }
@@ -5123,7 +5279,7 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "direct"
+        "auditMode": "all"
       }
     },
     "frameworks": {
@@ -5174,6 +5330,28 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.Net.Sdk.Compilers.Toolset",
+            "version": "[9.0.100, 9.0.100]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -5182,8 +5360,120 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Bovis.Data depende de linq2db (>= 5.0.1), pero no se encontró linq2db 5.0.1. Se resolvió una mejor coincidencia aproximada de linq2db 5.1.0.",
+      "libraryId": "linq2db",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Azure.Identity\" 1.6.0 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-5mfx-4wcx-rv27",
+      "libraryId": "Azure.Identity",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Azure.Identity\" 1.6.0 tiene una vulnerabilidad de gravedad moderada conocida, https://github.com/advisories/GHSA-m5vv-6r4h-3vj9",
+      "libraryId": "Azure.Identity",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Azure.Identity\" 1.6.0 tiene una vulnerabilidad de gravedad moderada conocida, https://github.com/advisories/GHSA-wvxc-855f-jvrv",
+      "libraryId": "Azure.Identity",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Microsoft.Data.SqlClient\" 5.0.1 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
+      "libraryId": "Microsoft.Data.SqlClient",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"Microsoft.IdentityModel.JsonWebTokens\" 6.25.1 tiene una vulnerabilidad de gravedad moderada conocida, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
+      "libraryId": "Microsoft.IdentityModel.JsonWebTokens",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1904",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"System.Drawing.Common\" 5.0.0 tiene una vulnerabilidad de gravedad crítica conocida, https://github.com/advisories/GHSA-rxg9-xrhp-64gj",
+      "libraryId": "System.Drawing.Common",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"System.Formats.Asn1\" 6.0.0 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-447r-wph3-92pm",
+      "libraryId": "System.Formats.Asn1",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"System.IdentityModel.Tokens.Jwt\" 6.25.1 tiene una vulnerabilidad de gravedad moderada conocida, https://github.com/advisories/GHSA-59j7-ghrg-fj52",
+      "libraryId": "System.IdentityModel.Tokens.Jwt",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"System.Linq.Dynamic.Core\" 1.3.7 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-4cv2-4hjh-77rx",
+      "libraryId": "System.Linq.Dynamic.Core",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    },
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "El paquete \"System.Security.Cryptography.Pkcs\" 6.0.1 tiene una vulnerabilidad de gravedad alta conocida, https://github.com/advisories/GHSA-555c-2p6r-68mm",
+      "libraryId": "System.Security.Cryptography.Pkcs",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }
