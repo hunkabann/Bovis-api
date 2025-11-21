@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|c:\\users\\jmmor\\source\\repos\\bovis-api\\bovis-api\\bovis.api\\bovis.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|solutionrelative:bovis.api\\bovis.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\jmmor\\source\\repos\\bovis-api\\bovis-api\\bovis.data\\bovis.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|solutionrelative:bovis.data\\bovis.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|c:\\users\\jmmor\\source\\repos\\bovis-api\\bovis-api\\bovis.api\\bovis.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{BA6985DE-E940-423F-928B-EC36499D2716}|Bovis.API\\Bovis.API.csproj|solutionrelative:bovis.api\\bovis.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{075F7841-29B4-4290-8CFB-CB1CB350E2AF}|Bovis.Data\\Bovis.Data.csproj|c:\\users\\jmmor\\source\\repos\\bovis-api\\bovis-api\\bovis.data\\pcsdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,34 +26,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 18,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Bovis.API",
-              "DocumentMoniker": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
-              "RelativeDocumentMoniker": "Bovis.API\\Bovis.API.csproj",
-              "ToolTip": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
-              "RelativeToolTip": "Bovis.API\\Bovis.API.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-21T02:01:26.416Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Bovis.Data",
-              "DocumentMoniker": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
-              "RelativeDocumentMoniker": "Bovis.Data\\Bovis.Data.csproj",
-              "ToolTip": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
-              "RelativeToolTip": "Bovis.Data\\Bovis.Data.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABLAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-11-21T02:00:13.379Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -121,6 +95,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:133:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Bovis.API",
+              "DocumentMoniker": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+              "RelativeDocumentMoniker": "Bovis.API\\Bovis.API.csproj",
+              "ToolTip": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.API\\Bovis.API.csproj",
+              "RelativeToolTip": "Bovis.API\\Bovis.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-21T02:01:26.416Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Bovis.Data",
+              "DocumentMoniker": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj",
+              "RelativeDocumentMoniker": "Bovis.Data\\Bovis.Data.csproj",
+              "ToolTip": "C:\\Users\\jmmor\\source\\repos\\Bovis-api\\Bovis-api\\Bovis.Data\\Bovis.Data.csproj*",
+              "RelativeToolTip": "Bovis.Data\\Bovis.Data.csproj*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-21T02:00:13.379Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
