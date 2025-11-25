@@ -80,7 +80,11 @@ namespace Bovis.Common.Model.NoTable
         public string? nukidresponsable { get; set; }
         public string? chresponsable { get; set; }
 
-
+        //LEO inputs para FEEs I
+        public int? overheadPorcentaje { get; set; }
+        public int? utilidadPorcentaje { get; set; }
+        public int? contingenciaPorcentaje { get; set; }
+        //LEO inputs para FEEs F
 
 
     }

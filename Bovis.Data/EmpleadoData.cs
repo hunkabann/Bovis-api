@@ -7,6 +7,7 @@ using LinqToDB;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -692,7 +693,18 @@ namespace Bovis.Data
                         emp.chedad = $"{años_edad} años";
                     }
 
-                    return resp;
+                //LEO TBD I
+                DataTable? dt = new DataTable();
+                decimal dcCosto = -1;
+                dt = costoPorPuestoTBD(idPuesto);
+                dcCosto = ValidaCostoTBD(dt);
+
+                resp.Insert(0, new Empleado_Detalle()
+                              { nunum_empleado_rr_hh = "000", nombre_persona = "TBD", nucostoMensualEmpleado = dcCosto }
+                    );
+                //LEO TBD F
+
+                return resp;
                 }
             //}
             //else return await GetAllFromEntityAsync<Empleado_Detalle>();
@@ -1615,7 +1627,8 @@ namespace Bovis.Data
                                       {
                                           nunum_proyecto = proy.NumProyecto,
                                           chproyecto = proy.Proyecto,
-                                          chalcance = proy.Alcance,
+//                                          chalcance = proy.Alcance,
+                                          chalcance = proy.Alcance == null ? "" : proy.Alcance,
                                           chcp = proy.Cp,
                                           chciudad = proy.Ciudad,
                                           nukidestatus = proy.IdEstatus,
@@ -1832,6 +1845,64 @@ namespace Bovis.Data
 
         }
 
+        //LEO TBD I
+        public DataTable? costoPorPuestoTBD(string chpuesto)
+        {
+            string sQuery = "";
+            DataTable dt = new DataTable();
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_costo_tbd";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nupuesto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = chpuesto;
+                    cmd.Parameters.Add(param01);
+                    
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(dt);
+
+                    con.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                    dt = null;
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+            return dt;
+        }   // costoPorPuestoTBD
+
+        private decimal ValidaCostoTBD(DataTable? dt)
+        {
+            decimal dec = -1;
+            if (dt == null)
+            {
+                return dec;
+            }
+
+            dec = Convert.ToDecimal(dt.Rows[0][0].ToString());
+            return dec;
+        }
+        //LEO TBD F
     }
 
 

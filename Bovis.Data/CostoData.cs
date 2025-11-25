@@ -265,7 +265,15 @@ namespace Bovis.Data
                         SqlDataAdapter da = new SqlDataAdapter(cmd);
                         con.Open();
                         da.Fill(dt);
-                        retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        if (dt.Columns.Count == 0 || dt.Rows.Count == 0)
+                        {
+                            retorno = 0;
+                        }
+                        else
+                        {
+                            retorno = Convert.ToDecimal(dt.Rows[0][0]);
+                        }
+                        
                         con.Close();
                     }
                 }
@@ -287,10 +295,155 @@ namespace Bovis.Data
 
         }   // costoPorEmpleado
 
-
-
-        #region GetCostosEmpleado
+       #region GetCostosEmpleado
         public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
+        {
+            //se regresa a la funcionalidad original pero con el cambio de que se filtre por numEmpleado en la nueva consulta de Linq
+            CostoQueries QueryBase = new(dbConfig);
+            //var costos = await QueryBase.CostosEmpleados(); //LEO Fix CostosEmpleado Seleccionar Empleado, se comenta para que use la  nueva función que tarda menos
+            var costos = await QueryBase.CostosEmpleadosPorEmpleado(NumEmpleadoRrHh);//LEO Fix CostosEmpleado Seleccionar Empleado 
+            var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
+            if (hist)
+            {
+                if (resp.Count > 0)
+                {
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = true,
+                        Data = resp,
+                        Message = "Ok"
+                    };
+
+                }
+                else
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = false,
+                        Message = $"No se encontraron históricos de costos del empleado: {NumEmpleadoRrHh}"
+
+                    };
+
+
+            }
+            else
+            {
+
+                var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
+                if (listaCostos.Count > 0)
+                {
+                    //LEO TBD I 
+                    if (NumEmpleadoRrHh.Trim().Contains("|TBD"))
+                    {
+                        //se trata de un empleado TBD o no existente y consigue el valor del TBD en proyecto_fase_empleado con el costo_ini
+                        listaCostos[0].CostoMensualEmpleado = costoPorEmpleadoTBD(NumEmpleadoRrHh);
+                    }
+                    else
+                    {
+                        //se trata de un empleado existente que siga por el camino de siempre
+                        listaCostos[0].CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                    }
+                    //LEO TBD F
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = true,
+                        Data = listaCostos,
+                        Message = "Ok"
+                    };
+                }
+                else
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = false,
+                        Message = $"No se encontraron registros de costos para el empleado: {NumEmpleadoRrHh}"
+                    };
+            }
+
+
+        }
+
+        //LEO Fix CostosEmpleado Seleccionar Empleado I
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleadoSoloCosto(string NumEmpleadoRrHh, bool hist)
+        {
+
+            // LDTF
+            //CostoQueries QueryBase = new(dbConfig);
+            //var costos = await QueryBase.CostosEmpleados();
+            //var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+
+
+            if (hist)
+            {
+                // estas definiciones inicialmente estaban fuera del if
+                CostoQueries QueryBase = new(dbConfig);
+                var costos = await QueryBase.CostosEmpleadosPorEmpleado(NumEmpleadoRrHh);
+                var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
+                if (resp.Count > 0)
+                {
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = true,
+                        Data = resp,
+                        Message = "Ok"
+                    };
+
+                }
+                else
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = false,
+                        Message = $"No se encontraron históricos de costos del empleado: {NumEmpleadoRrHh}"
+
+                    };
+
+
+            }
+            else
+            {
+                Costo_Detalle cd = new Costo_Detalle();
+                cd.NumEmpleadoRrHh = NumEmpleadoRrHh;
+                //cd.CostoMensualEmpleado = 59805.01429m;
+                //cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh); //LEO TBD, se comenta para buscar el costo de un empleado TBD
+                //LEO TBD I 
+                if (NumEmpleadoRrHh.Trim().Contains("|TBD"))
+                {
+                    //se trata de un empleado TBD o no existente y consigue el valor del TBD en proyecto_fase_empleado con el costo_ini
+                    cd.CostoMensualEmpleado = costoPorEmpleadoTBD(NumEmpleadoRrHh);
+                }
+                else
+                {
+                    //se trata de un empleado existente que siga por el camino de siempre
+                    cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                }
+                //LEO TBD F
+
+                List<Costo_Detalle> cdl = new List<Costo_Detalle>();
+                cdl.Add(cd);
+
+                //var listaCostos = resp.Where(reg => reg.RegHistorico == false).ToList();
+                //if (listaCostos.Count > 0)
+                if (cd.CostoMensualEmpleado > 0)
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = true,
+                        //Data = listaCostos,    //LDTF
+                        Data = cdl,
+                        Message = "Ok"
+                    };
+                else
+                    return new Common.Response<List<Costo_Detalle>>()
+                    {
+                        Success = false,
+                        Message = $"No se encontraron registros de sólo costos para el empleado: {NumEmpleadoRrHh}"
+                    };
+            }
+
+
+        } //GetCostosEmpleadoSoloCosto
+        //LEO Fix CostosEmpleado Seleccionar Empleado F
+
+        //LEO TBD
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist)
         {
 
             // LDTF
@@ -329,8 +482,18 @@ namespace Bovis.Data
             {
                 Costo_Detalle cd = new Costo_Detalle();
                 cd.NumEmpleadoRrHh = NumEmpleadoRrHh;
-                //cd.CostoMensualEmpleado = 59805.01429m;
-                cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                
+                if (NumEmpleadoRrHh.Trim() == "0" || NumEmpleadoRrHh.Trim() == "000")
+                {
+                    //se trata de un empleado TBD o no existente y consigue el valor del Puesto
+                    cd.CostoMensualEmpleado = costoPorEmpleadoPuesto(NumPuesto);
+                }
+                else 
+                {
+                    //se trata de un empleado existente que siga por el camino de siempre
+                    cd.CostoMensualEmpleado = costoPorEmpleado(NumEmpleadoRrHh);
+                }
+                
                 List<Costo_Detalle> cdl = new List<Costo_Detalle>();
                 cdl.Add(cd);
 
@@ -354,6 +517,106 @@ namespace Bovis.Data
 
 
         }
+
+        public decimal costoPorEmpleadoPuesto(string NumPuesto)
+        {
+            decimal retorno = -1m;
+            string sQuery = "";
+            DataTable dt = new DataTable();
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_costo_tbd";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nupuesto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = NumPuesto;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(dt);
+
+                    decimal.TryParse(dt.Rows[0][0].ToString(), out retorno);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // costoPorEmpleadoPuesto
+
+        public decimal costoPorEmpleadoTBD(string NumEmpleado)
+        {
+            decimal retorno = -1m;
+            string sQuery = "";
+            DataTable dt = new DataTable();
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_costo_empleado_tbd";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nuempleado", SqlDbType.VarChar, 35);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = NumEmpleado;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(dt);
+
+                    decimal.TryParse(dt.Rows[0][0].ToString(), out retorno);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return retorno;
+
+        }   // costoPorEmpleadoTBD
         #endregion
 
         #region GetCostoEmpleado
@@ -1396,5 +1659,173 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
 
     }
 
+    //LEO Fix CostosEmpleado Seleccionar Empleado I
+    public async Task<List<Costo_Detalle>> CostosEmpleadosPorEmpleado(string numEmpleadoRrHh)
+    {
+        using (var db = new ConnectionDB(_dbConfig))
+        {
+
+
+
+            var result = await (from costos in db.tB_Costo_Por_Empleados
+                                join personaEmp in db.tB_Personas on costos.IdPersona equals personaEmp.IdPersona into personaEmpJoin
+                                from personaEmpItem in personaEmpJoin.DefaultIfEmpty()
+                                join empleadoCosto in db.tB_Empleados on costos.NumEmpleadoRrHh equals empleadoCosto.NumEmpleadoRrHh into empleadoCostoJoin
+                                from empleadoCostoItem in empleadoCostoJoin.DefaultIfEmpty()
+                                join ciudad in db.tB_Ciudads on empleadoCostoItem.IdCiudad equals ciudad.IdCiudad into ciudadJoin
+                                from ciudadItem in ciudadJoin.DefaultIfEmpty()
+                                join puesto in db.tB_Cat_Puestos on costos.IdPuesto equals puesto.IdPuesto into puestoJoin
+                                from puestoItem in puestoJoin.DefaultIfEmpty()
+                                join proyecto in db.tB_Proyectos on costos.NumProyecto equals proyecto.NumProyecto into proyectoJoin
+                                from proyectoItem in proyectoJoin.DefaultIfEmpty()
+                                    //ATC 21-11-2024
+                                    //join unidadN in db.tB_Cat_UnidadNegocios on costos.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                join unidadN in db.tB_Cat_UnidadNegocios on empleadoCostoItem.IdUnidadNegocio equals unidadN.IdUnidadNegocio into unidadNJoin
+                                from unidadNItem in unidadNJoin.DefaultIfEmpty()
+                                join empresa in db.tB_Empresas on costos.IdEmpresa equals empresa.IdEmpresa into empresaJoin
+                                from empresaItem in empresaJoin.DefaultIfEmpty()
+                                join empleadoJefe in db.tB_Empleados on costos.IdEmpleadoJefe equals empleadoJefe.NumEmpleadoRrHh into empleadoJefeJoin
+                                from empleadoJefeItem in empleadoJefeJoin.DefaultIfEmpty()
+                                join personaJefe in db.tB_Personas on empleadoJefeItem.IdPersona equals personaJefe.IdPersona into personaJefeJoin
+                                from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
+                                join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
+                                from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
+                                where costos.NumEmpleadoRrHh == numEmpleadoRrHh
+                                select new Costo_Detalle
+                                {
+                                    IdCostoEmpleado = costos.IdCostoEmpleado,
+                                    // Empleado
+                                    IdPersona = costos.IdPersona,
+                                    NumEmpleadoRrHh = costos.NumEmpleadoRrHh,
+                                    // ATC
+                                    //NumEmpleadoNoi = costos.NumEmpleadoNoi,
+                                    NumEmpleadoNoi = Convert.ToInt32(empleadoCostoItem.NoEmpleadoNoi),
+                                    NombreCompletoEmpleado = personaEmpItem != null ? personaEmpItem.Nombre + " " + personaEmpItem.ApPaterno + " " + personaEmpItem.ApMaterno : string.Empty,
+                                    ApellidoPaterno = personaEmpItem != null ? personaEmpItem.ApPaterno : string.Empty,
+                                    ApellidoMaterno = personaEmpItem != null ? personaEmpItem.ApMaterno : string.Empty,
+                                    NombreEmpleado = personaEmpItem != null ? personaEmpItem.Nombre : string.Empty,
+                                    IdCiudad = ciudadItem != null ? ciudadItem.IdCiudad : 0,
+                                    Ciudad = ciudadItem != null ? ciudadItem.Ciudad : string.Empty,
+                                    Reubicacion = costos.Reubicacion,
+                                    IdPuesto = costos.IdPuesto,
+                                    Puesto = puestoItem != null ? puestoItem.Puesto : string.Empty,
+                                    NumProyecto = costos.NumProyecto,
+                                    Proyecto = proyectoItem != null ? proyectoItem.Proyecto : string.Empty,
+                                    IdUnidadNegocio = empleadoCostoItem.IdUnidadNegocio,
+                                    UnidadNegocio = unidadNItem != null ? unidadNItem.UnidadNegocio : string.Empty,
+                                    IdEmpresa = costos.IdEmpresa,
+                                    Empresa = empresaItem != null ? empresaItem.Empresa : string.Empty,
+                                    Timesheet = costos.Timesheet,
+                                    IdEmpleadoJefe = costos.IdEmpleadoJefe,
+                                    NombreJefe = personaJefeItem != null ? personaJefeItem.Nombre + " " + personaJefeItem.ApPaterno + " " + personaJefeItem.ApMaterno : string.Empty,
+                                    // Seniority
+                                    FechaIngreso = costos.FechaIngreso,
+                                    Antiguedad = costos.Antiguedad,
+                                    // Sueldo neto mensual (MN)
+                                    AvgDescuentoEmpleado = costos.AvgDescuentoEmpleado,
+                                    MontoDescuentoMensual = costos.MontoDescuentoMensual,
+                                    SueldoNetoPercibidoMensual = costos.SueldoNetoPercibidoMensual,
+                                    RetencionImss = costos.RetencionImss,
+                                    Ispt = costos.Ispt,
+                                    // Sueldo bruto MN/USD
+                                    SueldoBrutoInflacion = costos.SueldoBruto,
+                                    Anual = costos.Anual,
+                                    // Aguinaldo
+                                    AguinaldoCantidadMeses = costos.AguinaldoCantMeses,
+                                    AguinaldoMontoProvisionMensual = costos.AguinaldoMontoProvisionMensual,
+                                    // Prima vacacional
+                                    PvDiasVacasAnuales = costos.PvDiasVacasAnuales,
+                                    PvProvisionMensual = costos.PvProvisionMensual,
+                                    // Indemnización
+                                    IndemProvisionMensual = costos.IndemProvisionMensual,
+                                    // Provisión bono anual
+                                    AvgBonoAnualEstimado = costos.AvgBonoAnualEstimado,
+                                    BonoAnualProvisionMensual = costos.BonoAnualProvisionMensual,
+                                    // GMM
+                                    SgmmCostoTotalAnual = costos.SgmmCostoTotalAnual,
+                                    SgmmCostoMensual = costos.SgmmCostoMensual,
+                                    // Seguro de vida
+                                    SvCostoTotalAnual = costos.SvCostoTotalAnual,
+                                    SvCostoMensual = costos.SvCostoMensual,
+                                    // Vales de despensa
+                                    VaidCostoMensual = costos.VaidCostoMensual,
+                                    VaidComisionCostoMensual = costos.VaidComisionCostoMensual,
+                                    // PTU
+                                    PtuProvision = costos.PtuProvision,
+                                    // Cargas sociales e impuestos laborales
+                                    Impuesto3sNomina = costos.Impuesto3sNomina,
+                                    Imss = costos.Imss,
+                                    Retiro2 = costos.Retiro2,
+                                    CesantesVejez = costos.CesantesVejez,
+                                    Infonavit = costos.Infonavit,
+                                    CargasSociales = costos.CargasSociales,
+                                    // Costo total laboral BLL
+                                    CostoMensualEmpleado = costos.CostoMensualEmpleado,
+                                    CostoMensualProyecto = costos.CostoMensualProyecto,
+                                    CostoAnualEmpleado = costos.CostoAnualEmpleado,
+                                    CostoSalarioBruto = costos.CostoSalarioBruto,
+                                    CostoSalarioNeto = costos.CostoSalarioNeto,
+
+                                    NuAnno = costos.NuAnno,
+                                    NuMes = costos.NuMes,
+                                    FechaActualizacion = costos.FechaActualizacion,
+                                    RegHistorico = costos.RegHistorico,
+                                    Categoria = categoriaEmpItem.Categoria,
+                                    SalarioDiarioIntegrado = empleadoCostoItem.Cotizacion,
+                                    //ATC
+                                    ImpuestoNomina = proyectoItem.ImpuestoNomina,
+                                }).ToListAsync();
+
+            foreach (var r in result)
+            {
+                r.Beneficios = new List<Beneficio_Costo_Detalle>();
+                r.Beneficios.AddRange(await (from eb in db.tB_EmpleadoBeneficios
+                                             join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                             from bItem in bJoin.DefaultIfEmpty()
+                                             where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
+                                             && eb.RegHistorico == false
+                                             select new Beneficio_Costo_Detalle
+                                             {
+                                                 Id = eb.Id,
+                                                 IdBeneficio = eb.IdBeneficio,
+                                                 Beneficio = bItem != null ? bItem.Beneficio : string.Empty,
+                                                 NumEmpleadoRrHh = eb.NumEmpleadoRrHh,
+                                                 Costo = eb.Costo,
+                                                 Mes = eb.Mes,
+                                                 Anio = eb.Anno,
+                                                 FechaActualizacion = eb.FechaActualizacion,
+                                                 RegHistorico = eb.RegHistorico
+                                             }).ToListAsync());
+            }
+
+            foreach (var r in result)
+            {
+                r.Beneficiosproyecto = new List<Beneficio_Costo_Detalle>();
+                r.Beneficiosproyecto.AddRange(await (from eb in db.tB_EmpleadoProyectoBeneficios
+                                                     join b in db.tB_Cat_Beneficios on eb.IdBeneficio equals b.IdBeneficio into bJoin
+                                                     from bItem in bJoin.DefaultIfEmpty()
+                                                     where eb.NumEmpleadoRrHh == r.NumEmpleadoRrHh
+
+                                                     select new Beneficio_Costo_Detalle
+                                                     {
+                                                         //Id = eb.Id,
+                                                         IdBeneficio = eb.IdBeneficio,
+                                                         Beneficio = bItem != null ? bItem.Beneficio : string.Empty,
+                                                         NumEmpleadoRrHh = eb.NumEmpleadoRrHh,
+                                                         nucostobeneficio = eb.nucostobeneficio,
+                                                         NumProyecto = eb.NumProyecto
+                                                         //Costo = eb.Costo,
+                                                         //Mes = eb.Mes,
+                                                         //Anio = eb.Anno,
+                                                         //FechaActualizacion = eb.FechaActualizacion,
+                                                         //RegHistorico = eb.RegHistorico
+                                                     }).ToListAsync());
+            }
+
+            return result;
+
+        }
+        //LEO Fix CostosEmpleado Seleccionar Empleado F
+    }
 }
 

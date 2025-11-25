@@ -14,6 +14,10 @@ namespace Bovis.Common.Model.Tables
         [Column("Boaplica_todos_meses"), Nullable] public bool? AplicaTodosMeses { get; set; }
         [Column("Nunum_proyecto"), NotNull] public int NumProyecto { get; set; }
         [Column("Boactivo"), Nullable] public bool? Activo { get; set; }
+        [Column("Dtfecha_vigencia_ini"), Nullable,] public DateTime Vigencia_Ini { get; set; }//LEO Gastos comentarios
+        [Column("Dtfecha_vigencia_fin"), Nullable,] public DateTime Vigencia_Fin { get; set; }//LEO Gastos comentarios
+
+        [Column("Chcomentario"), Nullable] public string? Comentario { get; set; } //LEO Gastos comentarios
     }
 }
 

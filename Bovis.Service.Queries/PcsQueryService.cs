@@ -109,6 +109,11 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.AddEtapa(registro);
             return new Response<PCS_Etapa_Detalle> { Data = _map.Map<PCS_Etapa_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+        public async Task<Response<PCS_GanttData>> GetPEtapas(int IdProyecto)
+        {
+            var response = await _pcsBusiness.GetPEtapas(IdProyecto);
+            return new Response<PCS_GanttData> { Data = _map.Map<PCS_GanttData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
         public async Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto)
         {
             var response = await _pcsBusiness.GetEtapas(IdProyecto);
@@ -171,6 +176,22 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetTotalesIngresos(IdProyecto);
             return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+
+        //LEO inputs para FEEs I
+        public async Task<Response<(bool Success, string Message)>> UpdateTotalesIngresosFee(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateTotalesIngresosFee(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+        //LEO inputs para FEEs F
+
+        // LDTF  actualizacion de cobranza y facturación
+        public async Task<Response<(bool Success, string Message)>> UpdateFacturacionCobranza(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateFacturacionCobranza(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+
         public async Task<Response<(bool Success, string Message)>> UpdateGastosIngresos(JsonObject registro)
         {
             var response = await _pcsBusiness.UpdateGastosIngresos(registro);

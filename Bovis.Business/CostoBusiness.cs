@@ -69,6 +69,19 @@ namespace Bovis.Business
         {
             return _costoData.GetCostosEmpleado(NumEmpleadoRrHh, hist);
         }
+        
+        //LEO Fix CostosEmpleado Seleccionar Empleado I
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoSoloCosto(string NumEmpleadoRrHh, bool hist)
+        {
+            return _costoData.GetCostosEmpleadoSoloCosto(NumEmpleadoRrHh, hist);
+        }
+        //LEO Fix CostosEmpleado Seleccionar Empleado F
+
+        //LEO TBD
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto,bool hist)
+        {
+            return _costoData.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
+        }
         #endregion
 
         #region GetCostoEmpleado

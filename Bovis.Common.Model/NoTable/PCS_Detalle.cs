@@ -7,9 +7,21 @@ using System.Threading.Tasks;
 
 namespace Bovis.Common.Model.NoTable
 {
+    public class PCS_GanttData
+    {
+        public List<PCS_GanttDataFase> data { get; set; }
+    }
+
+    public class PCS_GanttDataFase
+    {
+        public string[] X { get; set; }
+        public string Y { get; set; }
+    }
+
     public class PCS_Proyecto_Detalle
     {
         public int NumProyecto { get; set; }
+        public string NombreProyecto { get; set; }
         public DateTime? FechaIni { get; set; }
         public DateTime? FechaFin { get; set; }
         public List<PCS_Etapa_Detalle> Etapas { get; set; }
@@ -37,6 +49,8 @@ namespace Bovis.Common.Model.NoTable
         public bool? Reembolsable { get; set; }
         public decimal? NuCostoIni { get; set; }
         public string? ChAlias { get; set; }
+        public string? EtiquetaTBD { get; set; } //LEO TBD
+        public string? IdPuesto { get; set; } //LEO TBD
         public List<PCS_Fecha_Detalle> Fechas { get; set; }
     }
 
@@ -71,6 +85,10 @@ namespace Bovis.Common.Model.NoTable
         public List<PCS_Fecha_Totales>? Ingreso { get; set; }
         public List<PCS_Fecha_Totales>? Facturacion { get; set; }
         public List<PCS_Fecha_Totales>? Cobranza { get; set; }
+
+        public int overheadPorcentaje { get; set; }//LEO inputs para FEEs
+        public int utilidadPorcentaje { get; set; }//LEO inputs para FEEs
+        public int contingenciaPorcentaje { get; set; }//LEO inputs para FEEs
     }
 
     public class Seccion_Detalle
@@ -97,6 +115,7 @@ namespace Bovis.Common.Model.NoTable
         public string? NumEmpleadoRrHh { get; set; }
         public decimal? CostoMensual { get; set; }
         public List<PCS_Fecha_Detalle>? Fechas { get; set; }
+        public string chcomentarios { get; set; } //LEO Gastos comentarios
     }
 
     public class PCS_Fecha_Suma
@@ -181,4 +200,16 @@ namespace Bovis.Common.Model.NoTable
         public Control_PrevistoReal Real { get; set; }
     }
 
+    //LEO TBD I
+    public class Rubro_Detalle_Apoyo : Rubro_Detalle
+    {
+        public int? IdFase { get; set; }
+    }
+
+    public class PCS_Fecha_Detalle_Apoyo: PCS_Fecha_Detalle
+    {
+        public string NumEmpleadoRrHh { get; set; }
+        public int? IdFase { get; set; }
+    }
+    //LEO TBD F
 }

@@ -1,20 +1,24 @@
+using Bovis.API.Helper;
 using Bovis.Service.Queries;
+using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Dto.Commands;
 using Bovis.Service.Queries.Dto.Request;
-using Bovis.Service.Queries.Dto.Both;
 using Bovis.Service.Queries.Interface;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
-using Bovis.API.Helper;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Nodes; // para JsonObject
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Bovis.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController, Route("api/[controller]")]
     public class PcsController : ControllerBase
     {
@@ -164,6 +168,13 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("EtapasP/{IdProyecto}")]
+        public async Task<IActionResult> GetPEtapas(int IdProyecto)
+        {
+            var query = await _pcsQueryService.GetPEtapas(IdProyecto);
+            return Ok(query);
+        }
+
         [HttpGet, Route("Etapas/{IdProyecto}")]
         public async Task<IActionResult> GetEtapas(int IdProyecto)
         {
@@ -273,9 +284,26 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        //LEO inputs para FEEs I
+        [HttpPut, Route("TotalesIngresos/Fee")]
+        public async Task<IActionResult> UpdateTotalesIngresosFee([FromBody] JsonObject registro)
+        {
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+
+            var query = await _pcsQueryService.UpdateTotalesIngresosFee(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+        }
+
+        //LEO inputs para FEEs F
+
+        /*
         [HttpPut, Route("GastosIngresos")]
         public async Task<IActionResult> UpdateGastosIngresos([FromBody] JsonObject registro)
         {
+            Console.WriteLine(">>> Entró al método UpdateGastosIngresos <<<");
+
             IHeaderDictionary headers = HttpContext.Request.Headers;
             string email = headers["email"];
             string nombre = headers["nombre"];
@@ -288,9 +316,82 @@ namespace Bovis.API.Controllers
             registroJsonObject.Add("Rel", 1053);
 
             var query = await _pcsQueryService.UpdateGastosIngresos(registroJsonObject);
+            if (query.Message == string.Empty) 
+                return Ok(query);
+            else 
+                return BadRequest(query.Message);
+
+        }   // UpdateGastosIngresos
+        */
+
+        //LDTF
+        [HttpPut, Route("FacturacionCobranza")]
+        public async Task<IActionResult> UpdateFacturacionCobranza([FromBody] JsonObject registro)
+        {
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+
+            var query = await _pcsQueryService.UpdateFacturacionCobranza(registroJsonObject);
             if (query.Message == string.Empty) return Ok(query);
             else return BadRequest(query.Message);
-        }
+
+        }   // UpdateFacturacionCobranza
+
+
+        [HttpPut, Route("GastosIngresos")]
+        public async Task<IActionResult> UpdateGastosIngresos([FromBody] JsonObject registro)
+        {
+            //Console.WriteLine(">>> Entró al método UpdateGastosIngresos <<<");
+
+            try
+            {
+                // Log para verificar la entrada completa
+               // Console.WriteLine($">>> JSON recibido: {registro}");
+
+                IHeaderDictionary headers = HttpContext.Request.Headers;
+                string email = headers["email"];
+                string nombre = headers["nombre"];
+
+                JsonObject registroJsonObject = new JsonObject
+                {
+                    { "Registro", registro },
+                    { "Nombre", nombre },
+                    { "Usuario", email },
+                    { "Roles", string.Empty },
+                    { "TransactionId", TransactionId },
+                    { "Rel", 1053 }
+                };
+
+                //Console.WriteLine(">>> JSON final que se enviará a UpdateGastosIngresos (business layer):");
+                //Console.WriteLine(registroJsonObject.ToJsonString());
+
+                var query = await _pcsQueryService.UpdateGastosIngresos(registroJsonObject);
+
+                //Console.WriteLine(">>> Resultado del query:");
+                //Console.WriteLine($"Success: {query.Success}");
+                //Console.WriteLine($"Message: {query.Message}");
+
+                if (string.IsNullOrEmpty(query.Message))
+                {
+                    //Console.WriteLine(">>> Respuesta OK enviada al cliente");
+                    return Ok(query);
+                }
+                else
+                {
+                    //Console.WriteLine(">>> Respuesta BAD REQUEST enviada al cliente");
+                    return BadRequest(query.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine(">>> EXCEPCIÓN EN UpdateGastosIngresos <<<");
+                //Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error interno: {ex.Message}");
+            }
+
+        }   // UpdateGastosIngresos
+
+
 
         [HttpGet, Route("GastosIngresos/{IdProyecto}/TotalFacturacion")]
         public async Task<IActionResult> GetTotalFacturacion(int IdProyecto)

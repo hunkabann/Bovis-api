@@ -91,6 +91,7 @@ namespace Bovis.Business
         #region Etapas
         public Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 
+        public Task<PCS_GanttData> GetPEtapas(int IdProyecto) => _pcsData.GetPEtapas(IdProyecto);
         public Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto) => _pcsData.GetEtapas(IdProyecto);
 
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)
@@ -140,6 +141,38 @@ namespace Bovis.Business
         public Task<List<Seccion_Detalle>> GetGastosIngresosSecciones(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresosSecciones(IdProyecto, Tipo);
         public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion) => _pcsData.GetGastosIngresos(IdProyecto, Tipo, Seccion);
         public Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto) => _pcsData.GetTotalesIngresos(IdProyecto);
+
+        // LDTF
+        public async Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateFacturacionCobranza((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+            }
+            return resp;
+
+        }   // UpdateFacturacionCobranza
+
+
+        //LEO inputs para FEEs I
+        public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateTotalesIngresosFee((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+               //_transactionData.AddMovApi(new Mov_Api { Nombre = registro["Nombre"].ToString(), Roles = registro["Roles"].ToString(), Usuario = registro["Usuario"].ToString(), FechaAlta = DateTime.Now, IdRel = Convert.ToInt32(registro["Rel"].ToString()), ValorNuevo = registro["Registro"].ToString() });
+            }
+            return resp;
+        }
+        //LEO inputs para FEEs F
+
+        /*
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
@@ -152,6 +185,61 @@ namespace Bovis.Business
             }
             return resp;
         }
+        */
+
+
+        public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            try
+            {
+                Console.WriteLine(">>> Entró a UpdateGastosIngresos (Business layer)");
+                Console.WriteLine($">>> Registro recibido: {registro}");
+
+                var registroObj = registro["Registro"]?.AsObject();
+                if (registroObj == null)
+                {
+                    resp.Success = false;
+                    resp.Message = "El campo 'Registro' no tiene un objeto JSON válido.";
+                    return resp;
+                }
+
+                var respData = await _pcsData.UpdateGastosIngresos(registroObj);
+
+                if (!respData.Success)
+                {
+                    resp.Success = false;
+                    resp.Message = $"No se pudo actualizar el registro en la base de datos: {respData.Message}";
+                    return resp;
+                }
+
+                resp = respData;
+
+                // Registro de movimiento
+                _transactionData.AddMovApi(new Mov_Api
+                {
+                    Nombre = registro["Nombre"]?.ToString(),
+                    Roles = registro["Roles"]?.ToString(),
+                    Usuario = registro["Usuario"]?.ToString(),
+                    FechaAlta = DateTime.Now,
+                    IdRel = Convert.ToInt32(registro["Rel"]?.ToString() ?? "0"),
+                    ValorNuevo = registroObj.ToJsonString()
+                });
+
+                Console.WriteLine(">>> Actualización completada correctamente");
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(">>> EXCEPCIÓN en UpdateGastosIngresos (Business layer):");
+                Console.WriteLine(ex.ToString());
+                return (false, $"Error interno: {ex.Message}");
+            }
+
+        }   // UpdateGastosIngresos
+
+
         public Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto) => _pcsData.GetTotalFacturacion(IdProyecto);
         #endregion Gastos / Ingresos
 

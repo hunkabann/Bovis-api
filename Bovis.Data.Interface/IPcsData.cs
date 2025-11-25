@@ -39,6 +39,7 @@ namespace Bovis.Data.Interface
         #region Etapas
         Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro);
         Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto);
+        Task<PCS_GanttData> GetPEtapas(int IdProyecto);
         Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro);
         Task<(bool Success, string Message)> DeleteEtapa(int IdEtapa);
         #endregion Etapas
@@ -60,6 +61,9 @@ namespace Bovis.Data.Interface
         Task<List<Seccion_Detalle>> GetGastosIngresosSecciones(int IdProyecto, string Tipo);
         Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion);
         Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto);
+
+        Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro);//LEO inputs para FEEs
+        Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro); // LDTF
         Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
         Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto);
         #endregion Gastos / Ingresos
