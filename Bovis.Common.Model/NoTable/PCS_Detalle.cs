@@ -18,6 +18,16 @@ namespace Bovis.Common.Model.NoTable
         public string Y { get; set; }
     }
 
+
+    public class PCS_Proyecto_Inflacion
+    {
+        public int NumProyecto { get; set; }
+        public int Nuprocentaje { get; set; }
+        public int Numes_ini_calculo { get; set; }
+
+    }   // PCS_Proyecto_Inflacion
+
+
     public class PCS_Proyecto_Detalle
     {
         public int NumProyecto { get; set; }
@@ -125,6 +135,7 @@ namespace Bovis.Common.Model.NoTable
         public int? Anio { get; set; }
         public decimal? SumaPorcentaje { get; set; }
     }
+
 
     public class PCS_Fecha_Totales
     {

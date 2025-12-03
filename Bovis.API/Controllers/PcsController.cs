@@ -399,6 +399,29 @@ namespace Bovis.API.Controllers
             var query = await _pcsQueryService.GetTotalFacturacion(IdProyecto);
             return Ok(query);
         }
+
+
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/ProyectoInFlacion/{sFecha?}")]
+        public async Task<IActionResult> GetProyectoInFlacion(int IdProyecto, string? sFecha)
+        {
+            var query = await _pcsQueryService.GetProyectoInFlacion(IdProyecto, sFecha);
+            return Ok(query);
+        }
+
+        //LDTF
+        [HttpPut, Route("GastosIngresos/ProyectoInFlacion")]
+        public async Task<IActionResult> UpdateProyectoInFlacion([FromBody] JsonObject registro)
+        {
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+
+            var query = await _pcsQueryService.UpdateProyectoInFlacion(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+
+        }   // UpdateProyectoInFlacion
+
+
         #endregion Gastos / Ingresos
 
 

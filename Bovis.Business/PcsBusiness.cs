@@ -157,6 +157,20 @@ namespace Bovis.Business
         }   // UpdateFacturacionCobranza
 
 
+        public async Task<(bool Success, string Message)> UpdateProyectoInFlacion(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateProyectoInFlacion((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+            }
+            return resp;
+
+        }   // UpdateFacturacionCobranza
+
+
         //LEO inputs para FEEs I
         public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
         {
@@ -238,6 +252,9 @@ namespace Bovis.Business
             }
 
         }   // UpdateGastosIngresos
+
+
+        public Task<PCS_Proyecto_Inflacion> GetProyectoInFlacion(int IdProyecto, string? sFecha) => _pcsData.GetProyectoInFlacion(IdProyecto, sFecha);     // LDTF
 
 
         public Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto) => _pcsData.GetTotalFacturacion(IdProyecto);

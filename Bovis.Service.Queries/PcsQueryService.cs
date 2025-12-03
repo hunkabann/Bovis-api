@@ -203,6 +203,17 @@ namespace Bovis.Service.Queries
             return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
+        public async Task<Response<PCS_Proyecto_Inflacion>> GetProyectoInFlacion(int IdProyecto, string? sFecha)
+        {
+            var response = await _pcsBusiness.GetProyectoInFlacion(IdProyecto, sFecha);
+            return new Response<PCS_Proyecto_Inflacion> { Data = _map.Map<PCS_Proyecto_Inflacion>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<(bool Success, string Message)>> UpdateProyectoInFlacion(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateProyectoInFlacion(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+
         #endregion Gastos / Ingresos
 
 

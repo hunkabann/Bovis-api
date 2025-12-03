@@ -2303,9 +2303,81 @@ namespace Bovis.Data
         }//TotalesIngresosAsignaFees
 
 
+
+        /**
+         * Actualiza la tabla de tb_proyecto_inflacion
+         * Actualizando los valores si son del mismo día
+         * cierra los registros anteriores y genera nuevos si se tiene cambio de día
+         * LDTF
+         */
+        public async Task<(bool Success, string Message)> UpdateProyectoInFlacion(JsonObject registro)
+        {
+            try
+            {
+                // extraer valores del JSON
+                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
+                int nuprocentaje = Convert.ToInt32(registro["nuprocentaje"]?.ToString());
+                int numes_ini_calculo = Convert.ToInt32(registro["numes_ini_calculo"]?.ToString());
+
+
+                // Elegir stored procedure según Tipo
+                string stored = "sp_proyecto_inflacion_guardar";
+
+                //Console.WriteLine("stored: " + stored);
+
+                var db = new ConnectionDB(dbConfig);
+
+                using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(stored, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // parámetros 
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = numProyecto
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = nuprocentaje
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@numes_ini_calculo", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = numes_ini_calculo
+                    });
+
+
+                    // ejecución estilo DataAdapter
+                    System.Data.SqlClient.SqlDataAdapter da = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+
+                    con.Open();
+                    da.Fill(ds);
+                    con.Close();
+
+                }
+
+                // Regresar éxito
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+
+        }   // UpdateProyectoInFlacion
+
+
+
+
         /**
          * Actualiza la tabla de tb_proyecto_facturacion o tb_proyecto cobranza por proyecto
-         * Actualizando los valores si sin del mismo día
+         * Actualizando los valores si son del mismo día
          * cierra los registros anteriores y genera nuevos si se tiene cambio de día
          * LDTF
          */
@@ -2506,6 +2578,74 @@ namespace Bovis.Data
             return retorno;
 
         }   // getTotalesRubroFacturacion
+
+
+        public async Task<PCS_Proyecto_Inflacion> GetProyectoInFlacion(int IdProyecto, string? sFecha)
+        {
+            PCS_Proyecto_Inflacion retorno = new PCS_Proyecto_Inflacion();
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_inflacion_consulta";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@chfecha", SqlDbType.VarChar, 10);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = string.IsNullOrWhiteSpace(sFecha) ? DBNull.Value : sFecha;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow row = dt.Rows[0];
+
+                        retorno.NumProyecto = row.Field<int>("nunum_proyecto");
+                        retorno.Nuprocentaje = row.Field<int>("nuprocentaje");
+                        retorno.Numes_ini_calculo = row.Field<int>("numes_ini_calculo");
+                    }
+                    con.Close();
+
+                    boOk = true;
+                    return retorno;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+            return retorno;
+
+        }   // GetProyectoInFlacion
+
 
         private List<PCS_Fecha_Totales> getTotalesRubroCobranza(int IdProyecto, string? sFecha)
         {

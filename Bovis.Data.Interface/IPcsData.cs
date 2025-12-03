@@ -64,6 +64,9 @@ namespace Bovis.Data.Interface
 
         Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro);//LEO inputs para FEEs
         Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro); // LDTF
+        Task<PCS_Proyecto_Inflacion> GetProyectoInFlacion(int IdProyecto, string? sFecha);  // LDTF
+        Task<(bool Success, string Message)> UpdateProyectoInFlacion(JsonObject registro); // LDTF
+
         Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
         Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto);
         #endregion Gastos / Ingresos
