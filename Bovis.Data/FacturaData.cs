@@ -10,6 +10,7 @@ using LinqToDB.Tools;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Bovis.Data
 {
@@ -305,8 +306,11 @@ namespace Bovis.Data
                                      Id = a.Id,
                                      Uuid = a.Uuid,
                                      NumProyecto = a.NumProyecto,
-                                     Cliente = dItem.Cliente ?? string.Empty,
-                                     ClienteRFC = dItem.Rfc ?? string.Empty,
+                                     //Cliente = dItem.Cliente ?? string.Empty,
+                                     //ClienteRFC = dItem.Rfc ?? string.Empty,
+                                     Cliente = ObtenerClienteDesdeXml(a.XmlB64), // Obtenemos el cliente desde el XML base64
+                                     ClienteRFC = ObtenerRfcDesdeXml(a.XmlB64), // Obtenemos el RFC desde el XML base64
+                                     
                                      IdEmpresa = (int)cItem.IdEmpresa,
                                      Empresa = eItem.Empresa,
                                      EmpresaRFC = eItem.Rfc,
@@ -1510,5 +1514,60 @@ namespace Bovis.Data
             return datosCFDI;
         }        
         #endregion
+        // Método para obtener el nombre del cliente desde el XML
+            public string ObtenerClienteDesdeXml(string xmlBase64)
+            {
+                try
+                {
+                    // Decodificamos el XML en base64
+                    byte[] xmlBytes = Convert.FromBase64String(xmlBase64);
+                    string xmlString = Encoding.UTF8.GetString(xmlBytes);
+             
+                    // Parseamos el XML
+                    XDocument xmlDoc = XDocument.Parse(xmlString);
+             
+                    // Extraemos el nombre del receptor
+                    var receptorElement = xmlDoc.Descendants(XName.Get("Receptor", "http://www.sat.gob.mx/cfd/4")).FirstOrDefault();
+                    if (receptorElement != null)
+                    {
+                        return receptorElement.Attribute(XName.Get("Nombre"))?.Value ?? string.Empty;
+                    }
+             
+                    return string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    // Si ocurre algún error, retornamos un mensaje de error
+                    return $"Error al procesar el XML: {ex.Message}";
+                }
+            }
+             
+            // Método para obtener el RFC del cliente desde el XML
+            public string ObtenerRfcDesdeXml(string xmlBase64)
+            {
+                try
+                {
+                    // Decodificamos el XML en base64
+                    byte[] xmlBytes = Convert.FromBase64String(xmlBase64);
+                    string xmlString = Encoding.UTF8.GetString(xmlBytes);
+             
+                    // Parseamos el XML
+                    XDocument xmlDoc = XDocument.Parse(xmlString);
+             
+                    // Extraemos el RFC del receptor
+                    var receptorElement = xmlDoc.Descendants(XName.Get("Receptor", "http://www.sat.gob.mx/cfd/4")).FirstOrDefault();
+                    if (receptorElement != null)
+                    {
+                        return receptorElement.Attribute(XName.Get("Rfc"))?.Value ?? string.Empty;
+                    }
+             
+                    return string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    // Si ocurre algún error, retornamos un mensaje de error
+                    return $"Error al procesar el RFC del XML: {ex.Message}";
+                }
+            }
     }
 }
