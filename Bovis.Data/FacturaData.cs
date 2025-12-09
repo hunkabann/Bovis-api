@@ -10,6 +10,7 @@ using LinqToDB.Tools;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Bovis.Data
 {
