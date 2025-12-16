@@ -422,6 +422,19 @@ namespace Bovis.API.Controllers
         }   // UpdateProyectoInFlacion
 
 
+        //FEE libre
+        [HttpPut, Route("GastosIngresos/Fee")]
+        public async Task<IActionResult> UpdateGastosIngresosFee([FromBody] JsonObject registro)
+        {
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+
+            var query = await _pcsQueryService.UpdateGastosIngresosFee(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+
+        }   // UpdateGastosIngresosFee
+
         #endregion Gastos / Ingresos
 
 

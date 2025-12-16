@@ -1684,7 +1684,26 @@ namespace Bovis.Data
                                        FechaFin = p.FechaFin
                                    }).ToListAsync();
 
-                var seccion = await (from secc in db.tB_GastoIngresoSeccions
+                var seccion = new Seccion_Detalle(); //FEE libre
+
+                //FEE libre I 
+                if (Tipo == "ingreso" && Seccion == "FEE")
+                {
+                    seccion = await (from secc in db.tB_GastoIngresoSeccions
+                                     where secc.Tipo == "INGRESO" //Tipo.ToUpper()
+                                     && secc.Seccion == Seccion
+
+                                     select new Seccion_Detalle
+                                     {
+                                         IdSeccion = secc.IdSeccion,
+                                         Codigo = secc.Codigo,
+                                         Seccion = secc.Seccion
+                                     }).FirstOrDefaultAsync();
+                }
+                else
+                {
+                    //FEE libre F
+                    seccion = await (from secc in db.tB_GastoIngresoSeccions
                                      where secc.Tipo == "GASTO" //Tipo.ToUpper()
                                      && secc.Seccion == Seccion
 
@@ -1694,6 +1713,7 @@ namespace Bovis.Data
                                          Codigo = secc.Codigo,
                                          Seccion = secc.Seccion
                                      }).FirstOrDefaultAsync();
+                }//FEE libre
 
                 proyecto_gastos_ingresos.Secciones.Add(seccion!);
 
@@ -1800,6 +1820,44 @@ namespace Bovis.Data
 
                     }
                 }
+                // FEE libre I
+                else if(Tipo == "ingreso" && seccion.IdSeccion == 17) // FEE libre
+                {
+                    rubros = await (from rubro in db.tB_Rubros
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.Activo == true 
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rel2.Tipo == "INGRESO" 
+                                    && rubro.Reembolsable == true
+                                    select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses == null ? true : rubro.AplicaTodosMeses,
+                                        Fechas = new List<PCS_Fecha_Detalle>(),
+                                        chcomentarios = rubro.Comentario == null ? "" : rubro.Comentario, //LEO Gastos Comenmtarios
+                                    }).ToListAsync();
+
+                    rubros = rubros.Where(r => r != null).ToList();
+                    seccion.Rubros.AddRange(rubros);
+
+                    List<PCS_Fecha_Detalle> lstFechas = new List<PCS_Fecha_Detalle>();
+                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
+                    {
+                        //recorriendo cada rubro encontrado
+                        getRubroValorPorProyectoSeccion(IdProyecto, rubro.Rubro, seccion.IdSeccion, "", out lstFechas);
+                        rubro!.Fechas = lstFechas;
+                    }
+
+                }
+                // FEE libre F
                 else
                 {
                     rubros = await (from rubro in db.tB_Rubros
@@ -3270,6 +3328,252 @@ namespace Bovis.Data
         }//AgregaRubroFechasTBD
 
         //LEO TBD F
+
+
+        private void getRubroValorPorProyectoSeccion(int IdProyecto, string sRubro, int IdSeccion, string sFecha, out List<PCS_Fecha_Detalle> retorno)
+        {
+            retorno = new List<PCS_Fecha_Detalle>();
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_rubro_valor_consulta";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.VarChar, 20);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdSeccion;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@chfecha", SqlDbType.VarChar, 20);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = sFecha == "" ? null : sFecha;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataSet ds = new DataSet();
+                    cda.Fill(ds);
+
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        PCS_Fecha_Detalle oElemento = new PCS_Fecha_Detalle();
+                        oElemento.Id = row.Field<int>("Id");
+                        oElemento.Rubro = sRubro;
+                        oElemento.RubroReembolsable = true;
+                        oElemento.Mes = row.Field<int>("numes");
+                        oElemento.Anio = row.Field<int>("nuanio");
+                        oElemento.Porcentaje = row.Field<decimal>("nuporcentaje");
+
+                        retorno.Add(oElemento);
+                    }
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+        }// getRubroValorPorProyectoSeccion
+
+        //FEE libre
+        public async Task<(bool Success, string Message)> UpdateGastosIngresosFee(JsonObject registro)
+        {
+            int? iAnio = -1;
+
+            try
+            {
+                // extraer valores del JSON
+                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
+                int tipo = Convert.ToInt32(registro["tipo"]?.ToString());
+                int idSeccion = Convert.ToInt32(registro["idSeccion"]?.ToString());
+
+                // determinar si el JSON contiene "facturacion" o "cobranza"
+                JsonArray datosJson = null;
+                if (registro.ContainsKey("fees"))
+                    datosJson = registro["fees"]!.AsArray();
+                else
+                    return (false, "No se encontró 'fee' en el JSON.");
+                List<PCS_Fecha_Totales> datos = new();
+
+                foreach (var item in datosJson)
+                {
+                    datos.Add(new PCS_Fecha_Totales
+                    {
+                        Reembolsable = item?["Reembolsable"]?.GetValue<bool?>(),
+                        Anio = item?["Anio"]?.GetValue<int?>(),
+                        Mes = item?["Mes"]?.GetValue<int?>(),
+                        TotalPorcentaje = item?["TotalPorcentaje"]?.GetValue<decimal?>()
+                    });
+                }
+
+                if (datos.Count > 0)
+                {
+                    iAnio = datos[0].Anio;
+                }
+
+                // Indicar stored procedure
+                string stored = "sp_rubro_valor_actualiza";
+
+                //Console.WriteLine("stored: " + stored);
+
+                var db = new ConnectionDB(dbConfig);
+
+                using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(stored, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // parámetros normales
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = numProyecto
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = idSeccion
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuanio", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = iAnio
+                    });
+
+                    // convertir lista a DataTable 
+                    DataTable tvp = datos.ToDataTable();
+
+                    // ajustar columnas al TVP
+                    if (tvp.Columns.Contains("Reembolsable"))
+                        tvp.Columns.Remove("Reembolsable");
+                    if (tvp.Columns.Contains("Anio"))
+                        tvp.Columns.Remove("Anio");
+
+                    if (tvp.Columns.Contains("TotalPorcentaje"))
+                        tvp.Columns["TotalPorcentaje"].ColumnName = "nuvalor";
+
+                    //tvp.Columns["Anio"].SetOrdinal(0);      // primera columna
+                    tvp.Columns["Mes"].SetOrdinal(0);       // segunda columna
+                    tvp.Columns["nuvalor"].SetOrdinal(1);   // tercera columna
+
+                    // parámetro TVP
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@tvp_mes_porcentaje", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.tvp_mes_porcentaje",
+                        Value = tvp
+                    });
+
+                    
+
+                    // ejecución estilo DataAdapter
+                    System.Data.SqlClient.SqlDataAdapter da = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+
+                    con.Open();
+                    da.Fill(ds);
+                    con.Close();
+
+                }
+
+                // Regresar éxito
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+
+        }   // UpdateGastosIngresosFee
+
+        public bool UpdateGastosIngresosFee(int nunumProyecto, int nuid_seccion, DataTable dt)
+        {
+            string sQuery = "";
+            bool boOk = false;
+            int iAnio = -1;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_rubro_valor_actualiza";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = nunumProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = nuid_seccion;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@nuanio", SqlDbType.VarChar, 3);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = iAnio;
+                    cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@tvp_mes_porcentaje", SqlDbType.Structured);
+                    param05.Direction = ParameterDirection.Input;
+                    param05.Value = dt;
+                    cmd.Parameters.Add(param05);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return boOk;
+        }   // insertRubroValorPorProyectoSeccion
 
         #endregion Gastos / Ingresos
 

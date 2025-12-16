@@ -69,6 +69,9 @@ namespace Bovis.Data.Interface
 
         Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro);
         Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto);
+
+        Task<(bool Success, string Message)> UpdateGastosIngresosFee(JsonObject registro); // FEE libre
+
         #endregion Gastos / Ingresos
 
 

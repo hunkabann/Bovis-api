@@ -258,6 +258,20 @@ namespace Bovis.Business
 
 
         public Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto) => _pcsData.GetTotalFacturacion(IdProyecto);
+
+        public async Task<(bool Success, string Message)> UpdateGastosIngresosFee(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateGastosIngresosFee((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+            }
+            return resp;
+
+        }   // UpdateGastosIngresosFee
+
         #endregion Gastos / Ingresos
 
 

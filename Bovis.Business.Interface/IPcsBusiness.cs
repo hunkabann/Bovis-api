@@ -68,6 +68,9 @@ namespace Bovis.Business.Interface
         Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto);
         Task<PCS_Proyecto_Inflacion> GetProyectoInFlacion(int IdProyecto, string? sFecha);   // LDTF
         Task<(bool Success, string Message)> UpdateProyectoInFlacion(JsonObject registro); //LDTF
+
+        Task<(bool Success, string Message)> UpdateGastosIngresosFee(JsonObject registro); //FEE libre
+
         #endregion Gastos / Ingresos
 
 
