@@ -1852,7 +1852,7 @@ namespace Bovis.Data
                     foreach (var rubro in seccion.Rubros.Where(r => r != null))
                     {
                         //recorriendo cada rubro encontrado
-                        getRubroValorPorProyectoSeccion(IdProyecto, rubro.Rubro, seccion.IdSeccion, "", out lstFechas);
+                        getRubroValorPorProyectoSeccion(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, "", out lstFechas);
                         rubro!.Fechas = lstFechas;
                     }
 
@@ -3330,7 +3330,7 @@ namespace Bovis.Data
         //LEO TBD F
 
 
-        private void getRubroValorPorProyectoSeccion(int IdProyecto, string sRubro, int IdSeccion, string sFecha, out List<PCS_Fecha_Detalle> retorno)
+        private void getRubroValorPorProyectoSeccion(int IdProyecto, int IdRubro, string sRubro, int IdSeccion, bool? bReembolsable, string sFecha, out List<PCS_Fecha_Detalle> retorno)
         {
             retorno = new List<PCS_Fecha_Detalle>();
 
@@ -3356,6 +3356,16 @@ namespace Bovis.Data
                     param02.Direction = ParameterDirection.Input;
                     param02.Value = IdSeccion;
                     cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = IdRubro;
+                    cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit);
+                    param05.Direction = ParameterDirection.Input;
+                    param05.Value = bReembolsable;
+                    cmd.Parameters.Add(param05);
 
                     System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@chfecha", SqlDbType.VarChar, 20);
                     param03.Direction = ParameterDirection.Input;
@@ -3412,6 +3422,8 @@ namespace Bovis.Data
                 int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
                 int tipo = Convert.ToInt32(registro["tipo"]?.ToString());
                 int idSeccion = Convert.ToInt32(registro["idSeccion"]?.ToString());
+                int idRubro = Convert.ToInt32(registro["idRubro"]?.ToString());
+                bool reembolsable = Convert.ToBoolean(registro["reembolsable"]?.ToString());
 
                 // determinar si el JSON contiene "facturacion" o "cobranza"
                 JsonArray datosJson = null;
@@ -3460,6 +3472,12 @@ namespace Bovis.Data
                     {
                         Direction = ParameterDirection.Input,
                         Value = idSeccion
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = idRubro
                     });
 
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuanio", SqlDbType.Int)
