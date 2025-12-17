@@ -422,6 +422,20 @@ namespace Bovis.API.Controllers
         }   // UpdateProyectoInFlacion
 
 
+        //LDTF
+        [HttpPut, Route("GastosIngresos/ProyectoInFlacion/RubroValor")]
+        public async Task<IActionResult> UpdateRubroValorInflacion([FromBody] JsonObject registro)
+        {
+            JsonObject registroJsonObject = new JsonObject();
+            registroJsonObject.Add("Registro", registro);
+
+            var query = await _pcsQueryService.UpdateRubroValorInflacion(registroJsonObject);
+            if (query.Message == string.Empty) return Ok(query);
+            else return BadRequest(query.Message);
+
+        }   // UpdateRubroValorInflacion
+
+
         //FEE libre
         [HttpPut, Route("GastosIngresos/Fee")]
         public async Task<IActionResult> UpdateGastosIngresosFee([FromBody] JsonObject registro)

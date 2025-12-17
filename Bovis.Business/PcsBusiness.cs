@@ -171,6 +171,20 @@ namespace Bovis.Business
         }   // UpdateFacturacionCobranza
 
 
+        public async Task<(bool Success, string Message)> UpdateRubroValorInflacion(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+            var respData = await _pcsData.UpdateRubroValorInflacion((JsonObject)registro["Registro"]);
+            if (!respData.Success) { resp.Success = false; resp.Message = "No se pudo actualizar el registro en la base de datos"; return resp; }
+            else
+            {
+                resp = respData;
+            }
+            return resp;
+
+        }   // UpdateRubroValorInflacion
+
+
         //LEO inputs para FEEs I
         public async Task<(bool Success, string Message)> UpdateTotalesIngresosFee(JsonObject registro)
         {

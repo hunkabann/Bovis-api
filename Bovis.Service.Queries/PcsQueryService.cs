@@ -214,6 +214,12 @@ namespace Bovis.Service.Queries
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
 
+        public async Task<Response<(bool Success, string Message)>> UpdateRubroValorInflacion(JsonObject registro)
+        {
+            var response = await _pcsBusiness.UpdateRubroValorInflacion(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+
         //FEE libre I
         public async Task<Response<(bool Success, string Message)>> UpdateGastosIngresosFee(JsonObject registro)
         {

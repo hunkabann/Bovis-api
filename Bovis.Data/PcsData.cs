@@ -2432,6 +2432,51 @@ namespace Bovis.Data
 
 
 
+        public async Task<(bool Success, string Message)> UpdateRubroValorInflacion(JsonObject registro)
+        {
+            try
+            {
+                // 1. Extraer valores del JSON
+                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
+                int idSeccion = Convert.ToInt32(registro["nukid_seccion"]?.ToString());
+                int idRubro = Convert.ToInt32(registro["nukid_rubro"]?.ToString());
+                int nuprocentaje = Convert.ToInt32(registro["nuprocentaje"]?.ToString());
+                int numes_ini_calculo = Convert.ToInt32(registro["numes_ini_calculo"]?.ToString());
+
+                // 2. Nombre del Stored Procedure
+                string stored = "sp_calcula_inflacion_actualiza_rubro_valor";
+
+                var db = new ConnectionDB(dbConfig);
+
+                using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(stored, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // 3. Agregar Parámetros
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int) { Value = numProyecto });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int) { Value = idSeccion });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int) { Value = idRubro });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Int) { Value = nuprocentaje });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@numes_ini_calculo", SqlDbType.Int) { Value = numes_ini_calculo });
+
+                    // 4. Ejecución
+                    // Si el SP no devuelve una tabla, es más eficiente usar ExecuteNonQueryAsync
+                    con.Open();
+                    await cmd.ExecuteNonQueryAsync();
+                    con.Close();
+                }
+
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
+
+
 
         /**
          * Actualiza la tabla de tb_proyecto_facturacion o tb_proyecto cobranza por proyecto
