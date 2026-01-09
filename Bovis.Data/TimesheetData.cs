@@ -286,7 +286,7 @@ namespace Bovis.Data
                                             && (is_admin == true || usrItem.NumEmpleadoRrHh == num_empleado_loged)
                                             && (idEmpleado == "0" || ts.IdEmpleado == idEmpleado)
                                             && (idProyecto == 0 || proyItem.IdProyecto == idProyecto)
-                                            && (idUnidadNegocio == 0 || emp1.IdUnidadNegocio == idUnidadNegocio)
+                                            && (idUnidadNegocio == 0 || emp2.IdUnidadNegocio == idUnidadNegocio)
                                             && (idEmpresa == 0 || empr.IdEmpresa == idEmpresa)
                                             //&& (mes == 0 || (currentMonth == 1 && ts.Mes == targetMonth && ts.Anio == targetYear) || (currentMonth > 1 && ts.Mes == targetMonth && ts.Anio == currentYear))
                                             && (mes == 0 || ts.Mes == mes)
