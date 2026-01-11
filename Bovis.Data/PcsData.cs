@@ -1658,6 +1658,7 @@ namespace Bovis.Data
         public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion)
         {
             GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+            
 
             using (var db = new ConnectionDB(dbConfig))
             {
@@ -2442,6 +2443,7 @@ namespace Bovis.Data
                 int idRubro = Convert.ToInt32(registro["nukid_rubro"]?.ToString());
                 int nuprocentaje = Convert.ToInt32(registro["nuprocentaje"]?.ToString());
                 int numes_ini_calculo = Convert.ToInt32(registro["numes_ini_calculo"]?.ToString());
+                bool boreembolsable = Convert.ToBoolean(registro["boreembolsable"]?.ToString());
 
                 // 2. Nombre del Stored Procedure
                 string stored = "sp_calcula_inflacion_actualiza_rubro_valor";
@@ -2459,6 +2461,27 @@ namespace Bovis.Data
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int) { Value = idRubro });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Int) { Value = nuprocentaje });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@numes_ini_calculo", SqlDbType.Int) { Value = numes_ini_calculo });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit) { Value = true });
+                    
+                    // 4. Ejecución
+                    // Si el SP no devuelve una tabla, es más eficiente usar ExecuteNonQueryAsync
+                    con.Open();
+                    await cmd.ExecuteNonQueryAsync();
+                    con.Close();
+                }
+
+                using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(stored, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // 3. Agregar Parámetros
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int) { Value = numProyecto });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int) { Value = idSeccion });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int) { Value = idRubro });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Int) { Value = nuprocentaje });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@numes_ini_calculo", SqlDbType.Int) { Value = numes_ini_calculo });
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit) { Value = false });
 
                     // 4. Ejecución
                     // Si el SP no devuelve una tabla, es más eficiente usar ExecuteNonQueryAsync
@@ -3531,6 +3554,12 @@ namespace Bovis.Data
                         Value = iAnio
                     });
 
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = true
+                    });
+
                     // convertir lista a DataTable 
                     DataTable tvp = datos.ToDataTable();
 
@@ -3607,6 +3636,11 @@ namespace Bovis.Data
                     param04.Direction = ParameterDirection.Input;
                     param04.Value = iAnio;
                     cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlParameter param06 = new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit);
+                    param06.Direction = ParameterDirection.Input;
+                    param06.Value = true;
+                    cmd.Parameters.Add(param06);
 
                     System.Data.SqlClient.SqlParameter param05 = new System.Data.SqlClient.SqlParameter("@tvp_mes_porcentaje", SqlDbType.Structured);
                     param05.Direction = ParameterDirection.Input;
