@@ -56,6 +56,8 @@ namespace Bovis.Common.Model.Tables
         [Column("Numes"), NotNull] public int NuMes { get; set; }
         [Column("Dtfecha_actualizacion"), NotNull] public DateTime? FechaActualizacion { get; set; }
         [Column("Boreg_historico"), NotNull] public bool RegHistorico { get; set; } = false;
+        [Column("dtfecha_vigencia_ini"), Nullable] public DateTime? dtfecha_vigencia_ini { get; set; } //LCEH
+        [Column("dtfecha_vigencia_fin"), Nullable] public DateTime? dtfecha_vigencia_fin { get; set; } //LCEH
     }
 
 }

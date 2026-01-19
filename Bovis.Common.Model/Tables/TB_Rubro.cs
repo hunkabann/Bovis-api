@@ -18,6 +18,8 @@ namespace Bovis.Common.Model.Tables
         [Column("Dtfecha_vigencia_fin"), Nullable,] public DateTime Vigencia_Fin { get; set; }//LEO Gastos comentarios
 
         [Column("Chcomentario"), Nullable] public string? Comentario { get; set; } //LEO Gastos comentarios
+        [Column("dtfecha_vigencia_ini"), Nullable] public DateTime? dtfecha_vigencia_ini { get; set; } //LCEH
+        [Column("dtfecha_vigencia_fin"), Nullable] public DateTime? dtfecha_vigencia_fin { get; set; } //LCEH
     }
 }
 

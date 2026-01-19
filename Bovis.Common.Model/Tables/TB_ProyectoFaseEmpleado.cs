@@ -20,5 +20,7 @@ namespace Bovis.Common.Model.Tables
         //LEO TBD
         [Column("etiqueta"), Nullable] public string etiqueta { get; set; }
         [Column("boactivo"), Nullable] public bool? Activo { get; set; }
+        [Column("dtfecha_vigencia_ini"), Nullable] public DateTime? dtfecha_vigencia_ini { get; set; } //LCEH
+        [Column("dtfecha_vigencia_fin"), Nullable] public DateTime? dtfecha_vigencia_fin { get; set; } //LCEH
     }
 }

@@ -29,5 +29,7 @@ namespace Bovis.Common.Model.Tables
         [Column("Chclasificacion_py"), Nullable] public string? ClasificacionPY { get; set; }
         [Column("Boactivo"), Nullable] public bool? Activo { get; set; }
         [Column("Nukid_archivo"), Nullable] public int? IdArchivo { get; set; }
+        [Column("dtfecha_vigencia_ini"), Nullable] public DateTime? dtfecha_vigencia_ini { get; set; } //LCEH
+        [Column("dtfecha_vigencia_fin"), Nullable] public DateTime? dtfecha_vigencia_fin { get; set; } //LCEH
     }
 }

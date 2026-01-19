@@ -28,6 +28,8 @@ namespace Bovis.Common.Model.Tables
         [Column("Chnombre_responsable_asignado"), Nullable] public string? ResponsableAsignado { get; set; }
         [Column("Nuimpuesto_nomina"), NotNull] public int ImpuestoNomina { get; set; }
         [Column("nukidunidaddenegocio"), Nullable] public int? IdUnidadDeNegocio { get; set; }   //atc
+		[Column("dtfecha_vigencia_ini"), Nullable] public DateTime? dtfecha_vigencia_ini { get; set; } //LCEH
+        [Column("dtfecha_vigencia_fin"), Nullable] public DateTime? dtfecha_vigencia_fin { get; set; } //LCEH
 
     }
 }
