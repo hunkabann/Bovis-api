@@ -39,7 +39,7 @@ namespace Bovis.Data
         #endregion base
 
         #region Empleados
-        public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo)
+        public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, JsonObject registro)
         {
             if (activo.HasValue)
             {
