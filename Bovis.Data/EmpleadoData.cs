@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Net.WebSockets;
@@ -19,12 +20,14 @@ using System.Threading.Tasks;
 using System.Transactions;
 using static LinqToDB.SqlQuery.SqlPredicate;
 
+
 namespace Bovis.Data
 {
     public class EmpleadoData : RepositoryLinq2DB<ConnectionDB>, IEmpleadoData
     {
         #region base
         private readonly string dbConfig = "DBConfig";
+        private readonly string sCultura = "es-Mx";
 
         public EmpleadoData()
         {
@@ -41,6 +44,11 @@ namespace Bovis.Data
         #region Empleados
         public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, JsonObject registro)
         {
+            string? fecha = registro["dtfecha"] != null ? registro["dtfecha"].ToString() : null;
+
+            DateTime fechaRecibida = new DateTime();
+            bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+
             if (activo.HasValue)
             {
                 using (var db = new ConnectionDB(dbConfig))
