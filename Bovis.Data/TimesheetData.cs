@@ -5,8 +5,10 @@ using Bovis.Common.Model.Tables;
 using Bovis.Data.Interface;
 using Bovis.Data.Repository;
 using LinqToDB;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -1013,6 +1015,91 @@ namespace Bovis.Data
             return resp;
         }
 
+        //Reporte EmpleadosXProyecto I
+        public async Task<TimeSheetEmpProyectoResponse> GetTimeSheetsEmpleadosProyecto(int idProyecto)
+        {
+            TimeSheetEmpProyectoResponse oRespuesta = new TimeSheetEmpProyectoResponse();
+            TimeSheetEmpProyectoGral general = new TimeSheetEmpProyectoGral();
+            List<TimeSheetEmpProyectoDetalle> lstdetalle = new List<TimeSheetEmpProyectoDetalle>();
+
+            DataSet ds = new DataSet();
+            string cadenaApoyo = "";
+            int iValor = -1;
+
+            ds = ReporteEmpleadosPorProyecto(idProyecto);
+
+            if (ds == null || ds.Tables[0].Rows.Count == 0)
+            {
+                return null;
+            }
+
+            //asignando los valores de detalle
+            cadenaApoyo = JsonConvert.SerializeObject(ds.Tables[0]);
+            lstdetalle = JsonConvert.DeserializeObject<List<TimeSheetEmpProyectoDetalle>>(cadenaApoyo);
+
+            //asignando valores del proyecto
+            Int32.TryParse(ds.Tables[1].Rows[0]["nunum_proyecto"].ToString(), out iValor);
+            general.nunum_proyecto = iValor;
+            general.chproyecto = ds.Tables[1].Rows[0]["chproyecto"].ToString();
+            general.dtfecha_ini = ds.Tables[1].Rows[0]["dtfecha_ini"].ToString();
+            general.dtfecha_fin = ds.Tables[1].Rows[0]["dtfecha_fin"].ToString();
+            Int32.TryParse(ds.Tables[1].Rows[0]["meses"].ToString(), out iValor);
+            general.meses = iValor;
+
+            oRespuesta.general = general;
+            oRespuesta.detalle = lstdetalle;
+
+            return oRespuesta;
+        }
+
+        public DataSet ReporteEmpleadosPorProyecto(int iIdProyecto)
+        {
+            string sQuery = "";
+            bool boOk = false;
+            DataSet ds = new DataSet();
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_timesheet_emp_x_proyecto_fijo";
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = iIdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+
+                    cda.Fill(ds);
+
+                    con.Close();
+
+                    boOk = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+
+                return ds;
+            }
+        }//ReporteEmpleadosPorProyecto
+        //Reporte EmpleadosXProyecto F
 
         #region Usuarios
         public async Task<(bool Success, string Message)> AddUsuarioTimesheet(JsonObject registro)

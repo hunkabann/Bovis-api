@@ -102,6 +102,18 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        //Reporte EmpleadosXProyecto I
+        [HttpGet, Route("TimeSheets/Filtro/{idProyecto}")]
+        public async Task<IActionResult> GetTimeSheetsEmpleadosProyecto(int idProyecto)
+        {
+            IHeaderDictionary headers = HttpContext.Request.Headers;
+            string email = headers["email"];
+
+            var query = await _timesheetQueryService.GetTimeSheetsEmpleadosProyecto(idProyecto);
+            return Ok(query);
+        }
+        //Reporte EmpladosXProyecto F
+
         [HttpGet, Route("Registro/{idTimeSheet}")]
         public async Task<IActionResult> GetTimeSheet(int idTimeSheet)
         {

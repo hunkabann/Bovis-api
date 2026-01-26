@@ -6,6 +6,7 @@ using System.Text.Json.Nodes;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Bovis.Business
 {
@@ -56,7 +57,7 @@ namespace Bovis.Business
         public Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? Activo) => _timesheetData.GetTimeSheets(Activo);
 
         public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes, int anio) => _timesheetData.GetTimeSheetsByFiltro(email, idEmpleado, idProyecto, idUnidadNegocio, idEmpresa, mes, anio);
-
+        public Task<TimeSheetEmpProyectoResponse> GetTimeSheetsEmpleadosProyecto(int idProyecto) => _timesheetData.GetTimeSheetsEmpleadosProyecto(idProyecto);//Reporte EmpleadosXProyecto
         public Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio) => _timesheetData.GetTimeSheetsByFecha(mes, anio);
 
         public Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet) => _timesheetData.GetTimeSheet(idTimeSheet);

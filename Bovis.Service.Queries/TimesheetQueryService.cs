@@ -8,6 +8,7 @@ using Bovis.Service.Queries.Dto.Responses;
 using Bovis.Service.Queries.Interface;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -69,6 +70,16 @@ namespace Bovis.Service.Queries
             return new Response<List<TimeSheet_Detalle>> { Data = _map.Map<List<TimeSheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
 
         }
+
+        //Reporte EmpleadosXProyecto I
+        public async Task<Response<TimeSheetEmpProyectoResponse>> GetTimeSheetsEmpleadosProyecto(int idProyecto)
+        {
+            var response = await _timesheetBusiness.GetTimeSheetsEmpleadosProyecto(idProyecto);
+            return new Response<TimeSheetEmpProyectoResponse> { Data = response, Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
+
+        }
+        //Reporte EmpleadosXProyectF
+
         public async Task<Response<List<TimeSheet_Detalle>>> GetTimeSheetsByFecha(int mes, int anio)
         {
             var response = await _timesheetBusiness.GetTimeSheetsByFecha(mes, anio);
