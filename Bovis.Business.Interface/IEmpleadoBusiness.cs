@@ -12,7 +12,7 @@ namespace Bovis.Business.Interface
     public interface IEmpleadoBusiness : IDisposable
     {
         #region Empleados
-        Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, JsonObject registro);
+        Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, string fecha);
         Task<List<Empleado_Detalle>> GetEmpleadosAll(bool? activo);
         //ATC 03-12-2024
         Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio);

@@ -28,7 +28,7 @@ namespace Bovis.Business
 
 
         #region Empleados
-        public Task<List<Empleado_Detalle>> GetEmpleados(bool? Activo, JsonObject registro) => _empleadoData.GetEmpleados(Activo, registro);
+        public Task<List<Empleado_Detalle>> GetEmpleados(bool? Activo, string fecha) => _empleadoData.GetEmpleados(Activo, fecha);
         public Task<List<Empleado_Detalle>> GetEmpleadosAll(bool? Activo) => _empleadoData.GetEmpleadosAll(Activo);
         //ATC 03-12-2024
         public Task<List<Empleado_Detalle>> GetEmpleadosAllFiltro(bool? Activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio) => _empleadoData.GetEmpleadosAllFiltro(Activo, idEstado, idPuesto, idProyecto, idEmpresa, idUnidadNegocio);

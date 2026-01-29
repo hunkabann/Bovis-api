@@ -42,10 +42,9 @@ namespace Bovis.Data
         #endregion base
 
         #region Empleados
-        public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, JsonObject registro)
+        public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, string fecha)
         {
-            string? fecha = registro["dtfecha"] != null ? registro["dtfecha"].ToString() : null;
-
+            
             DateTime fechaRecibida = new DateTime();
             bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
 
@@ -103,7 +102,14 @@ namespace Bovis.Data
                                       from turnoItem in turnoJoin.DefaultIfEmpty()
                                       join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
                                       from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
-                                      where emp.Activo == activo
+                                      where proyectoPrinItem != null
+                                            &&
+                                            (
+                                                esHoy == true
+                                                    ? proyectoPrinItem.dtfecha_vigencia_fin == null
+                                                    : proyectoPrinItem.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && proyectoPrinItem.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
                                       orderby perItem.Nombre ascending
                                       select new Empleado_Detalle
                                       {

@@ -35,10 +35,10 @@ namespace Bovis.API.Controllers
         }
 
         #region Empleados
-        [HttpPost, Route("Empleados/{Activo?}")]
-        public async Task<IActionResult> GetEmpleados(bool? Activo, [FromBody] JsonObject registro)
+        [HttpGet, Route("Empleados/{Activo?}/{fecha}")]
+        public async Task<IActionResult> GetEmpleados(bool? Activo, string fecha)
         {
-            var query = await _empleadoQueryService.GetEmpleados(Activo, registro);
+            var query = await _empleadoQueryService.GetEmpleados(Activo, fecha);
             return Ok(query);
         }
 

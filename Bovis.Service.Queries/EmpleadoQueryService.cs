@@ -36,9 +36,9 @@ namespace Bovis.Service.Queries
         #endregion base
 
         #region Empleados
-        public async Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo, JsonObject registro)
+        public async Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo, string fecha)
         {
-            var response = await _empleadoBusiness.GetEmpleados(Activo, registro);
+            var response = await _empleadoBusiness.GetEmpleados(Activo, fecha);
             return new Response<List<Empleado_Detalle>> { Data = _map.Map<List<Empleado_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 

@@ -10,7 +10,7 @@ namespace Bovis.Service.Queries.Interface
     public interface IEmpleadoQueryService
     {
         #region Empleados
-        Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo, JsonObject registro);
+        Task<Response<List<Empleado_Detalle>>> GetEmpleados(bool? Activo, string fecha);
         Task<Response<List<Empleado_Detalle>>> GetEmpleadosAll(bool? Activo);
         //ATC 03-12-2024
         Task<Response<List<Empleado_Detalle>>> GetEmpleadosAllFiltro(bool? Activo, int? idEstado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio);        
