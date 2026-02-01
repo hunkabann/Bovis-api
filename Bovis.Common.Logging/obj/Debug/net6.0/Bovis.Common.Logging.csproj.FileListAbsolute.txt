@@ -45,3 +45,15 @@ C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
 C:\Users\jmmor\Documents\GitHub\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.deps.json
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.dll
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\bin\Debug\net6.0\Bovis.Common.Logging.pdb
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.csproj.AssemblyReference.cache
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfoInputs.cache
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.AssemblyInfo.cs
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.csproj.CoreCompileInputs.cache
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.dll
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\refint\Bovis.Common.Logging.dll
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\Bovis.Common.Logging.pdb
+D:\GitHunka\BovisLDTF\Bovis-api\Bovis.Common.Logging\obj\Debug\net6.0\ref\Bovis.Common.Logging.dll
