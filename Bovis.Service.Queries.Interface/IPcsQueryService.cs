@@ -24,7 +24,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<List<Proyecto>>> GetProyectosNoClose(bool? OrdenAlfabetico);        
         Task<Response<Proyecto>> GetProyecto(int numProyecto);
         Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro);
-        Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
+        Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto, string fecha);
         Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos();
         Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteProyecto(int IdProyecto);
@@ -34,7 +34,7 @@ namespace Bovis.Service.Queries.Interface
         #region Etapas
         Task<Response<PCS_Etapa_Detalle>> AddEtapa(JsonObject registro);
         Task<Response<PCS_GanttData>> GetPEtapas(int IdProyecto);
-        Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto);
+        Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto, string fecha);
         Task<Response<(bool Success, string Message)>> UpdateEtapa(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteEtapa(int IdEtapa);
         #endregion Etapas

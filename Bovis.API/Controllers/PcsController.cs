@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Bovis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController, Route("api/[controller]")]
     public class PcsController : ControllerBase
     {
@@ -95,10 +95,16 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("Proyectos/Info/{IdProyecto}")]
-        public async Task<IActionResult> GetProyectos(int IdProyecto)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="IdProyecto"></param>
+        /// <param name="fecha">formato yyyy-MM-dd</param>
+        /// <returns></returns>
+        [HttpGet, Route("Proyectos/Info/{IdProyecto}/{fecha}")]
+        public async Task<IActionResult> GetProyectos(int IdProyecto, string fecha)
         {
-            var query = await _pcsQueryService.GetProyectos(IdProyecto);
+            var query = await _pcsQueryService.GetProyectos(IdProyecto,fecha);
             return Ok(query);
         }
 
@@ -175,10 +181,10 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("Etapas/{IdProyecto}")]
-        public async Task<IActionResult> GetEtapas(int IdProyecto)
+        [HttpGet, Route("Etapas/{IdProyecto}/{fecha}")]
+        public async Task<IActionResult> GetEtapas(int IdProyecto, string fecha)
         {
-            var query = await _pcsQueryService.GetEtapas(IdProyecto);
+            var query = await _pcsQueryService.GetEtapas(IdProyecto, fecha);
             return Ok(query);
         }
 

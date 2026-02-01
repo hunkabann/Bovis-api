@@ -13,18 +13,29 @@ namespace Bovis.Data
         {
             dttSalida = new DateTime();
 
+            bool esHoy = false;
             CultureInfo oCultura = CultureInfo.CreateSpecificCulture(sCultura);
 
-            //DateTime fechaActual = DateTime.Now.Date;
-            dttSalida = Convert.ToDateTime(cadena, oCultura);
-            bool esHoy = false;
+            
+            if (cadena == null || cadena == "")
+            {
+                dttSalida = DateTime.Now.Date;
+                esHoy = true;
+                return esHoy;
+            }
 
+            dttSalida = Convert.ToDateTime(cadena, oCultura);
             if (DateTime.Now.Date == dttSalida)
             {
                 esHoy = true;
             }
 
             return esHoy;
+        }
+
+        public static string ObtieneCultura()
+        {
+            return "es-Mx";
         }
     }
 }

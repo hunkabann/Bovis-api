@@ -73,9 +73,9 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.AddProyecto(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
-        public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto)
+        public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto, string fecha)
         {
-            var response = await _pcsBusiness.GetProyectos(IdProyecto);
+            var response = await _pcsBusiness.GetProyectos(IdProyecto, fecha);
             return new Response<List<Proyecto_Detalle>> { Data = _map.Map<List<Proyecto_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos()
@@ -114,9 +114,9 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetPEtapas(IdProyecto);
             return new Response<PCS_GanttData> { Data = _map.Map<PCS_GanttData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto)
+        public async Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto, string fecha)
         {
-            var response = await _pcsBusiness.GetEtapas(IdProyecto);
+            var response = await _pcsBusiness.GetEtapas(IdProyecto, fecha);
             return new Response<PCS_Proyecto_Detalle> { Data = _map.Map<PCS_Proyecto_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<(bool Success, string Message)>> UpdateEtapa(JsonObject registro)

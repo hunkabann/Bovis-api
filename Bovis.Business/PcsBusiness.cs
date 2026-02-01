@@ -51,7 +51,7 @@ namespace Bovis.Business
 
         public Task<(bool Success, string Message)> AddProyecto(JsonObject registro) => _pcsData.AddProyecto(registro);
 
-        public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);
+        public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto, string fecha) => _pcsData.GetProyectos(IdProyecto, fecha);
 
         public Task<List<Tipo_Proyecto>> GetTipoProyectos() => _pcsData.GetTipoProyectos();
 
@@ -92,7 +92,7 @@ namespace Bovis.Business
         public Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 
         public Task<PCS_GanttData> GetPEtapas(int IdProyecto) => _pcsData.GetPEtapas(IdProyecto);
-        public Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto) => _pcsData.GetEtapas(IdProyecto);
+        public Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto, string fecha) => _pcsData.GetEtapas(IdProyecto, fecha);
 
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)
         {

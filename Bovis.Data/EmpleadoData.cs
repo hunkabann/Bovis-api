@@ -27,7 +27,7 @@ namespace Bovis.Data
     {
         #region base
         private readonly string dbConfig = "DBConfig";
-        private readonly string sCultura = "es-Mx";
+        //private readonly string sCultura = "es-Mx";
 
         public EmpleadoData()
         {
@@ -44,9 +44,13 @@ namespace Bovis.Data
         #region Empleados
         public async Task<List<Empleado_Detalle>> GetEmpleados(bool? activo, string fecha)
         {
+            //LineaBase I
+            string sCultura = Comun.ObtieneCultura();
+            CultureInfo oCultura = CultureInfo.CreateSpecificCulture(sCultura); //para asegurar que mantenga fecha de región México
             
             DateTime fechaRecibida = new DateTime();
             bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+            //LineaBase F
 
             if (activo.HasValue)
             {
@@ -102,7 +106,7 @@ namespace Bovis.Data
                                       from turnoItem in turnoJoin.DefaultIfEmpty()
                                       join proyectoPrin in db.tB_Proyectos on emp.NumProyectoPrincipal equals proyectoPrin.NumProyecto into proyectoPrinJoin
                                       from proyectoPrinItem in proyectoPrinJoin.DefaultIfEmpty()
-                                      where proyectoPrinItem != null
+                                      where proyectoPrinItem != null //LienaBase se agrega la condición de fechas
                                             &&
                                             (
                                                 esHoy == true

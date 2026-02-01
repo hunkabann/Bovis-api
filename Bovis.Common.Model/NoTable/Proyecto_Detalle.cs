@@ -85,8 +85,8 @@ namespace Bovis.Common.Model.NoTable
         public int? utilidadPorcentaje { get; set; }
         public int? contingenciaPorcentaje { get; set; }
         //LEO inputs para FEEs F
-
-
+        public DateTime? dtfecha_vigencia_ini { get; set; } //LineaBase
+        public DateTime? dtfecha_vigencia_fin { get; set; } //LineaBase
     }
 
     public class InfoCosto
