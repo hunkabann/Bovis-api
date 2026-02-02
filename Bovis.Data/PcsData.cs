@@ -404,6 +404,7 @@ namespace Bovis.Data
 
             DateTime fechaRecibida = new DateTime();
             bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+            General oGenerales = new General();
             //LineaBase F
 
             //LEO inputs para FEEs I
@@ -547,7 +548,7 @@ namespace Bovis.Data
 
                 //LineaBase I
                 //para que no truene el front, si no encuentra Clientes entonces que regrese el objeto con valor cero y cadenas vacías
-                LlenaListaProyectos(ref proyectos);
+                oGenerales.AsignaVaciosListaProyectos(ref proyectos);
                 //LineaBase F
 
                 return proyectos;
@@ -876,66 +877,66 @@ namespace Bovis.Data
         //LEO inputs para FEEs F
 
         //LineaBase I
-        /// <summary>
-        /// Si la lista Proyectos va en cero le asigna valores de 0 y cadenas vacías para que no truene el front
-        /// </summary>
-        /// <param name="lst"></param>
-        public void LlenaListaProyectos(ref List<Proyecto_Detalle> lst)
-        {
-            if (lst.Count == 0)
-            {
-                lst.Add(new Proyecto_Detalle
-                {
-                    nunum_proyecto = 0,
-                    chproyecto = "",
-                    //chalcance = proy.Alcance,
-                    chalcance = "",
-                    chcp = "",
-                    chciudad = "",
-                    nukidpais = 0,
-                    chpais = "",
-                    nukidestatus = 0,
-                    chestatus = "",
-                    nukidsector = 0,
-                    chsector = "",
-                    nukidtipo_proyecto = 0,
-                    chtipo_proyecto = "",
-                    nukidresponsable_preconstruccion = "0",
-                    chresponsable_preconstruccion = "",
-                    nukidresponsable_construccion = "0",
-                    chresponsable_construccion = "",
-                    nukidresponsable_ehs = "0",
-                    chresponsable_ehs = "",
-                    nukidresponsable_supervisor = "0",
-                    chresponsable_supervisor = "",
-                    nukidempresa = 0,
-                    chempresa = "",
-                    nukiddirector_ejecutivo = "0",
-                    chdirector_ejecutivo = "",
-                    nucosto_promedio_m2 = 0,
-                    dtfecha_ini = DateTime.Now.Date,
-                    dtfecha_fin = DateTime.Now.Date,
-                    impuesto_nomina = 0,
-                    nukidunidadnegocio = 0,  //atc
-                    chunidadnegocio = "",  //atc
-                    chcontacto_nombre = "",
-                    chcontacto_posicion = "",
-                    chcontacto_telefono = "",
-                    chcontacto_correo = "",
-                    dtfecha_vigencia_ini = DateTime.Now.Date, //LineaBase
-                    dtfecha_vigencia_fin = DateTime.Now.Date, //LineaBase
-                });
+        ///// <summary>
+        ///// Si la lista Proyectos va en cero le asigna valores de 0 y cadenas vacías para que no truene el front
+        ///// </summary>
+        ///// <param name="lst"></param>
+        //public void LlenaListaProyectos(ref List<Proyecto_Detalle> lst)
+        //{
+        //    if (lst.Count == 0)
+        //    {
+        //        lst.Add(new Proyecto_Detalle
+        //        {
+        //            nunum_proyecto = 0,
+        //            chproyecto = "",
+        //            //chalcance = proy.Alcance,
+        //            chalcance = "",
+        //            chcp = "",
+        //            chciudad = "",
+        //            nukidpais = 0,
+        //            chpais = "",
+        //            nukidestatus = 0,
+        //            chestatus = "",
+        //            nukidsector = 0,
+        //            chsector = "",
+        //            nukidtipo_proyecto = 0,
+        //            chtipo_proyecto = "",
+        //            nukidresponsable_preconstruccion = "0",
+        //            chresponsable_preconstruccion = "",
+        //            nukidresponsable_construccion = "0",
+        //            chresponsable_construccion = "",
+        //            nukidresponsable_ehs = "0",
+        //            chresponsable_ehs = "",
+        //            nukidresponsable_supervisor = "0",
+        //            chresponsable_supervisor = "",
+        //            nukidempresa = 0,
+        //            chempresa = "",
+        //            nukiddirector_ejecutivo = "0",
+        //            chdirector_ejecutivo = "",
+        //            nucosto_promedio_m2 = 0,
+        //            dtfecha_ini = DateTime.Now.Date,
+        //            dtfecha_fin = DateTime.Now.Date,
+        //            impuesto_nomina = 0,
+        //            nukidunidadnegocio = 0,  //atc
+        //            chunidadnegocio = "",  //atc
+        //            chcontacto_nombre = "",
+        //            chcontacto_posicion = "",
+        //            chcontacto_telefono = "",
+        //            chcontacto_correo = "",
+        //            dtfecha_vigencia_ini = DateTime.Now.Date, //LineaBase
+        //            dtfecha_vigencia_fin = DateTime.Now.Date, //LineaBase
+        //        });
 
-                lst[0].Clientes = new List<InfoCliente>();
-                lst[0].Clientes.Add(new InfoCliente() { IdCliente = 0, Cliente = "", Rfc = "" });
+        //        lst[0].Clientes = new List<InfoCliente>();
+        //        lst[0].Clientes.Add(new InfoCliente() { IdCliente = 0, Cliente = "", Rfc = "" });
 
-                lst[0].overheadPorcentaje = 0;
-                lst[0].utilidadPorcentaje = 0;
-                lst[0].contingenciaPorcentaje = 0;
+        //        lst[0].overheadPorcentaje = 0;
+        //        lst[0].utilidadPorcentaje = 0;
+        //        lst[0].contingenciaPorcentaje = 0;
 
-            }
+        //    }
 
-        }//LlenaListaProyectos
+        //}//LlenaListaProyectos
         //LineaBase F
 
         #endregion Proyectos
@@ -978,16 +979,40 @@ namespace Bovis.Data
         /**
          * Se ocupara para obtener el nombre del proyecto y las fases en la misma estructura
          */
-        public async Task<PCS_GanttData> GetPEtapas(int IdProyecto)
+        public async Task<PCS_GanttData> GetPEtapas(int IdProyecto, string fecha)
         {
-            PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+            //LineaBase I
+            string sCultura = Comun.ObtieneCultura();
+            CultureInfo oCultura = CultureInfo.CreateSpecificCulture(sCultura); //para asegurar que mantenga fecha de región México
 
+            DateTime fechaRecibida = new DateTime();
+            bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+            General oGenerales = new General();
+            //LineaBase F
+
+            PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+            PCS_GanttData ganttData = new PCS_GanttData();
 
             using (var db = new ConnectionDB(dbConfig))
             {
                 var proyecto = await (from p in db.tB_Proyectos
                                       where p.NumProyecto == IdProyecto
+                                      &&
+                                            (
+                                                esHoy == true
+                                                    ? p.dtfecha_vigencia_fin == null
+                                                    : p.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && p.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
                                       select p).FirstOrDefaultAsync();
+
+                //LineaBase I
+                if (proyecto == null)
+                {
+                    oGenerales.AsignaVaciosPCS_GanttData(ref ganttData);
+                    return ganttData;
+                }
+                //LineaBase F
 
                 proyecto_etapas.FechaIni = new DateTime(proyecto.FechaIni.Year, proyecto.FechaIni.Month, 1);
 
@@ -1003,6 +1028,20 @@ namespace Bovis.Data
                                     join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
                                     from proyItem in proyJoin.DefaultIfEmpty()
                                     where p.NumProyecto == IdProyecto
+                                    &&
+                                            (
+                                                esHoy == true
+                                                    ? proyItem.dtfecha_vigencia_fin == null
+                                                    : proyItem.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && proyItem.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
+                                      &&
+                                            (
+                                                esHoy == true
+                                                    ? p.dtfecha_vigencia_fin == null
+                                                    : p.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && p.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
                                     orderby p.FechaIni ascending
                                     select new PCS_Etapa_Detalle
                                     {
@@ -1023,7 +1062,7 @@ namespace Bovis.Data
                 fase.FechaIni = proyecto_etapas.FechaIni ?? DateTime.Now;
                 fase.FechaFin = proyecto_etapas.FechaFin ?? DateTime.Now;
                 proyecto_etapas.Etapas.Add(fase);
-                PCS_GanttData ganttData = new PCS_GanttData();
+                
                 PCS_GanttDataFase ganttDataFase = new PCS_GanttDataFase();
                 List<PCS_GanttDataFase> data = new List<PCS_GanttDataFase>();
                 List<string> equis = new List<string>();
@@ -1068,6 +1107,7 @@ namespace Bovis.Data
 
             DateTime fechaRecibida = new DateTime();
             bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+            General oGenerales = new General();
             //LineaBase F
 
             PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
@@ -1089,7 +1129,7 @@ namespace Bovis.Data
                 //si no encuentra el proyecto que llena la info con ceros y cadenas vacías
                 if (proyecto == null)
                 {
-                    LlenaProyectoEtapas(ref proyecto_etapas);
+                    oGenerales.AsignaVaciosProyecto_Detalle(ref proyecto_etapas);
                     return proyecto_etapas;
                 }
                 //LineaBase F
@@ -1299,51 +1339,51 @@ namespace Bovis.Data
         //LEO TBD F
 
         //LineaBase I
-        public void LlenaProyectoEtapas(ref PCS_Proyecto_Detalle proyecto_etapas)
-        {
-            proyecto_etapas.NumProyecto = 0;
-            proyecto_etapas.FechaIni = DateTime.Now.Date;
-            proyecto_etapas.FechaFin = DateTime.Now.Date;
+        //public void LlenaProyectoEtapas(ref PCS_Proyecto_Detalle proyecto_etapas)
+        //{
+        //    proyecto_etapas.NumProyecto = 0;
+        //    proyecto_etapas.FechaIni = DateTime.Now.Date;
+        //    proyecto_etapas.FechaFin = DateTime.Now.Date;
 
-            proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
-            proyecto_etapas.Etapas.Add(new PCS_Etapa_Detalle
-            {
-                IdFase = 0,
-                Orden = 0,
-                Fase = "",
-                FechaIni = DateTime.Now.Date,
-                FechaFin = DateTime.Now.Date,
-            });
+        //    proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
+        //    proyecto_etapas.Etapas.Add(new PCS_Etapa_Detalle
+        //    {
+        //        IdFase = 0,
+        //        Orden = 0,
+        //        Fase = "",
+        //        FechaIni = DateTime.Now.Date,
+        //        FechaFin = DateTime.Now.Date,
+        //    });
 
-            proyecto_etapas.Etapas[0].Empleados = new List<PCS_Empleado_Detalle>();
-            proyecto_etapas.Etapas[0].Empleados.Add(
-                new PCS_Empleado_Detalle
-                {
-                    Id = 0,
-                    IdFase = 0,
-                    NumempleadoRrHh = "",
-                    Empleado = "",
-                    Cantidad = 0,
-                    AplicaTodosMeses = false,
-                    Fee = 0,
-                    Reembolsable = false,
-                    NuCostoIni = 0,
-                    ChAlias = "",
-                    EtiquetaTBD = "", //LEO TBD
-                    IdPuesto = "0" //LEO TBD
-                });
+        //    proyecto_etapas.Etapas[0].Empleados = new List<PCS_Empleado_Detalle>();
+        //    proyecto_etapas.Etapas[0].Empleados.Add(
+        //        new PCS_Empleado_Detalle
+        //        {
+        //            Id = 0,
+        //            IdFase = 0,
+        //            NumempleadoRrHh = "",
+        //            Empleado = "",
+        //            Cantidad = 0,
+        //            AplicaTodosMeses = false,
+        //            Fee = 0,
+        //            Reembolsable = false,
+        //            NuCostoIni = 0,
+        //            ChAlias = "",
+        //            EtiquetaTBD = "", //LEO TBD
+        //            IdPuesto = "0" //LEO TBD
+        //        });
 
-            proyecto_etapas.Etapas[0].Empleados[0].Fechas = new List<PCS_Fecha_Detalle>();
-            proyecto_etapas.Etapas[0].Empleados[0].Fechas.Add(
-                new PCS_Fecha_Detalle
-                {
-                    Id = 0,
-                    Mes = 0,
-                    Anio = 0,
-                    Porcentaje = 0
-                });
+        //    proyecto_etapas.Etapas[0].Empleados[0].Fechas = new List<PCS_Fecha_Detalle>();
+        //    proyecto_etapas.Etapas[0].Empleados[0].Fechas.Add(
+        //        new PCS_Fecha_Detalle
+        //        {
+        //            Id = 0,
+        //            Mes = 0,
+        //            Anio = 0,
+        //            Porcentaje = 0
+        //        });
 
-        }
+        //}
         //LineaBase F
 
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)
@@ -1513,7 +1553,8 @@ namespace Bovis.Data
                         .Value(x => x.chalias, chalias)
                         .Value(x => x.boreembolsable, reembolsable)
                         .Value(x => x.etiqueta, etiqueta) //LEO TBD
-                        .Value(x => x.Activo, true) //LEO TBD
+                                                          //.Value(x => x.Activo, true) //LEO TBD
+                        .Value(x => x.dtfecha_vigencia_ini, DateTime.Now) //LineaBase solo se agrega la fecha Ini pues la fin al ser nuevo va en null
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -1522,7 +1563,8 @@ namespace Bovis.Data
                     // Se insertan los valores de los rubros, para gastos e ingresos.
                     var rubros = await (from rub in db.tB_Rubros
                                         where rub.NumProyecto == num_proyecto
-                                        && rub.Activo == true //LEO TBD
+                                        //&& rub.Activo == true //LEO TBD
+                                        && rub.dtfecha_vigencia_fin == null //LineaBase consulta lo último
                                         select rub).ToListAsync();
 
                     foreach (var rubro in rubros)
@@ -1531,8 +1573,9 @@ namespace Bovis.Data
                                         .Value(x => x.IdRubro, rubro.Id)
                                         .Value(x => x.Mes, mes)
                                         .Value(x => x.Anio, anio)
-                                        //.Value(x => x.Porcentaje, porcentaje)
-                                        .Value(x => x.Activo, true)
+                                        ////.Value(x => x.Porcentaje, porcentaje)
+                                        //.Value(x => x.Activo, true)
+                                        .Value(x => x.Vigencia_Ini, DateTime.Now) //LineaBase solo se agrega la fecha Ini pues la fin al ser nuevo va en null
                                         .InsertAsync() > 0;
 
                         resp.Success = res_insert_rubro_valor;
@@ -1633,10 +1676,12 @@ namespace Bovis.Data
                     //entonces que inactive el TBD, Activo  = 0 
                     //después seguirá con la inserción de lo nuevo
                     var res_update_empleado = await db.tB_ProyectoFaseEmpleados
-                        .Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleadoTBD && x.Activo == true)
+                        .Where(x => x.IdFase == id_fase && x.NumEmpleado == num_empleadoTBD //&& x.Activo == true
+                        && x.dtfecha_vigencia_fin == null)
                         .UpdateAsync(x => new TB_ProyectoFaseEmpleado
                         {
-                            Activo = false
+                            //Activo = false,
+                            dtfecha_vigencia_fin = DateTime.Now.Date //LineaBase
                         }) > 0;//LEO TBD se agrega el activo
                 }
                 else { //LEO TBD F
@@ -1664,7 +1709,8 @@ namespace Bovis.Data
                         .Value(x => x.chalias, chalias)
                         .Value(x => x.boreembolsable, reembolsable)
                         .Value(x => x.etiqueta, etiqueta) //LEO TBD
-                        .Value(x => x.Activo, true) //LEO TBD
+                        //.Value(x => x.Activo, true) //LEO TBD
+                        .Value(x => x.dtfecha_vigencia_ini, DateTime.Now) //LineaBase solo se agrega la fecha Ini pues la fin al ser nuevo va en null
                         .InsertAsync() > 0;
 
                     resp.Success = res_insert_empleado;
@@ -1673,18 +1719,33 @@ namespace Bovis.Data
             }
 
             return resp;
-        }
+        }//UpdateEmpleadore
         public async Task<(bool Success, string Message)> DeleteEmpleado(int IdFase, string NumEmpleado)
         {
             (bool Success, string Message) resp = (true, string.Empty);
 
             using (ConnectionDB db = new ConnectionDB(dbConfig))
             {
-                var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado && x.Activo == true)
-                    .DeleteAsync() > 0;//LEO TBD se agrega el activo
+                //var res_delete_empleado = await db.tB_ProyectoFaseEmpleados.Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado && x.Activo == true)
+                //    .DeleteAsync() > 0;//LEO TBD se agrega el activo
 
-                resp.Success = res_delete_empleado;
-                resp.Message = res_delete_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
+                //resp.Success = res_delete_empleado;
+                //resp.Message = res_delete_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
+
+                //LineaBase I
+                var res_update_empleado = await db.tB_ProyectoFaseEmpleados
+                    .Where(x => x.IdFase == IdFase && x.NumEmpleado == NumEmpleado //&& x.Activo == true
+                    && x.dtfecha_vigencia_fin == null)
+                    .UpdateAsync(x => new TB_ProyectoFaseEmpleado
+                    {
+                        //Activo = false,
+                        dtfecha_vigencia_fin = DateTime.Now.Date 
+                    }) > 0;
+                
+                resp.Success = res_update_empleado;
+                resp.Message = res_update_empleado == default ? "Ocurrio un error al borrar registro." : string.Empty;
+                //LineaBase F
+
             }
 
             return resp;

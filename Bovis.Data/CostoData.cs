@@ -18,7 +18,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.Sql;
 using System.Data.SqlClient;
-
+using System.Globalization;
+using Bovis.Data;
 
 namespace Bovis.Data
 {
@@ -159,7 +160,14 @@ namespace Bovis.Data
         #region AddCosto
         public async Task<Common.Response<decimal>> AddCosto(TB_CostoPorEmpleado registro)
         {
-            var registro_anterior = await GetCostoEmpleado(registro.NumEmpleadoRrHh, registro.NuAnno, registro.NuMes, false); //Verifica que no existe registro previo de costos para este empleado en el año y mes solicitados.
+
+            string sCultura = Comun.ObtieneCultura();
+            CultureInfo oCultura = CultureInfo.CreateSpecificCulture(sCultura); //para asegurar que mantenga fecha de región México
+
+            //se manda la fecha actual para que busque la info actual del costo
+            string fecha = DateTime.Now.Date.ToString("yyyy-MM-dd");
+
+            var registro_anterior = await GetCostoEmpleado(registro.NumEmpleadoRrHh, registro.NuAnno, registro.NuMes, fecha, false); //Verifica que no existe registro previo de costos para este empleado en el año y mes solicitados.
 
             if (!registro_anterior.Success) // Puede llevarse a cabo la inserción de un nuevo registro.
             {
@@ -224,10 +232,10 @@ namespace Bovis.Data
         #endregion
 
         #region GetCosto
-        public async Task<Costo_Detalle> GetCosto(int IdCosto)
+        public async Task<Costo_Detalle> GetCosto(int IdCosto, string fecha)
         {
             CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleados();
+            var costos = await QueryBase.CostosEmpleados(fecha);
             var resp = costos.SingleOrDefault(costo => costo.IdCostoEmpleado == IdCosto);
 
             return resp;
@@ -296,7 +304,7 @@ namespace Bovis.Data
         }   // costoPorEmpleado
 
        #region GetCostosEmpleado
-        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, string fecha ,bool hist)
         {
             //se regresa a la funcionalidad original pero con el cambio de que se filtre por numEmpleado en la nueva consulta de Linq
             CostoQueries QueryBase = new(dbConfig);
@@ -443,7 +451,7 @@ namespace Bovis.Data
         //LEO Fix CostosEmpleado Seleccionar Empleado F
 
         //LEO TBD
-        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist)
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, string fecha, bool hist)
         {
 
             // LDTF
@@ -456,7 +464,7 @@ namespace Bovis.Data
             {
                 // estas definiciones inicialmente estaban fuera del if
                 CostoQueries QueryBase = new(dbConfig);
-                var costos = await QueryBase.CostosEmpleados();
+                var costos = await QueryBase.CostosEmpleados(fecha);
                 var resp = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh).ToList<Costo_Detalle>();
                 if (resp.Count > 0)
                 {
@@ -620,10 +628,10 @@ namespace Bovis.Data
         #endregion
 
         #region GetCostoEmpleado
-        public async Task<Common.Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist)
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, string fecha, bool hist)
         {
             CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleados();
+            var costos = await QueryBase.CostosEmpleados(fecha);
             var result = costos.Where(costo => costo.NumEmpleadoRrHh == NumEmpleadoRrHh && costo.NuAnno == anno && costo.NuMes == mes).ToList();
 
             if (result.Count > 0)
@@ -674,10 +682,10 @@ namespace Bovis.Data
         #endregion
 
         #region GetCostoLaborable
-        public async Task<Common.Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
+        public async Task<Common.Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha)
         {
             CostoQueries QueryBase = new(dbConfig);
-            var result = await QueryBase.CostosEmpleados();
+            var result = await QueryBase.CostosEmpleados(fecha);
 
             var costosEmpleado = result.Where(reg => (reg.NumEmpleadoRrHh == NumEmpleadoRrHh) && (reg.RegHistorico == false) && ((reg.NuAnno > anno_min && reg.NuAnno < anno_max) || (reg.NuAnno == anno_min && reg.NuMes >= mes_min) || (reg.NuAnno == anno_max && reg.NuMes <= mes_max))).ToList();
 
@@ -706,10 +714,10 @@ namespace Bovis.Data
         #endregion
 
         #region GetCostosBetweenDates
-        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha, bool hist)
         {
             CostoQueries QueryBase = new(dbConfig);
-            var costos = await QueryBase.CostosEmpleados();
+            var costos = await QueryBase.CostosEmpleados(fecha);
             if (costos.Count > 0)
             {
                 if (hist)
@@ -1284,8 +1292,17 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
         _dbConfig = dbConfig;
     }
 
-    public async Task<List<Costo_Detalle>> CostosEmpleados()
+    public async Task<List<Costo_Detalle>> CostosEmpleados(string fecha)
     {
+        //LineaBase I
+        string sCultura = Comun.ObtieneCultura();
+        CultureInfo oCultura = CultureInfo.CreateSpecificCulture(sCultura); //para asegurar que mantenga fecha de región México
+
+        DateTime fechaRecibida = new DateTime();
+        bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+        General oGenerales = new General(); //cuando se necesite crear un objeto con ceros y vacío
+        //LineaBase F
+
         using (var db = new ConnectionDB(_dbConfig))
         {
 
@@ -1314,7 +1331,13 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                 from personaJefeItem in personaJefeJoin.DefaultIfEmpty()
                                 join categoriaEmp in db.tB_Cat_Categorias on empleadoCostoItem.IdCategoria equals categoriaEmp.IdCategoria into categoriaEmpJoin
                                 from categoriaEmpItem in categoriaEmpJoin.DefaultIfEmpty()
-                                
+                                where 
+                                            (
+                                                esHoy == true
+                                                    ? proyectoItem.dtfecha_vigencia_fin == null
+                                                    : proyectoItem.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && proyectoItem.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
                                 select new Costo_Detalle
                                 {
                                     IdCostoEmpleado = costos.IdCostoEmpleado,
@@ -1399,6 +1422,13 @@ public class CostoQueries : RepositoryLinq2DB<ConnectionDB>
                                     //ATC
                                     ImpuestoNomina = proyectoItem.ImpuestoNomina,
                                 }).ToListAsync();
+
+            if (result == null)
+            {
+                result = new List<Costo_Detalle>();
+                oGenerales.AsignaVaciosListaCosto_Detalle(ref result);
+                return result;
+            }
 
             foreach (var r in result)
             {

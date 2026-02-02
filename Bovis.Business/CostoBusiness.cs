@@ -61,13 +61,13 @@ namespace Bovis.Business
         #endregion
 
         #region GetCosto
-        public Task<Costo_Detalle> GetCosto(int IdCosto) => _costoData.GetCosto(IdCosto);
+        public Task<Costo_Detalle> GetCosto(int IdCosto, string fecha) => _costoData.GetCosto(IdCosto, fecha);
         #endregion
 
         #region GetCostosEmpleado
-        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, string fecha, bool hist)
         {
-            return _costoData.GetCostosEmpleado(NumEmpleadoRrHh, hist);
+            return _costoData.GetCostosEmpleado(NumEmpleadoRrHh, fecha, hist);
         }
         
         //LEO Fix CostosEmpleado Seleccionar Empleado I
@@ -78,31 +78,31 @@ namespace Bovis.Business
         //LEO Fix CostosEmpleado Seleccionar Empleado F
 
         //LEO TBD
-        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto,bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, string fecha,bool hist)
         {
-            return _costoData.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
+            return _costoData.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, fecha, hist);
         }
         #endregion
 
         #region GetCostoEmpleado
-        public Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleado, int anno, int mes, bool hist = false)
+        public Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleado, int anno, int mes, string fecha ,bool hist = false)
         {
-            return _costoData.GetCostoEmpleado(NumEmpleado, anno, mes, hist);
+            return _costoData.GetCostoEmpleado(NumEmpleado, anno, mes, fecha, hist);
         }
         #endregion
 
         #region GetCostosBetweenDates
-        public Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha, bool hist)
         {
-            return _costoData.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, hist);
+            return _costoData.GetCostosBetweenDates(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, fecha, hist);
 
         }
         #endregion
 
         #region GetCostoLaborable
-        public Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
+        public Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha)
         {
-            return _costoData.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max);
+            return _costoData.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, fecha);
         }
         #endregion
 

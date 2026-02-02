@@ -174,10 +174,10 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
-        [HttpGet, Route("EtapasP/{IdProyecto}")]
-        public async Task<IActionResult> GetPEtapas(int IdProyecto)
+        [HttpGet, Route("EtapasP/{IdProyecto}/{fecha}")]
+        public async Task<IActionResult> GetPEtapas(int IdProyecto, string fecha)
         {
-            var query = await _pcsQueryService.GetPEtapas(IdProyecto);
+            var query = await _pcsQueryService.GetPEtapas(IdProyecto, fecha);
             return Ok(query);
         }
 

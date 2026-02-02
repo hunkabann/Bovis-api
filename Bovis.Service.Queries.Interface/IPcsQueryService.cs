@@ -33,7 +33,7 @@ namespace Bovis.Service.Queries.Interface
 
         #region Etapas
         Task<Response<PCS_Etapa_Detalle>> AddEtapa(JsonObject registro);
-        Task<Response<PCS_GanttData>> GetPEtapas(int IdProyecto);
+        Task<Response<PCS_GanttData>> GetPEtapas(int IdProyecto, string fecha);
         Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto, string fecha);
         Task<Response<(bool Success, string Message)>> UpdateEtapa(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteEtapa(int IdEtapa);

@@ -10,16 +10,16 @@ namespace Bovis.Data.Interface
     {
         Task<Response<decimal>> AddCosto(TB_CostoPorEmpleado registro);
         Task<List<Costo_Detalle>> GetCostos(bool? hist, string? idEmpleado, int? idPuesto, int? idProyecto, int? idEmpresa, int? idUnidadNegocio, DateTime? FechaIni, DateTime? FechaFin);
-        Task<Costo_Detalle> GetCosto(int IdCosto);
-        Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist);
+        Task<Costo_Detalle> GetCosto(int IdCosto, string fecha);
+        Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, string fecha, bool hist);
 
         //LEO Fix CostosEmpleado Seleccionar Empleado I
         Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoSoloCosto(string NumEmpleadoRrHh, bool hist);
         //LEO Fix CostosEmpleado Seleccionar Empleado F
 
-        Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist);
-        Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max);
-        Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist);
+        Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, string fecha, bool hist);
+        Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha);
+        Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha, bool hist);
         //ATC
         //Task<Response<TB_CostoPorEmpleado>> UpdateCostos(CostoPorEmpleadoDTO source, int costoId, TB_CostoPorEmpleado registro); 
         Task<Response<TB_CostoPorEmpleado>> UpdateCostos(CostoPorEmpleadoDTO source,int costoId, TB_CostoPorEmpleado registro);
@@ -31,6 +31,6 @@ namespace Bovis.Data.Interface
 
 
         //LEO TBD
-        Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist);
+        Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, string fecha, bool hist);
     }                                                         
 }

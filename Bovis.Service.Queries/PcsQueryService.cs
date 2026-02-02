@@ -109,9 +109,9 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.AddEtapa(registro);
             return new Response<PCS_Etapa_Detalle> { Data = _map.Map<PCS_Etapa_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
-        public async Task<Response<PCS_GanttData>> GetPEtapas(int IdProyecto)
+        public async Task<Response<PCS_GanttData>> GetPEtapas(int IdProyecto, string fecha)
         {
-            var response = await _pcsBusiness.GetPEtapas(IdProyecto);
+            var response = await _pcsBusiness.GetPEtapas(IdProyecto, fecha);
             return new Response<PCS_GanttData> { Data = _map.Map<PCS_GanttData>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<PCS_Proyecto_Detalle>> GetEtapas(int IdProyecto, string fecha)

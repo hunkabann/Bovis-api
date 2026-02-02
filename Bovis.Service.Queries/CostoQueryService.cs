@@ -53,17 +53,17 @@ namespace Bovis.Service.Queries
         #endregion
 
         #region GetCosto
-        public async Task<Response<Costo_Detalle>> GetCosto(int IdCosto)
+        public async Task<Response<Costo_Detalle>> GetCosto(int IdCosto, string fecha)
         {
-            var response = await _costoBusiness.GetCosto(IdCosto);
+            var response = await _costoBusiness.GetCosto(IdCosto, fecha);
             return new Response<Costo_Detalle> { Data = response, Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         #endregion
 
         #region GetCostosEmpleado
-        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleado(string NumEmpleadoRrHh, string fecha, bool hist)
         {
-            return await _costoBusiness.GetCostosEmpleado(NumEmpleadoRrHh, hist);
+            return await _costoBusiness.GetCostosEmpleado(NumEmpleadoRrHh, fecha, hist);
         }
 
         //LEO Fix CostosEmpleado Seleccionar Empleado I
@@ -74,30 +74,30 @@ namespace Bovis.Service.Queries
         //LEO Fix CostosEmpleado Seleccionar Empleado F
 
         //LEO TBD
-        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, string fecha, bool hist)
         {
-            return await _costoBusiness.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
+            return await _costoBusiness.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, fecha, hist);
         }
         #endregion
 
         #region GetCostoEmpleado
-        public async Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostoEmpleado(string NumEmpleadoRrHh, int anno, int mes, string fecha, bool hist)
         {
-            return await _costoBusiness.GetCostoEmpleado(NumEmpleadoRrHh, anno, mes, hist);
+            return await _costoBusiness.GetCostoEmpleado(NumEmpleadoRrHh, anno, mes, fecha, hist);
         }
         #endregion
 
         #region GetCostoLaborable
-        public async Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max)
+        public async Task<Response<decimal>> GetCostoLaborable(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha)
         {
-            return await _costoBusiness.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max);
+            return await _costoBusiness.GetCostoLaborable(NumEmpleadoRrHh, anno_min, mes_min, anno_max, mes_max, fecha);
         }
         #endregion
 
         #region GetCostBetweenDates
-        public async Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, bool hist)
+        public async Task<Response<List<Costo_Detalle>>> GetCostosBetweenDates(string NumEmpleadoRrHh, int anno_min, int mes_min, int anno_max, int mes_max, string fecha, bool hist)
         {
-            return await _costoBusiness.GetCostosBetweenDates(NumEmpleadoRrHh,anno_min,mes_min,anno_max,mes_max, hist); 
+            return await _costoBusiness.GetCostosBetweenDates(NumEmpleadoRrHh,anno_min,mes_min,anno_max,mes_max,fecha, hist); 
 
         }
         #endregion
