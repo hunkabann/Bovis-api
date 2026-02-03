@@ -280,5 +280,26 @@ namespace Bovis.Data
                 ImpuestoNomina = 0,
             });
         }//AsignaVaciosListaCosto_Detalle
+
+        public void AsignaVaciosListaEmpleado_Detalle(ref List<PCS_Empleado_Detalle> lst)
+        {
+            //lst.Add(new PCS_Empleado_Detalle() =
+            //    { 
+            
+            //})
+        }//AsignaVaciosListaEmpleado_Detalle
+
+        public void AsignaVaciosListaTimesheet_detalle(ref List<UsuarioTimesheet_Detalle> lst)
+        {
+            lst.Add(new UsuarioTimesheet_Detalle()
+            {
+                id = 0,
+                Usuario = "",
+                NumEmpleadoRrHh = "",
+                NombreEmpleado = "",
+                NumProyecto = 0,
+                NombreProyecto = "",
+            });
+        }
     }
 }

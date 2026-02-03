@@ -7,6 +7,7 @@ using Bovis.Data.Repository;
 using LinqToDB;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -1053,8 +1054,17 @@ namespace Bovis.Data
             return resp;
         }
 
-        public async Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet()
+        public async Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet(string fecha)
         {
+            //LineaBase I
+            string sCultura = Comun.ObtieneCultura();
+            CultureInfo oCultura = CultureInfo.CreateSpecificCulture(sCultura); //para asegurar que mantenga fecha de región México
+
+            DateTime fechaRecibida = new DateTime();
+            bool esHoy = fecha.EsFechaActual(sCultura, out fechaRecibida);
+            General oGenerales = new General(); //cuando se necesite crear un objeto con ceros y vacío
+            //LineaBase F
+
             using (var db = new ConnectionDB(dbConfig))
             {
                 var usuarios = await (from users in db.tB_Usuario_Timesheets
@@ -1065,6 +1075,20 @@ namespace Bovis.Data
                                       join proyecto in db.tB_Proyectos on users.NumProyecto equals proyecto.NumProyecto into proyJoin
                                       from proyItem in proyJoin.DefaultIfEmpty()
                                       where empItem.Activo == true
+                                      &&
+                                            (
+                                                esHoy == true
+                                                    ? users.dtfecha_vigencia_fin == null
+                                                    : users.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && users.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
+                                      &&
+                                            (
+                                                esHoy == true
+                                                    ? proyItem.dtfecha_vigencia_fin == null
+                                                    : proyItem.dtfecha_vigencia_ini <= fechaRecibida
+                                                      && proyItem.dtfecha_vigencia_fin >= fechaRecibida
+                                            )
                                       orderby users.IdUserTimesheet descending
                                       select new UsuarioTimesheet_Detalle
                                       {
@@ -1075,6 +1099,13 @@ namespace Bovis.Data
                                           NumProyecto = users.NumProyecto,
                                           NombreProyecto = proyItem.Proyecto,
                                       }).ToListAsync();
+
+                //LineaBase I
+                if (usuarios == null)
+                {
+                    oGenerales.AsignaVaciosListaTimesheet_detalle(ref usuarios);
+                }
+                //LineaBase F
 
                 return usuarios;
             }

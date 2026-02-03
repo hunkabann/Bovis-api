@@ -210,10 +210,10 @@ namespace Bovis.API.Controllers
             else return BadRequest(query.Message);
         }
 
-        [HttpGet, Route("Usuarios")]
-        public async Task<IActionResult> GetUsuariosTimeSheet()
+        [HttpGet, Route("Usuarios/{fecha}")]
+        public async Task<IActionResult> GetUsuariosTimeSheet(string fecha)
         {
-            var query = await _timesheetQueryService.GetUsuariosTimeSheet();
+            var query = await _timesheetQueryService.GetUsuariosTimeSheet(fecha);
             return Ok(query);
         }
 
