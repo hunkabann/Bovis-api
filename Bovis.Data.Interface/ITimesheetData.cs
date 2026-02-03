@@ -1,6 +1,7 @@
 ﻿using Bovis.Common.Model.NoTable;
 using Bovis.Common.Model.Tables;
 using System.Collections.Generic;
+using System.Data;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace Bovis.Data.Interface
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
         Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? activo);
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email_loged_user, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes, int anio);
+        Task<TimeSheetEmpProyectoResponse> GetTimeSheetsEmpleadosProyecto(int idProyecto); //Reporte EmpleadosXProyecto
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio);
         Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);

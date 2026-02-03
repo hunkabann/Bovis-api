@@ -2,6 +2,7 @@
 using Bovis.Common.Model.Tables;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -17,6 +18,7 @@ namespace Bovis.Business.Interface
         Task<(bool Success, string Message)> AddRegistro(JsonObject registro);
         Task<List<TimeSheet_Detalle>> GetTimeSheets(bool? activo);
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByFiltro(string email, string idEmpleado, int idProyecto, int idUnidadNegocio, int idEmpresa, int mes, int anio);
+        Task<TimeSheetEmpProyectoResponse> GetTimeSheetsEmpleadosProyecto(int idProyecto);//Reporte EmpleadosXProyecto
         Task<List<TimeSheet_Detalle>> GetTimeSheetsByFecha(int mes, int anio);
         Task<TimeSheet_Detalle> GetTimeSheet(int idTimeSheet);
         Task<(bool Success, string Message)> UpdateRegistro(JsonObject registro);
