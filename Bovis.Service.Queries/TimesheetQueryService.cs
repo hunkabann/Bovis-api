@@ -130,9 +130,9 @@ namespace Bovis.Service.Queries
 
 
         #region Usuarios
-        public async Task<Response<List<UsuarioTimesheet_Detalle>>> GetUsuariosTimeSheet()
+        public async Task<Response<List<UsuarioTimesheet_Detalle>>> GetUsuariosTimeSheet(string fecha)
         {
-            var response = await _timesheetBusiness.GetUsuariosTimeSheet();
+            var response = await _timesheetBusiness.GetUsuariosTimeSheet(fecha);
             return new Response<List<UsuarioTimesheet_Detalle>> { Data = _map.Map<List<UsuarioTimesheet_Detalle>>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontraron registros." : default };
         }
 

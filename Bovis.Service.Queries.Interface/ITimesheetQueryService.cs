@@ -34,7 +34,7 @@ namespace Bovis.Service.Queries.Interface
 
         #region Usuarios
         Task<Response<(bool Success, string Message)>> AddUsuarioTimesheet(JsonObject registro);
-        Task<Response<List<UsuarioTimesheet_Detalle>>> GetUsuariosTimeSheet();
+        Task<Response<List<UsuarioTimesheet_Detalle>>> GetUsuariosTimeSheet(string fecha);
         Task<Response<(bool Success, string Message)>> UpdateUsuarioTimesheet(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteUsuarioTimesheet(JsonObject registro);
         #endregion Usuarios

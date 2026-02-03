@@ -33,7 +33,7 @@ namespace Bovis.Business.Interface
 
         #region Usuarios
         Task<(bool Success, string Message)> AddUsuarioTimesheet(JsonObject registro);
-        Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet();
+        Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet(string fecha);
         Task<(bool Success, string Message)> UpdateUsuarioTimesheet(JsonObject registro);
         Task<(bool Success, string Message)> DeleteUsuarioTimesheet(JsonObject registro);
         #endregion Usuarios

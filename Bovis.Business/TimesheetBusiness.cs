@@ -113,7 +113,7 @@ namespace Bovis.Business
             else resp = respData;
             return resp;
         }
-        public Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet() => _timesheetData.GetUsuariosTimeSheet();
+        public Task<List<UsuarioTimesheet_Detalle>> GetUsuariosTimeSheet(string fecha) => _timesheetData.GetUsuariosTimeSheet(fecha);
         public async Task<(bool Success, string Message)> UpdateUsuarioTimesheet(JsonObject registro)
         {
             (bool Success, string Message) resp = (true, string.Empty);
