@@ -2853,10 +2853,10 @@ namespace Bovis.Data
             int id_rubro = Convert.ToInt32(registro["idRubro"].ToString());
             int id_seccion = Convert.ToInt32(registro["idSeccion"].ToString());
             string unidad = registro["unidad"].ToString();
-            decimal cantidad = Convert.ToDecimal(registro["cantidad"].ToString());
+            decimal cantidad = registro["cantidad"] == null ? 0 : Convert.ToDecimal(registro["cantidad"].ToString());
             bool reembolsable = Convert.ToBoolean(registro["reembolsable"].ToString());
             bool aplica_todos_meses = Convert.ToBoolean(registro["aplicaTodosMeses"].ToString());
-            string sComentarios = registro["chcomentarios"].ToString(); //LEO Gastos comentarios  
+            string sComentarios = registro["chcomentarios"] == null ? "" : registro["chcomentarios"].ToString(); //LEO Gastos comentarios  
 
             int rubro_record_id = 0;
             bool bogastosPP = false;//LEO
