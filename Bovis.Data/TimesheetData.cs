@@ -369,8 +369,9 @@ namespace Bovis.Data
                                                  where ts.Mes == mes
                                                 && ts.Anio == anio
                                                 && ts.Activo == true
-                                                && (emp2.FechaSalida == null || mes == Convert.ToDateTime(emp2.FechaSalida).Month)
-                                                && (emp2.FechaSalida == null || anio == Convert.ToDateTime(emp2.FechaSalida).Year)
+                                                //&& (emp2.FechaSalida == null || mes == Convert.ToDateTime(emp2.FechaSalida).Month)
+                                                //&& (emp2.FechaSalida == null || anio == Convert.ToDateTime(emp2.FechaSalida).Year)
+                                                && ( emp2.Activo == true || (emp2.Activo == false  && mes == Convert.ToDateTime(emp2.FechaSalida).Month && emp2.Activo == false  && anio == Convert.ToDateTime(emp2.FechaSalida).Year))
                                                // && anio == Convert.ToDateTime(emp2.FechaSalida).Year
                                                 //&& emp2.Activo == true
                                                 orderby ts.IdEmpleado ascending
