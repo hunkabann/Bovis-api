@@ -3482,6 +3482,124 @@ namespace Bovis.Data
         //FEE libre
         public async Task<(bool Success, string Message)> UpdateGastosIngresosFee(JsonObject registro)
         {
+            try
+            {
+                // Extraer valores principales
+                int numProyecto = Convert.ToInt32(registro["nunum_proyecto"]?.ToString());
+                int idSeccion = Convert.ToInt32(registro["idSeccion"]?.ToString());
+                int idRubro = Convert.ToInt32(registro["idRubro"]?.ToString());
+                bool reembolsable = Convert.ToBoolean(registro["reembolsable"]?.ToString());
+
+                // Obtener arreglo fees
+                if (!registro.ContainsKey("fees"))
+                    return (false, "No se encontró 'fees' en el JSON.");
+
+                JsonArray datosJson = registro["fees"]!.AsArray();
+
+                // Convertir a lista fuerte
+                List<PCS_Fecha_Totales> datos = new();
+
+                foreach (var item in datosJson)
+                {
+                    datos.Add(new PCS_Fecha_Totales
+                    {
+                        Anio = item?["anio"]?.GetValue<int?>(),
+                        Mes = item?["mes"]?.GetValue<int?>(),
+                        TotalPorcentaje = item?["totalPorcentaje"]?.GetValue<decimal?>()
+                    });
+                }
+
+                if (datos.Count == 0)
+                    return (false, "No se recibieron datos para actualizar.");
+
+                // Nombre nuevo SP
+                string stored = "sp_rubro_valor_actualiza_v2";
+
+                var db = new ConnectionDB(dbConfig);
+
+                using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(stored, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Parámetros normales
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int)
+                    {
+                        Value = numProyecto
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int)
+                    {
+                        Value = idSeccion
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int)
+                    {
+                        Value = idRubro
+                    });
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit)
+                    {
+                        Value = reembolsable
+                    });
+
+                    // Convertir lista a DataTable
+                    /*
+                    DataTable tvp = datos.ToDataTable();
+
+                    // Renombrar columnas según TVP nuevo
+                    tvp.Columns["Anio"].ColumnName = "nuanio";
+                    tvp.Columns["Mes"].ColumnName = "numes";
+                    tvp.Columns["TotalPorcentaje"].ColumnName = "nuporcentaje";
+
+                    // Orden correcto
+                    tvp.Columns["nuanio"].SetOrdinal(0);
+                    tvp.Columns["numes"].SetOrdinal(1);
+                    tvp.Columns["nuporcentaje"].SetOrdinal(2);
+                    */
+                    DataTable tvp = new DataTable();
+
+                    tvp.Columns.Add("nuanio", typeof(int));
+                    tvp.Columns.Add("numes", typeof(int));
+                    tvp.Columns.Add("nuporcentaje", typeof(decimal));
+
+                    foreach (var item in datos)
+                    {
+                        tvp.Rows.Add(
+                            item.Anio,
+                            item.Mes,
+                            item.TotalPorcentaje
+                        );
+                    }
+
+                    // Agregar parámetro estructurado
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@tvp_anio_mes_porcentaje", SqlDbType.Structured)
+                    {
+                        TypeName = "dbo.tvp_anio_mes_porcentaje",
+                        Value = tvp
+                    });
+
+                    // ejecución estilo DataAdapter
+                    System.Data.SqlClient.SqlDataAdapter da = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+
+                    con.Open();
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+
+        }   // UpdateGastosIngresosFee
+
+        /*
+        public async Task<(bool Success, string Message)> UpdateGastosIngresosFee(JsonObject registro)
+        {
             int? iAnio = -1;
 
             try
@@ -3505,10 +3623,10 @@ namespace Bovis.Data
                 {
                     datos.Add(new PCS_Fecha_Totales
                     {
-                        Reembolsable = item?["Reembolsable"]?.GetValue<bool?>(),
-                        Anio = item?["Anio"]?.GetValue<int?>(),
-                        Mes = item?["Mes"]?.GetValue<int?>(),
-                        TotalPorcentaje = item?["TotalPorcentaje"]?.GetValue<decimal?>()
+                        Reembolsable = item?["reembolsable"]?.GetValue<bool?>(),
+                        Anio = item?["anio"]?.GetValue<int?>(),
+                        Mes = item?["mes"]?.GetValue<int?>(),
+                        TotalPorcentaje = item?["totalPorcentaje"]?.GetValue<decimal?>()
                     });
                 }
 
@@ -3604,6 +3722,7 @@ namespace Bovis.Data
             }
 
         }   // UpdateGastosIngresosFee
+        */
 
         public bool UpdateGastosIngresosFee(int nunumProyecto, int nuid_seccion, DataTable dt)
         {
