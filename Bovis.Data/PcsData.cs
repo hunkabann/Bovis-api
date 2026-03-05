@@ -889,7 +889,6 @@ namespace Bovis.Data
         {
             PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
 
-
             using (var db = new ConnectionDB(dbConfig))
             {
                 var proyecto = await (from p in db.tB_Proyectos
@@ -898,17 +897,15 @@ namespace Bovis.Data
 
                 proyecto_etapas.FechaIni = new DateTime(proyecto.FechaIni.Year, proyecto.FechaIni.Month, 1);
 
-                // Ajustamos la FechaFin sumando un día
                 if (proyecto?.FechaFin != null)
                 {
-                    proyecto_etapas.FechaFin = proyecto.FechaFin.Value.AddDays(1);
+                    proyecto_etapas.FechaFin = AjustarFechaFin(proyecto.FechaFin.Value);
                 }
+
                 proyecto_etapas.NumProyecto = IdProyecto;
                 proyecto_etapas.NombreProyecto = proyecto.Proyecto;
 
                 var etapas = await (from p in db.tB_ProyectoFases
-                                    join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
-                                    from proyItem in proyJoin.DefaultIfEmpty()
                                     where p.NumProyecto == IdProyecto
                                     orderby p.FechaIni ascending
                                     select new PCS_Etapa_Detalle
@@ -921,51 +918,78 @@ namespace Bovis.Data
                                     }).ToListAsync();
 
                 proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
-                //proyecto_etapas.Etapas.AddRange(etapas);
-                var fases = new List<PCS_Etapa_Detalle>();
-                PCS_Etapa_Detalle fase = new PCS_Etapa_Detalle();
-                fase.IdFase = proyecto_etapas.NumProyecto;
-                fase.Orden = -100;
-                fase.Fase = proyecto_etapas.NombreProyecto;
-                fase.FechaIni = proyecto_etapas.FechaIni ?? DateTime.Now;
-                fase.FechaFin = proyecto_etapas.FechaFin ?? DateTime.Now;
-                proyecto_etapas.Etapas.Add(fase);
+
+                // ===============================
+                // FASE GENERAL DEL PROYECTO
+                // ===============================
+
+                var faseProyecto = new PCS_Etapa_Detalle
+                {
+                    IdFase = proyecto_etapas.NumProyecto,
+                    Orden = -100,
+                    Fase = proyecto_etapas.NombreProyecto,
+                    FechaIni = proyecto_etapas.FechaIni ?? DateTime.Now,
+                    FechaFin = proyecto_etapas.FechaFin ?? DateTime.Now
+                };
+
+                proyecto_etapas.Etapas.Add(faseProyecto);
+
                 PCS_GanttData ganttData = new PCS_GanttData();
-                PCS_GanttDataFase ganttDataFase = new PCS_GanttDataFase();
                 List<PCS_GanttDataFase> data = new List<PCS_GanttDataFase>();
-                List<string> equis = new List<string>();
-                equis.Add(String.Format("{0:yyyy-MM-dd}", fase.FechaIni));
-                equis.Add(String.Format("{0:yyyy-MM-dd}", fase.FechaFin));
-                ganttDataFase.X = equis.ToArray();
-                ganttDataFase.Y = fase.Fase;
-                data.Add(ganttDataFase);
+
+                data.Add(new PCS_GanttDataFase
+                {
+                    X = new[]
+                    {
+                        faseProyecto.FechaIni.ToString("yyyy-MM-dd"),
+                        faseProyecto.FechaFin.ToString("yyyy-MM-dd")
+                    },
+                    Y = faseProyecto.Fase
+                });
+
+                // ===============================
+                // ETAPAS
+                // ===============================
 
                 foreach (var etapa in etapas)
                 {
-                    // Sumar un día a FechaFin si no es nulo
-                    /*
                     if (etapa.FechaFin != null)
                     {
-                        etapa.FechaFin = etapa.FechaFin.AddDays(1);
+                        etapa.FechaFin = AjustarFechaFin(etapa.FechaFin);
                     }
-                    */
 
                     proyecto_etapas.Etapas.Add(etapa);
 
-                    ganttDataFase = new PCS_GanttDataFase();
-                    equis = new List<string>();
-                    equis.Add(String.Format("{0:yyyy-MM-dd}", etapa.FechaIni));
-                    equis.Add(String.Format("{0:yyyy-MM-dd}", etapa.FechaFin));
-                    ganttDataFase.X = equis.ToArray();
-                    ganttDataFase.Y = etapa.Fase;
-                    data.Add(ganttDataFase);
+                    data.Add(new PCS_GanttDataFase
+                    {
+                        X = new[]
+                        {
+                            etapa.FechaIni.ToString("yyyy-MM-dd"),
+                            etapa.FechaFin.ToString("yyyy-MM-dd")
+                        },
+                        Y = etapa.Fase
+                    });
                 }
+
                 ganttData.data = data;
 
                 return ganttData;
             }
 
         }   // GetPEtapas
+
+        /**
+         * LDTF    2026-03-05
+         * Auxiliar para obtener las etapas del proyecto para los datos del gantt
+         */
+        private DateTime AjustarFechaFin(DateTime fechaFin)
+        {
+            bool esUltimoDiaMes =
+                fechaFin.Day == DateTime.DaysInMonth(fechaFin.Year, fechaFin.Month);
+
+            return esUltimoDiaMes ? fechaFin : fechaFin.AddDays(1);
+
+        }   // AjustarFechaFin
 
         public async Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto)
         {
