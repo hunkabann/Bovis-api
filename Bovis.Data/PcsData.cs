@@ -2483,7 +2483,13 @@ namespace Bovis.Data
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int) { Value = numProyecto });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int) { Value = idSeccion });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int) { Value = idRubro });
-                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Decimal) { Value = nuprocentaje });
+                    //cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Decimal) { Value = nuprocentaje });
+                    var p = new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Decimal);
+                    p.Precision = 10;
+                    p.Scale = 2;
+                    p.Value = nuprocentaje;
+
+                    cmd.Parameters.Add(p);
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@numes_ini_calculo", SqlDbType.Int) { Value = numes_ini_calculo });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit) { Value = true });
                     
@@ -2503,7 +2509,13 @@ namespace Bovis.Data
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int) { Value = numProyecto });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_seccion", SqlDbType.Int) { Value = idSeccion });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nukid_rubro", SqlDbType.Int) { Value = idRubro });
-                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Decimal) { Value = nuprocentaje });
+                    //cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Decimal) { Value = nuprocentaje });
+                    var p = new System.Data.SqlClient.SqlParameter("@nuprocentaje", SqlDbType.Decimal);
+                    p.Precision = 10;
+                    p.Scale = 2;
+                    p.Value = nuprocentaje;
+
+                    cmd.Parameters.Add(p);
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@numes_ini_calculo", SqlDbType.Int) { Value = numes_ini_calculo });
                     cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@boreembolsable", SqlDbType.Bit) { Value = false });
 
@@ -2520,7 +2532,8 @@ namespace Bovis.Data
             {
                 return (false, ex.Message);
             }
-        }
+
+        }   // UpdateRubroValorInflacion
 
 
 
@@ -2768,7 +2781,7 @@ namespace Bovis.Data
                         DataRow row = dt.Rows[0];
 
                         retorno.NumProyecto = row.Field<int>("nunum_proyecto");
-                        retorno.Nuprocentaje = row.Field<int>("nuprocentaje");
+                        retorno.Nuprocentaje = row.Field<decimal>("nuprocentaje");
                         retorno.Numes_ini_calculo = row.Field<int>("numes_ini_calculo");
                     }
                     con.Close();

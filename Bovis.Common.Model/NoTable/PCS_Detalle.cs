@@ -22,9 +22,8 @@ namespace Bovis.Common.Model.NoTable
     public class PCS_Proyecto_Inflacion
     {
         public int NumProyecto { get; set; }
-        public int Nuprocentaje { get; set; }
+        public decimal Nuprocentaje { get; set; }
         public int Numes_ini_calculo { get; set; }
-
     }   // PCS_Proyecto_Inflacion
 
 
