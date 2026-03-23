@@ -57,6 +57,11 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetProyectos(OrdenAlfabetico);
             return new Response<List<Proyecto>> { Data = _map.Map<List<Proyecto>>(response), Success = true };
         }
+        public async Task<Response<List<PCS_Linea_Base>>> GetLineaBase(int IdProyecto)  // LDTF
+        {
+            var response = await _pcsBusiness.GetLineaBase(IdProyecto);
+            return new Response<List<PCS_Linea_Base>> { Data = _map.Map<List<PCS_Linea_Base>>(response), Success = true };
+        }
         //atc 09-11-2024
         public async Task<Response<List<Proyecto>>> GetProyectosNoClose(bool? OrdenAlfabetico)
         {
@@ -71,6 +76,18 @@ namespace Bovis.Service.Queries
         public async Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro)
         {
             var response = await _pcsBusiness.AddProyecto(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool Success, string Message)>> VerificaLineaBase(JsonObject registro)
+        {
+            // LDTF
+            var response = await _pcsBusiness.VerificaLineaBase(registro);
+            return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
+        }
+        public async Task<Response<(bool Success, string Message)>> CreaLineaBase(JsonObject registro)
+        {
+            // LDTF
+            var response = await _pcsBusiness.CreaLineaBase(registro);
             return new Response<(bool Success, string Message)> { Data = _map.Map<(bool Success, string Message)>(response), Success = response.Success, Message = response.Message };
         }
         public async Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto)

@@ -73,6 +73,13 @@ namespace Bovis.API.Controllers
             return Ok(business);
         }
 
+        [HttpGet, Route("Proyectos/LineaBase/{numProyecto}")]
+        public async Task<IActionResult> GetLineaBase(int numProyecto)
+        {
+            var business = await _pcsQueryService.GetLineaBase(numProyecto);
+            return Ok(business);
+        }
+
         //atc 09-11-2024
         [HttpGet, Route("ProyectosNoClose/{OrdenAlfabetico?}")]
         public async Task<IActionResult> ObtenerProyectosNoClose(bool? OrdenAlfabetico)
@@ -92,6 +99,22 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> AddProyecto([FromBody] JsonObject registro)
         {
             var query = await _pcsQueryService.AddProyecto(registro);
+            return Ok(query);
+        }
+
+        // LDTF 20/Mar/2026
+        [HttpPost, Route("Proyectos/VerificaLineaBase")]
+        public async Task<IActionResult> VerificaLineaBase([FromBody] JsonObject registro)
+        {
+            var query = await _pcsQueryService.VerificaLineaBase(registro);
+            return Ok(query);
+        }
+
+        // LDTF 23/Mar/2026
+        [HttpPost, Route("Proyectos/CreaLineaBase")]
+        public async Task<IActionResult> CreaLineaBase([FromBody] JsonObject registro)
+        {
+            var query = await _pcsQueryService.CreaLineaBase(registro);
             return Ok(query);
         }
 

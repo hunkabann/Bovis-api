@@ -44,12 +44,15 @@ namespace Bovis.Business
 
         #region Proyectos
         public Task<List<TB_Proyecto>> GetProyectos(bool? OrdenAlfabetico) => _pcsData.GetProyectos(OrdenAlfabetico);
+        public Task<List<PCS_Linea_Base>> GetLineaBase(int IdProyecto) => _pcsData.GetLineaBase(IdProyecto);    // LDTF
         //atc 09-11-2024
         public Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico) => _pcsData.GetProyectosNoClose(OrdenAlfabetico);
 
         public Task<TB_Proyecto> GetProyecto(int numProyecto) => _pcsData.GetProyecto(numProyecto);
 
         public Task<(bool Success, string Message)> AddProyecto(JsonObject registro) => _pcsData.AddProyecto(registro);
+        public Task<(bool Success, string Message)> VerificaLineaBase(JsonObject registro) => _pcsData.VerificaLineaBase(registro); // LDTF
+        public Task<(bool Success, string Message)> CreaLineaBase(JsonObject registro) => _pcsData.CreaLineaBase(registro); // LDTF
 
         public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);
 

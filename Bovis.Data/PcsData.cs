@@ -135,7 +135,76 @@ namespace Bovis.Data
 
                 return resp;
             }
-        }
+
+        }   // GetProyectos
+
+
+        /**
+         * LDTF
+         * Obtiene las líneas base por proyecto
+         */
+        public async Task<List<PCS_Linea_Base>> GetLineaBase(int IdProyecto)
+        {
+            List<PCS_Linea_Base> retorno = new List<PCS_Linea_Base>();
+
+            string sQuery = "";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_linea_base_listado";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        retorno.Add(new PCS_Linea_Base
+                        {
+                            Nukidlinea_base = row.Field<int>("nukidlinea_base"),
+                            Dtfecha = row.Field<string>("dtfecha")
+                        });
+                    }
+                    //con.Close();
+
+                    boOk = true;
+                    return retorno;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+            return retorno;
+
+        }   // GetLineaBase
+
+
 
         //atc 09-11-2024
         public async Task<List<TB_Proyecto>> GetProyectosNoClose(bool? OrdenAlfabetico)
@@ -388,6 +457,116 @@ namespace Bovis.Data
 
             return resp;
         }
+
+        /**
+         * LDTF 20/Mar/2026
+         * Verifica si ya existe las línea base para hoy por proyecto; si existe la borra
+         */
+        public async Task<(bool Success, string Message)> VerificaLineaBase(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+
+            string sQuery = "";
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_linea_base_verifica";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = num_proyecto;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    //return (true, string.Empty);
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                    resp.Success = false;
+                    resp.Message = ex.Message;
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return resp;
+
+        }   // VerificaLineaBase
+
+
+
+        /**
+         * LDTF
+         * Crea línea Base de hoy por proyecto
+         */
+        public async Task<(bool Success, string Message)> CreaLineaBase(JsonObject registro)
+        {
+            (bool Success, string Message) resp = (true, string.Empty);
+
+            int num_proyecto = Convert.ToInt32(registro["num_proyecto"].ToString());
+
+            string sQuery = "";
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_linea_base_agrega";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = num_proyecto;
+                    cmd.Parameters.Add(param01);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                    resp.Success = false;
+                    resp.Message = ex.Message;
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            return resp;
+
+        }   // CreaLineaBase
+
+
         public async Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto)
         {
             //LEO inputs para FEEs I

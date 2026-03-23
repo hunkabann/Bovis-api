@@ -20,10 +20,13 @@ namespace Bovis.Service.Queries.Interface
 
         #region Proyectos
         Task<Response<List<Proyecto>>> GetProyectos(bool? OrdenAlfabetico);
+        Task<Response<List<PCS_Linea_Base>>> GetLineaBase(int IdProyecto);    // LDTF
         //atc 09-11-2024
         Task<Response<List<Proyecto>>> GetProyectosNoClose(bool? OrdenAlfabetico);        
         Task<Response<Proyecto>> GetProyecto(int numProyecto);
         Task<Response<(bool Success, string Message)>> AddProyecto(JsonObject registro);
+        Task<Response<(bool Success, string Message)>> VerificaLineaBase(JsonObject registro);  // LDTF
+        Task<Response<(bool Success, string Message)>> CreaLineaBase(JsonObject registro);  // LDTF
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
         Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos();
         Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro);
