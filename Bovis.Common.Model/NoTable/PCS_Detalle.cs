@@ -28,6 +28,15 @@ namespace Bovis.Common.Model.NoTable
     }   // PCS_Proyecto_Inflacion
 
 
+    public class PCS_Linea_Base // LDTF
+    {
+        public int Nukidlinea_base { get; set; }
+        public string Dtfecha { get; set; }
+
+    }   // PCS_Linea_Base
+
+
+
     public class PCS_Proyecto_Detalle
     {
         public int NumProyecto { get; set; }
