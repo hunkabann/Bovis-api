@@ -28,6 +28,7 @@ namespace Bovis.Service.Queries.Interface
         Task<Response<(bool Success, string Message)>> VerificaLineaBase(JsonObject registro);  // LDTF
         Task<Response<(bool Success, string Message)>> CreaLineaBase(JsonObject registro);  // LDTF
         Task<Response<List<Proyecto_Detalle>>> GetProyectos(int IdProyecto);
+        Task<Response<List<Proyecto_Detalle>>> GetProyectosLB(int numProyecto, int IdLineaBase); // LDTF
         Task<Response<List<Tipo_Proyecto>>> GetTipoProyectos();
         Task<Response<(bool Success, string Message)>> UpdateProyecto(JsonObject registro);
         Task<Response<(bool Success, string Message)>> DeleteProyecto(int IdProyecto);

@@ -701,7 +701,149 @@ namespace Bovis.Data
 
                 return proyectos;
             }
-        }
+
+        }   // GetProyectos
+
+        /**
+         * LDTF 25/Mar/2026
+         * Obtiene la información del proyecto a partir de una línea base dada
+         */
+        public async Task<List<Proyecto_Detalle>> GetProyectosLB(int numProyecto, int IdLineaBase)
+        {
+            var retorno = new List<Proyecto_Detalle>();
+            var proy = new Proyecto_Detalle();
+
+            DataSet ds = new DataSet();
+            //DataSet ds = null;
+            string sQuery = "";
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_info_lb";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = numProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@nukidlinea_base", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdLineaBase;
+                    cmd.Parameters.Add(param02);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            if(ds == null || ds.Tables == null)
+                return retorno;
+
+            // mapeo de datos
+            DataTable dtProy = ds.Tables[0];
+            DataTable dtClientes = ds.Tables[1];
+            DataTable dtFee = ds.Tables[2];
+
+            if (dtProy == null || dtProy.Rows.Count == 0)
+                return retorno;
+
+            foreach (DataRow row in dtProy.Rows)
+            {
+                var proyecto = new Proyecto_Detalle
+                {
+                    nunum_proyecto = row.Field<int>("NumProyecto"),
+                    chproyecto = row.Field<string>("Proyecto"),
+                    chalcance = row.Field<string>("Alcance"),
+                    chcp = row.Field<string>("Cp"),
+                    chciudad = row.Field<string>("Ciudad"),
+                    nukidpais = row.Field<int?>("nukidpais"),
+                    chpais = row.Field<string>("Pais"),
+                    nukidestatus = row.Field<int?>("IdEstatus"),
+                    chestatus = row.Field<string>("Estatus"),
+                    nukidsector = row.Field<int?>("IdSector"),
+                    chsector = row.Field<string>("Sector"),
+                    nukidtipo_proyecto = row.Field<int?>("IdTipoProyecto"),
+                    chtipo_proyecto = row.Field<string>("TipoProyecto"),
+
+                    nukidempresa = row.Field<int?>("nukidempresa"),
+                    chempresa = row.Field<string>("Empresa"),
+
+                    nukiddirector_ejecutivo = row["nukiddirector_ejecutivo"]?.ToString(),
+                    chdirector_ejecutivo = row.Field<string>("chdirector_ejecutivo").Trim(),
+
+                    dtfecha_ini = row.Field<DateTime?>("dtfecha_ini"),
+                    dtfecha_fin = row.Field<DateTime?>("dtfecha_fin"),
+
+                    //impuesto_nomina = (int?)row.Field<decimal?>("Nuimpuesto_nomina"),
+                    impuesto_nomina = row.Field<int?>("Nuimpuesto_nomina"),
+
+                    nukidunidadnegocio = row.Field<int?>("nukidunidaddenegocio"),
+                    chunidadnegocio = row.Field<string>("Chunidad_negocio"),
+
+                    chcontacto_nombre = row.Field<string>("Chnombre"),
+                    chcontacto_posicion = row.Field<string>("Chposicion"),
+                    chcontacto_telefono = row.Field<string>("Chtelefono"),
+                    chcontacto_correo = row.Field<string>("Chcorreo"),
+
+                    Clientes = new List<InfoCliente>()
+                };
+
+                var clientes = dtClientes.AsEnumerable()
+                        .Where(c => c.Field<int>("nunum_proyecto") == proyecto.nunum_proyecto)
+                        .Select(c => new InfoCliente
+                        {
+                            IdCliente = c.Field<int>("nukidcliente"),
+                            Cliente = c.Field<string>("chcliente")?.Trim(),
+                            Rfc = c.Field<string>("chrfc")?.Trim() ?? string.Empty
+                        })
+                        .ToList();
+
+                proyecto.Clientes = clientes;
+
+                var feeRow = dtFee.AsEnumerable()
+                                .FirstOrDefault(f => f.Field<int>("nunum_proyecto") == proyecto.nunum_proyecto);
+
+                if (feeRow != null)
+                {
+                    proyecto.overheadPorcentaje = feeRow.Field<int?>("nufee_OH");
+                    proyecto.utilidadPorcentaje = feeRow.Field<int?>("nufee_utilidad");
+                    proyecto.contingenciaPorcentaje = feeRow.Field<int?>("nufee_contingencia");
+                }
+
+                retorno.Add(proyecto);
+
+            }
+
+            return retorno;
+
+        }   // GetProyectosLB
+
+
         public async Task<List<Tipo_Proyecto>> GetTipoProyectos()
         {
             using (var db = new ConnectionDB(dbConfig))
@@ -4815,6 +4957,7 @@ namespace Bovis.Data
             }
 
             return boOk;
+
         }   // controlData
 
         public bool controlSalarios(int nunumProyecto, out DataSet ds)
@@ -4865,7 +5008,8 @@ namespace Bovis.Data
             }
 
             return boOk;
-        }   // controlData
+
+        }   // controlSalarios
 
         private bool LlenaSecciones(ref Control_Data control,int nunumProyecto, int nuid_seccion)
         {

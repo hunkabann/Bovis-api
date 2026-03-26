@@ -125,6 +125,14 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        // LDTF 25/Mar/2026
+        [HttpGet, Route("Proyectos/Info_lb/{numProyecto}/{IdLineaBase}")]
+        public async Task<IActionResult> GetProyectosLB(int numProyecto, int IdLineaBase)
+        {
+            var query = await _pcsQueryService.GetProyectosLB(numProyecto, IdLineaBase);
+            return Ok(query);
+        }
+
         [HttpGet, Route("Proyectos/Tipo")]
         public async Task<IActionResult> GetTipoProyectos()
         {

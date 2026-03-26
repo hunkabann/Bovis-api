@@ -55,6 +55,7 @@ namespace Bovis.Business
         public Task<(bool Success, string Message)> CreaLineaBase(JsonObject registro) => _pcsData.CreaLineaBase(registro); // LDTF
 
         public Task<List<Proyecto_Detalle>> GetProyectos(int IdProyecto) => _pcsData.GetProyectos(IdProyecto);
+        public Task<List<Proyecto_Detalle>> GetProyectosLB(int numProyecto, int IdLineaBase) => _pcsData.GetProyectosLB(numProyecto, IdLineaBase);    // LDTF
 
         public Task<List<Tipo_Proyecto>> GetTipoProyectos() => _pcsData.GetTipoProyectos();
 
