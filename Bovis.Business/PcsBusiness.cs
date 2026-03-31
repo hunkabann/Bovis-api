@@ -96,7 +96,9 @@ namespace Bovis.Business
         public Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro) => _pcsData.AddEtapa(registro);
 
         public Task<PCS_GanttData> GetPEtapas(int IdProyecto) => _pcsData.GetPEtapas(IdProyecto);
+        public Task<PCS_GanttData> GetPEtapasLB(int IdProyecto, int IdLineaBase) => _pcsData.GetPEtapasLB(IdProyecto, IdLineaBase);
         public Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto) => _pcsData.GetEtapas(IdProyecto);
+        public Task<PCS_Proyecto_Detalle> GetEtapasLB(int IdProyecto, int IdLineaBase) => _pcsData.GetEtapasLB(IdProyecto, IdLineaBase);
 
         public async Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro)
         {

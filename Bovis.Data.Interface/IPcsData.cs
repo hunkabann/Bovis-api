@@ -44,7 +44,9 @@ namespace Bovis.Data.Interface
         #region Etapas
         Task<PCS_Etapa_Detalle> AddEtapa(JsonObject registro);
         Task<PCS_Proyecto_Detalle> GetEtapas(int IdProyecto);
+        Task<PCS_Proyecto_Detalle> GetEtapasLB(int IdProyecto, int IdLineaBase);
         Task<PCS_GanttData> GetPEtapas(int IdProyecto);
+        Task<PCS_GanttData> GetPEtapasLB(int IdProyecto, int IdLineaBase);
         Task<(bool Success, string Message)> UpdateEtapa(JsonObject registro);
         Task<(bool Success, string Message)> DeleteEtapa(int IdEtapa);
         #endregion Etapas

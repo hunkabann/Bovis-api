@@ -761,7 +761,7 @@ namespace Bovis.Data
                 }
             }
 
-            if(ds == null || ds.Tables == null)
+            if (ds == null || ds.Tables == null)
                 return retorno;
 
             // mapeo de datos
@@ -1034,7 +1034,7 @@ namespace Bovis.Data
         }
 
         //LEO inputs para FEEs I
-        public void MapeaEntradaFeeGuardar(int iProyecto,int? iOverHeadPorc, int? iUtilidadPorc, int? iContingenciaPorc, out PCS_Fee_Porcentaje oSalida )
+        public void MapeaEntradaFeeGuardar(int iProyecto, int? iOverHeadPorc, int? iUtilidadPorc, int? iContingenciaPorc, out PCS_Fee_Porcentaje oSalida)
         {
             oSalida = new PCS_Fee_Porcentaje();
             oSalida.nunum_proyecto = iProyecto;
@@ -1139,7 +1139,7 @@ namespace Bovis.Data
 
                     System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
                     con.Open();
-                    
+
                     cda.Fill(dt);
 
                     con.Close();
@@ -1299,6 +1299,100 @@ namespace Bovis.Data
 
         }   // GetPEtapas
 
+        public async Task<PCS_GanttData> GetPEtapasLB(int IdProyecto, int IdLineaBase)
+        {
+            PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                var proyecto = await (from p in db.tB_Proyectos
+                                      where p.NumProyecto == IdProyecto
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_etapas.FechaIni = new DateTime(proyecto.FechaIni.Year, proyecto.FechaIni.Month, 1);
+
+                if (proyecto?.FechaFin != null)
+                {
+                    proyecto_etapas.FechaFin = AjustarFechaFin(proyecto.FechaFin.Value);
+                }
+
+                proyecto_etapas.NumProyecto = IdProyecto;
+                proyecto_etapas.NombreProyecto = proyecto.Proyecto;
+
+                var etapas = await (from p in db.tB_ProyectoFases
+                                    where p.NumProyecto == IdProyecto
+                                    orderby p.FechaIni ascending
+                                    select new PCS_Etapa_Detalle
+                                    {
+                                        IdFase = p.IdFase,
+                                        Orden = p.Orden,
+                                        Fase = p.Fase,
+                                        FechaIni = p.FechaIni,
+                                        FechaFin = p.FechaFin
+                                    }).ToListAsync();
+
+                proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
+
+                // ===============================
+                // FASE GENERAL DEL PROYECTO
+                // ===============================
+
+                var faseProyecto = new PCS_Etapa_Detalle
+                {
+                    IdFase = proyecto_etapas.NumProyecto,
+                    Orden = -100,
+                    Fase = proyecto_etapas.NombreProyecto,
+                    FechaIni = proyecto_etapas.FechaIni ?? DateTime.Now,
+                    FechaFin = proyecto_etapas.FechaFin ?? DateTime.Now
+                };
+
+                proyecto_etapas.Etapas.Add(faseProyecto);
+
+                PCS_GanttData ganttData = new PCS_GanttData();
+                List<PCS_GanttDataFase> data = new List<PCS_GanttDataFase>();
+
+                data.Add(new PCS_GanttDataFase
+                {
+                    X = new[]
+                    {
+                        faseProyecto.FechaIni.ToString("yyyy-MM-dd"),
+                        faseProyecto.FechaFin.ToString("yyyy-MM-dd")
+                    },
+                    Y = faseProyecto.Fase
+                });
+
+                // ===============================
+                // ETAPAS
+                // ===============================
+
+                foreach (var etapa in etapas)
+                {
+                    if (etapa.FechaFin != null)
+                    {
+                        etapa.FechaFin = AjustarFechaFin(etapa.FechaFin);
+                    }
+
+                    proyecto_etapas.Etapas.Add(etapa);
+
+                    data.Add(new PCS_GanttDataFase
+                    {
+                        X = new[]
+                        {
+                            etapa.FechaIni.ToString("yyyy-MM-dd"),
+                            etapa.FechaFin.ToString("yyyy-MM-dd")
+                        },
+                        Y = etapa.Fase
+                    });
+                }
+
+                ganttData.data = data;
+
+                return ganttData;
+            }
+
+        }   // GetPEtapasLB
+
+
         /**
          * LDTF    2026-03-05
          * Auxiliar para obtener las etapas del proyecto para los datos del gantt
@@ -1387,44 +1481,44 @@ namespace Bovis.Data
 
                     //LEO TBD I Para que busque los empleados que son TBD y pueda asignar la etiqueta como Nombre
                     var empleadosTBD = await (from p in db.tB_ProyectoFaseEmpleados
-                                           join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
-                                           from eItem in eJoin.DefaultIfEmpty()
-                                           join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
-                                           from perItem in perJoin.DefaultIfEmpty()
-                                           where p.IdFase == etapa.IdFase
-                                           && p.NumEmpleado.Contains("TBD") //LEO TBD
-                                           && p.Activo == true //LEO TBD
-                                           orderby p.NumEmpleado ascending
-                                           group new PCS_Empleado_Detalle
-                                           {
-                                               Id = p.Id,
-                                               IdFase = p.IdFase,
-                                               NumempleadoRrHh = p.NumEmpleado,
-                                               Empleado = p.etiqueta,
-                                               Cantidad = p.Cantidad,
-                                               AplicaTodosMeses = p.AplicaTodosMeses,
-                                               Fee = p.Fee,
-                                               Reembolsable = p.boreembolsable ?? false,
-                                               NuCostoIni = p.nucosto_ini,
-                                               ChAlias = p.chalias
-                                               ,EtiquetaTBD = p.etiqueta
-                                               ,IdPuesto = ""
-                                           } by new { p.NumEmpleado } into g
-                                           select new PCS_Empleado_Detalle
-                                           {
-                                               Id = g.First().Id,
-                                               IdFase = g.First().IdFase,
-                                               NumempleadoRrHh = g.Key.NumEmpleado,
-                                               Empleado = g.First().Empleado,
-                                               Cantidad = g.First().Cantidad,
-                                               AplicaTodosMeses = g.First().AplicaTodosMeses,
-                                               Fee = g.First().Fee,
-                                               Reembolsable = g.First().Reembolsable,
-                                               NuCostoIni = g.First().NuCostoIni,
-                                               ChAlias = g.First().ChAlias
-                                               ,EtiquetaTBD = g.First().EtiquetaTBD
-                                               ,IdPuesto = GetNumPuesto(g.Key.NumEmpleado) //para que en el caso del TBD indique el idPuesto que está inmerso en el NumempleadoRrHh en la posición 2 (cero based)
-                                           }).ToListAsync();
+                                              join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                              from eItem in eJoin.DefaultIfEmpty()
+                                              join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                              from perItem in perJoin.DefaultIfEmpty()
+                                              where p.IdFase == etapa.IdFase
+                                              && p.NumEmpleado.Contains("TBD") //LEO TBD
+                                              && p.Activo == true //LEO TBD
+                                              orderby p.NumEmpleado ascending
+                                              group new PCS_Empleado_Detalle
+                                              {
+                                                  Id = p.Id,
+                                                  IdFase = p.IdFase,
+                                                  NumempleadoRrHh = p.NumEmpleado,
+                                                  Empleado = p.etiqueta,
+                                                  Cantidad = p.Cantidad,
+                                                  AplicaTodosMeses = p.AplicaTodosMeses,
+                                                  Fee = p.Fee,
+                                                  Reembolsable = p.boreembolsable ?? false,
+                                                  NuCostoIni = p.nucosto_ini,
+                                                  ChAlias = p.chalias
+                                                  , EtiquetaTBD = p.etiqueta
+                                                  , IdPuesto = ""
+                                              } by new { p.NumEmpleado } into g
+                                              select new PCS_Empleado_Detalle
+                                              {
+                                                  Id = g.First().Id,
+                                                  IdFase = g.First().IdFase,
+                                                  NumempleadoRrHh = g.Key.NumEmpleado,
+                                                  Empleado = g.First().Empleado,
+                                                  Cantidad = g.First().Cantidad,
+                                                  AplicaTodosMeses = g.First().AplicaTodosMeses,
+                                                  Fee = g.First().Fee,
+                                                  Reembolsable = g.First().Reembolsable,
+                                                  NuCostoIni = g.First().NuCostoIni,
+                                                  ChAlias = g.First().ChAlias
+                                                  , EtiquetaTBD = g.First().EtiquetaTBD
+                                                  , IdPuesto = GetNumPuesto(g.Key.NumEmpleado) //para que en el caso del TBD indique el idPuesto que está inmerso en el NumempleadoRrHh en la posición 2 (cero based)
+                                              }).ToListAsync();
 
                     etapa.Empleados = new List<PCS_Empleado_Detalle>();
                     etapa.Empleados.AddRange(empleados);
@@ -1476,6 +1570,158 @@ namespace Bovis.Data
                 return proyecto_etapas;
             }
         }
+
+        /**
+         * LEO 
+         * Obtiene la información de las etapas a partir de una línea base
+         */
+        public async Task<PCS_Proyecto_Detalle> GetEtapasLB(int IdProyecto, int IdLineaBase)
+        {
+
+            PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+
+            DataSet ds = new DataSet();
+            //DataSet ds = null;
+            string sQuery = "";
+            int iValor = -1;
+            DateTime dttFecha = new DateTime();
+            string sCadenaApoyo = "";
+
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_etapas_lb";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@Num_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@IdlineaBase", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdLineaBase;
+                    cmd.Parameters.Add(param02);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            if (ds == null || ds.Tables == null)
+                return proyecto_etapas;
+
+            //mapeo de datos
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("es-MX");
+            DataTable dtProy = ds.Tables[0];
+            DataTable dtEtapas = ds.Tables[1];
+            DataTable dtEmpleados = ds.Tables[2];
+            DataTable dtEmpleadosTBD = ds.Tables[3];
+            DataTable dtFechas = ds.Tables[4];
+
+
+            Int32.TryParse(dtProy.Rows[0]["nunum_proyecto"].ToString(), out iValor);
+            proyecto_etapas.NumProyecto = iValor;
+
+            DateTime.TryParse(dtProy.Rows[0]["dtfecha_ini"].ToString(), out dttFecha);
+            proyecto_etapas.FechaIni = dttFecha;
+
+            DateTime.TryParse(dtProy.Rows[0]["dtfecha_fin"].ToString(), out dttFecha);
+            proyecto_etapas.FechaFin = dttFecha;
+
+            //asignando etapas
+            List<PCS_Etapa_Detalle> etapas = new List<PCS_Etapa_Detalle>();
+            sCadenaApoyo = JsonConvert.SerializeObject(dtEtapas);
+            etapas = JsonConvert.DeserializeObject<List<PCS_Etapa_Detalle>>(sCadenaApoyo);
+
+            proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
+            proyecto_etapas.Etapas.AddRange(etapas);
+
+            //asignando empleados a las etapas
+            foreach (var etapa in etapas)
+            {
+                var empleados = new List<PCS_Empleado_Detalle>();
+                var empleadosTBD = new List<PCS_Empleado_Detalle>();
+
+                var iRenglones = dtEmpleados.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString()).Count();
+                //si hay registros de empleados con id que los asigne
+                if (iRenglones > 0)
+                {
+                    sCadenaApoyo = JsonConvert.SerializeObject(dtEmpleados.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString()).CopyToDataTable());
+                    empleados = JsonConvert.DeserializeObject<List<PCS_Empleado_Detalle>>(sCadenaApoyo);
+                }
+
+                //si hay registros de empleados TBD con id que los asigne
+                iRenglones = dtEmpleadosTBD.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString()).Count();
+                if (iRenglones > 0)
+                {
+                    sCadenaApoyo = JsonConvert.SerializeObject(dtEmpleadosTBD.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString()).CopyToDataTable());
+                    empleadosTBD = JsonConvert.DeserializeObject<List<PCS_Empleado_Detalle>>(sCadenaApoyo);
+                }
+                
+                foreach (var empleado in empleados)
+                {
+                    var fechas = new List<PCS_Fecha_Detalle>();
+
+                    iRenglones = iRenglones = dtFechas.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString() && x["NumempleadoRrHh"].ToString() == empleado.NumempleadoRrHh).Count();
+                    if (iRenglones > 0)
+                    {
+                        sCadenaApoyo = JsonConvert.SerializeObject(dtFechas.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString() && x["NumempleadoRrHh"].ToString() == empleado.NumempleadoRrHh).CopyToDataTable());
+                        fechas = JsonConvert.DeserializeObject<List<PCS_Fecha_Detalle>>(sCadenaApoyo);
+                    }
+
+                    empleado.Fechas = new List<PCS_Fecha_Detalle>();
+                    empleado.Fechas.AddRange(fechas);
+                }
+
+                foreach (var empleado in empleadosTBD)
+                {
+                    var fechas = new List<PCS_Fecha_Detalle>();
+
+                    iRenglones = iRenglones = dtFechas.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString() && x["NumempleadoRrHh"].ToString() == empleado.NumempleadoRrHh).Count();
+                    if (iRenglones > 0)
+                    {
+                        sCadenaApoyo = JsonConvert.SerializeObject(dtFechas.Rows.Cast<DataRow>().Where(x => x["IdFase"].ToString() == etapa.IdFase.ToString() && x["NumempleadoRrHh"].ToString() == empleado.NumempleadoRrHh).CopyToDataTable());
+                        fechas = JsonConvert.DeserializeObject<List<PCS_Fecha_Detalle>>(sCadenaApoyo);
+                    }
+
+                    empleado.Fechas = new List<PCS_Fecha_Detalle>();
+                    empleado.Fechas.AddRange(fechas);
+                }
+
+                etapa.Empleados = new List<PCS_Empleado_Detalle>();
+                etapa.Empleados.AddRange(empleados);
+                etapa.Empleados.AddRange(empleadosTBD);
+
+            }
+
+
+            return proyecto_etapas;
+        }
+    
 
         //LEO TBD I 
         private string GetNumPuesto(string numEmpleado)
