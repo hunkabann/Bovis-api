@@ -1302,93 +1302,77 @@ namespace Bovis.Data
         public async Task<PCS_GanttData> GetPEtapasLB(int IdProyecto, int IdLineaBase)
         {
             PCS_Proyecto_Detalle proyecto_etapas = new PCS_Proyecto_Detalle();
+            PCS_GanttData ganttData = new PCS_GanttData();
+            List<PCS_GanttDataFase> data = new List<PCS_GanttDataFase>();
+            string sCadenaApoyo = "", sQuery = "";
+            DataSet ds = new DataSet();
 
-            using (var db = new ConnectionDB(dbConfig))
+            var db = new ConnectionDB(dbConfig);
+            sQuery = "sp_proyecto_etapas_gantt_lb";
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
             {
-                var proyecto = await (from p in db.tB_Proyectos
-                                      where p.NumProyecto == IdProyecto
-                                      select p).FirstOrDefaultAsync();
-
-                proyecto_etapas.FechaIni = new DateTime(proyecto.FechaIni.Year, proyecto.FechaIni.Month, 1);
-
-                if (proyecto?.FechaFin != null)
+                try
                 {
-                    proyecto_etapas.FechaFin = AjustarFechaFin(proyecto.FechaFin.Value);
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@IdProyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@IdlineaBase", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdLineaBase;
+                    cmd.Parameters.Add(param02);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
                 }
-
-                proyecto_etapas.NumProyecto = IdProyecto;
-                proyecto_etapas.NombreProyecto = proyecto.Proyecto;
-
-                var etapas = await (from p in db.tB_ProyectoFases
-                                    where p.NumProyecto == IdProyecto
-                                    orderby p.FechaIni ascending
-                                    select new PCS_Etapa_Detalle
-                                    {
-                                        IdFase = p.IdFase,
-                                        Orden = p.Orden,
-                                        Fase = p.Fase,
-                                        FechaIni = p.FechaIni,
-                                        FechaFin = p.FechaFin
-                                    }).ToListAsync();
-
-                proyecto_etapas.Etapas = new List<PCS_Etapa_Detalle>();
-
-                // ===============================
-                // FASE GENERAL DEL PROYECTO
-                // ===============================
-
-                var faseProyecto = new PCS_Etapa_Detalle
+                catch (Exception ex)
                 {
-                    IdFase = proyecto_etapas.NumProyecto,
-                    Orden = -100,
-                    Fase = proyecto_etapas.NombreProyecto,
-                    FechaIni = proyecto_etapas.FechaIni ?? DateTime.Now,
-                    FechaFin = proyecto_etapas.FechaFin ?? DateTime.Now
-                };
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
 
-                proyecto_etapas.Etapas.Add(faseProyecto);
+            if (ds == null || ds.Tables == null)
+                return ganttData;
 
-                PCS_GanttData ganttData = new PCS_GanttData();
-                List<PCS_GanttDataFase> data = new List<PCS_GanttDataFase>();
+            DataTable dt = new DataTable();
+            dt = ds.Tables[0];
 
+            foreach (DataRow row in dt.Rows)
+            {
                 data.Add(new PCS_GanttDataFase
                 {
                     X = new[]
                     {
-                        faseProyecto.FechaIni.ToString("yyyy-MM-dd"),
-                        faseProyecto.FechaFin.ToString("yyyy-MM-dd")
+                        row["XInicio"].ToString() ?? "",
+                        row["XFin"].ToString() ?? ""
                     },
-                    Y = faseProyecto.Fase
+                    Y = row["Y"].ToString() ?? ""
                 });
-
-                // ===============================
-                // ETAPAS
-                // ===============================
-
-                foreach (var etapa in etapas)
-                {
-                    if (etapa.FechaFin != null)
-                    {
-                        etapa.FechaFin = AjustarFechaFin(etapa.FechaFin);
-                    }
-
-                    proyecto_etapas.Etapas.Add(etapa);
-
-                    data.Add(new PCS_GanttDataFase
-                    {
-                        X = new[]
-                        {
-                            etapa.FechaIni.ToString("yyyy-MM-dd"),
-                            etapa.FechaFin.ToString("yyyy-MM-dd")
-                        },
-                        Y = etapa.Fase
-                    });
-                }
-
-                ganttData.data = data;
-
-                return ganttData;
             }
+
+            ganttData.data = data;
+
+            return ganttData;
 
         }   // GetPEtapasLB
 
