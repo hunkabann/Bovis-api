@@ -2229,6 +2229,52 @@ namespace Bovis.Data
         }
 
 
+        /**
+         * LDTF 4/Abr/2026
+         * Complementa los meses faltas con cero hasta el fin del proyecto para Fee libre
+         * */
+        private List<PCS_Fecha_Detalle> CompletarMesesFaltantes(
+            DateTime? fechaIni,
+            DateTime? fechaFin,
+            List<PCS_Fecha_Detalle> fechasExistentes,
+            string rubro,
+            bool? reembolsable)
+        {
+            var resultado = new List<PCS_Fecha_Detalle>();
+
+            if (fechaIni == null || fechaFin == null)
+                return fechasExistentes ?? new List<PCS_Fecha_Detalle>();
+
+            var fechaActual = new DateTime(fechaIni.Value.Year, fechaIni.Value.Month, 1);
+            var fechaFinal = new DateTime(fechaFin.Value.Year, fechaFin.Value.Month, 1);
+
+            while (fechaActual <= fechaFinal)
+            {
+                var existente = fechasExistentes?
+                    .FirstOrDefault(f => f.Anio == fechaActual.Year && f.Mes == fechaActual.Month);
+
+                if (existente != null)
+                {
+                    resultado.Add(existente);
+                }
+                else
+                {
+                    resultado.Add(new PCS_Fecha_Detalle
+                    {
+                        Id = 0,
+                        Rubro = rubro,
+                        RubroReembolsable = reembolsable ?? false,
+                        Mes = fechaActual.Month,
+                        Anio = fechaActual.Year,
+                        Porcentaje = 0
+                    });
+                }
+
+                fechaActual = fechaActual.AddMonths(1);
+            }
+
+            return resultado.OrderBy(f => f.Anio).ThenBy(f => f.Mes).ToList();
+        }
 
         public async Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion)
         {
@@ -2429,7 +2475,14 @@ namespace Bovis.Data
                     {
                         //recorriendo cada rubro encontrado
                         getRubroValorPorProyectoSeccion(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, "", out lstFechas);
-                        rubro!.Fechas = lstFechas;
+                        //rubro!.Fechas = lstFechas;        // LDTF 4/Abr/2026
+                        rubro!.Fechas = CompletarMesesFaltantes(
+                            proyecto_gastos_ingresos.FechaIni,
+                            proyecto_gastos_ingresos.FechaFin,
+                            lstFechas,
+                            rubro.Rubro,
+                            rubro.Reembolsable
+                        );
                     }
 
                 }
