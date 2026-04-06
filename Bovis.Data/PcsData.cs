@@ -2970,7 +2970,7 @@ namespace Bovis.Data
 
             MapeaEntradaFeeConsultar(IdProyecto, null, out oEntradaFee);
             DataTable dt = ProyectosFeePorcentajeConsultar(oEntradaFee);
-            if (dt != null || dt.Rows.Count > 0)
+            if (dt != null && dt.Rows.Count > 0)
             {
                 Int32.TryParse(dt.Rows[0]["nufee_OH"].ToString(), out iValor);
                 oEntrada.overheadPorcentaje = iValor;
