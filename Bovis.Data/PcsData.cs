@@ -2653,6 +2653,14 @@ namespace Bovis.Data
             }
         }
 
+        public async Task<GastosIngresos_Detalle> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
+        {
+            var retorno = new GastosIngresos_Detalle();
+
+            return retorno;
+
+        }   // GetGastosIngresosLB
+
         private async Task<List<PCS_Fecha_Detalle>> GetFechasTotalesIngresos(int IdProyecto, string Rubro, List<Rubro_Detalle> rubros, List<Seccion_Detalle> secciones_gasto, List<PCS_Etapa_Detalle> etapas, bool? reembolsable = true)
         {
             var fechas_gasto = new List<PCS_Fecha_Detalle>();
@@ -2966,7 +2974,8 @@ namespace Bovis.Data
         public void TotalesIngresosAsignaFees(ref GastosIngresos_Detalle oEntrada, int IdProyecto)
         {
             PCS_General oEntradaFee = new PCS_General();
-            int iValor = -1;
+            //int iValor = -1;
+            int iValor = 0; // LDTF
 
             MapeaEntradaFeeConsultar(IdProyecto, null, out oEntradaFee);
             DataTable dt = ProyectosFeePorcentajeConsultar(oEntradaFee);
@@ -2987,7 +2996,8 @@ namespace Bovis.Data
                 oEntrada.utilidadPorcentaje = iValor;
                 oEntrada.contingenciaPorcentaje = iValor;
             }
-        }//TotalesIngresosAsignaFees
+
+        }   //TotalesIngresosAsignaFees
 
 
 
