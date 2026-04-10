@@ -146,7 +146,9 @@ namespace Bovis.Business
         #region Gastos / Ingresos
         public Task<List<Seccion_Detalle>> GetGastosIngresosSecciones(int IdProyecto, string Tipo) => _pcsData.GetGastosIngresosSecciones(IdProyecto, Tipo);
         public Task<GastosIngresos_Detalle> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion) => _pcsData.GetGastosIngresos(IdProyecto, Tipo, Seccion);
+        public Task<GastosIngresos_Detalle> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase) => _pcsData.GetGastosIngresosLB(IdProyecto, Tipo, Seccion, IdLineaBase);  // LDTF
         public Task<GastosIngresos_Detalle> GetTotalesIngresos(int IdProyecto) => _pcsData.GetTotalesIngresos(IdProyecto);
+        public Task<GastosIngresos_Detalle> GetTotalesIngresosLB(int IdProyecto, int IdLineaBase) => _pcsData.GetTotalesIngresosLB(IdProyecto, IdLineaBase);  // LDTF
 
         // LDTF
         public async Task<(bool Success, string Message)> UpdateFacturacionCobranza(JsonObject registro)
@@ -275,6 +277,7 @@ namespace Bovis.Business
 
 
         public Task<PCS_Proyecto_Inflacion> GetProyectoInFlacion(int IdProyecto, string? sFecha) => _pcsData.GetProyectoInFlacion(IdProyecto, sFecha);     // LDTF
+        public Task<PCS_Proyecto_Inflacion> GetProyectoInFlacionLB(int IdProyecto, int IdLineaBase) => _pcsData.GetProyectoInFlacionLB(IdProyecto, IdLineaBase);     // LDTF
 
 
         public Task<GastosIngresos_Detalle> GetTotalFacturacion(int IdProyecto) => _pcsData.GetTotalFacturacion(IdProyecto);

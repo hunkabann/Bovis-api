@@ -205,9 +205,19 @@ namespace Bovis.Service.Queries
             var response = await _pcsBusiness.GetGastosIngresos(IdProyecto, Tipo, Seccion);
             return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
+        public async Task<Response<GastosIngresos_Detalle>> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
+        {
+            var response = await _pcsBusiness.GetGastosIngresosLB(IdProyecto, Tipo, Seccion, IdLineaBase);
+            return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
         public async Task<Response<GastosIngresos_Detalle>> GetTotalesIngresos(int IdProyecto)
         {
             var response = await _pcsBusiness.GetTotalesIngresos(IdProyecto);
+            return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<GastosIngresos_Detalle>> GetTotalesIngresosLB(int IdProyecto, int IdLineaBase)
+        {
+            var response = await _pcsBusiness.GetTotalesIngresosLB(IdProyecto, IdLineaBase);
             return new Response<GastosIngresos_Detalle> { Data = _map.Map<GastosIngresos_Detalle>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
 
@@ -240,6 +250,11 @@ namespace Bovis.Service.Queries
         public async Task<Response<PCS_Proyecto_Inflacion>> GetProyectoInFlacion(int IdProyecto, string? sFecha)
         {
             var response = await _pcsBusiness.GetProyectoInFlacion(IdProyecto, sFecha);
+            return new Response<PCS_Proyecto_Inflacion> { Data = _map.Map<PCS_Proyecto_Inflacion>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
+        }
+        public async Task<Response<PCS_Proyecto_Inflacion>> GetProyectoInFlacionLB(int IdProyecto, int IdLineaBase)
+        {
+            var response = await _pcsBusiness.GetProyectoInFlacionLB(IdProyecto, IdLineaBase);
             return new Response<PCS_Proyecto_Inflacion> { Data = _map.Map<PCS_Proyecto_Inflacion>(response), Success = response is not null ? true : default, Message = response is null ? "No se encontró registro." : default };
         }
         public async Task<Response<(bool Success, string Message)>> UpdateProyectoInFlacion(JsonObject registro)

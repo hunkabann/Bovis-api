@@ -321,10 +321,24 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        [HttpGet, Route("GastosIngresos_lb/{IdProyecto}/{Tipo}/{Seccion}/{IdLineaBase}")]
+        public async Task<IActionResult> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
+        {
+            var query = await _pcsQueryService.GetGastosIngresosLB(IdProyecto, Tipo, Seccion, IdLineaBase);
+            return Ok(query);
+        }
+
         [HttpGet, Route("TotalesIngresos/{IdProyecto}")]
         public async Task<IActionResult> GetTotalesIngresos(int IdProyecto)
         {
             var query = await _pcsQueryService.GetTotalesIngresos(IdProyecto);
+            return Ok(query);
+        }
+
+        [HttpGet, Route("TotalesIngresos/{IdProyecto}/{IdLineaBase}")]
+        public async Task<IActionResult> GetTotalesIngresosLB(int IdProyecto, int IdLineaBase)
+        {
+            var query = await _pcsQueryService.GetTotalesIngresosLB(IdProyecto, IdLineaBase);
             return Ok(query);
         }
 
@@ -449,6 +463,14 @@ namespace Bovis.API.Controllers
         public async Task<IActionResult> GetProyectoInFlacion(int IdProyecto, string? sFecha)
         {
             var query = await _pcsQueryService.GetProyectoInFlacion(IdProyecto, sFecha);
+            return Ok(query);
+        }
+
+        // LDTF 09/Abr/2026
+        [HttpGet, Route("GastosIngresos/{IdProyecto}/ProyectoInFlacion_lb/{IdLineaBase}")]
+        public async Task<IActionResult> GetProyectoInFlacionLB(int IdProyecto, int IdLineaBase)
+        {
+            var query = await _pcsQueryService.GetProyectoInFlacionLB(IdProyecto, IdLineaBase);
             return Ok(query);
         }
 

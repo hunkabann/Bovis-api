@@ -56,13 +56,16 @@ namespace Bovis.Service.Queries.Interface
         #region Gastos / Ingresos
         Task<Response<List<Seccion_Detalle>>> GetGastosIngresosSecciones(int IdProyecto, string Tipo);
         Task<Response<GastosIngresos_Detalle>> GetGastosIngresos(int IdProyecto, string Tipo, string Seccion);
+        Task<Response<GastosIngresos_Detalle>> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase);   // LDTF
         Task<Response<GastosIngresos_Detalle>> GetTotalesIngresos(int IdProyecto);
+        Task<Response<GastosIngresos_Detalle>> GetTotalesIngresosLB(int IdProyecto, int IdLineaBase);   // LDTF
 
         Task<Response<(bool Success, string Message)>> UpdateTotalesIngresosFee(JsonObject registro); //LEO inputs para FEEs
         Task<Response<(bool Success, string Message)>> UpdateFacturacionCobranza(JsonObject registro); //LDTF
         Task<Response<(bool Success, string Message)>> UpdateGastosIngresos(JsonObject registro);
         Task<Response<GastosIngresos_Detalle>> GetTotalFacturacion(int IdProyecto);
         Task<Response<PCS_Proyecto_Inflacion>> GetProyectoInFlacion(int IdProyecto, string? sFecha); //LDTF
+        Task<Response<PCS_Proyecto_Inflacion>> GetProyectoInFlacionLB(int IdProyecto, int IdLineaBase); //LDTF
         Task<Response<(bool Success, string Message)>> UpdateProyectoInFlacion(JsonObject registro); //LDTF
         Task<Response<(bool Success, string Message)>> UpdateRubroValorInflacion(JsonObject registro); //LDTF
 

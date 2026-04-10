@@ -2657,6 +2657,230 @@ namespace Bovis.Data
         {
             var retorno = new GastosIngresos_Detalle();
 
+            DataSet ds = new DataSet();
+            string sQuery = "sp_pcs_gastosIngreso_gasto_lb";
+
+            var db = new ConnectionDB(dbConfig);
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@pnunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@Tipo", SqlDbType.VarChar, 20);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = Tipo;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@Tipo", SqlDbType.VarChar, 100);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = Seccion;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@nukidlinea_base", SqlDbType.Int);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = IdLineaBase;
+                    cmd.Parameters.Add(param04);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            if (ds == null || ds.Tables == null)
+                return retorno;
+
+            // mapeo de datos
+
+            // =========================
+            // 1. PROYECTO
+            // =========================
+            DataTable dtProyecto = ds.Tables[0];
+            if (dtProyecto == null || dtProyecto.Rows.Count == 0)
+                return retorno;
+
+            retorno.NumProyecto = IdProyecto;
+            retorno.FechaIni = dtProyecto.Rows[0].Field<DateTime?>("dtfecha_ini");
+            retorno.FechaFin = dtProyecto.Rows[0].Field<DateTime?>("dtfecha_fin");
+
+            // =========================
+            // 2. SECCION
+            // =========================
+            DataTable dtSeccion = ds.Tables[2];
+            var seccion = new Seccion_Detalle();
+
+            if (dtSeccion.Rows.Count > 0)
+            {
+                var row = dtSeccion.Rows[0];
+                seccion.IdSeccion = row.Field<int>("Nukid_seccion");
+                seccion.Codigo = row.Field<string>("Chcodigo");
+                seccion.Seccion = row.Field<string>("Chseccion");
+            }
+
+            seccion.Rubros = new List<Rubro_Detalle>();
+            retorno.Secciones.Add(seccion);
+
+            // =========================
+            // 3. RUBROS EMPLEADOS
+            // =========================
+            DataTable dtRubrosEmp = ds.Tables[3];
+
+            var rubros = dtRubrosEmp.AsEnumerable()
+                .GroupBy(r => new {
+                    IdRubro = r.Field<int>("IdRubro"),
+                    NumEmpleado = r.Field<string>("NumEmpleadoRrHh"),
+                    Reembolsable = r.Field<bool>("Reembolsable")
+                })
+                .Select(g => new Rubro_Detalle
+                {
+                    Id = g.First().Field<int>("Nukid"),
+                    IdRubro = g.Key.IdRubro,
+                    Rubro = g.First().Field<string>("Rubro"),
+                    Empleado = g.First().Field<string>("Empleado"),
+                    NumEmpleadoRrHh = g.Key.NumEmpleado,
+                    Cantidad = g.First().Field<decimal>("Cantidad"),
+                    Reembolsable = g.Key.Reembolsable,
+                    CostoMensual = g.First().Field<decimal>("CostoMensual"),
+                    Fechas = new List<PCS_Fecha_Detalle>()
+                }).ToList();
+
+            // =========================
+            // 4. FECHAS EMPLEADOS
+            // =========================
+            DataTable dtFechasEmp = ds.Tables[4];
+
+            foreach (var rubro in rubros)
+            {
+                var fechas = dtFechasEmp.AsEnumerable()
+                    .Where(f => f.Field<string>("NumEmpleadoRrHh") == rubro.NumEmpleadoRrHh)
+                    .Select(f => new PCS_Fecha_Detalle
+                    {
+                        Id = f.Field<int>("Nukid"),
+                        Mes = f.Field<int>("Numes"),
+                        Anio = f.Field<int>("Nuanio"),
+                        Porcentaje = f.Field<decimal>("Nuporcentaje"),
+                        Rubro = rubro.Rubro,
+                        RubroReembolsable = rubro.Reembolsable
+                    }).ToList();
+
+                rubro.Fechas.AddRange(fechas);
+            }
+
+
+            // =========================
+            // 5. RUBROS GENERALES
+            // =========================
+            DataTable dtRubrosGen = ds.Tables[5];
+
+            var rubrosGenerales = dtRubrosGen.AsEnumerable()
+                .Select(r => new Rubro_Detalle
+                {
+                    Id = r.Field<int>("Nukid"),
+                    IdRubro = r.Field<int>("Nukid_rubro"),
+                    Rubro = r.Field<string>("Chrubro"),
+                    Unidad = r.Field<string>("Chunidad"),
+                    Cantidad = r.Field<decimal>("Nucantidad"),
+                    Reembolsable = r.Field<bool>("Boreembolsable"),
+                    AplicaTodosMeses = r.Field<bool?>("Boaplica_todos_meses"),
+                    chcomentarios = r.Field<string>("Chcomentario"),
+                    Fechas = new List<PCS_Fecha_Detalle>()
+                }).ToList();
+
+            // =========================
+            // 6. FECHAS RUBROS
+            // =========================
+            DataTable dtFechasRubros = ds.Tables[6];
+
+            foreach (var rubro in rubrosGenerales)
+            {
+                var fechas = dtFechasRubros.AsEnumerable()
+                    .Where(f => f.Field<int>("nukid_rubro") == rubro.Id)
+                    .Select(f => new PCS_Fecha_Detalle
+                    {
+                        Id = f.Field<int>("Nukid"),
+                        Mes = f.Field<int>("numes"),
+                        Anio = f.Field<int>("nuanio"),
+                        Porcentaje = f.Field<decimal>("nuporcentaje"),
+                        Rubro = rubro.Rubro,
+                        RubroReembolsable = rubro.Reembolsable
+                    }).ToList();
+
+                rubro.Fechas = CompletarMesesFaltantes(
+                    retorno.FechaIni,
+                    retorno.FechaFin,
+                    fechas,
+                    rubro.Rubro,
+                    rubro.Reembolsable
+                );
+            }
+
+
+            // =========================
+            // 7. UNIR TODO
+            // =========================
+            seccion.Rubros.AddRange(rubros);
+            seccion.Rubros.AddRange(rubrosGenerales);
+
+            // =========================
+            // 8. SUMA POR SECCION
+            // =========================
+            seccion.SumaFechas = seccion.Rubros
+                .Where(r => r.Fechas != null)
+                .SelectMany(r => r.Fechas)
+                .GroupBy(f => new { f.Mes, f.Anio })
+                .Select(g => new PCS_Fecha_Suma
+                {
+                    Mes = g.Key.Mes,
+                    Anio = g.Key.Anio,
+                    SumaPorcentaje = g.Sum(x => x.Porcentaje)
+                }).ToList();
+
+            // =========================
+            // 9. TOTALES (INGRESO)
+            // =========================
+            if (Tipo == "ingreso")
+            {
+                retorno.Totales = retorno.Secciones
+                    .SelectMany(s => s.Rubros)
+                    .Where(r => r.Fechas != null)
+                    .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                    .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                    .Select(g => new PCS_Fecha_Totales
+                    {
+                        Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
+                        Reembolsable = g.Key.Reembolsable,
+                        TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                    }).ToList();
+            }
+
+
             return retorno;
 
         }   // GetGastosIngresosLB
@@ -2968,6 +3192,159 @@ namespace Bovis.Data
 
             return proyecto_gastos_ingresos;
         }
+
+        public async Task<GastosIngresos_Detalle> GetTotalesIngresosLB(int IdProyecto, int IdLineaBase)
+        {
+            GastosIngresos_Detalle retorno = new GastosIngresos_Detalle();
+
+            DataSet ds = new DataSet();
+            string sQuery = "sp_pcs_totales_ingresos_lb";
+
+            var db = new ConnectionDB(dbConfig);
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@nukidlinea_base", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdLineaBase;
+                    cmd.Parameters.Add(param02);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            if (ds == null || ds.Tables == null)
+                return retorno;
+
+            // mapeo de datos
+            //--------------------------------------------------
+            // 1️ Proyecto + Fees
+            //--------------------------------------------------
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                var row = ds.Tables[0].Rows[0];
+
+                retorno.NumProyecto = Convert.ToInt32(row["NumProyecto"]);
+                retorno.FechaIni = row["FechaIni"] as DateTime?;
+                retorno.FechaFin = row["FechaFin"] as DateTime?;
+
+                retorno.overheadPorcentaje = Convert.ToInt32(row["overheadPorcentaje"]);
+                retorno.utilidadPorcentaje = Convert.ToInt32(row["utilidadPorcentaje"]);
+                retorno.contingenciaPorcentaje = Convert.ToInt32(row["contingenciaPorcentaje"]);
+            }
+
+            //--------------------------------------------------
+            // 2️ Totales
+            //--------------------------------------------------
+            retorno.Totales = new List<PCS_Fecha_Totales>();
+
+            if (ds.Tables.Count > 1)
+            {
+                foreach (DataRow row in ds.Tables[1].Rows)
+                {
+                    retorno.Totales.Add(new PCS_Fecha_Totales
+                    {
+                        Reembolsable = Convert.ToInt32(row["Reembolsable"]) == 1,
+                        Anio = Convert.ToInt32(row["Anio"]),
+                        Mes = Convert.ToInt32(row["Mes"]),
+                        TotalPorcentaje = Convert.ToDecimal(row["TotalPorcentaje"])
+                    });
+                }
+            }
+
+            //--------------------------------------------------
+            // 3️ Ingreso
+            //--------------------------------------------------
+            retorno.Ingreso = new List<PCS_Fecha_Totales>();
+
+            if (ds.Tables.Count > 2)
+            {
+                foreach (DataRow row in ds.Tables[2].Rows)
+                {
+                    retorno.Ingreso.Add(new PCS_Fecha_Totales
+                    {
+                        Reembolsable = Convert.ToInt32(row["Reembolsable"]) == 1,
+                        Anio = Convert.ToInt32(row["Anio"]),
+                        Mes = Convert.ToInt32(row["Mes"]),
+                        TotalPorcentaje = Convert.ToDecimal(row["TotalPorcentaje"])
+                    });
+                }
+            }
+
+            //--------------------------------------------------
+            // 4️ Facturación
+            //--------------------------------------------------
+            retorno.Facturacion = new List<PCS_Fecha_Totales>();
+
+            if (ds.Tables.Count > 3)
+            {
+                foreach (DataRow row in ds.Tables[3].Rows)
+                {
+                    retorno.Facturacion.Add(new PCS_Fecha_Totales
+                    {
+                        Reembolsable = true,
+                        Anio = Convert.ToInt32(row["anio"]),
+                        Mes = Convert.ToInt32(row["mes"]),
+                        TotalPorcentaje = Convert.ToDecimal(row["TotalPorcentaje"])
+                    });
+                }
+            }
+
+            //--------------------------------------------------
+            // 5️ Cobranza
+            //--------------------------------------------------
+            retorno.Cobranza = new List<PCS_Fecha_Totales>();
+
+            if (ds.Tables.Count > 4)
+            {
+                foreach (DataRow row in ds.Tables[4].Rows)
+                {
+                    retorno.Cobranza.Add(new PCS_Fecha_Totales
+                    {
+                        Reembolsable = true,
+                        Anio = Convert.ToInt32(row["anio"]),
+                        Mes = Convert.ToInt32(row["mes"]),
+                        TotalPorcentaje = Convert.ToDecimal(row["TotalPorcentaje"])
+                    });
+                }
+            }
+
+            retorno.Secciones = new List<Seccion_Detalle>();
+
+            return retorno;
+
+        }   // GetTotalesIngresosLB
+
 
 
         //LEO inputs para FEEs I
@@ -3409,6 +3786,76 @@ namespace Bovis.Data
             return retorno;
 
         }   // GetProyectoInFlacion
+
+
+        /**
+         * LDTF 09/Abr/2026
+         * */
+        public async Task<PCS_Proyecto_Inflacion> GetProyectoInFlacionLB(int IdProyecto, int IdLineaBase)
+        {
+            PCS_Proyecto_Inflacion retorno = new PCS_Proyecto_Inflacion();
+
+            string sQuery = "sp_proyecto_inflacion_consulta_lb";
+            bool boOk = false;
+
+            var db = new ConnectionDB(dbConfig);
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@nukidlinea_base", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdLineaBase;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow row = dt.Rows[0];
+
+                        retorno.NumProyecto = row.Field<int>("nunum_proyecto");
+                        retorno.Nuprocentaje = row.Field<int>("nuprocentaje");
+                        retorno.Numes_ini_calculo = row.Field<int>("numes_ini_calculo");
+                    }
+                    con.Close();
+
+                    boOk = true;
+                    return retorno;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+            return retorno;
+
+        }   // GetProyectoInFlacionLB
+
 
 
         private List<PCS_Fecha_Totales> getTotalesRubroCobranza(int IdProyecto, string? sFecha)
