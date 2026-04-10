@@ -78,9 +78,15 @@ namespace Bovis.Business
         //LEO Fix CostosEmpleado Seleccionar Empleado F
 
         //LEO TBD
-        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto,bool hist)
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist)
         {
             return _costoData.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
+        }
+
+        // LDTF
+        public Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuestoLB(string NumEmpleadoRrHh, string NumPuesto, int IdLineaBase, bool hist)
+        {
+            return _costoData.GetCostosEmpleadoPuestoLB(NumEmpleadoRrHh, NumPuesto, IdLineaBase, hist);
         }
         #endregion
 

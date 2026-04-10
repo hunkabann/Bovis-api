@@ -78,6 +78,12 @@ namespace Bovis.Service.Queries
         {
             return await _costoBusiness.GetCostosEmpleadoPuesto(NumEmpleadoRrHh, NumPuesto, hist);
         }
+
+        // LDTF
+        public async Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuestoLB(string NumEmpleadoRrHh, string NumPuesto, int IdLineaBase, bool hist)
+        {
+            return await _costoBusiness.GetCostosEmpleadoPuestoLB(NumEmpleadoRrHh, NumPuesto, IdLineaBase, hist);
+        }
         #endregion
 
         #region GetCostoEmpleado

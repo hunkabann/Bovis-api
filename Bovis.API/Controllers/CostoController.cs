@@ -81,6 +81,16 @@ namespace Bovis.API.Controllers
             return Ok(query);
         }
 
+        /**
+         * LDTF 09/Abr/2026
+         * */
+        [HttpGet("Empleado_lb/{NumEmpleadoRrHh}/{NumPuesto}/{IdLineaBase}")]
+        public async Task<IActionResult> GetCostosEmpleadoPuestoLB(string NumEmpleadoRrHh, string NumPuesto, int IdLineaBase, [FromQuery] bool hist = false)
+        {
+            var query = await _costoQueryService.GetCostosEmpleadoPuestoLB(NumEmpleadoRrHh, NumPuesto, IdLineaBase, hist);
+            return Ok(query);
+        }
+
         //LEO Fix CostosEmpleado Seleccionar Empleado I
         [HttpGet("Empleado/SoloCosto/{NumEmpleadoRrHh}")]
         public async Task<IActionResult> GetCostosEmpleadoSoloCosto(string NumEmpleadoRrHh, [FromQuery] bool hist = false)

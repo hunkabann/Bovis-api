@@ -518,6 +518,180 @@ namespace Bovis.Data
 
         }
 
+        /**
+         * LDTF 09/Abr/2026
+         * */
+        public async Task<Common.Response<List<Costo_Detalle>>> GetCostosEmpleadoPuestoLB(string NumEmpleadoRrHh, string NumPuesto, int IdLineaBase, bool hist)
+        {
+            List<Costo_Detalle> retorno = new List<Costo_Detalle>();
+
+            DataSet ds = new DataSet();
+            string sQuery = "sp_empleado_by_numero_puesto_lb";
+
+            var db = new ConnectionDB(dbConfig);
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@NumEmpleadoRrHh", SqlDbType.VarChar, 50);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = NumEmpleadoRrHh;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@NumPuesto", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = NumPuesto;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@Hist", SqlDbType.Bit);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = hist;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@NukidLineaBase", SqlDbType.Int);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = IdLineaBase;
+                    cmd.Parameters.Add(param04);
+
+                    con.Open();
+                    System.Data.SqlClient.SqlDataAdapter sdaAdaptador = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    sdaAdaptador.Fill(ds);
+
+                    sdaAdaptador.Dispose();
+                    cmd.Dispose();
+                    con.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            if (ds == null || ds.Tables == null)
+                return new Common.Response<List<Costo_Detalle>>
+                {
+                    Success = false,
+                    Message = "Sin resultados"
+                };
+
+            // mapeo de datos
+            // =====================================
+            // HISTÓRICO
+            // =====================================
+            if (hist)
+            {
+                if (ds.Tables.Count >= 1)
+                {
+                    // TABLA 0 = costos
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        var cd = new Costo_Detalle
+                        {
+                            NumEmpleadoRrHh = row["Nunum_empleado_rr_hh"].ToString(),
+                            NombreCompletoEmpleado = row["NombreCompletoEmpleado"].ToString(),
+                            Puesto = row["Puesto"].ToString(),
+                            CostoMensualEmpleado = Convert.ToDecimal(row["Nucosto_mensual_empleado"]),
+                            RegHistorico = Convert.ToBoolean(row["Boreg_historico"]),
+                            NuAnno = Convert.ToInt32(row["NuAnno"]),
+                            NuMes = Convert.ToInt32(row["NuMes"])
+                        };
+
+                        retorno.Add(cd);
+                    }
+                }
+
+                // TABLA 1 = beneficios
+                if (ds.Tables.Count >= 2)
+                {
+                    foreach (var cd in retorno)
+                    {
+                        cd.Beneficios = ds.Tables[1]
+                            .AsEnumerable()
+                            .Where(r => r["Nunum_empleado_rr_hh"].ToString() == cd.NumEmpleadoRrHh)
+                            .Select(r => new Beneficio_Costo_Detalle
+                            {
+                                Id = Convert.ToInt32(r["Nukid"]),
+                                Beneficio = r["Chbeneficio"].ToString(),
+                                Costo = Convert.ToDecimal(r["Nucosto"])
+                            }).ToList();
+                    }
+                }
+
+                // TABLA 2 = beneficios proyecto
+                if (ds.Tables.Count >= 3)
+                {
+                    foreach (var cd in retorno)
+                    {
+                        cd.Beneficiosproyecto = ds.Tables[2]
+                            .AsEnumerable()
+                            .Where(r => r["nunum_empleado_rr_hh"].ToString() == cd.NumEmpleadoRrHh)
+                            .Select(r => new Beneficio_Costo_Detalle
+                            {
+                                Beneficio = r["Chbeneficio"].ToString(),
+                                nucostobeneficio = Convert.ToDecimal(r["nucostobeneficio"])
+                            }).ToList();
+                    }
+                }
+
+                return new Common.Response<List<Costo_Detalle>>
+                {
+                    Success = retorno.Count > 0,
+                    Data = retorno,
+                    Message = retorno.Count > 0
+                        ? "OK"
+                        : $"No se encontraron históricos del empleado {NumEmpleadoRrHh}"
+                };
+            }
+
+            // =====================================
+            // NO HISTÓRICO
+            // =====================================
+            if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                var row = ds.Tables[0].Rows[0];
+
+                var cd = new Costo_Detalle
+                {
+                    NumEmpleadoRrHh = NumEmpleadoRrHh,
+                    CostoMensualEmpleado = Convert.ToDecimal(row["CostoMensualEmpleado"])
+                };
+
+                retorno.Add(cd);
+
+                return new Common.Response<List<Costo_Detalle>>
+                {
+                    Success = cd.CostoMensualEmpleado > 0,
+                    Data = retorno,
+                    Message = cd.CostoMensualEmpleado > 0
+                        ? "OK"
+                        : $"Sin datos para el empleado {NumEmpleadoRrHh}"
+                };
+            }
+
+
+            return new Common.Response<List<Costo_Detalle>>
+            {
+                Success = false,
+                Message = "Sin resultados"
+            };
+
+        }   // GetCostosEmpleadoPuestoLB
+
+
         public decimal costoPorEmpleadoPuesto(string NumPuesto)
         {
             decimal retorno = -1m;

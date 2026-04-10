@@ -32,5 +32,6 @@ namespace Bovis.Data.Interface
 
         //LEO TBD
         Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuesto(string NumEmpleadoRrHh, string NumPuesto, bool hist);
-    }                                                         
+        Task<Response<List<Costo_Detalle>>> GetCostosEmpleadoPuestoLB(string NumEmpleadoRrHh, string NumPuesto, int IdLineaBase, bool hist);    // LDTF
+    }
 }
