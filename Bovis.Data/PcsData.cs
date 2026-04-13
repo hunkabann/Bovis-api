@@ -2680,7 +2680,7 @@ namespace Bovis.Data
                     param02.Value = Tipo;
                     cmd.Parameters.Add(param02);
 
-                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@Tipo", SqlDbType.VarChar, 100);
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@Seccion", SqlDbType.VarChar, 100);
                     param03.Direction = ParameterDirection.Input;
                     param03.Value = Seccion;
                     cmd.Parameters.Add(param03);
@@ -2744,6 +2744,7 @@ namespace Bovis.Data
             }
 
             seccion.Rubros = new List<Rubro_Detalle>();
+            retorno.Secciones = new List<Seccion_Detalle>();
             retorno.Secciones.Add(seccion);
 
             // =========================
@@ -2764,9 +2765,9 @@ namespace Bovis.Data
                     Rubro = g.First().Field<string>("Rubro"),
                     Empleado = g.First().Field<string>("Empleado"),
                     NumEmpleadoRrHh = g.Key.NumEmpleado,
-                    Cantidad = g.First().Field<decimal>("Cantidad"),
+                    Cantidad = g.First().Field<decimal?>("Cantidad"),
                     Reembolsable = g.Key.Reembolsable,
-                    CostoMensual = g.First().Field<decimal>("CostoMensual"),
+                    CostoMensual = g.First().Field<decimal?>("CostoMensual"),
                     Fechas = new List<PCS_Fecha_Detalle>()
                 }).ToList();
 
@@ -2788,7 +2789,7 @@ namespace Bovis.Data
                         Rubro = rubro.Rubro,
                         RubroReembolsable = rubro.Reembolsable
                     }).ToList();
-
+                //rubro.Fechas = new List<PCS_Fecha_Detalle>();
                 rubro.Fechas.AddRange(fechas);
             }
 
@@ -2805,7 +2806,7 @@ namespace Bovis.Data
                     IdRubro = r.Field<int>("Nukid_rubro"),
                     Rubro = r.Field<string>("Chrubro"),
                     Unidad = r.Field<string>("Chunidad"),
-                    Cantidad = r.Field<decimal>("Nucantidad"),
+                    Cantidad = r.Field<decimal?>("Nucantidad"),
                     Reembolsable = r.Field<bool>("Boreembolsable"),
                     AplicaTodosMeses = r.Field<bool?>("Boaplica_todos_meses"),
                     chcomentarios = r.Field<string>("Chcomentario"),
@@ -2826,7 +2827,7 @@ namespace Bovis.Data
                         Id = f.Field<int>("Nukid"),
                         Mes = f.Field<int>("numes"),
                         Anio = f.Field<int>("nuanio"),
-                        Porcentaje = f.Field<decimal>("nuporcentaje"),
+                        Porcentaje = f.Field<decimal?>("nuporcentaje"),
                         Rubro = rubro.Rubro,
                         RubroReembolsable = rubro.Reembolsable
                     }).ToList();
