@@ -108,6 +108,9 @@ namespace Bovis.Common.Model.NoTable
         public int overheadPorcentaje { get; set; }//LEO inputs para FEEs
         public int utilidadPorcentaje { get; set; }//LEO inputs para FEEs
         public int contingenciaPorcentaje { get; set; }//LEO inputs para FEEs
+
+        public string Error { get; set; }   // LDTF
+        public bool Success { get; set; }   // LDTF
     }
 
     public class Seccion_Detalle
@@ -135,6 +138,7 @@ namespace Bovis.Common.Model.NoTable
         public decimal? CostoMensual { get; set; }
         public List<PCS_Fecha_Detalle>? Fechas { get; set; }
         public string chcomentarios { get; set; } //LEO Gastos comentarios
+        public int IdFase { get; set; } // LDTF
     }
 
     public class PCS_Fecha_Suma

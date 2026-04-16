@@ -2475,7 +2475,8 @@ namespace Bovis.Data
                     {
                         //recorriendo cada rubro encontrado
                         getRubroValorPorProyectoSeccion(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, "", out lstFechas);
-                        //rubro!.Fechas = lstFechas;        // LDTF 4/Abr/2026
+                        rubro.Fechas = lstFechas;        // LDTF 4/Abr/2026
+                        /*
                         rubro!.Fechas = CompletarMesesFaltantes(
                             proyecto_gastos_ingresos.FechaIni,
                             proyecto_gastos_ingresos.FechaFin,
@@ -2483,6 +2484,7 @@ namespace Bovis.Data
                             rubro.Rubro,
                             rubro.Reembolsable
                         );
+                        */
                     }
 
                 }
@@ -2653,6 +2655,9 @@ namespace Bovis.Data
             }
         }
 
+        /**
+         * LDTF para atender el servicio de gastos ingresos para línea base  9/Abr/2026
+         * */
         public async Task<GastosIngresos_Detalle> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
         {
             var retorno = new GastosIngresos_Detalle();
@@ -2698,10 +2703,251 @@ namespace Bovis.Data
                     cmd.Dispose();
                     con.Close();
 
+                    if (ds?.Tables == null || ds.Tables.Count == 0)
+                        return retorno;
+
+                    // mapeo de datos
+
+                    // =========================
+                    // 1. PROYECTO
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("PROYECTO");
+                    var dtProyecto = ds.Tables[0];
+                    if (dtProyecto.Rows.Count == 0) return retorno;
+
+                    retorno.NumProyecto = IdProyecto;
+                    retorno.FechaIni = dtProyecto.Rows[0].Field<DateTime?>("dtfecha_ini");
+                    retorno.FechaFin = dtProyecto.Rows[0].Field<DateTime?>("dtfecha_fin");
+
+                    // =========================
+                    // 2. SECCION
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("SECCION");
+                    var seccion = new Seccion_Detalle
+                    {
+                        Rubros = new List<Rubro_Detalle>()
+                    };
+
+                    var dtSeccion = ds.Tables[2];
+                    if (dtSeccion.Rows.Count > 0)
+                    {
+                        var row = dtSeccion.Rows[0];
+                        seccion.IdSeccion = row.Field<int>("Nukid_seccion");
+                        seccion.Codigo = row.Field<string>("Chcodigo");
+                        seccion.Seccion = row.Field<string>("Chseccion");
+                    }
+
+                    retorno.Secciones = new List<Seccion_Detalle> { seccion };
+
+                    // =========================
+                    // 3. RUBROS EMPLEADOS
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("RUBROS EMPLEADOS");
+                    var dtRubrosEmp = ds.Tables[3];
+
+                    var rubrosEmp = dtRubrosEmp.AsEnumerable()
+                        .GroupBy(r => new
+                        {
+                            IdRubro = r.Field<int>("IdRubro"),
+                            NumEmpleado = r.Field<string>("NumEmpleadoRrHh"),
+                            Reembolsable = r.Field<bool>("Reembolsable")
+                            /*,
+                            IdFase = r.Field<int>("Nukidfase")*/
+                        })
+                        .Select(g => new Rubro_Detalle
+                        {
+                            Id = g.First().Field<int>("Nukid"),
+                            IdRubro = g.Key.IdRubro,
+                            Rubro = g.First().Field<string>("Rubro"),
+                            Empleado = g.First().Field<string>("Empleado"),
+                            NumEmpleadoRrHh = g.Key.NumEmpleado,
+                            Cantidad = g.First().Field<decimal?>("Cantidad"),
+                            Reembolsable = g.Key.Reembolsable,
+                            CostoMensual = g.First().Field<decimal?>("CostoMensual"),
+                            //IdFase = g.Key.IdFase,
+                            Fechas = new List<PCS_Fecha_Detalle>()
+                        }).ToList();
+
+                    // =========================
+                    // 4. FECHAS EMPLEADOS
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("FECHAS EMPLEADOS");
+                    var dtFechasEmp = ds.Tables[4];
+
+                    foreach (var rubro in rubrosEmp)
+                    {
+                        var fechas = dtFechasEmp.AsEnumerable()
+                            .Where(f =>
+                                Convert.ToString(f["NumEmpleadoRrHh"]).Trim() == (rubro.NumEmpleadoRrHh ?? "").Trim()
+                                //f.Field<string>("NumEmpleadoRrHh") == rubro.NumEmpleadoRrHh //&&
+                                //f.Field<int>("Nukidfase") == rubro.IdFase
+                            )
+                            .Select(f => new PCS_Fecha_Detalle
+                            {
+                                Id = f.Field<int>("Nukid"),
+                                Mes = f.Field<int>("Numes"),
+                                Anio = f.Field<int>("Nuanio"),
+                                Porcentaje = f.Field<decimal?>("Nuporcentaje") ?? 0,
+                                Rubro = rubro.Rubro,
+                                RubroReembolsable = rubro.Reembolsable
+                            }).ToList();
+
+                        rubro.Fechas.AddRange(fechas);
+                    }
+
+
+                    // =========================
+                    // 5. RUBROS GENERALES
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("RUBROS GENERALES");
+                    var dtRubrosGen = ds.Tables[5];
+
+                    var rubrosGenerales = dtRubrosGen.AsEnumerable()
+                        .Select(r => new Rubro_Detalle
+                        {
+                            Id = r.Field<int>("Nukid"),
+                            IdRubro = r.Field<int>("Nukid_rubro"),
+                            Rubro = r.Field<string>("Chrubro"),
+                            Unidad = r.Field<string>("Chunidad"),
+                            Cantidad = r.Field<decimal?>("Nucantidad"),
+                            Reembolsable = r.Field<bool>("Boreembolsable"),
+                            AplicaTodosMeses = r.Field<bool?>("Boaplica_todos_meses"),
+                            chcomentarios = r.Field<string>("Chcomentario"),
+                            Fechas = new List<PCS_Fecha_Detalle>()
+                        }).ToList();
+
+                    // =========================
+                    // 6. FECHAS RUBROS
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("FECHAS RUBROS");
+                    var dtFechasRubros = ds.Tables[6];
+
+                    foreach (var rubro in rubrosGenerales)
+                    {
+                        var fechas = dtFechasRubros.AsEnumerable()
+                        .Where(f => f.Field<int>("IdRubro") == rubro.Id)
+                        .Select(f => new PCS_Fecha_Detalle
+                        {
+                            Id = f.Field<int>("Id"),
+                            Mes = f.Field<int>("Mes"),
+                            Anio = f.Field<int>("Anio"),
+                            Porcentaje = f.Field<decimal?>("Porcentaje") ?? 0,
+                            Rubro = rubro.Rubro,
+                            RubroReembolsable = rubro.Reembolsable
+                        }).ToList();
+
+                        rubro.Fechas = fechas;
+
+                        /*
+                        rubro.Fechas = CompletarMesesFaltantes(
+                            retorno.FechaIni,
+                            retorno.FechaFin,
+                            fechas,
+                            rubro.Rubro,
+                            rubro.Reembolsable
+                        );
+                        */
+                    }
+
+                    //-------------------------------------------------
+                    // 7. TBD (SI EXISTE)
+                    //-------------------------------------------------
+                    System.Diagnostics.Debug.WriteLine("TBD");
+                    if (Seccion.ToLower() == "costos directos de salarios" && ds.Tables.Count >= 9)
+                    {
+                        var dtTbdRubros = ds.Tables[7];
+                        var dtTbdFechas = ds.Tables[8];
+
+                        var rubrosTBD = dtTbdRubros.AsEnumerable()
+                            .Select(r => new Rubro_Detalle
+                            {
+                                Id = r.Field<int>("Id"),
+                                IdRubro = r.Field<int>("IdRubro"),
+                                Rubro = r.Field<string>("Rubro"),
+                                Empleado = r.Field<string>("Empleado"),
+                                NumEmpleadoRrHh = r.Field<string>("NumEmpleadoRrHh"),
+                                Cantidad = r.Field<decimal>("Cantidad"),
+                                Reembolsable = r.Field<bool>("Reembolsable"),
+                                CostoMensual = r.Field<decimal>("CostoMensual"),
+                                IdFase = r.Field<int>("IdFase"),
+                                Fechas = new List<PCS_Fecha_Detalle>()
+                            }).ToList();
+
+                        foreach (var rubro in rubrosTBD)
+                        {
+                            var fechas = dtTbdFechas.AsEnumerable()
+                                .Where(f =>
+                                    f.Field<string>("NumEmpleadoRrHh") == rubro.NumEmpleadoRrHh &&
+                                    f.Field<int>("IdFase") == rubro.IdFase
+                                )
+                                .Select(f => new PCS_Fecha_Detalle
+                                {
+                                    Id = f.Field<int>("Id"),
+                                    Mes = f.Field<int>("Mes"),
+                                    Anio = f.Field<int>("Anio"),
+                                    //Porcentaje = f.Field<decimal>("Porcentaje"),
+                                    Porcentaje = f["Porcentaje"] == DBNull.Value ? 0 : Convert.ToDecimal(f["Porcentaje"]),
+                                    Rubro = rubro.Rubro,
+                                    RubroReembolsable = rubro.Reembolsable
+                                }).ToList();
+
+                            rubro.Fechas = fechas;
+                        }
+
+                        seccion.Rubros.AddRange(rubrosTBD);
+                    }
+
+
+                    // =========================
+                    // 8. UNIR TODO
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("UNIR TODO");
+                    seccion.Rubros.AddRange(rubrosEmp);
+                    seccion.Rubros.AddRange(rubrosGenerales);
+
+                    // =========================
+                    // 9. SUMA POR SECCION
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("SUMA POR SECCION");
+                    seccion.SumaFechas = seccion.Rubros
+                        .Where(r => r.Fechas != null)
+                        .SelectMany(r => r.Fechas)
+                        .GroupBy(f => new { f.Mes, f.Anio })
+                        .Select(g => new PCS_Fecha_Suma
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            SumaPorcentaje = g.Sum(x => x.Porcentaje)
+                        }).ToList();
+
+                    // =========================
+                    // 10. TOTALES (INGRESO)
+                    // =========================
+                    System.Diagnostics.Debug.WriteLine("TOTALES (INGRESO)");
+                    if (Tipo.Equals("ingreso", StringComparison.OrdinalIgnoreCase))
+                    {
+                        retorno.Totales = retorno.Secciones
+                            .SelectMany(s => s.Rubros)
+                            .Where(r => r.Fechas != null)
+                            .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                            .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                            .Select(g => new PCS_Fecha_Totales
+                            {
+                                Mes = g.Key.Mes,
+                                Anio = g.Key.Anio,
+                                Reembolsable = g.Key.Reembolsable,
+                                TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                            }).ToList();
+                    }
+
+
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine("An error occurred: " + ex.Message);
+                    retorno.Success = false;
+                    retorno.Error = ex.Message;
+                    return retorno;
                 }
                 finally
                 {
@@ -2712,175 +2958,6 @@ namespace Bovis.Data
                     db = null;
                 }
             }
-
-            if (ds == null || ds.Tables == null)
-                return retorno;
-
-            // mapeo de datos
-
-            // =========================
-            // 1. PROYECTO
-            // =========================
-            DataTable dtProyecto = ds.Tables[0];
-            if (dtProyecto == null || dtProyecto.Rows.Count == 0)
-                return retorno;
-
-            retorno.NumProyecto = IdProyecto;
-            retorno.FechaIni = dtProyecto.Rows[0].Field<DateTime?>("dtfecha_ini");
-            retorno.FechaFin = dtProyecto.Rows[0].Field<DateTime?>("dtfecha_fin");
-
-            // =========================
-            // 2. SECCION
-            // =========================
-            DataTable dtSeccion = ds.Tables[2];
-            var seccion = new Seccion_Detalle();
-
-            if (dtSeccion.Rows.Count > 0)
-            {
-                var row = dtSeccion.Rows[0];
-                seccion.IdSeccion = row.Field<int>("Nukid_seccion");
-                seccion.Codigo = row.Field<string>("Chcodigo");
-                seccion.Seccion = row.Field<string>("Chseccion");
-            }
-
-            seccion.Rubros = new List<Rubro_Detalle>();
-            retorno.Secciones = new List<Seccion_Detalle>();
-            retorno.Secciones.Add(seccion);
-
-            // =========================
-            // 3. RUBROS EMPLEADOS
-            // =========================
-            DataTable dtRubrosEmp = ds.Tables[3];
-
-            var rubros = dtRubrosEmp.AsEnumerable()
-                .GroupBy(r => new {
-                    IdRubro = r.Field<int>("IdRubro"),
-                    NumEmpleado = r.Field<string>("NumEmpleadoRrHh"),
-                    Reembolsable = r.Field<bool>("Reembolsable")
-                })
-                .Select(g => new Rubro_Detalle
-                {
-                    Id = g.First().Field<int>("Nukid"),
-                    IdRubro = g.Key.IdRubro,
-                    Rubro = g.First().Field<string>("Rubro"),
-                    Empleado = g.First().Field<string>("Empleado"),
-                    NumEmpleadoRrHh = g.Key.NumEmpleado,
-                    Cantidad = g.First().Field<decimal?>("Cantidad"),
-                    Reembolsable = g.Key.Reembolsable,
-                    CostoMensual = g.First().Field<decimal?>("CostoMensual"),
-                    Fechas = new List<PCS_Fecha_Detalle>()
-                }).ToList();
-
-            // =========================
-            // 4. FECHAS EMPLEADOS
-            // =========================
-            DataTable dtFechasEmp = ds.Tables[4];
-
-            foreach (var rubro in rubros)
-            {
-                var fechas = dtFechasEmp.AsEnumerable()
-                    .Where(f => f.Field<string>("NumEmpleadoRrHh") == rubro.NumEmpleadoRrHh)
-                    .Select(f => new PCS_Fecha_Detalle
-                    {
-                        Id = f.Field<int>("Nukid"),
-                        Mes = f.Field<int>("Numes"),
-                        Anio = f.Field<int>("Nuanio"),
-                        Porcentaje = f.Field<decimal>("Nuporcentaje"),
-                        Rubro = rubro.Rubro,
-                        RubroReembolsable = rubro.Reembolsable
-                    }).ToList();
-                //rubro.Fechas = new List<PCS_Fecha_Detalle>();
-                rubro.Fechas.AddRange(fechas);
-            }
-
-
-            // =========================
-            // 5. RUBROS GENERALES
-            // =========================
-            DataTable dtRubrosGen = ds.Tables[5];
-
-            var rubrosGenerales = dtRubrosGen.AsEnumerable()
-                .Select(r => new Rubro_Detalle
-                {
-                    Id = r.Field<int>("Nukid"),
-                    IdRubro = r.Field<int>("Nukid_rubro"),
-                    Rubro = r.Field<string>("Chrubro"),
-                    Unidad = r.Field<string>("Chunidad"),
-                    Cantidad = r.Field<decimal?>("Nucantidad"),
-                    Reembolsable = r.Field<bool>("Boreembolsable"),
-                    AplicaTodosMeses = r.Field<bool?>("Boaplica_todos_meses"),
-                    chcomentarios = r.Field<string>("Chcomentario"),
-                    Fechas = new List<PCS_Fecha_Detalle>()
-                }).ToList();
-
-            // =========================
-            // 6. FECHAS RUBROS
-            // =========================
-            DataTable dtFechasRubros = ds.Tables[6];
-
-            foreach (var rubro in rubrosGenerales)
-            {
-                var fechas = dtFechasRubros.AsEnumerable()
-                    .Where(f => f.Field<int>("nukid_rubro") == rubro.Id)
-                    .Select(f => new PCS_Fecha_Detalle
-                    {
-                        Id = f.Field<int>("Nukid"),
-                        Mes = f.Field<int>("numes"),
-                        Anio = f.Field<int>("nuanio"),
-                        Porcentaje = f.Field<decimal?>("nuporcentaje"),
-                        Rubro = rubro.Rubro,
-                        RubroReembolsable = rubro.Reembolsable
-                    }).ToList();
-
-                rubro.Fechas = CompletarMesesFaltantes(
-                    retorno.FechaIni,
-                    retorno.FechaFin,
-                    fechas,
-                    rubro.Rubro,
-                    rubro.Reembolsable
-                );
-            }
-
-
-            // =========================
-            // 7. UNIR TODO
-            // =========================
-            seccion.Rubros.AddRange(rubros);
-            seccion.Rubros.AddRange(rubrosGenerales);
-
-            // =========================
-            // 8. SUMA POR SECCION
-            // =========================
-            seccion.SumaFechas = seccion.Rubros
-                .Where(r => r.Fechas != null)
-                .SelectMany(r => r.Fechas)
-                .GroupBy(f => new { f.Mes, f.Anio })
-                .Select(g => new PCS_Fecha_Suma
-                {
-                    Mes = g.Key.Mes,
-                    Anio = g.Key.Anio,
-                    SumaPorcentaje = g.Sum(x => x.Porcentaje)
-                }).ToList();
-
-            // =========================
-            // 9. TOTALES (INGRESO)
-            // =========================
-            if (Tipo == "ingreso")
-            {
-                retorno.Totales = retorno.Secciones
-                    .SelectMany(s => s.Rubros)
-                    .Where(r => r.Fechas != null)
-                    .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
-                    .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
-                    .Select(g => new PCS_Fecha_Totales
-                    {
-                        Mes = g.Key.Mes,
-                        Anio = g.Key.Anio,
-                        Reembolsable = g.Key.Reembolsable,
-                        TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
-                    }).ToList();
-            }
-
 
             return retorno;
 
