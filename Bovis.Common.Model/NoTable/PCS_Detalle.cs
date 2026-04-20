@@ -234,6 +234,8 @@ namespace Bovis.Common.Model.NoTable
     {
         public string NumEmpleadoRrHh { get; set; }
         public int? IdFase { get; set; }
+
+        public int? IdLineaBase { get; set; }
     }
     //LEO TBD F
 }

@@ -37,7 +37,8 @@ namespace Bovis.Common.Model
         public ITable<TB_Cat_Profesion> tB_Cat_Profesiones { get { return this.GetTable<TB_Cat_Profesion>(); } }
         public ITable<TB_Cat_Puesto> tB_Cat_Puestos { get { return this.GetTable<TB_Cat_Puesto>(); } }
         public ITable<TB_Cat_Rubro> tB_CatRubros { get { return this.GetTable<TB_Cat_Rubro>(); } }
-		public ITable<TB_Cat_RubroIngresoReembolsable> tB_Cat_RubroIngresoReembolsables { get { return this.GetTable<TB_Cat_RubroIngresoReembolsable>(); } }
+        //public ITable<TB_Cat_Rubro> tB_CatRubros_lb { get { return this.GetTable<TB_Cat_Rubro>(); } }	// LDTF
+        public ITable<TB_Cat_RubroIngresoReembolsable> tB_Cat_RubroIngresoReembolsables { get { return this.GetTable<TB_Cat_RubroIngresoReembolsable>(); } }
 		public ITable<TB_Cat_Sector> tB_Cat_Sectors { get { return this.GetTable<TB_Cat_Sector>(); } }
         public ITable<TB_Cat_Sexo> tB_Cat_Sexos { get { return this.GetTable<TB_Cat_Sexo>(); } }
         public ITable<TB_Cat_Tabla_ISR> tB_Cat_Tabla_ISRs { get { return this.GetTable<TB_Cat_Tabla_ISR>(); } }
@@ -78,6 +79,7 @@ namespace Bovis.Common.Model
         public ITable<TB_ContratoEmpleado> tB_Contrato_Empleados { get { return this.GetTable<TB_ContratoEmpleado>(); } }
         public ITable<TB_ContratoTemplate> tB_Contrato_Templates { get { return this.GetTable<TB_ContratoTemplate>(); } }
         public ITable<TB_CostoPorEmpleado> tB_Costo_Por_Empleados { get { return this.GetTable<TB_CostoPorEmpleado>(); } }
+        public ITable<TB_CostoPorEmpleado_LB> tB_Costo_Por_Empleados_lb { get { return this.GetTable<TB_CostoPorEmpleado_LB>(); } }
         public ITable<TB_CuentaBanco> tB_CuentaBancos { get { return this.GetTable<TB_CuentaBanco>(); } }
         public ITable<TB_DiasTimesheet> tB_Dias_Timesheets { get { return this.GetTable<TB_DiasTimesheet>(); } }
         public ITable<TB_Direccion> tB_Direccions { get { return this.GetTable<TB_Direccion>(); } }
@@ -103,8 +105,9 @@ namespace Bovis.Common.Model
 		public ITable<TB_EmpresaCuenta> tB_EmpresaCuentas { get { return this.GetTable<TB_EmpresaCuenta>(); } }
 		public ITable<TB_Estado> tB_Estados { get { return this.GetTable<TB_Estado>(); } }
 		public ITable<TB_EstimadoConstruccion> tB_EstimadoConstruccions { get { return this.GetTable<TB_EstimadoConstruccion>(); } }
-		public ITable<TB_GastoIngresoSeccion> tB_GastoIngresoSeccions { get { return this.GetTable<TB_GastoIngresoSeccion>(); } }
-		public ITable<TB_HistEmpleadoPuesto> tB_Hist_EmpleadoPuestos { get { return this.GetTable<TB_HistEmpleadoPuesto>(); } }
+        public ITable<TB_GastoIngresoSeccion> tB_GastoIngresoSeccions { get { return this.GetTable<TB_GastoIngresoSeccion>(); } }
+        //public ITable<TB_GastoIngresoSeccion> tB_GastoIngresoSeccions_lb { get { return this.GetTable<TB_GastoIngresoSeccion>(); } }	// LDTF
+        public ITable<TB_HistEmpleadoPuesto> tB_Hist_EmpleadoPuestos { get { return this.GetTable<TB_HistEmpleadoPuesto>(); } }
 		public ITable<TB_Modulo> tB_Modulos { get { return this.GetTable<TB_Modulo>(); } }
 		public ITable<TB_Operacion> tB_Operacions { get { return this.GetTable<TB_Operacion>(); } }
 		public ITable<TB_Pais> tB_Pais { get { return this.GetTable<TB_Pais>(); } }
@@ -114,13 +117,16 @@ namespace Bovis.Common.Model
 		public ITable<TB_PerfilUsuario> tB_PerfilUsuarios { get { return this.GetTable<TB_PerfilUsuario>(); } }
 		public ITable<TB_Permiso> tB_Permisos { get { return this.GetTable<TB_Permiso>(); } }
 		public ITable<TB_Persona> tB_Personas { get { return this.GetTable<TB_Persona>(); } }
-		public ITable<TB_Proyecto> tB_Proyectos { get { return this.GetTable<TB_Proyecto>(); } }
-		public ITable<TB_ProyectoFactura> tB_ProyectoFacturas { get { return this.GetTable<TB_ProyectoFactura>(); } }
+        public ITable<TB_Proyecto> tB_Proyectos { get { return this.GetTable<TB_Proyecto>(); } }
+        public ITable<TB_Proyecto_LB> tB_Proyectos_lb { get { return this.GetTable<TB_Proyecto_LB>(); } }	// LDTF
+        public ITable<TB_ProyectoFactura> tB_ProyectoFacturas { get { return this.GetTable<TB_ProyectoFactura>(); } }
         public ITable<TB_ProyectoFacturaNotaCredito> tB_ProyectoFacturasNotaCredito { get { return this.GetTable<TB_ProyectoFacturaNotaCredito>(); } }
         public ITable<TB_ProyectoFacturaCobranza> tB_ProyectoFacturasCobranza { get { return this.GetTable<TB_ProyectoFacturaCobranza>(); } }
         public ITable<TB_ProyectoFase> tB_ProyectoFases { get { return this.GetTable<TB_ProyectoFase>(); } }
+        public ITable<TB_ProyectoFase_LB> tB_ProyectoFases_lb { get { return this.GetTable<TB_ProyectoFase_LB>(); } }	// LDTF
         public ITable<TB_ProyectoFaseEmpleado> tB_ProyectoFaseEmpleados { get { return this.GetTable<TB_ProyectoFaseEmpleado>(); } }
-		public ITable<TB_ProyectoGastos> tB_ProyectoGastos { get { return this.GetTable<TB_ProyectoGastos>(); } }
+        public ITable<TB_ProyectoFaseEmpleado_LB> tB_ProyectoFaseEmpleados_lb { get { return this.GetTable<TB_ProyectoFaseEmpleado_LB>(); } }	// LDTF
+        public ITable<TB_ProyectoGastos> tB_ProyectoGastos { get { return this.GetTable<TB_ProyectoGastos>(); } }
 		public ITable<TB_ProyectoGastosCostoDirectosSalarios> tB_ProyectoGastosCostoDirectosSalarios { get { return this.GetTable<TB_ProyectoGastosCostoDirectosSalarios>(); } }
 		public ITable<TB_ProyectoGastosCostoIndirectosSalarios> tB_ProyectoGastosCostoIndirectosSalarios { get { return this.GetTable<TB_ProyectoGastosCostoIndirectosSalarios>(); } }
 		public ITable<TB_ProyectoIngresos> tB_ProyectoIngresos { get { return this.GetTable<TB_ProyectoIngresos>(); } }
@@ -135,7 +141,9 @@ namespace Bovis.Common.Model
         public ITable<TB_RequerimientoExperiencia> tB_Requerimiento_Experiencias { get { return this.GetTable<TB_RequerimientoExperiencia>(); } }
         public ITable<TB_RequerimientoHabilidad> tB_Requerimiento_Habilidades { get { return this.GetTable<TB_RequerimientoHabilidad>(); } }
         public ITable<TB_Rubro> tB_Rubros { get { return this.GetTable<TB_Rubro>(); } }
+        public ITable<TB_Rubro_LB> tB_Rubros_lb { get { return this.GetTable<TB_Rubro_LB>(); } }	// LDTF
         public ITable<TB_RubroValor> tB_RubroValors { get { return this.GetTable<TB_RubroValor>(); } }
+        public ITable<TB_RubroValor_LB> tB_RubroValors_lb { get { return this.GetTable<TB_RubroValor_LB>(); } }	// LDTF
         public ITable<TB_Timesheet> tB_Timesheets { get { return this.GetTable<TB_Timesheet>(); } }
         public ITable<TB_Timesheet_Otro> tB_Timesheet_Otros { get { return this.GetTable<TB_Timesheet_Otro>(); } }
         public ITable<TB_Timesheet_Proyecto> tB_Timesheet_Proyectos { get { return this.GetTable<TB_Timesheet_Proyecto>(); } }
