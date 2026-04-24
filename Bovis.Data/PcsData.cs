@@ -2423,7 +2423,7 @@ namespace Bovis.Data
 
             using (var db = new ConnectionDB(dbConfig))
             {
-                System.Diagnostics.Trace.WriteLine("proyecto");
+                //System.Diagnostics.Trace.WriteLine("proyecto");
                 var proyecto = await (from p in db.tB_Proyectos
                                       where p.NumProyecto == IdProyecto
                                       select p).FirstOrDefaultAsync();
@@ -2433,11 +2433,861 @@ namespace Bovis.Data
                 proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
                 proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
 
-                System.Diagnostics.Trace.WriteLine("fases");
+                //System.Diagnostics.Trace.WriteLine("fases");
                 var fases = await (from p in db.tB_ProyectoFases
                                    join proy in db.tB_Proyectos on p.NumProyecto equals proy.NumProyecto into proyJoin
                                    from proyItem in proyJoin.DefaultIfEmpty()
                                    where p.NumProyecto == IdProyecto
+                                   orderby p.FechaIni ascending
+                                   select new PCS_Etapa_Detalle
+                                   {
+                                       IdFase = p.IdFase,
+                                       Orden = p.Orden,
+                                       Fase = p.Fase,
+                                       FechaIni = p.FechaIni,
+                                       FechaFin = p.FechaFin
+                                   }).ToListAsync();
+
+                //System.Diagnostics.Trace.WriteLine("fases: " + fases.Count);
+
+                var seccion = new Seccion_Detalle(); //FEE libre
+
+                //FEE libre I 
+                if (Tipo == "ingreso" && Seccion == "FEE")
+                {
+                    //System.Diagnostics.Trace.WriteLine("seccion1");
+                    seccion = await (from secc in db.tB_GastoIngresoSeccions
+                                     where secc.Tipo == "INGRESO" //Tipo.ToUpper()
+                                     && secc.Seccion == Seccion
+
+                                     select new Seccion_Detalle
+                                     {
+                                         IdSeccion = secc.IdSeccion,
+                                         Codigo = secc.Codigo,
+                                         Seccion = secc.Seccion
+                                     }).FirstOrDefaultAsync();
+                }
+                else
+                {
+                    //FEE libre F
+                    //System.Diagnostics.Trace.WriteLine("seccion2");
+                    seccion = await (from secc in db.tB_GastoIngresoSeccions
+                                     where secc.Tipo == "GASTO" //Tipo.ToUpper()
+                                     && secc.Seccion == Seccion
+
+                                     select new Seccion_Detalle
+                                     {
+                                         IdSeccion = secc.IdSeccion,
+                                         Codigo = secc.Codigo,
+                                         Seccion = secc.Seccion
+                                     }).FirstOrDefaultAsync();
+                }//FEE libre
+
+                proyecto_gastos_ingresos.Secciones.Add(seccion!);
+
+                //LEO TBD I 
+                //consultando la información de TBD del proyecto y sus fases relacionadas
+                // soloc uando sea gasto/costos directos de salarios
+                bool boEsCostoDirecto = false;
+                List<Rubro_Detalle_Apoyo> lstRubrosTBD = new List<Rubro_Detalle_Apoyo>();
+                List<PCS_Fecha_Detalle_Apoyo> lstFechasTBD = new List<PCS_Fecha_Detalle_Apoyo>();
+
+                if (Seccion.ToLower() == "costos directos de salarios")
+                {
+                    //System.Diagnostics.Trace.WriteLine("costos directos de salarios - getProyectoFaseEmpleadoTBD");
+
+                    boEsCostoDirecto = true;
+                    getProyectoFaseEmpleadoTBD(IdProyecto, Tipo, out lstRubrosTBD, out lstFechasTBD);
+                    //System.Diagnostics.Trace.WriteLine("lstRubrosTBD: " + lstRubrosTBD.Count + "  lstFechasTBD: " + lstFechasTBD.Count);
+                }
+                //LEO TBD F
+
+                List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
+                seccion!.Rubros = new List<Rubro_Detalle>();
+
+                if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
+                {//LEO TBD gasto
+                    //System.Diagnostics.Trace.WriteLine("(seccion.IdSeccion == 2) || (Tipo == \"ingreso\" && seccion.IdSeccion == 8)");
+                    foreach (var fase in fases)
+                    {
+                        rubros = await (from p in db.tB_ProyectoFaseEmpleados
+                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                        from eItem in eJoin.DefaultIfEmpty()
+                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                        from perItem in perJoin.DefaultIfEmpty()
+                                        join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                        from costempleItem in costempleJoin.DefaultIfEmpty()
+                                        where p.IdFase == fase.IdFase
+                                        && costempleItem.RegHistorico == false
+                                        && p.Activo == true //LEO TBD
+                                        orderby p.NumEmpleado ascending
+                                        group new Rubro_Detalle
+                                        {
+                                            Id = p.Id,
+                                            IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                            Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                            Cantidad = p.Fee,
+                                            Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
+                                            CostoMensual = Tipo == "ingreso" ? p.Fee : costempleItem.CostoMensualEmpleado
+                                        } by new { perItem.IdPersona, p.NumEmpleado, p.boreembolsable } into g
+                                        select new Rubro_Detalle
+                                        {
+                                            Id = g.First().Id,
+                                            IdRubro = g.First().IdRubro,
+                                            Rubro = g.First().Rubro,
+                                            Empleado = g.First().Empleado,
+                                            NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                            Cantidad = g.First().Cantidad,
+                                            Reembolsable = g.First().Reembolsable,
+                                            CostoMensual = g.First().CostoMensual
+                                        }).ToListAsync();
+
+                        //System.Diagnostics.Trace.WriteLine("fase: " + fase.IdFase + " - rubros: "  + rubros.Count);
+
+                        foreach (var rubro in rubros)
+                        {
+                            rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                            if (Tipo == "gasto")
+                            {
+                                //System.Diagnostics.Trace.WriteLine("gasto");
+
+                                if (!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
+                                {
+                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                                        where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                        && p.IdFase == fase.IdFase
+                                                        && p.Porcentaje > 0
+                                                        && p.Activo == true //LEO TBD
+                                                        orderby p.Anio, p.Mes ascending
+                                                        select new PCS_Fecha_Detalle
+                                                        {
+                                                            Id = p.Id,
+                                                            Rubro = rubro.Rubro,
+                                                            RubroReembolsable = rubro.Reembolsable,
+                                                            Mes = p.Mes,
+                                                            Anio = p.Anio,
+                                                            Porcentaje = p.Porcentaje
+                                                        }).ToListAsync();
+
+                                    rubro.Fechas.AddRange(fechas);
+                                    //System.Diagnostics.Trace.WriteLine("fase: " + fase.IdFase + " - NumEmpleadoRrHh: " + rubro.NumEmpleadoRrHh + " - fechas: " + fechas.Count);
+                                }
+
+
+                            }
+                            else
+                            {//LEO TBD ingreso
+                                //System.Diagnostics.Trace.WriteLine("GetFechasGasto");
+                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable));
+                            }
+                        }
+
+                        //aqui aqui
+                        //LEO TBD I
+                        //si es costo directo de salarios que agregue los TBD que encuentre para cada fase del proyecto
+                        if (boEsCostoDirecto)
+                        {
+                            AgregaRubroTBD(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase);
+                            //System.Diagnostics.Trace.WriteLine("AgregaRubroTBD - lstRubrosTBD: " + lstRubrosTBD.Count + " - rubros: " + rubros.Count);
+                        }
+                        //LEO TBD F
+
+                        seccion.Rubros.AddRange(rubros);
+
+                    }
+                }
+                // FEE libre I
+                else if(Tipo == "ingreso" && seccion.IdSeccion == 17) // FEE libre
+                {
+                    //System.Diagnostics.Trace.WriteLine("(Tipo == \"ingreso\" && seccion.IdSeccion == 17)");
+                    rubros = await (from rubro in db.tB_Rubros
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.Activo == true 
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rel2.Tipo == "INGRESO" 
+                                    && rubro.Reembolsable == true
+                                    select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses == null ? true : rubro.AplicaTodosMeses,
+                                        Fechas = new List<PCS_Fecha_Detalle>(),
+                                        chcomentarios = rubro.Comentario == null ? "" : rubro.Comentario, //LEO Gastos Comenmtarios
+                                    }).ToListAsync();
+
+                    rubros = rubros.Where(r => r != null).ToList();
+                    seccion.Rubros.AddRange(rubros);
+
+                    //System.Diagnostics.Trace.WriteLine("seccion: " + seccion.IdSeccion + " - rubros: " + rubros.Count);
+
+                    List<PCS_Fecha_Detalle> lstFechas = new List<PCS_Fecha_Detalle>();
+                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
+                    {
+                        //System.Diagnostics.Trace.WriteLine("getRubroValorPorProyectoSeccion  IdProyecto:" + IdProyecto + " - IdRubro: " + rubro.IdRubro 
+                        //                + " - Rubro: " + rubro.Rubro + " - IdSeccion: " + seccion.IdSeccion + " - Reembolsable: " + rubro.Reembolsable);
+                        //recorriendo cada rubro encontrado
+                        getRubroValorPorProyectoSeccion(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, "", out lstFechas);
+                        rubro.Fechas = lstFechas;        // LDTF 4/Abr/2026
+                        /*
+                        rubro!.Fechas = CompletarMesesFaltantes(
+                            proyecto_gastos_ingresos.FechaIni,
+                            proyecto_gastos_ingresos.FechaFin,
+                            lstFechas,
+                            rubro.Rubro,
+                            rubro.Reembolsable
+                        );
+                        */
+                    }
+
+                }
+                // FEE libre F
+                else
+                {
+                    //System.Diagnostics.Trace.WriteLine("rubros ");
+                    rubros = await (from rubro in db.tB_Rubros
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.Activo == true //LEO
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rel2.Tipo == "GASTO" //Tipo.ToUpper()
+                                    select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses,
+                                        Fechas = new List<PCS_Fecha_Detalle>(),
+                                        chcomentarios = rubro.Comentario, //LEO Gastos Comenmtarios
+                                    }).ToListAsync();
+
+                    rubros = rubros.Where(r => r != null).ToList();
+                    seccion.Rubros.AddRange(rubros);
+
+                    //System.Diagnostics.Trace.WriteLine("seccion: " + seccion.IdSeccion + " - rubros: " + rubros.Count);
+
+                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
+                    {
+
+                        if (Tipo == "gasto")
+                        {
+                            //System.Diagnostics.Trace.WriteLine("tipo - gasto ");
+
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && valor.Activo == true //LEO
+                                                && rub.Activo == true //LEO
+                                                && sec.Tipo == Tipo.ToUpper()
+                                                && valor.Porcentaje > 0
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
+                            //System.Diagnostics.Trace.WriteLine("IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
+                        }
+                        else
+                        {
+                            //System.Diagnostics.Trace.WriteLine("else   tipo - gasto ");
+                            rubro.Fechas ??= new List<PCS_Fecha_Detalle>();
+                            //var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
+                            //rubro!.Fechas!.AddRange(fechasGasto);
+
+                            var fechas = await (from valor in db.tB_RubroValors
+                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && valor.Activo == true //LEO
+                                                && rub.Activo == true //LEO
+                                                && sec.Tipo == "GASTO"
+                                                && valor.Porcentaje > 0
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
+                            //System.Diagnostics.Trace.WriteLine("IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
+
+                        }
+                    }
+                }
+
+                //System.Diagnostics.Trace.WriteLine("agrupar ");
+
+                // Agrupar y sumar los porcentajes por mes y año a nivel de sección
+                var fechasAgrupadasSeccion = seccion.Rubros
+                    //.SelectMany(r => r.Fechas)
+                    .Where(r => r?.Fechas != null)
+                    .SelectMany(r => r.Fechas.Where(f => f != null))
+                    .GroupBy(f => new { f.Mes, f.Anio })
+                    .Select(g => new PCS_Fecha_Suma
+                    {
+                        Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
+                        SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                    }).ToList();
+
+
+                seccion.SumaFechas = fechasAgrupadasSeccion;
+
+
+                if (seccion.IdSeccion > 2)
+                {
+                    //System.Diagnostics.Trace.WriteLine("seccion.IdSeccion > 2 ");
+                    foreach (var rubro in rubros)
+                    {
+                        //LEO, se comenta todo el if y se deja la asignación directa
+                        //if (rubro.Unidad == "pp")
+                        //{
+                        //    foreach (var fecha in rubro.Fechas)
+                        //    {
+                        //        foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[0].SumaFechas)
+                        //        {
+                        //            if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                        //            {
+                        //                fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
+                        //            }
+                        //        }
+                        //    }
+                        //}
+                        //else if (rubro.Unidad == "mes")
+                        //{
+                        //    foreach (var fecha in rubro.Fechas)
+                        //    {
+                        //        fecha.Porcentaje = rubro.Cantidad;
+                        //    }
+                        //}
+                    }
+                }
+
+                if (Tipo == "ingreso")
+                {
+                    //System.Diagnostics.Trace.WriteLine("totales ");
+                    // Calcular los Totales del Proyecto
+                    /*
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .SelectMany(s => s.Rubros)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                    */
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .Where(s => s.Rubros != null)
+                        .SelectMany(s => s.Rubros)
+                        .Where(r => r.Fechas != null)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                }
+
+                return proyecto_gastos_ingresos;
+            }
+
+        }   // GetGastosIngresos
+
+
+        public async Task<GastosIngresos_Detalle> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
+        {
+            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                //System.Diagnostics.Trace.WriteLine("proyecto lb");
+                var proyecto = await (from p in db.tB_Proyectos_lb
+                                      where p.NumProyecto == IdProyecto
+                                      && p.IdLineaBase == IdLineaBase
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
+                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
+                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+
+                //System.Diagnostics.Trace.WriteLine("fases lb");
+                var fases = await (from p in db.tB_ProyectoFases_lb
+                                   join proy in db.tB_Proyectos_lb on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                   from proyItem in proyJoin.DefaultIfEmpty()
+                                   where p.NumProyecto == IdProyecto
+                                   && p.IdLineaBase == IdLineaBase
+                                   && (proyItem == null || proyItem.IdLineaBase == IdLineaBase)
+                                   orderby p.FechaIni ascending
+                                   select new PCS_Etapa_Detalle
+                                   {
+                                       IdFase = p.IdFase,
+                                       Orden = p.Orden,
+                                       Fase = p.Fase,
+                                       FechaIni = p.FechaIni,
+                                       FechaFin = p.FechaFin
+                                   }).ToListAsync();
+
+                //System.Diagnostics.Trace.WriteLine("fases: " + fases.Count);
+
+                var seccion = new Seccion_Detalle(); //FEE libre
+
+                //FEE libre I 
+                if (Tipo == "ingreso" && Seccion == "FEE")
+                {
+                    //System.Diagnostics.Trace.WriteLine("seccion1 lb");
+                    seccion = await (from secc in db.tB_GastoIngresoSeccions
+                                     where secc.Tipo == "INGRESO" //Tipo.ToUpper()
+                                     && secc.Seccion == Seccion
+
+                                     select new Seccion_Detalle
+                                     {
+                                         IdSeccion = secc.IdSeccion,
+                                         Codigo = secc.Codigo,
+                                         Seccion = secc.Seccion
+                                     }).FirstOrDefaultAsync();
+                }
+                else
+                {
+                    //FEE libre F
+                    //System.Diagnostics.Trace.WriteLine("seccion2 lb");
+                    seccion = await (from secc in db.tB_GastoIngresoSeccions
+                                     where secc.Tipo == "GASTO" //Tipo.ToUpper()
+                                     && secc.Seccion == Seccion
+
+                                     select new Seccion_Detalle
+                                     {
+                                         IdSeccion = secc.IdSeccion,
+                                         Codigo = secc.Codigo,
+                                         Seccion = secc.Seccion
+                                     }).FirstOrDefaultAsync();
+                }//FEE libre
+
+                proyecto_gastos_ingresos.Secciones.Add(seccion!);
+
+                //LEO TBD I 
+                //consultando la información de TBD del proyecto y sus fases relacionadas
+                // soloc uando sea gasto/costos directos de salarios
+                bool boEsCostoDirecto = false;
+                List<Rubro_Detalle_Apoyo> lstRubrosTBD = new List<Rubro_Detalle_Apoyo>();
+                List<PCS_Fecha_Detalle_Apoyo> lstFechasTBD = new List<PCS_Fecha_Detalle_Apoyo>();
+
+                if (Seccion.ToLower() == "costos directos de salarios")
+                {
+                    //System.Diagnostics.Trace.WriteLine("costos directos de salarios - getProyectoFaseEmpleadoTBDLB");
+
+                    boEsCostoDirecto = true;
+                    getProyectoFaseEmpleadoTBDLB(IdProyecto, Tipo, IdLineaBase, out lstRubrosTBD, out lstFechasTBD);
+                    //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - lstRubrosTBD: " + lstRubrosTBD.Count + "  lstFechasTBD: " + lstFechasTBD.Count);
+                }
+                //LEO TBD F
+
+                List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
+                seccion!.Rubros = new List<Rubro_Detalle>();
+
+                if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
+                {//LEO TBD gasto
+                    //System.Diagnostics.Trace.WriteLine("(seccion.IdSeccion == 2) || (Tipo == \"ingreso\" && seccion.IdSeccion == 8)");
+                    foreach (var fase in fases)
+                    {
+                        rubros = await (from p in db.tB_ProyectoFaseEmpleados_lb
+                                        join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
+                                        from eItem in eJoin.DefaultIfEmpty()
+                                        join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
+                                        from perItem in perJoin.DefaultIfEmpty()
+                                        join costemple in db.tB_Costo_Por_Empleados_lb on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                        from costempleItem in costempleJoin.DefaultIfEmpty()
+                                        where p.IdFase == fase.IdFase
+                                        && p.IdLineaBase == IdLineaBase
+                                        && costempleItem.RegHistorico == false
+                                        && costempleItem.IdLineaBase == IdLineaBase
+                                        && p.Activo == true //LEO TBD
+                                        orderby p.NumEmpleado ascending
+                                        group new Rubro_Detalle
+                                        {
+                                            Id = p.Id,
+                                            IdRubro = perItem != null ? perItem.IdPersona : 0,
+                                            Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
+                                            NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
+                                            Cantidad = p.Fee,
+                                            Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
+                                            CostoMensual = Tipo == "ingreso" ? p.Fee : costempleItem.CostoMensualEmpleado
+                                        } by new { perItem.IdPersona, p.NumEmpleado, p.boreembolsable } into g
+                                        select new Rubro_Detalle
+                                        {
+                                            Id = g.First().Id,
+                                            IdRubro = g.First().IdRubro,
+                                            Rubro = g.First().Rubro,
+                                            Empleado = g.First().Empleado,
+                                            NumEmpleadoRrHh = g.Key.NumEmpleado,
+                                            Cantidad = g.First().Cantidad,
+                                            Reembolsable = g.First().Reembolsable,
+                                            CostoMensual = g.First().CostoMensual
+                                        }).ToListAsync();
+
+                        //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - fase: " + fase.IdFase + " - rubros: " + rubros.Count);
+
+                        foreach (var rubro in rubros)
+                        {
+                            rubro.Fechas = new List<PCS_Fecha_Detalle>();
+                            if (Tipo == "gasto")
+                            {
+                                //System.Diagnostics.Trace.WriteLine("gasto lb");
+
+                                if (!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
+                                {
+                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados_lb
+                                                        where p.NumEmpleado == rubro.NumEmpleadoRrHh
+                                                        && p.IdFase == fase.IdFase
+                                                        && p.IdLineaBase == IdLineaBase
+                                                        && p.Porcentaje > 0
+                                                        && p.Activo == true //LEO TBD
+                                                        orderby p.Anio, p.Mes ascending
+                                                        select new PCS_Fecha_Detalle
+                                                        {
+                                                            Id = p.Id,
+                                                            Rubro = rubro.Rubro,
+                                                            RubroReembolsable = rubro.Reembolsable,
+                                                            Mes = p.Mes,
+                                                            Anio = p.Anio,
+                                                            Porcentaje = p.Porcentaje
+                                                        }).ToListAsync();
+
+                                    rubro.Fechas.AddRange(fechas);
+                                    //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - fase: " + fase.IdFase + " - NumEmpleadoRrHh: " + rubro.NumEmpleadoRrHh + " - fechas: " + fechas.Count);
+                                }
+
+
+                            }
+                            else
+                            {//LEO TBD ingreso
+                                //System.Diagnostics.Trace.WriteLine("GetFechasGastoLB");
+                                rubro.Fechas.AddRange(await GetFechasGastoLB(IdProyecto, fases, seccion, rubros, rubro.Rubro, IdLineaBase, rubro.Reembolsable));
+                            }
+                        }
+
+                        //aqui aqui
+                        //LEO TBD I
+                        //si es costo directo de salarios que agregue los TBD que encuentre para cada fase del proyecto
+                        if (boEsCostoDirecto)
+                        {
+                            //System.Diagnostics.Trace.WriteLine("AgregaRubroTBDLB");
+                            //AgregaRubroTBD(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase);
+                            AgregaRubroTBDLB(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase, IdLineaBase);
+                            //System.Diagnostics.Trace.WriteLine("AgregaRubroTBDLB - lstRubrosTBD: " + lstRubrosTBD.Count + " - rubros: " + rubros.Count);
+                        }
+                        //LEO TBD F
+
+                        seccion.Rubros.AddRange(rubros);
+
+                    }
+                }
+                // FEE libre I
+                else if (Tipo == "ingreso" && seccion.IdSeccion == 17) // FEE libre
+                {
+                    //System.Diagnostics.Trace.WriteLine("(Tipo == \"ingreso\" && seccion.IdSeccion == 17) lb");
+                    rubros = await (from rubro in db.tB_Rubros_lb
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.Activo == true
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rubro.IdLineaBase == IdLineaBase
+                                    && rel2.Tipo == "INGRESO"
+                                    && rubro.Reembolsable == true
+                                    select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses == null ? true : rubro.AplicaTodosMeses,
+                                        Fechas = new List<PCS_Fecha_Detalle>(),
+                                        chcomentarios = rubro.Comentario == null ? "" : rubro.Comentario, //LEO Gastos Comenmtarios
+                                    }).ToListAsync();
+
+                    rubros = rubros.Where(r => r != null).ToList();
+                    seccion.Rubros.AddRange(rubros);
+
+                    //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - seccion: " + seccion.IdSeccion + " - rubros: " + rubros.Count);
+
+                    List<PCS_Fecha_Detalle> lstFechas = new List<PCS_Fecha_Detalle>();
+                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
+                    {
+                        //System.Diagnostics.Trace.WriteLine("getRubroValorPorProyectoSeccionLB  IdProyecto:" + IdProyecto + " - IdRubro: " + rubro.IdRubro
+                        //                + " - Rubro: " + rubro.Rubro + " - IdSeccion: " + seccion.IdSeccion + " - Reembolsable: " + rubro.Reembolsable);
+                        //recorriendo cada rubro encontrado
+                        getRubroValorPorProyectoSeccionLB(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, IdLineaBase, out lstFechas);
+                        rubro.Fechas = lstFechas;        // LDTF 4/Abr/2026
+                        //System.Diagnostics.Trace.WriteLine("getRubroValorPorProyectoSeccionLB  IdLineaBase: " + IdLineaBase + " - IdProyecto:" + IdProyecto + " - IdRubro: " + rubro.IdRubro
+                        //                + " - Rubro: " + rubro.Rubro + " - IdSeccion: " + seccion.IdSeccion + " - Reembolsable: " + rubro.Reembolsable + " - lstFechas: " + lstFechas.Count);
+                        /*
+                        rubro!.Fechas = CompletarMesesFaltantes(
+                            proyecto_gastos_ingresos.FechaIni,
+                            proyecto_gastos_ingresos.FechaFin,
+                            lstFechas,
+                            rubro.Rubro,
+                            rubro.Reembolsable
+                        );
+                        */
+                    }
+
+                }
+                // FEE libre F
+                else
+                {
+                    //System.Diagnostics.Trace.WriteLine("rubros lb");
+                    rubros = await (from rubro in db.tB_Rubros_lb
+                                    join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
+                                    from rel1Item in rel1Join.DefaultIfEmpty()
+                                    join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
+                                    where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.IdLineaBase == IdLineaBase
+                                    && rubro.Activo == true //LEO
+                                    && rubro.NumProyecto == IdProyecto
+                                    && rel2.Tipo == "GASTO" //Tipo.ToUpper()
+                                    select new Rubro_Detalle
+                                    {
+                                        Id = rubro.Id,
+                                        IdRubro = rubro.IdRubro,
+                                        Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
+                                        Unidad = rubro.Unidad,
+                                        Cantidad = rubro.Cantidad,
+                                        Reembolsable = rubro.Reembolsable,
+                                        AplicaTodosMeses = rubro.AplicaTodosMeses,
+                                        Fechas = new List<PCS_Fecha_Detalle>(),
+                                        chcomentarios = rubro.Comentario, //LEO Gastos Comenmtarios
+                                    }).ToListAsync();
+
+                    rubros = rubros.Where(r => r != null).ToList();
+                    seccion.Rubros.AddRange(rubros);
+
+                    //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - seccion: " + seccion.IdSeccion + " - rubros: " + rubros.Count);
+
+                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
+                    {
+
+                        if (Tipo == "gasto")
+                        {
+                            //System.Diagnostics.Trace.WriteLine("tipo - gasto lb");
+
+                            var fechas = await (from valor in db.tB_RubroValors_lb
+                                                join rub in db.tB_Rubros_lb on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && valor.Activo == true //LEO
+                                                && rub.Activo == true //LEO
+                                                && sec.Tipo == Tipo.ToUpper()
+                                                && valor.Porcentaje > 0
+                                                && valor.IdLineaBase == IdLineaBase
+                                                && rub.IdLineaBase == IdLineaBase
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
+                            //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
+                        }
+                        else
+                        {
+                            //System.Diagnostics.Trace.WriteLine("else   tipo - gasto lb");
+                            rubro.Fechas ??= new List<PCS_Fecha_Detalle>();
+                            //var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
+                            //rubro!.Fechas!.AddRange(fechasGasto);
+
+                            var fechas = await (from valor in db.tB_RubroValors_lb
+                                                join rub in db.tB_Rubros_lb on valor.IdRubro equals rubro.Id
+                                                join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
+                                                join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
+                                                where rub.NumProyecto == IdProyecto
+                                                && valor.Activo == true //LEO
+                                                && valor.IdLineaBase == IdLineaBase
+                                                && rub.Activo == true //LEO
+                                                && rub.IdLineaBase == IdLineaBase
+                                                && sec.Tipo == "GASTO"
+                                                && valor.Porcentaje > 0
+                                                orderby valor.Anio, valor.Mes ascending
+                                                select new PCS_Fecha_Detalle
+                                                {
+                                                    Id = valor.Id,
+                                                    Rubro = rubro.Rubro,
+                                                    RubroReembolsable = rubro.Reembolsable,
+                                                    Mes = valor.Mes,
+                                                    Anio = valor.Anio,
+                                                    Porcentaje = valor.Porcentaje
+                                                }).Distinct().ToListAsync();
+
+                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
+                            //System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
+
+                        }
+                    }
+                }
+
+                //System.Diagnostics.Trace.WriteLine("agrupar lb");
+
+                // Agrupar y sumar los porcentajes por mes y año a nivel de sección
+                var fechasAgrupadasSeccion = seccion.Rubros
+                    //.SelectMany(r => r.Fechas)
+                    .Where(r => r?.Fechas != null)
+                    .SelectMany(r => r.Fechas.Where(f => f != null))
+                    .GroupBy(f => new { f.Mes, f.Anio })
+                    .Select(g => new PCS_Fecha_Suma
+                    {
+                        Mes = g.Key.Mes,
+                        Anio = g.Key.Anio,
+                        SumaPorcentaje = g.Sum(f => f.Porcentaje)
+                    }).ToList();
+
+
+                seccion.SumaFechas = fechasAgrupadasSeccion;
+
+
+                if (seccion.IdSeccion > 2)
+                {
+                    //System.Diagnostics.Trace.WriteLine("seccion.IdSeccion > 2 lb");
+                    foreach (var rubro in rubros)
+                    {
+                        //LEO, se comenta todo el if y se deja la asignación directa
+                        //if (rubro.Unidad == "pp")
+                        //{
+                        //    foreach (var fecha in rubro.Fechas)
+                        //    {
+                        //        foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[0].SumaFechas)
+                        //        {
+                        //            if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
+                        //            {
+                        //                fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
+                        //            }
+                        //        }
+                        //    }
+                        //}
+                        //else if (rubro.Unidad == "mes")
+                        //{
+                        //    foreach (var fecha in rubro.Fechas)
+                        //    {
+                        //        fecha.Porcentaje = rubro.Cantidad;
+                        //    }
+                        //}
+                    }
+                }
+
+                if (Tipo == "ingreso")
+                {
+                    //System.Diagnostics.Trace.WriteLine("totales lb");
+                    // Calcular los Totales del Proyecto
+                    /*
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .SelectMany(s => s.Rubros)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                    */
+                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
+                        .Where(s => s.Rubros != null)
+                        .SelectMany(s => s.Rubros)
+                        .Where(r => r.Fechas != null)
+                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
+                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
+                        .Select(g => new PCS_Fecha_Totales
+                        {
+                            Mes = g.Key.Mes,
+                            Anio = g.Key.Anio,
+                            Reembolsable = g.Key.Reembolsable,
+                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
+                        }).ToList();
+                }
+
+                return proyecto_gastos_ingresos;
+            }
+
+
+        }   // GetGastosIngresosLB
+
+
+
+        // LDTF
+        public async Task<GastosIngresos_Detalle> GetGastosIngresosLB_Linq(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
+        {
+            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
+
+
+            using (var db = new ConnectionDB(dbConfig))
+            {
+                System.Diagnostics.Trace.WriteLine("proyecto");
+                var proyecto = await (from p in db.tB_Proyectos_lb
+                                      where p.NumProyecto == IdProyecto
+                                      && p.IdLineaBase == IdLineaBase
+                                      select p).FirstOrDefaultAsync();
+
+                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
+                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
+                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
+                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
+
+                System.Diagnostics.Trace.WriteLine("FechaIni: " + proyecto?.FechaIni);
+
+                System.Diagnostics.Trace.WriteLine("fases");
+                var fases = await (from p in db.tB_ProyectoFases_lb
+                                   join proy in db.tB_Proyectos_lb on p.NumProyecto equals proy.NumProyecto into proyJoin
+                                   from proyItem in proyJoin.DefaultIfEmpty()
+                                   where p.NumProyecto == IdProyecto
+                                   && p.IdLineaBase == IdLineaBase
+                                   && (proyItem == null || proyItem.IdLineaBase == IdLineaBase)
                                    orderby p.FechaIni ascending
                                    select new PCS_Etapa_Detalle
                                    {
@@ -2494,11 +3344,11 @@ namespace Bovis.Data
 
                 if (Seccion.ToLower() == "costos directos de salarios")
                 {
-                    System.Diagnostics.Trace.WriteLine("costos directos de salarios - getProyectoFaseEmpleadoTBD");
+                    System.Diagnostics.Trace.WriteLine("costos directos de salarios - getProyectoFaseEmpleadoTBDLB");
 
                     boEsCostoDirecto = true;
-                    getProyectoFaseEmpleadoTBD(IdProyecto, Tipo, out lstRubrosTBD, out lstFechasTBD);
-                    System.Diagnostics.Trace.WriteLine("lstRubrosTBD: " + lstRubrosTBD.Count + "  lstFechasTBD: " + lstFechasTBD.Count);
+                    getProyectoFaseEmpleadoTBDLB(IdProyecto, Tipo, IdLineaBase, out lstRubrosTBD, out lstFechasTBD);
+                    System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - lstRubrosTBD: " + lstRubrosTBD.Count + "  lstFechasTBD: " + lstFechasTBD.Count);
                 }
                 //LEO TBD F
 
@@ -2510,15 +3360,17 @@ namespace Bovis.Data
                     System.Diagnostics.Trace.WriteLine("(seccion.IdSeccion == 2) || (Tipo == \"ingreso\" && seccion.IdSeccion == 8)");
                     foreach (var fase in fases)
                     {
-                        rubros = await (from p in db.tB_ProyectoFaseEmpleados
+                        rubros = await (from p in db.tB_ProyectoFaseEmpleados_lb
                                         join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
                                         from eItem in eJoin.DefaultIfEmpty()
                                         join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
                                         from perItem in perJoin.DefaultIfEmpty()
-                                        join costemple in db.tB_Costo_Por_Empleados on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
+                                        join costemple in db.tB_Costo_Por_Empleados_lb on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh into costempleJoin
                                         from costempleItem in costempleJoin.DefaultIfEmpty()
                                         where p.IdFase == fase.IdFase
+                                        && p.IdLineaBase == IdLineaBase
                                         && costempleItem.RegHistorico == false
+                                        && costempleItem.IdLineaBase == IdLineaBase
                                         && p.Activo == true //LEO TBD
                                         orderby p.NumEmpleado ascending
                                         group new Rubro_Detalle
@@ -2528,9 +3380,9 @@ namespace Bovis.Data
                                             Rubro = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                             Empleado = perItem != null && perItem.ApMaterno != null ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno : perItem.Nombre + " " + perItem.ApPaterno,
                                             NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
-                                            Cantidad = p.Fee,
-                                            Reembolsable = p.boreembolsable ?? false, //(p.Fee == null || p.Fee == 0) ? false : true,
-                                            CostoMensual = Tipo == "ingreso" ? p.Fee : costempleItem.CostoMensualEmpleado
+                                            Cantidad = (decimal?)p.Fee,
+                                            Reembolsable = p.boreembolsable ?? false, 
+                                            CostoMensual = Tipo == "ingreso" ? (decimal?)p.Fee : (decimal?)costempleItem.CostoMensualEmpleado
                                         } by new { perItem.IdPersona, p.NumEmpleado, p.boreembolsable } into g
                                         select new Rubro_Detalle
                                         {
@@ -2544,7 +3396,7 @@ namespace Bovis.Data
                                             CostoMensual = g.First().CostoMensual
                                         }).ToListAsync();
 
-                        System.Diagnostics.Trace.WriteLine("fase: " + fase.IdFase + " - rubros: "  + rubros.Count);
+                        System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - fase: " + fase.IdFase + " - rubros: " + rubros.Count);
 
                         foreach (var rubro in rubros)
                         {
@@ -2555,9 +3407,10 @@ namespace Bovis.Data
 
                                 if (!rubro.NumEmpleadoRrHh.IsNullOrEmpty())
                                 {
-                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados
+                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados_lb
                                                         where p.NumEmpleado == rubro.NumEmpleadoRrHh
                                                         && p.IdFase == fase.IdFase
+                                                        && p.IdLineaBase == IdLineaBase
                                                         && p.Porcentaje > 0
                                                         && p.Activo == true //LEO TBD
                                                         orderby p.Anio, p.Mes ascending
@@ -2572,15 +3425,15 @@ namespace Bovis.Data
                                                         }).ToListAsync();
 
                                     rubro.Fechas.AddRange(fechas);
-                                    //System.Diagnostics.Trace.WriteLine("fechas: " + fechas);
+                                    System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - fase: " + fase.IdFase + " - NumEmpleadoRrHh: " + rubro.NumEmpleadoRrHh + " - fechas: " + fechas.Count);
                                 }
 
 
                             }
                             else
                             {//LEO TBD ingreso
-                                System.Diagnostics.Trace.WriteLine("GetFechasGasto");
-                                rubro.Fechas.AddRange(await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable));
+                                System.Diagnostics.Trace.WriteLine("GetFechasGastoLB");
+                                rubro.Fechas.AddRange(await GetFechasGastoLB(IdProyecto, fases, seccion, rubros, rubro.Rubro, IdLineaBase, rubro.Reembolsable));
                             }
                         }
 
@@ -2589,8 +3442,9 @@ namespace Bovis.Data
                         //si es costo directo de salarios que agregue los TBD que encuentre para cada fase del proyecto
                         if (boEsCostoDirecto)
                         {
-                            System.Diagnostics.Trace.WriteLine("AgregaRubroTBD");
-                            AgregaRubroTBD(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase);
+                            System.Diagnostics.Trace.WriteLine("AgregaRubroTBDLB");
+                            AgregaRubroTBDLB(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase, IdLineaBase);
+                            System.Diagnostics.Trace.WriteLine("AgregaRubroTBDLB - lstRubrosTBD: " + lstRubrosTBD.Count + " - rubros: " + rubros.Count);
                         }
                         //LEO TBD F
 
@@ -2599,7 +3453,7 @@ namespace Bovis.Data
                     }
                 }
                 // FEE libre I
-                else if(Tipo == "ingreso" && seccion.IdSeccion == 17) // FEE libre
+                else if (Tipo == "ingreso" && seccion.IdSeccion == 17) // FEE libre
                 {
                     System.Diagnostics.Trace.WriteLine("(Tipo == \"ingreso\" && seccion.IdSeccion == 17)");
                     rubros = await (from rubro in db.tB_Rubros
@@ -2607,9 +3461,9 @@ namespace Bovis.Data
                                     from rel1Item in rel1Join.DefaultIfEmpty()
                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                     where rubro.IdSeccion == seccion.IdSeccion
-                                    && rubro.Activo == true 
+                                    && rubro.Activo == true
                                     && rubro.NumProyecto == IdProyecto
-                                    && rel2.Tipo == "INGRESO" 
+                                    && rel2.Tipo == "INGRESO"
                                     && rubro.Reembolsable == true
                                     select new Rubro_Detalle
                                     {
@@ -2632,7 +3486,7 @@ namespace Bovis.Data
                     List<PCS_Fecha_Detalle> lstFechas = new List<PCS_Fecha_Detalle>();
                     foreach (var rubro in seccion.Rubros.Where(r => r != null))
                     {
-                        System.Diagnostics.Trace.WriteLine("getRubroValorPorProyectoSeccion  IdProyecto:" + IdProyecto + " - IdRubro: " + rubro.IdRubro 
+                        System.Diagnostics.Trace.WriteLine("getRubroValorPorProyectoSeccion  IdProyecto:" + IdProyecto + " - IdRubro: " + rubro.IdRubro
                                         + " - Rubro: " + rubro.Rubro + " - IdSeccion: " + seccion.IdSeccion + " - Reembolsable: " + rubro.Reembolsable);
                         //recorriendo cada rubro encontrado
                         getRubroValorPorProyectoSeccion(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, "", out lstFechas);
@@ -2653,14 +3507,16 @@ namespace Bovis.Data
                 else
                 {
                     System.Diagnostics.Trace.WriteLine("rubros ");
-                    rubros = await (from rubro in db.tB_Rubros
+                    rubros = await (from rubro in db.tB_Rubros_lb
                                     join rel1 in db.tB_CatRubros on rubro.IdRubro equals rel1.IdRubro into rel1Join
                                     from rel1Item in rel1Join.DefaultIfEmpty()
                                     join rel2 in db.tB_GastoIngresoSeccions on rel1Item.IdSeccion equals rel2.IdSeccion
                                     where rubro.IdSeccion == seccion.IdSeccion
+                                    && rubro.IdLineaBase == IdLineaBase
                                     && rubro.Activo == true //LEO
                                     && rubro.NumProyecto == IdProyecto
                                     && rel2.Tipo == "GASTO" //Tipo.ToUpper()
+                                    orderby rubro.IdRubro, rubro.Reembolsable, rubro.Id
                                     select new Rubro_Detalle
                                     {
                                         Id = rubro.Id,
@@ -2677,7 +3533,7 @@ namespace Bovis.Data
                     rubros = rubros.Where(r => r != null).ToList();
                     seccion.Rubros.AddRange(rubros);
 
-                    System.Diagnostics.Trace.WriteLine("seccion: " + seccion.IdSeccion + " - rubros: " + rubros.Count);
+                    System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + "seccion: " + seccion.IdSeccion + " - rubros: " + rubros.Count);
 
                     foreach (var rubro in seccion.Rubros.Where(r => r != null))
                     {
@@ -2686,8 +3542,8 @@ namespace Bovis.Data
                         {
                             System.Diagnostics.Trace.WriteLine("tipo - gasto ");
 
-                            var fechas = await (from valor in db.tB_RubroValors
-                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                            var fechas = await (from valor in db.tB_RubroValors_lb
+                                                join rub in db.tB_Rubros_lb on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
@@ -2695,6 +3551,8 @@ namespace Bovis.Data
                                                 && rub.Activo == true //LEO
                                                 && sec.Tipo == Tipo.ToUpper()
                                                 && valor.Porcentaje > 0
+                                                && valor.IdLineaBase == IdLineaBase
+                                                && rub.IdLineaBase == IdLineaBase
                                                 orderby valor.Anio, valor.Mes ascending
                                                 select new PCS_Fecha_Detalle
                                                 {
@@ -2707,7 +3565,7 @@ namespace Bovis.Data
                                                 }).Distinct().ToListAsync();
 
                             rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
-                            System.Diagnostics.Trace.WriteLine("IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
+                            System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
                         }
                         else
                         {
@@ -2716,12 +3574,14 @@ namespace Bovis.Data
                             //var fechasGasto = await GetFechasGasto(IdProyecto, fases, seccion, rubros, rubro.Rubro, rubro.Reembolsable) ?? new List<PCS_Fecha_Detalle>();
                             //rubro!.Fechas!.AddRange(fechasGasto);
 
-                            var fechas = await (from valor in db.tB_RubroValors
-                                                join rub in db.tB_Rubros on valor.IdRubro equals rubro.Id
+                            var fechas = await (from valor in db.tB_RubroValors_lb
+                                                join rub in db.tB_Rubros_lb on valor.IdRubro equals rubro.Id
                                                 join cat in db.tB_CatRubros on rub.IdRubro equals cat.IdRubro
                                                 join sec in db.tB_GastoIngresoSeccions on cat.IdSeccion equals sec.IdSeccion
                                                 where rub.NumProyecto == IdProyecto
+                                                && valor.IdLineaBase == IdLineaBase
                                                 && valor.Activo == true //LEO
+                                                && rub.IdLineaBase == IdLineaBase
                                                 && rub.Activo == true //LEO
                                                 && sec.Tipo == "GASTO"
                                                 && valor.Porcentaje > 0
@@ -2737,7 +3597,7 @@ namespace Bovis.Data
                                                 }).Distinct().ToListAsync();
 
                             rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
-                            System.Diagnostics.Trace.WriteLine("IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
+                            System.Diagnostics.Trace.WriteLine("IdLineaBase: " + IdLineaBase + " - IdProyecto: " + IdProyecto + " - rubro: " + rubro.Id + " - fechas: " + fechas.Count);
 
                         }
                     }
@@ -2756,7 +3616,10 @@ namespace Bovis.Data
                         Mes = g.Key.Mes,
                         Anio = g.Key.Anio,
                         SumaPorcentaje = g.Sum(f => f.Porcentaje)
-                    }).ToList();
+                    })
+                    //.OrderBy(x => x.Anio)
+                    //.ThenBy(x => x.Mes)
+                    .ToList();
 
 
                 seccion.SumaFechas = fechasAgrupadasSeccion;
@@ -2808,455 +3671,6 @@ namespace Bovis.Data
                             TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
                         }).ToList();
                     */
-                    proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
-                        .Where(s => s.Rubros != null)
-                        .SelectMany(s => s.Rubros)
-                        .Where(r => r.Fechas != null)
-                        .SelectMany(r => r.Fechas, (r, f) => new { r.Reembolsable, f })
-                        .GroupBy(x => new { x.f.Mes, x.f.Anio, Reembolsable = x.Reembolsable ?? false })
-                        .Select(g => new PCS_Fecha_Totales
-                        {
-                            Mes = g.Key.Mes,
-                            Anio = g.Key.Anio,
-                            Reembolsable = g.Key.Reembolsable,
-                            TotalPorcentaje = g.Sum(x => x.f.Porcentaje)
-                        }).ToList();
-                }
-
-                return proyecto_gastos_ingresos;
-            }
-
-        }   // GetGastosIngresos
-
-
-
-        // LDTF
-        public async Task<GastosIngresos_Detalle> GetGastosIngresosLB(int IdProyecto, string Tipo, string Seccion, int IdLineaBase)
-        {
-            GastosIngresos_Detalle proyecto_gastos_ingresos = new GastosIngresos_Detalle();
-
-            using (var db = new ConnectionDB(dbConfig))
-            {
-                System.Diagnostics.Trace.WriteLine("proyecto");
-                var proyecto = await (from p in db.tB_Proyectos_lb
-                                      where p.NumProyecto == IdProyecto
-                                      && p.IdLineaBase == IdLineaBase
-                                      select p).FirstOrDefaultAsync();
-
-                proyecto_gastos_ingresos.NumProyecto = IdProyecto;
-                proyecto_gastos_ingresos.FechaIni = proyecto?.FechaIni;
-                proyecto_gastos_ingresos.FechaFin = proyecto?.FechaFin;
-                proyecto_gastos_ingresos.Secciones = new List<Seccion_Detalle>();
-
-                System.Diagnostics.Trace.WriteLine("fases");
-                var fases = await (from p in db.tB_ProyectoFases_lb
-                                   join proy in db.tB_Proyectos_lb
-                                        on new { p.NumProyecto, p.IdLineaBase }
-                                        equals new { proy.NumProyecto, proy.IdLineaBase }
-                                   where p.NumProyecto == IdProyecto
-                                      && p.IdLineaBase == IdLineaBase
-                                   orderby p.FechaIni ascending
-                                   select new PCS_Etapa_Detalle
-                                   {
-                                       IdFase = p.IdFase,
-                                       Orden = p.Orden,
-                                       Fase = p.Fase,
-                                       FechaIni = p.FechaIni,
-                                       FechaFin = p.FechaFin
-                                   }).ToListAsync();
-
-                var seccion = new Seccion_Detalle();    //FEE libre
-
-                // FEE libre
-                if (Tipo == "ingreso" && Seccion == "FEE")
-                {
-                    System.Diagnostics.Trace.WriteLine("seccion1");
-                    seccion = await (from secc in db.tB_GastoIngresoSeccions
-                                     where secc.Tipo == "INGRESO"
-                                     && secc.Seccion == Seccion
-                                     select new Seccion_Detalle
-                                     {
-                                         IdSeccion = secc.IdSeccion,
-                                         Codigo = secc.Codigo,
-                                         Seccion = secc.Seccion
-                                     }).FirstOrDefaultAsync();
-                }
-                else
-                {
-                    System.Diagnostics.Trace.WriteLine("seccion2");
-                    seccion = await (from secc in db.tB_GastoIngresoSeccions
-                                     where secc.Tipo == "GASTO"
-                                     && secc.Seccion == Seccion
-                                     select new Seccion_Detalle
-                                     {
-                                         IdSeccion = secc.IdSeccion,
-                                         Codigo = secc.Codigo,
-                                         Seccion = secc.Seccion
-                                     }).FirstOrDefaultAsync();
-                }
-
-                proyecto_gastos_ingresos.Secciones.Add(seccion!);
-
-                // TBD LB
-                bool boEsCostoDirecto = false;
-                List<Rubro_Detalle_Apoyo> lstRubrosTBD = new List<Rubro_Detalle_Apoyo>();
-                List<PCS_Fecha_Detalle_Apoyo> lstFechasTBD = new List<PCS_Fecha_Detalle_Apoyo>();
-
-                if (Seccion.ToLower() == "costos directos de salarios")
-                {
-                    System.Diagnostics.Trace.WriteLine("costos directos de salarios - getProyectoFaseEmpleadoTBD");
-                    boEsCostoDirecto = true;
-                    getProyectoFaseEmpleadoTBDLB(IdProyecto, Tipo, IdLineaBase, out lstRubrosTBD, out lstFechasTBD);
-                    System.Diagnostics.Trace.WriteLine("lstRubrosTBD: " + lstRubrosTBD.Count + "  lstFechasTBD: " + lstFechasTBD.Count);
-                }
-
-                List<Rubro_Detalle> rubros = new List<Rubro_Detalle>();
-                seccion!.Rubros = new List<Rubro_Detalle>();
-
-                if ((seccion.IdSeccion == 2) || (Tipo == "ingreso" && seccion.IdSeccion == 8))
-                {
-                    System.Diagnostics.Trace.WriteLine("(seccion.IdSeccion == 2) || (Tipo == \"ingreso\" && seccion.IdSeccion == 8)");
-                    foreach (var fase in fases)
-                    {
-                        rubros = await (
-                            from p in db.tB_ProyectoFaseEmpleados_lb
-
-                            join e in db.tB_Empleados on p.NumEmpleado equals e.NumEmpleadoRrHh into eJoin
-                            from eItem in eJoin.DefaultIfEmpty()
-
-                            join per in db.tB_Personas on eItem.IdPersona equals per.IdPersona into perJoin
-                            from perItem in perJoin.DefaultIfEmpty()
-
-                            join costemple in db.tB_Costo_Por_Empleados_lb  on eItem.NumEmpleadoRrHh equals costemple.NumEmpleadoRrHh
-                                into costempleJoin
-                            from costempleItem in costempleJoin.DefaultIfEmpty()
-
-                            where p.IdFase == fase.IdFase
-                               && p.IdLineaBase == IdLineaBase                 //  FILTRO PRINCIPAL
-                               && p.Activo == true
-                               && (costempleItem != null
-                                    && costempleItem.RegHistorico == false
-                                    && costempleItem.IdLineaBase == IdLineaBase)
-
-                            orderby p.NumEmpleado
-
-                            group new Rubro_Detalle
-                            {
-                                Id = p.Id,
-                                IdRubro = perItem != null ? perItem.IdPersona : 0,
-
-                                Rubro = perItem != null
-                                    ? (perItem.ApMaterno != null
-                                        ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno
-                                        : perItem.Nombre + " " + perItem.ApPaterno)
-                                    : string.Empty,
-
-                                Empleado = perItem != null
-                                    ? (perItem.ApMaterno != null
-                                        ? perItem.Nombre + " " + perItem.ApPaterno + " " + perItem.ApMaterno
-                                        : perItem.Nombre + " " + perItem.ApPaterno)
-                                    : string.Empty,
-
-                                NumEmpleadoRrHh = eItem != null ? eItem.NumEmpleadoRrHh : string.Empty,
-
-                                Cantidad = (decimal?)p.Fee,
-
-                                Reembolsable = p.Reembolsable ?? false,
-
-                                CostoMensual = Tipo == "ingreso"
-                                    ? (decimal?)p.Fee
-                                    : (costempleItem != null && costempleItem.CostoMensualEmpleado != null
-                                        ? (decimal?)costempleItem.CostoMensualEmpleado
-                                        : null)
-
-                            }
-                            by new
-                            {
-                                IdPersona = perItem != null ? perItem.IdPersona : 0,
-                                p.NumEmpleado,
-                                p.Reembolsable
-                            }
-                            into g
-
-                            select new Rubro_Detalle
-                            {
-                                Id = g.First().Id,
-                                IdRubro = g.First().IdRubro,
-                                Rubro = g.First().Rubro,
-                                Empleado = g.First().Empleado,
-                                NumEmpleadoRrHh = g.Key.NumEmpleado,
-                                Cantidad = g.First().Cantidad,
-                                Reembolsable = g.First().Reembolsable,
-                                CostoMensual = g.First().CostoMensual
-                            }
-
-                        ).ToListAsync();
-
-                        foreach (var rubro in rubros)
-                        {
-                            rubro.Fechas = new List<PCS_Fecha_Detalle>();
-
-                            if (Tipo == "gasto")
-                            {
-                                System.Diagnostics.Trace.WriteLine("gasto");
-
-                                if (!string.IsNullOrEmpty(rubro.NumEmpleadoRrHh))
-                                {
-                                    var fechas = await (from p in db.tB_ProyectoFaseEmpleados_lb
-                                                        where p.NumEmpleado == rubro.NumEmpleadoRrHh
-                                                           && p.IdFase == fase.IdFase
-                                                           && p.IdLineaBase == IdLineaBase
-                                                           && p.Porcentaje > 0
-                                                           && p.Activo == true
-                                                        orderby p.Anio, p.Mes ascending
-                                                        select new PCS_Fecha_Detalle
-                                                        {
-                                                            Id = p.Id,
-                                                            Rubro = rubro.Rubro,
-                                                            RubroReembolsable = rubro.Reembolsable,
-                                                            Mes = p.Mes,
-                                                            Anio = p.Anio,
-                                                            Porcentaje = p.Porcentaje
-                                                        }).ToListAsync();
-
-                                    rubro.Fechas.AddRange(fechas);
-                                }
-                            }
-                            else
-                            {
-                                System.Diagnostics.Trace.WriteLine("GetFechasGastoLB");
-                                rubro.Fechas.AddRange(
-                                    await GetFechasGastoLB(
-                                        IdProyecto,
-                                        fases,
-                                        seccion,
-                                        rubros,
-                                        rubro.Rubro,
-                                        IdLineaBase,
-                                        rubro.Reembolsable
-                                    )
-                                );
-                            }
-                        }
-
-                        if (boEsCostoDirecto)
-                        {
-                            System.Diagnostics.Trace.WriteLine("AgregaRubroTBDLB");
-                            AgregaRubroTBDLB(ref lstRubrosTBD, ref rubros, ref lstFechasTBD, fase.IdFase, IdLineaBase);
-                        }
-
-                        seccion.Rubros.AddRange(rubros);
-                    }
-                }
-                else if (Tipo == "ingreso" && seccion.IdSeccion == 17)
-                {
-                    System.Diagnostics.Trace.WriteLine("(Tipo == \"ingreso\" && seccion.IdSeccion == 17)");
-                    rubros = await (
-                        from rubro in db.tB_Rubros_lb
-
-                        join rel1 in db.tB_CatRubros
-                            on rubro.IdRubro equals rel1.IdRubro into rel1Join
-                        from rel1Item in rel1Join.DefaultIfEmpty()
-
-                        join rel2 in db.tB_GastoIngresoSeccions
-                            on rel1Item.IdSeccion equals rel2.IdSeccion
-
-                        where rubro.IdSeccion == seccion.IdSeccion
-                           && rubro.IdLineaBase == IdLineaBase
-                           && rubro.Activo == true
-                           && rubro.NumProyecto == IdProyecto
-                           && rel2.Tipo == "INGRESO"
-                           && rubro.Reembolsable == true
-
-                        select new Rubro_Detalle
-                        {
-                            Id = rubro.Id,
-                            IdRubro = rubro.IdRubro,
-                            Rubro = rel1Item != null ? rel1Item.Rubro : string.Empty,
-                            Unidad = rubro.Unidad,
-                            Cantidad = rubro.Cantidad,
-                            Reembolsable = rubro.Reembolsable,
-                            AplicaTodosMeses = rubro.AplicaTodosMeses ?? true,
-                            Fechas = new List<PCS_Fecha_Detalle>(),
-                            chcomentarios = rubro.Comentario ?? ""
-                        }
-                    ).ToListAsync();
-
-                    rubros = rubros.Where(r => r != null).ToList();
-                    seccion.Rubros.AddRange(rubros);
-
-                    List<PCS_Fecha_Detalle> lstFechas = new List<PCS_Fecha_Detalle>();
-
-                    foreach (var rubro in seccion.Rubros.Where(r => r != null))
-                    {
-                        System.Diagnostics.Trace.WriteLine("getRubroValorPorProyectoSeccionLB  IdProyecto:" + IdProyecto + " - IdRubro: " + rubro.IdRubro
-                                       + " - Rubro: " + rubro.Rubro + " - IdSeccion: " + seccion.IdSeccion + " - Reembolsable: " + rubro.Reembolsable + " - IdLineaBase: " + IdLineaBase);
-                        getRubroValorPorProyectoSeccionLB(
-                            IdProyecto,
-                            rubro.IdRubro,
-                            rubro.Rubro,
-                            seccion.IdSeccion,
-                            rubro.Reembolsable,
-                            IdLineaBase,
-                            out lstFechas
-                        );
-
-                        rubro.Fechas = lstFechas;
-                    }
-                }
-                else
-                {
-                    System.Diagnostics.Trace.WriteLine("rubros ");
-                    rubros = await (
-                        from rubro in db.tB_Rubros_lb
-                        join rel1 in db.tB_CatRubros
-                            on rubro.IdRubro equals rel1.IdRubro
-                        join rel2 in db.tB_GastoIngresoSeccions
-                            on rel1.IdSeccion equals rel2.IdSeccion
-                        where rubro.IdSeccion == seccion.IdSeccion
-                           && rubro.IdLineaBase == IdLineaBase   // AQUÍ
-                           && rubro.Activo == true
-                           && rubro.NumProyecto == IdProyecto
-                           && rel2.Tipo == "GASTO"
-                        select new Rubro_Detalle
-                        {
-                            Id = rubro.Id,
-                            IdRubro = rubro.IdRubro,
-                            Rubro = rel1.Rubro,
-                            Unidad = rubro.Unidad,
-                            Cantidad = rubro.Cantidad,
-                            Reembolsable = rubro.Reembolsable,
-                            AplicaTodosMeses = rubro.AplicaTodosMeses,
-                            Fechas = new List<PCS_Fecha_Detalle>(),
-                            chcomentarios = rubro.Comentario
-                        }).ToListAsync();
-
-                    rubros = rubros.Where(r => r != null).ToList();
-                    seccion.Rubros.AddRange(rubros);
-
-                    foreach (var rubro in seccion.Rubros)
-                    {
-                        if (Tipo == "gasto")
-                        {
-                            System.Diagnostics.Trace.WriteLine("tipo - gasto ");
-
-                            var fechas = await (
-                                from valor in db.tB_RubroValors_lb
-                                join rub in db.tB_Rubros_lb
-                                    on valor.IdRubro equals rub.Id
-                                join cat in db.tB_CatRubros
-                                    on rub.IdRubro equals cat.IdRubro
-                                join sec in db.tB_GastoIngresoSeccions
-                                    on cat.IdSeccion equals sec.IdSeccion
-                                where rub.NumProyecto == IdProyecto
-                                   && rub.IdLineaBase == IdLineaBase              // 
-                                   && valor.IdLineaBase == IdLineaBase            // 
-                                   && valor.Activo == true
-                                   && rub.Activo == true
-                                   && sec.Tipo == Tipo.ToUpper()
-                                   && valor.Porcentaje > 0
-                                orderby valor.Anio, valor.Mes
-                                select new PCS_Fecha_Detalle
-                                {
-                                    Id = valor.Id,
-                                    Rubro = rubro.Rubro,
-                                    RubroReembolsable = rubro.Reembolsable,
-                                    Mes = valor.Mes,
-                                    Anio = valor.Anio,
-                                    Porcentaje = valor.Porcentaje
-                                }
-                            ).Distinct().ToListAsync();
-
-                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
-                        }
-                        else
-                        {
-                            System.Diagnostics.Trace.WriteLine("else tipo - gasto ");
-
-                            rubro.Fechas ??= new List<PCS_Fecha_Detalle>();
-
-                            var fechas = await (
-                                from valor in db.tB_RubroValors_lb
-                                join rub in db.tB_Rubros_lb
-                                    on valor.IdRubro equals rub.Id
-                                join cat in db.tB_CatRubros
-                                    on rub.IdRubro equals cat.IdRubro
-                                join sec in db.tB_GastoIngresoSeccions
-                                    on cat.IdSeccion equals sec.IdSeccion
-                                where rub.NumProyecto == IdProyecto
-                                   && rub.IdLineaBase == IdLineaBase              // 
-                                   && valor.IdLineaBase == IdLineaBase            // 
-                                   && valor.Activo == true
-                                   && rub.Activo == true
-                                   && sec.Tipo == "GASTO"
-                                   && valor.Porcentaje > 0
-                                orderby valor.Anio, valor.Mes
-                                select new PCS_Fecha_Detalle
-                                {
-                                    Id = valor.Id,
-                                    Rubro = rubro.Rubro,
-                                    RubroReembolsable = rubro.Reembolsable,
-                                    Mes = valor.Mes,
-                                    Anio = valor.Anio,
-                                    Porcentaje = valor.Porcentaje
-                                }
-                            ).Distinct().ToListAsync();
-
-                            rubro!.Fechas!.AddRange(fechas ?? new List<PCS_Fecha_Detalle>());
-                        }
-                    }
-                }
-
-                System.Diagnostics.Trace.WriteLine("agrupar ");
-
-                // SUMA FECHAS
-                var fechasAgrupadas = seccion.Rubros
-                    .Where(r => r?.Fechas != null)
-                    //.SelectMany(r => r.Fechas)
-                    .SelectMany(r => r.Fechas.Where(f => f != null))
-                    .GroupBy(f => new { f.Mes, f.Anio })
-                    .Select(g => new PCS_Fecha_Suma
-                    {
-                        Mes = g.Key.Mes,
-                        Anio = g.Key.Anio,
-                        SumaPorcentaje = g.Sum(x => x.Porcentaje)
-                    }).ToList();
-
-                seccion.SumaFechas = fechasAgrupadas;
-
-                if (seccion.IdSeccion > 2)
-                {
-                    System.Diagnostics.Trace.WriteLine("seccion.IdSeccion > 2 ");
-                    foreach (var rubro in rubros)
-                    {
-                        //LEO, se comenta todo el if y se deja la asignación directa
-                        //if (rubro.Unidad == "pp")
-                        //{
-                        //    foreach (var fecha in rubro.Fechas)
-                        //    {
-                        //        foreach (var sumaFecha in proyecto_gastos_ingresos.Secciones[0].SumaFechas)
-                        //        {
-                        //            if (fecha.Mes == sumaFecha.Mes && fecha.Anio == sumaFecha.Anio)
-                        //            {
-                        //                fecha.Porcentaje = rubro.Cantidad * (sumaFecha.SumaPorcentaje / 100);
-                        //            }
-                        //        }
-                        //    }
-                        //}
-                        //else if (rubro.Unidad == "mes")
-                        //{
-                        //    foreach (var fecha in rubro.Fechas)
-                        //    {
-                        //        fecha.Porcentaje = rubro.Cantidad;
-                        //    }
-                        //}
-                    }
-                }
-
-                if (Tipo == "ingreso")
-                {
-                    System.Diagnostics.Trace.WriteLine("totales ");
-                    // Calcular los Totales del Proyecto
                     proyecto_gastos_ingresos.Totales = proyecto_gastos_ingresos.Secciones
                         .Where(s => s.Rubros != null)
                         .SelectMany(s => s.Rubros)
@@ -5318,10 +5732,10 @@ namespace Bovis.Data
                     Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
                     oNuevo.Fechas = new List<PCS_Fecha_Detalle>();//Fix 
                     AgregaRubroFechasTBD(ref lstFechas, ref oNuevo, IdFase, oNuevo.Rubro);
-
                     lstSalida.Add(oNuevo);
+                    //System.Diagnostics.Trace.WriteLine("AgregaRubroFechasTBD - fase: " + IdFase + " - NumEmpleadoRrHh: " + oNuevo.Rubro + " - fechas: " + lstFechas.Count);
                 }
-                
+
             }
 
             chCadena = "";
@@ -5350,19 +5764,15 @@ namespace Bovis.Data
                     chCadena = JsonConvert.SerializeObject(oEncontrado);
 
                     Rubro_Detalle oNuevo = JsonConvert.DeserializeObject<Rubro_Detalle>(chCadena);
-
-                    oNuevo.Fechas = new List<PCS_Fecha_Detalle>();
+                    oNuevo.Fechas = new List<PCS_Fecha_Detalle>();//Fix 
 
                     //   incluye IdLineaBase en el flujo de fechas
-                    AgregaRubroFechasTBDLB(
-                        ref lstFechas,
-                        ref oNuevo,
-                        IdFase,
-                        oNuevo.Rubro,
-                        IdLineaBase
-                    );
+                    AgregaRubroFechasTBDLB(ref lstFechas, ref oNuevo, IdFase, oNuevo.Rubro, IdLineaBase);
 
                     lstSalida.Add(oNuevo);
+                    //System.Diagnostics.Trace.WriteLine("AgregaRubroTBDLB - AgregaRubroFechasTBDLB - fase: " + IdFase + " - NumEmpleadoRrHh: " + oNuevo.Rubro + " - fechas: " + lstFechas.Count);
+                    
+
                 }
             }
 
@@ -5414,8 +5824,8 @@ namespace Bovis.Data
             int nuRegistros = lstEntrada
                 .Where<PCS_Fecha_Detalle_Apoyo>(x =>
                     x.IdFase == IdFase &&
-                    x.Rubro.Trim() == nomEmpleado &&
-                    x.IdLineaBase == IdLineaBase)
+                    x.Rubro.Trim() == nomEmpleado //&& x.IdLineaBase == IdLineaBase
+                    )
                 .Count();
 
             if (nuRegistros > 0)
@@ -5423,8 +5833,8 @@ namespace Bovis.Data
                 var lstEncontrado = lstEntrada
                     .Where<PCS_Fecha_Detalle_Apoyo>(x =>
                         x.IdFase == IdFase &&
-                        x.Rubro.Trim() == nomEmpleado &&
-                        x.IdLineaBase == IdLineaBase)
+                        x.Rubro.Trim() == nomEmpleado //&& x.IdLineaBase == IdLineaBase
+                        )
                     .ToList();
 
                 foreach (PCS_Fecha_Detalle_Apoyo oElem in lstEncontrado)
