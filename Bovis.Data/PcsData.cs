@@ -4181,9 +4181,13 @@ namespace Bovis.Data
                         tot.Reembolsable = (row.Field<int>("reembolsable") == 1 ? true : false);
                         tot.Anio = row.Field<int>("anio");
                         tot.Mes = row.Field<int>("mes");
-                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("totalPorcentaje"));
+                        //tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("totalPorcentaje"));
+                        object val = row["totalPorcentaje"];
+                        tot.TotalPorcentaje = val == DBNull.Value ? 0 : Convert.ToDecimal(val);
 
                         //Console.WriteLine("porcentaje: " + tot.TotalPorcentaje);
+                        //System.Diagnostics.Trace.WriteLine("Anio: " + tot.Anio + " - Mes: " + tot.Mes
+                        //    + " - TotalPorcentaje: " + tot.TotalPorcentaje + " - Reembolsable: " + tot.Reembolsable);
 
                         retorno.Add(tot);
                     }
@@ -4196,6 +4200,7 @@ namespace Bovis.Data
                 catch (Exception ex)
                 {
                     Console.WriteLine("An error occurred: " + ex.Message);
+                    System.Diagnostics.Trace.WriteLine("An error occurred: " + ex.Message);
                 }
                 finally
                 {
@@ -4294,6 +4299,7 @@ namespace Bovis.Data
 
                 // LDTF
                 proyecto_gastos_ingresos.Totales = getTotalesRubroIngreso(IdProyecto);
+                //System.Diagnostics.Trace.WriteLine("Totales: " + proyecto_gastos_ingresos.Totales.Count);
 
                 var gruposPorReembolsable = proyecto_gastos_ingresos.Totales
                     .GroupBy(t => t.Reembolsable);
