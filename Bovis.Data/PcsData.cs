@@ -7080,6 +7080,8 @@ namespace Bovis.Data
                             Fechas = fechasGastosPrevistos
                         };
 
+                        ga_gastos(ref control, IdProyecto);  // LDTF
+
                         // Obtener los gastos reales
                         var fechasGastosReales = cie_salaries_group
                                                 .Concat(cie_viatics_group)
@@ -7116,6 +7118,85 @@ namespace Bovis.Data
             }
             return control;
         }
+
+
+
+        public void ga_gastos(ref Control_Data control, int nunumProyecto)
+        {
+            string sQuery = "sp_gastos_previsto_real";
+            var db = new ConnectionDB(dbConfig);
+
+            using (System.Data.SqlClient.SqlConnection con =
+                   new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd =
+                        new System.Data.SqlClient.SqlCommand(sQuery, con);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.Add(new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Input,
+                        Value = nunumProyecto
+                    });
+
+
+                    System.Data.SqlClient.SqlDataAdapter cda =
+                        new System.Data.SqlClient.SqlDataAdapter(cmd);
+
+                    con.Open();
+
+                    DataSet ds = new DataSet();
+                    cda.Fill(ds);
+
+                    List<Control_Fechas> ctrlFechas = new List<Control_Fechas>();
+
+                    decimal subTotal = 0;
+
+                    foreach (DataRow row in ds.Tables[0].Rows)
+                    {
+                        Control_Fechas oElemento = new Control_Fechas();
+
+                        oElemento.Rubro = "";
+                        oElemento.ClasificacionPY = "";
+                        oElemento.Anio = Convert.ToInt32(row["anio"]);
+                        oElemento.Mes = Convert.ToInt32(row["mes"]);
+                        oElemento.Porcentaje = Convert.ToDecimal(row["totalPorcentaje"]);
+                        subTotal += (decimal)oElemento.Porcentaje;
+
+                        ctrlFechas.Add(oElemento);
+                    }
+                    //System.Diagnostics.Trace.WriteLine("ctrlFechas - " + ctrlFechas.Count);
+
+                    if (control.Previsto == null)
+                        control.Previsto = new Control_PrevistoReal();
+
+                    control.Previsto.SubTotal = subTotal;
+                    control.Previsto.Fechas = ctrlFechas;
+
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+
+
+        }   // ga_gastos
+
+
 
         //LEO I
         public bool controlData(int nunumProyecto, int nuid_seccion, out DataSet ds)
