@@ -4583,9 +4583,98 @@ namespace Bovis.Data
 
             retorno.Secciones = new List<Seccion_Detalle>();
 
+            getFeeIngresoLB(ref retorno, IdProyecto, IdLineaBase);
+
             return retorno;
 
         }   // GetTotalesIngresosLB
+
+
+        /**
+         * LDTF
+         * Obtiene los valores para fee por OH, utilidad y contigencia para ingresos de línea base
+         * 
+         * */
+        private void getFeeIngresoLB(ref GastosIngresos_Detalle proyecto_gastos_ingresos, int IdProyecto, int IdLineaBase)
+        {
+            string sQuery = "sp_proyecto_fee_ingreso_lb";
+            var db = new ConnectionDB(dbConfig);
+
+            if (proyecto_gastos_ingresos.IngresoOH == null)
+                proyecto_gastos_ingresos.IngresoOH = new List<PCS_Fecha_Totales>();
+
+            if (proyecto_gastos_ingresos.IngresoUtilidad == null)
+                proyecto_gastos_ingresos.IngresoUtilidad = new List<PCS_Fecha_Totales>();
+
+            if (proyecto_gastos_ingresos.IngresoContingencia == null)
+                proyecto_gastos_ingresos.IngresoContingencia = new List<PCS_Fecha_Totales>();
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@nukidlinea_base", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = IdLineaBase;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    PCS_Fecha_Totales tot = null;
+                    int tipo = 0;
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        tipo = row.Field<int>("nutipo");
+                        tot = new PCS_Fecha_Totales();
+                        tot.Anio = row.Field<int>("nuanio");
+                        tot.Mes = row.Field<int>("numes");
+                        tot.Reembolsable = false;
+                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("nuvalor"));
+
+                        if (tipo == 1)
+                            proyecto_gastos_ingresos.IngresoOH.Add(tot);
+                        else if (tipo == 2)
+                            proyecto_gastos_ingresos.IngresoUtilidad.Add(tot);
+                        else
+                            proyecto_gastos_ingresos.IngresoContingencia.Add(tot);
+
+                    }
+
+                    con.Close();
+
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+
+        }   // getFeeIngresoLB
+
 
 
 
@@ -5251,7 +5340,7 @@ namespace Bovis.Data
             //Console.WriteLine("retorno: " + retorno.Count);
 
 
-        }   // getTotalesRubroCobranza
+        }   // getFeeIngreso
 
 
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
