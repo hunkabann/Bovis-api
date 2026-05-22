@@ -1051,6 +1051,68 @@ namespace Bovis.Data
             oSalida.chfecha = sFecha;
         }
 
+        /**
+         * LDTF
+         * Guarda los valores del overhead, utilidad y contingencia para los valores fee de ingresos
+         * */
+        private void ProyectosFeeIngresoGuardar(PCS_Fee_Porcentaje oEntrada)
+        {
+            string sQuery = "sp_proyecto_fee_ingreso_guardar";
+            var db = new ConnectionDB(dbConfig);
+
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = oEntrada.nunum_proyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlParameter param02 = new System.Data.SqlClient.SqlParameter("@OH", SqlDbType.Int);
+                    param02.Direction = ParameterDirection.Input;
+                    param02.Value = oEntrada.nufee_OH;
+                    cmd.Parameters.Add(param02);
+
+                    System.Data.SqlClient.SqlParameter param03 = new System.Data.SqlClient.SqlParameter("@Utilidad", SqlDbType.Int);
+                    param03.Direction = ParameterDirection.Input;
+                    param03.Value = oEntrada.nufee_utilidad;
+                    cmd.Parameters.Add(param03);
+
+                    System.Data.SqlClient.SqlParameter param04 = new System.Data.SqlClient.SqlParameter("@Contingencia", SqlDbType.Int);
+                    param04.Direction = ParameterDirection.Input;
+                    param04.Value = oEntrada.nufee_contingencia;
+                    cmd.Parameters.Add(param04);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataSet ds = new DataSet();
+                    cda.Fill(ds);
+
+                    con.Close();
+
+
+               }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+        }   // ProyectosFeeIngresoGuardar
+
+
         public void ProyectosFeePorcentajeGuardar(PCS_Fee_Porcentaje oEntrada)
         {
             string sQuery = "";
@@ -4354,6 +4416,7 @@ namespace Bovis.Data
 
                 proyecto_gastos_ingresos.Facturacion = getTotalesRubroFacturacion(IdProyecto, sFecha);
                 proyecto_gastos_ingresos.Cobranza = getTotalesRubroCobranza(IdProyecto, sFecha);
+                getFeeIngreso(ref proyecto_gastos_ingresos, IdProyecto);    // overthead, utilidad y contingencia
 
                 //LEO Facturacion y Cobranza F
 
@@ -4820,6 +4883,7 @@ namespace Bovis.Data
             PCS_Fee_Porcentaje oEntradaFee = new PCS_Fee_Porcentaje();
             MapeaEntradaFeeGuardar(numProyecto, overhead_porcentaje, utilidad_porcentaje, contingencia_porcentaje, out oEntradaFee);
             ProyectosFeePorcentajeGuardar(oEntradaFee);
+            ProyectosFeeIngresoGuardar(oEntradaFee);    // LDTF
 
             resp.Success = true;
             resp.Message = "" == default ? "Ocurrio un error al actualizar registro." : string.Empty;
@@ -5108,6 +5172,87 @@ namespace Bovis.Data
         }   // getTotalesRubroCobranza
 
         //LEO Facturacion y Cobranza F
+
+
+        /**
+         * LDTF
+         * lee los valores de los ingresos fee por overhead, utilidad y contingencia por proyecto
+         */
+        private void getFeeIngreso(ref GastosIngresos_Detalle proyecto_gastos_ingresos, int IdProyecto)
+        {
+            string sQuery = "sp_proyecto_fee_ingreso";
+            var db = new ConnectionDB(dbConfig);
+
+            if (proyecto_gastos_ingresos.IngresoOH == null)
+                proyecto_gastos_ingresos.IngresoOH = new List<PCS_Fecha_Totales>();
+
+            if (proyecto_gastos_ingresos.IngresoUtilidad == null)
+                proyecto_gastos_ingresos.IngresoUtilidad = new List<PCS_Fecha_Totales>();
+
+            if (proyecto_gastos_ingresos.IngresoContingencia == null)
+                proyecto_gastos_ingresos.IngresoContingencia = new List<PCS_Fecha_Totales>();
+
+            // Create a new SqlConnection object
+            using (System.Data.SqlClient.SqlConnection con = new System.Data.SqlClient.SqlConnection(db.ConnectionString))
+            {
+                try
+                {
+                    System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(sQuery, con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    System.Data.SqlClient.SqlParameter param01 = new System.Data.SqlClient.SqlParameter("@nunum_proyecto", SqlDbType.Int);
+                    param01.Direction = ParameterDirection.Input;
+                    param01.Value = IdProyecto;
+                    cmd.Parameters.Add(param01);
+
+                    System.Data.SqlClient.SqlDataAdapter cda = new System.Data.SqlClient.SqlDataAdapter(cmd);
+                    con.Open();
+                    DataTable dt = new DataTable();
+                    cda.Fill(dt);
+
+                    PCS_Fecha_Totales tot = null;
+                    int tipo = 0;
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        tipo = row.Field<int>("nutipo");
+                        tot = new PCS_Fecha_Totales();
+                        tot.Anio = row.Field<int>("nuanio");
+                        tot.Mes = row.Field<int>("numes");
+                        tot.Reembolsable = false;
+                        tot.TotalPorcentaje = Convert.ToDecimal(row.Field<decimal>("nuvalor"));
+
+                        if (tipo == 1)
+                            proyecto_gastos_ingresos.IngresoOH.Add(tot);
+                        else if (tipo == 2)
+                            proyecto_gastos_ingresos.IngresoUtilidad.Add(tot);
+                        else 
+                            proyecto_gastos_ingresos.IngresoContingencia.Add(tot);
+
+                    }
+
+                    con.Close();
+
+
+               }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null && con.State == ConnectionState.Open)
+                    {
+                        con.Close();
+                    }
+                    db = null;
+                }
+            }
+
+            //Console.WriteLine("retorno: " + retorno.Count);
+
+
+        }   // getTotalesRubroCobranza
+
 
         public async Task<(bool Success, string Message)> UpdateGastosIngresos(JsonObject registro)
         {

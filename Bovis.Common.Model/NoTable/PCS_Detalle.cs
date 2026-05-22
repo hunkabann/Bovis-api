@@ -102,6 +102,9 @@ namespace Bovis.Common.Model.NoTable
         public List<Seccion_Detalle>? Secciones { get; set; }
         public List<PCS_Fecha_Totales>? Totales { get; set; }
         public List<PCS_Fecha_Totales>? Ingreso { get; set; }
+        public List<PCS_Fecha_Totales>? IngresoOH { get; set; }
+        public List<PCS_Fecha_Totales>? IngresoUtilidad { get; set; }
+        public List<PCS_Fecha_Totales>? IngresoContingencia { get; set; }
         public List<PCS_Fecha_Totales>? Facturacion { get; set; }
         public List<PCS_Fecha_Totales>? Cobranza { get; set; }
 
