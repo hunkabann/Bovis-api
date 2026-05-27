@@ -2698,8 +2698,7 @@ namespace Bovis.Data
                         //                + " - Rubro: " + rubro.Rubro + " - IdSeccion: " + seccion.IdSeccion + " - Reembolsable: " + rubro.Reembolsable);
                         //recorriendo cada rubro encontrado
                         getRubroValorPorProyectoSeccion(IdProyecto, rubro.IdRubro, rubro.Rubro, seccion.IdSeccion, rubro.Reembolsable, "", out lstFechas);
-                        rubro.Fechas = lstFechas;        // LDTF 4/Abr/2026
-                        /*
+                        //rubro.Fechas = lstFechas;        // LDTF 4/Abr/2026
                         rubro!.Fechas = CompletarMesesFaltantes(
                             proyecto_gastos_ingresos.FechaIni,
                             proyecto_gastos_ingresos.FechaFin,
@@ -2707,7 +2706,7 @@ namespace Bovis.Data
                             rubro.Rubro,
                             rubro.Reembolsable
                         );
-                        */
+
                     }
 
                 }
